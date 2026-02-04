@@ -1,0 +1,106 @@
+[
+    {
+        "merged": "com.example.voicereminder.app-merged_res-4:/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "com.example.voicereminder.app-main-6:/mipmap-xhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.example.voicereminder.app-merged_res-4:/mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "com.example.voicereminder.app-main-6:/mipmap-xxxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-merged_res-4:\\mipmap-hdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-main-6:\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-merged_res-4:\\xml_file_paths.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-main-6:\\xml\\file_paths.xml"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-merged_res-4:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-main-6:\\drawable\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.example.voicereminder.app-merged_res-4:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "com.example.voicereminder.app-main-6:/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.example.voicereminder.app-merged_res-4:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "com.example.voicereminder.app-main-6:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-merged_res-4:\\mipmap-mdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-main-6:\\mipmap-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-merged_res-4:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-main-6:\\xml\\backup_rules.xml"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-merged_res-4:\\mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-main-6:\\mipmap-xhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-merged_res-4:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-main-6:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.example.voicereminder.app-merged_res-4:/mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "com.example.voicereminder.app-main-6:/mipmap-xxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-merged_res-4:\\mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-main-6:\\mipmap-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-merged_res-4:\\mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-main-6:\\mipmap-hdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-merged_res-4:\\mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-main-6:\\mipmap-xxhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "com.example.voicereminder.app-merged_res-4:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "com.example.voicereminder.app-main-6:/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-merged_res-4:\\xml_data_extraction_rules.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-main-6:\\xml\\data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.example.voicereminder.app-merged_res-4:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "com.example.voicereminder.app-main-6:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-merged_res-4:\\mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-main-6:\\mipmap-xxxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "com.example.voicereminder.app-merged_res-4:/mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "com.example.voicereminder.app-main-6:/mipmap-hdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-merged_res-4:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-main-6:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-merged_res-4:\\mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-main-6:\\mipmap-xxxhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "com.example.voicereminder.app-merged_res-4:/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "com.example.voicereminder.app-main-6:/mipmap-mdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-merged_res-4:\\mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-main-6:\\mipmap-mdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "com.example.voicereminder.app-merged_res-4:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "com.example.voicereminder.app-main-6:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-merged_res-4:\\mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.example.voicereminder.app-main-6:\\mipmap-xhdpi\\ic_launcher.png"
+    }
+]
