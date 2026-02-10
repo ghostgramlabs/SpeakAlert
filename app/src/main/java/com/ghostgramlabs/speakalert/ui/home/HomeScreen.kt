@@ -615,20 +615,21 @@ fun HomeScreen(
                             
                             // Smart fallback label
                             val timeOnly = DateUtils.formatTimeOnly(reminder.nextTriggerAt)
+                            val createdTime = DateUtils.formatTimeOnly(reminder.createdAt)
                             val displayTitle = when {
-                                !reminder.title.isNullOrBlank() -> reminder.title
+                                !reminder.title.isNullOrBlank() -> {
+                                    // Clean legacy auto-generated titles from old DB entries
+                                    when {
+                                        reminder.title.matches(Regex("Reminder at \\d{1,2}:\\d{2} [AP]M")) -> "Created at $createdTime"
+                                        reminder.title.equals("Voice reminder", ignoreCase = true) -> "Created at $createdTime"
+                                        else -> reminder.title
+                                    }
+                                }
                                 !reminder.reminderText.isNullOrBlank() -> {
                                     val words = reminder.reminderText.trim().split(Regex("\\s+"))
                                     if (words.size > 10) words.take(10).joinToString(" ") + "..." else reminder.reminderText
                                 }
-                                !reminder.audioPath.isNullOrBlank() -> {
-                                    val createdTime = DateUtils.formatTimeOnly(reminder.createdAt)
-                                    "Created at $createdTime"
-                                }
-                                else -> {
-                                    val createdTime = DateUtils.formatTimeOnly(reminder.createdAt)
-                                    "Created at $createdTime"
-                                }
+                                else -> "Created at $createdTime"
                             }
                             
                             // Context-aware Date Label: Hide "Today" if in Today tab
