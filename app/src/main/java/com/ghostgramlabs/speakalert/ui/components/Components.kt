@@ -95,7 +95,7 @@ fun ReminderCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.Top
         ) {
             // Time Badge - Hero element
             Surface(
@@ -135,7 +135,11 @@ fun ReminderCard(
             Spacer(modifier = Modifier.width(16.dp))
             
             // Content
-            Column(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(top = 4.dp) // Align text with top of time badge
+            ) {
                 // Title
                 Text(
                     text = title,
@@ -159,8 +163,8 @@ fun ReminderCard(
                         text = subtitleParts.joinToString(" • "),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f),
-                        maxLines = 3,
-                        overflow = TextOverflow.Ellipsis
+                        maxLines = 6,
+                        overflow = TextOverflow.Clip // Ensure it wraps fully
                     )
                 }
 
@@ -198,7 +202,10 @@ fun ReminderCard(
             }
             
             // Actions
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                verticalAlignment = Alignment.Top,
+                modifier = Modifier.padding(top = 4.dp) // Align buttons with top
+            ) {
                 // Play/Stop Button
                 if (hasAudio || (hasText && isTextToSpeechEnabled)) {
                     IconButton(
