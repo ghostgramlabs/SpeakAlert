@@ -185,11 +185,19 @@ fun RecurrenceDetailsRow(
             )
         }
         RecurrenceType.DAILY -> {
-            Text(
-                text = "Every day",
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(10.dp),
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+            ) {
+                Text(
+                    text = "🔁  Repeats every day",
+                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium),
+                    color = MaterialTheme.colorScheme.primary,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(vertical = 10.dp).fillMaxWidth()
+                )
+            }
         }
         RecurrenceType.WEEKLY -> {
             val model = RecurrenceUtils.fromJson(recurrenceType, recurrenceJson)
@@ -207,11 +215,19 @@ fun RecurrenceDetailsRow(
             val model = RecurrenceUtils.fromJson(recurrenceType, recurrenceJson)
             if (model is RecurrenceModel.Monthly) {
                 if (model.variant == MonthlyVariant.LAST_DAY) {
-                    Text(
-                        text = "Last day of each month",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                    Surface(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(10.dp),
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+                    ) {
+                        Text(
+                            text = "📅  Last day of each month",
+                            style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium),
+                            color = MaterialTheme.colorScheme.primary,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(vertical = 10.dp).fillMaxWidth()
+                        )
+                    }
                 } else {
                     MonthlyDayGrid(
                         selectedDays = model.daysOfMonth,
@@ -236,15 +252,23 @@ fun RecurrenceDetailsRow(
                     com.ghostgramlabs.speakalert.domain.models.TimeUnit.WEEKS -> if (model.interval == 1) "week" else "weeks"
                     com.ghostgramlabs.speakalert.domain.models.TimeUnit.MONTHS -> if (model.interval == 1) "month" else "months"
                 }
-                "Every ${model.interval} $unitStr"
+                "⏱  Every ${model.interval} $unitStr"
             } else {
                 "Custom interval"
             }
-            Text(
-                text = summaryText,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(10.dp),
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+            ) {
+                Text(
+                    text = summaryText,
+                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium),
+                    color = MaterialTheme.colorScheme.primary,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(vertical = 10.dp).fillMaxWidth()
+                )
+            }
         }
     }
 }
