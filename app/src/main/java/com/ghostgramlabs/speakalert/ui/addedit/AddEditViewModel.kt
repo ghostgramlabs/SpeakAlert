@@ -310,14 +310,10 @@ class AddEditViewModel(
                 // Generate smart fallback label if empty
                 val smartLabel = if (state.title.isBlank()) {
                     val cal = java.util.Calendar.getInstance()
-                    cal.timeInMillis = finalTriggerTime
+                    // Use current time (creation time), not trigger time
                     val sdf = java.text.SimpleDateFormat("h:mm a", java.util.Locale.getDefault())
-                    val timeStr = sdf.format(cal.time)
-                    when {
-                        finalAudioPath != null -> "Voice reminder"
-                        !state.reminderText.isBlank() -> "Reminder at $timeStr"
-                        else -> "Reminder at $timeStr"
-                    }
+                    val createdTimeStr = sdf.format(cal.time)
+                    "Created at $createdTimeStr"
                 } else state.title
 
                 val reminder = ReminderEntity(
