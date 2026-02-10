@@ -622,7 +622,7 @@ fun HomeScreen(
                                     if (words.size > 10) words.take(10).joinToString(" ") + "..." else reminder.reminderText
                                 }
                                 !reminder.audioPath.isNullOrBlank() -> "Voice Reminder"
-                                else -> "Reminder"
+                                else -> "$timeOnly reminder"
                             }
                             
                             // Context-aware Date Label: Hide "Today" if in Today tab
@@ -638,6 +638,8 @@ fun HomeScreen(
                                 dateLabel = finalDateLabel,
                                 recurrenceSummary = summary,
                                 recurrenceIcon = if (reminder.recurrenceType != com.ghostgramlabs.speakalert.domain.models.RecurrenceType.NONE) Icons.Filled.Repeat else null,
+                                recurrenceType = reminder.recurrenceType,
+                                recurrenceJson = reminder.recurrenceJson,
                                 hasAudio = !reminder.audioPath.isNullOrBlank(),
                                 hasText = !reminder.reminderText.isNullOrBlank(),
                                 isTextToSpeechEnabled = uiState.isTextToSpeechEnabled,

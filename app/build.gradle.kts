@@ -5,15 +5,15 @@ plugins {
 }
 
 android {
-    namespace = "com.example.voicereminder"
-    compileSdk = 34
+    namespace = "com.ghostgramlabs.speakalert"
+    compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.voicereminder"
+        applicationId = "com.ghostgramlabs.speakalert"
         minSdk = 26
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        targetSdk = 35
+        versionCode = 3
+        versionName = "1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -100,6 +100,10 @@ dependencies {
     implementation("androidx.media3:media3-ui:1.2.0")
 
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:4.11.0")
+    testImplementation("org.mockito:mockito-inline:4.11.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
