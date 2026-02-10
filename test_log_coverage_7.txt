@@ -1,0 +1,62 @@
+> Task :app:clean UP-TO-DATE
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:generateDebugBuildConfig
+> Task :app:generateDebugResValues
+> Task :app:mapDebugSourceSetPaths
+> Task :app:generateDebugResources
+> Task :app:checkDebugAarMetadata
+> Task :app:packageDebugResources
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksDebug
+> Task :app:parseDebugLocalResources
+> Task :app:processDebugMainManifest
+> Task :app:processDebugManifest
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:javaPreCompileDebugUnitTest
+> Task :app:processDebugManifestForPackage
+> Task :app:javaPreCompileDebug
+> Task :app:mergeDebugResources
+> Task :app:processDebugResources
+> Task :app:kspDebugKotlin
+
+> Task :app:compileDebugKotlin
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/audio/AudioRecorder.kt:24:13 'constructor MediaRecorder()' is deprecated. Deprecated in Java
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/data/database/AppDatabase.kt:20:34 The corresponding parameter in the supertype 'Migration' is named 'db'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/data/database/AppDatabase.kt:26:34 The corresponding parameter in the supertype 'Migration' is named 'db'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/domain/RecurrenceUtils.kt:96:49 Parameter 'reminder' is never used
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/components/Components.kt:49:5 Parameter 'onDeleteClick' is never used
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/components/Components.kt:332:9 Variable 'pulseAlpha' is never used
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/details/ReminderDetailsScreen.kt:199:49 Unnecessary non-null assertion (!!) on a non-null receiver of type String
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/home/HomeScreen.kt:285:25 Name shadowed: context
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/home/HomeScreen.kt:336:33 Variable 'icon' is never used
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/home/HomeScreen.kt:358:33 Name shadowed: context
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/home/HomeViewModel.kt:54:90 Unnecessary non-null assertion (!!) on a non-null receiver of type Long
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/settings/SettingsScreen.kt:48:9 Variable 'coroutineScope' is never used
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/theme/Theme.kt:95:20 'setter for statusBarColor: Int' is deprecated. Deprecated in Java
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/util/DebugLogger.kt:17:41 Parameter 'expectedTrigger' is never used
+
+> Task :app:compileDebugJavaWithJavac
+> Task :app:processDebugJavaRes
+> Task :app:bundleDebugClassesToCompileJar
+> Task :app:bundleDebugClassesToRuntimeJar
+> Task :app:kspDebugUnitTestKotlin
+> Task :app:compileDebugUnitTestKotlin
+> Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:processDebugUnitTestJavaRes
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+> Task :app:testDebugUnitTest
+
+
+Exception: java.lang.OutOfMemoryError thrown from the UncaughtExceptionHandler in thread "/127.0.0.1:49842 to /127.0.0.1:49841 workers Thread 2"
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Gradle build daemon has been stopped: stop command received
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.

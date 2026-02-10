@@ -1,12 +1,12 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="com.example.voicereminder"
-4    android:versionCode="1"
-5    android:versionName="1.0" >
+3    package="com.ghostgramlabs.speakalert"
+4    android:versionCode="3"
+5    android:versionName="1.2" >
 6
 7    <uses-sdk
 8        android:minSdkVersion="26"
-9        android:targetSdkVersion="34" />
+9        android:targetSdkVersion="35" />
 10
 11    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 11-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:5:5-71
@@ -53,18 +53,18 @@
 27
 28    <permission
 28-->[androidx.core:core:1.12.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\4f64212ab134ad4144a7e8f34367f400\transformed\core-1.12.0\AndroidManifest.xml:22:5-24:47
-29        android:name="com.example.voicereminder.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+29        android:name="com.ghostgramlabs.speakalert.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
 29-->[androidx.core:core:1.12.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\4f64212ab134ad4144a7e8f34367f400\transformed\core-1.12.0\AndroidManifest.xml:23:9-81
 30        android:protectionLevel="signature" />
 30-->[androidx.core:core:1.12.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\4f64212ab134ad4144a7e8f34367f400\transformed\core-1.12.0\AndroidManifest.xml:24:9-44
 31
-32    <uses-permission android:name="com.example.voicereminder.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+32    <uses-permission android:name="com.ghostgramlabs.speakalert.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 32-->[androidx.core:core:1.12.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\4f64212ab134ad4144a7e8f34367f400\transformed\core-1.12.0\AndroidManifest.xml:26:5-97
 32-->[androidx.core:core:1.12.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\4f64212ab134ad4144a7e8f34367f400\transformed\core-1.12.0\AndroidManifest.xml:26:22-94
 33
 34    <application
 34-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:19:5-78:19
-35        android:name="com.example.voicereminder.VoiceReminderApp"
+35        android:name="com.ghostgramlabs.speakalert.VoiceReminderApp"
 35-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:20:9-41
 36        android:allowBackup="true"
 36-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:21:9-35
@@ -87,7 +87,7 @@
 45-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:28:9-72
 46        <activity
 46-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:31:9-39:20
-47            android:name="com.example.voicereminder.MainActivity"
+47            android:name="com.ghostgramlabs.speakalert.MainActivity"
 47-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:32:13-41
 48            android:exported="true"
 48-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:33:13-36
@@ -107,7 +107,7 @@
 56
 57        <receiver
 57-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:41:9-44:40
-58            android:name="com.example.voicereminder.alarm.ReminderAlarmReceiver"
+58            android:name="com.ghostgramlabs.speakalert.alarm.ReminderAlarmReceiver"
 58-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:42:13-56
 59            android:enabled="true"
 59-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:43:13-35
@@ -115,7 +115,7 @@
 60-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:44:13-37
 61        <receiver
 61-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:46:9-49:40
-62            android:name="com.example.voicereminder.alarm.ReminderActionReceiver"
+62            android:name="com.ghostgramlabs.speakalert.alarm.ReminderActionReceiver"
 62-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:47:13-57
 63            android:enabled="true"
 63-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:48:13-35
@@ -124,7 +124,7 @@
 65
 66        <service
 66-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:51:9-55:61
-67            android:name="com.example.voicereminder.service.ReminderPlaybackService"
+67            android:name="com.ghostgramlabs.speakalert.service.ReminderPlaybackService"
 67-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:52:13-60
 68            android:enabled="true"
 68-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:53:13-35
@@ -135,7 +135,7 @@
 71
 72        <receiver
 72-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:57:9-66:20
-73            android:name="com.example.voicereminder.alarm.BootReceiver"
+73            android:name="com.ghostgramlabs.speakalert.alarm.BootReceiver"
 73-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:58:13-47
 74            android:enabled="true"
 74-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:59:13-35
@@ -158,7 +158,7 @@
 83        <provider
 84            android:name="androidx.core.content.FileProvider"
 84-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:69:13-62
-85            android:authorities="com.example.voicereminder.fileprovider"
+85            android:authorities="com.ghostgramlabs.speakalert.fileprovider"
 85-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:70:13-64
 86            android:exported="false"
 86-->C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:71:13-37
@@ -185,7 +185,7 @@
 98-->[androidx.emoji2:emoji2:1.4.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\35c7ddacf19c1ab7f89906ae040fbc40\transformed\emoji2-1.4.0\AndroidManifest.xml:24:9-32:20
 99            android:name="androidx.startup.InitializationProvider"
 99-->[androidx.emoji2:emoji2:1.4.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\35c7ddacf19c1ab7f89906ae040fbc40\transformed\emoji2-1.4.0\AndroidManifest.xml:25:13-67
-100            android:authorities="com.example.voicereminder.androidx-startup"
+100            android:authorities="com.ghostgramlabs.speakalert.androidx-startup"
 100-->[androidx.emoji2:emoji2:1.4.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\35c7ddacf19c1ab7f89906ae040fbc40\transformed\emoji2-1.4.0\AndroidManifest.xml:26:13-68
 101            android:exported="false" >
 101-->[androidx.emoji2:emoji2:1.4.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\35c7ddacf19c1ab7f89906ae040fbc40\transformed\emoji2-1.4.0\AndroidManifest.xml:27:13-37

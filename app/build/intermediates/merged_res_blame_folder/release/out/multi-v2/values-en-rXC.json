@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.voicereminder.app-mergeReleaseResources-2:/values-en-rXC/values-en-rXC.xml",
+            "outputFile": "com.ghostgramlabs.speakalert.app-mergeReleaseResources-2:/values-en-rXC/values-en-rXC.xml",
             "map": [
                 {
                     "source": "C:\\Users\\sudhi\\.gradle\\caches\\8.9\\transforms\\a366725a1047976c5f4cf4eef8605726\\transformed\\material3-1.1.1\\res\\values-en-rXC\\values-en-rXC.xml",

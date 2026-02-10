@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.voicereminder"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    package="com.ghostgramlabs.speakalert"
+    android:versionCode="3"
+    android:versionName="1.2" >
 
     <uses-sdk
         android:minSdkVersion="26"
-        android:targetSdkVersion="34" />
+        android:targetSdkVersion="35" />
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -26,13 +26,13 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <permission
-        android:name="com.example.voicereminder.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:name="com.ghostgramlabs.speakalert.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.example.voicereminder.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+    <uses-permission android:name="com.ghostgramlabs.speakalert.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 
     <application
-        android:name="com.example.voicereminder.VoiceReminderApp"
+        android:name="com.ghostgramlabs.speakalert.VoiceReminderApp"
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -45,7 +45,7 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Material.Light.NoActionBar" >
         <activity
-            android:name="com.example.voicereminder.MainActivity"
+            android:name="com.ghostgramlabs.speakalert.MainActivity"
             android:exported="true"
             android:theme="@android:style/Theme.Material.Light.NoActionBar" >
             <intent-filter>
@@ -56,22 +56,22 @@
         </activity>
 
         <receiver
-            android:name="com.example.voicereminder.alarm.ReminderAlarmReceiver"
+            android:name="com.ghostgramlabs.speakalert.alarm.ReminderAlarmReceiver"
             android:enabled="true"
             android:exported="false" />
         <receiver
-            android:name="com.example.voicereminder.alarm.ReminderActionReceiver"
+            android:name="com.ghostgramlabs.speakalert.alarm.ReminderActionReceiver"
             android:enabled="true"
             android:exported="false" />
 
         <service
-            android:name="com.example.voicereminder.service.ReminderPlaybackService"
+            android:name="com.ghostgramlabs.speakalert.service.ReminderPlaybackService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback" />
 
         <receiver
-            android:name="com.example.voicereminder.alarm.BootReceiver"
+            android:name="com.ghostgramlabs.speakalert.alarm.BootReceiver"
             android:enabled="true"
             android:exported="false" >
             <intent-filter>
@@ -83,7 +83,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.voicereminder.fileprovider"
+            android:authorities="com.ghostgramlabs.speakalert.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data
@@ -102,7 +102,7 @@
 
         <provider
             android:name="androidx.startup.InitializationProvider"
-            android:authorities="com.example.voicereminder.androidx-startup"
+            android:authorities="com.ghostgramlabs.speakalert.androidx-startup"
             android:exported="false" >
             <meta-data
                 android:name="androidx.emoji2.text.EmojiCompatInitializer"

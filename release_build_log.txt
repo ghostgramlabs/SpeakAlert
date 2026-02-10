@@ -1,0 +1,57 @@
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preReleaseBuild UP-TO-DATE
+> Task :app:generateReleaseBuildConfig UP-TO-DATE
+> Task :app:checkReleaseAarMetadata UP-TO-DATE
+> Task :app:generateReleaseResValues UP-TO-DATE
+> Task :app:mapReleaseSourceSetPaths UP-TO-DATE
+> Task :app:generateReleaseResources UP-TO-DATE
+> Task :app:mergeReleaseResources UP-TO-DATE
+> Task :app:packageReleaseResources UP-TO-DATE
+> Task :app:parseReleaseLocalResources UP-TO-DATE
+> Task :app:createReleaseCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksRelease UP-TO-DATE
+> Task :app:processReleaseMainManifest UP-TO-DATE
+> Task :app:processReleaseManifest UP-TO-DATE
+> Task :app:processReleaseManifestForPackage UP-TO-DATE
+> Task :app:processReleaseResources UP-TO-DATE
+> Task :app:kspReleaseKotlin UP-TO-DATE
+
+> Task :app:compileReleaseKotlin FAILED
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/alarm/ReminderAlarmReceiver.kt:86:112 Unresolved reference: graceWindow
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/alarm/ReminderAlarmReceiver.kt:86:136 Unresolved reference: isLate
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/alarm/ReminderAlarmReceiver.kt:95:21 Unresolved reference: isLate
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/alarm/ReminderAlarmReceiver.kt:152:21 Unresolved reference: isLate
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/home/HomeScreen.kt:404:30 Unresolved reference: clickable
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/home/HomeScreen.kt:407:33 Unresolved reference. None of the following candidates is applicable because of receiver type mismatch: 
+private val SemanticsNode.role: Role? defined in androidx.compose.ui.semantics
+public var SemanticsPropertyReceiver.role: Role defined in androidx.compose.ui.semantics
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/home/HomeScreen.kt:408:33 Unresolved reference. None of the following candidates is applicable because of receiver type mismatch: 
+public var SemanticsPropertyReceiver.selected: Boolean defined in androidx.compose.ui.semantics
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/home/HomeScreen.kt:409:33 Unresolved reference. None of the following candidates is applicable because of receiver type mismatch: 
+public var SemanticsPropertyReceiver.stateDescription: String defined in androidx.compose.ui.semantics
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/settings/SettingsScreen.kt:491:17 Unresolved reference: SettingsSection
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/settings/SettingsScreen.kt:492:43 @Composable invocations can only happen from the context of a @Composable function
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/settings/SettingsScreen.kt:494:21 Unresolved reference: SettingsItem
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/settings/SettingsScreen.kt:501:25 @Composable invocations can only happen from the context of a @Composable function
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileReleaseKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.9/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 6s
+15 actionable tasks: 1 executed, 14 up-to-date

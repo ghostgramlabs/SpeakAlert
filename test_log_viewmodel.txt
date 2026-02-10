@@ -1,0 +1,73 @@
+> Task :app:clean
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:generateDebugBuildConfig
+> Task :app:generateDebugResValues
+> Task :app:mapDebugSourceSetPaths
+> Task :app:generateDebugResources
+> Task :app:checkDebugAarMetadata
+> Task :app:packageDebugResources
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksDebug
+> Task :app:parseDebugLocalResources
+> Task :app:processDebugMainManifest
+> Task :app:processDebugManifest
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:javaPreCompileDebugUnitTest
+> Task :app:processDebugManifestForPackage
+> Task :app:javaPreCompileDebug
+> Task :app:mergeDebugResources
+> Task :app:processDebugResources
+> Task :app:kspDebugKotlin
+
+> Task :app:compileDebugKotlin
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/addedit/AddEditViewModel.kt:58:17 Conflicting declarations: private final var tempAudioFile: File?, private final var tempAudioFile: File?
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/addedit/AddEditViewModel.kt:59:17 Conflicting declarations: private final var tempAudioFile: File?, private final var tempAudioFile: File?
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/addedit/AddEditViewModel.kt:121:9 Overload resolution ambiguity: 
+private final var tempAudioFile: File? defined in com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel
+private final var tempAudioFile: File? defined in com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/addedit/AddEditViewModel.kt:162:33 Overload resolution ambiguity: 
+private final var tempAudioFile: File? defined in com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel
+private final var tempAudioFile: File? defined in com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/addedit/AddEditViewModel.kt:171:9 Overload resolution ambiguity: 
+private final var tempAudioFile: File? defined in com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel
+private final var tempAudioFile: File? defined in com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/addedit/AddEditViewModel.kt:172:9 Overload resolution ambiguity: 
+private final var tempAudioFile: File? defined in com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel
+private final var tempAudioFile: File? defined in com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/addedit/AddEditViewModel.kt:271:42 Overload resolution ambiguity: 
+private final var tempAudioFile: File? defined in com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel
+private final var tempAudioFile: File? defined in com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/addedit/AddEditViewModel.kt:275:25 Overload resolution ambiguity: 
+private final var tempAudioFile: File? defined in com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel
+private final var tempAudioFile: File? defined in com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/addedit/AddEditViewModel.kt:276:25 Overload resolution ambiguity: 
+private final var tempAudioFile: File? defined in com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel
+private final var tempAudioFile: File? defined in com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/addedit/AddEditViewModel.kt:348:9 Overload resolution ambiguity: 
+private final var tempAudioFile: File? defined in com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel
+private final var tempAudioFile: File? defined in com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel
+
+> Task :app:compileDebugKotlin FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileDebugKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.9/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 10s
+18 actionable tasks: 18 executed

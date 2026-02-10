@@ -1,0 +1,97 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.9/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Warning: SDK processing. This version only understands SDK XML versions up to 3 but an SDK XML file of version 4 was encountered. This can happen if you use versions of Android Studio and the command-line tools that were released at different times.
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:generateDebugBuildConfig
+> Task :app:checkDebugAarMetadata
+> Task :app:generateDebugResValues
+> Task :app:mapDebugSourceSetPaths
+> Task :app:generateDebugResources
+> Task :app:mergeDebugResources
+> Task :app:packageDebugResources
+> Task :app:parseDebugLocalResources
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksDebug
+> Task :app:processDebugMainManifest
+> Task :app:processDebugManifest
+> Task :app:processDebugManifestForPackage
+> Task :app:processDebugResources
+> Task :app:kspDebugKotlin
+
+> Task :app:compileDebugKotlin
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/audio/AudioRecorder.kt:24:13 'constructor MediaRecorder()' is deprecated. Deprecated in Java
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/data/database/AppDatabase.kt:20:34 The corresponding parameter in the supertype 'Migration' is named 'db'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/data/database/AppDatabase.kt:26:34 The corresponding parameter in the supertype 'Migration' is named 'db'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/domain/RecurrenceUtils.kt:96:49 Parameter 'reminder' is never used
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/components/Components.kt:49:5 Parameter 'onDeleteClick' is never used
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/components/Components.kt:332:9 Variable 'pulseAlpha' is never used
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/details/ReminderDetailsScreen.kt:199:49 Unnecessary non-null assertion (!!) on a non-null receiver of type String
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/home/HomeScreen.kt:285:25 Name shadowed: context
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/home/HomeScreen.kt:336:33 Variable 'icon' is never used
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/home/HomeScreen.kt:358:33 Name shadowed: context
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/home/HomeViewModel.kt:54:90 Unnecessary non-null assertion (!!) on a non-null receiver of type Long
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/settings/SettingsScreen.kt:48:9 Variable 'coroutineScope' is never used
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/theme/Theme.kt:95:20 'setter for statusBarColor: Int' is deprecated. Deprecated in Java
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/util/DebugLogger.kt:17:41 Parameter 'expectedTrigger' is never used
+
+> Task :app:javaPreCompileDebug
+> Task :app:compileDebugJavaWithJavac
+> Task :app:bundleDebugClassesToRuntimeJar
+> Task :app:bundleDebugClassesToCompileJar
+> Task :app:kspDebugUnitTestKotlin
+> Task :app:compileDebugUnitTestKotlin
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:javaPreCompileDebugUnitTest
+> Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:processDebugJavaRes
+> Task :app:processDebugUnitTestJavaRes
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+> Task :app:testDebugUnitTest
+
+Unexpected exception thrown.
+org.gradle.internal.remote.internal.MessageIOException: Could not write '/127.0.0.1:62727'.
+	at org.gradle.internal.remote.internal.inet.SocketConnection.flush(SocketConnection.java:145)
+	at org.gradle.internal.remote.internal.hub.MessageHub$ConnectionDispatch.run(MessageHub.java:333)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+Caused by: java.io.IOException: Connection reset by peer
+	at java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+	at java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:54)
+	at java.base/sun.nio.ch.IOUtil.writeFromNativeBuffer(IOUtil.java:132)
+	at java.base/sun.nio.ch.IOUtil.write(IOUtil.java:76)
+	at java.base/sun.nio.ch.IOUtil.write(IOUtil.java:53)
+	at java.base/sun.nio.ch.SocketChannelImpl.write(SocketChannelImpl.java:532)
+	at org.gradle.internal.remote.internal.inet.SocketConnection$SocketOutputStream.writeWithNonBlockingRetry(SocketConnection.java:285)
+	at org.gradle.internal.remote.internal.inet.SocketConnection$SocketOutputStream.writeBufferToChannel(SocketConnection.java:272)
+	at org.gradle.internal.remote.internal.inet.SocketConnection$SocketOutputStream.flush(SocketConnection.java:266)
+	at org.gradle.internal.remote.internal.inet.SocketConnection.flush(SocketConnection.java:143)
+	... 6 more
+
+> Task :app:testDebugUnitTest FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:testDebugUnitTest'.
+> Process 'Gradle Test Executor 1' finished with non-zero exit value 1
+  This problem might be caused by incorrect test process configuration.
+  For more on test execution, please refer to https://docs.gradle.org/8.9/userguide/java_testing.html#sec:test_execution in the Gradle documentation.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.9/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 2m 43s
+25 actionable tasks: 25 executed

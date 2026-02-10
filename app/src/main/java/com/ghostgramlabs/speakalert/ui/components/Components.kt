@@ -10,6 +10,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -37,9 +38,218 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
+import com.ghostgramlabs.speakalert.domain.models.MonthlyVariant
+import com.ghostgramlabs.speakalert.domain.models.RecurrenceModel
+import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 
+// ─── Monthly Day Grid ─────────────────────────────────────────────────────────
+@Composable
+fun MonthlyDayGrid(
+    selectedDays: Set<Int>,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        Text(
+            text = "Days of month",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(bottom = 6.dp)
+        )
+        // 7 columns, days 1–31 → 5 rows
+        for (rowStart in 1..31 step 7) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                for (day in rowStart until rowStart + 7) {
+                    if (day <= 31) {
+                        val isSelected = day in selectedDays
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .weight(1f)
+                                .aspectRatio(1f)
+                                .clip(RoundedCornerShape(6.dp))
+                                .then(
+                                    if (isSelected) {
+                                        Modifier.background(
+                                            MaterialTheme.colorScheme.primary,
+                                            RoundedCornerShape(6.dp)
+                                        )
+                                    } else {
+                                        Modifier.border(
+                                            1.dp,
+                                            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f),
+                                            RoundedCornerShape(6.dp)
+                                        )
+                                    }
+                                )
+                        ) {
+                            Text(
+                                text = "$day",
+                                style = MaterialTheme.typography.labelSmall.copy(
+                                    fontSize = 10.sp,
+                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+                                ),
+                                color = if (isSelected)
+                                    MaterialTheme.colorScheme.onPrimary
+                                else
+                                    MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    } else {
+                        // Empty spacer for grid alignment
+                        Spacer(modifier = Modifier.weight(1f).aspectRatio(1f))
+                    }
+                }
+            }
+            if (rowStart + 7 <= 31) {
+                Spacer(modifier = Modifier.height(4.dp))
+            }
+        }
+    }
+}
+
+// ─── Weekday Chips ────────────────────────────────────────────────────────────
+@Composable
+fun WeekdayChips(
+    selectedDays: Set<Int>, // 1=Mon, 7=Sun
+    modifier: Modifier = Modifier
+) {
+    val dayLabels = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        dayLabels.forEachIndexed { index, label ->
+            val dayNum = index + 1 // 1=Mon … 7=Sun
+            val isSelected = dayNum in selectedDays
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .weight(1f)
+                    .clip(RoundedCornerShape(8.dp))
+                    .then(
+                        if (isSelected) {
+                            Modifier.background(
+                                MaterialTheme.colorScheme.primary,
+                                RoundedCornerShape(8.dp)
+                            )
+                        } else {
+                            Modifier.border(
+                                1.dp,
+                                MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f),
+                                RoundedCornerShape(8.dp)
+                            )
+                        }
+                    )
+                    .padding(vertical = 6.dp)
+            ) {
+                Text(
+                    text = label,
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        fontSize = 11.sp,
+                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+                    ),
+                    color = if (isSelected)
+                        MaterialTheme.colorScheme.onPrimary
+                    else
+                        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+                    textAlign = TextAlign.Center,
+                    maxLines = 1
+                )
+            }
+        }
+    }
+}
+
+// ─── Recurrence Details Row ───────────────────────────────────────────────────
+@Composable
+fun RecurrenceDetailsRow(
+    recurrenceType: RecurrenceType,
+    recurrenceJson: String?,
+    modifier: Modifier = Modifier
+) {
+    when (recurrenceType) {
+        RecurrenceType.NONE -> {
+            Text(
+                text = "One-time",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        RecurrenceType.DAILY -> {
+            Text(
+                text = "Every day",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        RecurrenceType.WEEKLY -> {
+            val model = RecurrenceUtils.fromJson(recurrenceType, recurrenceJson)
+            if (model is RecurrenceModel.Weekly) {
+                WeekdayChips(selectedDays = model.daysOfWeek, modifier = modifier)
+            } else {
+                Text(
+                    text = "Weekly",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+        RecurrenceType.MONTHLY -> {
+            val model = RecurrenceUtils.fromJson(recurrenceType, recurrenceJson)
+            if (model is RecurrenceModel.Monthly) {
+                if (model.variant == MonthlyVariant.LAST_DAY) {
+                    Text(
+                        text = "Last day of each month",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                } else {
+                    MonthlyDayGrid(
+                        selectedDays = model.daysOfMonth,
+                        modifier = modifier
+                    )
+                }
+            } else {
+                Text(
+                    text = "Monthly",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+        RecurrenceType.CUSTOM -> {
+            val model = RecurrenceUtils.fromJson(recurrenceType, recurrenceJson)
+            val summaryText = if (model is RecurrenceModel.Custom) {
+                val unitStr = when (model.unit) {
+                    com.ghostgramlabs.speakalert.domain.models.TimeUnit.MINUTES -> if (model.interval == 1) "minute" else "minutes"
+                    com.ghostgramlabs.speakalert.domain.models.TimeUnit.HOURS -> if (model.interval == 1) "hour" else "hours"
+                    com.ghostgramlabs.speakalert.domain.models.TimeUnit.DAYS -> if (model.interval == 1) "day" else "days"
+                    com.ghostgramlabs.speakalert.domain.models.TimeUnit.WEEKS -> if (model.interval == 1) "week" else "weeks"
+                    com.ghostgramlabs.speakalert.domain.models.TimeUnit.MONTHS -> if (model.interval == 1) "month" else "months"
+                }
+                "Every ${model.interval} $unitStr"
+            } else {
+                "Custom interval"
+            }
+            Text(
+                text = summaryText,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+}
+
+// ─── Redesigned Reminder Card ─────────────────────────────────────────────────
 @Composable
 fun ReminderCard(
     title: String,
@@ -47,6 +257,8 @@ fun ReminderCard(
     dateLabel: String,
     recurrenceSummary: String?,
     recurrenceIcon: ImageVector?,
+    recurrenceType: RecurrenceType = RecurrenceType.NONE,
+    recurrenceJson: String? = null,
     hasAudio: Boolean,
     hasText: Boolean,
     isTextToSpeechEnabled: Boolean,
@@ -64,6 +276,19 @@ fun ReminderCard(
     val borderColor = if (isPlaying) MaterialTheme.colorScheme.primary else Color.Transparent
     val borderWidth = if (isPlaying) 2.dp else 1.dp
     var showMenu by remember { mutableStateOf(false) }
+
+    // Build a concise subtitle: "Today • Monthly" or "Upcoming • Daily"
+    val recurrenceLabel = when (recurrenceType) {
+        RecurrenceType.NONE -> "One-time"
+        RecurrenceType.DAILY -> "Daily"
+        RecurrenceType.WEEKLY -> "Weekly"
+        RecurrenceType.MONTHLY -> "Monthly"
+        RecurrenceType.CUSTOM -> "Custom"
+    }
+    val subtitleLine = listOfNotNull(
+        dateLabel.takeIf { it.isNotEmpty() },
+        recurrenceLabel
+    ).joinToString(" • ")
     
     Card(
         modifier = modifier
@@ -91,200 +316,194 @@ fun ReminderCard(
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = if (isPlaying) 4.dp else 1.dp)
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.Top
+        Column(
+            modifier = Modifier.fillMaxWidth()
         ) {
-            // Time Badge - Hero element
-            Surface(
-                shape = RoundedCornerShape(16.dp),
-                color = MaterialTheme.colorScheme.primaryContainer,
-                modifier = Modifier.size(72.dp)
+            // ── ROW 1: Header ──────────────────────────────────────────────
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 8.dp, top = 16.dp, bottom = 8.dp),
+                verticalAlignment = Alignment.Top
             ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        val timeParts = badgeTime.split(" ")
-                        val timeOnly = timeParts.firstOrNull() ?: badgeTime
-                        val amPm = timeParts.lastOrNull()?.takeIf { 
-                            it.uppercase() in listOf("AM", "PM") 
-                        } ?: ""
+                // Time Badge
+                Surface(
+                    shape = RoundedCornerShape(16.dp),
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    modifier = Modifier.size(64.dp)
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            val timeParts = badgeTime.split(" ")
+                            val timeOnly = timeParts.firstOrNull() ?: badgeTime
+                            val amPm = timeParts.lastOrNull()?.takeIf { 
+                                it.uppercase() in listOf("AM", "PM") 
+                            } ?: ""
 
-                        Text(
-                            text = timeOnly,
-                            style = MaterialTheme.typography.titleLarge.copy(
-                                fontWeight = FontWeight.Bold
-                            ),
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                        
-                        if (amPm.isNotEmpty()) {
                             Text(
-                                text = amPm.uppercase(),
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f)
+                                text = timeOnly,
+                                style = MaterialTheme.typography.titleMedium.copy(
+                                    fontWeight = FontWeight.Bold
+                                ),
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
+                            if (amPm.isNotEmpty()) {
+                                Text(
+                                    text = amPm.uppercase(),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f)
+                                )
+                            }
                         }
                     }
                 }
-            }
-            
-            Spacer(modifier = Modifier.width(16.dp))
-            
-            // Content
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(top = 4.dp) // Align text with top of time badge
-            ) {
-                // Title
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    lineHeight = androidx.compose.ui.unit.TextUnit.Unspecified
-                )
                 
-                Spacer(modifier = Modifier.height(2.dp))
+                Spacer(modifier = Modifier.width(12.dp))
                 
-                // Subtitle
-                val subtitleParts = listOfNotNull(
-                    dateLabel.takeIf { it.isNotEmpty() },
-                    recurrenceSummary?.takeIf { it.isNotEmpty() }
-                )
-                
-                if (subtitleParts.isNotEmpty()) {
+                // Title + Subtitle
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(top = 4.dp)
+                ) {
                     Text(
-                        text = subtitleParts.joinToString(" • "),
+                        text = title,
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    
+                    Spacer(modifier = Modifier.height(2.dp))
+                    
+                    Text(
+                        text = subtitleLine,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f),
-                        maxLines = 6,
-                        overflow = TextOverflow.Clip // Ensure it wraps fully
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
-
-                Spacer(modifier = Modifier.height(6.dp))
                 
-                // Metadata Chips
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                // Actions Column
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Chip 1: Type (Voice/Text) - Use primary container for cohesion
-                    MetadataChip(
-                        icon = if (hasAudio) Icons.Filled.Mic else null,
-                        text = if (hasAudio) "Voice" else "Text",
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        onColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-
-                    // Chip 2: Recurrence (only show icon if recurring)
-                    if (recurrenceSummary != null) {
-                        // Icon-only recurring indicator
-                        Surface(
-                            shape = RoundedCornerShape(8.dp),
-                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
+                    // Overflow Menu at top
+                    Box {
+                        IconButton(
+                            onClick = { showMenu = true },
+                            modifier = Modifier.size(40.dp)
                         ) {
                             Icon(
-                                imageVector = Icons.Filled.Repeat,
-                                contentDescription = "Recurring",
-                                modifier = Modifier.padding(6.dp).size(14.dp),
-                                tint = MaterialTheme.colorScheme.primary
+                                Icons.Filled.MoreVert,
+                                contentDescription = "More options",
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.size(20.dp)
                             )
+                        }
+                        
+                        DropdownMenu(
+                            expanded = showMenu,
+                            onDismissRequest = { showMenu = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text("Edit") },
+                                onClick = { showMenu = false; onEditClick() },
+                                leadingIcon = { Icon(Icons.Filled.Edit, null) }
+                            )
+                            if (!isCompleted) {
+                                DropdownMenuItem(
+                                    text = { 
+                                        Text(if (recurrenceSummary != null) "Mark this done" else "Mark as Done") 
+                                    },
+                                    onClick = { showMenu = false; onCompleteClick() },
+                                    leadingIcon = { Icon(Icons.Filled.Check, null) }
+                                )
+                            }
+                            val deleteLabel = if (recurrenceSummary != null) "Stop recurring" else "Delete"
+                            DropdownMenuItem(
+                                text = { Text(deleteLabel) },
+                                onClick = { showMenu = false; onDeleteClick() },
+                                leadingIcon = { Icon(Icons.Filled.Delete, null) },
+                                colors = MenuDefaults.itemColors(
+                                    textColor = MaterialTheme.colorScheme.error,
+                                    leadingIconColor = MaterialTheme.colorScheme.error
+                                )
+                            )
+                        }
+                    }
+                    
+                    // Play/Stop Button below menu
+                    if (hasAudio || (hasText && isTextToSpeechEnabled)) {
+                        IconButton(
+                            onClick = { 
+                                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                                if (isPlaying) onStopClick() else onPlayClick() 
+                            },
+                            modifier = Modifier.size(40.dp)
+                        ) {
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier
+                                    .size(34.dp)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
+                                        shape = CircleShape
+                                    )
+                            ) {
+                                Icon(
+                                    imageVector = if (isPlaying) Icons.Filled.Stop else Icons.Filled.PlayArrow,
+                                    contentDescription = if (isPlaying) "Stop" else "Play",
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
                         }
                     }
                 }
             }
+
+            // ── ROW 2: Recurrence Details (full width) ─────────────────────
+            if (recurrenceType != RecurrenceType.NONE) {
+                Divider(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    thickness = 0.5.dp,
+                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
+                )
+                
+                RecurrenceDetailsRow(
+                    recurrenceType = recurrenceType,
+                    recurrenceJson = recurrenceJson,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
+                )
+            }
             
-            // Actions
+            // ── FOOTER: Type chip + recurrence icon ────────────────────────
             Row(
-                verticalAlignment = Alignment.Top,
-                modifier = Modifier.padding(top = 4.dp) // Align buttons with top
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp, bottom = 12.dp, top = if (recurrenceType == RecurrenceType.NONE) 0.dp else 2.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                // Play/Stop Button
-                if (hasAudio || (hasText && isTextToSpeechEnabled)) {
-                    IconButton(
-                        onClick = { 
-                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                            if (isPlaying) onStopClick() else onPlayClick() 
-                        },
-                        modifier = Modifier.size(48.dp)
+                MetadataChip(
+                    icon = if (hasAudio) Icons.Filled.Mic else null,
+                    text = if (hasAudio) "Voice" else "Text",
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    onColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+                
+                if (recurrenceType != RecurrenceType.NONE) {
+                    Surface(
+                        shape = RoundedCornerShape(8.dp),
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
                     ) {
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier
-                                .size(40.dp)
-                                .background(
-                                    color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
-                                    shape = CircleShape
-                                )
-                        ) {
-                            Icon(
-                                imageVector = if (isPlaying) Icons.Filled.Stop else Icons.Filled.PlayArrow,
-                                contentDescription = if (isPlaying) "Stop" else "Play",
-                                tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.size(24.dp)
-                            )
-                        }
-                    }
-                }
-
-                // Overflow Menu
-                Box {
-                    IconButton(onClick = { showMenu = true }) {
                         Icon(
-                            Icons.Filled.MoreVert,
-                            contentDescription = "More options",
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                    
-                    DropdownMenu(
-                        expanded = showMenu,
-                        onDismissRequest = { showMenu = false }
-                    ) {
-                        // Edit
-                        DropdownMenuItem(
-                            text = { Text("Edit") },
-                            onClick = {
-                                showMenu = false
-                                onEditClick()
-                            },
-                            leadingIcon = { Icon(Icons.Filled.Edit, null) }
-                        )
-                        
-                        // Mark as Done (for all active reminders)
-                        if (!isCompleted) {
-                             DropdownMenuItem(
-                                text = { 
-                                    Text(if (recurrenceSummary != null) "Mark this done" else "Mark as Done") 
-                                },
-                                onClick = {
-                                    showMenu = false
-                                    onCompleteClick()
-                                },
-                                leadingIcon = { Icon(Icons.Filled.Check, null) }
-                            )
-                        }
-
-                        // Delete / Stop Recurring
-                        val deleteLabel = if (recurrenceSummary != null) "Stop recurring" else "Delete"
-                        DropdownMenuItem(
-                            text = { Text(deleteLabel) },
-                            onClick = {
-                                showMenu = false
-                                onDeleteClick()
-                            },
-                            leadingIcon = { Icon(Icons.Filled.Delete, null) },
-                            colors = MenuDefaults.itemColors(
-                                textColor = MaterialTheme.colorScheme.error,
-                                leadingIconColor = MaterialTheme.colorScheme.error
-                            )
+                            imageVector = Icons.Filled.Repeat,
+                            contentDescription = "Recurring",
+                            modifier = Modifier.padding(6.dp).size(14.dp),
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
                 }

@@ -182,7 +182,7 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\sudhi\.gradle\cach
 		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:22:9-65
 	android:name
 		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:20:9-41
-activity#com.example.voicereminder.MainActivity
+activity#com.ghostgramlabs.speakalert.MainActivity
 ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:31:9-39:20
 	android:exported
 		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:33:13-36
@@ -200,7 +200,7 @@ category#android.intent.category.LAUNCHER
 ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:37:17-77
 	android:name
 		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:37:27-74
-receiver#com.example.voicereminder.alarm.ReminderAlarmReceiver
+receiver#com.ghostgramlabs.speakalert.alarm.ReminderAlarmReceiver
 ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:41:9-44:40
 	android:enabled
 		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:43:13-35
@@ -208,7 +208,7 @@ ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app
 		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:44:13-37
 	android:name
 		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:42:13-56
-receiver#com.example.voicereminder.alarm.ReminderActionReceiver
+receiver#com.ghostgramlabs.speakalert.alarm.ReminderActionReceiver
 ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:46:9-49:40
 	android:enabled
 		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:48:13-35
@@ -216,7 +216,7 @@ ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app
 		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:49:13-37
 	android:name
 		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:47:13-57
-service#com.example.voicereminder.service.ReminderPlaybackService
+service#com.ghostgramlabs.speakalert.service.ReminderPlaybackService
 ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:51:9-55:61
 	android:enabled
 		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:53:13-35
@@ -226,7 +226,7 @@ ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app
 		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:55:13-58
 	android:name
 		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:52:13-60
-receiver#com.example.voicereminder.alarm.BootReceiver
+receiver#com.ghostgramlabs.speakalert.alarm.BootReceiver
 ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:57:9-66:20
 	android:enabled
 		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:59:13-35
@@ -448,7 +448,7 @@ ADDED from [androidx.core:core:1.12.0] C:\Users\sudhi\.gradle\caches\8.9\transfo
 		ADDED from [androidx.core:core:1.12.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\4f64212ab134ad4144a7e8f34367f400\transformed\core-1.12.0\AndroidManifest.xml:24:9-44
 	android:name
 		ADDED from [androidx.core:core:1.12.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\4f64212ab134ad4144a7e8f34367f400\transformed\core-1.12.0\AndroidManifest.xml:23:9-81
-permission#com.example.voicereminder.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+permission#com.ghostgramlabs.speakalert.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.12.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\4f64212ab134ad4144a7e8f34367f400\transformed\core-1.12.0\AndroidManifest.xml:22:5-24:47
 	android:protectionLevel
 		ADDED from [androidx.core:core:1.12.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\4f64212ab134ad4144a7e8f34367f400\transformed\core-1.12.0\AndroidManifest.xml:24:9-44
@@ -458,7 +458,7 @@ uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.12.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\4f64212ab134ad4144a7e8f34367f400\transformed\core-1.12.0\AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.12.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\4f64212ab134ad4144a7e8f34367f400\transformed\core-1.12.0\AndroidManifest.xml:26:22-94
-uses-permission#com.example.voicereminder.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+uses-permission#com.ghostgramlabs.speakalert.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.12.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\4f64212ab134ad4144a7e8f34367f400\transformed\core-1.12.0\AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.12.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\4f64212ab134ad4144a7e8f34367f400\transformed\core-1.12.0\AndroidManifest.xml:26:22-94

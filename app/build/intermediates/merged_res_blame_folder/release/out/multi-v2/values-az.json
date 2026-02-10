@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.voicereminder.app-mergeReleaseResources-2:/values-az/values-az.xml",
+            "outputFile": "com.ghostgramlabs.speakalert.app-mergeReleaseResources-2:/values-az/values-az.xml",
             "map": [
                 {
                     "source": "C:\\Users\\sudhi\\.gradle\\caches\\8.9\\transforms\\dff891093b4a0c39394ab9a3ffa52f68\\transformed\\media3-session-1.2.0\\res\\values-az\\values-az.xml",

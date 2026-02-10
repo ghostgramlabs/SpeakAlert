@@ -1,4 +1,4 @@
-com.example.voicereminder
+com.ghostgramlabs.speakalert
 array exo_controls_playback_speeds
 attr action
 attr ad_marker_color

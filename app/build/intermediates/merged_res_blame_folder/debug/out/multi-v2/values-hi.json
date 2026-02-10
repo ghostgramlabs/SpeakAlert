@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.voicereminder.app-mergeDebugResources-2:/values-hi/values-hi.xml",
+            "outputFile": "com.ghostgramlabs.speakalert.app-mergeDebugResources-2:/values-hi/values-hi.xml",
             "map": [
                 {
                     "source": "C:\\Users\\sudhi\\.gradle\\caches\\8.9\\transforms\\8ccd0069c4aceae0b67603355ae689a7\\transformed\\media3-exoplayer-1.2.0\\res\\values-hi\\values-hi.xml",

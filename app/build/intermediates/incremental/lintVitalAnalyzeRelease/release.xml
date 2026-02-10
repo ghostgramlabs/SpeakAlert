@@ -1,9 +1,9 @@
 <variant
     name="release"
     useSupportLibraryVectorDrawables="true"
-    package="com.example.voicereminder"
+    package="com.ghostgramlabs.speakalert"
     minSdkVersion="26"
-    targetSdkVersion="34"
+    targetSdkVersion="35"
     mergedManifest="build\intermediates\merged_manifest\release\AndroidManifest.xml"
     proguardFiles="build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-8.2.0;proguard-rules.pro"
     partialResultsDir="build\intermediates\lint_vital_partial_results\release\out"
@@ -24,7 +24,7 @@
   <artifact
       classOutputs="build\intermediates\javac\release\classes;build\tmp\kotlin-classes\release;build\kotlinToolingMetadata;build\generated\ksp\release\resources;build\intermediates\compile_and_runtime_not_namespaced_r_class_jar\release\R.jar"
       type="MAIN"
-      applicationId="com.example.voicereminder"
+      applicationId="com.ghostgramlabs.speakalert"
       generatedSourceFolders="build\generated\ksp\release\java;build\generated\ksp\release\kotlin;build\generated\ap_generated_sources\release\out;build\generated\source\buildConfig\release"
       generatedResourceFolders="build\generated\res\resValues\release"
       desugaredMethodsFiles="C:\Users\sudhi\.gradle\caches\8.9\transforms\a8e5586c2772f3ff61c79c92e8bb2571\transformed\D8BackportedDesugaredMethods.txt">
