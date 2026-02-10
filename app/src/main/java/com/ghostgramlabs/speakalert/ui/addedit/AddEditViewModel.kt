@@ -307,14 +307,8 @@ class AddEditViewModel(
                     }
                 }
 
-                // Generate smart fallback label if empty
-                val smartLabel = if (state.title.isBlank()) {
-                    val cal = java.util.Calendar.getInstance()
-                    // Use current time (creation time), not trigger time
-                    val sdf = java.text.SimpleDateFormat("h:mm a", java.util.Locale.getDefault())
-                    val createdTimeStr = sdf.format(cal.time)
-                    "Created at $createdTimeStr"
-                } else state.title
+                // Only save user-provided title; display layer handles fallbacks
+                val smartLabel = state.title.ifBlank { null }
 
                 val reminder = ReminderEntity(
                     id = if (state.initialReminderId != -1L) state.initialReminderId else 0L,
