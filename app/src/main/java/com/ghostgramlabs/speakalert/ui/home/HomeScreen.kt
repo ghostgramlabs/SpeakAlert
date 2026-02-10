@@ -621,8 +621,14 @@ fun HomeScreen(
                                     val words = reminder.reminderText.trim().split(Regex("\\s+"))
                                     if (words.size > 10) words.take(10).joinToString(" ") + "..." else reminder.reminderText
                                 }
-                                !reminder.audioPath.isNullOrBlank() -> "Voice Reminder"
-                                else -> "$timeOnly reminder"
+                                !reminder.audioPath.isNullOrBlank() -> {
+                                    val createdTime = DateUtils.formatTimeOnly(reminder.createdAt)
+                                    "Created at $createdTime"
+                                }
+                                else -> {
+                                    val createdTime = DateUtils.formatTimeOnly(reminder.createdAt)
+                                    "Created at $createdTime"
+                                }
                             }
                             
                             // Context-aware Date Label: Hide "Today" if in Today tab
@@ -637,7 +643,6 @@ fun HomeScreen(
                                 badgeTime = timeOnly,
                                 dateLabel = finalDateLabel,
                                 recurrenceSummary = summary,
-                                recurrenceIcon = if (reminder.recurrenceType != com.ghostgramlabs.speakalert.domain.models.RecurrenceType.NONE) Icons.Filled.Repeat else null,
                                 recurrenceType = reminder.recurrenceType,
                                 recurrenceJson = reminder.recurrenceJson,
                                 hasAudio = !reminder.audioPath.isNullOrBlank(),

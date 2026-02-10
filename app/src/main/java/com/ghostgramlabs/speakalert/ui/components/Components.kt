@@ -280,7 +280,6 @@ fun ReminderCard(
     badgeTime: String,
     dateLabel: String,
     recurrenceSummary: String?,
-    recurrenceIcon: ImageVector?,
     recurrenceType: RecurrenceType = RecurrenceType.NONE,
     recurrenceJson: String? = null,
     hasAudio: Boolean,
@@ -297,9 +296,23 @@ fun ReminderCard(
     modifier: Modifier = Modifier
 ) {
     val haptic = LocalHapticFeedback.current
-    val borderColor = if (isPlaying) MaterialTheme.colorScheme.primary else Color.Transparent
-    val borderWidth = if (isPlaying) 2.dp else 1.dp
     var showMenu by remember { mutableStateOf(false) }
+
+    // Pulse animation for playing state
+    val pulseAlpha = if (isPlaying) {
+        val infiniteTransition = rememberInfiniteTransition(label = "playPulse")
+        infiniteTransition.animateFloat(
+            initialValue = 0.4f,
+            targetValue = 1f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(800, easing = FastOutSlowInEasing),
+                repeatMode = RepeatMode.Reverse
+            ),
+            label = "borderPulse"
+        ).value
+    } else 1f
+    val borderColor = if (isPlaying) MaterialTheme.colorScheme.primary.copy(alpha = pulseAlpha) else Color.Transparent
+    val borderWidth = if (isPlaying) 2.dp else 1.dp
 
     // Build a concise subtitle: "Today • Monthly" or "Upcoming • Daily"
     val recurrenceLabel = when (recurrenceType) {
@@ -528,6 +541,18 @@ fun ReminderCard(
                             contentDescription = "Recurring",
                             modifier = Modifier.padding(6.dp).size(14.dp),
                             tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                } else {
+                    Surface(
+                        shape = RoundedCornerShape(8.dp),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.1f)
+                    ) {
+                        Text(
+                            text = "One-time",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                         )
                     }
                 }
