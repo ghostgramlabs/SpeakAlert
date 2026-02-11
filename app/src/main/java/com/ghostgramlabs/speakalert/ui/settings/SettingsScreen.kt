@@ -22,6 +22,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -70,6 +73,40 @@ fun SettingsScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            // ============================================================
+            // SECTION 0: APPEARANCE
+            // ============================================================
+            val themeMode by viewModel.themeMode.collectAsState()
+            CollapsibleSettingsSection(
+                title = "Appearance",
+                icon = "🎨",
+                initiallyExpanded = true
+            ) {
+                Text("App Theme", style = MaterialTheme.typography.bodyMedium)
+                Row(
+                    modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    val themes = listOf("System", "Light", "Dark")
+                    themes.forEachIndexed { index, name ->
+                        SnoozeOptionChip(
+                            text = name,
+                            isSelected = themeMode == index,
+                            onClick = { 
+                                viewModel.setThemeMode(index)
+                                val msg = when(index) {
+                                    1 -> "Light mode set"
+                                    2 -> "Dark mode set"
+                                    else -> "Following system theme"
+                                }
+                                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                            },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+            }
+
             // ============================================================
             // SECTION 1: PLAYBACK (includes Test Reminder at bottom)
             // ============================================================
@@ -123,7 +160,9 @@ fun SettingsScreen(
                         onValueChange = { viewModel.setAppVolume(it) },
                         valueRange = 0f..1f,
                         steps = 9,
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier
+                            .weight(1f)
+                            .semantics { contentDescription = "App Volume: ${(appVolume * 100).toInt()}%" },
                         colors = SliderDefaults.colors(
                             thumbColor = MaterialTheme.colorScheme.primary,
                             activeTrackColor = MaterialTheme.colorScheme.primary,
@@ -139,7 +178,12 @@ fun SettingsScreen(
                 
                 // Loop Auto-Stop (compact inline)
                 val loopTimeoutMinutes by viewModel.loopTimeoutMinutes.collectAsState()
-                Text("Loop timeout", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 8.dp))
+                Text("Loop duration", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 8.dp))
+                Text(
+                    "How long a looping reminder notification repeats before stopping",
+                    style = MaterialTheme.typography.bodySmall, 
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
                 Row(
                     modifier = Modifier.padding(top = 4.dp).fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
@@ -150,10 +194,10 @@ fun SettingsScreen(
                     presets.forEach { mins ->
                         SnoozeOptionChip(
                             text = "${mins}m",
-                            selected = loopTimeoutMinutes == mins,
+                            isSelected = loopTimeoutMinutes == mins,
                             onClick = { 
                                 viewModel.setLoopTimeoutMinutes(mins)
-                                Toast.makeText(context, "Loop timeout: ${mins} min", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Loop duration: ${mins} min", Toast.LENGTH_SHORT).show()
                             },
                             modifier = Modifier.weight(1f)
                         )
@@ -162,10 +206,10 @@ fun SettingsScreen(
                     // Infinite option
                     SnoozeOptionChip(
                         text = "∞",
-                        selected = loopTimeoutMinutes == 0,
+                        isSelected = loopTimeoutMinutes == 0,
                         onClick = { 
                             viewModel.setLoopTimeoutMinutes(0)
-                            Toast.makeText(context, "Loop timeout: Infinite", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Loop duration: Infinite", Toast.LENGTH_SHORT).show()
                         },
                         modifier = Modifier.weight(1f)
                     )
@@ -173,19 +217,21 @@ fun SettingsScreen(
                     var showCustomLoopDialog by remember { mutableStateOf(false) }
                     SnoozeOptionChip(
                         text = if (isCustom) "${loopTimeoutMinutes}m" else "•••",
-                        selected = isCustom,
+                        isSelected = isCustom,
                         onClick = { showCustomLoopDialog = true },
                         modifier = Modifier.weight(1f)
                     )
                     
                     if (showCustomLoopDialog) {
                         CustomDurationDialog(
-                            title = "Custom Loop",
-                            initialValue = if (isCustom) loopTimeoutMinutes else 20, 
+                            title = "Loop Duration",
+                            initialValue = if (isCustom) loopTimeoutMinutes else 20,
+                            maxMinutes = 1440,
+                            description = "Set how long the reminder loop continues",
                             onDismiss = { showCustomLoopDialog = false },
                             onSave = { 
                                 viewModel.setLoopTimeoutMinutes(it)
-                                Toast.makeText(context, "Loop timeout: $it min", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Loop duration: $it min", Toast.LENGTH_SHORT).show()
                                 showCustomLoopDialog = false
                             }
                         )
@@ -196,6 +242,11 @@ fun SettingsScreen(
                 
                 // Snooze Duration (moved from Timing)
                 Text("Default snooze", style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    "How long the reminder is delayed when you tap Snooze",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
                 Row(
                     modifier = Modifier.padding(top = 4.dp).fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
@@ -206,7 +257,7 @@ fun SettingsScreen(
                     presets.forEach { mins ->
                         SnoozeOptionChip(
                             text = "${mins}m",
-                            selected = !isCustom && defaultSnoozeDuration == mins,
+                            isSelected = !isCustom && defaultSnoozeDuration == mins,
                             onClick = { 
                                 viewModel.setDefaultSnoozeDuration(mins)
                                 Toast.makeText(context, "Snooze: ${mins} min", Toast.LENGTH_SHORT).show()
@@ -218,7 +269,7 @@ fun SettingsScreen(
                     var showCustomSnoozeDialog by remember { mutableStateOf(false) }
                     SnoozeOptionChip(
                         text = if (isCustom) "${defaultSnoozeDuration}m" else "•••",
-                        selected = isCustom,
+                        isSelected = isCustom,
                         onClick = { showCustomSnoozeDialog = true },
                         modifier = Modifier.weight(1f)
                     )
@@ -226,7 +277,9 @@ fun SettingsScreen(
                     if (showCustomSnoozeDialog) {
                         CustomDurationDialog(
                             title = "Custom Snooze",
-                            initialValue = if (isCustom) defaultSnoozeDuration else 20, 
+                            initialValue = if (isCustom) defaultSnoozeDuration else 20,
+                            maxMinutes = 240,
+                            description = "Set how long the reminder is delayed",
                             onDismiss = { showCustomSnoozeDialog = false },
                             onSave = { 
                                 viewModel.setDefaultSnoozeDuration(it)
@@ -333,7 +386,7 @@ fun SettingsScreen(
                     ) {
                         Icon(
                             Icons.Filled.CheckCircle,
-                            contentDescription = null,
+                            contentDescription = "Permission granted",
                             tint = MaterialTheme.colorScheme.primary
                         )
                         Spacer(modifier = Modifier.width(12.dp))
@@ -345,7 +398,7 @@ fun SettingsScreen(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
                                 Icons.Filled.Warning,
-                                contentDescription = null,
+                                contentDescription = "Action required",
                                 tint = MaterialTheme.colorScheme.error
                             )
                             Spacer(modifier = Modifier.width(12.dp))
@@ -407,12 +460,13 @@ fun SettingsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable { showHelpDialog = true }
-                        .padding(16.dp),
+                        .padding(16.dp)
+                        .semantics { role = androidx.compose.ui.semantics.Role.Button },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
                         imageVector = Icons.Default.Help,
-                        contentDescription = null,
+                        contentDescription = "Help icon",
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(24.dp)
                     )
@@ -431,7 +485,7 @@ fun SettingsScreen(
                     }
                     Icon(
                         imageVector = Icons.Default.ChevronRight,
-                        contentDescription = null,
+                        contentDescription = "Open Help",
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
@@ -439,6 +493,45 @@ fun SettingsScreen(
             
             if (showHelpDialog) {
                 HelpDialog(onDismiss = { showHelpDialog = false })
+            }
+
+            Card(
+                modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { viewModel.requestAppReview(context) }
+                        .padding(16.dp)
+                        .semantics { role = androidx.compose.ui.semantics.Role.Button },
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        contentDescription = "Rating star",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(Modifier.width(16.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            "Enjoying SpeakAlert? Rate us",
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.Medium
+                        )
+                        Text(
+                            "Takes just a few seconds on Play Store",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Icon(
+                        imageVector = Icons.Default.ChevronRight,
+                        contentDescription = "Open Play Store",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
             
             // Debug Section - ONLY for Debug builds (hidden from most users)
@@ -579,7 +672,9 @@ private fun SwitchRow(
     onCheckedChange: (Boolean) -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .semantics(mergeDescendants = true) {},
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -625,6 +720,8 @@ private fun TimePickerButton(
 private fun CustomDurationDialog(
     title: String,
     initialValue: Int,
+    maxMinutes: Int,
+    description: String,
     onDismiss: () -> Unit,
     onSave: (Int) -> Unit
 ) {
@@ -650,7 +747,7 @@ private fun CustomDurationDialog(
         text = {
             Column {
                 Text(
-                    "Set your preferred snooze duration",
+                    "$description (Max ${maxMinutes}m)",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -669,7 +766,7 @@ private fun CustomDurationDialog(
             Button(
                 onClick = {
                     val mins = value.toIntOrNull() ?: 10
-                    onSave(mins.coerceIn(1, 240))
+                    onSave(mins.coerceIn(1, maxMinutes))
                 },
                 shape = RoundedCornerShape(12.dp)
             ) {

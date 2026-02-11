@@ -72,11 +72,19 @@ fun ReminderDetailsScreen(
     // Delete confirmation state
     var showDeleteDialog by remember { mutableStateOf(false) }
     
-    // Smart fallback label
-    val displayLabel = item.title ?: run {
-        val timeStr = DateUtils.formatRelativeTime(item.nextTriggerAt)
-        if (!item.audioPath.isNullOrBlank()) "Voice reminder"
-        else "Reminder at $timeStr"
+    // Smart fallback label (matches HomeScreen logic)
+    val createdTime = DateUtils.formatTimeOnly(item.createdAt)
+    val isLegacyTitle = item.title?.matches(Regex("Reminder at \\d{1,2}:\\d{2} [AP]M")) == true
+            || item.title.equals("Voice reminder", ignoreCase = true)
+    val hasUserTitle = !item.title.isNullOrBlank() && !isLegacyTitle
+    
+    val displayLabel = when {
+        hasUserTitle -> item.title!!
+        !item.reminderText.isNullOrBlank() -> {
+            val words = item.reminderText.trim().split(Regex("\\s+"))
+            if (words.size > 10) words.take(10).joinToString(" ") + "..." else item.reminderText
+        }
+        else -> "Created at $createdTime"
     }
     
     // Check if recurring

@@ -579,7 +579,7 @@ fun MetadataChip(
             if (icon != null) {
                 Icon(
                     imageVector = icon,
-                    contentDescription = null,
+                    contentDescription = if (text == "Voice") "Voice recording" else "Text note",
                     modifier = Modifier.size(12.dp),
                     tint = onColor
                 )

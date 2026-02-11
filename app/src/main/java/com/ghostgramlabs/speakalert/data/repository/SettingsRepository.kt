@@ -29,6 +29,8 @@ class SettingsRepository(private val context: Context) {
         val QUIET_TIME_START_MINUTE = intPreferencesKey("quiet_time_start_minute")
         val QUIET_TIME_END_HOUR = intPreferencesKey("quiet_time_end_hour")
         val QUIET_TIME_END_MINUTE = intPreferencesKey("quiet_time_end_minute")
+        
+        val THEME_MODE = intPreferencesKey("theme_mode") // 0 = System, 1 = Light, 2 = Dark
     }
 
     val autoPlayEnabled: Flow<Boolean> = dataStore.data.map { it[AUTO_PLAY_ENABLED] ?: true }
@@ -46,6 +48,8 @@ class SettingsRepository(private val context: Context) {
     val quietTimeStartMinute: Flow<Int> = dataStore.data.map { it[QUIET_TIME_START_MINUTE] ?: 0 }
     val quietTimeEndHour: Flow<Int> = dataStore.data.map { it[QUIET_TIME_END_HOUR] ?: 7 }
     val quietTimeEndMinute: Flow<Int> = dataStore.data.map { it[QUIET_TIME_END_MINUTE] ?: 0 }
+    
+    val themeMode: Flow<Int> = dataStore.data.map { it[THEME_MODE] ?: 0 }
 
     suspend fun setAutoPlayEnabled(enabled: Boolean) {
         dataStore.edit { it[AUTO_PLAY_ENABLED] = enabled }
@@ -95,5 +99,9 @@ class SettingsRepository(private val context: Context) {
             it[QUIET_TIME_END_HOUR] = hour 
             it[QUIET_TIME_END_MINUTE] = minute
         }
+    }
+    
+    suspend fun setThemeMode(mode: Int) {
+        dataStore.edit { it[THEME_MODE] = mode }
     }
 }
