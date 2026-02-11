@@ -32,6 +32,7 @@
     <string msgid="406453423630273620" name="close_drawer">"탐색 메뉴 닫기"</string>
     <string msgid="7573152094250666567" name="close_sheet">"시트 닫기"</string>
     <string msgid="5389587048670450460" name="collapsed">"접힘"</string>
+    <string name="common_google_play_services_unknown_issue">%1$s에서 Google Play 서비스를 사용하는 데 문제가 있습니다. 다시 시도하세요.</string>
     <string msgid="3499643850558715142" name="date_input_headline">"입력한 날짜"</string>
     <string msgid="8562356184193964298" name="date_input_headline_description">"입력한 날짜: %1$s"</string>
     <string msgid="5281836720766682161" name="date_input_invalid_for_pattern">"데이터가 예상 패턴과 일치하지 않음: %1$s"</string>

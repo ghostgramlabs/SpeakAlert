@@ -34,6 +34,7 @@
     <string msgid="406453423630273620" name="close_drawer">"Затвори мени за навигацију"</string>
     <string msgid="7573152094250666567" name="close_sheet">"Затворите табелу"</string>
     <string msgid="5389587048670450460" name="collapsed">"Скупљено је"</string>
+    <string name="common_google_play_services_unknown_issue">%1$s има проблема са Google Play услугама. Пробајте поново.</string>
     <string msgid="3499643850558715142" name="date_input_headline">"Унети датум"</string>
     <string msgid="8562356184193964298" name="date_input_headline_description">"Унети датум: %1$s"</string>
     <string msgid="5281836720766682161" name="date_input_invalid_for_pattern">"Датум не одговара очекиваном шаблону: %1$s"</string>

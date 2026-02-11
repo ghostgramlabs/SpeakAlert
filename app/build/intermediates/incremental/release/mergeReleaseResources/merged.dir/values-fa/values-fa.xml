@@ -32,6 +32,7 @@
     <string msgid="406453423630273620" name="close_drawer">"بستن منوی پیمایش"</string>
     <string msgid="7573152094250666567" name="close_sheet">"بستن برگ"</string>
     <string msgid="5389587048670450460" name="collapsed">"جمع‌شده"</string>
+    <string name="common_google_play_services_unknown_issue">‏%1$s برای استفاده از خدمات Google Play با مشکل روبرو است. لطفاً دوباره امتحان کنید.</string>
     <string msgid="3499643850558715142" name="date_input_headline">"تاریخ واردشده"</string>
     <string msgid="8562356184193964298" name="date_input_headline_description">"‏تاریخ واردشده: %1$s"</string>
     <string msgid="5281836720766682161" name="date_input_invalid_for_pattern">"‏تاریخ با الگوی موردانتظار مطابقت ندارد: %1$s"</string>

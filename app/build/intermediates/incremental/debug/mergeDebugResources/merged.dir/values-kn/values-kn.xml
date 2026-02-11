@@ -32,6 +32,7 @@
     <string msgid="406453423630273620" name="close_drawer">"ನ್ಯಾವಿಗೇಷನ್‌ ಮೆನು ಮುಚ್ಚಿರಿ"</string>
     <string msgid="7573152094250666567" name="close_sheet">"ಶೀಟ್ ಮುಚ್ಚಿರಿ"</string>
     <string msgid="5389587048670450460" name="collapsed">"ಕುಗ್ಗಿಸಲಾಗಿದೆ"</string>
+    <string name="common_google_play_services_unknown_issue">Google Play ಸೇವೆಗಳಲ್ಲಿ %1$s ಸಮಸ್ಯೆಯನ್ನು ಹೊಂದಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</string>
     <string msgid="3499643850558715142" name="date_input_headline">"ನಮೂದಿಸಿದ ದಿನಾಂಕ"</string>
     <string msgid="8562356184193964298" name="date_input_headline_description">"ನಮೂದಿಸಿದ ದಿನಾಂಕ: %1$s"</string>
     <string msgid="5281836720766682161" name="date_input_invalid_for_pattern">"ನಿರೀಕ್ಷಿಸಿದ ಪ್ಯಾಟರ್ನ್‌ನೊಂದಿಗೆ ದಿನಾಂಕ ಹೊಂದಾಣಿಕೆಯಾಗುತ್ತಿಲ್ಲ: %1$s"</string>

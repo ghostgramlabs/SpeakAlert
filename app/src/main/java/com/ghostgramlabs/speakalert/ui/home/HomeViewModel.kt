@@ -112,7 +112,7 @@ class HomeViewModel(
 
     fun dismissMissedReminder(missed: MissedReminderEntity) {
         viewModelScope.launch {
-            missedRepository.deleteMissedReminder(missed)
+            missedRepository.deleteMissedReminderById(missed.id)
         }
     }
 

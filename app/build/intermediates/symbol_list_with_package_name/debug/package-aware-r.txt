@@ -453,6 +453,7 @@ id zoom
 integer cancel_button_image_alpha
 integer exo_media_button_opacity_percentage_disabled
 integer exo_media_button_opacity_percentage_enabled
+integer google_play_services_version
 integer status_bar_notification_info_maxnum
 layout custom_dialog
 layout exo_legacy_player_control_view
@@ -504,6 +505,7 @@ string call_notification_screening_text
 string close_drawer
 string close_sheet
 string collapsed
+string common_google_play_services_unknown_issue
 string date_input_headline
 string date_input_headline_description
 string date_input_invalid_for_pattern
@@ -676,6 +678,7 @@ style TextAppearance_Compat_Notification_Time
 style TextAppearance_Compat_Notification_Time_Media
 style TextAppearance_Compat_Notification_Title
 style TextAppearance_Compat_Notification_Title_Media
+style Theme_PlayCore_Transparent
 style Widget_Compat_NotificationActionContainer
 style Widget_Compat_NotificationActionText
 styleable ActivityNavigator android_name action data dataPattern targetPackage

@@ -32,6 +32,7 @@
     <string msgid="406453423630273620" name="close_drawer">"Chiudi il menu di navigazione"</string>
     <string msgid="7573152094250666567" name="close_sheet">"Chiudi il foglio"</string>
     <string msgid="5389587048670450460" name="collapsed">"Controllo compresso"</string>
+    <string name="common_google_play_services_unknown_issue">%1$s sta riscontrando problemi con Google Play Services. Riprova.</string>
     <string msgid="3499643850558715142" name="date_input_headline">"Data inserita"</string>
     <string msgid="8562356184193964298" name="date_input_headline_description">"Data inserita: %1$s"</string>
     <string msgid="5281836720766682161" name="date_input_invalid_for_pattern">"La data non corrisponde al pattern previsto: %1$s"</string>

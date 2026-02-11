@@ -99,6 +99,9 @@ dependencies {
     implementation("androidx.media3:media3-session:1.2.0")
     implementation("androidx.media3:media3-ui:1.2.0")
 
+    // Google Play Review
+    implementation("com.google.android.play:review-ktx:2.0.1")
+
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:4.11.0")
     testImplementation("org.mockito:mockito-inline:4.11.0")

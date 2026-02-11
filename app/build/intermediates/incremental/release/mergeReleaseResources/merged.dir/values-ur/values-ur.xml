@@ -32,6 +32,7 @@
     <string msgid="406453423630273620" name="close_drawer">"نیویگیشن مینیو بند کریں"</string>
     <string msgid="7573152094250666567" name="close_sheet">"شیٹ بند کریں"</string>
     <string msgid="5389587048670450460" name="collapsed">"سکیڑا گیا"</string>
+    <string name="common_google_play_services_unknown_issue">‏%1$s کو Google Play سروسز کے ساتھ مسئلہ پیش آ رہا ہے۔ براہ کرم دوبارہ کوشش کریں۔</string>
     <string msgid="3499643850558715142" name="date_input_headline">"درج کردہ تاریخ"</string>
     <string msgid="8562356184193964298" name="date_input_headline_description">"‏درج کردہ تاریخ: %1$s"</string>
     <string msgid="5281836720766682161" name="date_input_invalid_for_pattern">"‏تاریخ متوقع پیٹرن سے مماثل نہیں ہے: %1$s"</string>

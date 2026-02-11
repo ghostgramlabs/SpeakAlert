@@ -64,7 +64,6 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             "Reminder not found in database"
                         )
                     }
-                    pendingResult.finish()
                     return@launch
                 }
 
@@ -78,7 +77,6 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 // We use a small buffer (1 second) just in case of minor timestamp differences, but strictly logic is >=
                 if (reminder.lastFiredAt != null && reminder.lastFiredAt!! >= scheduledTime) {
                     FileLogger.log("ALARM: Reminder $reminderId already fired at ${reminder.lastFiredAt} (>= $scheduledTime). Skipping.")
-                    pendingResult.finish()
                     return@launch
                 }
 
@@ -151,7 +149,6 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     }
                     repository.updateReminder(updatedReminder)
                     
-                    pendingResult.finish()
                     return@launch // EXIT - No notification
                 }
 
@@ -185,7 +182,6 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             }
                             repository.updateReminder(updatedReminder)
                             
-                            pendingResult.finish()
                             return@launch // Exit early - no notification
                         }
                         
@@ -214,7 +210,6 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             }
                             repository.updateReminder(updatedReminder)
                             
-                            pendingResult.finish()
                             return@launch // Exit - showed missed notification, no autoplay
                         }
                     }

@@ -32,6 +32,7 @@
     <string msgid="406453423630273620" name="close_drawer">"සංචාලන මෙනුව වසන්න"</string>
     <string msgid="7573152094250666567" name="close_sheet">"පත්‍රය වසන්න"</string>
     <string msgid="5389587048670450460" name="collapsed">"හකුළන ලදි"</string>
+    <string name="common_google_play_services_unknown_issue">%1$s හට Google Play සේවා සමගින් ගැටලු ඇත. කරුණාකර නැවත උත්සාහ කරන්න.</string>
     <string msgid="3499643850558715142" name="date_input_headline">"ඇතුළු කළ දිනය"</string>
     <string msgid="8562356184193964298" name="date_input_headline_description">"එක් කරන්න: %1$s"</string>
     <string msgid="5281836720766682161" name="date_input_invalid_for_pattern">"දිනය අපේක්ෂිත රටාවට නොගැළපෙයි: %1$s"</string>

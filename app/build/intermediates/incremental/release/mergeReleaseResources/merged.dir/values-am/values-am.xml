@@ -32,6 +32,7 @@
     <string msgid="406453423630273620" name="close_drawer">"የዳሰሳ ምናሌን ዝጋ"</string>
     <string msgid="7573152094250666567" name="close_sheet">"ሉህን ዝጋ"</string>
     <string msgid="5389587048670450460" name="collapsed">"ተሰብስቧል"</string>
+    <string name="common_google_play_services_unknown_issue">%1$s በGoogle Play አገልግሎቶች ላይ ችግሮች እያጋጠሙት ነው። እባክዎ እንደገና ይሞክሩ።</string>
     <string msgid="3499643850558715142" name="date_input_headline">"የገባው ቀን"</string>
     <string msgid="8562356184193964298" name="date_input_headline_description">"የገባው ቀን፦ %1$s"</string>
     <string msgid="5281836720766682161" name="date_input_invalid_for_pattern">"ቀኑ ከተጠበቀው ስርዓተ ጥለት ጋር አይዛመድም፦ %1$s"</string>

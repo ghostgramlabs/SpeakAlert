@@ -34,6 +34,7 @@
     <string msgid="406453423630273620" name="close_drawer">"Aizvērt navigācijas izvēlni"</string>
     <string msgid="7573152094250666567" name="close_sheet">"Aizvērt izklājlapu"</string>
     <string msgid="5389587048670450460" name="collapsed">"Sakļauts"</string>
+    <string name="common_google_play_services_unknown_issue">Lietotnē %1$s ir radusies problēma ar Google Play pakalpojumu darbību. Lūdzu, mēģiniet vēlreiz.</string>
     <string msgid="3499643850558715142" name="date_input_headline">"Ievadītais datums"</string>
     <string msgid="8562356184193964298" name="date_input_headline_description">"Ievadītais datums: %1$s"</string>
     <string msgid="5281836720766682161" name="date_input_invalid_for_pattern">"Datums neatbilst paredzētajam formātam: %1$s"</string>

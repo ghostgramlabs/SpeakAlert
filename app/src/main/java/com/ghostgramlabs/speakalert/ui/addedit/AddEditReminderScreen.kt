@@ -338,7 +338,8 @@ fun AddEditReminderScreen(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 12.dp),
+                            .padding(horizontal = 16.dp, vertical = 12.dp)
+                            .semantics(mergeDescendants = true) {},
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(

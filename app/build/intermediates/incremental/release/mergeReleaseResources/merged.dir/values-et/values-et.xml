@@ -32,6 +32,7 @@
     <string msgid="406453423630273620" name="close_drawer">"Sule navigeerimismenüü"</string>
     <string msgid="7573152094250666567" name="close_sheet">"Sule leht"</string>
     <string msgid="5389587048670450460" name="collapsed">"Ahendatud"</string>
+    <string name="common_google_play_services_unknown_issue">Rakendusel %1$s on probleeme Google Play teenustega. Proovige uuesti.</string>
     <string msgid="3499643850558715142" name="date_input_headline">"Sisestatud kuupäev"</string>
     <string msgid="8562356184193964298" name="date_input_headline_description">"Sisestatud kuupäev: %1$s"</string>
     <string msgid="5281836720766682161" name="date_input_invalid_for_pattern">"Kuupäev ei ühti eeldatud mustriga: %1$s"</string>

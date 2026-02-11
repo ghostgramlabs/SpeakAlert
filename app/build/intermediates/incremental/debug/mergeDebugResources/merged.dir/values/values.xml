@@ -331,6 +331,7 @@
     <integer name="cancel_button_image_alpha">127</integer>
     <integer name="exo_media_button_opacity_percentage_disabled">33</integer>
     <integer name="exo_media_button_opacity_percentage_enabled">100</integer>
+    <integer name="google_play_services_version">12451000</integer>
     <integer name="status_bar_notification_info_maxnum">999</integer>
     <plurals name="exo_controls_fastforward_by_amount_description">
     <item quantity="one">Fast forward <ns1:g example="1" id="fastforward_amount">%d</ns1:g> second</item>
@@ -358,6 +359,7 @@
     <string name="close_drawer">"Close navigation menu"</string>
     <string name="close_sheet">"Close sheet"</string>
     <string name="collapsed">Collapsed</string>
+    <string name="common_google_play_services_unknown_issue"><ns1:g id="app_name">%1$s</ns1:g> is having trouble with Google Play services. Please try again.</string>
     <string name="date_input_headline">Entered date</string>
     <string name="date_input_headline_description">Entered date: %1$s</string>
     <string name="date_input_invalid_for_pattern">Date does not match expected pattern: %1$s</string>
@@ -677,6 +679,14 @@
     <style name="TextAppearance.Compat.Notification.Time.Media"/>
     <style name="TextAppearance.Compat.Notification.Title" parent="@android:style/TextAppearance.StatusBar.EventContent.Title"/>
     <style name="TextAppearance.Compat.Notification.Title.Media"/>
+    <style name="Theme.PlayCore.Transparent" parent="android:Theme">
+<item name="android:windowIsTranslucent">true</item>
+<item name="android:windowBackground">@android:color/transparent</item>
+<item name="android:windowContentOverlay">@null</item>
+<item name="android:windowNoTitle">true</item>
+<item name="android:windowIsFloating">true</item>
+<item name="android:backgroundDimEnabled">false</item>
+</style>
     <style name="Widget.Compat.NotificationActionContainer" parent=""/>
     <style name="Widget.Compat.NotificationActionText" parent=""/>
     <declare-styleable name="ActivityNavigator">

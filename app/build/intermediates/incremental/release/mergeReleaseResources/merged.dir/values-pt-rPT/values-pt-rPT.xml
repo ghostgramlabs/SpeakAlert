@@ -32,6 +32,7 @@
     <string msgid="406453423630273620" name="close_drawer">"Fechar menu de navegação"</string>
     <string msgid="7573152094250666567" name="close_sheet">"Fechar folha"</string>
     <string msgid="5389587048670450460" name="collapsed">"Reduzido"</string>
+    <string name="common_google_play_services_unknown_issue">%1$s está a ter problemas com os Serviços do Google Play. Tente novamente.</string>
     <string msgid="3499643850558715142" name="date_input_headline">"Data introduzida"</string>
     <string msgid="8562356184193964298" name="date_input_headline_description">"Data introduzida: %1$s"</string>
     <string msgid="5281836720766682161" name="date_input_invalid_for_pattern">"A data não corresponde ao padrão esperado: %1$s"</string>

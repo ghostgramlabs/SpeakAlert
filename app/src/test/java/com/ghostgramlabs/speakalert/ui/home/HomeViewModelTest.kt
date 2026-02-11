@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -19,6 +20,8 @@ import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.any
@@ -36,6 +39,10 @@ class HomeViewModelTest {
     
     private lateinit var viewModel: HomeViewModel
     
+    private val remindersFlow = MutableStateFlow<List<ReminderEntity>>(emptyList())
+    private val missedFlow = MutableStateFlow<List<MissedReminderEntity>>(emptyList())
+    private val ttsEnabledFlow = MutableStateFlow(true)
+    
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
@@ -48,11 +55,10 @@ class HomeViewModelTest {
         scheduler = mock()
         settingsRepository = mock()
         
-        // Default Settings
-        whenever(settingsRepository.speakTextIfNoVoice).thenReturn(MutableStateFlow(true))
-        // Default Empty Streams
-        whenever(repository.getAllRemindersStream()).thenReturn(MutableStateFlow(emptyList()))
-        whenever(missedRepository.allMissedReminders).thenReturn(MutableStateFlow(emptyList()))
+        // Default Mock Flows
+        whenever(settingsRepository.speakTextIfNoVoice).thenReturn(ttsEnabledFlow)
+        whenever(repository.getAllRemindersStream()).thenReturn(remindersFlow)
+        whenever(missedRepository.allMissedReminders).thenReturn(missedFlow)
 
         viewModel = HomeViewModel(repository, missedRepository, scheduler, settingsRepository)
     }
@@ -69,7 +75,12 @@ class HomeViewModelTest {
         val todayReminder = ReminderEntity(id = 1, title = "Today", nextTriggerAt = now + 1000) // 1 sec future
         val upcomingReminder = ReminderEntity(id = 2, title = "Tomorrow", nextTriggerAt = now + 86400000) // +1 day
         
-        whenever(repository.getAllRemindersStream()).thenReturn(MutableStateFlow(listOf(todayReminder, upcomingReminder)))
+        remindersFlow.value = listOf(todayReminder, upcomingReminder)
+
+        // Start collection in background
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            viewModel.uiState.collect()
+        }
 
         // Act
         // Create new VM to trigger init flow? Flow is hot, just collecting.
@@ -91,7 +102,13 @@ class HomeViewModelTest {
         val now = System.currentTimeMillis()
         val overdueReminder = ReminderEntity(id = 1, title = "Overdue", nextTriggerAt = now - 3600000) // -1 hour
         
-        whenever(repository.getAllRemindersStream()).thenReturn(MutableStateFlow(listOf(overdueReminder)))
+        remindersFlow.value = listOf(overdueReminder)
+        
+        // Start collection in background
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            viewModel.uiState.collect()
+        }
+
         advanceUntilIdle()
 
         // Assert
@@ -149,5 +166,18 @@ class HomeViewModelTest {
         // Assert
         verify(scheduler).cancel(reminder)
         verify(repository).deleteReminder(reminder)
+    }
+
+    @Test
+    fun `dismissMissedReminder deletes from missed repository by ID`() = runTest {
+        // Arrange
+        val missed = MissedReminderEntity(id = 1, reminderId = 10, title = "Missed", scheduledTime = 1000, detectedTime = 2000)
+        
+        // Act
+        viewModel.dismissMissedReminder(missed)
+        advanceUntilIdle()
+
+        // Assert
+        verify(missedRepository).deleteMissedReminderById(missed.id)
     }
 }

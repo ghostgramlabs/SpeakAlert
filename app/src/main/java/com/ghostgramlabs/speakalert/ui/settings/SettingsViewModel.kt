@@ -20,10 +20,13 @@ class SettingsViewModel(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
     val defaultSnoozeDuration = settingsRepository.defaultSnoozeDuration
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 10)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 5)
 
     val speakTextIfNoVoice = settingsRepository.speakTextIfNoVoice
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
+    val themeMode = settingsRepository.themeMode
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
     fun setAutoPlayEnabled(enabled: Boolean) {
         viewModelScope.launch {
@@ -49,6 +52,12 @@ class SettingsViewModel(
         }
     }
 
+    fun setThemeMode(mode: Int) {
+        viewModelScope.launch {
+            settingsRepository.setThemeMode(mode)
+        }
+    }
+
     val debugLoggingEnabled = settingsRepository.debugLoggingEnabled
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
@@ -67,7 +76,7 @@ class SettingsViewModel(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 1.0f)
     
     val loopTimeoutMinutes = settingsRepository.loopTimeoutMinutes
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 5)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 10)
 
     // Quiet Time State
     val quietTimeEnabled = settingsRepository.quietTimeEnabled
@@ -158,6 +167,56 @@ class SettingsViewModel(
             // "AddEditViewModel" schedules it manually.
             val savedReminder = reminder.copy(id = id)
             alarmScheduler.schedule(savedReminder)
+        }
+    }
+
+    fun requestAppReview(context: android.content.Context) {
+        val manager = com.google.android.play.core.review.ReviewManagerFactory.create(context)
+        val request = manager.requestReviewFlow()
+        request.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val reviewInfo = task.result
+                val activity = findActivity(context)
+                if (activity != null) {
+                    val flow = manager.launchReviewFlow(activity, reviewInfo)
+                    flow.addOnCompleteListener { _ ->
+                        // The flow has finished. The API does not indicate whether the user
+                        // reviewed or not, or even whether the review dialog was shown.
+                    }
+                } else {
+                    openPlayStore(context)
+                }
+            } else {
+                // There was some problem, continue regardless of the result.
+                openPlayStore(context)
+            }
+        }
+    }
+
+    private fun findActivity(context: android.content.Context): android.app.Activity? {
+        var ctx = context
+        while (ctx is android.content.ContextWrapper) {
+            if (ctx is android.app.Activity) return ctx
+            ctx = ctx.baseContext
+        }
+        return ctx as? android.app.Activity
+    }
+
+    private fun openPlayStore(context: android.content.Context) {
+        val packageName = context.packageName
+        val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
+            data = android.net.Uri.parse("market://details?id=$packageName")
+            addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        
+        try {
+            context.startActivity(intent)
+        } catch (e: android.content.ActivityNotFoundException) {
+            val webIntent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
+                data = android.net.Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+                addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(webIntent)
         }
     }
 }

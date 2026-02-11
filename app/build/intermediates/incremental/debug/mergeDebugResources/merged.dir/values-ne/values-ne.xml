@@ -32,6 +32,7 @@
     <string msgid="406453423630273620" name="close_drawer">"नेभिगेसन मेनु बन्द गर्नुहोस्"</string>
     <string msgid="7573152094250666567" name="close_sheet">"पाना बन्द गर्नुहोस्"</string>
     <string msgid="5389587048670450460" name="collapsed">"कोल्याप्स गरियो"</string>
+    <string name="common_google_play_services_unknown_issue">%1$s लाई Google Play services सँग सहकार्य गर्न समस्या भइरहेको छ। कृपया फेरि प्रयास गर्नुहोस्।</string>
     <string msgid="3499643850558715142" name="date_input_headline">"हालिएको मिति"</string>
     <string msgid="8562356184193964298" name="date_input_headline_description">"हालिएको मिति: %1$s"</string>
     <string msgid="5281836720766682161" name="date_input_invalid_for_pattern">"हालिएको मितिको ढाँचा अपेक्षित ढाँचासँग मिलेन: %1$s"</string>

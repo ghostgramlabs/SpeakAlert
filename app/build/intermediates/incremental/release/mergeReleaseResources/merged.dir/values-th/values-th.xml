@@ -32,6 +32,7 @@
     <string msgid="406453423630273620" name="close_drawer">"ปิดเมนูการนำทาง"</string>
     <string msgid="7573152094250666567" name="close_sheet">"ปิดชีต"</string>
     <string msgid="5389587048670450460" name="collapsed">"ยุบ"</string>
+    <string name="common_google_play_services_unknown_issue">%1$s มีปัญหาเกี่ยวกับบริการของ Google Play โปรดลองอีกครั้ง</string>
     <string msgid="3499643850558715142" name="date_input_headline">"วันที่ป้อน"</string>
     <string msgid="8562356184193964298" name="date_input_headline_description">"วันที่ป้อน: %1$s"</string>
     <string msgid="5281836720766682161" name="date_input_invalid_for_pattern">"วันที่ไม่ตรงกับรูปแบบที่คาดไว้: %1$s"</string>

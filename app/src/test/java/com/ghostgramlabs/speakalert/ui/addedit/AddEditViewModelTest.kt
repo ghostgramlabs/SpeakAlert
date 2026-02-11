@@ -26,6 +26,7 @@ import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argumentCaptor
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import java.io.File
@@ -122,9 +123,8 @@ class AddEditViewModelTest {
         // Assert
         val captor = argumentCaptor<ReminderEntity>()
         verify(repository).insertReminder(captor.capture())
-        assertEquals("Reminder at", captor.firstValue.title?.take(11)) // "Reminder at 10:00 AM" roughly
-        // Ideally we check implicit title logic, but checking it's not empty is enough
-        assertFalse(captor.firstValue.title.isNullOrBlank())
+        // New behavior: VM saves null title if blank, UI layer handles fallback to "Reminder at..." or time
+        assertNull(captor.firstValue.title)
     }
 
     @Test
@@ -229,7 +229,8 @@ class AddEditViewModelTest {
         advanceUntilIdle() // Now it's safe to idle as loop should be cancelled
 
         // Assert
-        verify(player).stop()
+        // Stop is called twice: once in playRecording (to clear previous) and once manually
+        verify(player, Mockito.times(2)).stop()
         assertFalse(viewModel.uiState.value.isPlaying)
     }
     
