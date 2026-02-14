@@ -10,6 +10,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.filled.AllInclusive
@@ -63,38 +64,56 @@ fun AddEditReminderScreen(
             navigateBack()
         }
     }
+
+    LaunchedEffect(uiState.showPastTimeError) {
+        if (uiState.showPastTimeError) {
+             android.widget.Toast.makeText(context, "Cannot set reminders for the past", android.widget.Toast.LENGTH_SHORT).show()
+        }
+    }
     
     val micPermissionState = rememberPermissionState(Manifest.permission.RECORD_AUDIO)
     val calendar = java.util.Calendar.getInstance().apply { timeInMillis = uiState.triggerTime }
 
-    val datePickerDialog = android.app.DatePickerDialog(
-        context,
-        { _, year, month, dayOfMonth ->
-            val newCal = java.util.Calendar.getInstance()
-            newCal.timeInMillis = uiState.triggerTime
-            newCal.set(java.util.Calendar.YEAR, year)
-            newCal.set(java.util.Calendar.MONTH, month)
-            newCal.set(java.util.Calendar.DAY_OF_MONTH, dayOfMonth)
-            viewModel.setTriggerTime(newCal.timeInMillis)
-        },
-        calendar.get(java.util.Calendar.YEAR),
-        calendar.get(java.util.Calendar.MONTH),
-        calendar.get(java.util.Calendar.DAY_OF_MONTH)
-    )
-    
-    val timePickerDialog = android.app.TimePickerDialog(
-        context,
-        { _, hourOfDay, minute ->
-            val newCal = java.util.Calendar.getInstance()
-            newCal.timeInMillis = uiState.triggerTime
-            newCal.set(java.util.Calendar.HOUR_OF_DAY, hourOfDay)
-            newCal.set(java.util.Calendar.MINUTE, minute)
-            viewModel.setTriggerTime(newCal.timeInMillis)
-        },
-        calendar.get(java.util.Calendar.HOUR_OF_DAY),
-        calendar.get(java.util.Calendar.MINUTE),
-        false
-    )
+    // Native Date Picker
+    val datePickerDialog = remember(uiState.triggerTime) {
+        android.app.DatePickerDialog(
+            context,
+            { _, year, month, dayOfMonth ->
+                val cal = java.util.Calendar.getInstance().apply {
+                    timeInMillis = uiState.triggerTime
+                    set(java.util.Calendar.YEAR, year)
+                    set(java.util.Calendar.MONTH, month)
+                    set(java.util.Calendar.DAY_OF_MONTH, dayOfMonth)
+                }
+                viewModel.setTriggerTime(cal.timeInMillis)
+            },
+            calendar.get(java.util.Calendar.YEAR),
+            calendar.get(java.util.Calendar.MONTH),
+            calendar.get(java.util.Calendar.DAY_OF_MONTH)
+        ).apply {
+            datePicker.minDate = System.currentTimeMillis() - 1000
+        }
+    }
+
+    // Native Time Picker
+    val timePickerDialog = remember(uiState.triggerTime) {
+        android.app.TimePickerDialog(
+            context,
+            { _, hourOfDay, minute ->
+                val cal = java.util.Calendar.getInstance().apply {
+                    timeInMillis = uiState.triggerTime
+                    set(java.util.Calendar.HOUR_OF_DAY, hourOfDay)
+                    set(java.util.Calendar.MINUTE, minute)
+                    set(java.util.Calendar.SECOND, 0)
+                    set(java.util.Calendar.MILLISECOND, 0)
+                }
+                viewModel.setTriggerTime(cal.timeInMillis)
+            },
+            calendar.get(java.util.Calendar.HOUR_OF_DAY),
+            calendar.get(java.util.Calendar.MINUTE),
+            false
+        )
+    }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -304,6 +323,15 @@ fun AddEditReminderScreen(
                         onClick = { timePickerDialog.show() }
                     )
                     
+                    if (uiState.showPastTimeError) {
+                         Text(
+                             text = "Time must be in the future",
+                             color = MaterialTheme.colorScheme.error,
+                             style = MaterialTheme.typography.bodySmall,
+                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                         )
+                    }
+                    
                     Divider(
                         modifier = Modifier.padding(horizontal = 16.dp),
                         color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)
@@ -444,16 +472,25 @@ private fun ScheduleRow(
             modifier = Modifier.size(24.dp)
         )
         Spacer(modifier = Modifier.width(16.dp))
-        Text(
-            text = label,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.weight(1f)
-        )
-        Text(
-            text = value,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.primary
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            if (value.isNotEmpty()) {
+                Text(
+                    text = value,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+        }
+        Icon(
+            imageVector = Icons.Filled.ChevronRight,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+            modifier = Modifier.size(20.dp)
         )
     }
 }

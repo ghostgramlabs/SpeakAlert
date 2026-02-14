@@ -63,9 +63,6 @@ fun PastUndoneActionSheet(
             }
             }
             
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Actions
             // 1. Reschedule (Primary)
             ActionItem(
                 icon = Icons.Filled.AccessTime,
@@ -82,28 +79,15 @@ fun PastUndoneActionSheet(
                 highlight = false
             )
             
-            Spacer(modifier = Modifier.height(8.dp))
-            
-            // 3. Keep as Done (Destructive/Secondary)
+            // 3. Keep as Done / Cancel (Secondary)
             ActionItem(
                 icon = Icons.Filled.Close,
-                label = "Keep as Done",
-                subLabel = "Mark this as completed",
+                label = "Cancel",
+                subLabel = "Keep as done",
                 onClick = onCancel,
                 highlight = false,
                 isDestructive = true
             )
-            
-            Spacer(modifier = Modifier.height(8.dp))
-            
-            // Dismiss button
-            OutlinedButton(
-                onClick = onDismiss,
-                modifier = Modifier.fillMaxWidth(),
-                shape = MaterialTheme.shapes.medium
-            ) {
-                Text("Cancel")
-            }
         }
     }
 }

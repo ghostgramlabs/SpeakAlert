@@ -533,7 +533,11 @@ private fun PermissionRow(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(name, style = MaterialTheme.typography.bodyMedium)
+        Text(
+            text = name,
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.weight(1f)
+        )
         if (granted) {
             Icon(Icons.Filled.Check, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
         } else {

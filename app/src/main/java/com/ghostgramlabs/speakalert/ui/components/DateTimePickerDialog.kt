@@ -24,16 +24,30 @@ fun DateTimePickerDialog(
         initialMinute = Calendar.getInstance().get(Calendar.MINUTE)
     )
     
+    var validationError by remember { mutableStateOf<String?>(null) }
+    
     if (!showTimePicker) {
-        // Date Picker with Quick Presets
         DatePickerDialog(
             onDismissRequest = onDismiss,
             confirmButton = {
                 TextButton(
                     onClick = {
-                        selectedDate = datePickerState.selectedDateMillis
-                        if (selectedDate != null) {
-                            showTimePicker = true
+                        val dateMillis = datePickerState.selectedDateMillis
+                        if (dateMillis != null) {
+                            val startOfDay = Calendar.getInstance().apply {
+                                set(Calendar.HOUR_OF_DAY, 0)
+                                set(Calendar.MINUTE, 0)
+                                set(Calendar.SECOND, 0)
+                                set(Calendar.MILLISECOND, 0)
+                            }.timeInMillis
+                            
+                            if (dateMillis < startOfDay) {
+                                validationError = "Date must be today or in the future"
+                            } else {
+                                selectedDate = dateMillis
+                                showTimePicker = true
+                                validationError = null
+                            }
                         }
                     },
                     enabled = datePickerState.selectedDateMillis != null
@@ -93,11 +107,20 @@ fun DateTimePickerDialog(
                     }
                 }
                 
+                if (validationError != null) {
+                    Text(
+                        text = validationError!!,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.labelMedium,
+                        modifier = Modifier.padding(horizontal = 24.dp)
+                    )
+                }
+                
                 DatePicker(state = datePickerState)
             }
         }
     } else {
-        // Time Picker
+        // Time Picker with validation
         AlertDialog(
             onDismissRequest = onDismiss,
             title = { Text("Select Time") },
@@ -107,6 +130,15 @@ fun DateTimePickerDialog(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     TimePicker(state = timePickerState)
+                    
+                    if (validationError != null) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = validationError!!,
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                    }
                 }
             },
             confirmButton = {
@@ -120,7 +152,14 @@ fun DateTimePickerDialog(
                                 set(Calendar.SECOND, 0)
                                 set(Calendar.MILLISECOND, 0)
                             }
-                            onConfirm(calendar.timeInMillis)
+                            
+                            val now = Calendar.getInstance()
+                            if (calendar.before(now)) {
+                                validationError = "Time must be in the future"
+                            } else {
+                                validationError = null
+                                onConfirm(calendar.timeInMillis)
+                            }
                         }
                     },
                     shape = RoundedCornerShape(12.dp)
@@ -129,7 +168,10 @@ fun DateTimePickerDialog(
                 }
             },
             dismissButton = {
-                TextButton(onClick = { showTimePicker = false }) {
+                TextButton(onClick = { 
+                    showTimePicker = false 
+                    validationError = null
+                }) {
                     Text("Back")
                 }
             },

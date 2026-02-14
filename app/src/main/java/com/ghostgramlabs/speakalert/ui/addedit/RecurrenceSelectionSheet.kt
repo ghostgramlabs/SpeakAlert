@@ -1,9 +1,9 @@
 package com.ghostgramlabs.speakalert.ui.addedit
 
-import android.app.TimePickerDialog
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -115,10 +115,10 @@ fun RecurrenceOptionItem(
         onClick = onClick,
         shape = MaterialTheme.shapes.medium,
         color = if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
-        modifier = Modifier.padding(vertical = 4.dp).fillMaxWidth()
+        modifier = Modifier.padding(vertical = 2.dp).fillMaxWidth()
     ) {
         Row(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
@@ -183,89 +183,102 @@ fun MonthlyConfigSheet(
     ModalBottomSheet(onDismissRequest = onCancel) {
         Column(
             modifier = Modifier
-                .padding(24.dp)
+                .padding(horizontal = 24.dp)
                 .navigationBarsPadding()
-                .verticalScroll(rememberScrollState())
-                .padding(bottom = 16.dp)
+                .padding(bottom = 8.dp)
+                .fillMaxHeight(0.9f) // Allow it to expand but not exceed screen
         ) {
-            Text("Monthly Settings", style = MaterialTheme.typography.headlineSmall)
-            Spacer(modifier = Modifier.height(24.dp))
-            
-            Text("Repeat on", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                FilterChip(
-                    selected = variant == MonthlyVariant.DAY_OF_MONTH,
-                    onClick = { variant = MonthlyVariant.DAY_OF_MONTH },
-                    label = { Text("Day(s) of Month") },
-                    colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                        selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                )
-                FilterChip(
-                    selected = variant == MonthlyVariant.LAST_DAY,
-                    onClick = { variant = MonthlyVariant.LAST_DAY },
-                    label = { Text("Last Day") },
-                    colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                        selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                )
-            }
-            
-            if (variant == MonthlyVariant.DAY_OF_MONTH) {
-                Spacer(modifier = Modifier.height(16.dp))
-                Text("Select days (tap to toggle)", style = MaterialTheme.typography.labelMedium)
-                Spacer(modifier = Modifier.height(8.dp))
+            Column(
+                modifier = Modifier
+                    .weight(1f, fill = false)
+                    .verticalScroll(rememberScrollState())
+                    .padding(top = 16.dp)
+            ) {
+                Text("Monthly Settings", style = MaterialTheme.typography.headlineSmall)
+                Spacer(modifier = Modifier.height(24.dp))
                 
-                // Day selector grid - 7 columns × 5 rows (1-31)
-                FlowRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    for (day in 1..31) {
-                        val isSelected = day in selectedDays
-                        FilterChip(
-                            selected = isSelected,
-                            onClick = {
-                                if (isSelected) {
-                                    if (selectedDays.size > 1) {
-                                        selectedDays.remove(day)
-                                    }
-                                    // Prevent deselecting last day
-                                } else {
-                                    selectedDays.add(day)
-                                }
-                            },
-                            label = { 
-                                Text(
-                                    day.toString(),
-                                    style = MaterialTheme.typography.labelSmall
-                                ) 
-                            },
-                            modifier = Modifier.size(width = 44.dp, height = 32.dp),
-                            colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                                selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
+                Text("Repeat on", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FilterChip(
+                        selected = variant == MonthlyVariant.DAY_OF_MONTH,
+                        onClick = { variant = MonthlyVariant.DAY_OF_MONTH },
+                        label = { Text("Day(s) of Month") },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
                         )
-                    }
+                    )
+                    FilterChip(
+                        selected = variant == MonthlyVariant.LAST_DAY,
+                        onClick = { variant = MonthlyVariant.LAST_DAY },
+                        label = { Text("Last Day") },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    )
                 }
                 
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    "Selected: ${selectedDays.sorted().joinToString(", ")}",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.primary
-                )
+                if (variant == MonthlyVariant.DAY_OF_MONTH) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text("Select days (tap to toggle)", style = MaterialTheme.typography.labelMedium)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    
+                    // Day selector grid - 7 columns × 5 rows (1-31)
+                    FlowRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        for (day in 1..31) {
+                            val isSelected = day in selectedDays
+                            FilterChip(
+                                selected = isSelected,
+                                onClick = {
+                                    if (isSelected) {
+                                        if (selectedDays.size > 1) {
+                                            selectedDays.remove(day)
+                                        }
+                                        // Prevent deselecting last day
+                                    } else {
+                                        selectedDays.add(day)
+                                    }
+                                },
+                                label = { 
+                                    Text(
+                                        day.toString(),
+                                        style = MaterialTheme.typography.labelSmall
+                                    ) 
+                                },
+                                modifier = Modifier.size(width = 44.dp, height = 32.dp),
+                                colors = FilterChipDefaults.filterChipColors(
+                                    selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                    selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
+                                )
+                            )
+                        }
+                    }
+                    
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        "Selected: ${selectedDays.sorted().joinToString(", ")}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+                
+                Spacer(modifier = Modifier.height(16.dp))
             }
             
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             
-            // Buttons
+            // Buttons - Pinned to bottom
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                OutlinedButton(onClick = onCancel, modifier = Modifier.weight(1f)) { Text("Back") }
+                OutlinedButton(
+                    onClick = onCancel, 
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(12.dp)
+                ) { Text("Back") }
                 Button(
                     onClick = {
                         val endRule = when(endRuleType) {
@@ -281,9 +294,11 @@ fun MonthlyConfigSheet(
                         ))
                     },
                     modifier = Modifier.weight(1f),
-                    enabled = variant == MonthlyVariant.LAST_DAY || selectedDays.isNotEmpty()
+                    enabled = variant == MonthlyVariant.LAST_DAY || selectedDays.isNotEmpty(),
+                    shape = RoundedCornerShape(12.dp)
                 ) { Text("Save") }
             }
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
@@ -303,40 +318,62 @@ fun WeeklyConfigSheet(
     val weekdays = listOf(1 to "M", 2 to "T", 3 to "W", 4 to "T", 5 to "F", 6 to "S", 7 to "S")
     
     ModalBottomSheet(onDismissRequest = onCancel) {
-        Column(modifier = Modifier.padding(24.dp).navigationBarsPadding().padding(bottom=16.dp)) {
-            Text("Weekly Settings", style = MaterialTheme.typography.headlineSmall)
-            Spacer(modifier = Modifier.height(24.dp))
-            
-            Text("Select Days", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
-            Spacer(modifier = Modifier.height(16.dp))
-            
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween, 
-                modifier = Modifier.fillMaxWidth()
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 24.dp)
+                .navigationBarsPadding()
+                .padding(bottom = 8.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .weight(1f, fill = false)
+                    .verticalScroll(rememberScrollState())
+                    .padding(top = 16.dp)
             ) {
-                weekdays.forEach { (day, label) ->
-                    val isSelected = days.contains(day)
-                    FilterChip(
-                        selected = isSelected,
-                        onClick = { if (isSelected) days.remove(day) else days.add(day) },
-                        label = { Text(label) },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                            selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
+                Text("Weekly Settings", style = MaterialTheme.typography.headlineSmall)
+                Spacer(modifier = Modifier.height(24.dp))
+                
+                Text("Select Days", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
+                Spacer(modifier = Modifier.height(16.dp))
+                
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween, 
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    weekdays.forEach { (day, label) ->
+                        val isSelected = days.contains(day)
+                        FilterChip(
+                            selected = isSelected,
+                            onClick = { if (isSelected) days.remove(day) else days.add(day) },
+                            label = { Text(label) },
+                            colors = FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
                         )
-                    )
+                    }
                 }
+                
+                Spacer(modifier = Modifier.height(16.dp))
             }
             
-            Spacer(modifier = Modifier.height(32.dp))
-             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                OutlinedButton(onClick = onCancel, modifier = Modifier.weight(1f)) { Text("Back") }
+            Spacer(modifier = Modifier.height(24.dp))
+            
+            // Buttons - Pinned to bottom
+            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                OutlinedButton(
+                    onClick = onCancel, 
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(12.dp)
+                ) { Text("Back") }
                 Button(
                     onClick = { onSave(RecurrenceModel.Weekly(days.toSet())) },
                     modifier = Modifier.weight(1f),
-                    enabled = days.isNotEmpty()
+                    enabled = days.isNotEmpty(),
+                    shape = RoundedCornerShape(12.dp)
                 ) { Text("Save") }
             }
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
@@ -357,58 +394,80 @@ fun CustomConfigSheet(
     val isValid = intervalValue >= 1
 
     ModalBottomSheet(onDismissRequest = onCancel) {
-        Column(modifier = Modifier.padding(24.dp).navigationBarsPadding().padding(bottom=16.dp)) {
-            Text("Custom Interval", style = MaterialTheme.typography.headlineSmall)
-            Spacer(modifier = Modifier.height(24.dp))
-            
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Every", style = MaterialTheme.typography.bodyLarge)
-                Spacer(modifier = Modifier.width(16.dp))
-                OutlinedTextField(
-                    value = intervalText,
-                    onValueChange = { newValue ->
-                        // Allow empty or digits only
-                        if (newValue.isEmpty() || newValue.all { it.isDigit() }) {
-                            intervalText = newValue
-                        }
-                    },
-                    modifier = Modifier.width(80.dp),
-                    singleLine = true,
-                    isError = intervalText.isNotEmpty() && !isValid,
-                    placeholder = { Text("1") }
-                )
-                Spacer(modifier = Modifier.width(16.dp))
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 24.dp)
+                .navigationBarsPadding()
+                .padding(bottom = 8.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .weight(1f, fill = false)
+                    .verticalScroll(rememberScrollState())
+                    .padding(top = 16.dp)
+            ) {
+                Text("Custom Interval", style = MaterialTheme.typography.headlineSmall)
+                Spacer(modifier = Modifier.height(24.dp))
                 
-                Box {
-                    OutlinedButton(onClick = { expanded = true }) {
-                        Text(unit.name)
-                    }
-                    DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                        TimeUnit.values().forEach { u ->
-                            DropdownMenuItem(text = { Text(u.name) }, onClick = { unit = u; expanded = false })
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text("Every", style = MaterialTheme.typography.bodyLarge)
+                    Spacer(modifier = Modifier.width(16.dp))
+                    OutlinedTextField(
+                        value = intervalText,
+                        onValueChange = { newValue ->
+                            // Allow empty or digits only
+                            if (newValue.isEmpty() || newValue.all { it.isDigit() }) {
+                                intervalText = newValue
+                            }
+                        },
+                        modifier = Modifier.width(80.dp),
+                        singleLine = true,
+                        isError = intervalText.isNotEmpty() && !isValid,
+                        placeholder = { Text("1") }
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    
+                    Box {
+                        OutlinedButton(onClick = { expanded = true }) {
+                            Text(unit.name)
+                        }
+                        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                            TimeUnit.values().forEach { u ->
+                                DropdownMenuItem(text = { Text(u.name) }, onClick = { unit = u; expanded = false })
+                            }
                         }
                     }
                 }
-            }
-            
-            if (!isValid && intervalText.isNotEmpty()) {
-                Text(
-                    "Interval must be at least 1",
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
+                
+                if (!isValid && intervalText.isNotEmpty()) {
+                    Text(
+                        "Interval must be at least 1",
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
+                
+                Spacer(modifier = Modifier.height(16.dp))
             }
             
             Spacer(modifier = Modifier.height(32.dp))
-             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                OutlinedButton(onClick = onCancel, modifier = Modifier.weight(1f)) { Text("Back") }
+            
+            // Buttons - Pinned to bottom
+            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                OutlinedButton(
+                    onClick = onCancel, 
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(12.dp)
+                ) { Text("Back") }
                 Button(
                     onClick = { onSave(RecurrenceModel.Custom(intervalValue, unit)) },
                     modifier = Modifier.weight(1f),
-                    enabled = isValid
+                    enabled = isValid,
+                    shape = RoundedCornerShape(12.dp)
                 ) { Text("Save") }
             }
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }

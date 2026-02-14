@@ -92,14 +92,6 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 
                 FileLogger.log("ALARM: missedPolicy=$missedPolicy")
 
-                // Handle late/missed reminders
-                if (isLate && reminder.recurrenceType != RecurrenceType.NONE) {
-                    // ... existing late handling ...(omitted for brevity in prompt, but checking code carefully)
-                    // Actually, I can keep the existing late handling block reference or just insert before it?
-                    // The prompt asked to "go to missing".
-                    // Let's insert the Quiet Time check BEFORE the "isLate" check or right alongside it.
-                    // If it's Quiet Time, we force "Missed". mechanism.
-                }
                 
                 // ===== DND & QUIET TIME CHECK =====
                 // Force "Missed" if DND is active or if we are in Quiet Time

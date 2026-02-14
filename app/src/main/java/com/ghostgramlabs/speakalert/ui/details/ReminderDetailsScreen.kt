@@ -98,33 +98,46 @@ fun ReminderDetailsScreen(
     var showPastActionSheet by remember { mutableStateOf(false) }
     
     // Reschedule Pickers
-    val rescheduleCalendar = remember { java.util.Calendar.getInstance() }
-    
-    val timePickerDialog = android.app.TimePickerDialog(
-        context,
-        { _, hourOfDay, minute ->
-            rescheduleCalendar.set(java.util.Calendar.HOUR_OF_DAY, hourOfDay)
-            rescheduleCalendar.set(java.util.Calendar.MINUTE, minute)
-            viewModel.reschedule(rescheduleCalendar.timeInMillis)
-            navigateBack()
-        },
-        rescheduleCalendar.get(java.util.Calendar.HOUR_OF_DAY),
-        rescheduleCalendar.get(java.util.Calendar.MINUTE),
-        false
-    )
+    var showRescheduleConfirmation by remember { mutableStateOf(false) }
+    var pendingRescheduleTime by remember { mutableStateOf<Long?>(null) }
 
-    val datePickerDialog = android.app.DatePickerDialog(
-        context,
-        { _, year, month, dayOfMonth ->
-            rescheduleCalendar.set(java.util.Calendar.YEAR, year)
-            rescheduleCalendar.set(java.util.Calendar.MONTH, month)
-            rescheduleCalendar.set(java.util.Calendar.DAY_OF_MONTH, dayOfMonth)
-            timePickerDialog.show()
-        },
-        rescheduleCalendar.get(java.util.Calendar.YEAR),
-        rescheduleCalendar.get(java.util.Calendar.MONTH),
-        rescheduleCalendar.get(java.util.Calendar.DAY_OF_MONTH)
-    )
+    // Build native picker chain: Date -> Time -> confirm
+    val rescheduleCalendar = remember { java.util.Calendar.getInstance() }
+
+    val rescheduleTimePickerDialog = remember {
+        android.app.TimePickerDialog(
+            context,
+            { _, hourOfDay, minute ->
+                rescheduleCalendar.set(java.util.Calendar.HOUR_OF_DAY, hourOfDay)
+                rescheduleCalendar.set(java.util.Calendar.MINUTE, minute)
+                rescheduleCalendar.set(java.util.Calendar.SECOND, 0)
+                rescheduleCalendar.set(java.util.Calendar.MILLISECOND, 0)
+                pendingRescheduleTime = rescheduleCalendar.timeInMillis
+                showRescheduleConfirmation = true
+            },
+            rescheduleCalendar.get(java.util.Calendar.HOUR_OF_DAY),
+            rescheduleCalendar.get(java.util.Calendar.MINUTE),
+            false
+        )
+    }
+
+    val rescheduleDatePickerDialog = remember {
+        android.app.DatePickerDialog(
+            context,
+            { _, year, month, dayOfMonth ->
+                rescheduleCalendar.set(java.util.Calendar.YEAR, year)
+                rescheduleCalendar.set(java.util.Calendar.MONTH, month)
+                rescheduleCalendar.set(java.util.Calendar.DAY_OF_MONTH, dayOfMonth)
+                // After date is selected, show time picker
+                rescheduleTimePickerDialog.show()
+            },
+            rescheduleCalendar.get(java.util.Calendar.YEAR),
+            rescheduleCalendar.get(java.util.Calendar.MONTH),
+            rescheduleCalendar.get(java.util.Calendar.DAY_OF_MONTH)
+        ).apply {
+            datePicker.minDate = System.currentTimeMillis() - 1000
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -183,7 +196,7 @@ fun ReminderDetailsScreen(
                                     viewModel.stopAudio()
                                     isPlaying = false
                                 } else {
-                                    viewModel.playAudio()
+                                    viewModel.playAudio(context)
                                     isPlaying = true
                                 }
                             },
@@ -196,7 +209,7 @@ fun ReminderDetailsScreen(
                             )
                         }
                         Spacer(modifier = Modifier.width(16.dp))
-                        Column {
+                        Column(modifier = Modifier.weight(1f)) {
                             Text(if (isPlaying) "Playing..." else "Tap to play", style = MaterialTheme.typography.titleMedium)
                             Text("Voice recording", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
@@ -250,7 +263,7 @@ fun ReminderDetailsScreen(
                             )
                         }
                         Spacer(modifier = Modifier.width(12.dp))
-                        Column {
+                        Column(modifier = Modifier.weight(1f)) {
                             val frequencyText = com.ghostgramlabs.speakalert.domain.RecurrenceUtils.getRecurrenceSummary(
                                 item.recurrenceType,
                                 item.recurrenceJson,
@@ -292,7 +305,11 @@ fun ReminderDetailsScreen(
                                 com.ghostgramlabs.speakalert.domain.models.EndRuleType.AFTER_OCCURRENCES -> "Ends after ${model.endRule.count} occurrences"
                                 else -> ""
                             }
-                            Text(text = endRuleStr, style = MaterialTheme.typography.bodyMedium)
+                            Text(
+                                text = endRuleStr,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.weight(1f)
+                            )
                         }
                     }
 
@@ -316,7 +333,11 @@ fun ReminderDetailsScreen(
                             com.ghostgramlabs.speakalert.domain.models.MissedPolicy.FIRE_ON_RESUME -> "Alert when device back on"
                             com.ghostgramlabs.speakalert.domain.models.MissedPolicy.SKIP_TO_NEXT -> "Remind at exact time only"
                         }
-                        Text(text = policyText, style = MaterialTheme.typography.bodyMedium)
+                        Text(
+                            text = policyText,
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.weight(1f)
+                        )
                     }
                     
                     Text(
@@ -457,15 +478,59 @@ fun ReminderDetailsScreen(
             scheduledTime = item.nextTriggerAt,
             onReschedule = {
                 showPastActionSheet = false
-                datePickerDialog.show()
+                rescheduleDatePickerDialog.show()
             },
             onPlayNow = {
                 showPastActionSheet = false
-                viewModel.playAudio()
+                viewModel.playAudio(context)
                 isPlaying = true
             },
             onCancel = { showPastActionSheet = false },
             onDismiss = { showPastActionSheet = false }
+        )
+    }
+
+    if (showRescheduleConfirmation && pendingRescheduleTime != null) {
+        val formattedTime = DateUtils.formatDateTime(pendingRescheduleTime!!)
+        AlertDialog(
+            onDismissRequest = { showRescheduleConfirmation = false },
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.EventBusy, 
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            },
+            title = {
+                Text(
+                    text = "Reschedule Reminder?",
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Center
+                )
+            },
+            text = {
+                Text(
+                    text = "Reschedule to $formattedTime?",
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = TextAlign.Center
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        viewModel.reschedule(pendingRescheduleTime!!)
+                        showRescheduleConfirmation = false
+                        navigateBack()
+                    }
+                ) {
+                    Text("Confirm")
+                }
+            },
+            dismissButton = {
+                OutlinedButton(onClick = { showRescheduleConfirmation = false }) {
+                    Text("Cancel")
+                }
+            }
         )
     }
 }

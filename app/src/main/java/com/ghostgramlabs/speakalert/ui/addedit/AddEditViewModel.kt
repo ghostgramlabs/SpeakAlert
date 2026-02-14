@@ -39,7 +39,8 @@ data class AddEditUiState(
     val saveCompleted: Boolean = false,
     val recordingElapsedSeconds: Int = 0, // For displaying recording time
     val currentAmplitude: Int = 0, // For waveform visualization
-    val isTextToSpeechEnabled: Boolean = true
+    val isTextToSpeechEnabled: Boolean = true,
+    val showPastTimeError: Boolean = false
 )
 
 class AddEditViewModel(
@@ -229,7 +230,7 @@ class AddEditViewModel(
     }
     
     fun setTriggerTime(time: Long) {
-        _uiState.value = _uiState.value.copy(triggerTime = time)
+        _uiState.value = _uiState.value.copy(triggerTime = time, showPastTimeError = false)
     }
     
     fun setRecurrence(type: RecurrenceType, json: String? = null) {
@@ -273,8 +274,16 @@ class AddEditViewModel(
                 return@launch
             }
             
-            // Start saving
-            _uiState.value = _uiState.value.copy(isSaving = true, showError = false)
+            // Start saving - clear errors first
+            _uiState.value = _uiState.value.copy(showError = false, showPastTimeError = false)
+
+            // VALIDATION: Time must be in future for non-recurring
+            if (state.recurrenceType == RecurrenceType.NONE && state.triggerTime < System.currentTimeMillis()) {
+                _uiState.value = _uiState.value.copy(showPastTimeError = true)
+                return@launch
+            }
+            
+            _uiState.value = _uiState.value.copy(isSaving = true)
             
             try {
                 // Move temp file to final location on IO thread

@@ -8,8 +8,14 @@
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 .DS_Store
+
+/app/build
 /build
 /captures
 .externalNativeBuild
 .cxx
 local.properties
+*.jks
+test_output.txt
+test_results.txt
+*.log

@@ -106,6 +106,24 @@ class ReminderDetailsViewModel(
             player.playFile(file)
         }
     }
+
+    fun playAudio(context: Context) {
+        val rem = _reminder.value ?: return
+        val audioPath = rem.audioPath
+        val reminderText = rem.reminderText
+        val title = rem.title ?: "SpeakAlert"
+
+        if (!audioPath.isNullOrBlank() && File(audioPath).exists()) {
+             com.ghostgramlabs.speakalert.service.ReminderPlaybackService.start(
+                context, rem.id, title, audioPath, null
+            )
+        } else if (!reminderText.isNullOrBlank()) {
+             // Fallback to TTS
+             com.ghostgramlabs.speakalert.service.ReminderPlaybackService.start(
+                context, rem.id, title, null, reminderText
+            )
+        }
+    }
     
     /**
      * Start autoplay using the foreground service (plays audio or TTS).
@@ -198,11 +216,18 @@ class ReminderDetailsViewModel(
         viewModelScope.launch {
             val current = _reminder.value ?: return@launch
             
+            // Ensure timestamp is in the future
+            val finalTime = if (timestamp <= System.currentTimeMillis()) {
+                System.currentTimeMillis() + 60_000 // Fallback: 1 minute from now
+            } else {
+                timestamp
+            }
+            
             // Un-complete and update trigger time
             val updated = current.copy(
                 isCompleted = false,
                 completedAt = null,
-                nextTriggerAt = timestamp
+                nextTriggerAt = finalTime
             )
             
             repository.updateReminder(updated)
