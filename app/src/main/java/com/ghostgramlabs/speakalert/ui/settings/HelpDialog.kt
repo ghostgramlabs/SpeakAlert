@@ -42,13 +42,23 @@ fun HelpDialog(
                 )
                 
                 HelpSection(
-                    title = "🔁 Recurrence (Repeating Alarms)",
-                    content = "• Daily/Weekly/Monthly: Set it once and forget it! The app calculates the exact next trigger time automatically.\n• Custom: Need something unique? Set intervals like 'Every 3 hours' or 'Every 2 weeks'.\n• Mark Done: For repeating tasks, this only clears the *current* alarm. It will ring again at the next scheduled time."
+                    title = "📱 Organizing & Tabs",
+                    content = "• Today: Everything happening right now or later today.\n• Upcoming: Plan ahead! See all your future reminders in one list.\n• Missed: If your phone was off or silenced, check here for alerts you might have skipped.\n• Done: A history of your completed tasks. You can always restore or reschedule them from here."
+                )
+
+                HelpSection(
+                    title = "⚡ Card Quick Actions",
+                    content = "Save time! Tap the Play/Stop icon directly on any reminder card to hear it instantly. Use the 'Check' icon (or the ⋮ menu) to mark a reminder as done without opening it."
+                )
+                
+                HelpSection(
+                    title = "🔁 Recurrence (Repeating Reminders)",
+                    content = "• Daily/Weekly/Monthly: Set it once and forget it!\n• Custom: Set intervals like 'Every 3 hours' or 'Every 2 weeks'.\n• Mark Done: For repeating tasks, this only clears the *current* occurrence. It will ring again at the next scheduled time."
                 )
                 
                 HelpSection(
                     title = "🔄 Loop Playback (Anti-Skip)",
-                    content = "• Problem: Regular alarms might stop too quickly. \n• Solution: Enable 'Loop Playback' to make the audio repeat until you manually dismiss it.\n• Auto-Stop: In Playback Settings, you can set a safety timeout (e.g., 10 minutes) so your battery doesn't drain if you're not near your phone."
+                    content = "• Problem: Regular notifications might stop too quickly. \n• Solution: Enable 'Loop Playback' to make the audio repeat until you manually dismiss it.\n• Auto-Stop: Set a safety timeout (e.g., 10 minutes) in Settings so your battery doesn't drain if you're not near your phone."
                 )
                 
                 HelpSection(
@@ -57,13 +67,18 @@ fun HelpDialog(
                 )
 
                 HelpSection(
-                    title = "📥 Missed Inbox",
-                    content = "If your phone was off or in 'Quiet Hours' when an alarm was supposed to fire, it will appear in the 'Missed' tab. You can review them anytime and clear the list once you've seen them."
+                    title = "🔌 Device Power & Restart",
+                    content = "• Reliability: Your reminders are safe even if your phone restarts. SpeakAlert automatically sets them back up for you.\n• Missed Alerts: If a reminder was scheduled while your phone was off, it will appear as a notification immediately after you turn your phone back on.\n• Android 15 (Early Boot): For your security, Android 15 limits automatic audio playback during the first few minutes after a restart. If a reminder fires during this 'Early Boot' period, it will show as a notification first. Simply tap the 'Play' button on the notification to hear your voice alert!"
+                )
+
+                HelpSection(
+                    title = "📣 Why Voice Reminders?",
+                    content = "Unlike a standard alert that just beeps, SpeakAlert gives you context. By hearing your own voice or personalized text, you know exactly what needs your attention without even unlocking your phone."
                 )
 
                 HelpSection(
                     title = "🚀 Reliability Tips",
-                    content = "• Permissions: Ensure 'Post Notifications' and 'Exact Alarms' are granted to prevent missed alerts.\n• Battery: If your phone kills background apps, check our 'Permissions' card in Settings to ensure full reliability."
+                    content = "• Permissions: For the most accurate timing, ensure 'Post Notifications' and 'Exact Timing' (Reminders) are granted in system settings.\n• Battery: To prevent missed alerts, ensure SpeakAlert is set to 'Unrestricted' or 'Not Optimized' in your phone's battery settings."
                 )
             }
         },
