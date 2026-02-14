@@ -10,6 +10,8 @@ import com.ghostgramlabs.speakalert.data.repository.MissedReminderRepository
 import com.ghostgramlabs.speakalert.data.repository.ReminderRepository
 import com.ghostgramlabs.speakalert.service.ReminderPlaybackService
 import com.ghostgramlabs.speakalert.util.DateUtils
+import com.ghostgramlabs.speakalert.domain.models.RecurrenceModel
+import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -170,18 +172,59 @@ class HomeViewModel(
 
     fun undoDelete() {
         viewModelScope.launch {
-            lastDeletedReminder?.let { reminder ->
-                // Insert back into repository (Room will ignore/update if ID conflict, but it's deleted so it should be new insert)
-                // Note: The ID is auto-generated but if we provide it, Room preserves it.
-                repository.insertReminder(reminder)
+            lastDeletedReminder?.let { originalReminder ->
+                var reminderToRestore = originalReminder
+                val now = System.currentTimeMillis()
+
+                // If scheduled time is in the past and it's RECURRING,
+                // we should advance to the next valid occurrence from NOW.
+                // (For one-time reminders, we restore as-is so it fires immediately as missed/overdue)
+                if (reminderToRestore.nextTriggerAt < now && 
+                    reminderToRestore.recurrenceType != com.ghostgramlabs.speakalert.domain.models.RecurrenceType.NONE) {
+                    
+                    val nextTrigger = com.ghostgramlabs.speakalert.domain.RecurrenceUtils.computeNextTrigger(reminderToRestore, now)
+                    if (nextTrigger != null) {
+                        reminderToRestore = reminderToRestore.copy(nextTriggerAt = nextTrigger)
+                    } else {
+                        // Recurrence ended? Treat as completed if we can't find next trigger
+                    }
+                }
+
+                // Insert back into repository
+                repository.insertReminder(reminderToRestore)
                 // Re-schedule alarm
-                alarmScheduler.schedule(reminder)
+                alarmScheduler.schedule(reminderToRestore)
                 // Clear last deleted
                 lastDeletedReminder = null
             }
         }
     }
 
+    fun previewUndo(): ReminderEntity? {
+        return lastDeletedReminder
+    }
+
+    fun undoDelete(forceTime: Long) {
+        viewModelScope.launch {
+            lastDeletedReminder?.let { original ->
+                // Ensure forceTime is in the future
+                val finalTime = if (forceTime <= System.currentTimeMillis()) {
+                    System.currentTimeMillis() + 60_000 // Fallback: 1 minute from now
+                } else {
+                    forceTime
+                }
+                
+                val updated = original.copy(
+                    nextTriggerAt = finalTime,
+                    snoozeUntil = null,
+                    isCompleted = false
+                )
+                repository.insertReminder(updated)
+                alarmScheduler.schedule(updated)
+                lastDeletedReminder = null
+            }
+        }
+    }
 
     fun playReminder(context: Context, reminder: ReminderEntity) {
         viewModelScope.launch {
@@ -197,10 +240,17 @@ class HomeViewModel(
 
     fun restoreReminder(reminder: ReminderEntity, newTriggerTime: Long) {
         viewModelScope.launch {
+            // Ensure newTriggerTime is in the future
+            val finalTime = if (newTriggerTime <= System.currentTimeMillis()) {
+                System.currentTimeMillis() + 60_000 // Fallback: 1 minute from now
+            } else {
+                newTriggerTime
+            }
+            
             val updated = reminder.copy(
                 isCompleted = false,
                 completedAt = null,
-                nextTriggerAt = newTriggerTime,
+                nextTriggerAt = finalTime,
                 snoozeUntil = null
             )
             repository.updateReminder(updated)

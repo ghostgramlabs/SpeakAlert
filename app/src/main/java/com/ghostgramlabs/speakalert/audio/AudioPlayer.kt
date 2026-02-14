@@ -29,19 +29,67 @@ class AndroidAudioPlayer(
     override var onCompletion: (() -> Unit)? = null
     private var currentVolume: Float = 1.0f
 
+    private fun logToFile(message: String) {
+        try {
+            // Use app-specific external storage which doesn't require dangerous permissions on Android 10+
+            // Path: /storage/emulated/0/Android/data/com.ghostgramlabs.speakalert/files/Download/SpeakAlert_DebugLog.txt
+            val logDir = context.getExternalFilesDir(android.os.Environment.DIRECTORY_DOWNLOADS)
+            val logFile = File(logDir, "SpeakAlert_DebugLog.txt")
+            val timestamp = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.US).format(java.util.Date())
+            logFile.appendText("$timestamp: $message\n")
+        } catch (e: Exception) {
+            android.util.Log.e("AudioPlayer", "Failed to write log to file: ${e.message}")
+        }
+    }
+
+    private fun showToast(message: String) {
+        android.os.Handler(android.os.Looper.getMainLooper()).post {
+            android.widget.Toast.makeText(context, message, android.widget.Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun playFile(file: File) {
         // Stop previous if exists
         stop()
         
-        MediaPlayer.create(context, file.toUri()).apply {
-            player = this
-            setVolume(currentVolume, currentVolume)
-            start()
-            setOnCompletionListener { 
-                // Just invoke the callback - let the caller handle cleanup
-                // Don't call stop() here to avoid double-release issues
-                onCompletion?.invoke()
+        val msg1 = "Attempting to play file: ${file.absolutePath}, exists=${file.exists()}"
+        android.util.Log.d("AudioPlayer", msg1)
+        logToFile(msg1)
+
+        if (!file.exists()) {
+             val msgError = "File does not exist: ${file.absolutePath}"
+             android.util.Log.e("AudioPlayer", msgError)
+             logToFile("ERROR: $msgError")
+             showToast("Error: File not found")
+             return
+        }
+
+        try {
+            MediaPlayer.create(context, file.toUri()).apply {
+                if (this == null) {
+                    val msgNull = "MediaPlayer.create returned null for ${file.absolutePath}"
+                    android.util.Log.e("AudioPlayer", msgNull)
+                    logToFile("ERROR: $msgNull")
+                    showToast("Error: Media player failed")
+                    return
+                }
+                player = this
+                setVolume(currentVolume, currentVolume)
+                start()
+                setOnCompletionListener { 
+                    android.util.Log.d("AudioPlayer", "Playback completed")
+                    logToFile("Playback completed")
+                    onCompletion?.invoke()
+                }
+                android.util.Log.d("AudioPlayer", "Playback started successfully")
+                logToFile("Playback started successfully")
+                showToast("Playing audio...")
             }
+        } catch (e: Exception) {
+            val msgEx = "Error playing file: ${e.message}"
+            android.util.Log.e("AudioPlayer", msgEx, e)
+            logToFile("EXCEPTION: $msgEx")
+            showToast("Error: ${e.message}")
         }
     }
 

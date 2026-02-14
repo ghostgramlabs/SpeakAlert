@@ -119,15 +119,57 @@ fun HomeScreen(
     var reminderToRestore by remember { mutableStateOf<ReminderEntity?>(null) }
     var showMarkDoneDialog by remember { mutableStateOf(false) }
     var reminderToMarkDone by remember { mutableStateOf<ReminderEntity?>(null) }
-    var showDateTimePicker by remember { mutableStateOf(false) }
+    var isRestoringFromUndo by remember { mutableStateOf(false) }
     
     // Recurring Action States
     var reminderToStop by remember { mutableStateOf<ReminderEntity?>(null) }
     var reminderToMarkOccurrence by remember { mutableStateOf<ReminderEntity?>(null) }
     
-    // Date/Time Picker State
-    val datePickerState = rememberDatePickerState()
-    val timePickerState = rememberTimePickerState()
+    // Native Date/Time Picker chain for reschedule/undo
+    val rescheduleCalendar = remember { java.util.Calendar.getInstance() }
+    
+    val rescheduleTimePickerDialog = remember {
+        android.app.TimePickerDialog(
+            context,
+            { _, hourOfDay, minute ->
+                rescheduleCalendar.set(java.util.Calendar.HOUR_OF_DAY, hourOfDay)
+                rescheduleCalendar.set(java.util.Calendar.MINUTE, minute)
+                rescheduleCalendar.set(java.util.Calendar.SECOND, 0)
+                rescheduleCalendar.set(java.util.Calendar.MILLISECOND, 0)
+                val selectedTimeMillis = rescheduleCalendar.timeInMillis
+                reminderToRestore?.let {
+                    if (isRestoringFromUndo) {
+                        viewModel.undoDelete(selectedTimeMillis)
+                    } else {
+                        viewModel.restoreReminder(it, selectedTimeMillis)
+                    }
+                }
+                showRestoreDialog = false
+                reminderToRestore = null
+                isRestoringFromUndo = false
+            },
+            rescheduleCalendar.get(java.util.Calendar.HOUR_OF_DAY),
+            rescheduleCalendar.get(java.util.Calendar.MINUTE),
+            false
+        )
+    }
+    
+    val rescheduleDatePickerDialog = remember {
+        android.app.DatePickerDialog(
+            context,
+            { _, year, month, dayOfMonth ->
+                rescheduleCalendar.set(java.util.Calendar.YEAR, year)
+                rescheduleCalendar.set(java.util.Calendar.MONTH, month)
+                rescheduleCalendar.set(java.util.Calendar.DAY_OF_MONTH, dayOfMonth)
+                rescheduleTimePickerDialog.show()
+            },
+            rescheduleCalendar.get(java.util.Calendar.YEAR),
+            rescheduleCalendar.get(java.util.Calendar.MONTH),
+            rescheduleCalendar.get(java.util.Calendar.DAY_OF_MONTH)
+        ).apply {
+            datePicker.minDate = System.currentTimeMillis() - 1000
+        }
+    }
     
     // Handle Restore Dialog Actions
     if (showRestoreDialog && reminderToRestore != null) {
@@ -137,7 +179,8 @@ fun HomeScreen(
                 reminderToRestore = null
             },
             onReschedule = {
-                showDateTimePicker = true
+                isRestoringFromUndo = false
+                rescheduleDatePickerDialog.show()
             },
             onMoveToMissed = {
                 reminderToRestore?.let { viewModel.moveToMissed(it) }
@@ -314,25 +357,6 @@ fun HomeScreen(
                 }
             },
             shape = RoundedCornerShape(24.dp)
-        )
-    }
-    
-    // Date/Time Picker for Reschedule
-    if (showDateTimePicker && reminderToRestore != null) {
-        com.ghostgramlabs.speakalert.ui.components.DateTimePickerDialog(
-            onDismiss = {
-                showDateTimePicker = false
-                showRestoreDialog = false
-                reminderToRestore = null
-            },
-            onConfirm = { selectedTimeMillis: Long ->
-                reminderToRestore?.let { 
-                    viewModel.restoreReminder(it, selectedTimeMillis)
-                }
-                showDateTimePicker = false
-                showRestoreDialog = false
-                reminderToRestore = null
-            }
         )
     }
     
@@ -657,7 +681,16 @@ fun HomeScreen(
                                                 duration = SnackbarDuration.Short
                                             )
                                             if (result == SnackbarResult.ActionPerformed) {
-                                                viewModel.undoDelete()
+                                                val preview = viewModel.previewUndo()
+                                                val now = System.currentTimeMillis()
+                                                if (preview != null && preview.nextTriggerAt < now) {
+                                                    // Time is past, force picker
+                                                    reminderToRestore = preview
+                                                    isRestoringFromUndo = true
+                                                    rescheduleDatePickerDialog.show()
+                                                } else {
+                                                    viewModel.undoDelete()
+                                                }
                                             }
                                         }
                                     }

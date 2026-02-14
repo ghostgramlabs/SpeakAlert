@@ -139,20 +139,18 @@ ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app
 	android:name
 		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:13:22-89
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:14:5-15:38
-	android:maxSdkVersion
-		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:15:9-35
+ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:14:5-81
 	android:name
 		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:14:22-78
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:16:5-17:38
+ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:15:5-16:38
 	android:maxSdkVersion
-		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:17:9-35
+		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:16:9-35
 	android:name
-		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:16:22-77
+		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:15:22-77
 application
-ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:19:5-78:19
-INJECTED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:19:5-78:19
+ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:18:5-78:19
+INJECTED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:18:5-78:19
 MERGED from [androidx.room:room-runtime:2.6.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\785924680acb2e161ed8a6d07f116c59\transformed\room-runtime-2.6.0\AndroidManifest.xml:23:5-29:19
 MERGED from [androidx.room:room-runtime:2.6.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\785924680acb2e161ed8a6d07f116c59\transformed\room-runtime-2.6.0\AndroidManifest.xml:23:5-29:19
 MERGED from [com.google.android.play:review-ktx:2.0.1] C:\Users\sudhi\.gradle\caches\8.9\transforms\df447c886209ff2141b82e48efaf171a\transformed\review-ktx-2.0.1\AndroidManifest.xml:11:5-12:19
@@ -179,6 +177,8 @@ MERGED from [com.google.android.play:core-common:2.0.2] C:\Users\sudhi\.gradle\c
 MERGED from [com.google.android.play:core-common:2.0.2] C:\Users\sudhi\.gradle\caches\8.9\transforms\0d3ed1a35f3d2b5fa62921a4fb5e9978\transformed\core-common-2.0.2\AndroidManifest.xml:11:5-19:19
 	android:extractNativeLibs
 		INJECTED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml
+	android:requestLegacyExternalStorage
+		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:20:9-52
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.12.0] C:\Users\sudhi\.gradle\caches\8.9\transforms\4f64212ab134ad4144a7e8f34367f400\transformed\core-1.12.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
@@ -200,7 +200,7 @@ MERGED from [com.google.android.play:core-common:2.0.2] C:\Users\sudhi\.gradle\c
 	android:dataExtractionRules
 		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:22:9-65
 	android:name
-		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:20:9-41
+		ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:19:9-41
 activity#com.ghostgramlabs.speakalert.MainActivity
 ADDED from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\src\main\AndroidManifest.xml:31:9-39:20
 	android:exported
