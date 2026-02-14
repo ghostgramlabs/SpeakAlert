@@ -14,68 +14,40 @@
 > Task :app:processDebugManifest UP-TO-DATE
 > Task :app:processDebugManifestForPackage UP-TO-DATE
 > Task :app:processDebugResources UP-TO-DATE
-> Task :app:kspDebugKotlin UP-TO-DATE
-> Task :app:compileDebugKotlin UP-TO-DATE
 > Task :app:javaPreCompileDebug UP-TO-DATE
-> Task :app:compileDebugJavaWithJavac UP-TO-DATE
-> Task :app:bundleDebugClassesToRuntimeJar UP-TO-DATE
-> Task :app:bundleDebugClassesToCompileJar UP-TO-DATE
-> Task :app:kspDebugUnitTestKotlin UP-TO-DATE
 > Task :app:preDebugUnitTestBuild UP-TO-DATE
 > Task :app:javaPreCompileDebugUnitTest UP-TO-DATE
-> Task :app:processDebugJavaRes UP-TO-DATE
-> Task :app:buildKotlinToolingMetadata UP-TO-DATE
-> Task :app:preReleaseBuild UP-TO-DATE
-> Task :app:generateReleaseBuildConfig UP-TO-DATE
-> Task :app:checkReleaseAarMetadata UP-TO-DATE
-> Task :app:generateReleaseResValues UP-TO-DATE
-> Task :app:mapReleaseSourceSetPaths UP-TO-DATE
-> Task :app:generateReleaseResources UP-TO-DATE
-> Task :app:mergeReleaseResources UP-TO-DATE
-> Task :app:packageReleaseResources UP-TO-DATE
-> Task :app:parseReleaseLocalResources UP-TO-DATE
-> Task :app:createReleaseCompatibleScreenManifests UP-TO-DATE
-> Task :app:extractDeepLinksRelease UP-TO-DATE
-> Task :app:processReleaseMainManifest UP-TO-DATE
-> Task :app:processReleaseManifest UP-TO-DATE
-> Task :app:processReleaseManifestForPackage UP-TO-DATE
-> Task :app:processReleaseResources UP-TO-DATE
-> Task :app:kspReleaseKotlin UP-TO-DATE
-> Task :app:compileReleaseKotlin UP-TO-DATE
-> Task :app:javaPreCompileRelease UP-TO-DATE
-> Task :app:compileReleaseJavaWithJavac UP-TO-DATE
-> Task :app:bundleReleaseClassesToRuntimeJar UP-TO-DATE
-> Task :app:bundleReleaseClassesToCompileJar UP-TO-DATE
-> Task :app:kspReleaseUnitTestKotlin UP-TO-DATE
-> Task :app:preReleaseUnitTestBuild UP-TO-DATE
-> Task :app:javaPreCompileReleaseUnitTest UP-TO-DATE
-> Task :app:processReleaseJavaRes UP-TO-DATE
 
-> Task :app:compileDebugUnitTestKotlin FAILED
-.\gradlew.bat : e: file:///C:/Users/sudhi/.gemini/antigravity/scratch
-/Voice_Reminder_app_new/app/src/test/java/com/ghostgramlabs/speakaler
-t/ui/details/ReminderDetailsViewModelTest.kt:97:9 Name contains 
-illegal characters: /
+> Task :app:kspDebugKotlin FAILED
+./gradlew : e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voi
+ce_Reminder_app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui
+/addedit/RecurrenceSelectionSheet.kt:281:21 Expecting an expression
 At line:1 char:1
-+ .\gradlew.bat test 2>&1 | Out-File -Encoding utf8 
-test_output_utf8.tx ...
-+ ~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (e: file:///C:/U...l 
-characte    rs: /:String) [], RemoteException
++ ./gradlew testDebugUnitTest > test_output.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (e: file:///C:/U...g an  
+   expression:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
  
-
-> Task :app:compileReleaseUnitTestKotlin FAILED
 e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_
-app_new/app/src/test/java/com/ghostgramlabs/speakalert/ui/details/Rem
-inderDetailsViewModelTest.kt:97:9 Name contains illegal characters: /
+app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/addedit/Rec
+urrenceSelectionSheet.kt:281:22 Unexpected tokens (use ';' to 
+separate expressions on the same line)
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_
+app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/addedit/Rec
+urrenceSelectionSheet.kt:282:51 Unexpected tokens (use ';' to 
+separate expressions on the same line)
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_
+app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/addedit/Rec
+urrenceSelectionSheet.kt:284:17 Expecting an element
+e: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_
+app_new/app/src/main/java/com/ghostgramlabs/speakalert/ui/addedit/Rec
+urrenceSelectionSheet.kt:288:1 Expecting a top level declaration
 
-FAILURE: Build completed with 2 failures.
+FAILURE: Build failed with an exception.
 
-1: Task failed with an exception.
------------
 * What went wrong:
-Execution failed for task ':app:compileDebugUnitTestKotlin'.
+Execution failed for task ':app:kspDebugKotlin'.
 > A failure occurred while executing org.jetbrains.kotlin.compilerRun
 ner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
    > Compilation error. See log for more details
@@ -85,24 +57,6 @@ ner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
 > Run with --info or --debug option to get more log output.
 > Run with --scan to get full insights.
 > Get more help at https://help.gradle.org.
-=====================================================================
-=========
-
-2: Task failed with an exception.
------------
-* What went wrong:
-Execution failed for task ':app:compileReleaseUnitTestKotlin'.
-> A failure occurred while executing org.jetbrains.kotlin.compilerRun
-ner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
-   > Compilation error. See log for more details
-
-* Try:
-> Run with --stacktrace option to get the stack trace.
-> Run with --info or --debug option to get more log output.
-> Run with --scan to get full insights.
-> Get more help at https://help.gradle.org.
-=====================================================================
-=========
 
 Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
 
@@ -110,5 +64,5 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/8.9/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD FAILED in 5s
-47 actionable tasks: 2 executed, 45 up-to-date
+BUILD FAILED in 3s
+16 actionable tasks: 1 executed, 15 up-to-date

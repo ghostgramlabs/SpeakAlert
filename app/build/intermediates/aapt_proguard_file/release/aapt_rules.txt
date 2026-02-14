@@ -1,0 +1,20 @@
+-keep class androidx.core.app.CoreComponentFactory { <init>(); }
+-keep class androidx.core.content.FileProvider { <init>(); }
+-keep class androidx.profileinstaller.ProfileInstallReceiver { <init>(); }
+-keep class androidx.room.MultiInstanceInvalidationService { <init>(); }
+-keep class androidx.startup.InitializationProvider { <init>(); }
+-keep class com.ghostgramlabs.speakalert.MainActivity { <init>(); }
+-keep class com.ghostgramlabs.speakalert.VoiceReminderApp { <init>(); }
+-keep class com.ghostgramlabs.speakalert.alarm.BootReceiver { <init>(); }
+-keep class com.ghostgramlabs.speakalert.alarm.ReminderActionReceiver { <init>(); }
+-keep class com.ghostgramlabs.speakalert.alarm.ReminderAlarmReceiver { <init>(); }
+-keep class com.ghostgramlabs.speakalert.service.ReminderPlaybackService { <init>(); }
+-keep class com.google.android.play.core.common.PlayCoreDialogWrapperActivity { <init>(); }
+-keep class androidx.media3.ui.AspectRatioFrameLayout { <init>(android.content.Context, android.util.AttributeSet); }
+
+-keep class androidx.media3.ui.SubtitleView { <init>(android.content.Context, android.util.AttributeSet); }
+
+-keep class androidx.media3.ui.TrackSelectionView { <init>(android.content.Context, android.util.AttributeSet); }
+
+-keep class androidx.recyclerview.widget.RecyclerView { <init>(android.content.Context, android.util.AttributeSet); }
+

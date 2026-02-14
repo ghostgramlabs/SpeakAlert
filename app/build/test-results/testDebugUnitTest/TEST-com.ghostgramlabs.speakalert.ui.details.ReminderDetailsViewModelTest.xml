@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.ghostgramlabs.speakalert.ui.details.ReminderDetailsViewModelTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-02-11T03:10:17" hostname="SAS" time="0.02">
-  <properties/>
-  <testcase name="toggleDone updates completion status and schedules or cancels alarm" classname="com.ghostgramlabs.speakalert.ui.details.ReminderDetailsViewModelTest" time="0.009"/>
-  <testcase name="deleteReminder cancels alarm and deletes from repo" classname="com.ghostgramlabs.speakalert.ui.details.ReminderDetailsViewModelTest" time="0.006"/>
-  <testcase name="loadReminder updates ui state" classname="com.ghostgramlabs.speakalert.ui.details.ReminderDetailsViewModelTest" time="0.005"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
