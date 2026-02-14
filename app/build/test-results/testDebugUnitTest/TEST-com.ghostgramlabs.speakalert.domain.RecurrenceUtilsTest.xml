@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2026-02-14T17:30:57" hostname="SAS" time="0.017">
+<testsuite name="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" tests="18" skipped="0" failures="0" errors="0" timestamp="2026-02-14T18:47:14" hostname="SAS" time="0.017">
   <properties/>
   <testcase name="testWeeklyTodayFutureSuccess" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.001"/>
   <testcase name="testMonthlyClampingApril31To30" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.001"/>
   <testcase name="testCustomEvery2Days" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.007"/>
-  <testcase name="testAlignmentOnSaveExactMatch" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.0"/>
+  <testcase name="testAlignmentOnSaveExactMatch" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.001"/>
   <testcase name="testCustomEvery3Weeks" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.0"/>
-  <testcase name="testMonthlyLeapYear" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.0"/>
+  <testcase name="testMarkDoneEarlyAdvancesToNextOccurrence" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.0"/>
+  <testcase name="testMonthlyLeapYear" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.001"/>
   <testcase name="testWeeklyMultiDayCrossWeek" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.001"/>
   <testcase name="testDailyTodayFutureSuccess" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.0"/>
   <testcase name="testEndRuleUntilDate" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.001"/>
+  <testcase name="testMarkDoneExactTimeAdvancesToNextOccurrence" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.0"/>
   <testcase name="testMonthlyLastDay" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.0"/>
-  <testcase name="testEndRuleUntilDateInclusivity" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.002"/>
-  <testcase name="testMonthly31stClampsToFeb28" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.0"/>
+  <testcase name="testEndRuleUntilDateInclusivity" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.0"/>
+  <testcase name="testMonthly31stClampsToFeb28" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.001"/>
   <testcase name="testMonthlyTodayFutureSuccess" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.0"/>
-  <testcase name="testEndRuleAfterOccurrences" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.0"/>
-  <testcase name="testGetRecurrenceSummary" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.001"/>
+  <testcase name="testEndRuleAfterOccurrences" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.001"/>
+  <testcase name="testGetRecurrenceSummary" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.0"/>
   <testcase name="testMonthlyTodayFutureWithSecondsBug" classname="com.ghostgramlabs.speakalert.domain.RecurrenceUtilsTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.ghostgramlabs.speakalert.ui.details.ReminderDetailsViewModelTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-02-14T17:30:57" hostname="SAS" time="0.014">
+<testsuite name="com.ghostgramlabs.speakalert.ui.details.ReminderDetailsViewModelTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-02-14T18:47:15" hostname="SAS" time="0.015">
   <properties/>
   <testcase name="toggleDone updates completion status and schedules or cancels alarm" classname="com.ghostgramlabs.speakalert.ui.details.ReminderDetailsViewModelTest" time="0.007"/>
   <testcase name="deleteReminder cancels alarm and deletes from repo" classname="com.ghostgramlabs.speakalert.ui.details.ReminderDetailsViewModelTest" time="0.004"/>

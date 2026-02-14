@@ -82,17 +82,28 @@ fun PastUndoneActionSheet(
                 highlight = false
             )
             
-            Divider(color = MaterialTheme.colorScheme.outlineVariant)
+            Spacer(modifier = Modifier.height(8.dp))
             
-            // 3. Cancel (Destructive - Keep as Done)
+            // 3. Keep as Done (Destructive/Secondary)
             ActionItem(
                 icon = Icons.Filled.Close,
-                label = "Cancel",
-                subLabel = "Keep as Done",
+                label = "Keep as Done",
+                subLabel = "Mark this as completed",
                 onClick = onCancel,
                 highlight = false,
                 isDestructive = true
             )
+            
+            Spacer(modifier = Modifier.height(8.dp))
+            
+            // Dismiss button
+            OutlinedButton(
+                onClick = onDismiss,
+                modifier = Modifier.fillMaxWidth(),
+                shape = MaterialTheme.shapes.medium
+            ) {
+                Text("Cancel")
+            }
         }
     }
 }

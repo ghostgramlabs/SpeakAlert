@@ -111,26 +111,35 @@ fun RestoreReminderDialog(
                     Text("Play reminder")
                 }
                 
-                // 4. Keep as Done (destructive)
-                TextButton(
+                // 4. Keep as Done
+                OutlinedButton(
                     onClick = {
                         onDismiss()
                         onKeepAsDone()
                     },
                     modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.textButtonColors(
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.outlinedButtonColors(
                         contentColor = MaterialTheme.colorScheme.error
                     )
                 ) {
-                    Text(
-                        "Keep as Done",
-                        fontWeight = FontWeight.Medium
+                    Icon(
+                        imageVector = Icons.Filled.Done,
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp)
                     )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("Keep as Done")
                 }
             }
         },
         dismissButton = {
-            // No cancel button as per requirements
+            TextButton(
+                onClick = onDismiss,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Cancel", textAlign = TextAlign.Center)
+            }
         },
         shape = RoundedCornerShape(24.dp)
     )

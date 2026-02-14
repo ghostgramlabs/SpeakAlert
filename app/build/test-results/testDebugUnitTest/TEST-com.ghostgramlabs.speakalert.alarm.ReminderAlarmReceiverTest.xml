@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.ghostgramlabs.speakalert.alarm.ReminderAlarmReceiverTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-02-14T17:30:55" hostname="SAS" time="1.603">
+<testsuite name="com.ghostgramlabs.speakalert.alarm.ReminderAlarmReceiverTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-02-14T18:47:13" hostname="SAS" time="1.488">
   <properties/>
-  <testcase name="onReceive with quiet hours enabled and alarm during quiet hours handles correctly" classname="com.ghostgramlabs.speakalert.alarm.ReminderAlarmReceiverTest" time="1.603"/>
+  <testcase name="onReceive with quiet hours enabled and alarm during quiet hours handles correctly" classname="com.ghostgramlabs.speakalert.alarm.ReminderAlarmReceiverTest" time="1.488"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
