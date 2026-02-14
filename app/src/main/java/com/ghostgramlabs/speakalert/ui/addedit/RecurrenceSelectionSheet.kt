@@ -39,7 +39,8 @@ fun RecurrenceSelectionSheet(
         Column(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
-                .padding(bottom = 48.dp)
+                .navigationBarsPadding()
+                .padding(bottom = 24.dp)
         ) {
             Text(
                 "Repeat",
@@ -183,8 +184,9 @@ fun MonthlyConfigSheet(
         Column(
             modifier = Modifier
                 .padding(24.dp)
+                .navigationBarsPadding()
                 .verticalScroll(rememberScrollState())
-                .padding(bottom = 32.dp)
+                .padding(bottom = 16.dp)
         ) {
             Text("Monthly Settings", style = MaterialTheme.typography.headlineSmall)
             Spacer(modifier = Modifier.height(24.dp))
@@ -301,7 +303,7 @@ fun WeeklyConfigSheet(
     val weekdays = listOf(1 to "M", 2 to "T", 3 to "W", 4 to "T", 5 to "F", 6 to "S", 7 to "S")
     
     ModalBottomSheet(onDismissRequest = onCancel) {
-        Column(modifier = Modifier.padding(24.dp).padding(bottom=32.dp)) {
+        Column(modifier = Modifier.padding(24.dp).navigationBarsPadding().padding(bottom=16.dp)) {
             Text("Weekly Settings", style = MaterialTheme.typography.headlineSmall)
             Spacer(modifier = Modifier.height(24.dp))
             
@@ -355,7 +357,7 @@ fun CustomConfigSheet(
     val isValid = intervalValue >= 1
 
     ModalBottomSheet(onDismissRequest = onCancel) {
-        Column(modifier = Modifier.padding(24.dp).padding(bottom=32.dp)) {
+        Column(modifier = Modifier.padding(24.dp).navigationBarsPadding().padding(bottom=16.dp)) {
             Text("Custom Interval", style = MaterialTheme.typography.headlineSmall)
             Spacer(modifier = Modifier.height(24.dp))
             

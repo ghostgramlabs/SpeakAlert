@@ -537,13 +537,13 @@ androidx.activity.ComponentActivity:
     public final void removeOnTrimMemoryListener(androidx.core.util.Consumer)
 androidx.activity.ComponentDialog:
     public void <init>(android.content.Context)
-androidx.activity.EdgeToEdge
-androidx.activity.EdgeToEdgeApi21
-androidx.activity.EdgeToEdgeApi23
-androidx.activity.EdgeToEdgeApi26
-androidx.activity.EdgeToEdgeApi29
-androidx.activity.EdgeToEdgeBase
-androidx.activity.EdgeToEdgeImpl
+androidx.activity.EdgeToEdge:
+    public static final void enable(androidx.activity.ComponentActivity)
+    public static final void enable(androidx.activity.ComponentActivity,androidx.activity.SystemBarStyle)
+    public static final int getDefaultDarkScrim()
+    public static synthetic void getDefaultDarkScrim$annotations()
+    public static final int getDefaultLightScrim()
+    public static synthetic void getDefaultLightScrim$annotations()
 androidx.activity.FullyDrawnReporter:
     public final void addOnReportDrawnListener(kotlin.jvm.functions.Function0)
     public final void addReporter()
@@ -573,11 +573,17 @@ androidx.activity.PipHintTrackerKt
 androidx.activity.R$id:
     private void <init>()
 androidx.activity.R
-androidx.activity.SystemBarStyle$Companion$auto$1
 androidx.activity.SystemBarStyle$Companion$dark$1
 androidx.activity.SystemBarStyle$Companion$light$1
-androidx.activity.SystemBarStyle$Companion
-androidx.activity.SystemBarStyle
+androidx.activity.SystemBarStyle$Companion:
+    public final androidx.activity.SystemBarStyle auto(int,int)
+    public final androidx.activity.SystemBarStyle dark(int)
+    public final androidx.activity.SystemBarStyle light(int,int)
+androidx.activity.SystemBarStyle:
+    public static final androidx.activity.SystemBarStyle auto(int,int)
+    public static final androidx.activity.SystemBarStyle auto(int,int,kotlin.jvm.functions.Function1)
+    public static final androidx.activity.SystemBarStyle dark(int)
+    public static final androidx.activity.SystemBarStyle light(int,int)
 androidx.activity.ViewTreeFullyDrawnReporterOwner$findViewTreeFullyDrawnReporterOwner$1
 androidx.activity.ViewTreeFullyDrawnReporterOwner$findViewTreeFullyDrawnReporterOwner$2
 androidx.activity.ViewTreeFullyDrawnReporterOwner:
@@ -2140,7 +2146,6 @@ androidx.compose.foundation.layout.WindowInsetsHolder:
     public final androidx.compose.foundation.layout.ValueInsets getImeAnimationSource()
     public final androidx.compose.foundation.layout.ValueInsets getImeAnimationTarget()
     public final androidx.compose.foundation.layout.AndroidWindowInsets getMandatorySystemGestures()
-    public final androidx.compose.foundation.layout.AndroidWindowInsets getNavigationBars()
     public final androidx.compose.foundation.layout.ValueInsets getNavigationBarsIgnoringVisibility()
     public final androidx.compose.foundation.layout.WindowInsets getSafeContent()
     public final androidx.compose.foundation.layout.WindowInsets getSafeDrawing()
@@ -2181,8 +2186,6 @@ androidx.compose.foundation.layout.WindowInsetsPadding_androidKt$displayCutoutPa
 androidx.compose.foundation.layout.WindowInsetsPadding_androidKt$displayCutoutPadding$$inlined$windowInsetsPadding$1
 androidx.compose.foundation.layout.WindowInsetsPadding_androidKt$mandatorySystemGesturesPadding$$inlined$debugInspectorInfo$1
 androidx.compose.foundation.layout.WindowInsetsPadding_androidKt$mandatorySystemGesturesPadding$$inlined$windowInsetsPadding$1
-androidx.compose.foundation.layout.WindowInsetsPadding_androidKt$navigationBarsPadding$$inlined$debugInspectorInfo$1
-androidx.compose.foundation.layout.WindowInsetsPadding_androidKt$navigationBarsPadding$$inlined$windowInsetsPadding$1
 androidx.compose.foundation.layout.WindowInsetsPadding_androidKt$safeContentPadding$$inlined$debugInspectorInfo$1
 androidx.compose.foundation.layout.WindowInsetsPadding_androidKt$safeContentPadding$$inlined$windowInsetsPadding$1
 androidx.compose.foundation.layout.WindowInsetsPadding_androidKt$safeDrawingPadding$$inlined$debugInspectorInfo$1
@@ -2202,7 +2205,6 @@ androidx.compose.foundation.layout.WindowInsetsPadding_androidKt:
     public static final androidx.compose.ui.Modifier captionBarPadding(androidx.compose.ui.Modifier)
     public static final androidx.compose.ui.Modifier displayCutoutPadding(androidx.compose.ui.Modifier)
     public static final androidx.compose.ui.Modifier mandatorySystemGesturesPadding(androidx.compose.ui.Modifier)
-    public static final androidx.compose.ui.Modifier navigationBarsPadding(androidx.compose.ui.Modifier)
     public static final androidx.compose.ui.Modifier safeContentPadding(androidx.compose.ui.Modifier)
     public static final androidx.compose.ui.Modifier safeDrawingPadding(androidx.compose.ui.Modifier)
     public static final androidx.compose.ui.Modifier safeGesturesPadding(androidx.compose.ui.Modifier)
@@ -17595,7 +17597,6 @@ androidx.core.view.WindowInsetsControllerCompat$Impl23:
     public boolean isAppearanceLightStatusBars()
 androidx.core.view.WindowInsetsControllerCompat$Impl26:
     public boolean isAppearanceLightNavigationBars()
-    public void setAppearanceLightNavigationBars(boolean)
 androidx.core.view.WindowInsetsControllerCompat$Impl30$1
 androidx.core.view.WindowInsetsControllerCompat$Impl30:
     void addOnControllableInsetsChangedListener(androidx.core.view.WindowInsetsControllerCompat$OnControllableInsetsChangedListener)
@@ -17606,7 +17607,6 @@ androidx.core.view.WindowInsetsControllerCompat$Impl30:
     public boolean isAppearanceLightStatusBars()
     private synthetic void lambda$addOnControllableInsetsChangedListener$0(androidx.core.view.WindowInsetsControllerCompat$OnControllableInsetsChangedListener,android.view.WindowInsetsController,int)
     void removeOnControllableInsetsChangedListener(androidx.core.view.WindowInsetsControllerCompat$OnControllableInsetsChangedListener)
-    public void setAppearanceLightNavigationBars(boolean)
     void setSystemBarsBehavior(int)
     void show(int)
 androidx.core.view.WindowInsetsControllerCompat$Impl:
@@ -17617,7 +17617,6 @@ androidx.core.view.WindowInsetsControllerCompat$Impl:
     public boolean isAppearanceLightNavigationBars()
     public boolean isAppearanceLightStatusBars()
     void removeOnControllableInsetsChangedListener(androidx.core.view.WindowInsetsControllerCompat$OnControllableInsetsChangedListener)
-    public void setAppearanceLightNavigationBars(boolean)
     void setSystemBarsBehavior(int)
     void show(int)
 androidx.core.view.WindowInsetsControllerCompat$OnControllableInsetsChangedListener
@@ -17634,7 +17633,6 @@ androidx.core.view.WindowInsetsControllerCompat:
     public boolean isAppearanceLightNavigationBars()
     public boolean isAppearanceLightStatusBars()
     public void removeOnControllableInsetsChangedListener(androidx.core.view.WindowInsetsControllerCompat$OnControllableInsetsChangedListener)
-    public void setAppearanceLightNavigationBars(boolean)
     public void setSystemBarsBehavior(int)
     public void show(int)
     public static androidx.core.view.WindowInsetsControllerCompat toWindowInsetsControllerCompat(android.view.WindowInsetsController)
@@ -37247,7 +37245,8 @@ org.jetbrains.annotations.VisibleForTesting
 _COROUTINE.ArtificialStackFrames$$IA$1
 _COROUTINE.ArtificialStackFrames:
     public static final kotlin.ranges.IntRange access$calculateNearestItemsRange(int,int,int)
-    public static void adoptAnchoredScopes$runtime_release(androidx.compose.runtime.SlotWriter,java.util.List,androidx.compose.runtime.RecomposeScopeOwner)
+    public static androidx.activity.SystemBarStyle auto()
+    public static androidx.activity.SystemBarStyle auto$default(int,int)
     public static void calculateFrameIntervalIfNeeded()
     public static kotlin.ranges.IntRange calculateNearestItemsRange()
     public static java.lang.StackTraceElement coroutineBoundary()
@@ -37266,7 +37265,6 @@ _COROUTINE.ArtificialStackFrames:
     public static java.lang.Object getUnset()
     public static long getUnspecified-L26CHvs()
     public static androidx.compose.animation.core.AnimationVector1D getZeroVector()
-    public static boolean hasAnchoredRecomposeScopes$runtime_release()
     public static boolean isStyleSupported$foundation_release()
     public static boolean isZeroish()
     public static androidx.compose.runtime.saveable.Saver saver()
@@ -37487,6 +37485,7 @@ android.support.v4.media.MediaMetadataCompat$Builder$$InternalSyntheticThrowCCEI
 android.support.v4.media.MediaMetadataCompat$Builder$$InternalSyntheticThrowCCEIfNotNull$7$4b4d7098d7e198a6eab36e38a3951bbee28d724452542c37ed059b6b8dc6a585$1
 android.support.v4.media.MediaMetadataCompat$Builder$$InternalSyntheticThrowCCEIfNotNull$7$a2de8e5f891b198a08182d33b6fd83d4c95dcd47c876ce34320dc47f888f9b9a$1
 android.support.v4.media.MediaMetadataCompat$Builder:
+    public void <init>(android.view.Window)
     public final void add(int)
     public static void addFontFamily()
     public final androidx.compose.foundation.lazy.layout.LazyLayoutBeyondBoundsInfo$Interval addInterval(int,int)
@@ -37529,7 +37528,8 @@ android.support.v4.media.MediaMetadataCompat$Builder:
     public final void removeInterval(androidx.compose.foundation.lazy.layout.LazyLayoutBeyondBoundsInfo$Interval)
     public static android.graphics.Bitmap scaleBitmap()
     public final void set(int,androidx.compose.runtime.PersistentCompositionLocalMap)
-    public static void setAppearanceLightStatusBars()
+    public final void setAppearanceLightNavigationBars(boolean)
+    public final void setAppearanceLightStatusBars(boolean)
     public static void setDb()
     public static android.support.v4.media.MediaMetadataCompat$Builder setInsets()
     public static android.support.v4.media.MediaMetadataCompat$Builder setStableInsets()
@@ -38097,6 +38097,11 @@ androidx.activity.ComponentActivity:
     public abstract void lambda$new$2()
     public abstract java.lang.Object onRetainCustomNonConfigurationInstance()
 androidx.activity.ComponentDialog$$InternalSyntheticLambda$1$bea0efecfbdbd441d49af04bfdf9955934424a07259119ec0236a888ffd3a3e0$0
+androidx.activity.EdgeToEdge:
+    public static androidx.activity.EdgeToEdgeImpl Impl
+androidx.activity.EdgeToEdgeApi21
+androidx.activity.EdgeToEdgeApi23
+androidx.activity.EdgeToEdgeBase
 androidx.activity.FullyDrawnReporter$$InternalSyntheticLambda$2$33b949e97aea211bd722c440cfaeae6184ded166ab41fbc7f3e7a0eed3c61b5f$0
 androidx.activity.FullyDrawnReporter:
     public final java.util.concurrent.Executor executor
@@ -38140,10 +38145,22 @@ androidx.activity.OnBackPressedDispatcher:
     public final void setOnBackInvokedDispatcher(android.window.OnBackInvokedDispatcher)
 androidx.activity.OnBackPressedDispatcherKt
 androidx.activity.R$id
-androidx.activity.ViewTreeFullyDrawnReporterOwner
-androidx.activity.ViewTreeOnBackPressedDispatcherOwner$findViewTreeOnBackPressedDispatcherOwner$1:
+androidx.activity.SystemBarStyle$Companion$auto$1:
     public final android.view.View invoke(android.view.View)
     public static androidx.activity.OnBackPressedDispatcherOwner invoke()
+    public static java.lang.Boolean invoke$1()
+androidx.activity.SystemBarStyle$Companion
+androidx.activity.SystemBarStyle:
+    public static final _COROUTINE.ArtificialStackFrames Companion
+    public final kotlin.jvm.functions.Function1 detectDarkMode
+    public final int nightMode
+    public static int getDarkScrim$activity_release()
+    public static kotlin.jvm.functions.Function1 getDetectDarkMode$activity_release()
+    public static int getNightMode$activity_release()
+    public final int getScrim$activity_release(boolean)
+    public final int getScrimWithEnforcedContrast$activity_release(boolean)
+androidx.activity.ViewTreeFullyDrawnReporterOwner
+androidx.activity.ViewTreeOnBackPressedDispatcherOwner$findViewTreeOnBackPressedDispatcherOwner$1
 androidx.activity.ViewTreeOnBackPressedDispatcherOwner$findViewTreeOnBackPressedDispatcherOwner$2
 androidx.activity.ViewTreeOnBackPressedDispatcherOwner
 androidx.activity.compose.ActivityResultLauncherHolder:
@@ -38383,7 +38400,7 @@ androidx.compose.animation.AnimatedContentKt$AnimatedContent$6$1$3:
     public final void invoke(androidx.compose.ui.semantics.SemanticsPropertyReceiver)
     public final void invoke(java.lang.Throwable)
     public static androidx.compose.runtime.MutableState invoke$1()
-    public final java.lang.Boolean invoke$1()
+    public final java.lang.Boolean invoke$2()
     public final void invoke$2()
     public final void invoke$3()
     public final void invoke-k-4lQ0M(long)
@@ -39472,7 +39489,7 @@ androidx.compose.foundation.gestures.DragGestureDetectorKt$VerticalPointerDirect
 androidx.compose.foundation.gestures.DragGestureDetectorKt$awaitLongPressOrCancellation$2:
     public final java.lang.Object invoke(androidx.compose.ui.input.pointer.AwaitPointerEventScope,kotlin.coroutines.Continuation)
 androidx.compose.foundation.gestures.DragGestureDetectorKt$detectDragGestures$2:
-    public final java.lang.Boolean invoke$1()
+    public final java.lang.Boolean invoke$2()
     public final void invoke-k-4lQ0M(long)
 androidx.compose.foundation.gestures.DragGestureDetectorKt$detectDragGestures$3:
     public static final androidx.compose.foundation.gestures.DragGestureDetectorKt$detectDragGestures$3 INSTANCE
@@ -39585,7 +39602,7 @@ androidx.compose.foundation.gestures.ScrollableDefaults:
 androidx.compose.foundation.gestures.ScrollableKt$ModifierLocalScrollableContainer$1
 androidx.compose.foundation.gestures.ScrollableKt$NoOpOnDragStarted$1
 androidx.compose.foundation.gestures.ScrollableKt$pointerScrollable$1:
-    public final java.lang.Boolean invoke$1()
+    public final java.lang.Boolean invoke$2()
 androidx.compose.foundation.gestures.ScrollableKt$pointerScrollable$2$1
 androidx.compose.foundation.gestures.ScrollableKt$pointerScrollable$3$1$1:
     public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
@@ -39827,8 +39844,6 @@ androidx.compose.foundation.layout.BoxKt:
 androidx.compose.foundation.layout.BoxScope:
     public abstract androidx.compose.ui.Modifier matchParentSize(androidx.compose.ui.Modifier)
 androidx.compose.foundation.layout.BoxScopeInstance$align$$inlined$debugInspectorInfo$1
-androidx.compose.foundation.layout.BoxScopeInstance$matchParentSize$$inlined$debugInspectorInfo$1:
-    public final void invoke(androidx.compose.ui.platform.InspectorInfo)
 androidx.compose.foundation.layout.BoxWithConstraintsKt$BoxWithConstraints$1$1$measurables$1
 androidx.compose.foundation.layout.BoxWithConstraintsKt$BoxWithConstraints$1$1
 androidx.compose.foundation.layout.BoxWithConstraintsScope:
@@ -39894,7 +39909,6 @@ androidx.compose.foundation.layout.FlowLayoutKt$flowMeasurePolicy$1$maxCrossAxis
     public static final androidx.compose.foundation.layout.FlowLayoutKt$flowMeasurePolicy$1$maxCrossAxisIntrinsicItemSize$1 INSTANCE$3
     public static final androidx.compose.foundation.layout.FlowLayoutKt$flowMeasurePolicy$1$maxCrossAxisIntrinsicItemSize$1 INSTANCE$5
     public static final androidx.compose.foundation.layout.FlowLayoutKt$flowMeasurePolicy$1$maxCrossAxisIntrinsicItemSize$1 INSTANCE$7
-    public final androidx.compose.ui.Modifier invoke(androidx.compose.ui.Modifier,androidx.compose.runtime.Composer,int)
 androidx.compose.foundation.layout.FlowLayoutKt$flowMeasurePolicy$1$maxCrossAxisIntrinsicItemSize$2
 androidx.compose.foundation.layout.FlowLayoutKt$flowMeasurePolicy$1$maxMainAxisIntrinsicItemSize$1
 androidx.compose.foundation.layout.FlowLayoutKt$flowMeasurePolicy$1$maxMainAxisIntrinsicItemSize$2
@@ -40145,6 +40159,7 @@ androidx.compose.foundation.layout.WindowInsetsHolder:
     public static void decrementAccessors()
     public static boolean getConsumes()
     public static androidx.compose.foundation.layout.AndroidWindowInsets getIme()
+    public static androidx.compose.foundation.layout.AndroidWindowInsets getNavigationBars()
     public static androidx.compose.foundation.layout.AndroidWindowInsets getStatusBars()
     public static androidx.compose.foundation.layout.AndroidWindowInsets getSystemBars()
     public static void incrementAccessors()
@@ -40158,6 +40173,8 @@ androidx.compose.foundation.layout.WindowInsetsPaddingKt$onConsumedWindowInsetsC
 androidx.compose.foundation.layout.WindowInsetsPaddingKt$windowInsetsPadding$$inlined$debugInspectorInfo$1
 androidx.compose.foundation.layout.WindowInsetsPadding_androidKt$imePadding$$inlined$debugInspectorInfo$1
 androidx.compose.foundation.layout.WindowInsetsPadding_androidKt$imePadding$$inlined$windowInsetsPadding$1
+androidx.compose.foundation.layout.WindowInsetsPadding_androidKt$navigationBarsPadding$$inlined$debugInspectorInfo$1
+androidx.compose.foundation.layout.WindowInsetsPadding_androidKt$navigationBarsPadding$$inlined$windowInsetsPadding$1
 androidx.compose.foundation.layout.WindowInsetsPadding_androidKt
 androidx.compose.foundation.layout.WindowInsetsSides$Companion
 androidx.compose.foundation.layout.WindowInsetsSides:
@@ -40913,12 +40930,12 @@ androidx.compose.foundation.text.CoreTextFieldKt$CoreTextField$pointerModifier$1
 androidx.compose.foundation.text.CoreTextFieldKt$CoreTextField$scrollerPosition$1$1
 androidx.compose.foundation.text.CoreTextFieldKt$CoreTextField$semanticsModifier$1$1
 androidx.compose.foundation.text.CoreTextFieldKt$CoreTextField$semanticsModifier$1$2:
-    public final java.lang.Boolean invoke$2()
+    public final java.lang.Boolean invoke$3()
 androidx.compose.foundation.text.CoreTextFieldKt$CoreTextField$semanticsModifier$1$3:
     public final void invoke(androidx.compose.ui.graphics.drawscope.ContentDrawScope)
-    public final java.lang.Boolean invoke$2()
+    public final java.lang.Boolean invoke$3()
 androidx.compose.foundation.text.CoreTextFieldKt$CoreTextField$semanticsModifier$1$4:
-    public static java.lang.Boolean invoke$3()
+    public static java.lang.Boolean invoke$4()
 androidx.compose.foundation.text.CoreTextFieldKt$CoreTextField$semanticsModifier$1$5
 androidx.compose.foundation.text.CoreTextFieldKt$CoreTextField$semanticsModifier$1$6:
     public final java.lang.Boolean invoke()
@@ -42219,10 +42236,49 @@ androidx.compose.runtime.ProvidedValue:
     public static java.lang.Object getValue()
 androidx.compose.runtime.RecomposeScope:
     public abstract void invalidate()
-androidx.compose.runtime.RecomposeScopeImpl$Companion
+androidx.compose.runtime.RecomposeScopeImpl$Companion$$InternalSyntheticThrowCCEIfNotNull$144$08b7a4fd71a1ddc76e0f707fee8832db9f441584445291728be4bb24eec7cb83$0
+androidx.compose.runtime.RecomposeScopeImpl$Companion:
+    public static void addRunning()
+    public static void adoptAnchoredScopes$runtime_release()
+    public static android.graphics.Typeface buildTypeface()
+    public static androidx.compose.runtime.snapshots.Snapshot createNonObservableSnapshot()
+    public static androidx.emoji2.text.TypefaceEmojiSpan createSpan()
+    public final void d()
+    public static androidx.lifecycle.ViewModelProvider$Factory defaultFactory$lifecycle_viewmodel_release()
+    public final void e()
+    public static androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentSet emptyOf$runtime_release()
+    public static androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMap emptyOf$runtime_release()
+    public static androidx.compose.runtime.IntStack fetchFonts()
+    public static androidx.lifecycle.LifecycleOwner get()
+    public static androidx.lifecycle.ReportFragment get()
+    public static androidx.compose.runtime.snapshots.Snapshot getCurrent()
+    public static androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableList.SmallPersistentVector getEMPTY()
+    public static androidx.compose.runtime.snapshots.SnapshotIdSet getEMPTY()
+    public static androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode getEMPTY$runtime_release()
+    public static androidx.compose.runtime.internal.PersistentCompositionLocalHashMap getEmpty()
+    public static androidx.lifecycle.ViewModelProvider$AndroidViewModelFactory getInstance()
+    public android.content.pm.ProviderInfo getProviderInfo(android.content.pm.ResolveInfo)
+    public static androidx.compose.runtime.saveable.Saver getSaver()
+    public static boolean hasAnchoredRecomposeScopes$runtime_release()
+    public final void i()
+    public static void init$lifecycle_process_release()
+    public static androidx.lifecycle.Lifecycle$State min$lifecycle_runtime_release(androidx.lifecycle.Lifecycle$State,androidx.lifecycle.Lifecycle$State)
+    public static void notifyObjectsInitialized()
+    public java.util.List queryIntentContentProviders(android.content.pm.PackageManager,android.content.Intent)
+    public static androidx.datastore.preferences.PreferencesProto$PreferenceMap readFrom()
+    public static androidx.compose.runtime.snapshots.ObserverHandle registerApplyObserver()
+    public static androidx.compose.runtime.snapshots.ObserverHandle registerGlobalWriteObserver()
+    public static void registerObserver()
+    public static void removeRunning()
+    public static void sendApplyNotifications()
+    public static androidx.compose.runtime.snapshots.MutableSnapshot takeMutableSnapshot()
+    public static androidx.compose.runtime.snapshots.Snapshot takeSnapshot()
+    public static void unregisterObserver()
+    public static boolean validateValue()
+    public final void w()
 androidx.compose.runtime.RecomposeScopeImpl$end$1$2
 androidx.compose.runtime.RecomposeScopeImpl:
-    public static final _COROUTINE.ArtificialStackFrames Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     static void <clinit>()
     public static void adoptedBy()
     public static void compose()
@@ -42252,44 +42308,7 @@ androidx.compose.runtime.RecomposeScopeImpl:
     public final void start(int)
     public final void updateScope(kotlin.jvm.functions.Function2)
 androidx.compose.runtime.RecomposeScopeImplKt
-androidx.compose.runtime.Recomposer$Companion$$InternalSyntheticThrowCCEIfNotNull$144$572d800fe8b950936be7ac0d4c458be692e37b92a8f523bff1dfdc648a3acf07$0
-androidx.compose.runtime.Recomposer$Companion:
-    public static void addRunning()
-    public static android.graphics.Typeface buildTypeface()
-    public static androidx.compose.runtime.snapshots.Snapshot createNonObservableSnapshot()
-    public static androidx.emoji2.text.TypefaceEmojiSpan createSpan()
-    public final void d()
-    public static androidx.lifecycle.ViewModelProvider$Factory defaultFactory$lifecycle_viewmodel_release()
-    public final void e()
-    public static androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentSet emptyOf$runtime_release()
-    public static androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMap emptyOf$runtime_release()
-    public static androidx.compose.runtime.IntStack fetchFonts()
-    public static androidx.lifecycle.LifecycleOwner get()
-    public static androidx.lifecycle.ReportFragment get()
-    public static androidx.compose.runtime.snapshots.Snapshot getCurrent()
-    public static androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableList.SmallPersistentVector getEMPTY()
-    public static androidx.compose.runtime.snapshots.SnapshotIdSet getEMPTY()
-    public static androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode getEMPTY$runtime_release()
-    public static androidx.compose.runtime.internal.PersistentCompositionLocalHashMap getEmpty()
-    public static androidx.lifecycle.ViewModelProvider$AndroidViewModelFactory getInstance()
-    public android.content.pm.ProviderInfo getProviderInfo(android.content.pm.ResolveInfo)
-    public static androidx.compose.runtime.saveable.Saver getSaver()
-    public final void i()
-    public static void init$lifecycle_process_release()
-    public static androidx.lifecycle.Lifecycle$State min$lifecycle_runtime_release(androidx.lifecycle.Lifecycle$State,androidx.lifecycle.Lifecycle$State)
-    public static void notifyObjectsInitialized()
-    public java.util.List queryIntentContentProviders(android.content.pm.PackageManager,android.content.Intent)
-    public static androidx.datastore.preferences.PreferencesProto$PreferenceMap readFrom()
-    public static androidx.compose.runtime.snapshots.ObserverHandle registerApplyObserver()
-    public static androidx.compose.runtime.snapshots.ObserverHandle registerGlobalWriteObserver()
-    public static void registerObserver()
-    public static void removeRunning()
-    public static void sendApplyNotifications()
-    public static androidx.compose.runtime.snapshots.MutableSnapshot takeMutableSnapshot()
-    public static androidx.compose.runtime.snapshots.Snapshot takeSnapshot()
-    public static void unregisterObserver()
-    public static boolean validateValue()
-    public final void w()
+androidx.compose.runtime.Recomposer$Companion
 androidx.compose.runtime.Recomposer$RecomposerErrorState:
     public static androidx.compose.runtime.Recomposer$RecomposerErrorState addIf()
     public static androidx.compose.runtime.Recomposer$RecomposerErrorState remove()
@@ -42318,7 +42337,7 @@ androidx.compose.runtime.Recomposer$writeObserverOf$1:
     public final void invoke(java.lang.Object)
 androidx.compose.runtime.Recomposer:
     public static final int $stable
-    public static final androidx.compose.runtime.Recomposer$Companion Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     public long changeCount
     public int concurrentCompositionsOutstanding
     public boolean isClosed
@@ -42408,7 +42427,7 @@ androidx.compose.runtime.SlotTableGroup:
 androidx.compose.runtime.SlotTableKt
 androidx.compose.runtime.SlotWriter$Companion
 androidx.compose.runtime.SlotWriter:
-    public static final androidx.compose.runtime.Recomposer$Companion Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     static void <clinit>()
     public static boolean childContainsAnyMarks()
     public static void clearSlotGap()
@@ -42606,7 +42625,7 @@ androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.
 androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableList.SingleElementListIterator
 androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableList.SmallPersistentVector$Companion
 androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableList.SmallPersistentVector:
-    public static final androidx.compose.runtime.Recomposer$Companion Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     public static java.lang.Object[] bufferOfSize()
 androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableList.TrieIterator:
     public static void reset$runtime_release()
@@ -42616,7 +42635,7 @@ androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.
     public final void setValue(java.lang.Object)
 androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMap$Companion
 androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMap:
-    public static final androidx.compose.runtime.Recomposer$Companion Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     public static androidx.compose.runtime.external.kotlinx.collections.immutable.ImmutableSet createEntries()
     public final java.util.Set getEntries()
     public static androidx.compose.runtime.external.kotlinx.collections.immutable.ImmutableSet getKeys()
@@ -42636,7 +42655,7 @@ androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.
     public final java.util.Set getKeys()
     public final int getModCount$runtime_release()
     public final androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode getNode$runtime_release()
-    public static androidx.compose.runtime.Recomposer$Companion getOwnership()
+    public static androidx.compose.runtime.RecomposeScopeImpl$Companion getOwnership()
     public final int getSize()
     public final java.util.Collection getValues()
     public static void setModCount$runtime_release()
@@ -42671,7 +42690,7 @@ androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.
 androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode$Companion
 androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode$ModificationResult
 androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.immutableMap.TrieNode:
-    public static final androidx.compose.runtime.Recomposer$Companion Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     public void <init>(int,int,java.lang.Object[])
     public final androidx.compose.runtime.IntStack asInsertResult()
     public final androidx.compose.runtime.IntStack asUpdateResult()
@@ -42725,7 +42744,7 @@ androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.
     public static androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.persistentOrderedSet.Links withPrevious()
 androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.persistentOrderedSet.PersistentOrderedSet$Companion
 androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.persistentOrderedSet.PersistentOrderedSet:
-    public static final androidx.compose.runtime.Recomposer$Companion Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     public final androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentSet add()
     public final androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentSet remove()
 androidx.compose.runtime.external.kotlinx.collections.immutable.implementations.persistentOrderedSet.PersistentOrderedSetIterator:
@@ -42757,7 +42776,7 @@ androidx.compose.runtime.internal.PersistentCompositionLocalHashMap$Builder:
     public static bridge androidx.compose.runtime.State remove()
 androidx.compose.runtime.internal.PersistentCompositionLocalHashMap$Companion
 androidx.compose.runtime.internal.PersistentCompositionLocalHashMap:
-    public static final androidx.compose.runtime.Recomposer$Companion Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     public final synthetic bridge androidx.compose.runtime.PersistentCompositionLocalMap$Builder builder()
     public final androidx.compose.runtime.internal.PersistentCompositionLocalHashMap$Builder builder()
     public final bridge boolean containsKey()
@@ -42807,7 +42826,7 @@ androidx.compose.runtime.saveable.SaveableStateHolderImpl$SaveableStateProvider$
 androidx.compose.runtime.saveable.SaveableStateHolderImpl$SaveableStateProvider$1$1
 androidx.compose.runtime.saveable.SaveableStateHolderImpl$SaveableStateProvider$2
 androidx.compose.runtime.saveable.SaveableStateHolderImpl:
-    public static final androidx.compose.runtime.Recomposer$Companion Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     public static androidx.compose.runtime.saveable.SaveableStateRegistry getParentSaveableStateRegistry()
     public static java.util.Map saveAll()
     public static void setParentSaveableStateRegistry()
@@ -42859,7 +42878,7 @@ androidx.compose.runtime.snapshots.ListUtilsKt
 androidx.compose.runtime.snapshots.MutableSnapshot$Companion
 androidx.compose.runtime.snapshots.MutableSnapshot:
     public static final int $stable
-    public static final androidx.compose.runtime.Recomposer$Companion Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     public static void abandon()
     public static boolean getApplied$runtime_release()
     public static androidx.compose.runtime.snapshots.SnapshotIdSet getPreviousIds$runtime_release()
@@ -42885,7 +42904,7 @@ androidx.compose.runtime.snapshots.Snapshot$Companion$registerGlobalWriteObserve
 androidx.compose.runtime.snapshots.Snapshot$Companion
 androidx.compose.runtime.snapshots.Snapshot:
     public static final int $stable
-    public static final androidx.compose.runtime.Recomposer$Companion Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     static void <clinit>()
     public abstract boolean getDisposed$runtime_release()
     public final void releasePinnedSnapshotLocked$runtime_release()
@@ -42910,7 +42929,7 @@ androidx.compose.runtime.snapshots.SnapshotIdSet$Companion
 androidx.compose.runtime.snapshots.SnapshotIdSet$iterator$1:
     public final java.lang.Object invoke$11()
 androidx.compose.runtime.snapshots.SnapshotIdSet:
-    public static final androidx.compose.runtime.Recomposer$Companion Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     public static final synthetic androidx.compose.runtime.snapshots.SnapshotIdSet access$getEMPTY$cp()
     public static int lowest()
 androidx.compose.runtime.snapshots.SnapshotIdSetKt:
@@ -43923,8 +43942,10 @@ androidx.core.view.OnApplyWindowInsetsListener:
 androidx.core.view.OnReceiveContentViewBehavior
 androidx.core.view.OneShotPreDrawListener:
     public final void removeListener()
-androidx.core.view.SoftwareKeyboardControllerCompat$Impl20
-androidx.core.view.SoftwareKeyboardControllerCompat$Impl30
+androidx.core.view.SoftwareKeyboardControllerCompat$Impl20:
+    public final android.view.View mView
+androidx.core.view.SoftwareKeyboardControllerCompat$Impl30:
+    public android.view.View mView
 androidx.core.view.SoftwareKeyboardControllerCompat$Impl
 androidx.core.view.SoftwareKeyboardControllerCompat
 androidx.core.view.ViewCompat$$InternalSyntheticLambda$1$32a2c537725442ee4ae90f16773237f2371bb9b4d0e5fb29df8b99d9c001b7e2$0
@@ -44019,16 +44040,16 @@ androidx.core.view.WindowInsetsCompat:
     public static void setStableInsets()
 androidx.core.view.WindowInsetsControllerCompat$Impl20:
     public final android.support.v4.media.MediaMetadataCompat$Builder mSoftwareKeyboardControllerCompat
-    public final void setSystemUiFlag()
-    public static void setWindowFlag()
-    public final void unsetSystemUiFlag()
-    public static void unsetWindowFlag()
+    public final void setSystemUiFlag(int)
+    public final void setWindowFlag()
+    public final void unsetSystemUiFlag(int)
+    public final void unsetWindowFlag(int)
 androidx.core.view.WindowInsetsControllerCompat$Impl30:
     public final android.support.v4.media.MediaMetadataCompat$Builder mCompatController
     public final androidx.collection.SimpleArrayMap mListeners
     public final android.support.v4.media.MediaMetadataCompat$Builder mSoftwareKeyboardControllerCompat
-    public final void setSystemUiFlag()
-    public final void unsetSystemUiFlag()
+    public final void setSystemUiFlag(int)
+    public final void unsetSystemUiFlag(int)
 androidx.core.view.WindowInsetsControllerCompat$Impl
 androidx.core.view.WindowInsetsControllerCompat
 androidx.core.view.accessibility.AccessibilityEventCompat
@@ -45014,7 +45035,7 @@ androidx.emoji2.text.EmojiCompat$Config:
     public boolean mEmojiSpanIndicatorEnabled
     public java.util.Set mInitCallbacks
     public boolean mReplaceAll
-    public androidx.compose.runtime.Recomposer$Companion mSpanFactory
+    public androidx.compose.runtime.RecomposeScopeImpl$Companion mSpanFactory
     public boolean mUseEmojiAsDefaultStyle
     public abstract androidx.emoji2.text.EmojiCompat$MetadataRepoLoader getMetadataRepoLoader()
     public abstract androidx.emoji2.text.EmojiCompat$Config setMetadataLoadStrategy()
@@ -45130,7 +45151,7 @@ androidx.emoji2.text.flatbuffer.MetadataList:
     public final int listLength()
     public static int version()
 androidx.emoji2.text.flatbuffer.Table:
-    public androidx.compose.runtime.Recomposer$Companion utf8
+    public androidx.compose.runtime.RecomposeScopeImpl$Companion utf8
     public abstract int __indirect()
     public final void __reset(int,java.nio.ByteBuffer)
     public final int __vector(int)
@@ -45201,7 +45222,7 @@ androidx.fragment.app.Fragment$2:
 androidx.fragment.app.Fragment
 androidx.lifecycle.AbstractSavedStateViewModelFactory$Companion
 androidx.lifecycle.AbstractSavedStateViewModelFactory:
-    public static final androidx.compose.runtime.Recomposer$Companion Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     static void <clinit>()
     public final androidx.navigation.NavBackStackEntry$SavedStateViewModel create(java.lang.String,java.lang.Class)
     public abstract androidx.navigation.NavBackStackEntry$SavedStateViewModel create(java.lang.String,java.lang.Class,androidx.lifecycle.SavedStateHandle)
@@ -45241,7 +45262,7 @@ androidx.lifecycle.LifecycleRegistry$Companion
 androidx.lifecycle.LifecycleRegistry$ObserverWithState:
     public static androidx.lifecycle.Lifecycle$State getState()
 androidx.lifecycle.LifecycleRegistry:
-    public static final androidx.compose.runtime.Recomposer$Companion Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     static void <clinit>()
     public static void backwardPass()
     public static void forwardPass()
@@ -45286,7 +45307,7 @@ androidx.lifecycle.ProcessLifecycleOwner$initializationListener$1:
     public static void onResume()
     public static void onStart()
 androidx.lifecycle.ProcessLifecycleOwner:
-    public static final androidx.compose.runtime.Recomposer$Companion Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     public static void activityPaused$lifecycle_process_release()
     public final void activityStarted$lifecycle_process_release()
     public static void activityStopped$lifecycle_process_release()
@@ -45308,7 +45329,7 @@ androidx.lifecycle.ReportFragment$Companion
 androidx.lifecycle.ReportFragment$LifecycleCallbacks$Companion:
     public static void registerIn(android.app.Activity)
 androidx.lifecycle.ReportFragment:
-    public static final androidx.compose.runtime.Recomposer$Companion Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     static void <clinit>()
     public static void dispatchCreate()
     public static void dispatchResume()
@@ -45319,7 +45340,7 @@ androidx.lifecycle.SavedStateHandle$$InternalSyntheticThrowCCEIfNotNull$104$fcec
 androidx.lifecycle.SavedStateHandle$Companion
 androidx.lifecycle.SavedStateHandle$SavingStateLiveData
 androidx.lifecycle.SavedStateHandle:
-    public static final androidx.compose.runtime.Recomposer$Companion Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     public static final synthetic java.lang.Class[] access$getACCEPTABLE_CLASSES$cp()
     public static java.lang.Object get()
     public static java.lang.Object remove()
@@ -45348,7 +45369,7 @@ androidx.lifecycle.ViewModelKt
 androidx.lifecycle.ViewModelProvider$AndroidViewModelFactory$Companion
 androidx.lifecycle.ViewModelProvider$AndroidViewModelFactory:
     public static final androidx.lifecycle.ViewModelProvider$AndroidViewModelFactory$Companion$ApplicationKeyImpl APPLICATION_KEY
-    public static final androidx.compose.runtime.Recomposer$Companion Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     static void <clinit>()
 androidx.lifecycle.ViewModelProvider$Factory$Companion
 androidx.lifecycle.ViewModelProvider$Factory:
@@ -45356,7 +45377,7 @@ androidx.lifecycle.ViewModelProvider$Factory:
     static void <clinit>()
 androidx.lifecycle.ViewModelProvider$NewInstanceFactory$Companion
 androidx.lifecycle.ViewModelProvider$NewInstanceFactory:
-    public static final androidx.compose.runtime.Recomposer$Companion Companion
+    public static final androidx.compose.runtime.RecomposeScopeImpl$Companion Companion
     public static final androidx.lifecycle.ViewModelProvider$NewInstanceFactory$Companion$ViewModelKeyImpl VIEW_MODEL_KEY
     static void <clinit>()
 androidx.lifecycle.ViewModelProvider
@@ -46002,7 +46023,7 @@ androidx.media3.common.util.Log$Logger
 androidx.media3.common.util.Log:
     public static int logLevel
     public static boolean logStackTraces
-    public static androidx.compose.runtime.Recomposer$Companion logger
+    public static androidx.compose.runtime.RecomposeScopeImpl$Companion logger
 androidx.media3.common.util.LongArray
 androidx.media3.common.util.LongArrayQueue:
     public final void clear()
@@ -47140,7 +47161,22 @@ androidx.media3.extractor.ogg.VorbisReader:
 androidx.media3.extractor.png.PngExtractor
 androidx.media3.extractor.text.CueDecoder:
     public static androidx.media3.extractor.text.CuesWithTiming decode()
-androidx.media3.extractor.text.CueEncoder
+androidx.media3.extractor.text.CueEncoder:
+    public static androidx.room.RoomSQLiteQuery acquire()
+    public static void beginTransactionInternal$room_runtime_release()
+    public static boolean containsSurroundingParenthesis()
+    public static androidx.navigation.NavBackStackEntry create(android.content.Context,androidx.navigation.NavDestination,android.os.Bundle,androidx.lifecycle.Lifecycle$State,androidx.navigation.NavViewModelStoreProvider,java.lang.String,android.os.Bundle)
+    public static kotlinx.coroutines.flow.Flow createFlow()
+    public static java.lang.Object execute()
+    public static java.lang.Object execute$1()
+    public static androidx.navigation.NavDeepLinkRequest$Builder fromUri(android.net.Uri)
+    public static androidx.navigation.NavControllerViewModel getInstance(androidx.lifecycle.ViewModelStore)
+    public static boolean hasEmptySchema$room_runtime_release()
+    public static boolean hasRoomMasterTable$room_runtime_release()
+    public static androidx.navigation.NavType inferFromValueType()
+    public static void prunePoolLocked$room_runtime_release()
+    public static androidx.room.util.TableInfo read()
+    public static boolean validateName$navigation_common_release(java.lang.String)
 androidx.media3.extractor.text.CuesWithTimingSubtitle$$InternalSyntheticLambda$2$1ebdcf38441ee19f14b9991028602b54969c7ee130be72e79e3477992dc28508$0
 androidx.media3.extractor.text.CuesWithTimingSubtitle:
     public static com.google.common.collect.ImmutableList getCues()
@@ -48068,22 +48104,7 @@ androidx.media3.ui.WebViewSubtitleOutput:
     public static int anchorTypeToTranslatePercent(int)
     public static java.lang.String convertAlignmentToCss(android.text.Layout$Alignment)
     public static void destroy()
-androidx.navigation.ActivityNavigator$Companion:
-    public static androidx.room.RoomSQLiteQuery acquire()
-    public static void beginTransactionInternal$room_runtime_release()
-    public static boolean containsSurroundingParenthesis()
-    public static androidx.navigation.NavBackStackEntry create(android.content.Context,androidx.navigation.NavDestination,android.os.Bundle,androidx.lifecycle.Lifecycle$State,androidx.navigation.NavViewModelStoreProvider,java.lang.String,android.os.Bundle)
-    public static kotlinx.coroutines.flow.Flow createFlow()
-    public static java.lang.Object execute()
-    public static java.lang.Object execute$1()
-    public static androidx.navigation.NavDeepLinkRequest$Builder fromUri(android.net.Uri)
-    public static androidx.navigation.NavControllerViewModel getInstance(androidx.lifecycle.ViewModelStore)
-    public static boolean hasEmptySchema$room_runtime_release()
-    public static boolean hasRoomMasterTable$room_runtime_release()
-    public static androidx.navigation.NavType inferFromValueType()
-    public static void prunePoolLocked$room_runtime_release()
-    public static androidx.room.util.TableInfo read()
-    public static boolean validateName$navigation_common_release(java.lang.String)
+androidx.navigation.ActivityNavigator$Companion
 androidx.navigation.ActivityNavigator$Destination:
     public java.lang.String dataPattern
     public android.content.Intent intent
@@ -48097,7 +48118,7 @@ androidx.navigation.ActivityNavigator$hostActivity$1:
     public static void invoke$11()
     public final void invoke$12()
 androidx.navigation.ActivityNavigator:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     public final android.content.Context context
     static void <clinit>()
     public static androidx.navigation.ActivityNavigator$Destination createDestination()
@@ -48152,7 +48173,7 @@ androidx.navigation.NavBackStackEntry$defaultFactory$2:
     public static androidx.lifecycle.SavedStateViewModelFactory invoke()
 androidx.navigation.NavBackStackEntry$savedStateHandle$2
 androidx.navigation.NavBackStackEntry:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     public final kotlin.SynchronizedLazyImpl defaultFactory$delegate
     public final kotlin.Lazy savedStateHandle$delegate
     public static androidx.lifecycle.SavedStateViewModelFactory getDefaultFactory()
@@ -48165,7 +48186,7 @@ androidx.navigation.NavBackStackEntry:
 androidx.navigation.NavBackStackEntryState$Companion$CREATOR$1
 androidx.navigation.NavBackStackEntryState$Companion
 androidx.navigation.NavBackStackEntryState:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     public static int getDestinationId()
     public static java.lang.String getId()
 androidx.navigation.NavController$Companion
@@ -48206,7 +48227,7 @@ androidx.navigation.NavController$restoreStateInternal$1:
     public final java.lang.Object invoke$1()
     public final java.lang.String invoke$1()
 androidx.navigation.NavController:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     public final kotlinx.coroutines.flow.Flow currentBackStackEntryFlow
     public static boolean deepLinkSaveState
     public androidx.navigation.NavInflater inflater
@@ -48247,7 +48268,7 @@ androidx.navigation.NavController:
     public abstract boolean tryRelaunchUpToGeneratedStack()
 androidx.navigation.NavControllerViewModel$Companion
 androidx.navigation.NavControllerViewModel:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     public static final synthetic androidx.lifecycle.ViewModelProvider$Factory access$getFACTORY$cp()
     public final void clear(java.lang.String)
     public final androidx.lifecycle.ViewModelStore getViewModelStore()
@@ -48275,7 +48296,7 @@ androidx.navigation.NavDeepLink$mimeTypePattern$2
 androidx.navigation.NavDeepLink$pathPattern$2
 androidx.navigation.NavDeepLink$queryArgsMap$2
 androidx.navigation.NavDeepLink:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     public final java.lang.String action
     public final java.lang.String mimeType
     public final kotlin.SynchronizedLazyImpl mimeTypePattern$delegate
@@ -48321,7 +48342,7 @@ androidx.navigation.NavDestination$DeepLinkMatch:
 androidx.navigation.NavDestination$addDeepLink$missingRequiredArguments$1
 androidx.navigation.NavDestination$hasRequiredArguments$missingRequiredArguments$1
 androidx.navigation.NavDestination:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     public static final java.util.Map classes
     public java.lang.String idName
     public final void addArgument(java.lang.String,androidx.navigation.NavArgument)
@@ -48345,7 +48366,7 @@ androidx.navigation.NavGraph$Companion
 androidx.navigation.NavGraph$iterator$1:
     public static androidx.navigation.NavDestination next()
 androidx.navigation.NavGraph:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     static void <clinit>()
     public static void addDestination()
     public static void addDestinations()
@@ -48376,7 +48397,7 @@ androidx.navigation.NavHostController:
     public final void setViewModelStore()
 androidx.navigation.NavInflater$Companion
 androidx.navigation.NavInflater:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     public final android.content.Context context
     public final androidx.navigation.NavigatorProvider navigatorProvider
     public static final java.lang.ThreadLocal sTmpValue
@@ -48479,7 +48500,7 @@ androidx.navigation.NavType$SerializableType:
     public static java.io.Serializable get()
     public static void put$11()
 androidx.navigation.NavType:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     public static final androidx.navigation.NavType ReferenceType
     public final boolean isNullableAllowed
     public final java.lang.String name
@@ -48499,7 +48520,7 @@ androidx.navigation.Navigator:
     public abstract android.os.Bundle onSaveState()
 androidx.navigation.NavigatorProvider$Companion
 androidx.navigation.NavigatorProvider:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     public static androidx.navigation.Navigator addNavigator()
     public final androidx.navigation.Navigator getNavigator(java.lang.Class)
     public static java.util.Map getNavigators()
@@ -48546,7 +48567,7 @@ androidx.navigation.compose.ComposeNavigator$Destination:
     public static void setPopEnterTransition$navigation_compose_release()
     public static void setPopExitTransition$navigation_compose_release()
 androidx.navigation.compose.ComposeNavigator:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     static void <clinit>()
     public static androidx.navigation.compose.ComposeNavigator$Destination createDestination()
     public static kotlinx.coroutines.flow.StateFlow getBackStack()
@@ -48568,7 +48589,7 @@ androidx.navigation.compose.DialogNavigator$Destination:
     public static kotlin.jvm.functions.Function3 getContent$navigation_compose_release()
     public static androidx.compose.ui.window.DialogProperties getDialogProperties$navigation_compose_release()
 androidx.navigation.compose.DialogNavigator:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     static void <clinit>()
     public static androidx.navigation.compose.DialogNavigator$Destination createDestination()
     public static void dismiss$navigation_compose_release()
@@ -48653,14 +48674,14 @@ androidx.profileinstaller.ProfileInstaller$$InternalSyntheticLambda$4$b73e6dd764
 androidx.profileinstaller.ProfileInstaller$1
 androidx.profileinstaller.ProfileInstaller$2
 androidx.profileinstaller.ProfileInstaller:
-    public static final androidx.navigation.ActivityNavigator$Companion LOG_DIAGNOSTICS
+    public static final androidx.media3.extractor.text.CueEncoder LOG_DIAGNOSTICS
     public static void result(androidx.arch.core.executor.ArchTaskExecutor$$InternalSyntheticLambda$1$0cd99cbb60de02b88cedd941efa6ec8920ea8ed67fbe5be81367346cb3187fdb$0,android.support.v4.media.MediaMetadataCompat$Builder,int,android.content.pm.PackageManager$NameNotFoundException)
 androidx.profileinstaller.ProfileInstallerInitializer$$InternalSyntheticLambda$1$0f795b3312dc1da540aed76dfe7be9153bc2dd822b10dd31dcd76fb9862960b5$0
 androidx.profileinstaller.ProfileInstallerInitializer$$InternalSyntheticLambda$3$1b1cec693e412c5dc4a2dbf245cfebff0f105fdacac68e9d3717681789f42374$0
 androidx.profileinstaller.ProfileInstallerInitializer$Choreographer16Impl$$InternalSyntheticLambda$2$dd4b7bded0037cdb0fa34ef5820826a5e0fd89e1034ce4aa9969280fa8f012f3$0
 androidx.profileinstaller.ProfileInstallerInitializer$Result
 androidx.profileinstaller.ProfileInstallerInitializer:
-    public static androidx.navigation.ActivityNavigator$Companion create()
+    public static androidx.media3.extractor.text.CueEncoder create()
     public static void delayAfterFirstFrame()
     public static void installAfterDelay()
     public static void lambda$delayAfterFirstFrame$0()
@@ -49662,7 +49683,7 @@ androidx.room.CoroutinesRoom$Companion$execute$4$job$1:
     public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
 androidx.room.CoroutinesRoom$Companion
 androidx.room.CoroutinesRoom:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     static void <clinit>()
     public static final kotlinx.coroutines.flow.FlowKt__BuildersKt$flowOf$$inlined$unsafeFlow$2 createFlow(androidx.room.RoomDatabase,java.lang.String[],java.util.concurrent.Callable)
 androidx.room.CoroutinesRoomKt
@@ -49686,7 +49707,7 @@ androidx.room.InvalidationTracker$$InternalSyntheticLambda$1$7002e9fde3521f548f6
 androidx.room.InvalidationTracker$Companion
 androidx.room.InvalidationTracker$ObservedTableTracker$Companion
 androidx.room.InvalidationTracker$ObservedTableTracker:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     static void <clinit>()
     public static varargs boolean onAdded()
     public static varargs boolean onRemoved()
@@ -49698,7 +49719,7 @@ androidx.room.InvalidationTracker$ObserverWrapper:
     public static int[] getTableIds$room_runtime_release()
 androidx.room.InvalidationTracker$refreshRunnable$1
 androidx.room.InvalidationTracker:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     public androidx.room.AutoCloser autoCloser
     public final android.support.v4.media.MediaBrowserCompat$ServiceBinderWrapper invalidationLiveDataContainer
     public androidx.room.MultiInstanceInvalidationClient multiInstanceInvalidationClient
@@ -49787,7 +49808,7 @@ androidx.room.RoomDatabase$QueryCallback
 androidx.room.RoomDatabase$beginTransaction$1
 androidx.room.RoomDatabase$endTransaction$1
 androidx.room.RoomDatabase:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     public androidx.room.AutoCloser autoCloser
     public boolean writeAheadLoggingEnabled
     static void <clinit>()
@@ -49809,13 +49830,13 @@ androidx.room.RoomOpenHelper$Companion
 androidx.room.RoomOpenHelper$Delegate
 androidx.room.RoomOpenHelper$ValidationResult
 androidx.room.RoomOpenHelper:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     static void <clinit>()
     public static void checkIdentity()
     public static void createMasterTableIfNotExists()
 androidx.room.RoomSQLiteQuery$Companion
 androidx.room.RoomSQLiteQuery:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     public final void bindBlob(int,byte[])
     public final void bindDouble(int,double)
     public static int getArgCount()
@@ -49858,7 +49879,7 @@ androidx.room.util.DBUtil
 androidx.room.util.FileUtil
 androidx.room.util.TableInfo$Column$Companion
 androidx.room.util.TableInfo$Column:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     static void <clinit>()
     public static int findAffinity()
     public static boolean isPrimaryKey()
@@ -49870,10 +49891,10 @@ androidx.room.util.TableInfo$ForeignKeyWithSequence:
     public static java.lang.String getTo()
 androidx.room.util.TableInfo$Index$Companion
 androidx.room.util.TableInfo$Index:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     static void <clinit>()
 androidx.room.util.TableInfo:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     static void <clinit>()
 androidx.room.util.TableInfoKt
 androidx.savedstate.R$id
@@ -49881,23 +49902,15 @@ androidx.savedstate.Recreator$Companion
 androidx.savedstate.Recreator$SavedStateProvider:
     public static void add()
 androidx.savedstate.Recreator:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
+    public static final androidx.media3.extractor.text.CueEncoder Companion
     static void <clinit>()
     public static void reflectiveNew()
 androidx.savedstate.SavedStateRegistry$$InternalSyntheticLambda$1$719ab437d0ecac5a4dba8ec5006130a48f9c8392d4682d57a4ee7203b99f6266$0
 androidx.savedstate.SavedStateRegistry$AutoRecreated:
     public abstract void onRecreated()
-androidx.savedstate.SavedStateRegistry$Companion
-androidx.savedstate.SavedStateRegistry:
-    public static final androidx.navigation.ActivityNavigator$Companion Companion
-    static void <clinit>()
-    public static void performAttach$savedstate_release()
-    public static void performRestore$savedstate_release()
-    public static void performSave()
-    public static void unregisterSavedStateProvider()
-androidx.savedstate.SavedStateRegistryController$Companion:
-    public static final int access$computeHashSize(androidx.savedstate.SavedStateRegistryController$Companion,int)
-    public static final int access$computeShift(androidx.savedstate.SavedStateRegistryController$Companion,int)
+androidx.savedstate.SavedStateRegistry$Companion:
+    public static final int access$computeHashSize(androidx.savedstate.SavedStateRegistry$Companion,int)
+    public static final int access$computeShift(androidx.savedstate.SavedStateRegistry$Companion,int)
     public static void bind()
     public static void bind$1()
     public static androidx.sqlite.db.SupportSQLiteOpenHelper$Configuration$Builder builder()
@@ -49932,8 +49945,16 @@ androidx.savedstate.SavedStateRegistryController$Companion:
     public static synthetic void start$default(android.content.Context,long,java.lang.String,java.lang.String,java.lang.String)
     public static void stop(android.content.Context)
     public static int unorderedHashCode$kotlin_stdlib()
+androidx.savedstate.SavedStateRegistry:
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
+    static void <clinit>()
+    public static void performAttach$savedstate_release()
+    public static void performRestore$savedstate_release()
+    public static void performSave()
+    public static void unregisterSavedStateProvider()
+androidx.savedstate.SavedStateRegistryController$Companion
 androidx.savedstate.SavedStateRegistryController:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     static void <clinit>()
     public static androidx.savedstate.SavedStateRegistry getSavedStateRegistry()
 androidx.savedstate.ViewTreeSavedStateRegistryOwner$findViewTreeSavedStateRegistryOwner$1:
@@ -49943,7 +49964,7 @@ androidx.savedstate.ViewTreeSavedStateRegistryOwner$findViewTreeSavedStateRegist
 androidx.savedstate.ViewTreeSavedStateRegistryOwner
 androidx.sqlite.db.SimpleSQLiteQuery$Companion
 androidx.sqlite.db.SimpleSQLiteQuery:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     public final java.lang.Object[] bindArgs
     static void <clinit>()
 androidx.sqlite.db.SupportSQLiteCompat$Api16Impl
@@ -49958,7 +49979,7 @@ androidx.sqlite.db.SupportSQLiteDatabase:
     public abstract void setVersion(int)
 androidx.sqlite.db.SupportSQLiteOpenHelper$Callback$Companion
 androidx.sqlite.db.SupportSQLiteOpenHelper$Callback:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     static void <clinit>()
     public abstract void onCorruption()
 androidx.sqlite.db.SupportSQLiteOpenHelper$Configuration$Builder
@@ -49977,7 +49998,7 @@ androidx.sqlite.db.framework.FrameworkSQLiteDatabase$Companion
 androidx.sqlite.db.framework.FrameworkSQLiteDatabase$query$cursorFactory$1
 androidx.sqlite.db.framework.FrameworkSQLiteDatabase:
     public static final java.lang.String[] CONFLICT_VALUES
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     public final java.util.List getAttachedDbs()
     public final java.lang.String getPath()
     public static boolean isDelegate()
@@ -49991,11 +50012,11 @@ androidx.sqlite.db.framework.FrameworkSQLiteOpenHelper$OpenHelper$CallbackName
 androidx.sqlite.db.framework.FrameworkSQLiteOpenHelper$OpenHelper$Companion
 androidx.sqlite.db.framework.FrameworkSQLiteOpenHelper$OpenHelper$WhenMappings
 androidx.sqlite.db.framework.FrameworkSQLiteOpenHelper$OpenHelper:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     static void <clinit>()
 androidx.sqlite.db.framework.FrameworkSQLiteOpenHelper$lazyDelegate$1
 androidx.sqlite.db.framework.FrameworkSQLiteOpenHelper:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     static void <clinit>()
     public final java.lang.String getDatabaseName()
     public final androidx.sqlite.db.framework.FrameworkSQLiteOpenHelper$OpenHelper getDelegate()
@@ -50005,7 +50026,7 @@ androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory:
 androidx.sqlite.db.framework.FrameworkSQLiteProgram
 androidx.sqlite.util.ProcessLock$Companion
 androidx.sqlite.util.ProcessLock:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     public static synthetic void lock$default(androidx.sqlite.util.ProcessLock)
 androidx.startup.AppInitializer:
     public static void discoverAndInitialize()
@@ -50095,7 +50116,7 @@ com.ghostgramlabs.speakalert.alarm.BootReceiver:
 com.ghostgramlabs.speakalert.alarm.NotificationHelper$Companion
 com.ghostgramlabs.speakalert.alarm.NotificationHelper:
     public static final int $stable
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     static void <clinit>()
     public static void createNotificationChannel()
     public static synthetic void showNotification$default(com.ghostgramlabs.speakalert.alarm.NotificationHelper,long,java.lang.String)
@@ -50125,7 +50146,7 @@ com.ghostgramlabs.speakalert.alarm.ReminderAlarmReceiver$onReceive$1$6:
 com.ghostgramlabs.speakalert.alarm.ReminderAlarmReceiver$onReceive$1:
     public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
 com.ghostgramlabs.speakalert.alarm.ReminderAlarmReceiver:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     static void <clinit>()
     public static java.lang.String formatTime()
     public static long getGraceWindow()
@@ -50332,7 +50353,7 @@ com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$9
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository:
     public static final int $stable
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     public final android.content.Context context
     public final kotlinx.coroutines.flow.Flow defaultMissedPolicy
     public static kotlinx.coroutines.flow.Flow getAppVolume()
@@ -50386,7 +50407,7 @@ com.ghostgramlabs.speakalert.service.ReminderPlaybackService$startLoopTimeoutIfN
     public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
 com.ghostgramlabs.speakalert.service.ReminderPlaybackService:
     public static final int $stable
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     public long currentTtsId
     public java.lang.String currentTtsTitle
     public static void abandonAudioFocus()
@@ -50494,7 +50515,7 @@ com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel$startRecording$1:
     public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
 com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel:
     public static final int $stable
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     static void <clinit>()
     public static void cancelRecording()
     public final kotlinx.coroutines.flow.StateFlow getUiState()
@@ -51372,7 +51393,7 @@ com.google.common.base.Platform$1
 com.google.common.base.Platform$JdkPatternCompiler
 com.google.common.base.Platform:
     public static final java.util.logging.Logger logger
-    public static final androidx.savedstate.SavedStateRegistryController$Companion patternCompiler
+    public static final androidx.savedstate.SavedStateRegistry$Companion patternCompiler
 com.google.common.base.Preconditions
 com.google.common.base.Predicates$1
 com.google.common.base.Predicates
@@ -51905,7 +51926,7 @@ kotlin.Pair:
     public static java.lang.Object getSecond()
 kotlin.Result$Companion
 kotlin.Result:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     static void <clinit>()
 kotlin.ResultKt
 kotlin.SafePublicationLazyImpl$$InternalSyntheticBackportWithForwarding$1$4bb09ac4ea9ee019bdc96f1a7824fb2e5ca3ee0b09b00ed4129ec1d661f04798$0
@@ -51917,7 +51938,7 @@ kotlin.Triple
 kotlin.TuplesKt
 kotlin.ULong$Companion
 kotlin.ULong:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     static void <clinit>()
     public static synthetic long unbox-impl()
 kotlin.ULongArray
@@ -51932,12 +51953,12 @@ kotlin.collections.AbstractList$IteratorImpl
 kotlin.collections.AbstractList$SubList:
     public static void move()
 kotlin.collections.AbstractList:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     static void <clinit>()
 kotlin.collections.AbstractMap$Companion
 kotlin.collections.AbstractMap$toString$1
 kotlin.collections.AbstractMap:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     static void <clinit>()
     public abstract boolean containsEntry$kotlin_stdlib(java.util.Map$Entry)
     public abstract java.util.Set getEntries()
@@ -51951,13 +51972,13 @@ kotlin.collections.AbstractMutableCollection:
 kotlin.collections.AbstractMutableMap
 kotlin.collections.AbstractSet$Companion
 kotlin.collections.AbstractSet:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     static void <clinit>()
 kotlin.collections.ArrayAsCollection:
     public final int getSize()
 kotlin.collections.ArrayDeque$Companion
 kotlin.collections.ArrayDeque:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     public static void copyElements()
     public final int decremented(int)
     public final java.lang.Object firstOrNull()
@@ -52057,7 +52078,7 @@ kotlin.collections.builders.AbstractMapBuilderEntrySet
 kotlin.collections.builders.ListBuilder$Companion
 kotlin.collections.builders.ListBuilder$Itr
 kotlin.collections.builders.ListBuilder:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     public static java.util.List build()
     public static boolean contentEquals()
     public static void ensureCapacity$1()
@@ -52078,7 +52099,7 @@ kotlin.collections.builders.MapBuilder$Itr:
 kotlin.collections.builders.MapBuilder$KeysItr
 kotlin.collections.builders.MapBuilder$ValuesItr
 kotlin.collections.builders.MapBuilder:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     public final java.lang.Object[] allocateValuesArray()
     public final kotlin.collections.builders.MapBuilder build()
     public static void compact()
@@ -52111,7 +52132,7 @@ kotlin.collections.builders.MapBuilderKeys
 kotlin.collections.builders.MapBuilderValues
 kotlin.collections.builders.SetBuilder$Companion
 kotlin.collections.builders.SetBuilder:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     public static java.util.Set build()
 kotlin.comparisons.ComparisonsKt
 kotlin.comparisons.ComparisonsKt__ComparisonsKt
@@ -52140,7 +52161,7 @@ kotlin.coroutines.SafeContinuation$$InternalSyntheticBackportWithForwarding$1$7a
 kotlin.coroutines.SafeContinuation$$InternalSyntheticBackportWithForwarding$1$b5f9f27625cd7ff21f44302239c7e2b31a6a14c6d63a5daf2df623aba1facf0a$0
 kotlin.coroutines.SafeContinuation$Companion
 kotlin.coroutines.SafeContinuation:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     public final java.lang.StackTraceElement getStackTraceElement()
 kotlin.coroutines.intrinsics.CoroutineSingletons:
     public static final synthetic kotlin.enums.EnumEntries $ENTRIES
@@ -52210,7 +52231,7 @@ kotlin.jvm.internal.CallableReference$NoReceiver:
     public static synthetic kotlin.jvm.internal.CallableReference$NoReceiver access$000()
 kotlin.jvm.internal.ClassReference$Companion
 kotlin.jvm.internal.ClassReference:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     public static final java.util.HashMap classFqNames
     public static final java.util.HashMap primitiveFqNames
     public static final java.util.HashMap primitiveWrapperFqNames
@@ -52288,14 +52309,14 @@ kotlin.ranges.ClosedFloatingPointRange:
 kotlin.ranges.ClosedRange
 kotlin.ranges.IntProgression$Companion
 kotlin.ranges.IntProgression:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     static void <clinit>()
     public static int getFirst()
     public static int getLast()
     public static int getStep()
 kotlin.ranges.IntRange$Companion
 kotlin.ranges.IntRange:
-    public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
+    public static final androidx.savedstate.SavedStateRegistry$Companion Companion
     public final java.lang.Comparable getEndInclusive()
     public static java.lang.Integer getEndInclusive()
     public final java.lang.Comparable getStart()
@@ -52468,7 +52489,7 @@ kotlinx.coroutines.CopyableThrowable
 kotlinx.coroutines.CoroutineContextKt$foldCopies$1$$InternalSyntheticThrowCCEIfNotNull$21$f56f8fbb0b15c0ff37ffe1ff3c247e01ae427ba01a3215a2cd9027ea9537e3cf$0
 kotlinx.coroutines.CoroutineContextKt$foldCopies$1:
     public final kotlin.coroutines.CoroutineContext invoke$1()
-    public static java.lang.Boolean invoke$5()
+    public static java.lang.Boolean invoke$6()
 kotlinx.coroutines.CoroutineContextKt$foldCopies$folded$1
 kotlinx.coroutines.CoroutineContextKt$hasCopyableElements$1
 kotlinx.coroutines.CoroutineContextKt
@@ -52796,7 +52817,7 @@ kotlinx.coroutines.channels.ChannelIterator
 kotlinx.coroutines.channels.ChannelKt
 kotlinx.coroutines.channels.ChannelResult$Companion
 kotlinx.coroutines.channels.ChannelResult:
-    public static final kotlin.ranges.LongRange$Companion Companion
+    public static final kotlin.ranges.LongProgression$Companion Companion
     public static final synthetic kotlinx.coroutines.channels.ChannelResult$Failed access$getFailed$cp()
     public static final java.lang.Throwable exceptionOrNull-impl(java.lang.Object)
     public static final java.lang.Object getOrNull-impl(java.lang.Object)
@@ -52842,7 +52863,7 @@ kotlinx.coroutines.flow.FlowKt__CollectKt$launchIn$1:
 kotlinx.coroutines.flow.FlowKt__CollectKt
 kotlinx.coroutines.flow.FlowKt__ContextKt
 kotlinx.coroutines.flow.FlowKt__DistinctKt$defaultAreEquivalent$1:
-    public static java.lang.Boolean invoke$6()
+    public static java.lang.Boolean invoke$7()
 kotlinx.coroutines.flow.FlowKt__DistinctKt
 kotlinx.coroutines.flow.FlowKt__EmittersKt
 kotlinx.coroutines.flow.FlowKt__LimitKt
@@ -53083,7 +53104,7 @@ kotlinx.coroutines.internal.LockFreeTaskQueue$$InternalSyntheticBackportWithForw
 kotlinx.coroutines.internal.LockFreeTaskQueueCore$$InternalSyntheticBackportWithForwarding$2$c046e40f4c307769af6d0efaf5a0d2cb500d71fd54b8be28b16962cfffaad597$0
 kotlinx.coroutines.internal.LockFreeTaskQueueCore$Companion
 kotlinx.coroutines.internal.LockFreeTaskQueueCore:
-    public static final kotlin.ranges.LongRange$Companion Companion
+    public static final kotlin.ranges.LongProgression$Companion Companion
     public static kotlinx.coroutines.internal.LockFreeTaskQueueCore allocateNextCopy()
     public static kotlinx.coroutines.internal.LockFreeTaskQueueCore allocateOrGetNextCopy()
     public static kotlinx.coroutines.internal.LockFreeTaskQueueCore fillPlaceholder()
@@ -53161,7 +53182,7 @@ kotlinx.coroutines.scheduling.CoroutineScheduler$Worker:
 kotlinx.coroutines.scheduling.CoroutineScheduler$WorkerState$EnumUnboxingLocalUtility
 kotlinx.coroutines.scheduling.CoroutineScheduler$WorkerState
 kotlinx.coroutines.scheduling.CoroutineScheduler:
-    public static final kotlin.ranges.LongRange$Companion Companion
+    public static final kotlin.ranges.LongProgression$Companion Companion
     public static boolean addToGlobalQueue()
     public static kotlinx.coroutines.scheduling.Task createTask()
     public final kotlinx.coroutines.scheduling.CoroutineScheduler$Worker currentWorker()
