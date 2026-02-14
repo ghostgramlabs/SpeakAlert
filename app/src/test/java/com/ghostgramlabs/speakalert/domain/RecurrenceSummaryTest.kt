@@ -106,7 +106,7 @@ class RecurrenceSummaryTest {
             includeMissedPolicy = true
         )
         
-        val expected = "Daily • 10:00 AM\nEnds after 10 times\nIf missed: Skip missed"
+        val expected = "Daily • 10:00 AM\nEnds after 10 times\nIf device off: Remind at exact time only"
         assertEquals(expected, summary)
     }
 }

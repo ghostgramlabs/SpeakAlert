@@ -69,6 +69,35 @@ class ReminderDetailsViewModel(
             _reminder.value = updated
         }
     }
+
+    fun dismissReminder() {
+        viewModelScope.launch {
+            val current = _reminder.value ?: return@launch
+            stopAudio()
+            
+            if (current.recurrenceType == com.ghostgramlabs.speakalert.domain.models.RecurrenceType.NONE) {
+                // One-time: mark as completed
+                val updated = current.copy(
+                    isCompleted = true,
+                    completedAt = System.currentTimeMillis(),
+                    snoozeUntil = null
+                )
+                repository.updateReminder(updated)
+                scheduler.cancel(current)
+                _reminder.value = updated
+            } else {
+                // Recurring: system already advanced nextTriggerAt if it fired.
+                // We just ensure we clear snooze and audio state.
+                if (current.snoozeUntil != null) {
+                    val updated = current.copy(snoozeUntil = null)
+                    repository.updateReminder(updated)
+                    // If we clear snooze, ensure next occurrence is still scheduled
+                    scheduler.schedule(updated) 
+                    _reminder.value = updated
+                }
+            }
+        }
+    }
     
     fun playAudio() {
         val path = _reminder.value?.audioPath ?: return

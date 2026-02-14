@@ -61,7 +61,7 @@ fun DateTimePickerDialog(
                     OutlinedButton(
                         onClick = {
                             calendar.add(Calendar.HOUR_OF_DAY, 1)
-                            onConfirm(calendar.timeInMillis)
+                            onConfirm(com.ghostgramlabs.speakalert.util.DateUtils.normalizeToMinute(calendar.timeInMillis))
                         },
                         modifier = Modifier.weight(1f)
                     ) {
@@ -85,7 +85,7 @@ fun DateTimePickerDialog(
                     OutlinedButton(
                         onClick = {
                             calendar.add(Calendar.WEEK_OF_YEAR, 1)
-                            onConfirm(calendar.timeInMillis)
+                            onConfirm(com.ghostgramlabs.speakalert.util.DateUtils.normalizeToMinute(calendar.timeInMillis))
                         },
                         modifier = Modifier.weight(1f)
                     ) {

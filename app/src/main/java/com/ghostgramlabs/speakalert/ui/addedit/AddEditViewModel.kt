@@ -29,7 +29,7 @@ data class AddEditUiState(
     val isRecording: Boolean = false,
     val isPlaying: Boolean = false,
     val recordedAudioPath: String? = null,
-    val triggerTime: Long = System.currentTimeMillis() + 10 * 60 * 1000,
+    val triggerTime: Long = com.ghostgramlabs.speakalert.util.DateUtils.normalizeToMinute(System.currentTimeMillis() + 10 * 60 * 1000),
     val recurrenceType: RecurrenceType = RecurrenceType.NONE,
     val recurrenceJson: String? = null,
     val loopPlayback: Boolean = false,
@@ -290,9 +290,9 @@ class AddEditViewModel(
                     state.recordedAudioPath
                 }
 
-                // Auto-advance start time if in past for recurring reminders
+                // Auto-align recurring reminders to their rule
                 var finalTriggerTime = state.triggerTime
-                if (state.recurrenceType != RecurrenceType.NONE && finalTriggerTime < System.currentTimeMillis()) {
+                if (state.recurrenceType != RecurrenceType.NONE) {
                     val tempReminder = ReminderEntity(
                         id = 0,
                         title = "",
@@ -300,10 +300,12 @@ class AddEditViewModel(
                         recurrenceType = state.recurrenceType,
                         recurrenceJson = state.recurrenceJson
                     )
-                    val nextFutureTime = RecurrenceUtils.computeNextTrigger(tempReminder, System.currentTimeMillis())
-                    if (nextFutureTime != null) {
-                        finalTriggerTime = nextFutureTime
-                        com.ghostgramlabs.speakalert.util.FileLogger.log("AddEdit: Auto-advanced past recurring reminder to $finalTriggerTime")
+                    // We pass System.currentTimeMillis() to computeNextTrigger so it 
+                    // always returns a time in the future relative to 'now'.
+                    val alignedTime = RecurrenceUtils.computeNextTrigger(tempReminder, System.currentTimeMillis())
+                    if (alignedTime != null) {
+                        finalTriggerTime = alignedTime
+                        com.ghostgramlabs.speakalert.util.FileLogger.log("AddEdit: Aligned recurring reminder to $finalTriggerTime")
                     }
                 }
 

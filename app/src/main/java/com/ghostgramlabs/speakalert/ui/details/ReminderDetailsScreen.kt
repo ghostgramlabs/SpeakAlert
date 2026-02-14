@@ -23,6 +23,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.filled.EventBusy
+import androidx.compose.material.icons.filled.NotificationsActive
 import com.ghostgramlabs.speakalert.ui.AppViewModelProvider
 import com.ghostgramlabs.speakalert.ui.components.SectionCard
 import com.ghostgramlabs.speakalert.ui.components.PrimaryActionButton
@@ -227,18 +231,99 @@ fun ReminderDetailsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable { showRecurrenceSheet = true }
-                        .padding(vertical = 8.dp)
+                        .padding(vertical = 4.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Text(
-                        text = recurrenceSummary,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    // 1. Frequency & Time
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = Modifier
+                                .size(32.dp)
+                                .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                Icons.Default.Refresh,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp),
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Column {
+                            val frequencyText = com.ghostgramlabs.speakalert.domain.RecurrenceUtils.getRecurrenceSummary(
+                                item.recurrenceType,
+                                item.recurrenceJson,
+                                item.nextTriggerAt,
+                                includeTime = false
+                            )
+                            Text(text = frequencyText, style = MaterialTheme.typography.titleSmall)
+                            Text(
+                                text = "At " + java.text.SimpleDateFormat("h:mm a", java.util.Locale.getDefault()).format(java.util.Date(item.nextTriggerAt)),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+
+                    // 2. End Rule (if not Never)
+                    val model = remember(item) { com.ghostgramlabs.speakalert.domain.RecurrenceUtils.fromJson(item.recurrenceType, item.recurrenceJson) ?: com.ghostgramlabs.speakalert.domain.models.RecurrenceModel.Daily() }
+                    if (model.endRule.type != com.ghostgramlabs.speakalert.domain.models.EndRuleType.NEVER) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Box(
+                                modifier = Modifier
+                                    .size(32.dp)
+                                    .background(MaterialTheme.colorScheme.secondaryContainer, CircleShape),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    Icons.Default.EventBusy,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(18.dp),
+                                    tint = MaterialTheme.colorScheme.onSecondaryContainer
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(12.dp))
+                            val endRuleStr = when (model.endRule.type) {
+                                com.ghostgramlabs.speakalert.domain.models.EndRuleType.UNTIL_DATE -> {
+                                    val dateStr = java.text.SimpleDateFormat("MMM d, yyyy", java.util.Locale.getDefault()).format(java.util.Date(model.endRule.endDateMillis ?: 0L))
+                                    "Ends on $dateStr"
+                                }
+                                com.ghostgramlabs.speakalert.domain.models.EndRuleType.AFTER_OCCURRENCES -> "Ends after ${model.endRule.count} occurrences"
+                                else -> ""
+                            }
+                            Text(text = endRuleStr, style = MaterialTheme.typography.bodyMedium)
+                        }
+                    }
+
+                    // 3. Missed Policy
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = Modifier
+                                .size(32.dp)
+                                .background(MaterialTheme.colorScheme.tertiaryContainer, CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                Icons.Filled.NotificationsActive,
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp),
+                                tint = MaterialTheme.colorScheme.onTertiaryContainer
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(12.dp))
+                        val policyText = when (model.missedPolicy) {
+                            com.ghostgramlabs.speakalert.domain.models.MissedPolicy.FIRE_ON_RESUME -> "Alert when device back on"
+                            com.ghostgramlabs.speakalert.domain.models.MissedPolicy.SKIP_TO_NEXT -> "Remind at exact time only"
+                        }
+                        Text(text = policyText, style = MaterialTheme.typography.bodyMedium)
+                    }
+                    
                     Text(
                         text = "Tap to edit schedule",
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(top = 4.dp)
                     )
                 }
             }
@@ -257,32 +342,48 @@ fun ReminderDetailsScreen(
             
             Spacer(modifier = Modifier.weight(1f))
             
-            // ACTIONS - Safe buttons based on reminder type
+            // ACTIONS - Context-aware buttons
+            val now = System.currentTimeMillis()
+            val isFiringOrMissed = remember(item) {
+                val oneHourAgo = now - 3600_000
+                // Active if: currently snoozed, fired in the last hour, or scheduled time has passed but not completed
+                item.snoozeUntil != null || 
+                (item.lastFiredAt != null && item.lastFiredAt!! > oneHourAgo) ||
+                (item.nextTriggerAt < now && !item.isCompleted)
+            }
+
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                PrimaryActionButton(
-                    text = when {
-                        item.isCompleted -> "Mark as Undone"
-                        isRecurring -> "Dismiss for now"
-                        else -> "Mark as Done"
-                    },
-                    icon = if (item.isCompleted) Icons.Filled.Refresh else Icons.Filled.Done,
-                    onClick = { 
-                        if (item.isCompleted && item.nextTriggerAt < System.currentTimeMillis()) {
-                            showPastActionSheet = true
-                        } else {
-                            viewModel.toggleDone()
-                            navigateBack()
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                )
+                // Show button if: Completed (to undo), or Active (Firing/Missed/Snoozed)
+                // This hiding logic now applies to BOTH one-time and recurring for consistency
+                if (item.isCompleted || isFiringOrMissed) {
+                    PrimaryActionButton(
+                        text = when {
+                            item.isCompleted -> "Mark as Undone"
+                            isRecurring -> "Dismiss"
+                            else -> "Mark as Done"
+                        },
+                        icon = if (item.isCompleted) Icons.Filled.Refresh else Icons.Filled.Done,
+                        onClick = { 
+                            if (item.isCompleted && item.nextTriggerAt < now) {
+                                showPastActionSheet = true
+                            } else if (isRecurring && !item.isCompleted) {
+                                viewModel.dismissReminder()
+                                navigateBack()
+                            } else {
+                                viewModel.toggleDone()
+                                navigateBack()
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
                 
-                // Helper text for recurring reminders
-                if (isRecurring && !item.isCompleted) {
+                // Helper text for future reminders
+                if (!item.isCompleted && !isFiringOrMissed) {
                     Text(
-                        text = "Future reminders will continue as scheduled",
+                        text = "Scheduled for: ${DateUtils.formatDateTime(item.nextTriggerAt)}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center,

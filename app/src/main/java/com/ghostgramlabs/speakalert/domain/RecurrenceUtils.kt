@@ -95,14 +95,31 @@ object RecurrenceUtils {
              return if (nextTrigger == null) null else System.currentTimeMillis() + 60000
         }
         
-        return nextTrigger
+        return com.ghostgramlabs.speakalert.util.DateUtils.normalizeToMinute(nextTrigger)
     }
 
     private fun isTimeEnded(model: RecurrenceModel, candidateTime: Long): Boolean {
         val end = model.endRule
         return when (end.type) {
             EndRuleType.NEVER -> false
-            EndRuleType.UNTIL_DATE -> candidateTime > (end.endDateMillis ?: Long.MAX_VALUE)
+            EndRuleType.UNTIL_DATE -> {
+                val until = end.endDateMillis ?: Long.MAX_VALUE
+                if (until == Long.MAX_VALUE) return false
+                
+                // Be inclusive of the day selected. 
+                // We consider it "ended" only if the candidate is strictly after 
+                // the end of that day (or the explicit timestamp).
+                // Usually DatePickers return 00:00:00.
+                // Let's check if they are on the same day.
+                val candidateCal = Calendar.getInstance().apply { timeInMillis = candidateTime }
+                val endCal = Calendar.getInstance().apply { timeInMillis = until }
+                
+                if (candidateCal.get(Calendar.YEAR) < endCal.get(Calendar.YEAR)) return false
+                if (candidateCal.get(Calendar.YEAR) > endCal.get(Calendar.YEAR)) return true
+                
+                // Same year
+                candidateCal.get(Calendar.DAY_OF_YEAR) > endCal.get(Calendar.DAY_OF_YEAR)
+            }
             EndRuleType.AFTER_OCCURRENCES -> (end.count ?: 0) <= 0
         }
     }
@@ -112,15 +129,15 @@ object RecurrenceUtils {
     }
 
     // --- DAILY ---
-    private fun computeNextDaily(baseTrigger: Long, fromTime: Long): Long {
+    private fun computeNextDaily(baseTrigger: Long, fromTime: Long): Long? {
         val targetCal = Calendar.getInstance().apply { timeInMillis = baseTrigger }
         val nowCal = Calendar.getInstance().apply { timeInMillis = fromTime }
 
         val candidate = nowCal.clone() as Calendar
         candidate.set(Calendar.HOUR_OF_DAY, targetCal.get(Calendar.HOUR_OF_DAY))
         candidate.set(Calendar.MINUTE, targetCal.get(Calendar.MINUTE))
-        candidate.set(Calendar.SECOND, 0)
-        candidate.set(Calendar.MILLISECOND, 0)
+        candidate.set(Calendar.SECOND, targetCal.get(Calendar.SECOND))
+        candidate.set(Calendar.MILLISECOND, targetCal.get(Calendar.MILLISECOND))
 
         // If today's slot is past, move to tomorrow
         if (candidate.timeInMillis <= fromTime) {
@@ -130,7 +147,7 @@ object RecurrenceUtils {
     }
 
     // --- WEEKLY ---
-    private fun computeNextWeekly(baseTrigger: Long, rule: RecurrenceModel.Weekly, fromTime: Long): Long {
+    private fun computeNextWeekly(baseTrigger: Long, rule: RecurrenceModel.Weekly, fromTime: Long): Long? {
         val targetCal = Calendar.getInstance().apply { timeInMillis = baseTrigger }
         val nowCal = Calendar.getInstance().apply { timeInMillis = fromTime }
         
@@ -141,8 +158,8 @@ object RecurrenceUtils {
             
             candidate.set(Calendar.HOUR_OF_DAY, targetCal.get(Calendar.HOUR_OF_DAY))
             candidate.set(Calendar.MINUTE, targetCal.get(Calendar.MINUTE))
-            candidate.set(Calendar.SECOND, 0)
-            candidate.set(Calendar.MILLISECOND, 0)
+            candidate.set(Calendar.SECOND, targetCal.get(Calendar.SECOND))
+            candidate.set(Calendar.MILLISECOND, targetCal.get(Calendar.MILLISECOND))
 
             // Convert Calendar Day (Sun=1) to Model Day (Mon=1, Sun=7)??
             // Or just stick to Calendar constants if Model uses them. 
@@ -153,25 +170,48 @@ object RecurrenceUtils {
             val modelDay = if (calDay == Calendar.SUNDAY) 7 else calDay - 1
             
             if (rule.daysOfWeek.contains(modelDay)) {
+                // Return candidate if it is in the future.
+                // If i == 0 (today) and candidate is past, the loop will 
+                // naturally continue to checking i=1..7.
                 if (candidate.timeInMillis > fromTime) {
                     return candidate.timeInMillis
                 }
             }
         }
-        // Failsafe
+        
+        // Failsafe: if we couldn't find it in next 7 days, try 14 (shouldn't happen with valid rule)
+        for (i in 8..14) {
+            val candidate = nowCal.clone() as Calendar
+            candidate.add(Calendar.DAY_OF_YEAR, i)
+            
+            candidate.set(Calendar.HOUR_OF_DAY, targetCal.get(Calendar.HOUR_OF_DAY))
+            candidate.set(Calendar.MINUTE, targetCal.get(Calendar.MINUTE))
+            candidate.set(Calendar.SECOND, targetCal.get(Calendar.SECOND))
+            candidate.set(Calendar.MILLISECOND, targetCal.get(Calendar.MILLISECOND))
+
+            val calDay = candidate.get(Calendar.DAY_OF_WEEK)
+            val modelDay = if (calDay == Calendar.SUNDAY) 7 else calDay - 1
+            
+            if (rule.daysOfWeek.contains(modelDay)) {
+                if (candidate.timeInMillis > fromTime) {
+                    return candidate.timeInMillis
+                }
+            }
+        }
+
         return fromTime + 86400000L
     }
 
     // --- MONTHLY ---
-    private fun computeNextMonthly(baseTrigger: Long, rule: RecurrenceModel.Monthly, fromTime: Long): Long {
+    private fun computeNextMonthly(baseTrigger: Long, rule: RecurrenceModel.Monthly, fromTime: Long): Long? {
         val targetCal = Calendar.getInstance().apply { timeInMillis = baseTrigger }
         // targetCal provides the TIME. rule provides the DATE logic.
         
         var searchCal = Calendar.getInstance().apply { timeInMillis = fromTime }
         searchCal.set(Calendar.HOUR_OF_DAY, targetCal.get(Calendar.HOUR_OF_DAY))
         searchCal.set(Calendar.MINUTE, targetCal.get(Calendar.MINUTE))
-        searchCal.set(Calendar.SECOND, 0)
-        searchCal.set(Calendar.MILLISECOND, 0)
+        searchCal.set(Calendar.SECOND, targetCal.get(Calendar.SECOND))
+        searchCal.set(Calendar.MILLISECOND, targetCal.get(Calendar.MILLISECOND))
 
         // Check up to 24 months ahead (to be safe)
         for (monthOffset in 0..24) {
@@ -189,12 +229,10 @@ object RecurrenceUtils {
                 }
             } else {
                 // DAY_OF_MONTH - check all specified days in sorted order
-                val days = if (rule.daysOfMonth.isEmpty()) {
-                    // Fallback: use the original trigger day
-                    setOf(targetCal.get(Calendar.DAY_OF_MONTH))
-                } else {
-                    rule.daysOfMonth
+                if (rule.daysOfMonth.isEmpty()) {
+                    return null // Invalid rule, can't compute
                 }
+                val days = rule.daysOfMonth
                 
                 for (day in days.sorted()) {
                     val clampedDay = if (day > maxDayInMonth) maxDayInMonth else day
@@ -207,11 +245,11 @@ object RecurrenceUtils {
             }
         }
         
-        return fromTime + 86400000L // Fallback: +1 day
+        return null
     }
 
     // --- CUSTOM ---
-    private fun computeNextCustom(baseTrigger: Long, rule: RecurrenceModel.Custom, fromTime: Long): Long {
+    private fun computeNextCustom(baseTrigger: Long, rule: RecurrenceModel.Custom, fromTime: Long): Long? {
         com.ghostgramlabs.speakalert.util.FileLogger.log("Recurrence: Custom calc. Base=${java.util.Date(baseTrigger)}, From=${java.util.Date(fromTime)}, Rule=$rule")
         
         if (rule.unit == TimeUnit.MONTHS || rule.unit == TimeUnit.DAYS || rule.unit == TimeUnit.WEEKS) {
@@ -274,9 +312,14 @@ object RecurrenceUtils {
         json: String?,
         nextTriggerAt: Long,
         includeEndRule: Boolean = false,
-        includeMissedPolicy: Boolean = false
+        includeMissedPolicy: Boolean = false,
+        includeTime: Boolean = true
     ): String {
-        val timeStr = java.text.SimpleDateFormat("h:mm a", java.util.Locale.getDefault()).format(java.util.Date(nextTriggerAt))
+        val timeStr = if (includeTime) {
+            " • " + java.text.SimpleDateFormat("h:mm a", java.util.Locale.getDefault()).format(java.util.Date(nextTriggerAt))
+        } else {
+            ""
+        }
         
         if (type == RecurrenceType.NONE) {
             val relativeDate = DateUtils.formatRelativeTime(nextTriggerAt)
@@ -336,7 +379,7 @@ object RecurrenceUtils {
             }
         }
 
-        sb.append(" • $timeStr")
+        sb.append(timeStr)
 
         if (includeEndRule) {
              when (model.endRule.type) {
@@ -352,8 +395,8 @@ object RecurrenceUtils {
 
         if (includeMissedPolicy) {
             when (model.missedPolicy) {
-                MissedPolicy.FIRE_ON_RESUME -> sb.append("\nIf missed: Fire when back")
-                MissedPolicy.SKIP_TO_NEXT -> sb.append("\nIf missed: Skip missed")
+                MissedPolicy.FIRE_ON_RESUME -> sb.append("\nIf device off: Alert when back on")
+                MissedPolicy.SKIP_TO_NEXT -> sb.append("\nIf device off: Remind at exact time only")
             }
         }
 

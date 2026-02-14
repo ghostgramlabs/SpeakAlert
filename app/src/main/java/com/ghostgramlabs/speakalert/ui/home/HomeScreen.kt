@@ -636,6 +636,7 @@ fun HomeScreen(
                                 isTextToSpeechEnabled = uiState.isTextToSpeechEnabled,
                                 isPlaying = currentPlayingId == reminder.id,
                                 isCompleted = reminder.isCompleted,
+                                loopEnabled = reminder.loopPlayback,
                                 onPlayClick = { 
                                     viewModel.playReminder(context, reminder) 
                                 },

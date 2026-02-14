@@ -138,7 +138,7 @@ class ReminderActionReceiver : BroadcastReceiver() {
                     
                     // Get snooze duration from preferences (default 10)
                     val snoozeMinutes = settingsRepository.defaultSnoozeDuration.first()
-                    val snoozeUntil = System.currentTimeMillis() + (snoozeMinutes * 60 * 1000)
+                    val snoozeUntil = com.ghostgramlabs.speakalert.util.DateUtils.normalizeToMinute(System.currentTimeMillis() + (snoozeMinutes * 60 * 1000))
                     
                     // Set snoozeUntil WITHOUT modifying nextTriggerAt or recurrence
                     val updated = reminder.copy(snoozeUntil = snoozeUntil)
