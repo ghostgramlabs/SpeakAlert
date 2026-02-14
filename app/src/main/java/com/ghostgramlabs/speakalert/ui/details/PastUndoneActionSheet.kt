@@ -41,23 +41,26 @@ fun PastUndoneActionSheet(
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(
-                    text = "⏰ Reminder time has already passed",
-                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Reminder missed",
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.primary
+            )
+            
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text(
                     text = "Scheduled for ${DateUtils.formatDateTime(scheduledTime)}",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "What would you like to do with this reminder?",
-                    style = MaterialTheme.typography.bodyMedium,
+                    text = "What would you like to do?",
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+            }
             }
             
             Spacer(modifier = Modifier.height(8.dp))
@@ -107,12 +110,11 @@ private fun ActionItem(
     val containerColor = if (highlight) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface
     val contentColor = if (highlight) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
     
-    Card(
+    Surface(
         onClick = onClick,
-        colors = CardDefaults.cardColors(
-            containerColor = containerColor,
-        ),
-        modifier = Modifier.fillMaxWidth()
+        shape = MaterialTheme.shapes.medium,
+        color = containerColor,
+        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
     ) {
         Row(
             modifier = Modifier
@@ -129,7 +131,7 @@ private fun ActionItem(
             Column {
                 Text(
                     text = label,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.bodyLarge,
                     color = if (isDestructive) MaterialTheme.colorScheme.error else contentColor
                 )
                 if (subLabel != null) {
