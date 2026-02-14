@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Modern Material 3 Theme for SpeakAlert -->
+    <!-- Inheriting from DayNight.NoActionBar ensures compatibility with Compose and Edge-to-Edge -->
+    <style name="Theme.SpeakAlert" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Status bar and navigation bar are handled by enableEdgeToEdge() in MainActivity -->
+    </style>
+</resources>

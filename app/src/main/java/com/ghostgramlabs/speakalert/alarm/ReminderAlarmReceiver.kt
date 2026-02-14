@@ -239,10 +239,23 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 val displayText = reminder.reminderText ?: "Tap to view"
                 val title = reminder.title ?: "SpeakAlert"
 
-                // Determine if we should auto-play
-                val canAutoPlay = autoPlayEnabled && !inCall && !(unlockedOnly && isLocked) && (hasAudio || (hasText && speakText))
+                // ===== ANDROID 15 BOOT & AUTOPLAY LOGIC =====
+                val isBootReschedule = intent.getBooleanExtra("isBootReschedule", false)
+                val systemUptimeMs = android.os.SystemClock.elapsedRealtime()
+                val isEarlyBoot = systemUptimeMs < 5 * 60 * 1000L // 5 minutes window
                 
-                FileLogger.log("ALARM: canAutoPlay=$canAutoPlay")
+                // Determine if we should auto-play
+                // Suppress autoplay if:
+                // 1. It's a boot-time reschedule (we don't want the phone shouting immediately after restart)
+                // 2. We are in "Early Boot" on Android 15+ (to avoid FGS restrictions/IllegalStateException)
+                val canAutoPlay = autoPlayEnabled && 
+                                 !inCall && 
+                                 !(unlockedOnly && isLocked) && 
+                                 (hasAudio || (hasText && speakText)) &&
+                                 !isBootReschedule &&
+                                 !isEarlyBoot
+                
+                FileLogger.log("ALARM: bootReschedule=$isBootReschedule, uptime=${systemUptimeMs}ms, canAutoPlay=$canAutoPlay")
 
                 if (canAutoPlay) {
                     FileLogger.log("ALARM: Attempting to start service for autoplay")
@@ -258,7 +271,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                         }
                         FileLogger.log("ALARM: Service started successfully")
                     } catch (e: Exception) {
-                        FileLogger.logError("ALARM", "Failed to start service", e)
+                        FileLogger.logError("ALARM", "Failed to start service (likely Android 15 FGS restriction). Uptime: ${systemUptimeMs}ms", e)
+                        // Note: If service fails, the notification is still shown below, fulfilling the "Tap to play" fallback.
                     }
                     
                     // ALWAYS show notification after autoplay (it stays until user dismisses)

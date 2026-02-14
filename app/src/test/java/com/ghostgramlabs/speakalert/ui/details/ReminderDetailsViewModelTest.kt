@@ -125,6 +125,6 @@ class ReminderDetailsViewModelTest {
         // But verifying second updateReminder call:
         // verify(repository, times(2)).updateReminder(...)
         // Let's just check scheduler call
-        verify(scheduler).schedule(any())
+        verify(scheduler).schedule(any(), any())
     }
 }
