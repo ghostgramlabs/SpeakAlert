@@ -11,11 +11,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.foundation.isSystemInDarkTheme
 import com.ghostgramlabs.speakalert.ui.theme.VoiceReminderTheme
+import androidx.activity.enableEdgeToEdge
 import com.ghostgramlabs.speakalert.ui.navigation.VoiceReminderNavGraph
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         
         // Read intent extras for notification tap handling
         val reminderId = intent.getLongExtra("reminderId", -1L)
