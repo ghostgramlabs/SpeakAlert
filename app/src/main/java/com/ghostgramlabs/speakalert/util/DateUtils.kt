@@ -121,4 +121,16 @@ object DateUtils {
     fun formatTimeOnly(timestamp: Long): String {
         return SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date(timestamp))
     }
+
+    /**
+     * Normalizes a timestamp to the top of the minute (0 seconds, 0 milliseconds).
+     */
+    fun normalizeToMinute(timestamp: Long): Long {
+        val cal = Calendar.getInstance().apply {
+            timeInMillis = timestamp
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        return cal.timeInMillis
+    }
 }

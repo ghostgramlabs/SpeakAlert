@@ -37,33 +37,33 @@ fun HelpDialog(
                     .verticalScroll(rememberScrollState())
             ) {
                 HelpSection(
-                    title = "⚡ Getting Started",
-                    content = "Tap the large microphone icon to create a reminder. Record a voice or type a message to be read aloud. Type an optional title to identify your reminders at a glance."
+                    title = "🎤 Creating Reminders",
+                    content = "• Voice: Tap the Mic to record. It's the fastest way to set a reminder!\n• Type: Prefer text? Type your message. If 'Text-to-Speech' is on in Settings, the app will read it aloud for you.\n• Label: Give your reminder a short name (like 'Meds' or 'Gym') to find it easily in your list."
                 )
                 
                 HelpSection(
-                    title = "🔊 Audio & Playback",
-                    content = "• Auto-play: If on, your reminder speaks as soon as it fires.\n• Only when unlocked: Prevents sound while your phone is in your pocket or locked.\n• Text-to-Speech: If you didn't record a voice, the app will read your text message aloud."
+                    title = "🔁 Recurrence (Repeating Alarms)",
+                    content = "• Daily/Weekly/Monthly: Set it once and forget it! The app calculates the exact next trigger time automatically.\n• Custom: Need something unique? Set intervals like 'Every 3 hours' or 'Every 2 weeks'.\n• Mark Done: For repeating tasks, this only clears the *current* alarm. It will ring again at the next scheduled time."
                 )
                 
                 HelpSection(
-                    title = "🔁 Loop & Timeout",
-                    content = "Use 'Loop timeout' to set how long a reminder repeats (default 10m). Use 'Infinite Loop' (∞) if you want it to keep playing until you stop it."
+                    title = "🔄 Loop Playback (Anti-Skip)",
+                    content = "• Problem: Regular alarms might stop too quickly. \n• Solution: Enable 'Loop Playback' to make the audio repeat until you manually dismiss it.\n• Auto-Stop: In Playback Settings, you can set a safety timeout (e.g., 10 minutes) so your battery doesn't drain if you're not near your phone."
+                )
+                
+                HelpSection(
+                    title = "💤 Snooze & Quiet Hours",
+                    content = "• Smart Snooze: Need a few more minutes? Tap Snooze. You can change the default duration in Settings.\n• Quiet Hours: Block all voice alerts during specific times (like 11 PM to 7 AM) so you can sleep undisturbed."
                 )
 
                 HelpSection(
-                    title = "💤 Snooze & Timing",
-                    content = "• Snooze: Tap to postpone an alarm. Default is 5m, but you can pick a custom time.\n• Quiet Hours: Block all voice alerts during specific times (e.g., at night)."
-                )
-                
-                HelpSection(
-                    title = "🔄 Recurring Tasks",
-                    content = "• 'Mark Done': Finishes just this occurrence. It will ring again at the next cycle.\n• 'Stop recurring': Totally deletes the reminder and future alarms."
+                    title = "📥 Missed Inbox",
+                    content = "If your phone was off or in 'Quiet Hours' when an alarm was supposed to fire, it will appear in the 'Missed' tab. You can review them anytime and clear the list once you've seen them."
                 )
 
                 HelpSection(
-                    title = "🔔 Missed & Inbox",
-                    content = "Missed reminders are kept in the 'Missed' tab. This happens if your phone was off, set to Quiet Hours, or in Do Not Disturb mode when the alarm was supposed to fire."
+                    title = "🚀 Reliability Tips",
+                    content = "• Permissions: Ensure 'Post Notifications' and 'Exact Alarms' are granted to prevent missed alerts.\n• Battery: If your phone kills background apps, check our 'Permissions' card in Settings to ensure full reliability."
                 )
             }
         },

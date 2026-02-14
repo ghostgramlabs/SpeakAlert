@@ -311,10 +311,22 @@ fun AddEditReminderScreen(
                     
                     // Repeat Row
                     var showRecurrenceSheet by remember { mutableStateOf(false) }
+                    val recurrenceSummary = remember(uiState.recurrenceType, uiState.recurrenceJson, uiState.triggerTime) {
+                         if (uiState.recurrenceType == RecurrenceType.NONE) {
+                             "Never"
+                         } else {
+                             com.ghostgramlabs.speakalert.domain.RecurrenceUtils.getRecurrenceSummary(
+                                 type = uiState.recurrenceType,
+                                 json = uiState.recurrenceJson,
+                                 nextTriggerAt = uiState.triggerTime,
+                                 includeTime = false
+                             )
+                         }
+                    }
                     ScheduleRow(
                         icon = Icons.Filled.Repeat,
                         label = "Repeat",
-                        value = if (uiState.recurrenceType == RecurrenceType.NONE) "Never" else uiState.recurrenceType.name,
+                        value = recurrenceSummary,
                         onClick = { showRecurrenceSheet = true }
                     )
                     
@@ -346,7 +358,7 @@ fun AddEditReminderScreen(
                             imageVector = Icons.Filled.AllInclusive,
                             contentDescription = null,
                             modifier = Modifier.size(24.dp),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            tint = if (uiState.loopPlayback) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         Column(modifier = Modifier.weight(1f)) {

@@ -447,90 +447,46 @@ fun SettingsScreen(
                 }
             }
 
+            // SECTION 4: HELP & GUIDE
             // ============================================================
-            // SECTION 4: HELP
-            // ============================================================
-            var showHelpDialog by remember { mutableStateOf(false) }
-            
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+            CollapsibleSettingsSection(
+                title = "How to use Speak Alert",
+                icon = "💡",
+                initiallyExpanded = true
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { showHelpDialog = true }
-                        .padding(16.dp)
-                        .semantics { role = androidx.compose.ui.semantics.Role.Button },
-                    verticalAlignment = Alignment.CenterVertically
+                var showHelpDialog by remember { mutableStateOf(false) }
+                
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Help,
-                        contentDescription = "Help icon",
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(24.dp)
-                    )
-                    Spacer(Modifier.width(16.dp))
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            "How to use SpeakAlert",
-                            style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.Medium
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { showHelpDialog = true }
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Help,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(24.dp)
                         )
-                        Text(
-                            "Tips and tricks for getting the most out of the app",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                        Spacer(Modifier.width(16.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                "App Usage Guide",
+                                style = MaterialTheme.typography.bodyLarge,
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                        Icon(Icons.Default.ChevronRight, contentDescription = null)
                     }
-                    Icon(
-                        imageVector = Icons.Default.ChevronRight,
-                        contentDescription = "Open Help",
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
                 }
-            }
-            
-            if (showHelpDialog) {
-                HelpDialog(onDismiss = { showHelpDialog = false })
-            }
-
-            Card(
-                modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { viewModel.requestAppReview(context) }
-                        .padding(16.dp)
-                        .semantics { role = androidx.compose.ui.semantics.Role.Button },
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Star,
-                        contentDescription = "Rating star",
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(24.dp)
-                    )
-                    Spacer(Modifier.width(16.dp))
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            "Enjoying SpeakAlert? Rate us",
-                            style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.Medium
-                        )
-                        Text(
-                            "Takes just a few seconds on Play Store",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                    Icon(
-                        imageVector = Icons.Default.ChevronRight,
-                        contentDescription = "Open Play Store",
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                
+                if (showHelpDialog) {
+                    HelpDialog(onDismiss = { showHelpDialog = false })
                 }
             }
             
@@ -754,8 +710,19 @@ private fun CustomDurationDialog(
                 Spacer(modifier = Modifier.height(16.dp))
                 OutlinedTextField(
                     value = value,
-                    onValueChange = { value = it.filter { c -> c.isDigit() } },
+                    onValueChange = { newValue ->
+                        val digits = newValue.filter { it.isDigit() }
+                        if (digits.isEmpty()) {
+                            value = ""
+                        } else {
+                            val num = digits.toIntOrNull() ?: 0
+                            if (num <= maxMinutes) {
+                                value = digits
+                            }
+                        }
+                    },
                     label = { Text("Minutes") },
+                    supportingText = { Text("Max allowed: $maxMinutes min") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()

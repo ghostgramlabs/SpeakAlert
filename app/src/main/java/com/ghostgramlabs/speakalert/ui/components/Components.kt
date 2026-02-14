@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.AllInclusive
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -287,6 +288,7 @@ fun ReminderCard(
     isTextToSpeechEnabled: Boolean,
     isPlaying: Boolean,
     isCompleted: Boolean = false,
+    loopEnabled: Boolean = false,
     onPlayClick: () -> Unit,
     onStopClick: () -> Unit,
     onClick: () -> Unit,
@@ -531,29 +533,46 @@ fun ReminderCard(
                     onColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 
-                if (recurrenceType != RecurrenceType.NONE) {
-                    Surface(
-                        shape = RoundedCornerShape(8.dp),
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Repeat,
-                            contentDescription = "Recurring",
-                            modifier = Modifier.padding(6.dp).size(14.dp),
-                            tint = MaterialTheme.colorScheme.primary
-                        )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (recurrenceType != RecurrenceType.NONE) {
+                        Surface(
+                            shape = RoundedCornerShape(8.dp),
+                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Repeat,
+                                contentDescription = "Recurring",
+                                modifier = Modifier.padding(6.dp).size(14.dp),
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    } else {
+                        Surface(
+                            shape = RoundedCornerShape(8.dp),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.1f)
+                        ) {
+                            Text(
+                                text = "One-time",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                            )
+                        }
                     }
-                } else {
-                    Surface(
-                        shape = RoundedCornerShape(8.dp),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.1f)
-                    ) {
-                        Text(
-                            text = "One-time",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
-                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-                        )
+
+                    if (loopEnabled) {
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Surface(
+                            shape = RoundedCornerShape(8.dp),
+                            color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.15f)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.AllInclusive,
+                                contentDescription = "Looping",
+                                modifier = Modifier.padding(6.dp).size(14.dp),
+                                tint = MaterialTheme.colorScheme.tertiary
+                            )
+                        }
                     }
                 }
             }

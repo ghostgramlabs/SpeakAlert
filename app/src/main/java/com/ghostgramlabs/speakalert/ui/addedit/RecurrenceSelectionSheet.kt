@@ -151,10 +151,8 @@ fun MonthlyConfigSheet(
         mutableStateListOf<Int>().apply {
             if (initialModel != null && initialModel.daysOfMonth.isNotEmpty()) {
                 addAll(initialModel.daysOfMonth)
-            } else {
-                // Default to current day of month
-                add(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
             }
+            // Default to empty - user must select
         }
     }
     
@@ -280,7 +278,8 @@ fun MonthlyConfigSheet(
                             missedPolicy = missedPolicy
                         ))
                     },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    enabled = variant == MonthlyVariant.LAST_DAY || selectedDays.isNotEmpty()
                 ) { Text("Save") }
             }
         }
