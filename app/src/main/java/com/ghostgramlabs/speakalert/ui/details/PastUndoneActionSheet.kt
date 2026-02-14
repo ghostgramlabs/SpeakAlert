@@ -32,8 +32,9 @@ fun PastUndoneActionSheet(
     ) {
         Column(
             modifier = Modifier
-                .padding(horizontal = 24.dp) // Standard margin
-                .padding(bottom = 32.dp),
+                .padding(horizontal = 24.dp)
+                .navigationBarsPadding()
+                .padding(bottom = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             // Header
