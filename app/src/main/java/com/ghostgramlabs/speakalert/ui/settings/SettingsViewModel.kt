@@ -28,9 +28,6 @@ class SettingsViewModel(
     val themeMode = settingsRepository.themeMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
-    val vibrationEnabled = settingsRepository.vibrationEnabled
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
-
     fun setAutoPlayEnabled(enabled: Boolean) {
         viewModelScope.launch {
             settingsRepository.setAutoPlayEnabled(enabled)
@@ -58,12 +55,6 @@ class SettingsViewModel(
     fun setThemeMode(mode: Int) {
         viewModelScope.launch {
             settingsRepository.setThemeMode(mode)
-        }
-    }
-
-    fun setVibrationEnabled(enabled: Boolean) {
-        viewModelScope.launch {
-            settingsRepository.setVibrationEnabled(enabled)
         }
     }
 

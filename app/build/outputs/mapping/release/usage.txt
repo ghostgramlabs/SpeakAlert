@@ -15488,6 +15488,7 @@ androidx.core.app.NotificationCompat$Builder:
     public androidx.core.app.NotificationCompat$Builder setTicker(java.lang.CharSequence)
     public androidx.core.app.NotificationCompat$Builder setTicker(java.lang.CharSequence,android.widget.RemoteViews)
     public androidx.core.app.NotificationCompat$Builder setTimeoutAfter(long)
+    public androidx.core.app.NotificationCompat$Builder setVibrate(long[])
     private boolean useExistingRemoteView()
 androidx.core.app.NotificationCompat$CallStyle$Api16Impl:
     private void <init>()
@@ -26393,8 +26394,6 @@ com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$13$2$1:
     java.lang.Object L$0
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$14$2$1:
-    java.lang.Object L$0
-com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$15$2$1:
     java.lang.Object L$0
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$2$2$1:
     java.lang.Object L$0
@@ -43507,11 +43506,11 @@ androidx.core.app.NotificationCompat$Builder:
     public static androidx.core.app.NotificationCompat$Builder setBadgeIconType()
     public static androidx.core.app.NotificationCompat$Builder setColor()
     public static androidx.core.app.NotificationCompat$Builder setColorized()
+    public final void setDefaults(int)
     public static androidx.core.app.NotificationCompat$Builder setForegroundServiceBehavior()
     public static androidx.core.app.NotificationCompat$Builder setPriority()
     public static androidx.core.app.NotificationCompat$Builder setProgress()
     public static androidx.core.app.NotificationCompat$Builder setSubText()
-    public static androidx.core.app.NotificationCompat$Builder setVibrate()
 androidx.core.app.NotificationCompat$CallStyle:
     public static java.util.ArrayList getActionsListWithSystemActions()
     public static java.lang.String getDefaultText()
@@ -49924,7 +49923,6 @@ androidx.savedstate.SavedStateRegistryController$Companion:
     public static androidx.datastore.preferences.core.Preferences$Key getSPEAK_TEXT_IF_NO_VOICE()
     public static androidx.datastore.preferences.core.Preferences$Key getTHEME_MODE()
     public static java.util.concurrent.locks.Lock getThreadLock()
-    public static androidx.datastore.preferences.core.Preferences$Key getVIBRATION_ENABLED()
     public static int newCapacity$kotlin_stdlib(int,int)
     public static boolean orderedEquals$kotlin_stdlib()
     public static int orderedHashCode$kotlin_stdlib()
@@ -50092,8 +50090,6 @@ com.ghostgramlabs.speakalert.alarm.BootReceiver$onReceive$1:
 com.ghostgramlabs.speakalert.alarm.BootReceiver:
     static void <clinit>()
 com.ghostgramlabs.speakalert.alarm.NotificationHelper$Companion
-com.ghostgramlabs.speakalert.alarm.NotificationHelper$showNotification$1:
-    public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
 com.ghostgramlabs.speakalert.alarm.NotificationHelper:
     public static final int $stable
     public static final androidx.savedstate.SavedStateRegistryController$Companion Companion
@@ -50303,9 +50299,6 @@ com.ghostgramlabs.speakalert.data.repository.SettingsRepository$setSpeakTextIfNo
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$setThemeMode$2:
     public int label
     public final java.lang.Object invoke$18()
-com.ghostgramlabs.speakalert.data.repository.SettingsRepository$setVibrationEnabled$2:
-    public int label
-    public final java.lang.Object invoke$18()
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$1$2
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$10$2
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$10
@@ -50317,8 +50310,6 @@ com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$13
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$14$2
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$14
-com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$15$2
-com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$15
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$1
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$2$2
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$2
@@ -50346,7 +50337,6 @@ com.ghostgramlabs.speakalert.data.repository.SettingsRepository:
     public static kotlinx.coroutines.flow.Flow getDefaultSnoozeDuration()
     public static kotlinx.coroutines.flow.Flow getLoopTimeoutMinutes()
     public static kotlinx.coroutines.flow.Flow getThemeMode()
-    public static kotlinx.coroutines.flow.Flow getVibrationEnabled()
     public static java.lang.Object setAppVolume()
     public static java.lang.Object setAutoPlayEnabled()
     public static java.lang.Object setAutoPlayOnUnlockOnly()
@@ -50357,7 +50347,6 @@ com.ghostgramlabs.speakalert.data.repository.SettingsRepository:
     public static java.lang.Object setQuietTimeStart()
     public static java.lang.Object setSpeakTextIfNoVoice()
     public static java.lang.Object setThemeMode()
-    public static java.lang.Object setVibrationEnabled()
 com.ghostgramlabs.speakalert.domain.RecurrenceUtils$getRecurrenceSummary$daysStr$2
 com.ghostgramlabs.speakalert.domain.RecurrenceUtils:
     public static final int $stable
@@ -51197,21 +51186,21 @@ com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$4
     public final void invoke(java.lang.Throwable)
     public final java.lang.CharSequence invoke$1()
     public static java.lang.String invoke$3()
-com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$5
+com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$5$1$1
+com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$5$3$1
+com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$5$4$1
 com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$6$1$1
-com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$6$2
+com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$6$2$1
 com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$6$3$1
-com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$6$4$1
-com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$7$1$1
-com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$7$2$1
-com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$7$3$1
-com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$7$4
-com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$8
-com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$9$2
+com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$6$4
+com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$7
+com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$8$2
+com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2$9
 com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$2:
-    public static final void access$invoke$lambda$10$lambda$7(androidx.compose.runtime.MutableState,boolean)
-    public static final void access$invoke$lambda$17$lambda$14(androidx.compose.runtime.MutableState,boolean)
+    public static final void access$invoke$lambda$16$lambda$13(androidx.compose.runtime.MutableState,boolean)
+    public static final void access$invoke$lambda$9$lambda$6(androidx.compose.runtime.MutableState,boolean)
     public final void invoke(androidx.compose.foundation.layout.ColumnScope,androidx.compose.runtime.Composer,int)
+    public static final int invoke$lambda$2(androidx.compose.runtime.MutableState)
 com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$3$2$2
 com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$3$2$3
 com.ghostgramlabs.speakalert.ui.settings.SettingsScreenKt$SettingsScreen$2$1$3$2$4
@@ -51263,8 +51252,6 @@ com.ghostgramlabs.speakalert.ui.settings.SettingsViewModel$setSpeakTextIfNoVoice
     public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
 com.ghostgramlabs.speakalert.ui.settings.SettingsViewModel$setThemeMode$1:
     public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
-com.ghostgramlabs.speakalert.ui.settings.SettingsViewModel$setVibrationEnabled$1:
-    public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
 com.ghostgramlabs.speakalert.ui.settings.SettingsViewModel:
     public static final int $stable
     static void <clinit>()
@@ -51281,7 +51268,6 @@ com.ghostgramlabs.speakalert.ui.settings.SettingsViewModel:
     public static kotlinx.coroutines.flow.StateFlow getQuietTimeStartMinute()
     public static kotlinx.coroutines.flow.StateFlow getSpeakTextIfNoVoice()
     public static kotlinx.coroutines.flow.StateFlow getThemeMode()
-    public static kotlinx.coroutines.flow.StateFlow getVibrationEnabled()
     public static void scheduleTestReminder()
     public static void setAppVolume()
     public static void setAutoPlayEnabled()
@@ -51292,7 +51278,6 @@ com.ghostgramlabs.speakalert.ui.settings.SettingsViewModel:
     public static void setQuietTimeStart()
     public static void setSpeakTextIfNoVoice()
     public static void setThemeMode()
-    public static void setVibrationEnabled()
 com.ghostgramlabs.speakalert.ui.settings.SnoozeOptionChipKt$SnoozeOptionChip$1$1:
     public final void invoke(androidx.compose.ui.semantics.SemanticsPropertyReceiver)
 com.ghostgramlabs.speakalert.ui.settings.SnoozeOptionChipKt$SnoozeOptionChip$3

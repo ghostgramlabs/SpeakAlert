@@ -14,10 +14,6 @@ import com.ghostgramlabs.speakalert.R
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 
 class NotificationHelper(private val context: Context) {
 
@@ -126,39 +122,27 @@ class NotificationHelper(private val context: Context) {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        try {
-            val repository = (context.applicationContext as com.ghostgramlabs.speakalert.VoiceReminderApp).container.settingsRepository
-            
-            CoroutineScope(Dispatchers.Main).launch {
-                val vibrationEnabled = repository.vibrationEnabled.first()
-                
-                val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setSmallIcon(R.mipmap.ic_launcher_round)
-                    .setContentTitle(title ?: "Voice reminder")
-                    .setContentText(message ?: "Tap to play your reminder")
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setContentIntent(pendingIntent)
-                    .setAutoCancel(false) // Notification stays until user acts
-                    .setOngoing(false) // User can swipe to dismiss like normal notifications
-                
-                if (vibrationEnabled) {
-                    builder.setDefaults(NotificationCompat.DEFAULT_ALL) // Sound, vibration, lights
-                } else {
-                    builder.setDefaults(NotificationCompat.DEFAULT_SOUND or NotificationCompat.DEFAULT_LIGHTS)
-                    builder.setVibrate(longArrayOf(0L)) // Explicitly disable vibration
-                }
-                
-                // Add Play button only if we have audio or text
-                if (audioPath != null || reminderText != null) {
-                    builder.addAction(android.R.drawable.ic_media_play, "Play", playPendingIntent)
-                }
-                
-                builder.addAction(0, "Dismiss", donePendingIntent)
-                builder.addAction(0, "Snooze", snoozePendingIntent)
+        val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+            .setSmallIcon(R.mipmap.ic_launcher_round)
+            .setContentTitle(title ?: "Voice reminder")
+            .setContentText(message ?: "Tap to play your reminder")
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(false) // Notification stays until user acts
+            .setOngoing(false) // User can swipe to dismiss like normal notifications
+            .setDefaults(NotificationCompat.DEFAULT_ALL) // Sound, vibration, lights
+        
+        // Add Play button only if we have audio or text
+        if (audioPath != null || reminderText != null) {
+            builder.addAction(android.R.drawable.ic_media_play, "Play", playPendingIntent)
+        }
+        
+        builder.addAction(0, "Dismiss", donePendingIntent)
+        builder.addAction(0, "Snooze", snoozePendingIntent)
 
-                NotificationManagerCompat.from(context).notify(reminderId.toInt(), builder.build())
-                Log.d(TAG, "Notification posted successfully for reminderId=$reminderId (vibration=$vibrationEnabled)")
-            }
+        try {
+            NotificationManagerCompat.from(context).notify(reminderId.toInt(), builder.build())
+            Log.d(TAG, "Notification posted successfully for reminderId=$reminderId")
         } catch (e: SecurityException) {
             Log.e(TAG, "SecurityException posting notification", e)
         } catch (e: Exception) {

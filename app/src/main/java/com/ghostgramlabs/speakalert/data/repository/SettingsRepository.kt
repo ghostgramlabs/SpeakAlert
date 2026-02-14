@@ -31,7 +31,6 @@ class SettingsRepository(private val context: Context) {
         val QUIET_TIME_END_MINUTE = intPreferencesKey("quiet_time_end_minute")
         
         val THEME_MODE = intPreferencesKey("theme_mode") // 0 = System, 1 = Light, 2 = Dark
-        val VIBRATION_ENABLED = booleanPreferencesKey("vibration_enabled")
     }
 
     val autoPlayEnabled: Flow<Boolean> = dataStore.data.map { it[AUTO_PLAY_ENABLED] ?: true }
@@ -51,7 +50,6 @@ class SettingsRepository(private val context: Context) {
     val quietTimeEndMinute: Flow<Int> = dataStore.data.map { it[QUIET_TIME_END_MINUTE] ?: 0 }
     
     val themeMode: Flow<Int> = dataStore.data.map { it[THEME_MODE] ?: 0 }
-    val vibrationEnabled: Flow<Boolean> = dataStore.data.map { it[VIBRATION_ENABLED] ?: true }
 
     suspend fun setAutoPlayEnabled(enabled: Boolean) {
         dataStore.edit { it[AUTO_PLAY_ENABLED] = enabled }
@@ -105,9 +103,5 @@ class SettingsRepository(private val context: Context) {
     
     suspend fun setThemeMode(mode: Int) {
         dataStore.edit { it[THEME_MODE] = mode }
-    }
-
-    suspend fun setVibrationEnabled(enabled: Boolean) {
-        dataStore.edit { it[VIBRATION_ENABLED] = enabled }
     }
 }

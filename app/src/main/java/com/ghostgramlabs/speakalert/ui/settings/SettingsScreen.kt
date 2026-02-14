@@ -175,17 +175,6 @@ fun SettingsScreen(
                          modifier = Modifier.padding(start = 8.dp).width(40.dp)
                     )
                 }
-
-                val vibrationEnabled by viewModel.vibrationEnabled.collectAsState()
-                SwitchRow(
-                    text = "Vibration",
-                    description = "Vibrate device when reminder fires",
-                    checked = vibrationEnabled,
-                    onCheckedChange = {
-                        viewModel.setVibrationEnabled(it)
-                        Toast.makeText(context, if (it) "Vibration on" else "Vibration off", Toast.LENGTH_SHORT).show()
-                    }
-                )
                 
                 // Loop Auto-Stop (compact inline)
                 val loopTimeoutMinutes by viewModel.loopTimeoutMinutes.collectAsState()
