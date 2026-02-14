@@ -49,21 +49,23 @@ class HomeViewModel(
             // 2. BUT exclude if already handled today (lastFiredAt is today AND nextTriggerAt is not in future)
             
             val isScheduledForToday = DateUtils.isToday(it.nextTriggerAt)
-            val isOverdueForToday = it.nextTriggerAt < System.currentTimeMillis() && DateUtils.isToday(it.nextTriggerAt)
             val isWaitingToFire = it.nextTriggerAt > System.currentTimeMillis()
-            
-            // For recurring: show if next trigger is today (even if lastFired was earlier today)
-            // For one-time: show if scheduled for today and not yet fired OR overdue from today
             val isTodayFired = it.lastFiredAt != null && DateUtils.isToday(it.lastFiredAt!!)
             
             // Show in Today if:
-            // - Scheduled for today AND waiting to fire (future today)
-            // - OR Overdue but scheduled for today (user might want to see it)
-            // - Even if it FIRED today, we want to show it until user marks it DONE.
+            // 1. Scheduled for today AND hasn't been fired/done today yet
+            // 2. OR Overdue but scheduled for today
             when {
-                isWaitingToFire && isScheduledForToday -> true  // Future today
-                isOverdueForToday -> true                        // Overdue today (includes fired but ignored)
-                it.recurrenceType != com.ghostgramlabs.speakalert.domain.models.RecurrenceType.NONE && isScheduledForToday -> true  // Recurring scheduled for today
+                // If it already fired or was marked done today, hide it from "Today" 
+                // (It will be in "Done" or advanced to "Upcoming")
+                isTodayFired -> false
+                
+                // Future occurrence today
+                isScheduledForToday && isWaitingToFire -> true
+                
+                // Overdue occurrence today
+                isScheduledForToday && it.nextTriggerAt <= System.currentTimeMillis() -> true
+                
                 else -> false
             }
         }.sortedBy { it.nextTriggerAt }
@@ -138,7 +140,10 @@ class HomeViewModel(
             
             // Advance to next occurrence
             updated = com.ghostgramlabs.speakalert.domain.RecurrenceUtils.updateForNextOccurrence(updated)
-            val nextTrigger = com.ghostgramlabs.speakalert.domain.RecurrenceUtils.computeNextTrigger(updated, now)
+            // Compute next trigger time, starting from either NOW or the scheduled time (whichever is later)
+            // This ensures we actually skip the "current" occurrence even if marking as done early.
+            val calculationBase = maxOf(now, reminder.nextTriggerAt)
+            val nextTrigger = com.ghostgramlabs.speakalert.domain.RecurrenceUtils.computeNextTrigger(updated, calculationBase)
             
             if (nextTrigger != null) {
                 updated = updated.copy(nextTriggerAt = nextTrigger)

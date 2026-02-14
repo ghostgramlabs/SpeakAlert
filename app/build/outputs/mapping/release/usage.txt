@@ -51321,6 +51321,7 @@ com.ghostgramlabs.speakalert.util.DateUtils:
     public static java.lang.String formatDateLabel()
     public static java.lang.String formatDateTime(long)
     public static java.lang.String formatTimeOnly()
+    public static boolean isToday()
     public static long normalizeToMinute()
 com.ghostgramlabs.speakalert.util.FileLogger:
     public static final int $stable

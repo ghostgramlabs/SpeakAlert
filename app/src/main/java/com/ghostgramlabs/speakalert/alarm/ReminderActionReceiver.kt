@@ -96,8 +96,9 @@ class ReminderActionReceiver : BroadcastReceiver() {
                             // Advance recurrence
                             updated = RecurrenceUtils.updateForNextOccurrence(updated)
                             
-                            // Compute next trigger time
-                            val nextTrigger = RecurrenceUtils.computeNextTrigger(updated, now)
+                            // Compute next trigger time relative to the occurrence we are dismissing
+                            val calculationBase = maxOf(now, reminder.nextTriggerAt)
+                            val nextTrigger = RecurrenceUtils.computeNextTrigger(updated, calculationBase)
                             if (nextTrigger != null) {
                                 updated = updated.copy(nextTriggerAt = nextTrigger)
                                 repository.updateReminder(updated)
