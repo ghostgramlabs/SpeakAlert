@@ -50798,7 +50798,7 @@ com.ghostgramlabs.speakalert.ui.details.ComposableSingletons$ReminderDetailsScre
     public static kotlin.jvm.functions.Function2 getLambda-7$app_release()
     public static kotlin.jvm.functions.Function2 getLambda-8$app_release()
 com.ghostgramlabs.speakalert.ui.details.PastUndoneActionSheetKt$ActionItem$1:
-    public final void invoke(androidx.compose.foundation.layout.ColumnScope,androidx.compose.runtime.Composer,int)
+    public final void invoke(androidx.compose.runtime.Composer,int)
 com.ghostgramlabs.speakalert.ui.details.PastUndoneActionSheetKt$ActionItem$2:
     public final void invoke(androidx.compose.runtime.Composer,int)
 com.ghostgramlabs.speakalert.ui.details.PastUndoneActionSheetKt$PastUndoneActionSheet$1:
