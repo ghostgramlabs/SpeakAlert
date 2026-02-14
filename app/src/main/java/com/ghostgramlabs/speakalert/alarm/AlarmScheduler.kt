@@ -9,7 +9,7 @@ import android.util.Log
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 
 interface AlarmScheduler {
-    fun schedule(reminder: ReminderEntity)
+    fun schedule(reminder: ReminderEntity, isBootReschedule: Boolean = false)
     fun cancel(reminder: ReminderEntity)
 }
 
@@ -17,16 +17,17 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
 
     private val alarmManager = context.getSystemService(AlarmManager::class.java)
 
-    override fun schedule(reminder: ReminderEntity) {
+    override fun schedule(reminder: ReminderEntity, isBootReschedule: Boolean) {
         // SNOOZE PRIORITY: If snoozeUntil is set, use it instead of nextTriggerAt.
         // This is TEMPORARY - snoozeUntil is cleared when the alarm fires.
         // After snooze fires, recurrence resumes from nextTriggerAt (unchanged).
         val triggerTime = reminder.snoozeUntil ?: reminder.nextTriggerAt
         
-        com.ghostgramlabs.speakalert.util.FileLogger.log("SCHEDULER: Scheduling alarm id=${reminder.id} for $triggerTime (${java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.US).format(java.util.Date(triggerTime))})")
+        com.ghostgramlabs.speakalert.util.FileLogger.log("SCHEDULER: Scheduling alarm id=${reminder.id} (boot=$isBootReschedule) for $triggerTime (${java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.US).format(java.util.Date(triggerTime))})")
         
         val intent = Intent(context, ReminderAlarmReceiver::class.java).apply {
             putExtra("reminderId", reminder.id)
+            putExtra("isBootReschedule", isBootReschedule)
         }
         
         val pendingIntent = PendingIntent.getBroadcast(

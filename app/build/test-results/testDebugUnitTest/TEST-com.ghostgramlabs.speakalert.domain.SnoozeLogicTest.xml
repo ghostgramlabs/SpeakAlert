@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.ghostgramlabs.speakalert.domain.SnoozeLogicTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-02-14T17:30:57" hostname="SAS" time="0.0">
+  <properties/>
+  <testcase name="testSnoozeLogicWithMultipleSteps" classname="com.ghostgramlabs.speakalert.domain.SnoozeLogicTest" time="0.0"/>
+  <testcase name="testSnoozeDoesNotModifyRecurrence" classname="com.ghostgramlabs.speakalert.domain.SnoozeLogicTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

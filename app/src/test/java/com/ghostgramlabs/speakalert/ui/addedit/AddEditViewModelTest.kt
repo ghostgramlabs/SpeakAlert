@@ -106,7 +106,7 @@ class AddEditViewModelTest {
         assertEquals(text, captor.firstValue.reminderText)
         
         // Verify Scheduler
-        verify(scheduler).schedule(any())
+        verify(scheduler).schedule(any(), any())
     }
 
     @Test

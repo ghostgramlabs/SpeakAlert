@@ -26,7 +26,7 @@ class BootReceiver : BroadcastReceiver() {
                     // Scheduler handles setExact logic.
                     // Spec: "return to execution... fire ASAP when device resumes"
                     // AlarmManager setExact on past time triggers immediately, so just scheduling is enough.
-                    scheduler.schedule(reminder)
+                    scheduler.schedule(reminder, isBootReschedule = true)
                 }
             }
         }
