@@ -110,7 +110,7 @@ fun DateTimePickerDialog(
                 }
             },
             confirmButton = {
-                TextButton(
+                Button(
                     onClick = {
                         selectedDate?.let { dateMillis ->
                             val calendar = Calendar.getInstance().apply {
@@ -122,14 +122,15 @@ fun DateTimePickerDialog(
                             }
                             onConfirm(calendar.timeInMillis)
                         }
-                    }
+                    },
+                    shape = RoundedCornerShape(12.dp)
                 ) {
-                    Text("Confirm")
+                    Text("Save Reminder")
                 }
             },
             dismissButton = {
-                TextButton(onClick = onDismiss) {
-                    Text("Cancel")
+                TextButton(onClick = { showTimePicker = false }) {
+                    Text("Back")
                 }
             },
             shape = RoundedCornerShape(24.dp)

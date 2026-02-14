@@ -391,4 +391,58 @@ class RecurrenceUtilsTest {
         val nextAfter = RecurrenceUtils.computeNextTrigger(reminder, DayAfter - 1)
         assertEquals("Should be null after the end date", null, nextAfter)
     }
+    @Test
+    fun testMarkDoneEarlyAdvancesToNextOccurrence() {
+        // Setup: Today 10:00 AM (Scheduled)
+        val scheduledCal = Calendar.getInstance().apply {
+            set(2026, Calendar.FEBRUARY, 11, 10, 0, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val scheduledTime = scheduledCal.timeInMillis
+        
+        // Actually it's 9:00 AM now (Early)
+        val nowCal = scheduledCal.clone() as Calendar
+        nowCal.add(Calendar.HOUR_OF_DAY, -1)
+        val now = nowCal.timeInMillis
+        
+        val reminder = ReminderEntity(
+            nextTriggerAt = scheduledTime,
+            recurrenceType = RecurrenceType.DAILY
+        )
+        
+        // CalculationBase from ViewModel fix: maxOf(now, scheduledTime)
+        val calculationBase = maxOf(now, scheduledTime)
+        val nextTrigger = RecurrenceUtils.computeNextTrigger(reminder, calculationBase)
+        
+        // Expect: Tomorrow 10:00 AM
+        val expectedCal = scheduledCal.clone() as Calendar
+        expectedCal.add(Calendar.DAY_OF_YEAR, 1)
+        val expected = expectedCal.timeInMillis
+        
+        assertEquals("Should advance to tomorrow when marked done early", expected, nextTrigger)
+    }
+
+    @Test
+    fun testMarkDoneExactTimeAdvancesToNextOccurrence() {
+        // Setup: Exactly at scheduled time
+        val scheduledCal = Calendar.getInstance().apply {
+            set(2026, Calendar.FEBRUARY, 11, 10, 0, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val scheduledTime = scheduledCal.timeInMillis
+        
+        val reminder = ReminderEntity(
+            nextTriggerAt = scheduledTime,
+            recurrenceType = RecurrenceType.DAILY
+        )
+        
+        // CalculationBase = scheduledTime
+        val nextTrigger = RecurrenceUtils.computeNextTrigger(reminder, scheduledTime)
+        
+        // Expect: Tomorrow 10:00 AM
+        val expectedCal = scheduledCal.clone() as Calendar
+        expectedCal.add(Calendar.DAY_OF_YEAR, 1)
+        
+        assertEquals("Should advance to tomorrow even at exact time", expectedCal.timeInMillis, nextTrigger)
+    }
 }

@@ -461,7 +461,7 @@ fun ReminderDetailsScreen(
             },
             onPlayNow = {
                 showPastActionSheet = false
-                viewModel.markAsMissed(playAudio = true)
+                viewModel.playAudio()
                 isPlaying = true
             },
             onCancel = { showPastActionSheet = false },
