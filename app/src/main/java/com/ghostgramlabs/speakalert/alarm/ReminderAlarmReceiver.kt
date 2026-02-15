@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
-import android.os.Build
 import android.util.Log
 import com.ghostgramlabs.speakalert.VoiceReminderApp
 import com.ghostgramlabs.speakalert.data.model.MissedReminderEntity
@@ -120,7 +119,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                         reminderId = reminder.id,
                         title = reminder.title ?: "SpeakAlert",
                         scheduledTime = scheduledTime,
-                        detectedTime = now
+                        detectedTime = now,
+                        reminderText = reminder.reminderText
                     )
                     missedRepository.insertMissedReminder(missedEntry)
                     
@@ -159,7 +159,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                                 reminderId = reminder.id,
                                 title = reminder.title ?: "SpeakAlert",
                                 scheduledTime = scheduledTime,
-                                detectedTime = now
+                                detectedTime = now,
+                                reminderText = reminder.reminderText
                             )
                             missedRepository.insertMissedReminder(missedEntry)
                             
@@ -234,23 +235,19 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
 
                 // ===== ANDROID 15 BOOT & AUTOPLAY LOGIC =====
                 val isBootReschedule = intent.getBooleanExtra("isBootReschedule", false)
-                val systemUptimeMs = android.os.SystemClock.elapsedRealtime()
-                val isEarlyBoot = systemUptimeMs < 5 * 60 * 1000L // 5 minutes window
-                val isAndroid15OrAbove = Build.VERSION.SDK_INT >= 35
                 
-                // Determine if we should auto-play
-                // Suppress autoplay if:
-                // 1. It's a boot-time reschedule (we don't want the phone shouting immediately after restart)
-                // 2. We are in "Early Boot" (to avoid FGS restrictions)
-                // 3. ANDROID 15+ RESTRICTION: BOOT_COMPLETED receivers MUST NOT start
-                //    mediaPlayback foreground services. If this alarm was rescheduled
-                //    after boot, we UNCONDITIONALLY skip autoplay on Android 15+.
-                val bootBlocked = if (isAndroid15OrAbove) {
-                    // On Android 15+, any boot-rescheduled alarm or early-boot alarm
-                    // must never attempt to start a foreground service
-                    isBootReschedule || isEarlyBoot
-                } else {
-                    isBootReschedule || isEarlyBoot
+                // GUARD: Check if we are too close to boot time (2 minutes)
+                // If the app is still in the "boot completion" window, we must NOT start
+                // a mediaPlayback foreground service.
+                val lastBoot = settingsRepository.lastBootTimestamp.first()
+                val timeSinceBoot = now - lastBoot
+                val isCloseToBoot = timeSinceBoot < 120_000L // 2 minutes
+
+                // ANDROID 15+ RESTRICTION: Block autoplay if explicitly boot-rescheduled OR if within 2 mins of boot
+                val bootBlocked = isBootReschedule || isCloseToBoot
+                
+                if (bootBlocked) {
+                    FileLogger.log("ALARM: Autoplay BLOCKED. isBootReschedule=$isBootReschedule, timeSinceBoot=${timeSinceBoot/1000}s (threshold 120s)")
                 }
                 
                 val canAutoPlay = autoPlayEnabled && 
@@ -259,7 +256,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                                  (hasAudio || (hasText && speakText)) &&
                                  !bootBlocked
                 
-                FileLogger.log("ALARM: bootReschedule=$isBootReschedule, uptime=${systemUptimeMs}ms, isAndroid15+=$isAndroid15OrAbove, bootBlocked=$bootBlocked, canAutoPlay=$canAutoPlay")
+                FileLogger.log("ALARM: bootReschedule=$isBootReschedule, bootBlocked=$bootBlocked, canAutoPlay=$canAutoPlay")
 
                 if (canAutoPlay) {
                     FileLogger.log("ALARM: Attempting to start service for autoplay")
@@ -275,7 +272,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                         }
                         FileLogger.log("ALARM: Service started successfully")
                     } catch (e: Exception) {
-                        FileLogger.logError("ALARM", "Failed to start service (likely Android 15 FGS restriction). Uptime: ${systemUptimeMs}ms", e)
+                        // Catches ForegroundServiceStartNotAllowedException or any SecurityException
+                        FileLogger.logError("ALARM", "Failed to start service (likely Android 15 FGS restriction)", e)
                         // Note: If service fails, the notification is still shown below, fulfilling the "Tap to play" fallback.
                     }
                     

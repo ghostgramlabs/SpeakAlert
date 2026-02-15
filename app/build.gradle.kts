@@ -12,8 +12,8 @@ android {
         applicationId = "com.ghostgramlabs.speakalert"
         minSdk = 26
         targetSdk = 35
-        versionCode = 20
-        versionName = "2.0.0"
+        versionCode = 27
+        versionName = "2.0.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

@@ -7,6 +7,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.ghostgramlabs.speakalert.util.FileLogger
+import kotlinx.coroutines.launch
 
 /**
  * Receiver for BOOT_COMPLETED, TIME_CHANGED, and TIMEZONE_CHANGED broadcasts.
@@ -23,17 +24,38 @@ class BootReceiver : BroadcastReceiver() {
             intent.action == Intent.ACTION_TIME_CHANGED ||
             intent.action == Intent.ACTION_TIMEZONE_CHANGED
         ) {
-            FileLogger.log("BOOT_RECEIVER: Received ${intent.action}, enqueuing WorkManager job")
+            val pendingResult = goAsync()
+            val asyncScope = kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO)
 
-            val workRequest = OneTimeWorkRequestBuilder<BootRescheduleWorker>().build()
+            asyncScope.launch {
+                try {
+                    FileLogger.log("BOOT_RECEIVER: Received ${intent.action}")
+                    
+                    // ANDROID 15 GUARD: Persist boot timestamp
+                    if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
+                        try {
+                            val app = context.applicationContext as com.ghostgramlabs.speakalert.VoiceReminderApp
+                            val settingsRepository = app.container.settingsRepository
+                            val now = System.currentTimeMillis()
+                            settingsRepository.setLastBootTimestamp(now)
+                            FileLogger.log("BOOT_RECEIVER: Persisted boot timestamp: $now")
+                        } catch (e: Exception) {
+                            FileLogger.logError("BOOT_RECEIVER", "Failed to persist boot timestamp", e)
+                        }
+                    }
 
-            WorkManager.getInstance(context).enqueueUniqueWork(
-                BootRescheduleWorker.WORK_NAME,
-                ExistingWorkPolicy.REPLACE,
-                workRequest
-            )
-
-            FileLogger.log("BOOT_RECEIVER: WorkManager job enqueued")
+                    // Enqueue Worker for safe rescheduling (OUTSIDE boot context)
+                    val workRequest = OneTimeWorkRequestBuilder<BootRescheduleWorker>().build()
+                    WorkManager.getInstance(context).enqueueUniqueWork(
+                        BootRescheduleWorker.WORK_NAME,
+                        ExistingWorkPolicy.REPLACE,
+                        workRequest
+                    )
+                    FileLogger.log("BOOT_RECEIVER: WorkManager job enqueued")
+                } finally {
+                    pendingResult.finish()
+                }
+            }
         }
     }
 }

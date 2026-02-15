@@ -297,6 +297,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
                 startForeground(NOTIFICATION_ID, placeholderNotification)
                 FileLogger.log("SERVICE: startForeground succeeded")
             } catch (e: Exception) {
+                // Catches ForegroundServiceStartNotAllowedException (Android 12+)
                 FileLogger.logError("SERVICE", "startForeground failed", e)
                 stopSelf()
                 return START_NOT_STICKY
@@ -619,8 +620,17 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
         const val ACTION_REPLAY = "action_replay"
         const val EXTRA_LOOP = "extra_loop"
         
-        fun start(context: Context, id: Long, title: String?, audioPath: String?, ttsText: String?, loop: Boolean = false) {
-            FileLogger.log("SERVICE.start() called - id=$id, audio=$audioPath, tts=${ttsText?.take(20)}, loop=$loop")
+        fun start(context: Context, id: Long, title: String?, audioPath: String?, ttsText: String?, loop: Boolean = false, isFromBootContext: Boolean = false) {
+            FileLogger.log("SERVICE.start() called - id=$id, audio=$audioPath, tts=${ttsText?.take(20)}, loop=$loop, bootContext=$isFromBootContext")
+
+            // ANDROID 15+ GUARD: BOOT_COMPLETED receivers CANNOT start
+            // mediaPlayback foreground services. If this call originates from
+            // a boot-rescheduled alarm, unconditionally skip on Android 15+.
+            if (isFromBootContext && Build.VERSION.SDK_INT >= 35) {
+                FileLogger.log("SERVICE.start() - SKIPPED: Android 15+ boot context restriction. Notification-only fallback.")
+                return
+            }
+
             val intent = Intent(context, ReminderPlaybackService::class.java).apply {
                 putExtra(EXTRA_ID, id)
                 putExtra(EXTRA_TITLE, title)
@@ -629,17 +639,6 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
                 if (ttsText != null) putExtra(EXTRA_TTS_TEXT, ttsText)
             }
             try {
-                // ANDROID 15+ GUARD: Do not start foreground service if we are in
-                // the boot-proximity window (< 10 min uptime). On Android 15+,
-                // BOOT_COMPLETED receivers cannot launch mediaPlayback FGS.
-                if (Build.VERSION.SDK_INT >= 35) {
-                    val uptimeMs = android.os.SystemClock.elapsedRealtime()
-                    if (uptimeMs < 10 * 60 * 1000L) {
-                        FileLogger.log("SERVICE.start() - SKIPPED: Android 15+ boot proximity guard (uptime=${uptimeMs}ms). Notification-only fallback.")
-                        return
-                    }
-                }
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     context.startForegroundService(intent)
                 } else {

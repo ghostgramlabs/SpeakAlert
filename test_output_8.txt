@@ -1,0 +1,80 @@
+﻿> Task :app:buildKotlinToolingMetadata UP-TO-DATE
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preReleaseBuild UP-TO-DATE
+> Task :app:generateReleaseBuildConfig UP-TO-DATE
+> Task :app:checkReleaseAarMetadata UP-TO-DATE
+> Task :app:generateReleaseResValues UP-TO-DATE
+> Task :app:mapReleaseSourceSetPaths UP-TO-DATE
+> Task :app:generateReleaseResources UP-TO-DATE
+> Task :app:mergeReleaseResources UP-TO-DATE
+> Task :app:packageReleaseResources UP-TO-DATE
+> Task :app:parseReleaseLocalResources UP-TO-DATE
+> Task :app:createReleaseCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksRelease UP-TO-DATE
+> Task :app:processReleaseMainManifest UP-TO-DATE
+> Task :app:processReleaseManifest UP-TO-DATE
+> Task :app:processReleaseManifestForPackage UP-TO-DATE
+> Task :app:processReleaseResources UP-TO-DATE
+> Task :app:kspReleaseKotlin UP-TO-DATE
+> Task :app:compileReleaseKotlin UP-TO-DATE
+> Task :app:javaPreCompileRelease UP-TO-DATE
+> Task :app:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :app:bundleReleaseClassesToRuntimeJar UP-TO-DATE
+> Task :app:bundleReleaseClassesToCompileJar UP-TO-DATE
+> Task :app:preReleaseUnitTestBuild UP-TO-DATE
+> Task :app:javaPreCompileReleaseUnitTest UP-TO-DATE
+> Task :app:processReleaseJavaRes UP-TO-DATE
+> Task :app:kspReleaseUnitTestKotlin
+
+> Task :app:compileReleaseUnitTestKotlin
+w: file:///C:/Users/sudhi/.gemini/antigravity/scratch/Voice_Reminder_app_new/app/src/test/java/com/ghostgramlabs/speakalert/alarm/ReminderAlarmReceiverTest.kt:158:13 Variable 'reminder' is never used
+
+> Task :app:compileReleaseUnitTestJavaWithJavac NO-SOURCE
+> Task :app:processReleaseUnitTestJavaRes UP-TO-DATE
+.\gradlew : Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only 
+supported for boot loader classes because bootstrap classpath has been appended
+At line:1 char:1
++ .\gradlew testReleaseUnitTest 2>&1 | Out-File -Encoding utf8 test_out ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Java HotSpot(TM...s been appended: 
+   String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+> Task :app:testReleaseUnitTest
+
+BootRescheduleWorkerTest > doWork with PAST reminder handles INLINE and does NOT schedule immediate alarm FAILED
+    java.lang.NullPointerException at BootRescheduleWorkerTest.kt:109
+
+BootRescheduleWorkerTest > doWork with FUTURE reminder schedules it NORMALLY (isBootReschedule=false) FAILED
+    java.lang.NullPointerException at BootRescheduleWorkerTest.kt:82
+
+ReminderAlarmReceiverTest > when isBootReschedule is FALSE, FGS start is ALLOWED FAILED
+    java.lang.RuntimeException at ReminderAlarmReceiverTest.kt:156
+
+ReminderAlarmReceiverTest > when isBootReschedule is TRUE, FGS start is BLOCKED and notification is shown FAILED
+    java.lang.RuntimeException at ReminderAlarmReceiverTest.kt:124
+
+52 tests completed, 4 failed
+
+> Task :app:testReleaseUnitTest FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:testReleaseUnitTest'.
+> There were failing tests. See the report at: file:///C:/Users/sudhi/.gemini/an
+tigravity/scratch/Voice_Reminder_app_new/app/build/reports/tests/testReleaseUnit
+Test/index.html
+
+* Try:
+> Run with --scan to get full insights.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.9/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 8s
+26 actionable tasks: 3 executed, 23 up-to-date

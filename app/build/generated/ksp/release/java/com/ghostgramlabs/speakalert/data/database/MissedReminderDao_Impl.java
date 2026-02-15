@@ -46,7 +46,7 @@ public final class MissedReminderDao_Impl implements MissedReminderDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR REPLACE INTO `missed_reminders` (`id`,`reminderId`,`title`,`scheduledTime`,`detectedTime`) VALUES (nullif(?, 0),?,?,?,?)";
+        return "INSERT OR REPLACE INTO `missed_reminders` (`id`,`reminderId`,`title`,`scheduledTime`,`detectedTime`,`reminderText`) VALUES (nullif(?, 0),?,?,?,?,?)";
       }
 
       @Override
@@ -57,6 +57,11 @@ public final class MissedReminderDao_Impl implements MissedReminderDao {
         statement.bindString(3, entity.getTitle());
         statement.bindLong(4, entity.getScheduledTime());
         statement.bindLong(5, entity.getDetectedTime());
+        if (entity.getReminderText() == null) {
+          statement.bindNull(6);
+        } else {
+          statement.bindString(6, entity.getReminderText());
+        }
       }
     };
     this.__deletionAdapterOfMissedReminderEntity = new EntityDeletionOrUpdateAdapter<MissedReminderEntity>(__db) {
@@ -194,6 +199,7 @@ public final class MissedReminderDao_Impl implements MissedReminderDao {
           final int _cursorIndexOfTitle = CursorUtil.getColumnIndexOrThrow(_cursor, "title");
           final int _cursorIndexOfScheduledTime = CursorUtil.getColumnIndexOrThrow(_cursor, "scheduledTime");
           final int _cursorIndexOfDetectedTime = CursorUtil.getColumnIndexOrThrow(_cursor, "detectedTime");
+          final int _cursorIndexOfReminderText = CursorUtil.getColumnIndexOrThrow(_cursor, "reminderText");
           final List<MissedReminderEntity> _result = new ArrayList<MissedReminderEntity>(_cursor.getCount());
           while (_cursor.moveToNext()) {
             final MissedReminderEntity _item;
@@ -207,7 +213,13 @@ public final class MissedReminderDao_Impl implements MissedReminderDao {
             _tmpScheduledTime = _cursor.getLong(_cursorIndexOfScheduledTime);
             final long _tmpDetectedTime;
             _tmpDetectedTime = _cursor.getLong(_cursorIndexOfDetectedTime);
-            _item = new MissedReminderEntity(_tmpId,_tmpReminderId,_tmpTitle,_tmpScheduledTime,_tmpDetectedTime);
+            final String _tmpReminderText;
+            if (_cursor.isNull(_cursorIndexOfReminderText)) {
+              _tmpReminderText = null;
+            } else {
+              _tmpReminderText = _cursor.getString(_cursorIndexOfReminderText);
+            }
+            _item = new MissedReminderEntity(_tmpId,_tmpReminderId,_tmpTitle,_tmpScheduledTime,_tmpDetectedTime,_tmpReminderText);
             _result.add(_item);
           }
           return _result;

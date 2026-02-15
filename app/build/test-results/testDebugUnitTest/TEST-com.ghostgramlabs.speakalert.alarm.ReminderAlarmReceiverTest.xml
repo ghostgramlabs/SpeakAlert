@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.ghostgramlabs.speakalert.alarm.ReminderAlarmReceiverTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-02-15T01:22:04" hostname="SAS" time="1.71">
-  <properties/>
-  <testcase name="onReceive with quiet hours enabled and alarm during quiet hours handles correctly" classname="com.ghostgramlabs.speakalert.alarm.ReminderAlarmReceiverTest" time="1.71"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

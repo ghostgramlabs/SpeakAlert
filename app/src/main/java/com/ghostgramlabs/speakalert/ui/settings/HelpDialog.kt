@@ -68,7 +68,12 @@ fun HelpDialog(
 
                 HelpSection(
                     title = "🔌 Device Power & Restart",
-                    content = "• Reliability: Your reminders are safe even if your phone restarts. SpeakAlert automatically sets them back up for you.\n• Missed Alerts: If a reminder was scheduled while your phone was off, it will appear as a notification immediately after you turn your phone back on.\n• Android 15 (Early Boot): For your security, Android 15 limits automatic audio playback during the first few minutes after a restart. If a reminder fires during this 'Early Boot' period, it will show as a notification first. Simply tap the 'Play' button on the notification to hear your voice alert!"
+                    content = "• Reliability: Your reminders are safe even if your phone restarts. SpeakAlert automatically sets them back up for you.\n• After Restart: Reminders that were due while your phone was off will appear as a notification and be added to your Missed list. Tap 'Play' on the notification to hear them.\n• Future Reminders: Any upcoming reminders will continue to work normally after a restart, including auto-play."
+                )
+
+                HelpSection(
+                    title = "⚡ Reminders after device restart",
+                    content = "• If your phone restarts near a reminder time, audio might not play automatically.\n• A notification will appear instead.\n• Tap the notification to play or reschedule."
                 )
 
                 HelpSection(

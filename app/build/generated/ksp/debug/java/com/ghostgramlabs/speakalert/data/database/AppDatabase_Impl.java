@@ -33,13 +33,13 @@ public final class AppDatabase_Impl extends AppDatabase {
   @Override
   @NonNull
   protected SupportSQLiteOpenHelper createOpenHelper(@NonNull final DatabaseConfiguration config) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(4) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(5) {
       @Override
       public void createAllTables(@NonNull final SupportSQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS `reminders` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT, `reminderText` TEXT, `transcript` TEXT, `audioPath` TEXT, `createdAt` INTEGER NOT NULL, `nextTriggerAt` INTEGER NOT NULL, `lastFiredAt` INTEGER, `isCompleted` INTEGER NOT NULL, `completedAt` INTEGER, `recurrenceType` TEXT NOT NULL, `recurrenceJson` TEXT, `snoozeUntil` INTEGER, `missedPolicy` TEXT NOT NULL, `loopPlayback` INTEGER NOT NULL)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS `missed_reminders` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `reminderId` INTEGER NOT NULL, `title` TEXT NOT NULL, `scheduledTime` INTEGER NOT NULL, `detectedTime` INTEGER NOT NULL)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `missed_reminders` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `reminderId` INTEGER NOT NULL, `title` TEXT NOT NULL, `scheduledTime` INTEGER NOT NULL, `detectedTime` INTEGER NOT NULL, `reminderText` TEXT)");
         db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '144cdf59a20a9f3f24b04d32ecf127a5')");
+        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '49e75d782cbd6f6672dac8664254dbd6')");
       }
 
       @Override
@@ -114,12 +114,13 @@ public final class AppDatabase_Impl extends AppDatabase {
                   + " Expected:\n" + _infoReminders + "\n"
                   + " Found:\n" + _existingReminders);
         }
-        final HashMap<String, TableInfo.Column> _columnsMissedReminders = new HashMap<String, TableInfo.Column>(5);
+        final HashMap<String, TableInfo.Column> _columnsMissedReminders = new HashMap<String, TableInfo.Column>(6);
         _columnsMissedReminders.put("id", new TableInfo.Column("id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsMissedReminders.put("reminderId", new TableInfo.Column("reminderId", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsMissedReminders.put("title", new TableInfo.Column("title", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsMissedReminders.put("scheduledTime", new TableInfo.Column("scheduledTime", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsMissedReminders.put("detectedTime", new TableInfo.Column("detectedTime", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsMissedReminders.put("reminderText", new TableInfo.Column("reminderText", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysMissedReminders = new HashSet<TableInfo.ForeignKey>(0);
         final HashSet<TableInfo.Index> _indicesMissedReminders = new HashSet<TableInfo.Index>(0);
         final TableInfo _infoMissedReminders = new TableInfo("missed_reminders", _columnsMissedReminders, _foreignKeysMissedReminders, _indicesMissedReminders);
@@ -131,7 +132,7 @@ public final class AppDatabase_Impl extends AppDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "144cdf59a20a9f3f24b04d32ecf127a5", "f4f6cbf839aaf8ba68fa2488c51f85b3");
+    }, "49e75d782cbd6f6672dac8664254dbd6", "2e1514e7435939156b96a39b0d2c26b9");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(config.context).name(config.name).callback(_openCallback).build();
     final SupportSQLiteOpenHelper _helper = config.sqliteOpenHelperFactory.create(_sqliteConfig);
     return _helper;

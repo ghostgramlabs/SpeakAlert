@@ -882,7 +882,7 @@ fun VoiceRecorderCard(
                          }
                          Spacer(modifier = Modifier.height(12.dp))
                          Text(
-                             "Record a voice — or type a message to be spoken",
+                             "Tap to record a voice reminder",
                              style = MaterialTheme.typography.titleMedium,
                              color = MaterialTheme.colorScheme.onSurfaceVariant,
                              textAlign = androidx.compose.ui.text.style.TextAlign.Center

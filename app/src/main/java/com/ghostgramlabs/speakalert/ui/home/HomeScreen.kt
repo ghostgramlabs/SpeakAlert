@@ -789,12 +789,26 @@ fun MissedReminderItem(
                     Text(
                         text = missed.title,
                         style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 1,
+                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                     )
+                    
+                    // Show text body if available and not identical to title
+                    if (!missed.reminderText.isNullOrBlank() && !missed.title.equals(missed.reminderText, ignoreCase = true)) {
+                        Text(
+                            text = missed.reminderText,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(top = 4.dp)
+                        )
+                    }
+                    
                     Text(
-                        text = "Missed ${DateUtils.formatRelativeTime(missed.scheduledTime)}",
+                        text = "Missed • ${DateUtils.formatDateTime(missed.scheduledTime)}",
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.padding(top = 4.dp)
                     )
                 }
             }
@@ -806,13 +820,13 @@ fun MissedReminderItem(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 TextButton(onClick = onDismissClick) {
-                    Text("Dismiss")
+                    Text("Dismiss", color = MaterialTheme.colorScheme.error)
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(
                     onClick = onFireClick,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary
+                        containerColor = MaterialTheme.colorScheme.error
                     )
                 ) {
                     Text("Play Now")

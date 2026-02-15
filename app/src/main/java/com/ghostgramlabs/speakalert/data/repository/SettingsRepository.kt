@@ -31,6 +31,9 @@ class SettingsRepository(private val context: Context) {
         val QUIET_TIME_END_MINUTE = intPreferencesKey("quiet_time_end_minute")
         
         val THEME_MODE = intPreferencesKey("theme_mode") // 0 = System, 1 = Light, 2 = Dark
+        
+        // Android 15 FGS Boot Guard
+        val LAST_BOOT_TIMESTAMP = longPreferencesKey("last_boot_timestamp")
     }
 
     val autoPlayEnabled: Flow<Boolean> = dataStore.data.map { it[AUTO_PLAY_ENABLED] ?: true }
@@ -103,5 +106,11 @@ class SettingsRepository(private val context: Context) {
     
     suspend fun setThemeMode(mode: Int) {
         dataStore.edit { it[THEME_MODE] = mode }
+    }
+
+    val lastBootTimestamp: Flow<Long> = dataStore.data.map { it[LAST_BOOT_TIMESTAMP] ?: 0L }
+
+    suspend fun setLastBootTimestamp(timestamp: Long) {
+        dataStore.edit { it[LAST_BOOT_TIMESTAMP] = timestamp }
     }
 }

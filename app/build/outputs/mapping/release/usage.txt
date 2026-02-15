@@ -27005,6 +27005,8 @@ com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined
     java.lang.Object L$0
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$14$2$1:
     java.lang.Object L$0
+com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$15$2$1:
+    java.lang.Object L$0
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$2$2$1:
     java.lang.Object L$0
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$3$2$1:
@@ -33269,6 +33271,7 @@ kotlin.collections.CollectionsKt___CollectionsJvmKt:
     private static final java.math.BigInteger sumOfBigInteger(java.lang.Iterable,kotlin.jvm.functions.Function1)
     public static final java.util.SortedSet toSortedSet(java.lang.Iterable)
     public static final java.util.SortedSet toSortedSet(java.lang.Iterable,java.util.Comparator)
+kotlin.collections.CollectionsKt___CollectionsKt$elementAt$1
 kotlin.collections.CollectionsKt___CollectionsKt$groupingBy$1
 kotlin.collections.CollectionsKt___CollectionsKt$withIndex$1
 kotlin.collections.CollectionsKt___CollectionsKt:
@@ -33305,7 +33308,9 @@ kotlin.collections.CollectionsKt___CollectionsKt:
     public static final java.util.List dropLast(java.util.List,int)
     public static final java.util.List dropLastWhile(java.util.List,kotlin.jvm.functions.Function1)
     public static final java.util.List dropWhile(java.lang.Iterable,kotlin.jvm.functions.Function1)
+    public static final java.lang.Object elementAt(java.lang.Iterable,int)
     private static final java.lang.Object elementAt(java.util.List,int)
+    public static final java.lang.Object elementAtOrElse(java.lang.Iterable,int,kotlin.jvm.functions.Function1)
     private static final java.lang.Object elementAtOrElse(java.util.List,int,kotlin.jvm.functions.Function1)
     public static final java.lang.Object elementAtOrNull(java.lang.Iterable,int)
     private static final java.lang.Object elementAtOrNull(java.util.List,int)
@@ -33416,6 +33421,7 @@ kotlin.collections.CollectionsKt___CollectionsKt:
     private static final java.util.List plusElement(java.lang.Iterable,java.lang.Object)
     private static final java.util.List plusElement(java.util.Collection,java.lang.Object)
     private static final java.lang.Object random(java.util.Collection)
+    public static final java.lang.Object random(java.util.Collection,kotlin.random.Random)
     private static final java.lang.Object randomOrNull(java.util.Collection)
     public static final java.lang.Object randomOrNull(java.util.Collection,kotlin.random.Random)
     public static final java.lang.Object reduce(java.lang.Iterable,kotlin.jvm.functions.Function2)
@@ -38781,6 +38787,7 @@ androidx.activity.compose.BackHandlerKt$BackHandler$2:
     public static androidx.navigation.NavBackStackEntry invoke()
     public final java.lang.Boolean invoke(int)
     public final void invoke(float)
+    public final void invoke(androidx.compose.foundation.lazy.LazyListScope)
     public final void invoke(androidx.compose.foundation.text.selection.TextFieldPreparedSelection)
     public final void invoke(androidx.compose.ui.graphics.GraphicsLayerScope)
     public final void invoke(androidx.compose.ui.graphics.drawscope.DrawScope)
@@ -39004,7 +39011,6 @@ androidx.compose.animation.AnimatedContentKt$SizeTransform$1:
 androidx.compose.animation.AnimatedContentKt:
     public static final androidx.compose.animation.ContentTransform togetherWith(androidx.compose.animation.EnterTransitionImpl,androidx.compose.animation.ExitTransitionImpl)
 androidx.compose.animation.AnimatedContentMeasurePolicy$maxIntrinsicHeight$1:
-    public final java.lang.Object invoke(int)
     public final java.lang.Object invoke(androidx.sqlite.db.SupportSQLiteDatabase)
     public static java.lang.Integer invoke$1()
 androidx.compose.animation.AnimatedContentMeasurePolicy$maxIntrinsicWidth$1
@@ -49201,7 +49207,6 @@ androidx.navigation.compose.NavHostKt$NavHost$13:
 androidx.navigation.compose.NavHostKt$NavHost$14$1
 androidx.navigation.compose.NavHostKt$NavHost$14:
     public final void invoke(androidx.compose.animation.AnimatedContentScopeImpl,androidx.navigation.NavBackStackEntry,androidx.compose.runtime.Composer)
-    public final void invoke(androidx.compose.foundation.lazy.LazyItemScope,int,androidx.compose.runtime.Composer,int)
 androidx.navigation.compose.NavHostKt$NavHost$15:
     public int label
     public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
@@ -50533,9 +50538,11 @@ androidx.savedstate.SavedStateRegistry$Companion:
     public static androidx.datastore.preferences.core.Preferences$Key getAUTO_PLAY_ENABLED()
     public static androidx.datastore.preferences.core.Preferences$Key getAUTO_PLAY_ON_UNLOCK_ONLY()
     public static androidx.datastore.preferences.core.Preferences$Key getDEFAULT_SNOOZE_DURATION()
+    public static androidx.datastore.preferences.core.Preferences$Key getLAST_BOOT_TIMESTAMP()
     public static androidx.datastore.preferences.core.Preferences$Key getLOOP_TIMEOUT_MINUTES()
     public static androidx.room.migration.Migration getMIGRATION_2_3()
     public static androidx.room.migration.Migration getMIGRATION_3_4()
+    public static androidx.room.migration.Migration getMIGRATION_4_5()
     public static androidx.datastore.preferences.core.Preferences$Key getQUIET_TIME_ENABLED()
     public static androidx.datastore.preferences.core.Preferences$Key getQUIET_TIME_END_HOUR()
     public static androidx.datastore.preferences.core.Preferences$Key getQUIET_TIME_END_MINUTE()
@@ -50544,7 +50551,7 @@ androidx.savedstate.SavedStateRegistry$Companion:
     public static androidx.datastore.preferences.core.Preferences$Key getSPEAK_TEXT_IF_NO_VOICE()
     public static androidx.datastore.preferences.core.Preferences$Key getTHEME_MODE()
     public static java.util.concurrent.locks.Lock getThreadLock()
-    public static synthetic void start$default(android.content.Context,long,java.lang.String,java.lang.String,java.lang.String)
+    public static void start()
     public static void stop(android.content.Context)
 androidx.savedstate.SavedStateRegistry:
     public static final androidx.savedstate.SavedStateRegistry$Companion Companion
@@ -51485,10 +51492,13 @@ com.ghostgramlabs.speakalert.VoiceReminderApp:
 com.ghostgramlabs.speakalert.alarm.AlarmScheduler$DefaultImpls
 com.ghostgramlabs.speakalert.alarm.AlarmScheduler:
     public abstract void cancel(com.ghostgramlabs.speakalert.data.model.ReminderEntity)
-    public abstract void schedule(com.ghostgramlabs.speakalert.data.model.ReminderEntity,boolean)
+    public abstract void schedule()
 com.ghostgramlabs.speakalert.alarm.AndroidAlarmScheduler:
     public static final int $stable
     static void <clinit>()
+    public final void schedule()
+com.ghostgramlabs.speakalert.alarm.BootReceiver$onReceive$1:
+    public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
 com.ghostgramlabs.speakalert.alarm.BootReceiver:
     static void <clinit>()
 com.ghostgramlabs.speakalert.alarm.BootRescheduleWorker$Companion
@@ -51584,10 +51594,12 @@ com.ghostgramlabs.speakalert.data.AppContainerImpl:
     public final com.ghostgramlabs.speakalert.data.repository.MissedReminderRepository getMissedReminderRepository()
 com.ghostgramlabs.speakalert.data.database.AppDatabase$Companion$MIGRATION_2_3$1
 com.ghostgramlabs.speakalert.data.database.AppDatabase$Companion$MIGRATION_3_4$1
+com.ghostgramlabs.speakalert.data.database.AppDatabase$Companion$MIGRATION_4_5$1
 com.ghostgramlabs.speakalert.data.database.AppDatabase$Companion
 com.ghostgramlabs.speakalert.data.database.AppDatabase:
     public static final synthetic androidx.room.migration.Migration access$getMIGRATION_2_3$cp()
     public static final synthetic androidx.room.migration.Migration access$getMIGRATION_3_4$cp()
+    public static final synthetic androidx.room.migration.Migration access$getMIGRATION_4_5$cp()
 com.ghostgramlabs.speakalert.data.database.AppDatabase_Impl$1
 com.ghostgramlabs.speakalert.data.database.MissedReminderDao
 com.ghostgramlabs.speakalert.data.database.MissedReminderDao_Impl$1
@@ -51682,6 +51694,9 @@ com.ghostgramlabs.speakalert.data.repository.SettingsRepository$setAutoPlayOnUnl
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$setDefaultSnoozeDuration$2:
     public int label
     public final java.lang.Object invoke$19()
+com.ghostgramlabs.speakalert.data.repository.SettingsRepository$setLastBootTimestamp$2:
+    public int label
+    public final java.lang.Object invoke$19()
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$setLoopTimeoutMinutes$2:
     public int label
     public final java.lang.Object invoke$19()
@@ -51711,6 +51726,8 @@ com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$13
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$14$2
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$14
+com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$15$2
+com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$15
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$1
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$2$2
 com.ghostgramlabs.speakalert.data.repository.SettingsRepository$special$$inlined$map$2
@@ -51742,6 +51759,7 @@ com.ghostgramlabs.speakalert.data.repository.SettingsRepository:
     public static java.lang.Object setAutoPlayEnabled()
     public static java.lang.Object setAutoPlayOnUnlockOnly()
     public static java.lang.Object setDefaultSnoozeDuration()
+    public static java.lang.Object setLastBootTimestamp()
     public static java.lang.Object setLoopTimeoutMinutes()
     public static java.lang.Object setQuietTimeEnabled()
     public static java.lang.Object setQuietTimeEnd()
@@ -51816,34 +51834,36 @@ com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderS
 com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$4$2$1
 com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$4$2
 com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$4
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$1
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$3
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$4
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$5:
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$1$1$1
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$1$1$3
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$1$1$4
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$1$1$5:
     public final void invoke(float)
     public final void invoke(boolean)
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$6$1$1$1
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$6$1$1$3:
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$1$1$7
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$1$1$8:
     public final void invoke(androidx.compose.runtime.Composer,int)
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$6$1$3
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$6$1$4:
-    public final void invoke(androidx.compose.runtime.Composer,int)
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$6:
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$1:
     public final void invoke(androidx.compose.foundation.layout.ColumnScope,androidx.compose.runtime.Composer,int)
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$7$1$1
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$7$1$2
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$7$1$3$1
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$7$1$4
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$7$1$5$1
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$7$1$6:
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$2$1$1
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$2$1$2:
+    public final void invoke(androidx.compose.runtime.Composer,int)
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$2:
+    public final void invoke(androidx.compose.foundation.layout.ColumnScope,androidx.compose.runtime.Composer,int)
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$3$1$1
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$3$1$2
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$3$1$3$1
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$3$1$4
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$3$1$5$1
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$3$1$6:
     public final void invoke(androidx.compose.ui.semantics.SemanticsPropertyReceiver)
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$7$1$7$2
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$7:
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$3$1$7$2
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$3:
     public static final void access$invoke$lambda$10$lambda$4(androidx.compose.runtime.MutableState,boolean)
     public final void invoke(androidx.compose.foundation.layout.ColumnScope,androidx.compose.runtime.Composer,int)
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$8
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$9$1
-com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$9:
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$4
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$5$1
+com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5$1$5:
     public final void invoke(androidx.compose.foundation.layout.RowScope,androidx.compose.runtime.Composer,int)
 com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreenKt$AddEditReminderScreen$5:
     public final void invoke$14()
@@ -51914,12 +51934,14 @@ com.ghostgramlabs.speakalert.ui.addedit.AddEditViewModel:
 com.ghostgramlabs.speakalert.ui.addedit.ComposableSingletons$AddEditReminderScreenKt$lambda-2$1
 com.ghostgramlabs.speakalert.ui.addedit.ComposableSingletons$AddEditReminderScreenKt$lambda-3$1
 com.ghostgramlabs.speakalert.ui.addedit.ComposableSingletons$AddEditReminderScreenKt$lambda-4$1
+com.ghostgramlabs.speakalert.ui.addedit.ComposableSingletons$AddEditReminderScreenKt$lambda-5$1
 com.ghostgramlabs.speakalert.ui.addedit.ComposableSingletons$AddEditReminderScreenKt:
     public static final com.ghostgramlabs.speakalert.ui.addedit.ComposableSingletons$AddEditReminderScreenKt INSTANCE
     public static kotlin.jvm.functions.Function2 getLambda-1$app_release()
     public static kotlin.jvm.functions.Function2 getLambda-2$app_release()
     public static kotlin.jvm.functions.Function2 getLambda-3$app_release()
     public static kotlin.jvm.functions.Function2 getLambda-4$app_release()
+    public static kotlin.jvm.functions.Function2 getLambda-5$app_release()
 com.ghostgramlabs.speakalert.ui.addedit.ComposableSingletons$RecurrenceSelectionSheetKt$lambda-1$1
 com.ghostgramlabs.speakalert.ui.addedit.ComposableSingletons$RecurrenceSelectionSheetKt$lambda-2$1
 com.ghostgramlabs.speakalert.ui.addedit.ComposableSingletons$RecurrenceSelectionSheetKt$lambda-4$1
@@ -51986,7 +52008,6 @@ com.ghostgramlabs.speakalert.ui.addedit.RecurrenceSelectionSheetKt$RecurrenceSel
 com.ghostgramlabs.speakalert.ui.addedit.RecurrenceSelectionSheetKt$RecurrenceSelectionSheet$7$1
 com.ghostgramlabs.speakalert.ui.addedit.RecurrenceSelectionSheetKt$RecurrenceSelectionSheet$8
 com.ghostgramlabs.speakalert.ui.addedit.RecurrenceSelectionSheetKt$WeeklyConfigSheet$1$1$1$1$1$1$1
-com.ghostgramlabs.speakalert.ui.addedit.RecurrenceSelectionSheetKt$WeeklyConfigSheet$1$1$1$1$1$2
 com.ghostgramlabs.speakalert.ui.addedit.RecurrenceSelectionSheetKt$WeeklyConfigSheet$1$1$2$1$1:
     public final void invoke()
 com.ghostgramlabs.speakalert.ui.addedit.RecurrenceSelectionSheetKt$WeeklyConfigSheet$1:
@@ -52372,10 +52393,10 @@ com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$HomeScreen$20$1$6:
 com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$HomeScreen$20$1$7$1
 com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$HomeScreen$20$1$7$2$1
 com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$HomeScreen$20$1$7$2$2
-com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$HomeScreen$20$1$7$2$3$1:
+com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$HomeScreen$20$1$7$2$3:
     public final void invoke()
 com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$HomeScreen$20$1$7$2$4
-com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$HomeScreen$20$1$7$2$5$1
+com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$HomeScreen$20$1$7$2$5
 com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$HomeScreen$20$1$7$2$6$1:
     public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
 com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$HomeScreen$20$1$7$2$6:
@@ -52384,7 +52405,6 @@ com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$HomeScreen$20$1$7$invoke$$inli
 com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$HomeScreen$20$1$7$invoke$$inlined$items$default$2
 com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$HomeScreen$20$1$7$invoke$$inlined$items$default$3
 com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$HomeScreen$20$1$7$invoke$$inlined$items$default$4:
-    public final synthetic int $$dirty$inlined
     public final void invoke(androidx.compose.foundation.lazy.LazyItemScope,int,androidx.compose.runtime.Composer,int)
 com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$HomeScreen$20$1$7:
     public final void invoke(androidx.compose.foundation.lazy.LazyListScope)
@@ -52406,17 +52426,14 @@ com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$MissedReminderItem$1:
     public final void invoke(androidx.compose.foundation.layout.ColumnScope,androidx.compose.runtime.Composer,int)
 com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$MissedReminderItem$2
 com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$MissedReminderList$1$1
-com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$MissedReminderList$1$2$1$1:
+com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$MissedReminderList$1$2$1:
     public final void invoke()
-com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$MissedReminderList$1$2$2$1
+com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$MissedReminderList$1$2$2
 com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$MissedReminderList$1$invoke$$inlined$items$default$1
 com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$MissedReminderList$1$invoke$$inlined$items$default$2
 com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$MissedReminderList$1$invoke$$inlined$items$default$3
-com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$MissedReminderList$1$invoke$$inlined$items$default$4:
-    public final synthetic int $$dirty$inlined
-    public final void invoke(androidx.compose.foundation.lazy.LazyItemScope,int,androidx.compose.runtime.Composer,int)
-com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$MissedReminderList$1:
-    public final void invoke(androidx.compose.foundation.lazy.LazyListScope)
+com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$MissedReminderList$1$invoke$$inlined$items$default$4
+com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$MissedReminderList$1
 com.ghostgramlabs.speakalert.ui.home.HomeScreenKt$MissedReminderList$2
 com.ghostgramlabs.speakalert.ui.home.HomeScreenKt:
     public static final void access$HomeScreen$lambda$11(androidx.compose.runtime.MutableState)
@@ -52684,14 +52701,7 @@ com.ghostgramlabs.speakalert.ui.theme.ColorKt:
 com.ghostgramlabs.speakalert.ui.theme.ThemeKt$VoiceReminderTheme$1
 com.ghostgramlabs.speakalert.ui.theme.ThemeKt$VoiceReminderTheme$2:
     public final void invoke(androidx.compose.runtime.Composer,int)
-com.ghostgramlabs.speakalert.util.DateUtils:
-    public static final com.ghostgramlabs.speakalert.util.DateUtils INSTANCE
-    static void <clinit>()
-    public static java.lang.String formatDateLabel()
-    public static java.lang.String formatDateTime(long)
-    public static java.lang.String formatTimeOnly()
-    public static boolean isToday()
-    public static long normalizeToMinute()
+com.ghostgramlabs.speakalert.util.DateUtils
 com.ghostgramlabs.speakalert.util.FileLogger:
     public static final int $stable
     public static void init()
@@ -53330,7 +53340,6 @@ kotlin.collections.CollectionsKt__ReversedViewsKt:
     public static java.lang.Object removeFirst(java.util.List)
 kotlin.collections.CollectionsKt___CollectionsJvmKt
 kotlin.collections.CollectionsKt___CollectionsKt$asSequence$$inlined$Sequence$1
-kotlin.collections.CollectionsKt___CollectionsKt$elementAt$1
 kotlin.collections.CollectionsKt___CollectionsKt:
     public static java.util.ArrayList filterNotNull(java.util.List)
 kotlin.collections.EmptyIterator:
@@ -53676,14 +53685,15 @@ kotlin.math.MathKt__MathJVMKt
 kotlin.properties.ReadOnlyProperty
 kotlin.random.AbstractPlatformRandom:
     public abstract int nextInt()
-    public final int nextInt(int)
+    public abstract int nextInt$1()
 kotlin.random.FallbackThreadLocalRandom$implStorage$1:
     public static java.util.Random initialValue()
 kotlin.random.Random$Default:
     public final int nextInt()
+    public final int nextInt$1()
 kotlin.random.Random:
     public abstract int nextInt()
-    public abstract int nextInt(int)
+    public abstract int nextInt$1()
 kotlin.ranges.ClosedFloatRange:
     public final java.lang.Comparable getEndInclusive()
     public static java.lang.Float getEndInclusive()
@@ -53916,6 +53926,7 @@ kotlinx.coroutines.DebugStringsKt:
     public static androidx.core.os.LocaleListCompat getLocales(android.content.res.Configuration)
     public static int growSize(int)
     public static final androidx.datastore.preferences.core.Preferences$Key intKey(java.lang.String)
+    public static final androidx.datastore.preferences.core.Preferences$Key longKey(java.lang.String)
     public static final androidx.compose.runtime.ParcelableSnapshotMutableLongState mutableLongStateOf(long)
     public static final androidx.compose.runtime.SnapshotMutationPolicy neverEqualPolicy()
     public static final java.lang.Object[] presizedBufferWith(java.lang.Object)

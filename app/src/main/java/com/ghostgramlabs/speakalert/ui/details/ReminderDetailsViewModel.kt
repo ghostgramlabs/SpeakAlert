@@ -224,9 +224,11 @@ class ReminderDetailsViewModel(
             }
             
             // Un-complete and update trigger time
+            // IMPORTANT: Clear lastFiredAt so it shows up in "Today" list if applicable
             val updated = current.copy(
                 isCompleted = false,
                 completedAt = null,
+                lastFiredAt = null,
                 nextTriggerAt = finalTime
             )
             
