@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.ghostgramlabs.speakalert.ui.settings.SettingsViewModelTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-02-14T22:06:28" hostname="SAS" time="0.056">
+<testsuite name="com.ghostgramlabs.speakalert.ui.settings.SettingsViewModelTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-02-14T23:58:01" hostname="SAS" time="0.054">
   <properties/>
-  <testcase name="setThemeMode calls repository" classname="com.ghostgramlabs.speakalert.ui.settings.SettingsViewModelTest" time="0.022"/>
-  <testcase name="themeMode state reflects repository value" classname="com.ghostgramlabs.speakalert.ui.settings.SettingsViewModelTest" time="0.034"/>
+  <testcase name="setThemeMode calls repository" classname="com.ghostgramlabs.speakalert.ui.settings.SettingsViewModelTest" time="0.021"/>
+  <testcase name="themeMode state reflects repository value" classname="com.ghostgramlabs.speakalert.ui.settings.SettingsViewModelTest" time="0.033"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
