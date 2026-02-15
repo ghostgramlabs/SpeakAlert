@@ -32,7 +32,7 @@ fun RestoreReminderDialog(
         },
         title = {
             Text(
-                text = "🔄 Restore reminder",
+                text = "Restore reminder",
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.Bold
                 ),

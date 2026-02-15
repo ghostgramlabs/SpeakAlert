@@ -57,7 +57,7 @@ class BootRescheduleWorker(
                     // Future reminder: Schedule normally. These fire via AlarmManager
                     // in their own broadcast context (NOT BOOT_COMPLETED), so they
                     // can safely start foreground services and autoplay.
-                    scheduler.schedule(reminder)
+                    scheduler.schedule(reminder, isBootReschedule = true)
                 } else {
                     // Past/Missed/Immediate reminder: Handle INLINE to avoid FGS start frequency limit/restriction
                     FileLogger.log("BOOT_WORKER: Reminder ${reminder.id} is past due ($triggerTime <= $now). Handling inline as missed.")
@@ -98,7 +98,7 @@ class BootRescheduleWorker(
                         
                         if (nextTrigger != null) {
                             updatedReminder = updatedReminder.copy(nextTriggerAt = nextTrigger)
-                            scheduler.schedule(updatedReminder)
+                            scheduler.schedule(updatedReminder, isBootReschedule = true)
                             FileLogger.log("BOOT_WORKER: Scheduled next recurrence at $nextTrigger")
                         } else {
                             // Recurrence ended

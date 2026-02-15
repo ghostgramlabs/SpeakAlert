@@ -1,53 +1,87 @@
 # SpeakAlert - Offline Voice Reminders
 
-An offline-first Android application for creating and scheduling voice reminders. Built with **Jetpack Compose**, **Room**, **AlarmManager**, and **Clean Architecture** (MVVM).
+SpeakAlert is an offline-first Android reminder app for voice and text alerts. It is built with Jetpack Compose, Room, AlarmManager, and MVVM Clean Architecture.
 
-## Features
+## App Usage Guide
 
-- **Voice-First Creation**: Quickly record audio reminders.
-- **Scheduled Alarms**: Exact notifications using `AlarmManager`.
-- **Recurrence**: Support for Daily, Weekly, Monthly, and Custom intervals.
-- **Offline Storage**: All data (database + audio files) stored locally.
-- **Playback**: Listen to your voice notes directly from the app.
-- **Clean UI**: Material 3 Design with Dark Mode support.
+### 1. Create a reminder
+1. Tap the floating `Mic` button on Home.
+2. Record a voice reminder, or type reminder text.
+3. Add an optional title.
+4. Pick date/time.
+5. Choose repeat mode:
+   - `Does not repeat`
+   - `Daily`
+   - `Weekly`
+   - `Monthly`
+   - `Custom` (for example: every 2 days, every 3 hours)
+6. Save.
 
-## Architecture
+### 2. Understand Home tabs
+- `Today`: reminders scheduled for today (including overdue items for today).
+- `Upcoming`: future reminders after today.
+- `Missed`: reminders not delivered at the scheduled moment (for example device off, quiet hours, or late handling).
+- `Done`: completed reminders.
 
-The app follows MVVM with Clean Architecture:
+### 3. Use reminder cards
+- Tap a card to open details.
+- Use `...` for actions such as edit, mark done, stop recurring, or delete.
+- Use the inline `Play reminder` / `Stop playback` button on cards that can play audio or TTS.
 
-- **Data Layer**: `Room` for persistence, `AudioRecorder` for file handling.
-- **Domain Layer**: `RecurrenceUtils` for complex scheduling logic.
-- **UI Layer**: Jetpack Compose Screens and ViewModels.
-- **Alarm Layer**: BroadcastReceivers for reliable alarm handling and boot persistence.
+### 4. Missed reminders workflow
+- Open `Missed` tab to review missed items.
+- Tap `Play` to fire now.
+- Tap `Stop` to stop current playback.
+- Use `Dismiss` on a single item or `Dismiss All` for bulk clear.
 
-## Project Structure
+### 5. Recurring reminders behavior
+- Recurring reminders automatically compute and schedule the next occurrence after each trigger.
+- `Custom` intervals support minutes, hours, days, weeks, and months.
+- End rules are supported:
+  - Never
+  - Until date
+  - After number of occurrences
+- Marking a recurring reminder as done clears only the current occurrence, then continues to next schedule.
 
-- `data`: Room Database, Entities, and Repository.
-- `domain`: Recurrence logic and models.
-- `ui`: Compose screens (Home, Add/Edit, Details, Settings).
-- `alarm`: Scheduler, Receivers, NotificationHelper.
-- `audio`: Wrappers for `MediaRecorder` and `MediaPlayer`.
+### 6. Playback and alert controls
+In `Settings > Playback`:
+- `Auto-play audio`
+- `Only when unlocked`
+- `Text-to-Speech`
+- `Volume`
+- `Loop duration` (including infinite)
+- `Default snooze`
+- `Quiet hours`
+
+### 7. Device restart behavior
+- Future reminders are rescheduled automatically after reboot.
+- Past-due reminders are handled as missed flow and surfaced through notification/missed list behavior.
+
+## Key Features
+
+- Voice-first and text reminder creation
+- Exact alarm scheduling with AlarmManager
+- Daily, weekly, monthly, and custom recurrence
+- Missed reminder inbox
+- Local-only storage (database + audio files)
+- Material 3 UI
 
 ## Permissions
 
-The app requests the following permissions:
-- **Record Audio**: To record voice notes.
-- **Post Notifications** (Android 13+): To show reminder alerts.
-- **Schedule Exact Alarms** (Android 12+): To ensure reminders fire at the precise time.
+- `RECORD_AUDIO`: record voice reminders
+- `POST_NOTIFICATIONS` (Android 13+): show reminder alerts
+- `SCHEDULE_EXACT_ALARM` (Android 12+): precise reminder timing
 
-## Setup & Running
+## Developer Setup
 
-1.  Open the project in **Android Studio**.
-2.  Sync Gradle with project files.
-3.  Run on an emulator or physical device (Min SDK 26).
+1. Open the project in Android Studio.
+2. Sync Gradle.
+3. Run on emulator/device (Min SDK 26).
 
-## Notes
+## Test
 
-- **Exact Alarms**: On Android 12+, if permission is revoked, the app gracefully falls back or prompts the user in Settings.
-- **Recurrence**: Recurrence logic handles complex rules like "Every Monday and Friday" or "Every 3 Days".
-- **Audio**: Stored in `context.filesDir/reminders/` as `.m4a` files.
+Run unit tests:
 
-## Tests
-
-Unit tests are included for `RecurrenceUtils` to verify scheduling logic (Daily, Weekly, Monthly handling).
-Run tests via: `./gradlew test`
+```bash
+./gradlew test
+```

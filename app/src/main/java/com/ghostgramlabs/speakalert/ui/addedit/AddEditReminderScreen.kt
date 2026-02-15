@@ -144,8 +144,8 @@ fun AddEditReminderScreen(
                 .padding(innerPadding)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp)
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Spacer(modifier = Modifier.height(8.dp))
             
@@ -168,7 +168,7 @@ fun AddEditReminderScreen(
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(20.dp)
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     // 1. Voice Recording Section
                     com.ghostgramlabs.speakalert.ui.components.VoiceRecorderCard(
@@ -195,12 +195,20 @@ fun AddEditReminderScreen(
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
+                        Divider(
+                            modifier = Modifier.weight(1f),
+                            color = MaterialTheme.colorScheme.outlineVariant
+                        )
                         Text(
-                            text = "-------- OR --------",
+                            text = "OR",
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+                        )
+                        Divider(
+                            modifier = Modifier.weight(1f),
+                            color = MaterialTheme.colorScheme.outlineVariant
                         )
                     }
 
@@ -212,8 +220,9 @@ fun AddEditReminderScreen(
                         placeholder = { Text("e.g., Take medicine after breakfast") },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(130.dp),
-                        maxLines = 4,
+                            .heightIn(min = 120.dp, max = 200.dp),
+                        minLines = 4,
+                        maxLines = 6,
                         shape = RoundedCornerShape(12.dp),
                         isError = uiState.showError,
                         supportingText = {
@@ -237,7 +246,7 @@ fun AddEditReminderScreen(
                                 if (uiState.reminderText.isNotEmpty() && uiState.recordedAudioPath == null && uiState.isTextToSpeechEnabled) {
                                     Spacer(modifier = Modifier.height(4.dp))
                                     Text(
-                                        "🔊 Will be read aloud",
+                                        "Will be read aloud",
                                         color = MaterialTheme.colorScheme.primary,
                                         fontWeight = FontWeight.Bold,
                                         style = MaterialTheme.typography.bodySmall
@@ -262,11 +271,8 @@ fun AddEditReminderScreen(
             }
 
             // Title Section - Wrapped in Card
-            // Spacing: Parent has spacedBy(20.dp) + padding(top = 4.dp) = 24dp spacing
             Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp),
+                modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.surface
@@ -473,7 +479,8 @@ private fun ScheduleRow(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(16.dp)
+            .heightIn(min = 56.dp)
+            .padding(horizontal = 16.dp, vertical = 12.dp)
             .semantics { role = androidx.compose.ui.semantics.Role.Button },
         verticalAlignment = Alignment.CenterVertically
     ) {

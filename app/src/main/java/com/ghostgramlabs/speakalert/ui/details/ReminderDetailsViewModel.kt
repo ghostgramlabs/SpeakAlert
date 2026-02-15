@@ -125,6 +125,13 @@ class ReminderDetailsViewModel(
         }
     }
     
+    fun stopAudio(context: Context) {
+        // Stop any local preview player path.
+        player.stop()
+        // Stop foreground service playback path (used by details/home playback).
+        com.ghostgramlabs.speakalert.service.ReminderPlaybackService.stop(context)
+    }
+    
     /**
      * Start autoplay using the foreground service (plays audio or TTS).
      * Call this when opening from notification with autoplay=true.

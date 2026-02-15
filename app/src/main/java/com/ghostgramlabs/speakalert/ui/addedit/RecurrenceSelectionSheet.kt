@@ -250,7 +250,7 @@ fun MonthlyConfigSheet(
                                         style = MaterialTheme.typography.labelSmall
                                     ) 
                                 },
-                                modifier = Modifier.size(width = 44.dp, height = 32.dp),
+                                modifier = Modifier.size(width = 48.dp, height = 36.dp),
                                 colors = FilterChipDefaults.filterChipColors(
                                     selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
                                     selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -337,7 +337,7 @@ fun WeeklyConfigSheet(
                 Spacer(modifier = Modifier.height(16.dp))
                 
                 Row(
-                    horizontalArrangement = Arrangement.SpaceBetween, 
+                    horizontalArrangement = Arrangement.spacedBy(8.dp), 
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     weekdays.forEach { (day, label) ->
@@ -346,6 +346,7 @@ fun WeeklyConfigSheet(
                             selected = isSelected,
                             onClick = { if (isSelected) days.remove(day) else days.add(day) },
                             label = { Text(label) },
+                            modifier = Modifier.weight(1f),
                             colors = FilterChipDefaults.filterChipColors(
                                 selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
                                 selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer

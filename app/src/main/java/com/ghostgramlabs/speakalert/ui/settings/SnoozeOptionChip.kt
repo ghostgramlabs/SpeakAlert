@@ -34,9 +34,9 @@ fun SnoozeOptionChip(
     
     Box(
         modifier = modifier
-            .height(40.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .border(1.dp, borderColor, RoundedCornerShape(8.dp))
+            .height(48.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .border(1.dp, borderColor, RoundedCornerShape(12.dp))
             .clickable(onClick = onClick)
             .semantics {
                 role = androidx.compose.ui.semantics.Role.Button
