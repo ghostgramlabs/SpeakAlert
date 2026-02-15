@@ -149,28 +149,15 @@ fun AddEditReminderScreen(
         ) {
             Spacer(modifier = Modifier.height(8.dp))
             
-            // Voice Recording Section - Hero element
-            com.ghostgramlabs.speakalert.ui.components.VoiceRecorderCard(
-                isRecording = uiState.isRecording,
-                isPlaying = uiState.isPlaying,
-                hasRecording = uiState.recordedAudioPath != null,
-                onRecordClick = {
-                    if (micPermissionState.status.isGranted) {
-                        viewModel.startRecording()
-                    } else {
-                        micPermissionState.launchPermissionRequest()
-                    }
-                },
-                onStopClick = { viewModel.stopRecording() },
-                onPlayClick = { viewModel.playRecording() },
-                onStopPlaybackClick = { viewModel.stopPlayback() },
-                playbackProgress = uiState.playbackProgress,
-                onSeek = { viewModel.seekTo(it) },
-                recordingElapsedSeconds = uiState.recordingElapsedSeconds,
-                currentAmplitude = uiState.currentAmplitude
+            // Reminder Content Header
+            Text(
+                text = "Reminder Content",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(start = 4.dp)
             )
 
-            // Title & Note Section
+            // Reminder Content Card (Voice + Text)
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
@@ -181,61 +168,51 @@ fun AddEditReminderScreen(
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                    verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
-                    // Label Field (was "Title")
-                    val labelPlaceholders = listOf("Take medicine", "Call mom", "Water plants", "Pick up kids")
-                    val randomPlaceholder = remember { labelPlaceholders.random() }
-                    
-                    Column {
-                        OutlinedTextField(
-                            value = uiState.title,
-                            onValueChange = { if (it.length <= 40) viewModel.updateTitle(it) },
-                            label = { Text("Label") },
-                            placeholder = { Text("e.g., $randomPlaceholder") },
-                            supportingText = { 
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    Text("What is this reminder about?")
-                                    Text("${uiState.title.length}/40")
-                                }
-                            },
-                            modifier = Modifier.fillMaxWidth(),
-                            singleLine = true,
-                            shape = RoundedCornerShape(12.dp),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = MaterialTheme.colorScheme.primary,
-                                unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
-                            )
-                        )
-                    }
+                    // 1. Voice Recording Section
+                    com.ghostgramlabs.speakalert.ui.components.VoiceRecorderCard(
+                        isRecording = uiState.isRecording,
+                        isPlaying = uiState.isPlaying,
+                        hasRecording = uiState.recordedAudioPath != null,
+                        onRecordClick = {
+                            if (micPermissionState.status.isGranted) {
+                                viewModel.startRecording()
+                            } else {
+                                micPermissionState.launchPermissionRequest()
+                            }
+                        },
+                        onStopClick = { viewModel.stopRecording() },
+                        onPlayClick = { viewModel.playRecording() },
+                        onStopPlaybackClick = { viewModel.stopPlayback() },
+                        playbackProgress = uiState.playbackProgress,
+                        onSeek = { viewModel.seekTo(it) },
+                        recordingElapsedSeconds = uiState.recordingElapsedSeconds,
+                        currentAmplitude = uiState.currentAmplitude
+                    )
 
-
-                    // "OR" Divider to separate Voice from Text
+                    // 2. OR Divider
                     Row(
-                        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
                     ) {
-                        Divider(modifier = Modifier.weight(1f), color = MaterialTheme.colorScheme.outlineVariant)
                         Text(
-                            text = "OR TYPE INSTEAD",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(horizontal = 16.dp)
+                            text = "-------- OR --------",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
                         )
-                        Divider(modifier = Modifier.weight(1f), color = MaterialTheme.colorScheme.outlineVariant)
                     }
 
+                    // 3. Text Input (Message)
                     OutlinedTextField(
                         value = uiState.reminderText,
                         onValueChange = { if (it.length <= 1000) viewModel.updateReminderText(it) },
-                        label = { Text("Message (will be spoken)") },
-                        placeholder = { Text("Type here if you prefer text over voice recording") },
+                        label = { Text("Message (Text-to-speech)") },
+                        placeholder = { Text("e.g., Take medicine after breakfast") },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(130.dp), // Increased for supporting text
+                            .height(130.dp),
                         maxLines = 4,
                         shape = RoundedCornerShape(12.dp),
                         isError = uiState.showError,
@@ -245,13 +222,8 @@ fun AddEditReminderScreen(
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.SpaceBetween
                                 ) {
-                                    val helperText = if (uiState.isTextToSpeechEnabled) {
-                                        "Read aloud if no voice recorded"
-                                    } else {
-                                        "Shown as notification"
-                                    }
                                     Text(
-                                        text = helperText,
+                                        text = "Used if no voice is recorded",
                                         style = MaterialTheme.typography.bodySmall,
                                         modifier = Modifier.weight(1f)
                                     )
@@ -286,6 +258,46 @@ fun AddEditReminderScreen(
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
+                }
+            }
+
+            // Title Section - Wrapped in Card
+            // Spacing: Parent has spacedBy(20.dp) + padding(top = 4.dp) = 24dp spacing
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                ),
+                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    OutlinedTextField(
+                        value = uiState.title,
+                        onValueChange = { if (it.length <= 40) viewModel.updateTitle(it) },
+                        label = { Text("Title (Optional)") },
+                        placeholder = { Text("e.g., Morning medicine") },
+                        supportingText = { 
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text("Helps you identify the reminder later")
+                                Text("${uiState.title.length}/40")
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        shape = RoundedCornerShape(12.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
+                        )
+                    )
                 }
             }
 
@@ -396,7 +408,7 @@ fun AddEditReminderScreen(
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                             Text(
-                                "Repeat audio until dismissed",
+                                "Keep playing until dismissed",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )

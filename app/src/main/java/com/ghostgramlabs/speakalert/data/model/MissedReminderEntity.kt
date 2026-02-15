@@ -10,5 +10,6 @@ data class MissedReminderEntity(
     val reminderId: Long,
     val title: String,
     val scheduledTime: Long,
-    val detectedTime: Long = System.currentTimeMillis()
+    val detectedTime: Long = System.currentTimeMillis(),
+    val reminderText: String? = null
 )

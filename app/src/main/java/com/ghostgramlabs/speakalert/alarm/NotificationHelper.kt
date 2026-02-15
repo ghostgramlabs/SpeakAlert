@@ -126,6 +126,7 @@ class NotificationHelper(private val context: Context) {
             .setSmallIcon(R.mipmap.ic_launcher_round)
             .setContentTitle(title ?: "Voice reminder")
             .setContentText(message ?: "Tap to play your reminder")
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message ?: "Tap to play your reminder"))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
             .setAutoCancel(false) // Notification stays until user acts

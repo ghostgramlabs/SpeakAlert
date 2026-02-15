@@ -214,10 +214,12 @@ class HomeViewModel(
                     forceTime
                 }
                 
+                // IMPORTANT: Clear lastFiredAt so it shows up in "Today" list if applicable
                 val updated = original.copy(
                     nextTriggerAt = finalTime,
                     snoozeUntil = null,
-                    isCompleted = false
+                    isCompleted = false,
+                    lastFiredAt = null
                 )
                 repository.insertReminder(updated)
                 alarmScheduler.schedule(updated)
@@ -247,11 +249,13 @@ class HomeViewModel(
                 newTriggerTime
             }
             
+            // IMPORTANT: Clear lastFiredAt so it shows up in "Today" list if applicable
             val updated = reminder.copy(
                 isCompleted = false,
                 completedAt = null,
                 nextTriggerAt = finalTime,
-                snoozeUntil = null
+                snoozeUntil = null,
+                lastFiredAt = null
             )
             repository.updateReminder(updated)
             alarmScheduler.schedule(updated)
@@ -265,7 +269,8 @@ class HomeViewModel(
                 reminderId = reminder.id,
                 title = reminder.title ?: reminder.reminderText ?: "Reminder",
                 scheduledTime = reminder.nextTriggerAt,
-                detectedTime = System.currentTimeMillis()
+                detectedTime = System.currentTimeMillis(),
+                reminderText = reminder.reminderText
             )
             missedRepository.insertMissedReminder(missed)
             
