@@ -157,6 +157,17 @@
 -keep class androidx.profileinstaller.ProfileInstallReceiver { <init>(); }
 -keep class androidx.room.MultiInstanceInvalidationService { <init>(); }
 -keep class androidx.startup.InitializationProvider { <init>(); }
+-keep class androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy { <init>(); }
+-keep class androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy { <init>(); }
+-keep class androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy { <init>(); }
+-keep class androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy { <init>(); }
+-keep class androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver { <init>(); }
+-keep class androidx.work.impl.background.systemalarm.RescheduleReceiver { <init>(); }
+-keep class androidx.work.impl.background.systemalarm.SystemAlarmService { <init>(); }
+-keep class androidx.work.impl.background.systemjob.SystemJobService { <init>(); }
+-keep class androidx.work.impl.diagnostics.DiagnosticsReceiver { <init>(); }
+-keep class androidx.work.impl.foreground.SystemForegroundService { <init>(); }
+-keep class androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver { <init>(); }
 -keep class com.ghostgramlabs.speakalert.MainActivity { <init>(); }
 -keep class com.ghostgramlabs.speakalert.VoiceReminderApp { <init>(); }
 -keep class com.ghostgramlabs.speakalert.alarm.BootReceiver { <init>(); }
@@ -174,6 +185,17 @@
 
 
 # End of content from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\build\intermediates\aapt_proguard_file\release\aapt_rules.txt
+# The proguard configuration file for the following section is C:\Users\sudhi\.gradle\caches\8.9\transforms\50a43ee359d5eca6249f5f2b79828db9\transformed\work-runtime-2.9.0\proguard.txt
+-keep class * extends androidx.work.Worker
+-keep class * extends androidx.work.InputMerger
+# Keep all constructors on ListenableWorker, Worker
+-keep public class * extends androidx.work.ListenableWorker {
+    public <init>(...);
+}
+# We need to keep WorkerParameters for the ListenableWorker constructor
+-keep class androidx.work.WorkerParameters
+
+# End of content from C:\Users\sudhi\.gradle\caches\8.9\transforms\50a43ee359d5eca6249f5f2b79828db9\transformed\work-runtime-2.9.0\proguard.txt
 # The proguard configuration file for the following section is C:\Users\sudhi\.gradle\caches\8.9\transforms\785924680acb2e161ed8a6d07f116c59\transformed\room-runtime-2.6.0\proguard.txt
 -keep class * extends androidx.room.RoomDatabase
 -dontwarn androidx.room.paging.**

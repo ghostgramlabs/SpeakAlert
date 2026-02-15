@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.ghostgramlabs.speakalert.ui.home.HomeViewModelTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-02-14T23:58:01" hostname="SAS" time="0.204">
+<testsuite name="com.ghostgramlabs.speakalert.ui.home.HomeViewModelTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-02-15T01:22:06" hostname="SAS" time="0.059">
   <properties/>
-  <testcase name="uiState shows overdue reminders in today list" classname="com.ghostgramlabs.speakalert.ui.home.HomeViewModelTest" time="0.143"/>
-  <testcase name="deleteReminder cancels alarm and deletes from repo" classname="com.ghostgramlabs.speakalert.ui.home.HomeViewModelTest" time="0.008"/>
-  <testcase name="markTodayAsDone advances recurring reminder" classname="com.ghostgramlabs.speakalert.ui.home.HomeViewModelTest" time="0.014"/>
-  <testcase name="uiState separates today and upcoming reminders correctly" classname="com.ghostgramlabs.speakalert.ui.home.HomeViewModelTest" time="0.016"/>
-  <testcase name="markAsDone completes one-time reminder" classname="com.ghostgramlabs.speakalert.ui.home.HomeViewModelTest" time="0.013"/>
-  <testcase name="dismissMissedReminder deletes from missed repository by ID" classname="com.ghostgramlabs.speakalert.ui.home.HomeViewModelTest" time="0.008"/>
+  <testcase name="uiState shows overdue reminders in today list" classname="com.ghostgramlabs.speakalert.ui.home.HomeViewModelTest" time="0.033"/>
+  <testcase name="deleteReminder cancels alarm and deletes from repo" classname="com.ghostgramlabs.speakalert.ui.home.HomeViewModelTest" time="0.004"/>
+  <testcase name="markTodayAsDone advances recurring reminder" classname="com.ghostgramlabs.speakalert.ui.home.HomeViewModelTest" time="0.006"/>
+  <testcase name="uiState separates today and upcoming reminders correctly" classname="com.ghostgramlabs.speakalert.ui.home.HomeViewModelTest" time="0.006"/>
+  <testcase name="markAsDone completes one-time reminder" classname="com.ghostgramlabs.speakalert.ui.home.HomeViewModelTest" time="0.005"/>
+  <testcase name="dismissMissedReminder deletes from missed repository by ID" classname="com.ghostgramlabs.speakalert.ui.home.HomeViewModelTest" time="0.005"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

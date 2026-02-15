@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.ghostgramlabs.speakalert.util.DateUtilsTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-02-14T23:58:01" hostname="SAS" time="0.001">
+<testsuite name="com.ghostgramlabs.speakalert.util.DateUtilsTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-02-15T01:22:06" hostname="SAS" time="0.0">
   <properties/>
-  <testcase name="testNormalizeToMinute" classname="com.ghostgramlabs.speakalert.util.DateUtilsTest" time="0.001"/>
+  <testcase name="testNormalizeToMinute" classname="com.ghostgramlabs.speakalert.util.DateUtilsTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
