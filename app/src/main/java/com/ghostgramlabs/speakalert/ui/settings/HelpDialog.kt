@@ -37,53 +37,48 @@ fun HelpDialog(
                     .verticalScroll(rememberScrollState())
             ) {
                 HelpSection(
-                    title = "🎤 Creating Reminders",
-                    content = "• Voice: Tap the Mic to record. It's the fastest way to set a reminder!\n• Type: Prefer text? Type your message. If 'Text-to-Speech' is on in Settings, the app will read it aloud for you.\n• Label: Give your reminder a short name (like 'Meds' or 'Gym') to find it easily in your list."
-                )
-                
-                HelpSection(
-                    title = "📱 Organizing & Tabs",
-                    content = "• Today: Everything happening right now or later today.\n• Upcoming: Plan ahead! See all your future reminders in one list.\n• Missed: If your phone was off or silenced, check here for alerts you might have skipped.\n• Done: A history of your completed tasks. You can always restore or reschedule them from here."
+                    title = "Creating reminders",
+                    content = "- Voice: Tap the Mic to record quickly.\n- Text: Type reminder text if you do not want to record audio.\n- Title: Add a short label to identify reminders faster.\n- Schedule: Set date/time and save."
                 )
 
                 HelpSection(
-                    title = "⚡ Card Quick Actions",
-                    content = "Save time! Tap the Play/Stop icon directly on any reminder card to hear it instantly. Use the 'Check' icon (or the ⋮ menu) to mark a reminder as done without opening it."
-                )
-                
-                HelpSection(
-                    title = "🔁 Recurrence (Repeating Reminders)",
-                    content = "• Daily/Weekly/Monthly: Set it once and forget it!\n• Custom: Set intervals like 'Every 3 hours' or 'Every 2 weeks'.\n• Mark Done: For repeating tasks, this only clears the *current* occurrence. It will ring again at the next scheduled time."
-                )
-                
-                HelpSection(
-                    title = "🔄 Loop Playback (Anti-Skip)",
-                    content = "• Problem: Regular notifications might stop too quickly. \n• Solution: Enable 'Loop Playback' to make the audio repeat until you manually dismiss it.\n• Auto-Stop: Set a safety timeout (e.g., 10 minutes) in Settings so your battery doesn't drain if you're not near your phone."
-                )
-                
-                HelpSection(
-                    title = "💤 Snooze & Quiet Hours",
-                    content = "• Smart Snooze: Need a few more minutes? Tap Snooze. You can change the default duration in Settings.\n• Quiet Hours: Block all voice alerts during specific times (like 11 PM to 7 AM) so you can sleep undisturbed."
+                    title = "Home tabs",
+                    content = "- Today: Reminders scheduled for today.\n- Upcoming: Future reminders after today.\n- Missed: Reminders that were not delivered at their scheduled moment.\n- Done: Completed reminders."
                 )
 
                 HelpSection(
-                    title = "🔌 Device Power & Restart",
-                    content = "• Reliability: Your reminders are safe even if your phone restarts. SpeakAlert automatically sets them back up for you.\n• After Restart: Reminders that were due while your phone was off will appear as a notification and be added to your Missed list. Tap 'Play' on the notification to hear them.\n• Future Reminders: Any upcoming reminders will continue to work normally after a restart, including auto-play."
+                    title = "Card quick actions",
+                    content = "- Tap a card to open details.\n- Use the Play reminder or Stop playback button on the card.\n- Use the menu (three dots) for Edit, Mark done, Stop recurring, or Delete."
                 )
 
                 HelpSection(
-                    title = "⚡ Reminders after device restart",
-                    content = "• If your phone restarts near a reminder time, audio might not play automatically.\n• A notification will appear instead.\n• Tap the notification to play or reschedule."
+                    title = "Repeating reminders",
+                    content = "- Repeat modes: Daily, Weekly, Monthly, or Custom.\n- Custom supports intervals such as every 2 days or every 3 hours.\n- Mark done on a repeating reminder clears only the current occurrence."
                 )
 
                 HelpSection(
-                    title = "📣 Why Voice Reminders?",
-                    content = "Unlike a standard alert that just beeps, SpeakAlert gives you context. By hearing your own voice or personalized text, you know exactly what needs your attention without even unlocking your phone."
+                    title = "Playback settings",
+                    content = "- Auto-play audio: Start playback automatically when reminder fires.\n- Text-to-Speech: Speak typed reminders when no voice note is available.\n- Loop duration: Keep playback repeating until stop or timeout."
                 )
 
                 HelpSection(
-                    title = "🚀 Reliability Tips",
-                    content = "• Permissions: For the most accurate timing, ensure 'Post Notifications' and 'Exact Timing' (Reminders) are granted in system settings.\n• Battery: To prevent missed alerts, ensure SpeakAlert is set to 'Unrestricted' or 'Not Optimized' in your phone's battery settings."
+                    title = "Snooze and quiet hours",
+                    content = "- Snooze delays the reminder by your configured default duration.\n- Quiet hours silences reminders between selected start and end times."
+                )
+
+                HelpSection(
+                    title = "After device restart",
+                    content = "- Future reminders are rescheduled automatically.\n- Past-due reminders are handled through missed reminder flow.\n- If playback cannot start immediately, notification fallback is used."
+                )
+
+                HelpSection(
+                    title = "Why voice reminders",
+                    content = "Voice reminders give context instantly, so you know exactly what to do without reading long text."
+                )
+
+                HelpSection(
+                    title = "Reliability tips",
+                    content = "- Keep Notifications and Exact Alarms permissions enabled.\n- Exclude the app from aggressive battery optimization for better delivery reliability."
                 )
             }
         },

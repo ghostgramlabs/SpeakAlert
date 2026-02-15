@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Repeat
+import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.AllInclusive
@@ -179,15 +180,23 @@ fun RecurrenceDetailsRow(
 ) {
     when (recurrenceType) {
         RecurrenceType.NONE -> {
-            Text(
-                text = "One-time",
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            Surface(
+                modifier = modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(10.dp),
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+            ) {
+                Text(
+                    text = "One-time reminder",
+                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium),
+                    color = MaterialTheme.colorScheme.primary,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(vertical = 10.dp).fillMaxWidth()
+                )
+            }
         }
         RecurrenceType.DAILY -> {
             Surface(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
                 color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
             ) {
@@ -208,7 +217,8 @@ fun RecurrenceDetailsRow(
                 Text(
                     text = "Weekly",
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = modifier
                 )
             }
         }
@@ -217,7 +227,7 @@ fun RecurrenceDetailsRow(
             if (model is RecurrenceModel.Monthly) {
                 if (model.variant == MonthlyVariant.LAST_DAY) {
                     Surface(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(10.dp),
                         color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
                     ) {
@@ -239,7 +249,8 @@ fun RecurrenceDetailsRow(
                 Text(
                     text = "Monthly",
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = modifier
                 )
             }
         }
@@ -258,7 +269,7 @@ fun RecurrenceDetailsRow(
                 "Custom interval"
             }
             Surface(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
                 color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
             ) {
@@ -424,105 +435,103 @@ fun ReminderCard(
                     )
                 }
                 
-                // Actions Column
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    // Overflow Menu at top
-                    Box {
-                        IconButton(
-                            onClick = { showMenu = true },
-                            modifier = Modifier.size(40.dp)
-                        ) {
-                            Icon(
-                                Icons.Filled.MoreVert,
-                                contentDescription = "More options",
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                        
-                        DropdownMenu(
-                            expanded = showMenu,
-                            onDismissRequest = { showMenu = false }
-                        ) {
-                            DropdownMenuItem(
-                                text = { Text("Edit") },
-                                onClick = { showMenu = false; onEditClick() },
-                                leadingIcon = { Icon(Icons.Filled.Edit, null) }
-                            )
-                            if (!isCompleted) {
-                                DropdownMenuItem(
-                                    text = { 
-                                        Text(if (recurrenceSummary != null) "Mark this done" else "Mark as Done") 
-                                    },
-                                    onClick = { showMenu = false; onCompleteClick() },
-                                    leadingIcon = { Icon(Icons.Filled.Check, null) }
-                                )
-                            }
-                            val deleteLabel = if (recurrenceSummary != null) "Stop recurring" else "Delete"
-                            DropdownMenuItem(
-                                text = { Text(deleteLabel) },
-                                onClick = { showMenu = false; onDeleteClick() },
-                                leadingIcon = { Icon(Icons.Filled.Delete, null) },
-                                colors = MenuDefaults.itemColors(
-                                    textColor = MaterialTheme.colorScheme.error,
-                                    leadingIconColor = MaterialTheme.colorScheme.error
-                                )
-                            )
-                        }
+                // More actions menu
+                Box {
+                    IconButton(
+                        onClick = { showMenu = true },
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Icon(
+                            Icons.Filled.MoreVert,
+                            contentDescription = "More options",
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.size(20.dp)
+                        )
                     }
                     
-                    // Play/Stop Button below menu
-                    if (hasAudio || (hasText && isTextToSpeechEnabled)) {
-                        IconButton(
-                            onClick = { 
-                                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                                if (isPlaying) onStopClick() else onPlayClick() 
-                            },
-                            modifier = Modifier.size(40.dp)
-                        ) {
-                            Box(
-                                contentAlignment = Alignment.Center,
-                                modifier = Modifier
-                                    .size(34.dp)
-                                    .background(
-                                        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
-                                        shape = CircleShape
-                                    )
-                            ) {
-                                Icon(
-                                    imageVector = if (isPlaying) Icons.Filled.Stop else Icons.Filled.PlayArrow,
-                                    contentDescription = if (isPlaying) "Stop" else "Play",
-                                    tint = MaterialTheme.colorScheme.primary,
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            }
+                    DropdownMenu(
+                        expanded = showMenu,
+                        onDismissRequest = { showMenu = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Edit") },
+                            onClick = { showMenu = false; onEditClick() },
+                            leadingIcon = { Icon(Icons.Filled.Edit, null) }
+                        )
+                        if (isPlaying && (hasAudio || (hasText && isTextToSpeechEnabled))) {
+                            DropdownMenuItem(
+                                text = { Text("Stop playback") },
+                                onClick = { showMenu = false; onStopClick() },
+                                leadingIcon = { Icon(Icons.Filled.Stop, null) }
+                            )
                         }
+                        if (!isCompleted) {
+                            DropdownMenuItem(
+                                text = {
+                                    Text(if (recurrenceSummary != null) "Mark this done" else "Mark as Done")
+                                },
+                                onClick = { showMenu = false; onCompleteClick() },
+                                leadingIcon = { Icon(Icons.Filled.Check, null) }
+                            )
+                        }
+                        val deleteLabel = if (recurrenceSummary != null) "Stop recurring" else "Delete"
+                        DropdownMenuItem(
+                            text = { Text(deleteLabel) },
+                            onClick = { showMenu = false; onDeleteClick() },
+                            leadingIcon = { Icon(Icons.Filled.Delete, null) },
+                            colors = MenuDefaults.itemColors(
+                                textColor = MaterialTheme.colorScheme.error,
+                                leadingIconColor = MaterialTheme.colorScheme.error
+                            )
+                        )
                     }
                 }
             }
 
-            // ── ROW 2: Recurrence Details (full width) ─────────────────────
-            if (recurrenceType != RecurrenceType.NONE) {
-                Divider(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    thickness = 0.5.dp,
-                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
-                )
-                
-                RecurrenceDetailsRow(
-                    recurrenceType = recurrenceType,
-                    recurrenceJson = recurrenceJson,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
-                )
+            // ── ROW 2: Schedule Details (full width) ───────────────────────
+            Divider(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                thickness = 0.5.dp,
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
+            )
+            
+            RecurrenceDetailsRow(
+                recurrenceType = recurrenceType,
+                recurrenceJson = recurrenceJson,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
+            )
+
+            if (hasAudio || (hasText && isTextToSpeechEnabled)) {
+                FilledTonalButton(
+                    onClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        if (isPlaying) onStopClick() else onPlayClick()
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.filledTonalButtonColors(
+                        containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                        contentColor = MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    Icon(
+                        imageVector = if (isPlaying) Icons.Filled.Stop else Icons.Filled.PlayArrow,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(if (isPlaying) "Stop playback" else "Play reminder")
+                }
+                Spacer(modifier = Modifier.height(8.dp))
             }
             
             // ── FOOTER: Type chip + recurrence icon ────────────────────────
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, bottom = 12.dp, top = if (recurrenceType == RecurrenceType.NONE) 0.dp else 2.dp),
+                    .padding(start = 16.dp, end = 16.dp, bottom = 12.dp, top = 2.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -535,27 +544,22 @@ fun ReminderCard(
                 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if (recurrenceType != RecurrenceType.NONE) {
+                        MetadataChip(
+                            icon = Icons.Filled.Repeat,
+                            text = "Recurring",
+                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
+                            onColor = MaterialTheme.colorScheme.primary
+                        )
+                    } else {
                         Surface(
                             shape = RoundedCornerShape(8.dp),
                             color = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
                         ) {
                             Icon(
-                                imageVector = Icons.Filled.Repeat,
-                                contentDescription = "Recurring",
+                                imageVector = Icons.Filled.Schedule,
+                                contentDescription = "One-time reminder",
                                 modifier = Modifier.padding(6.dp).size(14.dp),
                                 tint = MaterialTheme.colorScheme.primary
-                            )
-                        }
-                    } else {
-                        Surface(
-                            shape = RoundedCornerShape(8.dp),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.1f)
-                        ) {
-                            Text(
-                                text = "One-time",
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
-                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                             )
                         }
                     }
@@ -623,10 +627,14 @@ fun SectionCard(
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+        )
     ) {
-        Column(modifier = Modifier.padding(20.dp)) {
+        Column(modifier = Modifier.padding(16.dp)) {
             if (title != null) {
                 Text(
                     text = title,

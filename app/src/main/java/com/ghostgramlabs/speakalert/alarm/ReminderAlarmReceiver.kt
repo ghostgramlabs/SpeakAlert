@@ -243,8 +243,9 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 val timeSinceBoot = now - lastBoot
                 val isCloseToBoot = timeSinceBoot < 120_000L // 2 minutes
 
-                // ANDROID 15+ RESTRICTION: Block autoplay if explicitly boot-rescheduled OR if within 2 mins of boot
-                val bootBlocked = isBootReschedule || isCloseToBoot
+                // ANDROID 15+ RESTRICTION: Block autoplay only while still in the boot window.
+                // isBootReschedule is retained for diagnostics and for identifying boot-origin alarms.
+                val bootBlocked = isCloseToBoot
                 
                 if (bootBlocked) {
                     FileLogger.log("ALARM: Autoplay BLOCKED. isBootReschedule=$isBootReschedule, timeSinceBoot=${timeSinceBoot/1000}s (threshold 120s)")
@@ -264,10 +265,26 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                         withContext(Dispatchers.Main) {
                             if (hasAudio) {
                                 FileLogger.log("ALARM: Starting service with audio: $audioPath, loop=${reminder.loopPlayback}")
-                                ReminderPlaybackService.start(context, reminder.id, title, audioPath!!, null, reminder.loopPlayback)
+                                ReminderPlaybackService.start(
+                                    context = context,
+                                    id = reminder.id,
+                                    title = title,
+                                    audioPath = audioPath!!,
+                                    ttsText = null,
+                                    loop = reminder.loopPlayback,
+                                    isFromBootContext = isCloseToBoot
+                                )
                             } else {
                                 FileLogger.log("ALARM: Starting service with TTS, loop=${reminder.loopPlayback}")
-                                ReminderPlaybackService.start(context, reminder.id, title, null, reminder.reminderText, reminder.loopPlayback)
+                                ReminderPlaybackService.start(
+                                    context = context,
+                                    id = reminder.id,
+                                    title = title,
+                                    audioPath = null,
+                                    ttsText = reminder.reminderText,
+                                    loop = reminder.loopPlayback,
+                                    isFromBootContext = isCloseToBoot
+                                )
                             }
                         }
                         FileLogger.log("ALARM: Service started successfully")

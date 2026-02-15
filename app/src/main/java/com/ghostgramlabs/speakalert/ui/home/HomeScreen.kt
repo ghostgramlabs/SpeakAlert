@@ -17,7 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Notifications
@@ -35,7 +34,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -376,7 +374,7 @@ fun HomeScreen(
             TopAppBar(
                 title = { 
                     Text(
-                        "SpeakAlert",
+                        "Speak Alert",
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
                     )
                 },
@@ -388,7 +386,7 @@ fun HomeScreen(
                                 Badge(
                                     containerColor = MaterialTheme.colorScheme.error
                                 ) {
-                                    Text("${uiState.missedReminders.size}")
+                                    Text(if (uiState.missedReminders.size > 99) "99+" else "${uiState.missedReminders.size}")
                                 }
                             }
                         ) {
@@ -411,9 +409,9 @@ fun HomeScreen(
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = if (isScrolled) 
-                        MaterialTheme.colorScheme.surface.copy(alpha = 0.9f) 
+                        MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
                     else 
-                        Color.Transparent
+                        MaterialTheme.colorScheme.surface
                 )
             )
         },
@@ -450,14 +448,15 @@ fun HomeScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 24.dp)
-                    .padding(bottom = 16.dp)
+                    .padding(top = 8.dp)
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 12.dp)
                     .semantics(mergeDescendants = true) {}
             ) {
                 Text(
                     text = getGreeting(),
-                    style = MaterialTheme.typography.headlineMedium.copy(
-                        fontWeight = FontWeight.Bold
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        fontWeight = FontWeight.SemiBold
                     ),
                     color = MaterialTheme.colorScheme.onBackground
                 )
@@ -473,9 +472,9 @@ fun HomeScreen(
             // Filter Tabs - Redesigned for High Visibility & Contrast
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier
-                    .padding(bottom = 16.dp)
+                    .padding(bottom = 12.dp)
                     .fillMaxWidth()
             ) {
                 items(filters) { (type, label) ->
@@ -501,7 +500,7 @@ fun HomeScreen(
                     Surface(
                         color = containerColor,
                         contentColor = contentColor,
-                        shape = RoundedCornerShape(20.dp),
+                        shape = RoundedCornerShape(16.dp),
                         modifier = Modifier
                             .height(44.dp)
                             .clickable { selectedFilter = type }
@@ -549,13 +548,11 @@ fun HomeScreen(
                         subtitle = "No missed reminders"
                     )
                 } else {
-                    val context = LocalContext.current
-                    
                     // Batch Actions Row
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 20.dp, vertical = 8.dp),
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
                         horizontalArrangement = Arrangement.Center
                     ) {
                         OutlinedButton(
@@ -575,7 +572,15 @@ fun HomeScreen(
                     
                     MissedReminderList(
                         missedReminders = missedList,
-                        onFireClick = { viewModel.fireMissedReminder(context, it) },
+                        currentPlayingId = currentPlayingId,
+                        onFireClick = {
+                            currentPlayingId = it.reminderId
+                            viewModel.fireMissedReminder(context, it)
+                        },
+                        onStopClick = {
+                            currentPlayingId = -1L
+                            com.ghostgramlabs.speakalert.service.ReminderPlaybackService.stop(context)
+                        },
                         onDismissClick = { viewModel.dismissMissedReminder(it) }
                     )
                 }
@@ -592,18 +597,26 @@ fun HomeScreen(
                     EmptyState(
                         icon = when (selectedFilter) {
                              FilterType.TODAY -> Icons.Filled.Schedule
-                             FilterType.COMPLETED -> Icons.Filled.Schedule
+                             FilterType.COMPLETED -> Icons.Filled.Done
                              else -> Icons.Filled.Mic
                         },
-                        title = "No reminders yet",
-                        subtitle = "Create a reminder using voice or text."
+                        title = when (selectedFilter) {
+                            FilterType.COMPLETED -> "Nothing completed yet"
+                            FilterType.UPCOMING -> "No upcoming reminders"
+                            else -> "No reminders yet"
+                        },
+                        subtitle = when (selectedFilter) {
+                            FilterType.COMPLETED -> "Completed reminders will appear here."
+                            FilterType.UPCOMING -> "Scheduled reminders for later will appear here."
+                            else -> "Create a reminder using voice or text."
+                        }
                     )
                 } else {
                     LazyColumn(
                         state = scrollState,
                         contentPadding = PaddingValues(
-                            start = 20.dp,
-                            end = 20.dp,
+                            start = 16.dp,
+                            end = 16.dp,
                             bottom = 100.dp
                         ),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -618,11 +631,6 @@ fun HomeScreen(
                                     )
                                 }
                             }
-                            val icon = when(reminder.recurrenceType) {
-                                com.ghostgramlabs.speakalert.domain.models.RecurrenceType.NONE -> Icons.Filled.Schedule
-                                else -> Icons.Filled.DateRange
-                            }
-                            
                             // Smart fallback label
                             val timeOnly = DateUtils.formatTimeOnly(reminder.nextTriggerAt)
                             val createdTime = DateUtils.formatTimeOnly(reminder.createdAt)
@@ -646,8 +654,6 @@ fun HomeScreen(
                             val rawDateLabel = DateUtils.formatDateLabel(reminder.nextTriggerAt)
                             val finalDateLabel = if (isTodayTab && rawDateLabel == "Today") "" else rawDateLabel
                             
-                            val context = LocalContext.current
-                            
                             ReminderCard(
                                 title = displayTitle,
                                 badgeTime = timeOnly,
@@ -662,9 +668,11 @@ fun HomeScreen(
                                 isCompleted = reminder.isCompleted,
                                 loopEnabled = reminder.loopPlayback,
                                 onPlayClick = { 
+                                    currentPlayingId = reminder.id
                                     viewModel.playReminder(context, reminder) 
                                 },
                                 onStopClick = {
+                                    if (currentPlayingId == reminder.id) currentPlayingId = -1L
                                     com.ghostgramlabs.speakalert.service.ReminderPlaybackService.stop(context)
                                 },
                                 onClick = { navigateToItemUpdate(reminder.id) },
@@ -717,9 +725,9 @@ fun HomeScreen(
 private fun getGreeting(): String {
     val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
     return when {
-        hour < 12 -> "Good morning"
-        hour < 17 -> "Good afternoon"
-        else -> "Good evening"
+        hour < 12 -> "Good Morning"
+        hour < 17 -> "Good Afternoon"
+        else -> "Good Evening"
     }
 }
 
@@ -736,17 +744,21 @@ private fun getSubtitle(uiState: HomeUiState): String {
 @Composable
 fun MissedReminderList(
     missedReminders: List<com.ghostgramlabs.speakalert.data.model.MissedReminderEntity>,
+    currentPlayingId: Long,
     onFireClick: (com.ghostgramlabs.speakalert.data.model.MissedReminderEntity) -> Unit,
+    onStopClick: () -> Unit,
     onDismissClick: (com.ghostgramlabs.speakalert.data.model.MissedReminderEntity) -> Unit
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 8.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(missedReminders, key = { it.id }) { missed ->
             MissedReminderItem(
                 missed = missed,
+                isPlaying = currentPlayingId == missed.reminderId,
                 onFireClick = { onFireClick(missed) },
+                onStopClick = onStopClick,
                 onDismissClick = { onDismissClick(missed) }
             )
         }
@@ -756,7 +768,9 @@ fun MissedReminderList(
 @Composable
 fun MissedReminderItem(
     missed: com.ghostgramlabs.speakalert.data.model.MissedReminderEntity,
+    isPlaying: Boolean,
     onFireClick: () -> Unit,
+    onStopClick: () -> Unit,
     onDismissClick: () -> Unit
 ) {
     Card(
@@ -805,7 +819,7 @@ fun MissedReminderItem(
                     }
                     
                     Text(
-                        text = "Missed • ${DateUtils.formatDateTime(missed.scheduledTime)}",
+                        text = "Missed - ${DateUtils.formatDateTime(missed.scheduledTime)}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.error,
                         modifier = Modifier.padding(top = 4.dp)
@@ -824,12 +838,12 @@ fun MissedReminderItem(
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(
-                    onClick = onFireClick,
+                    onClick = if (isPlaying) onStopClick else onFireClick,
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.error
                     )
                 ) {
-                    Text("Play Now")
+                    Text(if (isPlaying) "Stop" else "Play Now")
                 }
             }
         }

@@ -10,6 +10,7 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -22,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.contentDescription
@@ -79,7 +81,7 @@ fun SettingsScreen(
             val themeMode by viewModel.themeMode.collectAsState()
             CollapsibleSettingsSection(
                 title = "Appearance",
-                icon = "🎨",
+                icon = "UI",
                 initiallyExpanded = true
             ) {
                 Text("App Theme", style = MaterialTheme.typography.bodyMedium)
@@ -112,7 +114,7 @@ fun SettingsScreen(
             // ============================================================
             CollapsibleSettingsSection(
                 title = "Playback",
-                icon = "🔊",
+                icon = "Play",
                 initiallyExpanded = true
             ) {
                 SwitchRow(
@@ -205,7 +207,7 @@ fun SettingsScreen(
                     
                     // Infinite option
                     SnoozeOptionChip(
-                        text = "∞",
+                        text = "Infinite",
                         isSelected = loopTimeoutMinutes == 0,
                         onClick = { 
                             viewModel.setLoopTimeoutMinutes(0)
@@ -216,7 +218,7 @@ fun SettingsScreen(
                     
                     var showCustomLoopDialog by remember { mutableStateOf(false) }
                     SnoozeOptionChip(
-                        text = if (isCustom) "${loopTimeoutMinutes}m" else "•••",
+                        text = if (isCustom) "${loopTimeoutMinutes}m" else "Custom",
                         isSelected = isCustom,
                         onClick = { showCustomLoopDialog = true },
                         modifier = Modifier.weight(1f)
@@ -268,7 +270,7 @@ fun SettingsScreen(
                     
                     var showCustomSnoozeDialog by remember { mutableStateOf(false) }
                     SnoozeOptionChip(
-                        text = if (isCustom) "${defaultSnoozeDuration}m" else "•••",
+                        text = if (isCustom) "${defaultSnoozeDuration}m" else "Custom",
                         isSelected = isCustom,
                         onClick = { showCustomSnoozeDialog = true },
                         modifier = Modifier.weight(1f)
@@ -295,7 +297,7 @@ fun SettingsScreen(
                 // Quiet Time (moved from Timing)
                 SwitchRow(
                     text = "Quiet hours",
-                    description = if (quietTimeEnabled) "${formatTime(startHour, startMinute)} – ${formatTime(endHour, endMinute)}" else "Silence reminders during set hours",
+                    description = if (quietTimeEnabled) "${formatTime(startHour, startMinute)} - ${formatTime(endHour, endMinute)}" else "Silence reminders during set hours",
                     checked = quietTimeEnabled,
                     onCheckedChange = { 
                         viewModel.setQuietTimeEnabled(it)
@@ -451,7 +453,7 @@ fun SettingsScreen(
             // ============================================================
             CollapsibleSettingsSection(
                 title = "How to use Speak Alert",
-                icon = "💡",
+                icon = "Help",
                 initiallyExpanded = true
             ) {
                 var showHelpDialog by remember { mutableStateOf(false) }
@@ -494,7 +496,7 @@ fun SettingsScreen(
             if (com.ghostgramlabs.speakalert.BuildConfig.DEBUG) {
                 CollapsibleSettingsSection(
                     title = "Developer",
-                    icon = "🔧",
+                    icon = "Dev",
                     initiallyExpanded = false
                 ) {
                     SwitchRow(
@@ -586,10 +588,17 @@ private fun CollapsibleSettingsSection(
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = icon,
-                        style = MaterialTheme.typography.headlineSmall
-                    )
+                    Surface(
+                        shape = RoundedCornerShape(8.dp),
+                        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f)
+                    ) {
+                        Text(
+                            text = icon,
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
                     Text(
                         text = title,
                         style = MaterialTheme.typography.titleMedium.copy(
@@ -616,7 +625,7 @@ private fun CollapsibleSettingsSection(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
                     content = content
                 )
             }
@@ -634,6 +643,12 @@ private fun SwitchRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .heightIn(min = 56.dp)
+            .toggleable(
+                value = checked,
+                role = Role.Switch,
+                onValueChange = onCheckedChange
+            )
             .semantics(mergeDescendants = true) {},
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -644,7 +659,7 @@ private fun SwitchRow(
         }
         Switch(
             checked = checked,
-            onCheckedChange = onCheckedChange,
+            onCheckedChange = null,
             colors = SwitchDefaults.colors(
                 checkedThumbColor = MaterialTheme.colorScheme.primary,
                 checkedTrackColor = MaterialTheme.colorScheme.primaryContainer
