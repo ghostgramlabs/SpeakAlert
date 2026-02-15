@@ -629,6 +629,17 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
                 if (ttsText != null) putExtra(EXTRA_TTS_TEXT, ttsText)
             }
             try {
+                // ANDROID 15+ GUARD: Do not start foreground service if we are in
+                // the boot-proximity window (< 10 min uptime). On Android 15+,
+                // BOOT_COMPLETED receivers cannot launch mediaPlayback FGS.
+                if (Build.VERSION.SDK_INT >= 35) {
+                    val uptimeMs = android.os.SystemClock.elapsedRealtime()
+                    if (uptimeMs < 10 * 60 * 1000L) {
+                        FileLogger.log("SERVICE.start() - SKIPPED: Android 15+ boot proximity guard (uptime=${uptimeMs}ms). Notification-only fallback.")
+                        return
+                    }
+                }
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     context.startForegroundService(intent)
                 } else {
@@ -639,13 +650,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
                 // Catch ForegroundServiceStartNotAllowedException (Android 12+) and others
                 FileLogger.logError("SERVICE.start()", "Failed to start service", e)
                 // We do NOT rethrow here, because that crashes the app.
-                // The caller (Receiver) should ideally handle this by showing a notification,
-                // but if we crash here, the app dies.
-                // By catching and logging, we allow the Receiver to proceed (it catches specific exceptions? no, it just logs).
-                // Wait, if we don't throw, the Receiver thinks it succeeded?
-                // Receiver logic:
-                // try { Service.start() } catch { log } -> notificationHelper.showNotification()
-                // So if we swallow exception here, Receiver proceeds to show notification. This is DESIRED behavior.
+                // The caller falls through to show a notification-only experience.
             }
         }
         

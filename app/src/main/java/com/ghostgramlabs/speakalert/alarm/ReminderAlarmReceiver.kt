@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
+import android.os.Build
 import android.util.Log
 import com.ghostgramlabs.speakalert.VoiceReminderApp
 import com.ghostgramlabs.speakalert.data.model.MissedReminderEntity
@@ -235,19 +236,30 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 val isBootReschedule = intent.getBooleanExtra("isBootReschedule", false)
                 val systemUptimeMs = android.os.SystemClock.elapsedRealtime()
                 val isEarlyBoot = systemUptimeMs < 5 * 60 * 1000L // 5 minutes window
+                val isAndroid15OrAbove = Build.VERSION.SDK_INT >= 35
                 
                 // Determine if we should auto-play
                 // Suppress autoplay if:
                 // 1. It's a boot-time reschedule (we don't want the phone shouting immediately after restart)
-                // 2. We are in "Early Boot" on Android 15+ (to avoid FGS restrictions/IllegalStateException)
+                // 2. We are in "Early Boot" (to avoid FGS restrictions)
+                // 3. ANDROID 15+ RESTRICTION: BOOT_COMPLETED receivers MUST NOT start
+                //    mediaPlayback foreground services. If this alarm was rescheduled
+                //    after boot, we UNCONDITIONALLY skip autoplay on Android 15+.
+                val bootBlocked = if (isAndroid15OrAbove) {
+                    // On Android 15+, any boot-rescheduled alarm or early-boot alarm
+                    // must never attempt to start a foreground service
+                    isBootReschedule || isEarlyBoot
+                } else {
+                    isBootReschedule || isEarlyBoot
+                }
+                
                 val canAutoPlay = autoPlayEnabled && 
                                  !inCall && 
                                  !(unlockedOnly && isLocked) && 
                                  (hasAudio || (hasText && speakText)) &&
-                                 !isBootReschedule &&
-                                 !isEarlyBoot
+                                 !bootBlocked
                 
-                FileLogger.log("ALARM: bootReschedule=$isBootReschedule, uptime=${systemUptimeMs}ms, canAutoPlay=$canAutoPlay")
+                FileLogger.log("ALARM: bootReschedule=$isBootReschedule, uptime=${systemUptimeMs}ms, isAndroid15+=$isAndroid15OrAbove, bootBlocked=$bootBlocked, canAutoPlay=$canAutoPlay")
 
                 if (canAutoPlay) {
                     FileLogger.log("ALARM: Attempting to start service for autoplay")
