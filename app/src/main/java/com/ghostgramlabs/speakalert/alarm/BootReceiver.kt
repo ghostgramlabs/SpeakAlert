@@ -3,32 +3,37 @@ package com.ghostgramlabs.speakalert.alarm
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.ghostgramlabs.speakalert.VoiceReminderApp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import com.ghostgramlabs.speakalert.util.FileLogger
 
+/**
+ * Receiver for BOOT_COMPLETED, TIME_CHANGED, and TIMEZONE_CHANGED broadcasts.
+ *
+ * IMPORTANT: On Android 15+, BOOT_COMPLETED receivers CANNOT start restricted
+ * foreground service types (including mediaPlayback). To comply, this receiver
+ * delegates ALL work to WorkManager via [BootRescheduleWorker], which runs
+ * outside the BOOT_COMPLETED broadcast context and can safely trigger alarm
+ * rescheduling that may eventually lead to foreground service starts.
+ */
 class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_BOOT_COMPLETED ||
             intent.action == Intent.ACTION_TIME_CHANGED ||
             intent.action == Intent.ACTION_TIMEZONE_CHANGED
         ) {
-            val app = context.applicationContext as VoiceReminderApp
-            val repository = app.container.reminderRepository
-            val scheduler = app.container.alarmScheduler
+            FileLogger.log("BOOT_RECEIVER: Received ${intent.action}, enqueuing WorkManager job")
 
-            CoroutineScope(Dispatchers.IO).launch {
-                val activeReminders = repository.getAllActiveReminders()
-                activeReminders.forEach { reminder ->
-                    // Reschedule if in future
-                    // If in past, maybe fire ASAP? 
-                    // Scheduler handles setExact logic.
-                    // Spec: "return to execution... fire ASAP when device resumes"
-                    // AlarmManager setExact on past time triggers immediately, so just scheduling is enough.
-                    scheduler.schedule(reminder, isBootReschedule = true)
-                }
-            }
+            val workRequest = OneTimeWorkRequestBuilder<BootRescheduleWorker>().build()
+
+            WorkManager.getInstance(context).enqueueUniqueWork(
+                BootRescheduleWorker.WORK_NAME,
+                ExistingWorkPolicy.REPLACE,
+                workRequest
+            )
+
+            FileLogger.log("BOOT_RECEIVER: WorkManager job enqueued")
         }
     }
 }
