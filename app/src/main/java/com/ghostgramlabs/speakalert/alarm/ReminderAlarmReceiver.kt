@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
+import android.os.Build
 import android.util.Log
 import com.ghostgramlabs.speakalert.VoiceReminderApp
 import com.ghostgramlabs.speakalert.data.model.MissedReminderEntity
@@ -242,13 +243,14 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 val lastBoot = settingsRepository.lastBootTimestamp.first()
                 val timeSinceBoot = now - lastBoot
                 val isCloseToBoot = timeSinceBoot < 120_000L // 2 minutes
+                val isAndroid15OrAbove = Build.VERSION.SDK_INT >= 35
 
                 // ANDROID 15+ RESTRICTION: Block autoplay only while still in the boot window.
                 // isBootReschedule is retained for diagnostics and for identifying boot-origin alarms.
-                val bootBlocked = isCloseToBoot
+                val bootBlocked = isAndroid15OrAbove && isCloseToBoot
                 
                 if (bootBlocked) {
-                    FileLogger.log("ALARM: Autoplay BLOCKED. isBootReschedule=$isBootReschedule, timeSinceBoot=${timeSinceBoot/1000}s (threshold 120s)")
+                    FileLogger.log("ALARM: Autoplay BLOCKED. android15+=$isAndroid15OrAbove, isBootReschedule=$isBootReschedule, timeSinceBoot=${timeSinceBoot/1000}s (threshold 120s)")
                 }
                 
                 val canAutoPlay = autoPlayEnabled && 
@@ -257,7 +259,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                                  (hasAudio || (hasText && speakText)) &&
                                  !bootBlocked
                 
-                FileLogger.log("ALARM: bootReschedule=$isBootReschedule, bootBlocked=$bootBlocked, canAutoPlay=$canAutoPlay")
+                FileLogger.log("ALARM: android15+=$isAndroid15OrAbove, bootReschedule=$isBootReschedule, bootBlocked=$bootBlocked, canAutoPlay=$canAutoPlay")
 
                 if (canAutoPlay) {
                     FileLogger.log("ALARM: Attempting to start service for autoplay")
