@@ -60,6 +60,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
     // Audio Focus
     private lateinit var audioManager: AudioManager
     private var audioFocusRequest: AudioFocusRequest? = null
+    private var pendingSpeakAfterFocusGain: String? = null
     
     // Volume Control
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
@@ -405,12 +406,22 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
             return
         }
         
-        if (!requestAudioFocus()) {
-            FileLogger.log("SERVICE: Failed to get audio focus")
-            stopSelf()
+        val focusRequestResult = requestAudioFocus()
+        if (focusRequestResult == AudioManager.AUDIOFOCUS_REQUEST_DELAYED) {
+            FileLogger.log("SERVICE: Audio focus delayed, waiting for focus gain")
+            pendingSpeakAfterFocusGain = text
             return
         }
+        if (focusRequestResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            // Some Android 14 devices can reject focus transiently while still allowing TTS.
+            // Do not kill playback flow; attempt speak as fallback.
+            FileLogger.log("SERVICE: Audio focus not granted ($focusRequestResult), attempting TTS fallback")
+        }
 
+        speakNow(text)
+    }
+
+    private fun speakNow(text: String) {
         val params = android.os.Bundle()
         params.putInt(TextToSpeech.Engine.KEY_PARAM_STREAM, AudioManager.STREAM_ALARM)
         params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, currentVolume)
@@ -418,11 +429,15 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
         val utteranceId = "REMINDER_TTS"
         
         FileLogger.log("SERVICE: Calling tts.speak()")
-        tts?.speak(text, TextToSpeech.QUEUE_FLUSH, params, utteranceId)
-        FileLogger.log("SERVICE: tts.speak() called")
+        val speakResult = tts?.speak(text, TextToSpeech.QUEUE_FLUSH, params, utteranceId) ?: TextToSpeech.ERROR
+        FileLogger.log("SERVICE: tts.speak() called, result=$speakResult")
+        if (speakResult == TextToSpeech.ERROR) {
+            FileLogger.log("SERVICE: tts.speak() failed with ERROR")
+            stopSelf()
+        }
     }
 
-    private fun requestAudioFocus(): Boolean {
+    private fun requestAudioFocus(): Int {
         FileLogger.log("SERVICE: Requesting audio focus")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val audioAttributes = android.media.AudioAttributes.Builder()
@@ -430,29 +445,38 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
                 .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SPEECH)
                 .build()
                 
-            audioFocusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK)
+            audioFocusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)
                 .setAudioAttributes(audioAttributes)
+                .setAcceptsDelayedFocusGain(true)
                 .setOnAudioFocusChangeListener { focusChange ->
-                    if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
-                        FileLogger.log("SERVICE: Audio focus lost")
-                        tts?.stop()
-                        stopSelf()
+                    when (focusChange) {
+                        AudioManager.AUDIOFOCUS_GAIN -> {
+                            pendingSpeakAfterFocusGain?.let { pendingText ->
+                                FileLogger.log("SERVICE: Audio focus gained, resuming pending TTS")
+                                pendingSpeakAfterFocusGain = null
+                                speakNow(pendingText)
+                            }
+                        }
+                        AudioManager.AUDIOFOCUS_LOSS -> {
+                            FileLogger.log("SERVICE: Audio focus lost")
+                            tts?.stop()
+                            stopSelf()
+                        }
                     }
                 }
                 .build()
             
-            val res = audioManager.requestAudioFocus(audioFocusRequest!!)
-            val granted = res == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
-            FileLogger.log("SERVICE: Audio focus request result: $granted")
-            return granted
+            val result = audioManager.requestAudioFocus(audioFocusRequest!!)
+            FileLogger.log("SERVICE: Audio focus request result code: $result")
+            return result
         } else {
             @Suppress("DEPRECATION")
-            val res = audioManager.requestAudioFocus(
+            val result = audioManager.requestAudioFocus(
                 { focusChange -> if (focusChange == AudioManager.AUDIOFOCUS_LOSS) stopSelf() },
                 AudioManager.STREAM_ALARM,
-                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK
+                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
             )
-            return res == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
+            return result
         }
     }
 
@@ -541,6 +565,13 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
     override fun onInit(status: Int) {
         FileLogger.log("SERVICE: TTS onInit called with status=$status")
         if (status == TextToSpeech.SUCCESS) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val ttsAudioAttributes = android.media.AudioAttributes.Builder()
+                    .setUsage(android.media.AudioAttributes.USAGE_ALARM)
+                    .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SPEECH)
+                    .build()
+                tts?.setAudioAttributes(ttsAudioAttributes)
+            }
             val result = tts?.setLanguage(Locale.getDefault())
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 FileLogger.log("SERVICE: TTS language not supported")
@@ -587,17 +618,16 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
             loopTimeoutRunnable?.let { loopTimeoutHandler?.removeCallbacks(it) }
             loopTimeoutHandler = null
             loopTimeoutRunnable = null
+            pendingSpeakAfterFocusGain = null
             
             mediaSession?.release()
             mediaSession = null
             playerNotificationManager.setPlayer(null)
             player.release()
             
-            if (isTtsMode) {
-                tts?.stop()
-                tts?.shutdown()
-                abandonAudioFocus()
-            }
+            tts?.stop()
+            tts?.shutdown()
+            abandonAudioFocus()
         } catch (e: Exception) {
             FileLogger.logError("SERVICE", "Error in onDestroy", e)
         }

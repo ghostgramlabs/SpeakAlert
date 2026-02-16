@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import android.os.Build
+import android.telecom.TelecomManager
 import android.util.Log
 import com.ghostgramlabs.speakalert.VoiceReminderApp
 import com.ghostgramlabs.speakalert.data.model.MissedReminderEntity
@@ -223,13 +224,22 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 val isLocked = keyguardManager.isKeyguardLocked
                 
                 val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-                val inCall = audioManager.mode == AudioManager.MODE_IN_CALL || audioManager.mode == AudioManager.MODE_IN_COMMUNICATION
+                val telecomInCall = try {
+                    val telecomManager = context.getSystemService(Context.TELECOM_SERVICE) as? TelecomManager
+                    telecomManager?.isInCall == true
+                } catch (e: SecurityException) {
+                    false
+                } catch (e: Exception) {
+                    false
+                }
+                // Avoid false positives from MODE_IN_COMMUNICATION on some devices.
+                val inCall = telecomInCall || audioManager.mode == AudioManager.MODE_IN_CALL
 
                 val audioPath = reminder.audioPath
                 val hasAudio = !audioPath.isNullOrBlank() && java.io.File(audioPath).exists()
                 val hasText = !reminder.reminderText.isNullOrBlank()
                 
-                FileLogger.log("ALARM: State - locked=$isLocked, inCall=$inCall, hasAudio=$hasAudio, hasText=$hasText")
+                FileLogger.log("ALARM: State - locked=$isLocked, inCall=$inCall, telecomInCall=$telecomInCall, audioMode=${audioManager.mode}, hasAudio=$hasAudio, hasText=$hasText")
                 
                 val displayText = reminder.reminderText ?: "Tap to view"
                 val title = reminder.title ?: "SpeakAlert"
@@ -241,13 +251,14 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 // If the app is still in the "boot completion" window, we must NOT start
                 // a mediaPlayback foreground service.
                 val lastBoot = settingsRepository.lastBootTimestamp.first()
-                val timeSinceBoot = now - lastBoot
-                val isCloseToBoot = timeSinceBoot < 120_000L // 2 minutes
+                val hasBootTimestamp = lastBoot > 0L && lastBoot <= now
+                val timeSinceBoot = if (hasBootTimestamp) now - lastBoot else Long.MAX_VALUE
+                val isCloseToBoot = hasBootTimestamp && timeSinceBoot < 120_000L // 2 minutes
                 val isAndroid15OrAbove = Build.VERSION.SDK_INT >= 35
 
                 // ANDROID 15+ RESTRICTION: Block autoplay only while still in the boot window.
                 // isBootReschedule is retained for diagnostics and for identifying boot-origin alarms.
-                val bootBlocked = isAndroid15OrAbove && isCloseToBoot
+                val bootBlocked = isAndroid15OrAbove && isBootReschedule && isCloseToBoot
                 
                 if (bootBlocked) {
                     FileLogger.log("ALARM: Autoplay BLOCKED. android15+=$isAndroid15OrAbove, isBootReschedule=$isBootReschedule, timeSinceBoot=${timeSinceBoot/1000}s (threshold 120s)")
@@ -259,7 +270,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                                  (hasAudio || (hasText && speakText)) &&
                                  !bootBlocked
                 
-                FileLogger.log("ALARM: android15+=$isAndroid15OrAbove, bootReschedule=$isBootReschedule, bootBlocked=$bootBlocked, canAutoPlay=$canAutoPlay")
+                FileLogger.log("ALARM: android15+=$isAndroid15OrAbove, bootReschedule=$isBootReschedule, hasBootTs=$hasBootTimestamp, closeToBoot=$isCloseToBoot, bootBlocked=$bootBlocked, canAutoPlay=$canAutoPlay")
 
                 if (canAutoPlay) {
                     FileLogger.log("ALARM: Attempting to start service for autoplay")
@@ -274,7 +285,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                                     audioPath = audioPath!!,
                                     ttsText = null,
                                     loop = reminder.loopPlayback,
-                                    isFromBootContext = isCloseToBoot
+                                    isFromBootContext = bootBlocked
                                 )
                             } else {
                                 FileLogger.log("ALARM: Starting service with TTS, loop=${reminder.loopPlayback}")
@@ -285,7 +296,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                                     audioPath = null,
                                     ttsText = reminder.reminderText,
                                     loop = reminder.loopPlayback,
-                                    isFromBootContext = isCloseToBoot
+                                    isFromBootContext = bootBlocked
                                 )
                             }
                         }

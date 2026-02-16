@@ -35,18 +35,6 @@ class ReminderActionReceiver : BroadcastReceiver() {
                 val reminderText = intent.getStringExtra("reminderText")
                 val title = intent.getStringExtra("title") ?: "SpeakAlert"
                 
-                // ANDROID 15+ GUARD: Skip service start during boot-proximity window
-                // to avoid ForegroundServiceStartNotAllowedException
-                if (android.os.Build.VERSION.SDK_INT >= 35) {
-                    val uptimeMs = android.os.SystemClock.elapsedRealtime()
-                    if (uptimeMs < 10 * 60 * 1000L) {
-                        com.ghostgramlabs.speakalert.util.FileLogger.log(
-                            "ACTION_PLAY: SKIPPED - Android 15+ boot proximity guard (uptime=${uptimeMs}ms)"
-                        )
-                        return // Notification stays visible; user can retry later
-                    }
-                }
-                
                 // Start playback (playback service has its own notification)
                 if (!audioPath.isNullOrBlank()) {
                     ReminderPlaybackService.start(context, reminderId, title, audioPath, null)
