@@ -1,5 +1,9 @@
 package com.ghostgramlabs.speakalert.ui.details
 
+import android.app.NotificationManager
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -32,6 +36,7 @@ import com.ghostgramlabs.speakalert.ui.AppViewModelProvider
 import com.ghostgramlabs.speakalert.ui.components.SectionCard
 import com.ghostgramlabs.speakalert.ui.components.PrimaryActionButton
 import com.ghostgramlabs.speakalert.util.DateUtils
+import kotlinx.coroutines.delay
 
 import java.io.File
 
@@ -55,10 +60,57 @@ fun ReminderDetailsScreen(
     var isPlaying by remember { mutableStateOf(false) }
     var hasAutoPlayed by remember { mutableStateOf(false) }
 
+    // Keep play/stop UI in sync with service playback lifecycle.
+    DisposableEffect(context, reminderId) {
+        val receiver = object : android.content.BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                if (intent?.action != "ACTION_PLAYBACK_STATUS") return
+                val id = intent.getLongExtra("reminderId", -1L)
+                val playing = intent.getBooleanExtra("isPlaying", false)
+                isPlaying = if (!playing) {
+                    false
+                } else if (id == reminderId) {
+                    true
+                } else {
+                    false
+                }
+            }
+        }
+        val filter = android.content.IntentFilter("ACTION_PLAYBACK_STATUS")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED)
+        } else {
+            context.registerReceiver(receiver, filter)
+        }
+        onDispose {
+            try {
+                context.unregisterReceiver(receiver)
+            } catch (_: Exception) {
+            }
+        }
+    }
+
+    // Failsafe: clear stale UI if playback notification is gone.
+    LaunchedEffect(context, isPlaying) {
+        while (isPlaying) {
+            delay(1200)
+            if (!isPlaybackNotificationActive(context)) {
+                isPlaying = false
+            }
+        }
+    }
+
     
     // Trigger autoplay when reminder is loaded and autoplay is requested
     LaunchedEffect(reminder, autoplay) {
-        if (autoplay && reminder != null && !hasAutoPlayed) {
+        val item = reminder
+        val now = System.currentTimeMillis()
+        val isMissedOnlyState = item != null &&
+            !item.isCompleted &&
+            item.snoozeUntil == null &&
+            item.nextTriggerAt < now
+
+        if (autoplay && item != null && !isMissedOnlyState && !hasAutoPlayed) {
             hasAutoPlayed = true
             viewModel.startAutoplay(context)
             isPlaying = true
@@ -408,7 +460,7 @@ fun ReminderDetailsScreen(
                             if (item.isCompleted && item.nextTriggerAt < now) {
                                 showPastActionSheet = true
                             } else if (isRecurring && !item.isCompleted) {
-                                viewModel.dismissReminder()
+                                viewModel.dismissReminder(context)
                                 navigateBack()
                             } else {
                                 viewModel.toggleDone()
@@ -550,5 +602,13 @@ fun ReminderDetailsScreen(
                 }
             }
         )
+    }
+}
+
+private fun isPlaybackNotificationActive(context: Context): Boolean {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return true
+    val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    return notificationManager.activeNotifications.any {
+        it.id == com.ghostgramlabs.speakalert.service.ReminderPlaybackService.NOTIFICATION_ID
     }
 }

@@ -9,12 +9,14 @@ import com.ghostgramlabs.speakalert.audio.AudioPlayer
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.data.repository.ReminderRepository
 import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
+import com.ghostgramlabs.speakalert.domain.models.MissedPolicy
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceModel
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.isActive
@@ -309,17 +311,27 @@ class AddEditViewModel(
                         recurrenceType = state.recurrenceType,
                         recurrenceJson = state.recurrenceJson
                     )
-                    // We pass System.currentTimeMillis() to computeNextTrigger so it 
-                    // always returns a time in the future relative to 'now'.
-                    val alignedTime = RecurrenceUtils.computeNextTrigger(tempReminder, System.currentTimeMillis())
+                    // Preserve selected first day when valid:
+                    // - if selected time is future, align from selected-1ms (so exact selected is allowed)
+                    // - if selected time is past, align from now
+                    val now = System.currentTimeMillis()
+                    val alignmentBase = if (finalTriggerTime > now) finalTriggerTime - 1L else now
+                    val alignedTime = RecurrenceUtils.computeNextTrigger(tempReminder, alignmentBase)
                     if (alignedTime != null) {
                         finalTriggerTime = alignedTime
-                        com.ghostgramlabs.speakalert.util.FileLogger.log("AddEdit: Aligned recurring reminder to $finalTriggerTime")
+                        com.ghostgramlabs.speakalert.util.FileLogger.log(
+                            "AddEdit: Aligned recurring reminder to $finalTriggerTime (base=$alignmentBase)"
+                        )
                     }
                 }
 
                 // Only save user-provided title; display layer handles fallbacks
                 val smartLabel = state.title.ifBlank { null }
+                val settingsDefaultMissedPolicy = parseMissedPolicy(settingsRepository.defaultMissedPolicy.first())
+                val recurrenceModel = RecurrenceUtils.fromJson(state.recurrenceType, state.recurrenceJson)
+                val resolvedMissedPolicy = recurrenceModel?.missedPolicy?.takeIf {
+                    it != MissedPolicy.SKIP_TO_NEXT || settingsDefaultMissedPolicy == MissedPolicy.SKIP_TO_NEXT
+                } ?: settingsDefaultMissedPolicy
 
                 val reminder = ReminderEntity(
                     id = if (state.initialReminderId != -1L) state.initialReminderId else 0L,
@@ -329,6 +341,7 @@ class AddEditViewModel(
                     nextTriggerAt = finalTriggerTime,
                     recurrenceType = state.recurrenceType,
                     recurrenceJson = state.recurrenceJson,
+                    missedPolicy = resolvedMissedPolicy,
                     loopPlayback = state.loopPlayback
                 )
                 
@@ -357,5 +370,13 @@ class AddEditViewModel(
         playbackJob?.cancel()
         // Clean up temp file if not saved
         tempAudioFile?.delete()
+    }
+
+    private fun parseMissedPolicy(raw: String): MissedPolicy {
+        return when (raw) {
+            "FIRE_ON_RESUME", "FIRE" -> MissedPolicy.FIRE_ON_RESUME
+            "SKIP_TO_NEXT", "SKIP" -> MissedPolicy.SKIP_TO_NEXT
+            else -> MissedPolicy.SKIP_TO_NEXT
+        }
     }
 }

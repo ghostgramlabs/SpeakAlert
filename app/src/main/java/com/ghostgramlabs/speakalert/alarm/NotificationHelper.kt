@@ -54,7 +54,8 @@ class NotificationHelper(private val context: Context) {
         title: String?, 
         message: String?,
         audioPath: String? = null,
-        reminderText: String? = null
+        reminderText: String? = null,
+        autoplayOnTap: Boolean = true
     ): Boolean {
         Log.d(TAG, "showNotification called for reminderId=$reminderId, title=$title")
         
@@ -73,7 +74,7 @@ class NotificationHelper(private val context: Context) {
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             putExtra("reminderId", reminderId)
-            putExtra("autoplay", true) // Autoplay when notification is tapped
+            putExtra("autoplay", autoplayOnTap)
         }
         
         val pendingIntent: PendingIntent = PendingIntent.getActivity(

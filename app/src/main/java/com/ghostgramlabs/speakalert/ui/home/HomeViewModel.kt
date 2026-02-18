@@ -10,13 +10,12 @@ import com.ghostgramlabs.speakalert.data.repository.MissedReminderRepository
 import com.ghostgramlabs.speakalert.data.repository.ReminderRepository
 import com.ghostgramlabs.speakalert.service.ReminderPlaybackService
 import com.ghostgramlabs.speakalert.util.DateUtils
-import com.ghostgramlabs.speakalert.domain.models.RecurrenceModel
-import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 data class HomeUiState(
     val todayReminders: List<ReminderEntity> = emptyList(),
@@ -44,36 +43,21 @@ class HomeViewModel(
         // Filter lists
         val active = reminders.filter { !it.isCompleted }
         val completed = reminders.filter { it.isCompleted }.sortedByDescending { it.completedAt }
-        
-        val today = active.filter { 
-            // "Today" means:
-            // 1. Scheduled for today (nextTriggerAt is today, regardless of past/future)
-            // 2. BUT exclude if already handled today (lastFiredAt is today AND nextTriggerAt is not in future)
-            
-            val isScheduledForToday = DateUtils.isToday(it.nextTriggerAt)
-            val isWaitingToFire = it.nextTriggerAt > System.currentTimeMillis()
-            val isTodayFired = it.lastFiredAt != null && DateUtils.isToday(it.lastFiredAt!!)
-            
-            // Show in Today if:
-            // 1. Scheduled for today AND hasn't been fired/done today yet
-            // 2. OR Overdue but scheduled for today
-            when {
-                // If it already fired or was marked done today, hide it from "Today" 
-                // (It will be in "Done" or advanced to "Upcoming")
-                isTodayFired -> false
-                
-                // Future occurrence today
-                isScheduledForToday && isWaitingToFire -> true
-                
-                // Overdue occurrence today
-                isScheduledForToday && it.nextTriggerAt <= System.currentTimeMillis() -> true
-                
-                else -> false
-            }
+
+        val endOfToday = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 23)
+            set(Calendar.MINUTE, 59)
+            set(Calendar.SECOND, 59)
+            set(Calendar.MILLISECOND, 999)
+        }.timeInMillis
+
+        // Classification is based on the *next* trigger only.
+        val today = active.filter {
+            DateUtils.isToday(it.nextTriggerAt)
         }.sortedBy { it.nextTriggerAt }
-        
-        val upcoming = active.filter { 
-            it.nextTriggerAt > System.currentTimeMillis() && !DateUtils.isToday(it.nextTriggerAt)
+
+        val upcoming = active.filter {
+            it.nextTriggerAt > endOfToday
         }.sortedBy { it.nextTriggerAt }
 
         HomeUiState(

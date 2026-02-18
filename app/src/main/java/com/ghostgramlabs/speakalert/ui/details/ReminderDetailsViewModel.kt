@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ghostgramlabs.speakalert.alarm.AlarmScheduler
-import com.ghostgramlabs.speakalert.audio.AndroidAudioPlayer
+import com.ghostgramlabs.speakalert.alarm.NotificationHelper
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.data.repository.ReminderRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -82,11 +82,12 @@ class ReminderDetailsViewModel(
         }
     }
 
-    fun dismissReminder() {
+    fun dismissReminder(context: Context) {
         viewModelScope.launch {
             val current = _reminder.value ?: return@launch
-            stopAudio()
-            
+            stopAudio(context)
+            NotificationHelper.cancelAlertNotification(context, current.id)
+             
             if (current.recurrenceType == com.ghostgramlabs.speakalert.domain.models.RecurrenceType.NONE) {
                 // One-time: mark as completed
                 val updated = current.copy(
@@ -98,15 +99,11 @@ class ReminderDetailsViewModel(
                 scheduler.cancel(current)
                 _reminder.value = updated
             } else {
-                // Recurring: system already advanced nextTriggerAt if it fired.
-                // We just ensure we clear snooze and audio state.
-                if (current.snoozeUntil != null) {
-                    val updated = current.copy(snoozeUntil = null)
-                    repository.updateReminder(updated)
-                    // If we clear snooze, ensure next occurrence is still scheduled
-                    scheduler.schedule(updated) 
-                    _reminder.value = updated
-                }
+                // Recurring: always clear alert transient state and keep next schedule active.
+                val updated = current.copy(snoozeUntil = null)
+                repository.updateReminder(updated)
+                scheduler.schedule(updated)
+                _reminder.value = updated
             }
         }
     }
@@ -203,13 +200,16 @@ class ReminderDetailsViewModel(
             // computeNextTrigger usually computes the *subsequent* trigger.
             // If we are just editing properties, maybe we just want to ensure the next trigger is valid.
             
+            val now = System.currentTimeMillis()
+            val alignmentBase = if (current.nextTriggerAt > now) current.nextTriggerAt - 1L else now
+
             val nextTrigger = if (newType == com.ghostgramlabs.speakalert.domain.models.RecurrenceType.NONE) {
                  // Keep current if valid? Or should we reset?
                  // If it was repeating, it had a nextTrigger. Changing to None means "Fire this one, then stop".
                  current.nextTriggerAt
-            } else {
-                 com.ghostgramlabs.speakalert.domain.RecurrenceUtils.computeNextTrigger(tempEntity, System.currentTimeMillis())
-            }
+             } else {
+                 com.ghostgramlabs.speakalert.domain.RecurrenceUtils.computeNextTrigger(tempEntity, alignmentBase)
+             }
             
             // 4. Update Entity
             val finalEntity = tempEntity.copy(

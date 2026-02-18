@@ -63,7 +63,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                         notificationHelper.showNotification(
                             reminderId,
                             "SpeakAlert",
-                            "Reminder not found in database"
+                            "Reminder not found in database",
+                            autoplayOnTap = false
                         )
                     }
                     return@launch
@@ -72,13 +73,17 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 FileLogger.log("ALARM: Found reminder - title='${reminder.title}', recurrenceType=${reminder.recurrenceType}")
 
                 val now = System.currentTimeMillis()
-                val scheduledTime = reminder.nextTriggerAt
+                val scheduledTime = intent.getLongExtra(
+                    "fireTime",
+                    reminder.snoozeUntil ?: reminder.nextTriggerAt
+                )
                 
                 // CRITICAL FIX: explicit check to prevent double-firing (e.g. after reboot)
                 // If we already fired for this scheduled time (or later), do not fire again.
                 // We use a small buffer (1 second) just in case of minor timestamp differences, but strictly logic is >=
-                if (reminder.lastFiredAt != null && reminder.lastFiredAt!! >= scheduledTime) {
-                    FileLogger.log("ALARM: Reminder $reminderId already fired at ${reminder.lastFiredAt} (>= $scheduledTime). Skipping.")
+                val lastFiredAt = reminder.lastFiredAt
+                if (lastFiredAt != null && lastFiredAt >= scheduledTime) {
+                    FileLogger.log("ALARM: Reminder $reminderId already fired at $lastFiredAt (>= $scheduledTime). Skipping.")
                     return@launch
                 }
 
@@ -90,7 +95,14 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
 
                 // Get missed policy from recurrence model (default: SKIP_TO_NEXT)
                 val recurrenceModel = RecurrenceUtils.fromJson(reminder.recurrenceType, reminder.recurrenceJson)
-                val missedPolicy = recurrenceModel?.missedPolicy ?: MissedPolicy.SKIP_TO_NEXT
+                val settingsDefaultPolicy = parseMissedPolicy(settingsRepository.defaultMissedPolicy.first())
+                val recurrencePolicy = recurrenceModel?.missedPolicy?.takeIf {
+                    it != MissedPolicy.SKIP_TO_NEXT || settingsDefaultPolicy == MissedPolicy.SKIP_TO_NEXT
+                }
+                val missedPolicy = recurrencePolicy ?: reminder.missedPolicy.takeIf {
+                    // For legacy reminders that still have the model default persisted, prefer app setting.
+                    it != MissedPolicy.SKIP_TO_NEXT || settingsDefaultPolicy == MissedPolicy.SKIP_TO_NEXT
+                } ?: settingsDefaultPolicy
                 
                 FileLogger.log("ALARM: missedPolicy=$missedPolicy")
 
@@ -136,10 +148,9 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                          scheduler.schedule(updatedReminder)
                          FileLogger.log("ALARM: Quiet Time - Scheduled next at $nextTrigger")
                     } else {
-                        // If one-time reminder fell in quiet time?
+                        // One-time reminders stay active until explicit Done/Dismiss.
                         if (reminder.recurrenceType == RecurrenceType.NONE) {
-                             updatedReminder = updatedReminder.copy(isCompleted = true, completedAt = now)
-                             FileLogger.log("ALARM: Quiet Time - Marked one-time reminder as completed/missed")
+                            FileLogger.log("ALARM: Quiet Time - One-time reminder kept active (awaiting Done/Dismiss)")
                         }
                     }
                     repository.updateReminder(updatedReminder)
@@ -191,7 +202,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                                     "Missed: ${reminder.title ?: "SpeakAlert"}",
                                     "Scheduled for ${formatTime(scheduledTime)} - tap to play",
                                     audioPath = reminder.audioPath,
-                                    reminderText = reminder.reminderText
+                                    reminderText = reminder.reminderText,
+                                    autoplayOnTap = false
                                 )
                             }
                             
@@ -358,20 +370,17 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                         FileLogger.log("ALARM: Recurrence ended, marked completed")
                     }
                 } else {
-                    // One-time reminder: only mark completed if notification was shown
-                    // If notification failed (permission denied), log as missed so user sees it
+                    // One-time reminders are not auto-completed on fire.
+                    // Completion happens on explicit user action (Done/Dismiss).
                     if (notificationShown) {
-                        FileLogger.log("ALARM: One-time reminder - marking completed")
-                        updatedReminder = updatedReminder.copy(isCompleted = true, completedAt = now)
-                        scheduler.cancel(updatedReminder)
+                        FileLogger.log("ALARM: One-time reminder fired - awaiting Done/Dismiss")
                     } else {
                         FileLogger.log("ALARM: One-time reminder - notification failed, logging as missed")
-                        val missedRepository = app.container.missedReminderRepository
                         missedRepository.insertMissedReminder(
                             com.ghostgramlabs.speakalert.data.model.MissedReminderEntity(
                                 reminderId = reminder.id,
-                                title = title ?: "SpeakAlert",
-                                scheduledTime = reminder.nextTriggerAt,
+                                title = title,
+                                scheduledTime = scheduledTime,
                                 reminderText = reminder.reminderText
                             )
                         )
@@ -388,7 +397,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                         notificationHelper.showNotification(
                             reminderId,
                             "SpeakAlert",
-                            "Error: ${e.message?.take(50) ?: "Unknown"}"
+                            "Error: ${e.message?.take(50) ?: "Unknown"}",
+                            autoplayOnTap = false
                         )
                     }
                     FileLogger.log("ALARM: Showed error notification")
@@ -431,6 +441,14 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
     private fun formatTime(millis: Long): String {
         val sdf = java.text.SimpleDateFormat("h:mm a", java.util.Locale.getDefault())
         return sdf.format(java.util.Date(millis))
+    }
+
+    private fun parseMissedPolicy(raw: String): MissedPolicy {
+        return when (raw) {
+            "FIRE_ON_RESUME", "FIRE" -> MissedPolicy.FIRE_ON_RESUME
+            "SKIP_TO_NEXT", "SKIP" -> MissedPolicy.SKIP_TO_NEXT
+            else -> MissedPolicy.SKIP_TO_NEXT
+        }
     }
     
     private fun isTimeInWindow(now: Long, startHour: Int, startMinute: Int, endHour: Int, endMinute: Int): Boolean {

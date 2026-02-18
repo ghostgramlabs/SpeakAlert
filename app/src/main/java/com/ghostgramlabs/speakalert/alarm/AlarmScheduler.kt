@@ -28,6 +28,7 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
         val intent = Intent(context, ReminderAlarmReceiver::class.java).apply {
             putExtra("reminderId", reminder.id)
             putExtra("isBootReschedule", isBootReschedule)
+            putExtra("fireTime", triggerTime)
         }
         
         val pendingIntent = PendingIntent.getBroadcast(
