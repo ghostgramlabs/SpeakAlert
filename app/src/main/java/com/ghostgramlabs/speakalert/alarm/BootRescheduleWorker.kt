@@ -6,11 +6,10 @@ import androidx.work.WorkerParameters
 import com.ghostgramlabs.speakalert.VoiceReminderApp
 import com.ghostgramlabs.speakalert.data.model.MissedReminderEntity
 import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
+import com.ghostgramlabs.speakalert.domain.models.MissedPolicy
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import com.ghostgramlabs.speakalert.util.FileLogger
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import kotlinx.coroutines.flow.first
 
 /**
  * Worker that reschedules all active reminders after a device reboot or time change.
@@ -38,9 +37,11 @@ class BootRescheduleWorker(
         return try {
             val app = applicationContext as VoiceReminderApp
             val repository = app.container.reminderRepository
+            val settingsRepository = app.container.settingsRepository
             val scheduler = app.container.alarmScheduler
             val missedRepository = app.container.missedReminderRepository
             val notificationHelper = NotificationHelper(applicationContext)
+            val settingsDefaultPolicy = parseMissedPolicy(settingsRepository.defaultMissedPolicy.first())
 
             val activeReminders = repository.getAllActiveReminders()
             FileLogger.log("BOOT_WORKER: Found ${activeReminders.size} active reminders")
@@ -61,7 +62,17 @@ class BootRescheduleWorker(
                 } else {
                     // Past/Missed/Immediate reminder: Handle INLINE to avoid FGS start frequency limit/restriction
                     FileLogger.log("BOOT_WORKER: Reminder ${reminder.id} is past due ($triggerTime <= $now). Handling inline as missed.")
-                    
+
+                    val recurrenceModel = RecurrenceUtils.fromJson(reminder.recurrenceType, reminder.recurrenceJson)
+                    val recurrencePolicy = recurrenceModel?.missedPolicy?.takeIf {
+                        it != MissedPolicy.SKIP_TO_NEXT || settingsDefaultPolicy == MissedPolicy.SKIP_TO_NEXT
+                    }
+                    val missedPolicy = recurrencePolicy ?: reminder.missedPolicy.takeIf {
+                        it != MissedPolicy.SKIP_TO_NEXT || settingsDefaultPolicy == MissedPolicy.SKIP_TO_NEXT
+                    } ?: settingsDefaultPolicy
+                    val shouldShowMissedNotification =
+                        reminder.recurrenceType == RecurrenceType.NONE || missedPolicy == MissedPolicy.FIRE_ON_RESUME
+                     
                     // 1. Add to Missed Inbox
                     val missedEntry = MissedReminderEntity(
                         reminderId = reminder.id,
@@ -71,20 +82,25 @@ class BootRescheduleWorker(
                         reminderText = reminder.reminderText
                     )
                     missedRepository.insertMissedReminder(missedEntry)
-                    
+                     
                     // 2. Show Missed Notification (No Service Start)
-                    val dateTimeStr = com.ghostgramlabs.speakalert.util.DateUtils.formatDateTime(triggerTime)
-                    val textContent = reminder.reminderText?.let { "\n$it" } ?: ""
-                    val notificationMessage = "Scheduled: $dateTimeStr$textContent"
-                    
-                    notificationHelper.showNotification(
-                        reminder.id,
-                        "Missed: ${reminder.title ?: "SpeakAlert"}",
-                        notificationMessage,
-                        audioPath = reminder.audioPath,
-                        reminderText = reminder.reminderText
-                    )
-                    
+                    if (shouldShowMissedNotification) {
+                        val dateTimeStr = com.ghostgramlabs.speakalert.util.DateUtils.formatDateTime(triggerTime)
+                        val textContent = reminder.reminderText?.let { "\n$it" } ?: ""
+                        val notificationMessage = "Scheduled: $dateTimeStr$textContent"
+
+                        notificationHelper.showNotification(
+                            reminder.id,
+                            "Missed: ${reminder.title ?: "SpeakAlert"}",
+                            notificationMessage,
+                            audioPath = reminder.audioPath,
+                            reminderText = reminder.reminderText,
+                            autoplayOnTap = false
+                        )
+                    } else {
+                        FileLogger.log("BOOT_WORKER: MissedPolicy SKIP_TO_NEXT - no missed notification for ${reminder.id}")
+                    }
+                     
                     // 3. Schedule Next Occurrence / Mark Complete
                     var updatedReminder = reminder.copy(
                         lastFiredAt = now,
@@ -107,10 +123,10 @@ class BootRescheduleWorker(
                             FileLogger.log("BOOT_WORKER: Recurrence ended, marked completed")
                         }
                     } else {
-                        // One-time reminder
-                        updatedReminder = updatedReminder.copy(isCompleted = true, completedAt = now)
+                        // One-time reminder remains active until explicit Done/Dismiss.
+                        // Clear any stale pending alarm so we don't duplicate notifications.
                         scheduler.cancel(updatedReminder)
-                        FileLogger.log("BOOT_WORKER: One-time reminder marked completed")
+                        FileLogger.log("BOOT_WORKER: One-time reminder kept active (awaiting user action)")
                     }
                     
                     repository.updateReminder(updatedReminder)
@@ -127,5 +143,13 @@ class BootRescheduleWorker(
 
     companion object {
         const val WORK_NAME = "boot_reschedule_alarms"
+    }
+
+    private fun parseMissedPolicy(raw: String): MissedPolicy {
+        return when (raw) {
+            "FIRE_ON_RESUME", "FIRE" -> MissedPolicy.FIRE_ON_RESUME
+            "SKIP_TO_NEXT", "SKIP" -> MissedPolicy.SKIP_TO_NEXT
+            else -> MissedPolicy.SKIP_TO_NEXT
+        }
     }
 }

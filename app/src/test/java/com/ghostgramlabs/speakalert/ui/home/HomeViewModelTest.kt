@@ -117,6 +117,31 @@ class HomeViewModelTest {
         assertEquals("Overdue", state.todayReminders[0].title)
     }
 
+    @Test
+    fun `uiState keeps same-day future reminder in today even after earlier fire`() = runTest {
+        // Arrange
+        val now = System.currentTimeMillis()
+        val firedTodayFutureReminder = ReminderEntity(
+            id = 1,
+            title = "Hourly",
+            nextTriggerAt = now + 30 * 60 * 1000, // still today and future
+            lastFiredAt = now - 5 * 60 * 1000
+        )
+
+        remindersFlow.value = listOf(firedTodayFutureReminder)
+
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            viewModel.uiState.collect()
+        }
+        advanceUntilIdle()
+
+        // Assert
+        val state = viewModel.uiState.value
+        assertEquals(1, state.todayReminders.size)
+        assertEquals("Hourly", state.todayReminders[0].title)
+        assertTrue(state.upcomingReminders.isEmpty())
+    }
+
      @Test
     fun `markAsDone completes one-time reminder`() = runTest {
         // Arrange

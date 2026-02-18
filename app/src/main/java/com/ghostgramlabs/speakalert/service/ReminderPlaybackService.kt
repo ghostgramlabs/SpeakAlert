@@ -68,6 +68,14 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
 
     override fun onBind(intent: Intent?): IBinder? = null
 
+    private fun broadcastPlaybackStatus(isPlaying: Boolean) {
+        val statusIntent = Intent("ACTION_PLAYBACK_STATUS").apply {
+            putExtra("reminderId", currentReminderId)
+            putExtra("isPlaying", isPlaying)
+        }
+        sendBroadcast(statusIntent)
+    }
+
     override fun onCreate() {
         super.onCreate()
         FileLogger.log("SERVICE: onCreate started")
@@ -101,11 +109,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
                             // Do NOT mark as done automatically. Just stop.
                             if (currentReminderId != -1L) {
                                 FileLogger.log("SERVICE: Playback finished for $currentReminderId. Stopping service (no auto-complete).")
-                                val statusIntent = Intent("ACTION_PLAYBACK_STATUS").apply {
-                                    putExtra("reminderId", currentReminderId)
-                                    putExtra("isPlaying", false)
-                                }
-                                sendBroadcast(statusIntent)
+                                broadcastPlaybackStatus(isPlaying = false)
                             }
                             stopSelf()
                         }
@@ -250,13 +254,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
 
         if (intent?.action == "ACTION_STOP_SERVICE" || intent?.action == ACTION_STOP) {
              FileLogger.log("SERVICE: Received STOP action")
-             if (currentReminderId != -1L) {
-                 val statusIntent = Intent("ACTION_PLAYBACK_STATUS").apply {
-                     putExtra("reminderId", currentReminderId)
-                     putExtra("isPlaying", false)
-                 }
-                 sendBroadcast(statusIntent)
-             }
+             broadcastPlaybackStatus(isPlaying = false)
              stopSelf()
              return START_NOT_STICKY
         }
@@ -266,11 +264,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
 
         if (reminderId != -1L) {
              currentReminderId = reminderId
-             val statusIntent = Intent("ACTION_PLAYBACK_STATUS").apply {
-                 putExtra("reminderId", currentReminderId)
-                 putExtra("isPlaying", true)
-             }
-             sendBroadcast(statusIntent)
+             broadcastPlaybackStatus(isPlaying = true)
         }
             
             if (intent?.action == ACTION_REPLAY) {
@@ -589,12 +583,14 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
                             // Replay TTS text
                             performSpeak(currentTtsText!!)
                         } else {
+                            broadcastPlaybackStatus(isPlaying = false)
                             stopSelf()
                         }
                     }
                     @Deprecated("Deprecated in Java")
                     override fun onError(utteranceId: String?) {
                         FileLogger.log("SERVICE: TTS utterance error")
+                        broadcastPlaybackStatus(isPlaying = false)
                         stopSelf()
                     }
                 })
@@ -614,6 +610,9 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
     override fun onDestroy() {
         FileLogger.log("SERVICE: onDestroy called")
         try {
+            // Ensure UI always gets a terminal "not playing" signal.
+            broadcastPlaybackStatus(isPlaying = false)
+
             // Cancel loop timeout if active
             loopTimeoutRunnable?.let { loopTimeoutHandler?.removeCallbacks(it) }
             loopTimeoutHandler = null

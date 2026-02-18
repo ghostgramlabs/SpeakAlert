@@ -8,6 +8,8 @@ import com.ghostgramlabs.speakalert.audio.AudioRecorder
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.data.repository.ReminderRepository
 import com.ghostgramlabs.speakalert.data.repository.SettingsRepository
+import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
+import com.ghostgramlabs.speakalert.domain.models.RecurrenceModel
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,6 +32,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import java.io.File
+import java.util.Calendar
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class AddEditViewModelTest {
@@ -69,6 +72,7 @@ class AddEditViewModelTest {
         // Mock Settings
         whenever(settingsRepository.appVolume).thenReturn(MutableStateFlow(1.0f))
         whenever(settingsRepository.speakTextIfNoVoice).thenReturn(MutableStateFlow(true))
+        whenever(settingsRepository.defaultMissedPolicy).thenReturn(MutableStateFlow("SKIP_TO_NEXT"))
         
         viewModel = AddEditViewModel(
             repository,
@@ -255,5 +259,33 @@ class AddEditViewModelTest {
         
         // Cleanup
         viewModel.stopPlayback()
+    }
+
+    @Test
+    fun `saveReminder recurring keeps selected first trigger when it matches the rule`() = runTest {
+        // Arrange
+        val selected = Calendar.getInstance().apply {
+            add(Calendar.DAY_OF_YEAR, 5)
+            set(Calendar.HOUR_OF_DAY, 9)
+            set(Calendar.MINUTE, 30)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
+        viewModel.updateReminderText("Daily standup")
+        viewModel.setTriggerTime(selected)
+        viewModel.setRecurrence(
+            RecurrenceType.DAILY,
+            RecurrenceUtils.toJson(RecurrenceModel.Daily())
+        )
+        whenever(repository.insertReminder(any())).thenReturn(1L)
+
+        // Act
+        viewModel.saveReminder()
+        advanceUntilIdle()
+
+        // Assert
+        val captor = argumentCaptor<ReminderEntity>()
+        verify(repository).insertReminder(captor.capture())
+        assertEquals(selected, captor.firstValue.nextTriggerAt)
     }
 }

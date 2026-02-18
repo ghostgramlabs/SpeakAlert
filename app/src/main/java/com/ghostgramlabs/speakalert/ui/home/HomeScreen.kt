@@ -3,6 +3,7 @@ package com.ghostgramlabs.speakalert.ui.home
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.app.NotificationManager
 import android.os.Build
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
@@ -40,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.ui.AppViewModelProvider
 import com.ghostgramlabs.speakalert.util.DateUtils
@@ -77,8 +79,8 @@ fun HomeScreen(
                     val id = intent.getLongExtra("reminderId", -1L)
                     val isPlaying = intent.getBooleanExtra("isPlaying", false)
                     if (isPlaying) {
-                        currentPlayingId = id
-                    } else if (currentPlayingId == id) {
+                        if (id != -1L) currentPlayingId = id
+                    } else {
                         currentPlayingId = -1L
                     }
                 }
@@ -97,6 +99,16 @@ fun HomeScreen(
                 context.unregisterReceiver(receiver)
             } catch (e: Exception) {
                 // Ignore
+            }
+        }
+    }
+
+    // Failsafe: if playback notification is gone, clear stale UI playing state.
+    LaunchedEffect(context, currentPlayingId) {
+        while (currentPlayingId != -1L) {
+            delay(1200)
+            if (!isPlaybackNotificationActive(context)) {
+                currentPlayingId = -1L
             }
         }
     }
@@ -557,7 +569,7 @@ fun HomeScreen(
                     ) {
                         OutlinedButton(
                             onClick = { 
-                                missedList.forEach { viewModel.dismissMissedReminder(it) }
+                        missedList.forEach { viewModel.dismissMissedReminder(it) }
                             },
                             modifier = Modifier.fillMaxWidth(),
                             colors = ButtonDefaults.outlinedButtonColors(
@@ -905,4 +917,12 @@ fun EmptyState(
 
 enum class FilterType {
     TODAY, UPCOMING, COMPLETED, MISSED, ALL
+}
+
+private fun isPlaybackNotificationActive(context: Context): Boolean {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return true
+    val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    return notificationManager.activeNotifications.any {
+        it.id == com.ghostgramlabs.speakalert.service.ReminderPlaybackService.NOTIFICATION_ID
+    }
 }
