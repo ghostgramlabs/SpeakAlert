@@ -4,9 +4,34 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 object DateUtils {
-    
+
+    /**
+     * Computes the calendar-day difference between two timestamps.
+     * Returns positive if target is after now, negative if before.
+     * Uses floor-division on midnight-aligned days to handle year boundaries correctly.
+     */
+    private fun dayDifference(nowMillis: Long, targetMillis: Long): Int {
+        val nowCal = Calendar.getInstance().apply {
+            timeInMillis = nowMillis
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val targetCal = Calendar.getInstance().apply {
+            timeInMillis = targetMillis
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val diffMs = targetCal.timeInMillis - nowCal.timeInMillis
+        return TimeUnit.MILLISECONDS.toDays(diffMs).toInt()
+    }
+
     fun formatDateTime(timestamp: Long): String {
         val sdf = SimpleDateFormat("EEE, MMM d, h:mm a", Locale.getDefault())
         return sdf.format(Date(timestamp))
@@ -14,26 +39,14 @@ object DateUtils {
 
     fun formatRelativeTime(timestamp: Long): String {
         // e.g. "Today, 10:00 AM" or "Tomorrow, 10:00 AM"
-        val nowCal = Calendar.getInstance()
-        val targetCal = Calendar.getInstance().apply { timeInMillis = timestamp }
-        
-        val nowDay = nowCal.get(Calendar.DAY_OF_YEAR)
-        val nowYear = nowCal.get(Calendar.YEAR)
-        val targetDay = targetCal.get(Calendar.DAY_OF_YEAR)
-        val targetYear = targetCal.get(Calendar.YEAR)
-        
         val timeFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
         val timeStr = timeFormat.format(Date(timestamp))
         
-        return if (nowYear == targetYear) {
-            when (targetDay) {
-                nowDay -> "Today, $timeStr"
-                nowDay + 1 -> "Tomorrow, $timeStr"
-                nowDay - 1 -> "Yesterday, $timeStr"
-                else -> formatDateTime(timestamp)
-            }
-        } else {
-            formatDateTime(timestamp)
+        return when (dayDifference(System.currentTimeMillis(), timestamp)) {
+            0 -> "Today, $timeStr"
+            1 -> "Tomorrow, $timeStr"
+            -1 -> "Yesterday, $timeStr"
+            else -> formatDateTime(timestamp)
         }
     }
     
@@ -44,40 +57,34 @@ object DateUtils {
         // Mon • 7:00 PM
         // Mar 15 • 8:30 AM
         
-        val nowCal = Calendar.getInstance()
-        val targetCal = Calendar.getInstance().apply { timeInMillis = timestamp }
-        
-        val nowDay = nowCal.get(Calendar.DAY_OF_YEAR)
-        val nowYear = nowCal.get(Calendar.YEAR)
-        val targetDay = targetCal.get(Calendar.DAY_OF_YEAR)
-        val targetYear = targetCal.get(Calendar.YEAR)
+        val now = System.currentTimeMillis()
+        val nowYear = Calendar.getInstance().get(Calendar.YEAR)
+        val targetYear = Calendar.getInstance().apply { timeInMillis = timestamp }.get(Calendar.YEAR)
         
         val timeFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
         val timeStr = timeFormat.format(Date(timestamp))
         
-        if (nowYear == targetYear) {
-            return when (targetDay) {
-                nowDay -> "Today • $timeStr"
-                nowDay + 1 -> "Tomorrow • $timeStr"
-                nowDay - 1 -> "Yesterday • $timeStr"
-                else -> {
-                    // Start of week logic? Or just "Mon", "Tue"? 
-                    // Let's check if it's within the next 7 days for simplified Day Name
-                    if (targetDay > nowDay && targetDay < nowDay + 7) {
-                        val dayFormat = SimpleDateFormat("EEE", Locale.getDefault())
-                        "${dayFormat.format(Date(timestamp))} • $timeStr"
-                    } else {
-                        // Mar 15 • 8:30 AM
-                         val dateFormat = SimpleDateFormat("MMM d", Locale.getDefault())
-                        "${dateFormat.format(Date(timestamp))} • $timeStr"
-                    }
+        val dayDiff = dayDifference(now, timestamp)
+        
+        return when (dayDiff) {
+            0 -> "Today • $timeStr"
+            1 -> "Tomorrow • $timeStr"
+            -1 -> "Yesterday • $timeStr"
+            else -> {
+                if (dayDiff in 2..6) {
+                    // Within next 7 days — show day name
+                    val dayFormat = SimpleDateFormat("EEE", Locale.getDefault())
+                    "${dayFormat.format(Date(timestamp))} • $timeStr"
+                } else if (nowYear != targetYear) {
+                    // Different year — include year
+                    val dateFormat = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
+                    "${dateFormat.format(Date(timestamp))} • $timeStr"
+                } else {
+                    // Same year — month and day
+                    val dateFormat = SimpleDateFormat("MMM d", Locale.getDefault())
+                    "${dateFormat.format(Date(timestamp))} • $timeStr"
                 }
             }
-        } else {
-             // Formats date with year if different year? Original request didn't specify, but "Mar 15 • 8:30 AM" implies no year. 
-             // We'll stick to MMM d unless it's very far.
-             val dateFormat = SimpleDateFormat("MMM d", Locale.getDefault())
-            return "${dateFormat.format(Date(timestamp))} • $timeStr"
         }
     }
 
@@ -98,24 +105,23 @@ object DateUtils {
         
         return targetCal.get(Calendar.DAY_OF_YEAR) > nowCal.get(Calendar.DAY_OF_YEAR)
     }
+
     fun formatDateLabel(timestamp: Long): String {
-        val nowCal = Calendar.getInstance()
-        val targetCal = Calendar.getInstance().apply { timeInMillis = timestamp }
+        val nowYear = Calendar.getInstance().get(Calendar.YEAR)
+        val targetYear = Calendar.getInstance().apply { timeInMillis = timestamp }.get(Calendar.YEAR)
         
-        val nowDay = nowCal.get(Calendar.DAY_OF_YEAR)
-        val nowYear = nowCal.get(Calendar.YEAR)
-        val targetDay = targetCal.get(Calendar.DAY_OF_YEAR)
-        val targetYear = targetCal.get(Calendar.YEAR)
-        
-        if (nowYear == targetYear) {
-            return when (targetDay) {
-                nowDay -> "Today"
-                nowDay + 1 -> "Tomorrow"
-                nowDay - 1 -> "Yesterday"
-                else -> SimpleDateFormat("MMM d", Locale.getDefault()).format(Date(timestamp))
+        return when (dayDifference(System.currentTimeMillis(), timestamp)) {
+            0 -> "Today"
+            1 -> "Tomorrow"
+            -1 -> "Yesterday"
+            else -> {
+                if (nowYear != targetYear) {
+                    SimpleDateFormat("MMM d, yyyy", Locale.getDefault()).format(Date(timestamp))
+                } else {
+                    SimpleDateFormat("MMM d", Locale.getDefault()).format(Date(timestamp))
+                }
             }
         }
-        return SimpleDateFormat("MMM d, yyyy", Locale.getDefault()).format(Date(timestamp))
     }
 
     fun formatTimeOnly(timestamp: Long): String {
