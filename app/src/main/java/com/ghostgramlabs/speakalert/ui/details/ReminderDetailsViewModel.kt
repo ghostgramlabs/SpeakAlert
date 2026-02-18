@@ -55,17 +55,29 @@ class ReminderDetailsViewModel(
         viewModelScope.launch {
             val current = _reminder.value ?: return@launch
             val newCompleted = !current.isCompleted
-            val updated = current.copy(
+            var updated = current.copy(
                 isCompleted = newCompleted,
                 completedAt = if (newCompleted) System.currentTimeMillis() else null
             )
-            repository.updateReminder(updated)
             
             if (newCompleted) {
                 scheduler.cancel(current)
             } else {
+                // When un-completing a recurring reminder with a past trigger,
+                // advance to the next future occurrence to avoid instant overdue alarm
+                if (updated.recurrenceType != com.ghostgramlabs.speakalert.domain.models.RecurrenceType.NONE
+                    && updated.nextTriggerAt <= System.currentTimeMillis()) {
+                    val nextTrigger = com.ghostgramlabs.speakalert.domain.RecurrenceUtils.computeNextTrigger(
+                        updated, System.currentTimeMillis()
+                    )
+                    if (nextTrigger != null) {
+                        updated = updated.copy(nextTriggerAt = nextTrigger)
+                    }
+                }
                 scheduler.schedule(updated)
             }
+            
+            repository.updateReminder(updated)
             _reminder.value = updated
         }
     }
@@ -117,8 +129,8 @@ class ReminderDetailsViewModel(
              com.ghostgramlabs.speakalert.service.ReminderPlaybackService.start(
                 context, rem.id, title, audioPath, null
             )
-        } else if (!reminderText.isNullOrBlank()) {
-             // Fallback to TTS
+        } else if (!reminderText.isNullOrBlank() && isTtsEnabled) {
+             // Only fall back to TTS if the setting is enabled
              com.ghostgramlabs.speakalert.service.ReminderPlaybackService.start(
                 context, rem.id, title, null, reminderText
             )

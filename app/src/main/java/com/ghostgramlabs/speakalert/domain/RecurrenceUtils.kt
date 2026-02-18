@@ -91,8 +91,8 @@ object RecurrenceUtils {
         }
         
         if (nextTrigger == null || nextTrigger <= fromTime) {
-             com.ghostgramlabs.speakalert.util.FileLogger.log("Recurrence: FAILED to find future time. End or default.")
-             return if (nextTrigger == null) null else System.currentTimeMillis() + 60000
+             com.ghostgramlabs.speakalert.util.FileLogger.log("Recurrence: FAILED to find future time after 50 attempts. Ending recurrence.")
+             return null
         }
         
         return com.ghostgramlabs.speakalert.util.DateUtils.normalizeToMinute(nextTrigger)
@@ -269,8 +269,29 @@ object RecurrenceUtils {
             // Safety check for invalid interval to prevent infinite loop
             val safeInterval = if (rule.interval < 1) 1 else rule.interval
             
-            while (cal.timeInMillis <= fromTime) {
+            // Jump-ahead optimization: estimate intervals to skip to avoid O(N) loop
+            // for reminders restored far in the past
+            if (cal.timeInMillis <= fromTime) {
+                val diffMs = fromTime - cal.timeInMillis
+                val estimatedIntervalMs = when (rule.unit) {
+                    TimeUnit.DAYS -> safeInterval * 86_400_000L
+                    TimeUnit.WEEKS -> safeInterval * 7 * 86_400_000L
+                    TimeUnit.MONTHS -> safeInterval * 30L * 86_400_000L // approximate
+                    else -> 86_400_000L
+                }
+                if (estimatedIntervalMs > 0) {
+                    val jumps = ((diffMs / estimatedIntervalMs) - 1).coerceAtLeast(0)
+                    if (jumps > 0) {
+                        cal.add(field, (jumps * safeInterval).toInt())
+                    }
+                }
+            }
+            
+            // Fine-tune: step forward until we pass fromTime (capped at 1000 iterations)
+            var iterations = 0
+            while (cal.timeInMillis <= fromTime && iterations < 1000) {
                 cal.add(field, safeInterval)
+                iterations++
             }
             com.ghostgramlabs.speakalert.util.FileLogger.log("Recurrence: Custom (Cal) result=${java.util.Date(cal.timeInMillis)}")
             return cal.timeInMillis
@@ -284,8 +305,8 @@ object RecurrenceUtils {
             
             // Safety check
             if (intervalMillis <= 0) {
-                 com.ghostgramlabs.speakalert.util.FileLogger.log("Recurrence: Invalid interval millis $intervalMillis")
-                 return fromTime + 60000 // Failsafe 1 min
+                 com.ghostgramlabs.speakalert.util.FileLogger.log("Recurrence: Invalid interval millis $intervalMillis. Ending.")
+                 return null
             }
             
             var nextTime = baseTrigger

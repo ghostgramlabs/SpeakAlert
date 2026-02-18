@@ -346,7 +346,7 @@
     <item quantity="other">Rewind <ns1:g example="30" id="rewind_amount">%d</ns1:g> seconds</item>
   </plurals>
     <string name="androidx_startup" translatable="false">androidx.startup</string>
-    <string name="app_name">SpeakAlert</string>
+    <string name="app_name">Speak Alert</string>
     <string name="app_tagline">Offline Voice Reminders</string>
     <string name="authentication_required">Authentication required</string>
     <string name="bottom_sheet_collapse_description">Collapse bottom sheet</string>

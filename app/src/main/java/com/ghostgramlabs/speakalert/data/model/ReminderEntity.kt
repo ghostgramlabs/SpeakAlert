@@ -28,7 +28,8 @@ data class ReminderEntity(
     val snoozeUntil: Long? = null,
     
     // Missed Policy (applies to both one-time and recurring)
-    val missedPolicy: MissedPolicy = MissedPolicy.FIRE_ON_RESUME,
+    // Default matches RecurrenceModel defaults which is what the receiver actually reads
+    val missedPolicy: MissedPolicy = MissedPolicy.SKIP_TO_NEXT,
     
     // Loop Playback - when enabled, audio/TTS plays repeatedly until stopped
     val loopPlayback: Boolean = false

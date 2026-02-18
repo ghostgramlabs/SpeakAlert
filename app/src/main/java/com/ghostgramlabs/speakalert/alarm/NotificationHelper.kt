@@ -55,7 +55,7 @@ class NotificationHelper(private val context: Context) {
         message: String?,
         audioPath: String? = null,
         reminderText: String? = null
-    ) {
+    ): Boolean {
         Log.d(TAG, "showNotification called for reminderId=$reminderId, title=$title")
         
         // Check permission on Android 13+
@@ -66,7 +66,7 @@ class NotificationHelper(private val context: Context) {
             
             if (!hasPermission) {
                 Log.e(TAG, "POST_NOTIFICATIONS permission not granted! Cannot show notification.")
-                return
+                return false
             }
         }
         
@@ -141,13 +141,16 @@ class NotificationHelper(private val context: Context) {
         builder.addAction(0, "Dismiss", donePendingIntent)
         builder.addAction(0, "Snooze", snoozePendingIntent)
 
-        try {
+        return try {
             NotificationManagerCompat.from(context).notify(reminderId.toInt(), builder.build())
             Log.d(TAG, "Notification posted successfully for reminderId=$reminderId")
+            true
         } catch (e: SecurityException) {
             Log.e(TAG, "SecurityException posting notification", e)
+            false
         } catch (e: Exception) {
             Log.e(TAG, "Error posting notification", e)
+            false
         }
     }
 }

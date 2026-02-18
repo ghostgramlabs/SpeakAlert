@@ -8,7 +8,7 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="white">#FFFFFFFF</color>
-    <string name="app_name">SpeakAlert</string>
+    <string name="app_name">Speak Alert</string>
     <string name="app_tagline">Offline Voice Reminders</string>
     <style name="Theme.SpeakAlert" parent="android:Theme.Material.Light.NoActionBar">
         

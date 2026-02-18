@@ -39,7 +39,18 @@ class ReminderActionReceiver : BroadcastReceiver() {
                 if (!audioPath.isNullOrBlank()) {
                     ReminderPlaybackService.start(context, reminderId, title, audioPath, null)
                 } else if (!reminderText.isNullOrBlank()) {
-                    ReminderPlaybackService.start(context, reminderId, title, null, reminderText)
+                    // Check TTS setting before speaking text
+                    val pendingResult = goAsync()
+                    CoroutineScope(Dispatchers.IO).launch {
+                        try {
+                            val ttsEnabled = settingsRepository.speakTextIfNoVoice.first()
+                            if (ttsEnabled) {
+                                ReminderPlaybackService.start(context, reminderId, title, null, reminderText)
+                            }
+                        } finally {
+                            pendingResult.finish()
+                        }
+                    }
                 }
                 return // Don't proceed to DB operations for play action
             }

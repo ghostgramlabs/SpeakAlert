@@ -272,7 +272,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 
                 FileLogger.log("ALARM: android15+=$isAndroid15OrAbove, bootReschedule=$isBootReschedule, hasBootTs=$hasBootTimestamp, closeToBoot=$isCloseToBoot, bootBlocked=$bootBlocked, canAutoPlay=$canAutoPlay")
 
-                if (canAutoPlay) {
+                val notificationShown = if (canAutoPlay) {
                     FileLogger.log("ALARM: Attempting to start service for autoplay")
                     try {
                         withContext(Dispatchers.Main) {
@@ -308,7 +308,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     }
                     
                     // ALWAYS show notification after autoplay (it stays until user dismisses)
-                    withContext(Dispatchers.Main) {
+                    val shown = withContext(Dispatchers.Main) {
                         notificationHelper.showNotification(
                             reminder.id,
                             title,
@@ -317,10 +317,11 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             reminderText = if (hasText) reminder.reminderText else null
                         )
                     }
-                    FileLogger.log("ALARM: Showed notification after autoplay")
+                    FileLogger.log("ALARM: Showed notification after autoplay: $shown")
+                    shown
                 } else {
                     FileLogger.log("ALARM: Showing standard notification (no autoplay)")
-                    withContext(Dispatchers.Main) {
+                    val shown = withContext(Dispatchers.Main) {
                         notificationHelper.showNotification(
                             reminder.id,
                             title,
@@ -329,7 +330,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             reminderText = if (hasText) reminder.reminderText else null
                         )
                     }
-                    FileLogger.log("ALARM: Notification shown")
+                    FileLogger.log("ALARM: Notification shown: $shown")
+                    shown
                 }
 
                 // Update state and AUTO-RESCHEDULE for recurring reminders
@@ -356,11 +358,24 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                         FileLogger.log("ALARM: Recurrence ended, marked completed")
                     }
                 } else {
-                    // One-time reminder: mark completed immediately after firing
-                    // This moves it to the 'Done' tab automatically
-                    FileLogger.log("ALARM: One-time reminder - marking completed")
-                    updatedReminder = updatedReminder.copy(isCompleted = true, completedAt = now)
-                    scheduler.cancel(updatedReminder)
+                    // One-time reminder: only mark completed if notification was shown
+                    // If notification failed (permission denied), log as missed so user sees it
+                    if (notificationShown) {
+                        FileLogger.log("ALARM: One-time reminder - marking completed")
+                        updatedReminder = updatedReminder.copy(isCompleted = true, completedAt = now)
+                        scheduler.cancel(updatedReminder)
+                    } else {
+                        FileLogger.log("ALARM: One-time reminder - notification failed, logging as missed")
+                        val missedRepository = app.container.missedReminderRepository
+                        missedRepository.insertMissedReminder(
+                            com.ghostgramlabs.speakalert.data.model.MissedReminderEntity(
+                                reminderId = reminder.id,
+                                title = title ?: "SpeakAlert",
+                                scheduledTime = reminder.nextTriggerAt,
+                                reminderText = reminder.reminderText
+                            )
+                        )
+                    }
                 }
                 
                 repository.updateReminder(updatedReminder)
