@@ -638,7 +638,8 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
 
     companion object {
         const val CHANNEL_ID = "playback_channel"
-        const val NOTIFICATION_ID = 200 // Separate from alert notification (uses reminderId)
+        // Reserve a high fixed ID so it never collides with reminder alert IDs (which use reminderId.toInt()).
+        const val NOTIFICATION_ID = 2_000_001
         
         const val EXTRA_ID = "extra_id"
         const val EXTRA_TITLE = "extra_title"

@@ -8,6 +8,7 @@ import com.ghostgramlabs.speakalert.data.model.MissedReminderEntity
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.data.repository.MissedReminderRepository
 import com.ghostgramlabs.speakalert.data.repository.ReminderRepository
+import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import com.ghostgramlabs.speakalert.service.ReminderPlaybackService
 import com.ghostgramlabs.speakalert.util.DateUtils
 import kotlinx.coroutines.flow.SharingStarted
@@ -40,8 +41,13 @@ class HomeViewModel(
         missedRepository.allMissedReminders,
         settingsRepository.speakTextIfNoVoice
     ) { reminders, missed, isTtsEnabled ->
-        // Filter lists
-        val active = reminders.filter { !it.isCompleted }
+        val missedReminderIds = missed.map { it.reminderId }.toSet()
+        // Keep one-time reminders in a single place: if it already has a Missed entry,
+        // show it only in Missed tab (not in Active tabs).
+        val active = reminders.filter {
+            !it.isCompleted &&
+                !(it.recurrenceType == RecurrenceType.NONE && missedReminderIds.contains(it.id))
+        }
         val completed = reminders.filter { it.isCompleted }.sortedByDescending { it.completedAt }
 
         val endOfToday = Calendar.getInstance().apply {
@@ -111,6 +117,7 @@ class HomeViewModel(
                 completedAt = System.currentTimeMillis(),
                 snoozeUntil = null
             )
+            missedRepository.deleteMissedReminderByReminderId(reminder.id)
             alarmScheduler.cancel(reminder)
             repository.updateReminder(updated)
         }

@@ -142,6 +142,40 @@ class HomeViewModelTest {
         assertTrue(state.upcomingReminders.isEmpty())
     }
 
+    @Test
+    fun `uiState hides one-time reminder from active lists when missed entry exists`() = runTest {
+        // Arrange
+        val now = System.currentTimeMillis()
+        val oneTimeReminder = ReminderEntity(
+            id = 42,
+            title = "One-time missed",
+            recurrenceType = RecurrenceType.NONE,
+            nextTriggerAt = now - 5 * 60 * 1000,
+            isCompleted = false
+        )
+        val missedEntry = MissedReminderEntity(
+            id = 1,
+            reminderId = 42,
+            title = "One-time missed",
+            scheduledTime = oneTimeReminder.nextTriggerAt,
+            detectedTime = now
+        )
+        remindersFlow.value = listOf(oneTimeReminder)
+        missedFlow.value = listOf(missedEntry)
+
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            viewModel.uiState.collect()
+        }
+        advanceUntilIdle()
+
+        // Assert
+        val state = viewModel.uiState.value
+        assertTrue(state.todayReminders.isEmpty())
+        assertTrue(state.upcomingReminders.isEmpty())
+        assertEquals(1, state.missedReminders.size)
+        assertEquals(42L, state.missedReminders.first().reminderId)
+    }
+
      @Test
     fun `markAsDone completes one-time reminder`() = runTest {
         // Arrange
@@ -157,6 +191,7 @@ class HomeViewModelTest {
             assertTrue(it.isCompleted)
             assertNotNull(it.completedAt)
         })
+        verify(missedRepository).deleteMissedReminderByReminderId(reminder.id)
     }
     
     @Test
