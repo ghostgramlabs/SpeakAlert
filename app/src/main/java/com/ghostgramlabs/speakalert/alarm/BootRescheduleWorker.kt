@@ -42,6 +42,7 @@ class BootRescheduleWorker(
             val missedRepository = app.container.missedReminderRepository
             val notificationHelper = NotificationHelper(applicationContext)
             val settingsDefaultPolicy = parseMissedPolicy(settingsRepository.defaultMissedPolicy.first())
+            val toneOnlyMode = settingsRepository.toneOnlyMode.first()
 
             val activeReminders = repository.getAllActiveReminders()
             FileLogger.log("BOOT_WORKER: Found ${activeReminders.size} active reminders")
@@ -95,7 +96,8 @@ class BootRescheduleWorker(
                             notificationMessage,
                             audioPath = reminder.audioPath,
                             reminderText = reminder.reminderText,
-                            autoplayOnTap = false
+                            autoplayOnTap = false,
+                            toneOnlyMode = toneOnlyMode
                         )
                     } else {
                         FileLogger.log("BOOT_WORKER: MissedPolicy SKIP_TO_NEXT - no missed notification for ${reminder.id}")

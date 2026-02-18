@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ghostgramlabs.speakalert.alarm.AlarmScheduler
 import com.ghostgramlabs.speakalert.alarm.NotificationHelper
+import com.ghostgramlabs.speakalert.alarm.ToneAlertPlayer
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.data.repository.ReminderRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -118,6 +119,7 @@ class ReminderDetailsViewModel(
 
     fun playAudio(context: Context) {
         val rem = _reminder.value ?: return
+        ToneAlertPlayer.stop()
         val audioPath = rem.audioPath
         val reminderText = rem.reminderText
         val title = rem.title ?: "SpeakAlert"
@@ -137,6 +139,7 @@ class ReminderDetailsViewModel(
     fun stopAudio(context: Context) {
         // Stop any local preview player path.
         player.stop()
+        ToneAlertPlayer.stop()
         // Stop foreground service playback path (used by details/home playback).
         com.ghostgramlabs.speakalert.service.ReminderPlaybackService.stop(context)
     }
@@ -147,6 +150,7 @@ class ReminderDetailsViewModel(
      */
     fun startAutoplay(context: android.content.Context) {
         val rem = _reminder.value ?: return
+        ToneAlertPlayer.stop()
         val audioPath = rem.audioPath
         val reminderText = rem.reminderText
         val title = rem.title ?: "SpeakAlert"

@@ -7,6 +7,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.AudioAttributes
+import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
 import android.util.Log
 import com.ghostgramlabs.speakalert.MainActivity
@@ -19,6 +22,7 @@ class NotificationHelper(private val context: Context) {
 
     companion object {
         const val CHANNEL_ID = "voice_reminder_channel"
+        const val TONE_ONLY_CHANNEL_ID = "voice_reminder_tone_only_channel"
         private const val TAG = "NotificationHelper"
         
         /**
@@ -36,17 +40,35 @@ class NotificationHelper(private val context: Context) {
     }
 
     private fun createNotificationChannel() {
-        val name = "SpeakAlert Reminders"
-        val descriptionText = "Notifications for SpeakAlert reminders"
-        val importance = NotificationManager.IMPORTANCE_HIGH
-        val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
-            description = descriptionText
+        val alarmToneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+        val normalChannel = NotificationChannel(
+            CHANNEL_ID,
+            "SpeakAlert Reminders",
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            description = "Notifications for SpeakAlert reminders"
             enableVibration(true)
+        }
+        val toneOnlyChannel = NotificationChannel(
+            TONE_ONLY_CHANNEL_ID,
+            "SpeakAlert Tone-Only Alerts",
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            description = "System alarm tone alerts for Tone-only mode"
+            enableVibration(true)
+            setSound(
+                alarmToneUri,
+                AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_ALARM)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build()
+            )
         }
         val notificationManager: NotificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
-        Log.d(TAG, "Notification channel created: $CHANNEL_ID")
+        notificationManager.createNotificationChannel(normalChannel)
+        notificationManager.createNotificationChannel(toneOnlyChannel)
+        Log.d(TAG, "Notification channels created: $CHANNEL_ID, $TONE_ONLY_CHANNEL_ID")
     }
 
     fun showNotification(
@@ -55,9 +77,12 @@ class NotificationHelper(private val context: Context) {
         message: String?,
         audioPath: String? = null,
         reminderText: String? = null,
-        autoplayOnTap: Boolean = true
+        autoplayOnTap: Boolean = true,
+        toneOnlyMode: Boolean = false
     ): Boolean {
         Log.d(TAG, "showNotification called for reminderId=$reminderId, title=$title")
+        val channelId = if (toneOnlyMode) TONE_ONLY_CHANNEL_ID else CHANNEL_ID
+        val alarmToneUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
         
         // Check permission on Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -74,7 +99,7 @@ class NotificationHelper(private val context: Context) {
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             putExtra("reminderId", reminderId)
-            putExtra("autoplay", autoplayOnTap)
+            putExtra("autoplay", autoplayOnTap && !toneOnlyMode)
         }
         
         val pendingIntent: PendingIntent = PendingIntent.getActivity(
@@ -123,20 +148,30 @@ class NotificationHelper(private val context: Context) {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+        val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.mipmap.ic_launcher_round)
             .setContentTitle(title ?: "Voice reminder")
             .setContentText(message ?: "Tap to play your reminder")
             .setStyle(NotificationCompat.BigTextStyle().bigText(message ?: "Tap to play your reminder"))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setContentIntent(pendingIntent)
             .setAutoCancel(false) // Notification stays until user acts
             .setOngoing(false) // User can swipe to dismiss like normal notifications
-            .setDefaults(NotificationCompat.DEFAULT_ALL) // Sound, vibration, lights
+            .setDefaults(if (toneOnlyMode) {
+                NotificationCompat.DEFAULT_LIGHTS or NotificationCompat.DEFAULT_VIBRATE
+            } else {
+                NotificationCompat.DEFAULT_ALL
+            }) // Sound, vibration, lights
+
+        if (toneOnlyMode && Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            builder.setSound(alarmToneUri)
+        }
         
-        // Add Play button only if we have audio or text
+        // Add Play button if we have audio or text.
         if (audioPath != null || reminderText != null) {
-            builder.addAction(android.R.drawable.ic_media_play, "Play", playPendingIntent)
+            val playLabel = if (!audioPath.isNullOrBlank()) "Play voice" else "Play TTS"
+            builder.addAction(android.R.drawable.ic_media_play, playLabel, playPendingIntent)
         }
         
         builder.addAction(0, "Dismiss", donePendingIntent)

@@ -42,6 +42,11 @@ fun HelpDialog(
                 )
 
                 HelpSection(
+                    title = "One-time reminders",
+                    content = "- A one-time reminder is not completed just because it fired.\n- It stays active until you choose Done or Dismiss.\n- Snooze moves it to the snooze time and keeps it active."
+                )
+
+                HelpSection(
                     title = "Home tabs",
                     content = "- Today: Reminders scheduled for today.\n- Upcoming: Future reminders after today.\n- Missed: Reminders that were not delivered at their scheduled moment.\n- Done: Completed reminders."
                 )
@@ -53,17 +58,22 @@ fun HelpDialog(
 
                 HelpSection(
                     title = "Repeating reminders",
-                    content = "- Repeat modes: Daily, Weekly, Monthly, or Custom.\n- Custom supports intervals such as every 2 days or every 3 hours.\n- Mark done on a repeating reminder clears only the current occurrence."
+                    content = "- Repeat modes: Daily, Weekly, Monthly, or Custom.\n- The selected date/time is treated as the first occurrence.\n- Custom supports intervals such as every 2 days or every 3 hours.\n- Mark done on a repeating reminder clears only the current occurrence."
                 )
 
                 HelpSection(
                     title = "Playback settings",
-                    content = "- Auto-play audio: Start playback automatically when reminder fires.\n- Text-to-Speech: Speak typed reminders when no voice note is available.\n- Loop duration: Keep playback repeating until stop or timeout."
+                    content = "- Auto-play audio: Start playback automatically when reminder fires.\n- Text-to-Speech: Speak typed reminders when no voice note is available.\n- Tone-only mode: Plays an alarm tone at fire time and keeps Play Voice / Play TTS as manual actions.\n- Loop duration: Controls auto-stop timeout."
+                )
+
+                HelpSection(
+                    title = "Tone-only mode (more reliable alerts)",
+                    content = "- On some phones, voice or text-to-speech playback may be less reliable due to system settings or battery optimization.\n- Tone-only mode plays a clear alarm tone instead of voice/TTS.\n- You can still tap Play Voice or Play TTS from the notification.\n- Tone stop conditions: Dismiss, Snooze, Play Voice, Play TTS, or loop timeout.\n- Use this mode if voice playback is delayed, sometimes silent, or if you prefer a simple reliable alert."
                 )
 
                 HelpSection(
                     title = "Snooze and quiet hours",
-                    content = "- Snooze delays the reminder by your configured default duration.\n- Quiet hours silences reminders between selected start and end times."
+                    content = "- Snooze delays the reminder by your configured default duration.\n- Quiet hours silences reminder playback between selected start and end times.\n- Tone-only mode also follows quiet hours."
                 )
 
                 HelpSection(

@@ -8,6 +8,7 @@ import android.os.Build
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -35,11 +36,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.saveable.rememberSaveable
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
@@ -50,6 +56,7 @@ import com.ghostgramlabs.speakalert.ui.components.RecurringCompletionDialog
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
@@ -66,6 +73,17 @@ fun HomeScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    val configuration = LocalConfiguration.current
+    val density = LocalDensity.current
+    var fabOffsetX by rememberSaveable { mutableStateOf(0f) }
+    var fabOffsetY by rememberSaveable { mutableStateOf(0f) }
+
+    val screenWidthPx = with(density) { configuration.screenWidthDp.dp.toPx() }
+    val screenHeightPx = with(density) { configuration.screenHeightDp.dp.toPx() }
+    val fabSizePx = with(density) { 96.dp.toPx() }
+    val fabMarginPx = with(density) { 16.dp.toPx() }
+    val minFabX = -(screenWidthPx - fabSizePx - fabMarginPx * 2).coerceAtLeast(0f)
+    val minFabY = -(screenHeightPx - fabSizePx - fabMarginPx * 2).coerceAtLeast(0f)
 
     // Scroll state for Glassmorphism effect
     val scrollState = androidx.compose.foundation.lazy.rememberLazyListState()
@@ -439,7 +457,16 @@ fun HomeScreen(
                     onClick = navigateToAddItem,
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary,
-                    shape = CircleShape
+                    shape = CircleShape,
+                    modifier = Modifier
+                        .offset { IntOffset(fabOffsetX.roundToInt(), fabOffsetY.roundToInt()) }
+                        .pointerInput(Unit) {
+                            detectDragGestures { change, dragAmount ->
+                                change.consume()
+                                fabOffsetX = (fabOffsetX + dragAmount.x).coerceIn(minFabX, 0f)
+                                fabOffsetY = (fabOffsetY + dragAmount.y).coerceIn(minFabY, 0f)
+                            }
+                        }
                 ) {
                     Icon(
                         Icons.Filled.Mic,

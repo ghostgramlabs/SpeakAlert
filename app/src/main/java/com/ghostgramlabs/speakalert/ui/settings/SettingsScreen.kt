@@ -43,6 +43,7 @@ fun SettingsScreen(
     val autoPlayEnabled by viewModel.autoPlayEnabled.collectAsState()
     val autoPlayOnUnlockOnly by viewModel.autoPlayOnUnlockOnly.collectAsState()
     val defaultSnoozeDuration by viewModel.defaultSnoozeDuration.collectAsState()
+    val loopTimeoutMinutes by viewModel.loopTimeoutMinutes.collectAsState()
     
     // Quiet Time state
     val quietTimeEnabled by viewModel.quietTimeEnabled.collectAsState()
@@ -52,8 +53,11 @@ fun SettingsScreen(
     val endMinute by viewModel.quietTimeEndMinute.collectAsState()
 
     val speakTextIfNoVoice by viewModel.speakTextIfNoVoice.collectAsState()
+    val toneOnlyMode by viewModel.toneOnlyMode.collectAsState()
     val debugLoggingEnabled by viewModel.debugLoggingEnabled.collectAsState()
     val appVolume by viewModel.appVolume.collectAsState()
+    val toneAutoStopLabel = if (loopTimeoutMinutes == 0) "Infinite" else "${loopTimeoutMinutes}m"
+    val toneOnlySubtitle = "Plays a simple alarm tone instead of voice/TTS for maximum reliability. Auto-stop: $toneAutoStopLabel. Snooze: ${defaultSnoozeDuration}m."
 
     Scaffold(
         topBar = {
@@ -119,15 +123,20 @@ fun SettingsScreen(
             ) {
                 SwitchRow(
                     text = "Auto-play audio",
-                    description = "Play sound automatically when reminder fires",
+                    description = if (toneOnlyMode) {
+                        "Disabled while Tone-only mode is on"
+                    } else {
+                        "Play sound automatically when reminder fires"
+                    },
                     checked = autoPlayEnabled,
                     onCheckedChange = { 
                         viewModel.setAutoPlayEnabled(it)
                         Toast.makeText(context, if (it) "Auto-play on" else "Auto-play off", Toast.LENGTH_SHORT).show()
-                    }
+                    },
+                    enabled = !toneOnlyMode
                 )
 
-                if (autoPlayEnabled) {
+                if (autoPlayEnabled && !toneOnlyMode) {
                     SwitchRow(
                         text = "Only when unlocked",
                         description = "Prevent playback on lock screen",
@@ -141,13 +150,40 @@ fun SettingsScreen(
                 
                 SwitchRow(
                     text = "Text-to-Speech",
-                    description = "Read text reminders aloud",
+                    description = if (toneOnlyMode) {
+                        "Disabled while Tone-only mode is on"
+                    } else {
+                        "Read text reminders aloud"
+                    },
                     checked = speakTextIfNoVoice,
                     onCheckedChange = { 
                         viewModel.setSpeakTextIfNoVoice(it) 
                         Toast.makeText(context, if (it) "TTS on" else "TTS off", Toast.LENGTH_SHORT).show()
+                    },
+                    enabled = !toneOnlyMode
+                )
+
+                SwitchRow(
+                    text = "Tone-only mode",
+                    description = toneOnlySubtitle,
+                    checked = toneOnlyMode,
+                    onCheckedChange = {
+                        viewModel.setToneOnlyMode(it)
+                        Toast.makeText(
+                            context,
+                            if (it) "Tone-only mode on" else "Tone-only mode off",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 )
+
+                if (toneOnlyMode) {
+                    Text(
+                        text = "You can still tap Play Voice / Play TTS from the notification.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(8.dp))
                 
@@ -162,6 +198,7 @@ fun SettingsScreen(
                         onValueChange = { viewModel.setAppVolume(it) },
                         valueRange = 0f..1f,
                         steps = 9,
+                        enabled = !toneOnlyMode,
                         modifier = Modifier
                             .weight(1f)
                             .semantics { contentDescription = "App Volume: ${(appVolume * 100).toInt()}%" },
@@ -174,12 +211,23 @@ fun SettingsScreen(
                     Text(
                          "${(appVolume * 100).toInt()}%",
                          style = MaterialTheme.typography.bodyMedium,
+                         color = if (toneOnlyMode) {
+                             MaterialTheme.colorScheme.onSurfaceVariant
+                         } else {
+                             MaterialTheme.colorScheme.onSurface
+                         },
                          modifier = Modifier.padding(start = 8.dp).width(40.dp)
                     )
                 }
-                
+                if (toneOnlyMode) {
+                    Text(
+                        text = "In Tone-only mode, volume is controlled by your device alarm/notification volume.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                 
                 // Loop Auto-Stop (compact inline)
-                val loopTimeoutMinutes by viewModel.loopTimeoutMinutes.collectAsState()
                 Text("Loop duration", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 8.dp))
                 Text(
                     "How long a looping reminder notification repeats before stopping",
@@ -638,7 +686,8 @@ private fun SwitchRow(
     text: String,
     description: String,
     checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit
+    onCheckedChange: (Boolean) -> Unit,
+    enabled: Boolean = true
 ) {
     Row(
         modifier = Modifier
@@ -647,6 +696,7 @@ private fun SwitchRow(
             .toggleable(
                 value = checked,
                 role = Role.Switch,
+                enabled = enabled,
                 onValueChange = onCheckedChange
             )
             .semantics(mergeDescendants = true) {},
@@ -654,12 +704,22 @@ private fun SwitchRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            Text(text, style = MaterialTheme.typography.bodyLarge)
-            Text(description, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            val contentColor = if (enabled) {
+                MaterialTheme.colorScheme.onSurface
+            } else {
+                MaterialTheme.colorScheme.onSurfaceVariant
+            }
+            Text(text, style = MaterialTheme.typography.bodyLarge, color = contentColor)
+            Text(
+                description,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
         Switch(
             checked = checked,
             onCheckedChange = null,
+            enabled = enabled,
             colors = SwitchDefaults.colors(
                 checkedThumbColor = MaterialTheme.colorScheme.primary,
                 checkedTrackColor = MaterialTheme.colorScheme.primaryContainer

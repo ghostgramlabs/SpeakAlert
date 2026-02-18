@@ -103,6 +103,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     // For legacy reminders that still have the model default persisted, prefer app setting.
                     it != MissedPolicy.SKIP_TO_NEXT || settingsDefaultPolicy == MissedPolicy.SKIP_TO_NEXT
                 } ?: settingsDefaultPolicy
+                val toneOnlyMode = settingsRepository.toneOnlyMode.first()
+                val loopTimeoutMinutes = settingsRepository.loopTimeoutMinutes.first()
                 
                 FileLogger.log("ALARM: missedPolicy=$missedPolicy")
 
@@ -196,15 +198,19 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             // Show "Missed" notification (no autoplay), then schedule next
                             FileLogger.log("ALARM: FIRE_ON_RESUME - showing missed notification")
                             
-                            withContext(Dispatchers.Main) {
+                            val missedNotificationShown = withContext(Dispatchers.Main) {
                                 notificationHelper.showNotification(
                                     reminder.id,
                                     "Missed: ${reminder.title ?: "SpeakAlert"}",
-                                    "Scheduled for ${formatTime(scheduledTime)} - tap to play",
+                                    "Scheduled for ${formatTime(scheduledTime)} - tap to open",
                                     audioPath = reminder.audioPath,
                                     reminderText = reminder.reminderText,
-                                    autoplayOnTap = false
+                                    autoplayOnTap = false,
+                                    toneOnlyMode = toneOnlyMode
                                 )
+                            }
+                            if (toneOnlyMode && missedNotificationShown) {
+                                ToneAlertPlayer.start(context, loopTimeoutMinutes)
                             }
                             
                             // Still schedule next occurrence
@@ -230,7 +236,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 val unlockedOnly = settingsRepository.autoPlayOnUnlockOnly.first()
                 val speakText = settingsRepository.speakTextIfNoVoice.first()
                 
-                FileLogger.log("ALARM: Settings - autoPlay=$autoPlayEnabled, unlockedOnly=$unlockedOnly, speakText=$speakText")
+                FileLogger.log("ALARM: Settings - autoPlay=$autoPlayEnabled, unlockedOnly=$unlockedOnly, speakText=$speakText, toneOnlyMode=$toneOnlyMode")
                 
                 val keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
                 val isLocked = keyguardManager.isKeyguardLocked
@@ -280,7 +286,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                                  !inCall && 
                                  !(unlockedOnly && isLocked) && 
                                  (hasAudio || (hasText && speakText)) &&
-                                 !bootBlocked
+                                 !bootBlocked &&
+                                 !toneOnlyMode
                 
                 FileLogger.log("ALARM: android15+=$isAndroid15OrAbove, bootReschedule=$isBootReschedule, hasBootTs=$hasBootTimestamp, closeToBoot=$isCloseToBoot, bootBlocked=$bootBlocked, canAutoPlay=$canAutoPlay")
 
@@ -326,7 +333,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             title,
                             displayText,
                             audioPath = if (hasAudio) audioPath else null,
-                            reminderText = if (hasText) reminder.reminderText else null
+                            reminderText = if (hasText) reminder.reminderText else null,
+                            toneOnlyMode = toneOnlyMode
                         )
                     }
                     FileLogger.log("ALARM: Showed notification after autoplay: $shown")
@@ -339,11 +347,16 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             title,
                             displayText,
                             audioPath = if (hasAudio) audioPath else null,
-                            reminderText = if (hasText) reminder.reminderText else null
+                            reminderText = if (hasText) reminder.reminderText else null,
+                            toneOnlyMode = toneOnlyMode
                         )
                     }
                     FileLogger.log("ALARM: Notification shown: $shown")
                     shown
+                }
+
+                if (toneOnlyMode && notificationShown) {
+                    ToneAlertPlayer.start(context, loopTimeoutMinutes)
                 }
 
                 // Update state and AUTO-RESCHEDULE for recurring reminders
