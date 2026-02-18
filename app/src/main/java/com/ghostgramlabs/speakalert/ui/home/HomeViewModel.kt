@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ghostgramlabs.speakalert.alarm.AlarmScheduler
+import com.ghostgramlabs.speakalert.alarm.ToneAlertPlayer
 import com.ghostgramlabs.speakalert.data.model.MissedReminderEntity
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.data.repository.MissedReminderRepository
@@ -88,6 +89,7 @@ class HomeViewModel(
                 val audioPath = reminder.audioPath
                 val reminderText = reminder.reminderText
                 val title = reminder.title ?: "Voice reminder"
+                ToneAlertPlayer.stop()
                 
                 // Start playback for audio OR text
                 if (!audioPath.isNullOrBlank()) {
@@ -222,6 +224,7 @@ class HomeViewModel(
     fun playReminder(context: Context, reminder: ReminderEntity) {
         viewModelScope.launch {
             val title = reminder.title ?: "Voice reminder"
+            ToneAlertPlayer.stop()
             // Start playback for audio OR text
             if (!reminder.audioPath.isNullOrBlank()) {
                 ReminderPlaybackService.start(context, reminder.id, title, reminder.audioPath, null)

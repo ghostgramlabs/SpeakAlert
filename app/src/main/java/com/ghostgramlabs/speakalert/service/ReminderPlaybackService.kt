@@ -23,6 +23,7 @@ import androidx.media3.session.MediaSession
 import androidx.media3.ui.PlayerNotificationManager
 import com.ghostgramlabs.speakalert.MainActivity
 import com.ghostgramlabs.speakalert.R
+import com.ghostgramlabs.speakalert.alarm.ToneAlertPlayer
 import com.ghostgramlabs.speakalert.alarm.ReminderActionReceiver
 import com.ghostgramlabs.speakalert.VoiceReminderApp
 import com.ghostgramlabs.speakalert.util.FileLogger
@@ -652,6 +653,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
         
         fun start(context: Context, id: Long, title: String?, audioPath: String?, ttsText: String?, loop: Boolean = false, isFromBootContext: Boolean = false) {
             FileLogger.log("SERVICE.start() called - id=$id, audio=$audioPath, tts=${ttsText?.take(20)}, loop=$loop, bootContext=$isFromBootContext")
+            ToneAlertPlayer.stop()
 
             // ANDROID 15+ GUARD: BOOT_COMPLETED receivers CANNOT start
             // mediaPlayback foreground services. If this call originates from

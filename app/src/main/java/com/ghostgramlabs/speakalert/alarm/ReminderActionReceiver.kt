@@ -31,6 +31,7 @@ class ReminderActionReceiver : BroadcastReceiver() {
             "ACTION_PLAY" -> {
                 // Play from notification - start playback service
                 // NOTE: Do NOT cancel the alert notification - it stays visible until Done/Snooze
+                ToneAlertPlayer.stop()
                 val audioPath = intent.getStringExtra("audioPath")
                 val reminderText = intent.getStringExtra("reminderText")
                 val title = intent.getStringExtra("title") ?: "SpeakAlert"
@@ -61,6 +62,8 @@ class ReminderActionReceiver : BroadcastReceiver() {
         
         // Stop Playback Service (if running)
         ReminderPlaybackService.stop(context)
+        // Stop any active tone-only alarm tone.
+        ToneAlertPlayer.stop()
 
         CoroutineScope(Dispatchers.IO).launch {
             val reminder = repository.getReminder(reminderId) ?: return@launch

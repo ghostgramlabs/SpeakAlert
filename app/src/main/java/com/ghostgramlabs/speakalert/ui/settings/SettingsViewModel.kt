@@ -25,6 +25,9 @@ class SettingsViewModel(
     val speakTextIfNoVoice = settingsRepository.speakTextIfNoVoice
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
+    val toneOnlyMode = settingsRepository.toneOnlyMode
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
     val themeMode = settingsRepository.themeMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
@@ -49,6 +52,12 @@ class SettingsViewModel(
     fun setSpeakTextIfNoVoice(enabled: Boolean) {
         viewModelScope.launch {
             settingsRepository.setSpeakTextIfNoVoice(enabled)
+        }
+    }
+
+    fun setToneOnlyMode(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setToneOnlyMode(enabled)
         }
     }
 

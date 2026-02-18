@@ -17,6 +17,11 @@ SpeakAlert is an offline-first Android reminder app for voice and text alerts. I
    - `Custom` (for example: every 2 days, every 3 hours)
 6. Save.
 
+### 1A. One-time reminder completion
+- A one-time reminder is not completed just because it fired.
+- It stays active until you mark it `Done` or `Dismiss`.
+- `Snooze` keeps it active and reschedules it to the snooze time.
+
 ### 2. Understand Home tabs
 - `Today`: reminders scheduled for today (including overdue items for today).
 - `Upcoming`: future reminders after today.
@@ -35,6 +40,7 @@ SpeakAlert is an offline-first Android reminder app for voice and text alerts. I
 - Use `Dismiss` on a single item or `Dismiss All` for bulk clear.
 
 ### 5. Recurring reminders behavior
+- The selected date/time is the first occurrence start point.
 - Recurring reminders automatically compute and schedule the next occurrence after each trigger.
 - `Custom` intervals support minutes, hours, days, weeks, and months.
 - End rules are supported:
@@ -48,10 +54,33 @@ In `Settings > Playback`:
 - `Auto-play audio`
 - `Only when unlocked`
 - `Text-to-Speech`
+- `Tone-only mode` (alarm tone at fire time, manual Play Voice / Play TTS still available)
 - `Volume`
 - `Loop duration` (including infinite)
 - `Default snooze`
 - `Quiet hours`
+
+Tone-only notes:
+- Tone-only mode still follows quiet hours.
+- In tone-only mode, volume is controlled by system alarm/notification volume.
+
+### 6A. Tone-only mode (more reliable alerts)
+On some phones, voice or text-to-speech reminders may not always play reliably due to system settings or battery optimizations.
+
+To reduce missed audio alerts, enable `Tone-only mode`.
+
+What it does:
+- Plays a clear alarm tone instead of voice/TTS.
+- Starts quickly and works more consistently across devices.
+
+Good to know:
+- You can still tap `Play Voice` or `Play TTS` from the notification.
+- Tone stops on `Dismiss`, `Snooze`, `Play Voice`, `Play TTS`, or loop timeout.
+
+When to use this:
+- If you notice delays in voice playback.
+- If reminders are sometimes silent.
+- If you prefer a simple and reliable alert.
 
 ### 7. Device restart behavior
 - Future reminders are rescheduled automatically after reboot.

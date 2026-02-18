@@ -17,6 +17,7 @@ class SettingsRepository(private val context: Context) {
         val AUTO_PLAY_ENABLED = booleanPreferencesKey("auto_play_enabled")
         val AUTO_PLAY_ON_UNLOCK_ONLY = booleanPreferencesKey("auto_play_on_unlock_only")
         val SPEAK_TEXT_IF_NO_VOICE = booleanPreferencesKey("speak_text_if_no_voice")
+        val TONE_ONLY_MODE = booleanPreferencesKey("tone_only_mode")
         val DEFAULT_SNOOZE_DURATION = intPreferencesKey("default_snooze_duration")
         val DEFAULT_MISSED_POLICY = stringPreferencesKey("default_missed_policy") // "FIRE" or "SKIP"
         val DEBUG_LOGGING_ENABLED = booleanPreferencesKey("debug_logging_enabled")
@@ -39,6 +40,7 @@ class SettingsRepository(private val context: Context) {
     val autoPlayEnabled: Flow<Boolean> = dataStore.data.map { it[AUTO_PLAY_ENABLED] ?: true }
     val autoPlayOnUnlockOnly: Flow<Boolean> = dataStore.data.map { it[AUTO_PLAY_ON_UNLOCK_ONLY] ?: false }
     val speakTextIfNoVoice: Flow<Boolean> = dataStore.data.map { it[SPEAK_TEXT_IF_NO_VOICE] ?: true }
+    val toneOnlyMode: Flow<Boolean> = dataStore.data.map { it[TONE_ONLY_MODE] ?: false }
     val defaultSnoozeDuration: Flow<Int> = dataStore.data.map { it[DEFAULT_SNOOZE_DURATION] ?: 5 } // Minutes (Default 5)
     val defaultMissedPolicy: Flow<String> = dataStore.data.map { it[DEFAULT_MISSED_POLICY] ?: "FIRE_ON_RESUME" }
     val debugLoggingEnabled: Flow<Boolean> = dataStore.data.map { it[DEBUG_LOGGING_ENABLED] ?: false }
@@ -64,6 +66,10 @@ class SettingsRepository(private val context: Context) {
 
     suspend fun setSpeakTextIfNoVoice(enabled: Boolean) {
         dataStore.edit { it[SPEAK_TEXT_IF_NO_VOICE] = enabled }
+    }
+
+    suspend fun setToneOnlyMode(enabled: Boolean) {
+        dataStore.edit { it[TONE_ONLY_MODE] = enabled }
     }
 
     suspend fun setDefaultSnoozeDuration(minutes: Int) {
