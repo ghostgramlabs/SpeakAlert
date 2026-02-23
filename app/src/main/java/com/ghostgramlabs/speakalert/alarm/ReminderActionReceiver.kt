@@ -76,7 +76,7 @@ class ReminderActionReceiver : BroadcastReceiver() {
                     com.ghostgramlabs.speakalert.util.FileLogger.log("ACTION_STOP_PLAYBACK: Playback stopped by user")
                 }
 
-                "ACTION_DONE" -> {
+                "ACTION_DONE", "ACTION_DISMISS" -> {
                     val now = System.currentTimeMillis()
                     
                     // Cleanup missed entry if it exists (since we are handling it now)

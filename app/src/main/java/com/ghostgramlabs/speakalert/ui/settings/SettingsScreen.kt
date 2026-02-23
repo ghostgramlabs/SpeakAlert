@@ -3,6 +3,7 @@ package com.ghostgramlabs.speakalert.ui.settings
 import android.Manifest
 import android.app.AlarmManager
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.widget.Toast
@@ -539,7 +540,79 @@ fun SettingsScreen(
                     HelpDialog(onDismiss = { showHelpDialog = false })
                 }
             }
-            
+
+            // ============================================================
+            // SECTION 5: RATE & REVIEW
+            // ============================================================
+            Card(
+                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                ),
+                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            val openPlayStore = {
+                                try {
+                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${context.packageName}"))
+                                    context.startActivity(intent)
+                                } catch (e: android.content.ActivityNotFoundException) {
+                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=${context.packageName}"))
+                                    context.startActivity(intent)
+                                }
+                            }
+                            val activity = context as? android.app.Activity
+                            if (activity != null) {
+                                try {
+                                    val manager = com.google.android.play.core.review.ReviewManagerFactory.create(context)
+                                    val request = manager.requestReviewFlow()
+                                    request.addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            val flow = manager.launchReviewFlow(activity, task.result)
+                                            flow.addOnCompleteListener {
+                                                // Review flow finished (may or may not have shown dialog)
+                                            }
+                                        } else {
+                                            openPlayStore()
+                                        }
+                                    }
+                                } catch (e: Exception) {
+                                    openPlayStore()
+                                }
+                            } else {
+                                openPlayStore()
+                            }
+                        }
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(Modifier.width(16.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            "Rate Speak Alert",
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.Medium
+                        )
+                        Text(
+                            "If you enjoy the app, please leave a review!",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Icon(Icons.Default.ChevronRight, contentDescription = null)
+                }
+            }
+
             // Debug Section - ONLY for Debug builds (hidden from most users)
             if (com.ghostgramlabs.speakalert.BuildConfig.DEBUG) {
                 CollapsibleSettingsSection(
