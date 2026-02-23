@@ -148,6 +148,18 @@ class NotificationHelper(private val context: Context) {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
+        // Delete Intent: fires when notification is swiped away by user
+        val dismissIntent = Intent(context, ReminderActionReceiver::class.java).apply {
+            action = "ACTION_DISMISS"
+            putExtra("reminderId", reminderId)
+        }
+        val dismissPendingIntent = PendingIntent.getBroadcast(
+            context,
+            reminderId.toInt() + 30000,
+            dismissIntent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.mipmap.ic_launcher_round)
             .setContentTitle(title ?: "Voice reminder")
@@ -156,6 +168,7 @@ class NotificationHelper(private val context: Context) {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setContentIntent(pendingIntent)
+            .setDeleteIntent(dismissPendingIntent) // Handle notification swipe-dismiss
             .setAutoCancel(false) // Notification stays until user acts
             .setOngoing(false) // User can swipe to dismiss like normal notifications
             .setDefaults(if (toneOnlyMode) {

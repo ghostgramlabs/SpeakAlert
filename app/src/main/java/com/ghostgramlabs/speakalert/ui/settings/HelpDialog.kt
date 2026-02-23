@@ -57,6 +57,11 @@ fun HelpDialog(
                 )
 
                 HelpSection(
+                    title = "Notification actions",
+                    content = "- Play Voice / Play TTS: Listen to the reminder.\n- Dismiss: Mark the current occurrence as done.\n- Snooze: Delay the reminder by your configured snooze duration.\n- Swipe away: Same as Dismiss — marks the current occurrence as done and stops any active playback.\n- For repeating reminders, Dismiss and swipe only clear the current occurrence. The next scheduled occurrence continues as normal."
+                )
+
+                HelpSection(
                     title = "Repeating reminders",
                     content = "- Repeat modes: Daily, Weekly, Monthly, or Custom.\n- The selected date/time is treated as the first occurrence.\n- Custom supports intervals such as every 2 days or every 3 hours.\n- Mark done on a repeating reminder clears only the current occurrence."
                 )
