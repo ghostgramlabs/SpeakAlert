@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ghostgramlabs.github.io/SpeakAlert/sitemap.xml
