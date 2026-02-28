@@ -1,0 +1,31 @@
+# SpeakAlert
+
+SpeakAlert is an offline-first Android voice reminder app and voice alarm.
+
+## Primary page
+- https://ghostgramlabs.github.io/SpeakAlert/
+
+## Additional pages
+- https://ghostgramlabs.github.io/SpeakAlert/faq.html
+- https://ghostgramlabs.github.io/SpeakAlert/privacy.html
+
+## Install
+- https://play.google.com/store/apps/details?id=com.ghostgramlabs.speakalert
+
+## Summary
+- Voice reminders with recorded voice
+- Talking reminders with text-to-speech
+- Voice alarm and talking alarm style alerts
+- One-time and recurring reminders
+- Daily, weekly, monthly, and custom schedules
+- Repeat until dismissed behavior
+- Tone-only mode
+- Quiet hours
+- Smart snooze
+- Missed reminder tracking
+- Fully offline use
+- Private on-device storage
+- No ads and no subscriptions
+
+## Support
+- 207371342+ghostgramlabs@users.noreply.github.com

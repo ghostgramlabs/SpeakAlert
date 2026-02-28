@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#071426" />
+  <link rel="icon" href="https://play-lh.googleusercontent.com/c7GV29NEIACqFLGsFJqA7YM5E4Bcvtiddvhik4428u8Z_xE-vnUpaFyboudn3mPCWIW7jtaKXsweguIAP356KrY=s48-rw" />
+
+  <title>Page Not Found - SpeakAlert</title>
+  <meta
+    name="description"
+    content="The page you requested was not found. Return to SpeakAlert, the offline-first Android voice reminder app and voice alarm."
+  />
+  <meta name="robots" content="noindex, follow" />
+  <link rel="canonical" href="https://ghostgramlabs.github.io/SpeakAlert/404.html" />
+
+  <style>
+    :root {
+      --bg: #071426;
+      --panel: rgba(9, 23, 42, 0.88);
+      --line: rgba(148, 163, 184, 0.14);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --brand: #4f46e5;
+      --brand-2: #0d9488;
+      --ink: #042233;
+      --shadow: 0 24px 60px rgba(2, 8, 23, 0.4);
+      --radius: 24px;
+      --max: 820px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(34, 211, 238, 0.14), transparent 24%),
+        radial-gradient(circle at 88% 0%, rgba(20, 184, 166, 0.12), transparent 24%),
+        linear-gradient(180deg, #0b1b33 0%, #071426 55%, #06111f 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .shell {
+      width: min(var(--max), 100%);
+      padding: 34px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .badge {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      box-shadow: 0 10px 24px rgba(79, 70, 229, 0.24);
+    }
+
+    h1 {
+      margin: 18px 0 14px;
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 54px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-weight: 700;
+    }
+
+    .cta-primary {
+      color: var(--ink);
+      background: linear-gradient(135deg, var(--brand-2), var(--brand));
+      box-shadow: 0 16px 28px rgba(20, 184, 166, 0.22);
+    }
+
+    .cta-secondary {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+    }
+
+    @media (max-width: 640px) {
+      .shell { padding: 20px; }
+      .cta { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <img class="badge" src="https://play-lh.googleusercontent.com/c7GV29NEIACqFLGsFJqA7YM5E4Bcvtiddvhik4428u8Z_xE-vnUpaFyboudn3mPCWIW7jtaKXsweguIAP356KrY=s48-rw" alt="SpeakAlert icon" />
+    <h1>404</h1>
+    <p>
+      That page does not exist. Return to SpeakAlert to see the offline-first Android voice
+      reminder app and voice alarm, or open the Play Store listing directly.
+    </p>
+    <div class="cta-row">
+      <a class="cta cta-primary" href="index.html">Go to Home</a>
+      <a
+        class="cta cta-secondary"
+        href="https://play.google.com/store/apps/details?id=com.ghostgramlabs.speakalert"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Open Play Store
+      </a>
+    </div>
+  </main>
+</body>
+</html>

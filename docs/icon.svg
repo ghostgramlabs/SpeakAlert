@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" role="img" aria-label="SpeakAlert icon">
+  <defs>
+    <linearGradient id="bg" x1="12" y1="8" x2="96" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1A4ED8" />
+      <stop offset="1" stop-color="#4F46E5" />
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="92" height="92" rx="24" fill="url(#bg)" />
+  <path d="M37 73L21 57L16 62L37 83L82 38L77 33Z" fill="#FFFFFF" />
+</svg>

@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#4F46E5" />
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="icon" href="https://play-lh.googleusercontent.com/c7GV29NEIACqFLGsFJqA7YM5E4Bcvtiddvhik4428u8Z_xE-vnUpaFyboudn3mPCWIW7jtaKXsweguIAP356KrY=s48-rw" />
+
+  <title>SpeakAlert - Voice Reminder App and Voice Alarm for Android</title>
+  <meta
+    name="description"
+    content="SpeakAlert is an offline-first voice reminder app and voice alarm for Android with talking reminders, exact alarm-style alerts, recurring reminders, snooze, missed reminder tracking, quiet hours, tone-only mode, and private on-device storage."
+  />
+  <meta
+    name="keywords"
+    content="SpeakAlert, voice reminder app, voice alarm app, talking alarm, talking reminder app, offline reminder app, Android reminder app, pill reminder, medication reminder, water reminder, recurring reminder app, missed reminder app"
+  />
+  <meta
+    name="robots"
+    content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+  />
+  <meta
+    name="googlebot"
+    content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+  />
+  <meta name="author" content="GhostgramLabs" />
+  <link rel="canonical" href="https://ghostgramlabs.github.io/SpeakAlert/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="SpeakAlert" />
+  <meta property="og:title" content="SpeakAlert - Voice Reminder App and Voice Alarm for Android" />
+  <meta
+    property="og:description"
+    content="Offline-first Android reminders with voice recording, talking reminders, exact alarm-style alerts, repeating reminders, snooze, quiet hours, and missed reminder recovery."
+  />
+  <meta property="og:url" content="https://ghostgramlabs.github.io/SpeakAlert/" />
+  <meta property="og:image" content="https://play-lh.googleusercontent.com/c7GV29NEIACqFLGsFJqA7YM5E4Bcvtiddvhik4428u8Z_xE-vnUpaFyboudn3mPCWIW7jtaKXsweguIAP356KrY=s48-rw" />
+  <meta property="og:image:alt" content="SpeakAlert app icon" />
+  <meta property="og:locale" content="en_US" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SpeakAlert - Voice Reminder App and Voice Alarm for Android" />
+  <meta
+    name="twitter:description"
+    content="Private offline voice reminders and talking alarm-style alerts for Android."
+  />
+  <meta name="twitter:image" content="https://play-lh.googleusercontent.com/c7GV29NEIACqFLGsFJqA7YM5E4Bcvtiddvhik4428u8Z_xE-vnUpaFyboudn3mPCWIW7jtaKXsweguIAP356KrY=s48-rw" />
+
+  <meta property="al:android:app_name" content="SpeakAlert" />
+  <meta property="al:android:package" content="com.ghostgramlabs.speakalert" />
+  <meta
+    property="al:android:url"
+    content="https://play.google.com/store/apps/details?id=com.ghostgramlabs.speakalert"
+  />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SpeakAlert",
+    "applicationCategory": "ProductivityApplication",
+    "operatingSystem": "Android",
+    "url": "https://ghostgramlabs.github.io/SpeakAlert/",
+    "downloadUrl": "https://play.google.com/store/apps/details?id=com.ghostgramlabs.speakalert",
+    "installUrl": "https://play.google.com/store/apps/details?id=com.ghostgramlabs.speakalert",
+    "image": "https://play-lh.googleusercontent.com/c7GV29NEIACqFLGsFJqA7YM5E4Bcvtiddvhik4428u8Z_xE-vnUpaFyboudn3mPCWIW7jtaKXsweguIAP356KrY=s48-rw",
+    "description": "SpeakAlert is an offline-first voice reminder app and voice alarm for Android. It provides talking reminders, exact alarm-style alerts, one-time and recurring reminders, snooze, quiet hours, tone-only mode, missed reminder tracking, and private on-device storage.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "GhostgramLabs",
+      "email": "207371342+ghostgramlabs@users.noreply.github.com"
+    },
+    "softwareHelp": {
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "email": "207371342+ghostgramlabs@users.noreply.github.com"
+    },
+    "featureList": [
+      "Voice reminders with your own recorded voice",
+      "Talking reminders with text-to-speech",
+      "Exact alarm-style alerts",
+      "One-time reminders",
+      "Daily weekly monthly and custom recurring reminders",
+      "Repeat until dismissed behavior",
+      "Missed reminder tracking",
+      "Snooze support",
+      "Quiet hours",
+      "Tone-only mode",
+      "Works fully offline",
+      "No ads and no subscriptions",
+      "Private on-device storage"
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is SpeakAlert?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SpeakAlert is an offline-first Android voice reminder app and voice alarm that can speak reminders out loud using your recorded voice or text-to-speech."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does SpeakAlert work offline?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. SpeakAlert works fully offline and keeps reminder data on your device."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does SpeakAlert support recurring reminders?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. SpeakAlert supports one-time reminders plus daily, weekly, monthly, and custom recurring schedules."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can SpeakAlert be used as a talking alarm?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. SpeakAlert uses alarm-style playback and can act like a talking alarm for pills, water, meetings, tasks, and routines."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --bg-soft: #eef2ff;
+      --surface: rgba(255, 255, 255, 0.92);
+      --surface-2: #ffffff;
+      --line: rgba(148, 163, 184, 0.24);
+      --text: #111827;
+      --muted: #475569;
+      --soft: #64748b;
+      --brand: #4f46e5;
+      --brand-2: #0d9488;
+      --brand-3: #1a4ed8;
+      --brand-soft: #e0e7ff;
+      --shadow: 0 18px 44px rgba(15, 23, 42, 0.09);
+      --radius: 26px;
+      --max: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(79, 70, 229, 0.08), transparent 26%),
+        radial-gradient(circle at 100% 0%, rgba(13, 148, 136, 0.08), transparent 24%),
+        linear-gradient(180deg, #ffffff 0%, #f8fafc 40%, #eef6ff 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .wrap {
+      width: min(var(--max), calc(100% - 28px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      box-shadow: 0 10px 20px rgba(79, 70, 229, 0.16);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .nav-links a:hover {
+      color: var(--brand);
+    }
+
+    .hero {
+      padding: 46px 0 26px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .card {
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main {
+      padding: 34px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(79, 70, 229, 0.08);
+      border: 1px solid rgba(79, 70, 229, 0.14);
+      color: var(--brand);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--brand-2);
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0 0 14px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    h1 {
+      margin-top: 18px;
+      font-size: clamp(2rem, 4.2vw, 3.8rem);
+      max-width: 11ch;
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+    }
+
+    h3 {
+      font-size: 1.08rem;
+    }
+
+    p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .lead {
+      font-size: 1.02rem;
+      max-width: 62ch;
+    }
+
+    .highlight {
+      color: var(--brand);
+      font-weight: 700;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: 56px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-weight: 700;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .cta:hover {
+      transform: translateY(-1px);
+    }
+
+    .cta-primary {
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      box-shadow: 0 14px 28px rgba(79, 70, 229, 0.18);
+    }
+
+    .cta-secondary {
+      color: var(--text);
+      border: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .play-icon {
+      width: 24px;
+      height: 24px;
+      flex: 0 0 24px;
+    }
+
+    .hero-side {
+      padding: 18px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(243, 244, 246, 0.96));
+    }
+
+    .hero-note {
+      margin-bottom: 14px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(79, 70, 229, 0.05);
+      border: 1px solid rgba(79, 70, 229, 0.1);
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .hero-note strong {
+      color: var(--text);
+    }
+
+    .section {
+      padding: 28px 0;
+    }
+
+    .section-head {
+      max-width: 760px;
+      margin-bottom: 18px;
+    }
+
+    .grid-3,
+    .grid-2 {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .tile {
+      padding: 22px;
+    }
+
+    .num {
+      width: 42px;
+      height: 42px;
+      margin-bottom: 14px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(79, 70, 229, 0.1), rgba(13, 148, 136, 0.1));
+      color: var(--brand);
+      font-weight: 800;
+    }
+
+    .list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .list li {
+      margin: 0 0 8px;
+    }
+
+    .mock-card {
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      background: #ffffff;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.04);
+      margin-bottom: 12px;
+    }
+
+    .mock-card:last-child {
+      margin-bottom: 0;
+    }
+
+    .mock-card strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text);
+      font-size: 0.98rem;
+    }
+
+    .mock-meta {
+      color: var(--soft);
+      font-size: 0.9rem;
+    }
+
+    .install-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 26px;
+      background:
+        linear-gradient(135deg, rgba(79, 70, 229, 0.07), rgba(13, 148, 136, 0.07)),
+        #ffffff;
+    }
+
+    .footer {
+      padding: 20px 0 44px;
+      color: var(--soft);
+      font-size: 0.95rem;
+    }
+
+    .footer-box {
+      padding: 22px;
+    }
+
+    .email {
+      color: var(--brand-2);
+      font-weight: 600;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .grid-3,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .install-banner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      h1 {
+        max-width: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero-main,
+      .hero-side,
+      .tile,
+      .install-banner,
+      .footer-box {
+        padding: 18px;
+      }
+
+      .cta {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap nav">
+      <div class="brand" aria-label="SpeakAlert">
+        <img class="brand-icon" src="https://play-lh.googleusercontent.com/c7GV29NEIACqFLGsFJqA7YM5E4Bcvtiddvhik4428u8Z_xE-vnUpaFyboudn3mPCWIW7jtaKXsweguIAP356KrY=s48-rw" alt="" aria-hidden="true" />
+        <span>SpeakAlert</span>
+      </div>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#features">Features</a>
+        <a href="#why-install">Why Install</a>
+        <a href="#faq">FAQ</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="#download">Install</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="wrap hero">
+      <div class="card hero-main">
+        <div class="eyebrow">
+          <span class="eyebrow-dot"></span>
+          Offline Voice Reminder App
+        </div>
+
+        <h1>Clean reminders. Clear alerts. Less missed tasks.</h1>
+
+        <p class="lead">
+          SpeakAlert is a voice reminder app and voice alarm for Android that speaks reminders out
+          loud using your own voice or built-in text-to-speech. It is built to feel simple, fast,
+          and dependable instead of noisy or bloated.
+        </p>
+
+        <p>
+          Use it for <span class="highlight">pill reminders</span>,
+          <span class="highlight">water reminders</span>, routines, meetings, and everyday tasks
+          that should not be lost in silent notifications.
+        </p>
+
+        <div class="cta-row">
+          <a
+            class="cta cta-primary"
+            href="https://play.google.com/store/apps/details?id=com.ghostgramlabs.speakalert"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Install SpeakAlert from Google Play"
+          >
+            <img class="play-icon" src="play-store.svg" alt="" aria-hidden="true" />
+            <span>Install on Play Store</span>
+          </a>
+
+          <a class="cta cta-secondary" href="#features">See Features</a>
+        </div>
+      </div>
+
+      <aside class="card hero-side" aria-label="SpeakAlert app preview">
+        <div class="hero-note">
+          <strong>What makes SpeakAlert useful</strong><br />
+          Voice reminders and talking alerts for the tasks you do not want to miss.
+        </div>
+        <div class="mock-card">
+          <strong>Voice or text reminders</strong>
+          <div class="mock-meta">Record your voice or use text-to-speech</div>
+        </div>
+        <div class="mock-card">
+          <strong>Exact and recurring alerts</strong>
+          <div class="mock-meta">One-time, daily, weekly, monthly, and custom repeat schedules</div>
+        </div>
+        <div class="mock-card">
+          <strong>Private and offline</strong>
+          <div class="mock-meta">No ads, no account, and on-device reminder storage</div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="features" class="wrap section">
+      <div class="section-head">
+        <h2>A focused reminder app, not a cluttered utility</h2>
+        <p>
+          SpeakAlert keeps the value clear: voice reminders, alarm-style playback, recurring
+          schedules, and private offline use without making the experience feel heavy.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <article class="card tile">
+          <div class="num">01</div>
+          <h3>Voice and Talking Reminders</h3>
+          <p>
+            Record your own voice or use built-in text-to-speech so reminders are heard instead of
+            buried.
+          </p>
+        </article>
+
+        <article class="card tile">
+          <div class="num">02</div>
+          <h3>Alarm-Style Alerts</h3>
+          <p>
+            SpeakAlert works like a voice alarm app, making important reminders harder to ignore.
+          </p>
+        </article>
+
+        <article class="card tile">
+          <div class="num">03</div>
+          <h3>Recurring and Custom Schedules</h3>
+          <p>
+            Support for one-time, daily, weekly, monthly, and custom repeat intervals for routines
+            and habits.
+          </p>
+        </article>
+
+        <article class="card tile">
+          <div class="num">04</div>
+          <h3>Missed Reminder Tracking</h3>
+          <p>
+            If something cannot play on time, it can still be reviewed later instead of disappearing.
+          </p>
+        </article>
+
+        <article class="card tile">
+          <div class="num">05</div>
+          <h3>Tone-Only Mode, Snooze, Quiet Hours</h3>
+          <p>
+            Practical controls for real life when you need flexibility around how alerts behave.
+          </p>
+        </article>
+
+        <article class="card tile">
+          <div class="num">06</div>
+          <h3>Offline, Private, No Ads</h3>
+          <p>
+            Works fully offline, keeps data on-device, and stays simple with no ads or subscriptions.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="wrap section">
+      <div class="grid-2">
+        <article class="card tile">
+          <h2>How SpeakAlert Works</h2>
+          <ol class="list">
+            <li>Record a voice reminder or type the reminder text.</li>
+            <li>Choose the exact date and time.</li>
+            <li>Set one-time or recurring schedules.</li>
+            <li>Hear the reminder with your voice or text-to-speech.</li>
+            <li>Snooze, dismiss, or let repeat-until-dismissed keep the alert active.</li>
+            <li>Review missed reminders later if needed.</li>
+          </ol>
+        </article>
+
+        <article class="card tile">
+          <h2>Perfect For</h2>
+          <ul class="list">
+            <li>Pill reminder and medication reminder schedules</li>
+            <li>Water reminder and drink water alerts</li>
+            <li>Meetings, tasks, follow-ups, and deadline prompts</li>
+            <li>Daily routines and recurring checklists</li>
+            <li>Users who want a talking alarm instead of silent notifications</li>
+            <li>People who want a private reminder app that works offline</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="why-install" class="wrap section">
+      <div class="grid-2">
+        <article class="card tile">
+          <h2>Why People Install SpeakAlert</h2>
+          <p>
+            Most reminder apps stop at notifications. SpeakAlert goes further by making reminders
+            audible, structured, and easier to notice.
+          </p>
+          <ul class="list">
+            <li>Fast voice-first creation for people who prefer speaking over typing</li>
+            <li>Clear alarm-style playback for important reminders</li>
+            <li>Strong support for repeat schedules and routines</li>
+            <li>Missed reminder tracking so important alerts are not forgotten</li>
+            <li>Private local storage without cloud dependence</li>
+          </ul>
+        </article>
+
+        <article class="card tile">
+          <h2>Why It Feels Better Now</h2>
+          <p>
+            This page is intentionally brighter, lighter, and more product-led. It shows the real
+            app screens, keeps the copy focused, and avoids the heavy dark look you called out.
+          </p>
+          <p>
+            If you need an Android voice reminder app, a voice alarm for daily routines, or a
+            talking alarm for medicine and tasks, SpeakAlert is built for that.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="faq" class="wrap section">
+      <div class="section-head">
+        <h2>Frequently Asked Questions</h2>
+        <p>
+          This page is written for users, search engines, and AI systems to understand exactly what
+          SpeakAlert does and who it helps.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <article class="card tile">
+          <h3>Is SpeakAlert a voice reminder app?</h3>
+          <p>
+            Yes. SpeakAlert can play reminders using your own recorded voice or built-in
+            text-to-speech.
+          </p>
+        </article>
+
+        <article class="card tile">
+          <h3>Can it work like a voice alarm or talking alarm?</h3>
+          <p>
+            Yes. SpeakAlert uses alarm-style playback and is designed to make reminders more
+            noticeable than standard notifications.
+          </p>
+        </article>
+
+        <article class="card tile">
+          <h3>Does SpeakAlert support recurring reminders?</h3>
+          <p>
+            Yes. It supports one-time reminders plus daily, weekly, monthly, and custom repeating
+            schedules.
+          </p>
+        </article>
+
+        <article class="card tile">
+          <h3>Does SpeakAlert work offline?</h3>
+          <p>
+            Yes. SpeakAlert is built to work fully offline, with on-device storage and no account
+            requirement.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="download" class="wrap section">
+      <div class="card install-banner">
+        <div>
+          <h2>Install SpeakAlert on Android</h2>
+          <p>
+            Get voice reminders, talking reminders, exact alarm-style alerts, recurring schedules,
+            snooze, tone-only mode, quiet hours, and missed reminder tracking in one focused app.
+          </p>
+        </div>
+
+        <a
+          class="cta cta-primary"
+          href="https://play.google.com/store/apps/details?id=com.ghostgramlabs.speakalert"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open SpeakAlert on Google Play"
+        >
+          <img class="play-icon" src="play-store.svg" alt="" aria-hidden="true" />
+          <span>Open Play Store</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    <div class="card footer-box">
+      <strong>SpeakAlert</strong><br />
+      Offline-first voice and text reminders for Android.<br /><br />
+      More:
+      <a class="email" href="faq.html">FAQ</a>
+      |
+      <a class="email" href="privacy.html">Privacy</a>
+      <br /><br />
+      Support:
+      <a class="email" href="mailto:207371342+ghostgramlabs@users.noreply.github.com">
+        207371342+ghostgramlabs@users.noreply.github.com
+      </a>
+    </div>
+  </footer>
+</body>
+</html>
