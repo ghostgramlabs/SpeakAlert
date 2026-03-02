@@ -247,26 +247,44 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
         FileLogger.log("SERVICE: onStartCommand started")
         
         try {
+            // IMMEDIATELY satisfy FGS contract — must be the very first thing.
+            // Android 16+ (SDK 36) enforces stricter timing on startForeground().
+            // All code paths (ACTION_STOP, ACTION_REPLAY, normal start) must have
+            // startForeground() called before any early return.
+            FileLogger.log("SERVICE: Creating placeholder notification")
+            val placeholderNotification = NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("SpeakAlert")
+                .setContentText("Processing...")
+                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .build()
+            
+            try {
+                startForeground(NOTIFICATION_ID, placeholderNotification)
+                FileLogger.log("SERVICE: startForeground succeeded")
+            } catch (e: Exception) {
+                // Catches ForegroundServiceStartNotAllowedException (Android 12+)
+                FileLogger.logError("SERVICE", "startForeground failed", e)
+                stopSelf()
+                return START_NOT_STICKY
+            }
+
             // Capture reminderId for completion logic
             val reminderId = intent?.getLongExtra(EXTRA_ID, -1L) ?: -1L
             if (reminderId != -1L) {
                 currentReminderId = reminderId
             }
 
-        if (intent?.action == "ACTION_STOP_SERVICE" || intent?.action == ACTION_STOP) {
-             FileLogger.log("SERVICE: Received STOP action")
-             broadcastPlaybackStatus(isPlaying = false)
-             stopSelf()
-             return START_NOT_STICKY
-        }
-        
-        // ... Normal start logic ...
-        // Extract params
+            if (intent?.action == "ACTION_STOP_SERVICE" || intent?.action == ACTION_STOP) {
+                FileLogger.log("SERVICE: Received STOP action")
+                broadcastPlaybackStatus(isPlaying = false)
+                stopSelf()
+                return START_NOT_STICKY
+            }
 
-        if (reminderId != -1L) {
-             currentReminderId = reminderId
-             broadcastPlaybackStatus(isPlaying = true)
-        }
+            if (reminderId != -1L) {
+                broadcastPlaybackStatus(isPlaying = true)
+            }
             
             if (intent?.action == ACTION_REPLAY) {
                 FileLogger.log("SERVICE: Received REPLAY action")
@@ -276,26 +294,6 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
                         performSpeak(text)
                     }
                 }
-                return START_NOT_STICKY
-            }
-
-            // Immediately satisfy Foreground Service promise
-            FileLogger.log("SERVICE: Creating placeholder notification")
-            val placeholderNotification = NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("SpeakAlert")
-                .setContentText("Processing...")
-                .setSmallIcon(R.mipmap.ic_launcher_round)
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-                .build()
-            
-            FileLogger.log("SERVICE: Calling startForeground")
-            try {
-                startForeground(NOTIFICATION_ID, placeholderNotification)
-                FileLogger.log("SERVICE: startForeground succeeded")
-            } catch (e: Exception) {
-                // Catches ForegroundServiceStartNotAllowedException (Android 12+)
-                FileLogger.logError("SERVICE", "startForeground failed", e)
-                stopSelf()
                 return START_NOT_STICKY
             }
 
