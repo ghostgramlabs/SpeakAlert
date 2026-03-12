@@ -78,9 +78,12 @@ class RecurrenceUtilsTest {
 
     @Test
     fun testCustomEvery2Days() {
-        // Setup: Today 10:00
-        val now = System.currentTimeMillis()
-        val triggerTime = now // Fired now
+        // Use a fixed date so the test is stable around DST transitions.
+        val now = Calendar.getInstance().apply {
+            set(2026, Calendar.JANUARY, 15, 10, 0, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
+        val triggerTime = now
         
         val model = RecurrenceModel.Custom(interval = 2, unit = TimeUnit.DAYS)
         val json = RecurrenceUtils.toJson(model)
@@ -93,10 +96,13 @@ class RecurrenceUtilsTest {
         
         val nextTrigger = RecurrenceUtils.computeNextTrigger(reminder, now)
         
-        // Expect: Now + 2 days (Normalized)
-        val expected = com.ghostgramlabs.speakalert.util.DateUtils.normalizeToMinute(now + 2L * 24 * 3600 * 1000)
+        val expected = Calendar.getInstance().apply {
+            timeInMillis = now
+            add(Calendar.DAY_OF_YEAR, 2)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
         
-        // Allow small diff due to Calendar implementations but math should be exact
         assertEquals(expected, nextTrigger)
     }
 
@@ -176,6 +182,50 @@ class RecurrenceUtilsTest {
             set(Calendar.MILLISECOND, 0)
         }
         assertEquals("Next should be Mar 29", expected.timeInMillis, next)
+    }
+
+    @Test
+    fun testYearlyNextYearSameDate() {
+        val base = Calendar.getInstance().apply {
+            set(2026, Calendar.MARCH, 10, 8, 0, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val model = RecurrenceModel.Yearly()
+        val reminder = ReminderEntity(
+            nextTriggerAt = base.timeInMillis,
+            recurrenceType = RecurrenceType.YEARLY,
+            recurrenceJson = RecurrenceUtils.toJson(model)
+        )
+
+        val next = RecurrenceUtils.computeNextTrigger(reminder, base.timeInMillis)
+        val expected = Calendar.getInstance().apply {
+            set(2027, Calendar.MARCH, 10, 8, 0, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+
+        assertEquals("Yearly should move to same date next year", expected.timeInMillis, next)
+    }
+
+    @Test
+    fun testYearlyLeapDayClampsToFeb28OnNonLeapYear() {
+        val leapDay = Calendar.getInstance().apply {
+            set(2024, Calendar.FEBRUARY, 29, 9, 15, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val model = RecurrenceModel.Yearly()
+        val reminder = ReminderEntity(
+            nextTriggerAt = leapDay.timeInMillis,
+            recurrenceType = RecurrenceType.YEARLY,
+            recurrenceJson = RecurrenceUtils.toJson(model)
+        )
+
+        val next = RecurrenceUtils.computeNextTrigger(reminder, leapDay.timeInMillis)
+        val expected = Calendar.getInstance().apply {
+            set(2025, Calendar.FEBRUARY, 28, 9, 15, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+
+        assertEquals("Feb 29 yearly should clamp to Feb 28 on non-leap years", expected.timeInMillis, next)
     }
 
     @Test

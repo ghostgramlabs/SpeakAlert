@@ -4,7 +4,8 @@ enum class VoiceReminderScreen {
     Home,
     AddEdit,
     Details,
-    Settings
+    Settings,
+    BatteryOptimizationGuide
 }
 
 sealed class NavigationDestination(val route: String) {
@@ -16,4 +17,5 @@ sealed class NavigationDestination(val route: String) {
         fun createRoute(reminderId: Long, autoplay: Boolean = false) = "details/$reminderId?autoplay=$autoplay"
     }
     object Settings : NavigationDestination("settings")
+    object BatteryOptimizationGuide : NavigationDestination("settings/battery_optimization_guide")
 }

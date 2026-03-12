@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">Speak Alert</string>
     <string name="app_tagline">Offline Voice Reminders</string>
+    <string name="widget_quick_description">Open the reminder form directly from your home screen</string>
+    <string name="widget_upcoming_description">Shows your next scheduled reminders</string>
 </resources>

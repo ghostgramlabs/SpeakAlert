@@ -64,6 +64,10 @@ fun RecurrenceSelectionSheet(
             RecurrenceOptionItem("Monthly", selected = initialType == RecurrenceType.MONTHLY, hasSubMenu = true) {
                 showMonthlySheet = true
             }
+            RecurrenceOptionItem("Yearly", selected = initialType == RecurrenceType.YEARLY) {
+                onRecurrenceSelected(RecurrenceModel.Yearly())
+                onDismiss()
+            }
             RecurrenceOptionItem("Custom", selected = initialType == RecurrenceType.CUSTOM, hasSubMenu = true) {
                 showCustomSheet = true
             }

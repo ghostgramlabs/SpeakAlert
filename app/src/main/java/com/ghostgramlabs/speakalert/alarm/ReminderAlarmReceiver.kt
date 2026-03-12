@@ -1,14 +1,18 @@
 package com.ghostgramlabs.speakalert.alarm
 
+import android.annotation.SuppressLint
+import android.Manifest
 import android.app.KeyguardManager
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.media.AudioManager
 import android.os.Build
 import android.telecom.TelecomManager
 import android.util.Log
+import androidx.core.content.ContextCompat
 import com.ghostgramlabs.speakalert.VoiceReminderApp
 import com.ghostgramlabs.speakalert.data.model.MissedReminderEntity
 import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
@@ -17,6 +21,7 @@ import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import com.ghostgramlabs.speakalert.domain.models.TimeUnit
 import com.ghostgramlabs.speakalert.service.ReminderPlaybackService
 import com.ghostgramlabs.speakalert.util.FileLogger
+import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -77,6 +82,11 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     "fireTime",
                     reminder.snoozeUntil ?: reminder.nextTriggerAt
                 )
+                val isFollowUpTrigger = intent.getBooleanExtra("isFollowUpAlarm", false) ||
+                    (reminder.pendingFollowUpAt != null && reminder.pendingFollowUpAt == scheduledTime)
+                val isSnoozeTrigger = !isFollowUpTrigger &&
+                    reminder.snoozeUntil != null &&
+                    reminder.snoozeUntil == scheduledTime
                 
                 // CRITICAL FIX: explicit check to prevent double-firing (e.g. after reboot)
                 // If we already fired for this scheduled time (or later), do not fire again.
@@ -105,6 +115,11 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 } ?: settingsDefaultPolicy
                 val toneOnlyMode = settingsRepository.toneOnlyMode.first()
                 val loopTimeoutMinutes = settingsRepository.loopTimeoutMinutes.first()
+                val fullScreenAlertEnabled = settingsRepository.fullScreenAlertEnabled.first()
+                val audioPath = reminder.audioPath
+                val hasAudioConfigured = !audioPath.isNullOrBlank()
+                val hasAudio = ReminderAudioSource.isPlayable(context, audioPath)
+                val hasText = !reminder.reminderText.isNullOrBlank()
                 
                 FileLogger.log("ALARM: missedPolicy=$missedPolicy")
 
@@ -133,7 +148,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     // Add to Missed Inbox
                     val missedEntry = MissedReminderEntity(
                         reminderId = reminder.id,
-                        title = reminder.title ?: "SpeakAlert",
+                        title = buildMissedDisplayTitle(reminder.title, reminder.reminderText),
                         scheduledTime = scheduledTime,
                         detectedTime = now,
                         reminderText = reminder.reminderText
@@ -141,18 +156,25 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     missedRepository.insertMissedReminder(missedEntry)
                     
                     // Schedule Next Recurrence
-                    var updatedReminder = reminder.copy(lastFiredAt = now, snoozeUntil = null)
-                    updatedReminder = RecurrenceUtils.updateForNextOccurrence(updatedReminder)
-                    val nextTrigger = RecurrenceUtils.computeNextTrigger(updatedReminder, now)
-                    
-                    if (nextTrigger != null) {
-                         updatedReminder = updatedReminder.copy(nextTriggerAt = nextTrigger)
-                         scheduler.schedule(updatedReminder)
-                         FileLogger.log("ALARM: Quiet Time - Scheduled next at $nextTrigger")
-                    } else {
-                        // One-time reminders stay active until explicit Done/Dismiss.
-                        if (reminder.recurrenceType == RecurrenceType.NONE) {
-                            FileLogger.log("ALARM: Quiet Time - One-time reminder kept active (awaiting Done/Dismiss)")
+                    var updatedReminder = reminder.copy(
+                        lastFiredAt = now,
+                        snoozeUntil = null,
+                        pendingFollowUpAt = null
+                    )
+                    FollowUpAlarmScheduler.cancel(context, reminder.id)
+                    if (!isFollowUpTrigger) {
+                        updatedReminder = RecurrenceUtils.updateForNextOccurrence(updatedReminder)
+                        val nextTrigger = RecurrenceUtils.computeNextTrigger(updatedReminder, now)
+                        
+                        if (nextTrigger != null) {
+                             updatedReminder = updatedReminder.copy(nextTriggerAt = nextTrigger)
+                             scheduler.schedule(updatedReminder)
+                             FileLogger.log("ALARM: Quiet Time - Scheduled next at $nextTrigger")
+                        } else {
+                            // One-time reminders stay active until explicit Done/Dismiss.
+                            if (reminder.recurrenceType == RecurrenceType.NONE) {
+                                FileLogger.log("ALARM: Quiet Time - One-time reminder kept active (awaiting Done/Dismiss)")
+                            }
                         }
                     }
                     repository.updateReminder(updatedReminder)
@@ -161,7 +183,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 }
 
                 // Handle late/missed reminders (Existing Logic)
-                if (isLate && reminder.recurrenceType != RecurrenceType.NONE) {
+                if (isLate && reminder.recurrenceType != RecurrenceType.NONE && !isFollowUpTrigger) {
                     FileLogger.log("ALARM: Reminder is LATE (missed)")
                     
                     when (missedPolicy) {
@@ -172,7 +194,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             // Add to missed inbox
                             val missedEntry = MissedReminderEntity(
                                 reminderId = reminder.id,
-                                title = reminder.title ?: "SpeakAlert",
+                                title = buildMissedDisplayTitle(reminder.title, reminder.reminderText),
                                 scheduledTime = scheduledTime,
                                 detectedTime = now,
                                 reminderText = reminder.reminderText
@@ -180,7 +202,12 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             missedRepository.insertMissedReminder(missedEntry)
                             
                             // Schedule next occurrence without showing notification
-                            var updatedReminder = reminder.copy(lastFiredAt = now, snoozeUntil = null)
+                            var updatedReminder = reminder.copy(
+                                lastFiredAt = now,
+                                snoozeUntil = null,
+                                pendingFollowUpAt = null
+                            )
+                            FollowUpAlarmScheduler.cancel(context, reminder.id)
                             updatedReminder = RecurrenceUtils.updateForNextOccurrence(updatedReminder)
                             val nextTrigger = RecurrenceUtils.computeNextTrigger(updatedReminder, now)
                             
@@ -201,10 +228,14 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             val missedNotificationShown = withContext(Dispatchers.Main) {
                                 notificationHelper.showNotification(
                                     reminder.id,
-                                    "Missed: ${reminder.title ?: "SpeakAlert"}",
-                                    "Scheduled for ${formatTime(scheduledTime)} - tap to open",
-                                    audioPath = reminder.audioPath,
-                                    reminderText = reminder.reminderText,
+                                    "Missed: ${buildMissedDisplayTitle(reminder.title, reminder.reminderText)}",
+                                    if (hasAudioConfigured && !hasAudio && !hasText) {
+                                        "Scheduled for ${formatTime(scheduledTime)}. Selected audio file is unavailable."
+                                    } else {
+                                        "Scheduled for ${formatTime(scheduledTime)} - tap to open"
+                                    },
+                                    audioPath = if (hasAudio) audioPath else null,
+                                    reminderText = if (hasText) reminder.reminderText else null,
                                     autoplayOnTap = false,
                                     toneOnlyMode = toneOnlyMode
                                 )
@@ -214,7 +245,12 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             }
                             
                             // Still schedule next occurrence
-                            var updatedReminder = reminder.copy(lastFiredAt = now, snoozeUntil = null)
+                            var updatedReminder = reminder.copy(
+                                lastFiredAt = now,
+                                snoozeUntil = null,
+                                pendingFollowUpAt = null
+                            )
+                            FollowUpAlarmScheduler.cancel(context, reminder.id)
                             updatedReminder = RecurrenceUtils.updateForNextOccurrence(updatedReminder)
                             val nextTrigger = RecurrenceUtils.computeNextTrigger(updatedReminder, now)
                             
@@ -242,25 +278,24 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 val isLocked = keyguardManager.isKeyguardLocked
                 
                 val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-                val telecomInCall = try {
-                    val telecomManager = context.getSystemService(Context.TELECOM_SERVICE) as? TelecomManager
-                    telecomManager?.isInCall == true
-                } catch (e: SecurityException) {
-                    false
-                } catch (e: Exception) {
-                    false
-                }
+                val telecomInCall = isTelecomInCall(context)
                 // Avoid false positives from MODE_IN_COMMUNICATION on some devices.
                 val inCall = telecomInCall || audioManager.mode == AudioManager.MODE_IN_CALL
 
-                val audioPath = reminder.audioPath
-                val hasAudio = !audioPath.isNullOrBlank() && java.io.File(audioPath).exists()
-                val hasText = !reminder.reminderText.isNullOrBlank()
+                FileLogger.log("ALARM: State - locked=$isLocked, inCall=$inCall, telecomInCall=$telecomInCall, audioMode=${audioManager.mode}, hasAudioConfigured=$hasAudioConfigured, hasAudio=$hasAudio, hasText=$hasText")
+                val useLockScreenFullScreen = fullScreenAlertEnabled && isLocked
                 
-                FileLogger.log("ALARM: State - locked=$isLocked, inCall=$inCall, telecomInCall=$telecomInCall, audioMode=${audioManager.mode}, hasAudio=$hasAudio, hasText=$hasText")
-                
-                val displayText = reminder.reminderText ?: "Tap to view"
-                val title = reminder.title ?: "SpeakAlert"
+                val displayText = when {
+                    isFollowUpTrigger -> buildFollowUpMessage(reminder)
+                    hasText -> reminder.reminderText ?: "Tap to view"
+                    hasAudioConfigured && !hasAudio -> "Selected audio file is unavailable. Tap to choose another file."
+                    else -> "Tap to view"
+                }
+                val title = if (isFollowUpTrigger) {
+                    reminder.title ?: "Follow-Up Check"
+                } else {
+                    reminder.title ?: "SpeakAlert"
+                }
 
                 // ===== ANDROID 15 BOOT & AUTOPLAY LOGIC =====
                 val isBootReschedule = intent.getBooleanExtra("isBootReschedule", false)
@@ -334,7 +369,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             displayText,
                             audioPath = if (hasAudio) audioPath else null,
                             reminderText = if (hasText) reminder.reminderText else null,
-                            toneOnlyMode = toneOnlyMode
+                            toneOnlyMode = toneOnlyMode,
+                            useFullScreenAlert = useLockScreenFullScreen
                         )
                     }
                     FileLogger.log("ALARM: Showed notification after autoplay: $shown")
@@ -348,7 +384,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             displayText,
                             audioPath = if (hasAudio) audioPath else null,
                             reminderText = if (hasText) reminder.reminderText else null,
-                            toneOnlyMode = toneOnlyMode
+                            toneOnlyMode = toneOnlyMode,
+                            useFullScreenAlert = useLockScreenFullScreen
                         )
                     }
                     FileLogger.log("ALARM: Notification shown: $shown")
@@ -363,10 +400,16 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 // This ensures the next trigger time is reflected in the UI immediately
                 var updatedReminder = reminder.copy(
                     lastFiredAt = now,
-                    snoozeUntil = null
+                    snoozeUntil = null,
+                    pendingFollowUpAt = null
                 )
+                if (isFollowUpTrigger) {
+                    FollowUpAlarmScheduler.cancel(context, reminder.id)
+                }
                 
-                if (reminder.recurrenceType != RecurrenceType.NONE) {
+                if (isFollowUpTrigger) {
+                    FileLogger.log("ALARM: Follow-up trigger handled without advancing recurrence")
+                } else if (reminder.recurrenceType != RecurrenceType.NONE) {
                     FileLogger.log("ALARM: Recurring reminder - auto-rescheduling")
                     // Advance recurrence count if needed
                     updatedReminder = RecurrenceUtils.updateForNextOccurrence(updatedReminder)
@@ -392,12 +435,33 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                         missedRepository.insertMissedReminder(
                             com.ghostgramlabs.speakalert.data.model.MissedReminderEntity(
                                 reminderId = reminder.id,
-                                title = title,
+                                title = buildMissedDisplayTitle(reminder.title, reminder.reminderText),
                                 scheduledTime = scheduledTime,
                                 reminderText = reminder.reminderText
                             )
                         )
                     }
+                }
+
+                if (!isFollowUpTrigger && reminder.followUpCheckMinutes > 0 && !updatedReminder.isCompleted) {
+                    // Keep exactly one follow-up alive. This matters most after Snooze:
+                    // the snoozed alert becomes the new active cycle and replaces any older follow-up.
+                    FollowUpAlarmScheduler.cancel(context, reminder.id)
+                    val followUpBaseTime = maxOf(now, scheduledTime)
+                    val followUpAt = com.ghostgramlabs.speakalert.util.DateUtils.normalizeToMinute(
+                        followUpBaseTime + reminder.followUpCheckMinutes * 60 * 1000L
+                    )
+                    updatedReminder = updatedReminder.copy(
+                        pendingFollowUpAt = followUpAt
+                    )
+                    FollowUpAlarmScheduler.schedule(context, reminder.id, followUpAt)
+                    FileLogger.log(
+                        if (isSnoozeTrigger) {
+                            "ALARM: Scheduled post-snooze follow-up check at $followUpAt"
+                        } else {
+                            "ALARM: Scheduled follow-up check at $followUpAt"
+                        }
+                    )
                 }
                 
                 repository.updateReminder(updatedReminder)
@@ -463,7 +527,48 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
             else -> MissedPolicy.SKIP_TO_NEXT
         }
     }
-    
+
+    private fun buildFollowUpMessage(reminder: com.ghostgramlabs.speakalert.data.model.ReminderEntity): String {
+        val subject = reminder.title
+            ?: reminder.reminderText?.takeIf { it.isNotBlank() }?.let { text ->
+                val words = text.trim().split(Regex("\\s+"))
+                if (words.size > 8) words.take(8).joinToString(" ") else text
+            }
+            ?: "this reminder"
+        return "Did you complete $subject?"
+    }
+
+    private fun buildMissedDisplayTitle(title: String?, reminderText: String?): String {
+        val userTitle = title
+            ?.trim()
+            ?.takeIf { it.isNotEmpty() && !it.equals("SpeakAlert", ignoreCase = true) }
+        if (userTitle != null) return userTitle
+
+        val textFallback = reminderText
+            ?.trim()
+            ?.takeIf { it.isNotEmpty() }
+            ?.let { text ->
+                val words = text.split(Regex("\\s+"))
+                if (words.size > 8) words.take(8).joinToString(" ") else text
+            }
+        return textFallback ?: "Reminder"
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun isTelecomInCall(context: Context): Boolean {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            return false
+        }
+        return try {
+            val telecomManager = context.getSystemService(Context.TELECOM_SERVICE) as? TelecomManager
+            telecomManager?.isInCall == true
+        } catch (_: SecurityException) {
+            false
+        } catch (_: Exception) {
+            false
+        }
+    }
+
     private fun isTimeInWindow(now: Long, startHour: Int, startMinute: Int, endHour: Int, endMinute: Int): Boolean {
         val cal = java.util.Calendar.getInstance()
         cal.timeInMillis = now

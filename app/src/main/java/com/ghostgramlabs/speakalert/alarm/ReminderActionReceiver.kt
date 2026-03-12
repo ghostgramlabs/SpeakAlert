@@ -8,6 +8,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.ghostgramlabs.speakalert.VoiceReminderApp
 import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
 import com.ghostgramlabs.speakalert.service.ReminderPlaybackService
+import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -35,9 +36,10 @@ class ReminderActionReceiver : BroadcastReceiver() {
                 val audioPath = intent.getStringExtra("audioPath")
                 val reminderText = intent.getStringExtra("reminderText")
                 val title = intent.getStringExtra("title") ?: "SpeakAlert"
+                val canPlayAudio = ReminderAudioSource.isPlayable(context, audioPath)
                 
                 // Start playback (playback service has its own notification)
-                if (!audioPath.isNullOrBlank()) {
+                if (canPlayAudio) {
                     ReminderPlaybackService.start(context, reminderId, title, audioPath, null)
                 } else if (!reminderText.isNullOrBlank()) {
                     // Check TTS setting before speaking text
@@ -52,6 +54,12 @@ class ReminderActionReceiver : BroadcastReceiver() {
                             pendingResult.finish()
                         }
                     }
+                } else if (!audioPath.isNullOrBlank()) {
+                    android.widget.Toast.makeText(
+                        context,
+                        "Selected audio file is unavailable.",
+                        android.widget.Toast.LENGTH_SHORT
+                    ).show()
                 }
                 return // Don't proceed to DB operations for play action
             }
@@ -84,13 +92,15 @@ class ReminderActionReceiver : BroadcastReceiver() {
                     
                     if (reminder.recurrenceType == com.ghostgramlabs.speakalert.domain.models.RecurrenceType.NONE) {
                         // ONE-TIME REMINDER: Mark as completed and cancel alarm
-                        val updated = reminder.copy(
-                            isCompleted = true,
-                            completedAt = now,
-                            snoozeUntil = null
-                        )
-                        repository.updateReminder(updated)
-                        scheduler.cancel(reminder)
+                val updated = reminder.copy(
+                    isCompleted = true,
+                    completedAt = now,
+                    snoozeUntil = null,
+                    pendingFollowUpAt = null
+                )
+                FollowUpAlarmScheduler.cancel(context, reminder.id)
+                repository.updateReminder(updated)
+                scheduler.cancel(reminder)
                         com.ghostgramlabs.speakalert.util.FileLogger.log("ACTION_DONE (Dismiss): One-time reminder completed and cancelled")
                     } else {
                         // RECURRING REMINDER: Dismiss alert only.
@@ -98,8 +108,10 @@ class ReminderActionReceiver : BroadcastReceiver() {
                         // If nextTriggerAt is already in the future, we just cleanup lastFiredAt/snoozeUntil.
                         
                         var updated = reminder.copy(
-                            snoozeUntil = null
+                            snoozeUntil = null,
+                            pendingFollowUpAt = null
                         )
+                        FollowUpAlarmScheduler.cancel(context, reminder.id)
                         
                         // IDEMPOTENCY CHECK: If nextTriggerAt is in the past (<= now), we need to advance it.
                         // If it's already in the future, it was likely auto-rescheduled by ReminderAlarmReceiver.
@@ -151,12 +163,20 @@ class ReminderActionReceiver : BroadcastReceiver() {
                     // RULE: Snooze NEVER modifies nextTriggerAt or recurrence.
                     // =====================================================
                     
-                    // Get snooze duration from preferences (default 10)
-                    val snoozeMinutes = settingsRepository.defaultSnoozeDuration.first()
+                    // Full-screen reminder buttons can override the snooze minutes.
+                    // If not provided, we keep the existing default snooze behavior.
+                    val snoozeMinutes = intent.getIntExtra(
+                        "snoozeMinutesOverride",
+                        settingsRepository.defaultSnoozeDuration.first()
+                    )
                     val snoozeUntil = com.ghostgramlabs.speakalert.util.DateUtils.normalizeToMinute(System.currentTimeMillis() + (snoozeMinutes * 60 * 1000))
                     
                     // Set snoozeUntil WITHOUT modifying nextTriggerAt or recurrence
-                    val updated = reminder.copy(snoozeUntil = snoozeUntil)
+                    val updated = reminder.copy(
+                        snoozeUntil = snoozeUntil,
+                        pendingFollowUpAt = null
+                    )
+                    FollowUpAlarmScheduler.cancel(context, reminder.id)
                     repository.updateReminder(updated)
                     scheduler.schedule(updated) // Schedule the snooze alarm
                     

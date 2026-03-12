@@ -50,6 +50,11 @@ sealed class RecurrenceModel {
         override val missedPolicy: MissedPolicy = MissedPolicy.SKIP_TO_NEXT
     ) : RecurrenceModel()
 
+    data class Yearly(
+        override val endRule: RecurrenceEndRule = RecurrenceEndRule(),
+        override val missedPolicy: MissedPolicy = MissedPolicy.SKIP_TO_NEXT
+    ) : RecurrenceModel()
+
     data class Custom(
         val interval: Int,
         val unit: TimeUnit,

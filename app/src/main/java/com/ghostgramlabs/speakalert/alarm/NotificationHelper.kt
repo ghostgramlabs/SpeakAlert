@@ -14,9 +14,11 @@ import android.os.Build
 import android.util.Log
 import com.ghostgramlabs.speakalert.MainActivity
 import com.ghostgramlabs.speakalert.R
+import com.ghostgramlabs.speakalert.ui.alert.ReminderAlertActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import com.ghostgramlabs.speakalert.util.FullScreenIntentSupport
 
 class NotificationHelper(private val context: Context) {
 
@@ -78,7 +80,8 @@ class NotificationHelper(private val context: Context) {
         audioPath: String? = null,
         reminderText: String? = null,
         autoplayOnTap: Boolean = true,
-        toneOnlyMode: Boolean = false
+        toneOnlyMode: Boolean = false,
+        useFullScreenAlert: Boolean = false
     ): Boolean {
         Log.d(TAG, "showNotification called for reminderId=$reminderId, title=$title")
         val channelId = if (toneOnlyMode) TONE_ONLY_CHANNEL_ID else CHANNEL_ID
@@ -108,6 +111,24 @@ class NotificationHelper(private val context: Context) {
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
+
+        val fullScreenPendingIntent = if (useFullScreenAlert && FullScreenIntentSupport.canUseFullScreenIntent(context)) {
+            val fullScreenIntent = Intent(context, ReminderAlertActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                putExtra("reminderId", reminderId)
+            }
+            PendingIntent.getActivity(
+                context,
+                reminderId.toInt() + 40000,
+                fullScreenIntent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
+        } else {
+            if (useFullScreenAlert) {
+                Log.w(TAG, "Full-screen alert requested but access is not granted; falling back to standard notification.")
+            }
+            null
+        }
 
         // Action: Play (starts playback service)
         val playIntent = Intent(context, ReminderActionReceiver::class.java).apply {
@@ -161,12 +182,18 @@ class NotificationHelper(private val context: Context) {
         )
 
         val builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.mipmap.ic_launcher_round)
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title ?: "Voice reminder")
             .setContentText(message ?: "Tap to play your reminder")
             .setStyle(NotificationCompat.BigTextStyle().bigText(message ?: "Tap to play your reminder"))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_ALARM)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setLocalOnly(false)
+            .extend(
+                NotificationCompat.WearableExtender()
+                    .setDismissalId("reminder_$reminderId")
+            )
             .setContentIntent(pendingIntent)
             .setDeleteIntent(dismissPendingIntent) // Handle notification swipe-dismiss
             .setAutoCancel(false) // Notification stays until user acts
@@ -176,6 +203,11 @@ class NotificationHelper(private val context: Context) {
             } else {
                 NotificationCompat.DEFAULT_ALL
             }) // Sound, vibration, lights
+
+        if (fullScreenPendingIntent != null) {
+            builder.setPriority(NotificationCompat.PRIORITY_MAX)
+            builder.setFullScreenIntent(fullScreenPendingIntent, true)
+        }
 
         if (toneOnlyMode && Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             builder.setSound(alarmToneUri)
@@ -187,8 +219,8 @@ class NotificationHelper(private val context: Context) {
             builder.addAction(android.R.drawable.ic_media_play, playLabel, playPendingIntent)
         }
         
-        builder.addAction(0, "Dismiss", donePendingIntent)
-        builder.addAction(0, "Snooze", snoozePendingIntent)
+        builder.addAction(android.R.drawable.ic_menu_close_clear_cancel, "Dismiss", donePendingIntent)
+        builder.addAction(android.R.drawable.ic_lock_idle_alarm, "Snooze", snoozePendingIntent)
 
         return try {
             NotificationManagerCompat.from(context).notify(reminderId.toInt(), builder.build())
@@ -203,3 +235,4 @@ class NotificationHelper(private val context: Context) {
         }
     }
 }
+

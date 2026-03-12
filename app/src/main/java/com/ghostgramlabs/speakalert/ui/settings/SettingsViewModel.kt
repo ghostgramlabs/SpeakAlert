@@ -30,6 +30,9 @@ class SettingsViewModel(
 
     val themeMode = settingsRepository.themeMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+    
+    val fullScreenAlertEnabled = settingsRepository.fullScreenAlertEnabled
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     fun setAutoPlayEnabled(enabled: Boolean) {
         viewModelScope.launch {
@@ -64,6 +67,12 @@ class SettingsViewModel(
     fun setThemeMode(mode: Int) {
         viewModelScope.launch {
             settingsRepository.setThemeMode(mode)
+        }
+    }
+
+    fun setFullScreenAlertEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setFullScreenAlertEnabled(enabled)
         }
     }
 

@@ -84,5 +84,6 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         alarmManager.cancel(pendingIntent)
+        FollowUpAlarmScheduler.cancel(context, reminder.id)
     }
 }

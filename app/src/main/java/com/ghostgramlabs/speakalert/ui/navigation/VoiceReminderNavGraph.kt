@@ -12,6 +12,7 @@ import androidx.navigation.navArgument
 import com.ghostgramlabs.speakalert.ui.home.HomeScreen
 import com.ghostgramlabs.speakalert.ui.addedit.AddEditReminderScreen
 import com.ghostgramlabs.speakalert.ui.details.ReminderDetailsScreen
+import com.ghostgramlabs.speakalert.ui.settings.BatteryOptimizationGuideScreen
 import com.ghostgramlabs.speakalert.ui.settings.SettingsScreen
 
 @Composable
@@ -19,13 +20,21 @@ fun VoiceReminderNavGraph(
     navController: NavHostController = rememberNavController(),
     modifier: Modifier = Modifier,
     startReminderId: Long? = null,
-    autoplay: Boolean = false
+    autoplay: Boolean = false,
+    startAddEdit: Boolean = false
 ) {
     // If launched from notification, navigate to details screen
     LaunchedEffect(startReminderId) {
         if (startReminderId != null) {
             navController.navigate(NavigationDestination.Details.createRoute(startReminderId, autoplay)) {
                 // Clear backstack so back button goes home
+                popUpTo(NavigationDestination.Home.route) { inclusive = false }
+            }
+        }
+    }
+    LaunchedEffect(startAddEdit) {
+        if (startAddEdit) {
+            navController.navigate(NavigationDestination.AddEdit.createRoute()) {
                 popUpTo(NavigationDestination.Home.route) { inclusive = false }
             }
         }
@@ -93,6 +102,15 @@ fun VoiceReminderNavGraph(
             val viewModel: com.ghostgramlabs.speakalert.ui.settings.SettingsViewModel = androidx.lifecycle.viewmodel.compose.viewModel(factory = com.ghostgramlabs.speakalert.ui.AppViewModelProvider.Factory)
             SettingsScreen(
                 viewModel = viewModel,
+                onNavigateUp = { navController.popBackStack() },
+                onOpenBatteryOptimizationGuide = {
+                    navController.navigate(NavigationDestination.BatteryOptimizationGuide.route)
+                }
+            )
+        }
+
+        composable(route = NavigationDestination.BatteryOptimizationGuide.route) {
+            BatteryOptimizationGuideScreen(
                 onNavigateUp = { navController.popBackStack() }
             )
         }

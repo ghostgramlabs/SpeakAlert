@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.app.NotificationManager
 import android.os.Build
+import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -44,6 +45,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.saveable.rememberSaveable
 import kotlinx.coroutines.launch
@@ -51,6 +53,7 @@ import kotlinx.coroutines.delay
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.ui.AppViewModelProvider
 import com.ghostgramlabs.speakalert.util.DateUtils
+import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import com.ghostgramlabs.speakalert.ui.components.ReminderCard
 import com.ghostgramlabs.speakalert.ui.components.RecurringCompletionDialog
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -105,12 +108,12 @@ fun HomeScreen(
             }
         }
         val filter = android.content.IntentFilter("ACTION_PLAYBACK_STATUS")
-        
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            context.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED)
-        } else {
-            context.registerReceiver(receiver, filter)
-        }
+        ContextCompat.registerReceiver(
+            context,
+            receiver,
+            filter,
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
 
         onDispose {
             try {
@@ -148,79 +151,193 @@ fun HomeScreen(
     var showMarkDoneDialog by remember { mutableStateOf(false) }
     var reminderToMarkDone by remember { mutableStateOf<ReminderEntity?>(null) }
     var isRestoringFromUndo by remember { mutableStateOf(false) }
+    var showMissedRecoveryDialog by rememberSaveable { mutableStateOf(false) }
+    var missedRecoveryHandled by rememberSaveable { mutableStateOf(false) }
     
     // Recurring Action States
     var reminderToStop by remember { mutableStateOf<ReminderEntity?>(null) }
     var reminderToMarkOccurrence by remember { mutableStateOf<ReminderEntity?>(null) }
     
-    // Native Date/Time Picker chain for reschedule/undo
-    val rescheduleCalendar = remember { java.util.Calendar.getInstance() }
-    
-    val rescheduleTimePickerDialog = remember {
-        android.app.TimePickerDialog(
-            context,
-            { _, hourOfDay, minute ->
-                rescheduleCalendar.set(java.util.Calendar.HOUR_OF_DAY, hourOfDay)
-                rescheduleCalendar.set(java.util.Calendar.MINUTE, minute)
-                rescheduleCalendar.set(java.util.Calendar.SECOND, 0)
-                rescheduleCalendar.set(java.util.Calendar.MILLISECOND, 0)
-                val selectedTimeMillis = rescheduleCalendar.timeInMillis
-                reminderToRestore?.let {
-                    if (isRestoringFromUndo) {
-                        viewModel.undoDelete(selectedTimeMillis)
-                    } else {
-                        viewModel.restoreReminder(it, selectedTimeMillis)
-                    }
-                }
-                showRestoreDialog = false
-                reminderToRestore = null
-                isRestoringFromUndo = false
-            },
-            rescheduleCalendar.get(java.util.Calendar.HOUR_OF_DAY),
-            rescheduleCalendar.get(java.util.Calendar.MINUTE),
-            false
-        )
-    }
-    
-    val rescheduleDatePickerDialog = remember {
-        android.app.DatePickerDialog(
-            context,
-            { _, year, month, dayOfMonth ->
-                rescheduleCalendar.set(java.util.Calendar.YEAR, year)
-                rescheduleCalendar.set(java.util.Calendar.MONTH, month)
-                rescheduleCalendar.set(java.util.Calendar.DAY_OF_MONTH, dayOfMonth)
-                rescheduleTimePickerDialog.show()
-            },
-            rescheduleCalendar.get(java.util.Calendar.YEAR),
-            rescheduleCalendar.get(java.util.Calendar.MONTH),
-            rescheduleCalendar.get(java.util.Calendar.DAY_OF_MONTH)
-        ).apply {
-            datePicker.minDate = System.currentTimeMillis() - 1000
-        }
+    // Material 3 date/time picker chain for reschedule/undo
+    var showRescheduleDatePicker by remember { mutableStateOf(false) }
+    var showRescheduleTimePicker by remember { mutableStateOf(false) }
+    var pendingRescheduleTimeMillis by remember { mutableStateOf<Long?>(null) }
+    var pendingRestoreTarget by remember { mutableStateOf<ReminderEntity?>(null) }
+    var pendingRestoreFromUndo by remember { mutableStateOf(false) }
+
+    val openReschedulePicker = { reminder: ReminderEntity?, fromUndo: Boolean ->
+        val now = System.currentTimeMillis()
+        pendingRestoreTarget = reminder
+        pendingRestoreFromUndo = fromUndo
+        pendingRescheduleTimeMillis = reminder?.nextTriggerAt?.takeIf { it > now } ?: now
+        showRescheduleDatePicker = true
     }
     
     // Handle Restore Dialog Actions
     if (showRestoreDialog && reminderToRestore != null) {
+        val restoreTarget = reminderToRestore
         com.ghostgramlabs.speakalert.ui.components.RestoreReminderDialog(
             onDismiss = {
                 showRestoreDialog = false
                 reminderToRestore = null
             },
             onReschedule = {
-                isRestoringFromUndo = false
-                rescheduleDatePickerDialog.show()
+                showRestoreDialog = false
+                openReschedulePicker(restoreTarget, isRestoringFromUndo)
             },
             onMoveToMissed = {
-                reminderToRestore?.let { viewModel.moveToMissed(it) }
+                restoreTarget?.let { viewModel.moveToMissed(it) }
                 reminderToRestore = null
+                isRestoringFromUndo = false
             },
             onPlay = {
-                reminderToRestore?.let { viewModel.playReminder(context, it) }
+                restoreTarget?.let { viewModel.playReminder(context, it) }
                 reminderToRestore = null
+                isRestoringFromUndo = false
             },
             onKeepAsDone = {
                 // Do nothing - reminder stays completed
                 reminderToRestore = null
+                isRestoringFromUndo = false
+            }
+        )
+    }
+
+    if (showRescheduleDatePicker && pendingRescheduleTimeMillis != null) {
+        val dateState = rememberDatePickerState(
+            initialSelectedDateMillis = homeUtcStartOfTodayMillis(
+                pendingRescheduleTimeMillis ?: System.currentTimeMillis()
+            )
+        )
+        DatePickerDialog(
+            onDismissRequest = {
+                showRescheduleDatePicker = false
+                pendingRescheduleTimeMillis = null
+                pendingRestoreTarget = null
+                pendingRestoreFromUndo = false
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        val selectedDate = dateState.selectedDateMillis
+                        if (selectedDate != null) {
+                            if (homeIsDateTodayOrFuture(selectedDate)) {
+                                pendingRescheduleTimeMillis = homeMergeDateWithCurrentTime(
+                                    pendingRescheduleTimeMillis ?: System.currentTimeMillis(),
+                                    selectedDate
+                                )
+                                showRescheduleDatePicker = false
+                                showRescheduleTimePicker = true
+                            } else {
+                                Toast.makeText(context, "Date must be today or later", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    },
+                    enabled = dateState.selectedDateMillis != null
+                ) {
+                    Text("Apply")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        showRescheduleDatePicker = false
+                        pendingRescheduleTimeMillis = null
+                        pendingRestoreTarget = null
+                        pendingRestoreFromUndo = false
+                    }
+                ) {
+                    Text("Cancel")
+                }
+            }
+        ) {
+            DatePicker(state = dateState)
+        }
+    }
+
+    if (showRescheduleTimePicker && pendingRescheduleTimeMillis != null) {
+        val current = remember(pendingRescheduleTimeMillis) {
+            java.util.Calendar.getInstance().apply {
+                timeInMillis = pendingRescheduleTimeMillis ?: System.currentTimeMillis()
+            }
+        }
+        val timeState = rememberTimePickerState(
+            initialHour = current.get(java.util.Calendar.HOUR_OF_DAY),
+            initialMinute = current.get(java.util.Calendar.MINUTE),
+            is24Hour = android.text.format.DateFormat.is24HourFormat(context)
+        )
+        AlertDialog(
+            onDismissRequest = {
+                showRescheduleTimePicker = false
+                pendingRescheduleTimeMillis = null
+                pendingRestoreTarget = null
+                pendingRestoreFromUndo = false
+            },
+            title = { Text("Select Time") },
+            text = { TimePicker(state = timeState) },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        val selectedTime = homeMergeTimeWithCurrentDate(
+                            pendingRescheduleTimeMillis ?: System.currentTimeMillis(),
+                            timeState.hour,
+                            timeState.minute
+                        )
+                        if (selectedTime <= System.currentTimeMillis()) {
+                            Toast.makeText(context, "Please select a future time", Toast.LENGTH_SHORT).show()
+                            return@Button
+                        }
+                        if (pendingRestoreFromUndo) {
+                            viewModel.undoDelete(selectedTime)
+                        } else {
+                            pendingRestoreTarget?.let { viewModel.restoreReminder(it, selectedTime) }
+                        }
+                        showRescheduleTimePicker = false
+                        pendingRescheduleTimeMillis = null
+                        pendingRestoreTarget = null
+                        pendingRestoreFromUndo = false
+                        showRestoreDialog = false
+                        reminderToRestore = null
+                        isRestoringFromUndo = false
+                    }
+                ) {
+                    Text("Apply")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        showRescheduleTimePicker = false
+                        pendingRescheduleTimeMillis = null
+                        pendingRestoreTarget = null
+                        pendingRestoreFromUndo = false
+                    }
+                ) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+
+    LaunchedEffect(uiState.missedReminders) {
+        if (uiState.missedReminders.isEmpty()) {
+            showMissedRecoveryDialog = false
+            missedRecoveryHandled = false
+        } else if (!missedRecoveryHandled) {
+            showMissedRecoveryDialog = true
+            missedRecoveryHandled = true
+        }
+    }
+
+    if (showMissedRecoveryDialog && uiState.missedReminders.isNotEmpty()) {
+        MissedReminderRecoveryDialog(
+            missedReminders = uiState.missedReminders,
+            onDismiss = { showMissedRecoveryDialog = false },
+            onPlayNow = {
+                uiState.missedReminders.firstOrNull()?.let { missed ->
+                    viewModel.fireMissedReminder(context, missed)
+                }
+                showMissedRecoveryDialog = false
             }
         )
     }
@@ -703,9 +820,11 @@ fun HomeScreen(
                                 hasAudio = !reminder.audioPath.isNullOrBlank(),
                                 hasText = !reminder.reminderText.isNullOrBlank(),
                                 isTextToSpeechEnabled = uiState.isTextToSpeechEnabled,
+                                hasCustomAudioFile = ReminderAudioSource.isContentUri(reminder.audioPath),
                                 isPlaying = currentPlayingId == reminder.id,
                                 isCompleted = reminder.isCompleted,
                                 loopEnabled = reminder.loopPlayback,
+                                followUpCheckMinutes = reminder.followUpCheckMinutes,
                                 onPlayClick = { 
                                     currentPlayingId = reminder.id
                                     viewModel.playReminder(context, reminder) 
@@ -734,7 +853,7 @@ fun HomeScreen(
                                                     // Time is past, force picker
                                                     reminderToRestore = preview
                                                     isRestoringFromUndo = true
-                                                    rescheduleDatePickerDialog.show()
+                                                    openReschedulePicker(preview, true)
                                                 } else {
                                                     viewModel.undoDelete()
                                                 }
@@ -812,6 +931,24 @@ fun MissedReminderItem(
     onStopClick: () -> Unit,
     onDismissClick: () -> Unit
 ) {
+    val displayTitle = remember(missed.title, missed.reminderText) {
+        val userTitle = missed.title
+            .trim()
+            .takeIf { it.isNotEmpty() && !it.equals("SpeakAlert", ignoreCase = true) }
+        if (userTitle != null) {
+            userTitle
+        } else {
+            val textFallback = missed.reminderText
+                ?.trim()
+                ?.takeIf { it.isNotEmpty() }
+                ?.let { text ->
+                    val words = text.split(Regex("\\s+"))
+                    if (words.size > 8) words.take(8).joinToString(" ") else text
+                }
+            textFallback ?: "Reminder"
+        }
+    }
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
@@ -840,7 +977,7 @@ fun MissedReminderItem(
                 Spacer(modifier = Modifier.width(12.dp))
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = missed.title,
+                        text = displayTitle,
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 1,
@@ -848,7 +985,7 @@ fun MissedReminderItem(
                     )
                     
                     // Show text body if available and not identical to title
-                    if (!missed.reminderText.isNullOrBlank() && !missed.title.equals(missed.reminderText, ignoreCase = true)) {
+                    if (!missed.reminderText.isNullOrBlank() && !displayTitle.equals(missed.reminderText, ignoreCase = true)) {
                         Text(
                             text = missed.reminderText,
                             style = MaterialTheme.typography.bodyMedium,
@@ -940,6 +1077,56 @@ fun EmptyState(
             }
         }
     }
+}
+
+private fun homeMergeDateWithCurrentTime(currentTime: Long, selectedDateMillis: Long): Long {
+    val current = java.util.Calendar.getInstance().apply { timeInMillis = currentTime }
+    val utcDate = java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone("UTC")).apply {
+        timeInMillis = selectedDateMillis
+    }
+    return java.util.Calendar.getInstance().apply {
+        set(java.util.Calendar.YEAR, utcDate.get(java.util.Calendar.YEAR))
+        set(java.util.Calendar.MONTH, utcDate.get(java.util.Calendar.MONTH))
+        set(java.util.Calendar.DAY_OF_MONTH, utcDate.get(java.util.Calendar.DAY_OF_MONTH))
+        set(java.util.Calendar.HOUR_OF_DAY, current.get(java.util.Calendar.HOUR_OF_DAY))
+        set(java.util.Calendar.MINUTE, current.get(java.util.Calendar.MINUTE))
+        set(java.util.Calendar.SECOND, 0)
+        set(java.util.Calendar.MILLISECOND, 0)
+    }.timeInMillis
+}
+
+private fun homeMergeTimeWithCurrentDate(currentTime: Long, hour: Int, minute: Int): Long {
+    return java.util.Calendar.getInstance().apply {
+        timeInMillis = currentTime
+        set(java.util.Calendar.HOUR_OF_DAY, hour)
+        set(java.util.Calendar.MINUTE, minute)
+        set(java.util.Calendar.SECOND, 0)
+        set(java.util.Calendar.MILLISECOND, 0)
+    }.timeInMillis
+}
+
+private fun homeUtcStartOfTodayMillis(time: Long = System.currentTimeMillis()): Long {
+    return java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone("UTC")).apply {
+        timeInMillis = time
+        set(java.util.Calendar.HOUR_OF_DAY, 0)
+        set(java.util.Calendar.MINUTE, 0)
+        set(java.util.Calendar.SECOND, 0)
+        set(java.util.Calendar.MILLISECOND, 0)
+    }.timeInMillis
+}
+
+private fun homeIsDateTodayOrFuture(selectedDateMillis: Long): Boolean {
+    return selectedDateMillis >= homeUtcStartOfTodayMillis()
+}
+
+private fun homeStartOfDayMillis(time: Long = System.currentTimeMillis()): Long {
+    return java.util.Calendar.getInstance().apply {
+        timeInMillis = time
+        set(java.util.Calendar.HOUR_OF_DAY, 0)
+        set(java.util.Calendar.MINUTE, 0)
+        set(java.util.Calendar.SECOND, 0)
+        set(java.util.Calendar.MILLISECOND, 0)
+    }.timeInMillis
 }
 
 enum class FilterType {

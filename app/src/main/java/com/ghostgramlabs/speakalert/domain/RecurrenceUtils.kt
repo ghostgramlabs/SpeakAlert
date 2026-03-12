@@ -15,6 +15,7 @@ object RecurrenceUtils {
         com.ghostgramlabs.speakalert.util.FileLogger.log("Recurrence: fromJson type=$type json=$json")
         if (json.isNullOrBlank()) {
              if (type == RecurrenceType.DAILY) return RecurrenceModel.Daily()
+             if (type == RecurrenceType.YEARLY) return RecurrenceModel.Yearly()
              com.ghostgramlabs.speakalert.util.FileLogger.log("Recurrence: JSON is blank for type=$type, returning null")
              return null
         }
@@ -24,6 +25,7 @@ object RecurrenceUtils {
                 RecurrenceType.WEEKLY -> gson.fromJson(json, RecurrenceModel.Weekly::class.java)
                 RecurrenceType.MONTHLY -> gson.fromJson(json, RecurrenceModel.Monthly::class.java)
                 RecurrenceType.CUSTOM -> gson.fromJson(json, RecurrenceModel.Custom::class.java)
+                RecurrenceType.YEARLY -> gson.fromJson(json, RecurrenceModel.Yearly::class.java)
                 else -> null
             }
             if (model == null) {
@@ -48,8 +50,12 @@ object RecurrenceUtils {
 
         val model = fromJson(reminder.recurrenceType, reminder.recurrenceJson) ?: run {
             com.ghostgramlabs.speakalert.util.FileLogger.log("Recurrence: computeNextTrigger failed - invalid JSON for ${reminder.recurrenceType}")
-            // Fallback for Daily if JSON missing
-            if (reminder.recurrenceType == RecurrenceType.DAILY) RecurrenceModel.Daily() else null
+            // Fallback for known JSON-free types
+            when (reminder.recurrenceType) {
+                RecurrenceType.DAILY -> RecurrenceModel.Daily()
+                RecurrenceType.YEARLY -> RecurrenceModel.Yearly()
+                else -> null
+            }
         } ?: return null
 
         // Calculate next basic trigger
@@ -57,6 +63,7 @@ object RecurrenceUtils {
             is RecurrenceModel.Daily -> computeNextDaily(reminder.nextTriggerAt, fromTime)
             is RecurrenceModel.Weekly -> computeNextWeekly(reminder.nextTriggerAt, model, fromTime)
             is RecurrenceModel.Monthly -> computeNextMonthly(reminder.nextTriggerAt, model, fromTime)
+            is RecurrenceModel.Yearly -> computeNextYearly(reminder.nextTriggerAt, model, fromTime)
             is RecurrenceModel.Custom -> computeNextCustom(reminder.nextTriggerAt, model, fromTime)
         }
         
@@ -80,6 +87,7 @@ object RecurrenceUtils {
                 is RecurrenceModel.Daily -> computeNextDaily(nextTrigger, fromTime + 1000)
                 is RecurrenceModel.Weekly -> computeNextWeekly(nextTrigger, model, fromTime + 1000)
                 is RecurrenceModel.Monthly -> computeNextMonthly(nextTrigger, model, fromTime + 1000)
+                is RecurrenceModel.Yearly -> computeNextYearly(nextTrigger, model, fromTime + 1000)
                 is RecurrenceModel.Custom -> computeNextCustom(nextTrigger, model, fromTime + 1000)
             }
             
@@ -248,6 +256,38 @@ object RecurrenceUtils {
         return null
     }
 
+    // --- YEARLY ---
+    private fun computeNextYearly(baseTrigger: Long, rule: RecurrenceModel.Yearly, fromTime: Long): Long? {
+        val targetCal = Calendar.getInstance().apply { timeInMillis = baseTrigger }
+        val startCal = Calendar.getInstance().apply { timeInMillis = fromTime }
+
+        val targetMonth = targetCal.get(Calendar.MONTH)
+        val targetDay = targetCal.get(Calendar.DAY_OF_MONTH)
+        val targetHour = targetCal.get(Calendar.HOUR_OF_DAY)
+        val targetMinute = targetCal.get(Calendar.MINUTE)
+        val targetSecond = targetCal.get(Calendar.SECOND)
+        val targetMillis = targetCal.get(Calendar.MILLISECOND)
+
+        val startYear = startCal.get(Calendar.YEAR)
+        for (yearOffset in 0..50) {
+            val candidate = Calendar.getInstance().apply {
+                set(Calendar.YEAR, startYear + yearOffset)
+                set(Calendar.MONTH, targetMonth)
+                set(Calendar.DAY_OF_MONTH, 1)
+                set(Calendar.HOUR_OF_DAY, targetHour)
+                set(Calendar.MINUTE, targetMinute)
+                set(Calendar.SECOND, targetSecond)
+                set(Calendar.MILLISECOND, targetMillis)
+                val maxDay = getActualMaximum(Calendar.DAY_OF_MONTH)
+                set(Calendar.DAY_OF_MONTH, targetDay.coerceAtMost(maxDay))
+            }
+            if (candidate.timeInMillis > fromTime) {
+                return candidate.timeInMillis
+            }
+        }
+        return null
+    }
+
     // --- CUSTOM ---
     private fun computeNextCustom(baseTrigger: Long, rule: RecurrenceModel.Custom, fromTime: Long): Long? {
         com.ghostgramlabs.speakalert.util.FileLogger.log("Recurrence: Custom calc. Base=${java.util.Date(baseTrigger)}, From=${java.util.Date(fromTime)}, Rule=$rule")
@@ -347,7 +387,10 @@ object RecurrenceUtils {
             return "One-time • $relativeDate"
         }
 
-        val model = fromJson(type, json) ?: RecurrenceModel.Daily() // Default fallback
+        val model = fromJson(type, json) ?: when (type) {
+            RecurrenceType.YEARLY -> RecurrenceModel.Yearly()
+            else -> RecurrenceModel.Daily() // Keep existing fallback behavior for other types
+        }
         val sb = StringBuilder()
 
         when (model) {
@@ -387,6 +430,11 @@ object RecurrenceUtils {
                     }
                     sb.append(daysStr)
                 }
+            }
+            is RecurrenceModel.Yearly -> {
+                val yearlyDate = java.text.SimpleDateFormat("MMM d", java.util.Locale.getDefault())
+                    .format(java.util.Date(nextTriggerAt))
+                sb.append("Yearly • $yearlyDate")
             }
             is RecurrenceModel.Custom -> {
                 val unitStr = when (model.unit) {
@@ -440,6 +488,7 @@ object RecurrenceUtils {
                 is RecurrenceModel.Daily -> model.copy(endRule = newEnd)
                 is RecurrenceModel.Weekly -> model.copy(endRule = newEnd)
                 is RecurrenceModel.Monthly -> model.copy(endRule = newEnd)
+                is RecurrenceModel.Yearly -> model.copy(endRule = newEnd)
                 is RecurrenceModel.Custom -> model.copy(endRule = newEnd)
             }
         } else {

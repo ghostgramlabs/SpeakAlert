@@ -18,6 +18,7 @@ import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
 import androidx.media3.ui.PlayerNotificationManager
@@ -27,6 +28,7 @@ import com.ghostgramlabs.speakalert.alarm.ToneAlertPlayer
 import com.ghostgramlabs.speakalert.alarm.ReminderActionReceiver
 import com.ghostgramlabs.speakalert.VoiceReminderApp
 import com.ghostgramlabs.speakalert.util.FileLogger
+import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -71,12 +73,14 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
 
     private fun broadcastPlaybackStatus(isPlaying: Boolean) {
         val statusIntent = Intent("ACTION_PLAYBACK_STATUS").apply {
+            setPackage(packageName)
             putExtra("reminderId", currentReminderId)
             putExtra("isPlaying", isPlaying)
         }
         sendBroadcast(statusIntent)
     }
 
+    @UnstableApi
     override fun onCreate() {
         super.onCreate()
         FileLogger.log("SERVICE: onCreate started")
@@ -147,6 +151,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
         }
     }
 
+    @UnstableApi
     private fun initPlayerNotificationManager() {
         FileLogger.log("SERVICE: Initializing PlayerNotificationManager")
         playerNotificationManager = PlayerNotificationManager.Builder(
@@ -195,7 +200,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
                 if (!isTtsMode) stopSelf()
             }
         })
-        .setSmallIconResourceId(R.mipmap.ic_launcher_round)
+        .setSmallIconResourceId(R.drawable.ic_notification)
         .setCustomActionReceiver(object : PlayerNotificationManager.CustomActionReceiver {
             override fun createCustomActions(
                 context: Context,
@@ -255,7 +260,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
             val placeholderNotification = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("SpeakAlert")
                 .setContentText("Processing...")
-                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .build()
             
@@ -335,15 +340,14 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
         try {
             tts?.stop()
 
-            val file = java.io.File(path)
-            if (!file.exists()) {
-                FileLogger.log("SERVICE: Audio file not found: $path")
+            if (!ReminderAudioSource.isPlayable(this, path)) {
+                FileLogger.log("SERVICE: Audio source unavailable: $path")
                 stopSelf()
                 return
             }
 
             val mediaItem = MediaItem.Builder()
-                .setUri(path)
+                .setUri(ReminderAudioSource.toUri(path))
                 .setMediaMetadata(
                      androidx.media3.common.MediaMetadata.Builder()
                          .setTitle(title)
@@ -547,7 +551,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(title)
             .setContentText("Speaking: \"${text.take(50)}${if (text.length > 50) "..." else ""}\"")
-            .setSmallIcon(R.mipmap.ic_launcher_round)
+            .setSmallIcon(R.drawable.ic_notification)
             .addAction(android.R.drawable.ic_media_play, "Replay", replayPendingIntent)
             .addAction(android.R.drawable.ic_media_pause, "Stop", stopPendingIntent)
             .addAction(android.R.drawable.ic_lock_idle_alarm, "Snooze", snoozePendingIntent)
@@ -606,6 +610,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
         }
     }
 
+    @UnstableApi
     override fun onDestroy() {
         FileLogger.log("SERVICE: onDestroy called")
         try {
@@ -691,3 +696,4 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
         }
     }
 }
+
