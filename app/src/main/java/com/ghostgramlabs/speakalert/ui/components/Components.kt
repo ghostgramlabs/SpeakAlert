@@ -20,9 +20,11 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.AllInclusive
@@ -282,6 +284,21 @@ fun RecurrenceDetailsRow(
                 )
             }
         }
+        RecurrenceType.YEARLY -> {
+            Surface(
+                modifier = modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(10.dp),
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+            ) {
+                Text(
+                    text = "🗓  Repeats every year",
+                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium),
+                    color = MaterialTheme.colorScheme.primary,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(vertical = 10.dp).fillMaxWidth()
+                )
+            }
+        }
     }
 }
 
@@ -297,9 +314,11 @@ fun ReminderCard(
     hasAudio: Boolean,
     hasText: Boolean,
     isTextToSpeechEnabled: Boolean,
+    hasCustomAudioFile: Boolean = false,
     isPlaying: Boolean,
     isCompleted: Boolean = false,
     loopEnabled: Boolean = false,
+    followUpCheckMinutes: Int = 0,
     onPlayClick: () -> Unit,
     onStopClick: () -> Unit,
     onClick: () -> Unit,
@@ -333,6 +352,7 @@ fun ReminderCard(
         RecurrenceType.DAILY -> "Daily"
         RecurrenceType.WEEKLY -> "Weekly"
         RecurrenceType.MONTHLY -> "Monthly"
+        RecurrenceType.YEARLY -> "Yearly"
         RecurrenceType.CUSTOM -> "Custom"
     }
     val subtitleLine = listOfNotNull(
@@ -349,8 +369,12 @@ fun ReminderCard(
                     append("Reminder: $title")
                     if (dateLabel.isNotEmpty()) append(", $dateLabel")
                     append(", at $badgeTime")
-                    if (hasAudio) append(", has voice note")
+                    if (hasAudio) {
+                        if (hasCustomAudioFile) append(", has audio file")
+                        else append(", has voice note")
+                    }
                     if (recurrenceSummary != null) append(", recurring $recurrenceSummary")
+                    if (followUpCheckMinutes > 0) append(", follow-up in $followUpCheckMinutes minutes")
                     if (isCompleted) append(", completed")
                     if (isPlaying) append(", currently playing")
                     append(". Double tap to play or view details.")
@@ -536,8 +560,16 @@ fun ReminderCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 MetadataChip(
-                    icon = if (hasAudio) Icons.Filled.Mic else null,
-                    text = if (hasAudio) "Voice" else "Text",
+                    icon = when {
+                        hasCustomAudioFile -> Icons.Filled.Folder
+                        hasAudio -> Icons.Filled.Mic
+                        else -> null
+                    },
+                    text = when {
+                        hasCustomAudioFile -> "Audio File"
+                        hasAudio -> "Voice"
+                        else -> "Text"
+                    },
                     color = MaterialTheme.colorScheme.primaryContainer,
                     onColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
@@ -578,6 +610,37 @@ fun ReminderCard(
                             )
                         }
                     }
+
+                    if (followUpCheckMinutes > 0) {
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Surface(
+                            shape = RoundedCornerShape(8.dp),
+                            color = MaterialTheme.colorScheme.primaryContainer
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                                    .semantics {
+                                        contentDescription = "Follow-up in $followUpCheckMinutes minutes"
+                                    },
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.Notifications,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(12.dp),
+                                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                                )
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text(
+                                    text = "${followUpCheckMinutes}m",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    maxLines = 1
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -602,7 +665,11 @@ fun MetadataChip(
             if (icon != null) {
                 Icon(
                     imageVector = icon,
-                    contentDescription = if (text == "Voice") "Voice recording" else "Text note",
+                    contentDescription = when (text) {
+                        "Voice" -> "Voice recording"
+                        "Audio File" -> "Custom audio file"
+                        else -> "Text note"
+                    },
                     modifier = Modifier.size(12.dp),
                     tint = onColor
                 )

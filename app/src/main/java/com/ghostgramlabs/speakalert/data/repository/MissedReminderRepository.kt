@@ -1,7 +1,9 @@
 package com.ghostgramlabs.speakalert.data.repository
 
+import android.content.Context
 import com.ghostgramlabs.speakalert.data.database.MissedReminderDao
 import com.ghostgramlabs.speakalert.data.model.MissedReminderEntity
+import com.ghostgramlabs.speakalert.widget.SpeakAlertWidgetUpdater
 import kotlinx.coroutines.flow.Flow
 
 interface MissedReminderRepository {
@@ -12,11 +14,29 @@ interface MissedReminderRepository {
     suspend fun deleteMissedReminderByReminderId(reminderId: Long)
 }
 
-class MissedReminderRepositoryImpl(private val missedReminderDao: MissedReminderDao) : MissedReminderRepository {
+class MissedReminderRepositoryImpl(
+    private val context: Context,
+    private val missedReminderDao: MissedReminderDao
+) : MissedReminderRepository {
     override val allMissedReminders: Flow<List<MissedReminderEntity>> = missedReminderDao.getAllMissedReminders()
 
-    override suspend fun insertMissedReminder(missedReminder: MissedReminderEntity) = missedReminderDao.insert(missedReminder)
-    override suspend fun deleteMissedReminder(missedReminder: MissedReminderEntity) = missedReminderDao.delete(missedReminder)
-    override suspend fun deleteMissedReminderById(id: Long) = missedReminderDao.deleteById(id)
-    override suspend fun deleteMissedReminderByReminderId(reminderId: Long) = missedReminderDao.deleteByReminderId(reminderId)
+    override suspend fun insertMissedReminder(missedReminder: MissedReminderEntity) {
+        missedReminderDao.insert(missedReminder)
+        SpeakAlertWidgetUpdater.requestUpdate(context)
+    }
+
+    override suspend fun deleteMissedReminder(missedReminder: MissedReminderEntity) {
+        missedReminderDao.delete(missedReminder)
+        SpeakAlertWidgetUpdater.requestUpdate(context)
+    }
+
+    override suspend fun deleteMissedReminderById(id: Long) {
+        missedReminderDao.deleteById(id)
+        SpeakAlertWidgetUpdater.requestUpdate(context)
+    }
+
+    override suspend fun deleteMissedReminderByReminderId(reminderId: Long) {
+        missedReminderDao.deleteByReminderId(reminderId)
+        SpeakAlertWidgetUpdater.requestUpdate(context)
+    }
 }

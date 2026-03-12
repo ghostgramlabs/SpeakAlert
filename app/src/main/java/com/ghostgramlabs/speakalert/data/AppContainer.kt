@@ -15,14 +15,17 @@ interface AppContainer {
 
 class AppContainerImpl(private val context: Context) : AppContainer {
     override val reminderRepository: ReminderRepository by lazy {
-        OfflineReminderRepository(AppDatabase.getDatabase(context).reminderDao())
+        OfflineReminderRepository(context, AppDatabase.getDatabase(context).reminderDao())
     }
     override val alarmScheduler: com.ghostgramlabs.speakalert.alarm.AlarmScheduler by lazy {
         com.ghostgramlabs.speakalert.alarm.AndroidAlarmScheduler(context)
     }
     
     override val missedReminderRepository: com.ghostgramlabs.speakalert.data.repository.MissedReminderRepository by lazy {
-        com.ghostgramlabs.speakalert.data.repository.MissedReminderRepositoryImpl(AppDatabase.getDatabase(context).missedReminderDao())
+        com.ghostgramlabs.speakalert.data.repository.MissedReminderRepositoryImpl(
+            context,
+            AppDatabase.getDatabase(context).missedReminderDao()
+        )
     }
 
     override val settingsRepository: com.ghostgramlabs.speakalert.data.repository.SettingsRepository by lazy {

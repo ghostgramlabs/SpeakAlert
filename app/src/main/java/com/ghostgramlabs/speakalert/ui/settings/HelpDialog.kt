@@ -38,7 +38,7 @@ fun HelpDialog(
             ) {
                 HelpSection(
                     title = "Creating reminders",
-                    content = "- Voice: Tap the Mic to record quickly.\n- Text: Type reminder text if you do not want to record audio.\n- Title: Add a short label to identify reminders faster.\n- Schedule: Set date/time and save."
+                    content = "- Voice: Tap the Mic to record quickly.\n- Audio File: Pick an audio file from your device.\n- Text (TTS): Type reminder text.\n- The text you enter is shown in reminder screens/notifications.\n- If Voice or Audio File is selected, text is optional (display only).\n- If no audio is selected and TTS is enabled, text is spoken aloud.\n- Title: Add a short label to identify reminders faster.\n- Schedule: Pick date/time, repeat options, follow-up check, and save."
                 )
 
                 HelpSection(
@@ -52,28 +52,48 @@ fun HelpDialog(
                 )
 
                 HelpSection(
+                    title = "Widgets",
+                    content = "- Quick Reminder widget: Opens Add Reminder directly.\n- Upcoming widget: Shows upcoming reminders and missed reminders.\n- Tap a widget item to open the related reminder in the app.\n- Widget content auto-refreshes after add/edit/delete and missed updates."
+                )
+
+                HelpSection(
+                    title = "Missed reminder popup",
+                    content = "- On app open, missed reminders can appear in a quick recovery popup.\n- Play missed reminder: Plays the latest missed reminder immediately.\n- Close: Hides the popup and keeps missed reminders in the Missed tab."
+                )
+
+                HelpSection(
                     title = "Card quick actions",
                     content = "- Tap a card to open details.\n- Use the Play reminder or Stop playback button on the card.\n- Use the menu (three dots) for Edit, Mark done, Stop recurring, or Delete."
                 )
 
                 HelpSection(
                     title = "Notification actions",
-                    content = "- Play Voice / Play TTS: Listen to the reminder.\n- Dismiss: Mark the current occurrence as done.\n- Snooze: Delay the reminder by your configured snooze duration.\n- Swipe away: Same as Dismiss — marks the current occurrence as done and stops any active playback.\n- For repeating reminders, Dismiss and swipe only clear the current occurrence. The next scheduled occurrence continues as normal."
+                    content = "- Play Reminder: Plays available reminder audio (voice, audio file, or TTS).\n- Done: Marks the current occurrence as done.\n- Snooze: Delays by your configured snooze duration.\n- Swipe away: Same as Done - marks current occurrence done and stops active playback.\n- For repeating reminders, Done and swipe clear only the current occurrence. The next scheduled occurrence continues."
+                )
+
+                HelpSection(
+                    title = "Full-screen reminder alert",
+                    content = "- Optional full-screen alert can appear over lock screen when reminders fire.\n- Works with voice, audio file, and TTS reminder modes.\n- If Android full-screen permission is off, app falls back to standard notification."
                 )
 
                 HelpSection(
                     title = "Repeating reminders",
-                    content = "- Repeat modes: Daily, Weekly, Monthly, or Custom.\n- The selected date/time is treated as the first occurrence.\n- Custom supports intervals such as every 2 days or every 3 hours.\n- Mark done on a repeating reminder clears only the current occurrence."
+                    content = "- Repeat modes: Daily, Weekly, Monthly, Yearly, or Custom.\n- The selected date/time is treated as the first occurrence.\n- Custom supports intervals such as every 2 days or every 3 hours.\n- Mark done on a repeating reminder clears only the current occurrence."
                 )
 
                 HelpSection(
                     title = "Playback settings",
-                    content = "- Auto-play audio: Start playback automatically when reminder fires.\n- Text-to-Speech: Speak typed reminders when no voice note is available.\n- Tone-only mode: Plays an alarm tone at fire time and keeps Play Voice / Play TTS as manual actions.\n- Loop duration: Controls auto-stop timeout."
+                    content = "- Auto-play audio: Starts playback automatically when reminder fires.\n- Text-to-Speech: Speaks typed reminders when no voice/audio file is selected.\n- Tone-only mode: Plays an alarm tone at fire time and keeps playback actions manual.\n- Loop duration: Controls auto-stop timeout."
+                )
+
+                HelpSection(
+                    title = "Follow-up check",
+                    content = "- Follow-up asks again if a reminder is not marked done.\n- You can select preset minutes or set a custom minute value.\n- Follow-up runs after the active reminder or snooze cycle."
                 )
 
                 HelpSection(
                     title = "Tone-only mode (more reliable alerts)",
-                    content = "- On some phones, voice or text-to-speech playback may be less reliable due to system settings or battery optimization.\n- Tone-only mode plays a clear alarm tone instead of voice/TTS.\n- You can still tap Play Voice or Play TTS from the notification.\n- Tone stop conditions: Dismiss, Snooze, Play Voice, Play TTS, or loop timeout.\n- Use this mode if voice playback is delayed, sometimes silent, or if you prefer a simple reliable alert."
+                    content = "- On some phones, voice or text-to-speech playback may be less reliable due to system settings or battery optimization.\n- Tone-only mode plays a clear alarm tone instead of voice/TTS.\n- You can still tap Play Reminder from the notification.\n- Tone stop conditions: Done, Snooze, Play Reminder, or loop timeout.\n- Use this mode if voice playback is delayed, sometimes silent, or if you prefer a simple reliable alert."
                 )
 
                 HelpSection(
@@ -84,6 +104,11 @@ fun HelpDialog(
                 HelpSection(
                     title = "After device restart",
                     content = "- Future reminders are rescheduled automatically.\n- Past-due reminders are handled through missed reminder flow.\n- If playback cannot start immediately, notification fallback is used."
+                )
+
+                HelpSection(
+                    title = "Wear OS support",
+                    content = "- SpeakAlert reminders can appear on connected Wear OS watches.\n- Phone app notifications and reminder channel must be enabled.\n- Notification sync must be enabled in your watch companion app (Wear OS / Galaxy Wearable)."
                 )
 
                 HelpSection(

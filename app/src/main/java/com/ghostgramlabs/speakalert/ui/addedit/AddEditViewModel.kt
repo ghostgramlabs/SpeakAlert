@@ -1,6 +1,7 @@
 package com.ghostgramlabs.speakalert.ui.addedit
 
 import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ghostgramlabs.speakalert.alarm.AlarmScheduler
@@ -23,6 +24,7 @@ import kotlinx.coroutines.isActive
 import java.io.File
 import java.util.UUID
 import com.ghostgramlabs.speakalert.data.repository.SettingsRepository
+import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 
 data class AddEditUiState(
     val initialReminderId: Long = -1L,
@@ -31,10 +33,13 @@ data class AddEditUiState(
     val isRecording: Boolean = false,
     val isPlaying: Boolean = false,
     val recordedAudioPath: String? = null,
+    val isCustomAudioFile: Boolean = false,
+    val customAudioFileName: String? = null,
     val triggerTime: Long = com.ghostgramlabs.speakalert.util.DateUtils.normalizeToMinute(System.currentTimeMillis() + 10 * 60 * 1000),
     val recurrenceType: RecurrenceType = RecurrenceType.NONE,
     val recurrenceJson: String? = null,
     val loopPlayback: Boolean = false,
+    val followUpCheckMinutes: Int = 0,
     val showError: Boolean = false,
     val playbackProgress: Float = 0f,
     val isSaving: Boolean = false,
@@ -57,6 +62,7 @@ class AddEditViewModel(
 
     private val _uiState = MutableStateFlow(AddEditUiState())
     val uiState = _uiState.asStateFlow()
+    private val appContext = context
     
     // Audio
     private val audioDir = File(context.filesDir, "reminders").apply { mkdirs() }
@@ -95,15 +101,23 @@ class AddEditViewModel(
         viewModelScope.launch {
             val reminder = repository.getReminder(id)
             if (reminder != null) {
+                val isCustomAudio = ReminderAudioSource.isContentUri(reminder.audioPath)
                 _uiState.value = _uiState.value.copy(
                     initialReminderId = reminder.id,
                     title = reminder.title ?: "",
                     reminderText = reminder.reminderText ?: "",
                     recordedAudioPath = reminder.audioPath,
+                    isCustomAudioFile = isCustomAudio,
+                    customAudioFileName = if (isCustomAudio) {
+                        ReminderAudioSource.resolveDisplayName(appContext, reminder.audioPath)
+                    } else {
+                        null
+                    },
                     triggerTime = reminder.nextTriggerAt,
                     recurrenceType = reminder.recurrenceType,
                     recurrenceJson = reminder.recurrenceJson,
-                    loopPlayback = reminder.loopPlayback
+                    loopPlayback = reminder.loopPlayback,
+                    followUpCheckMinutes = reminder.followUpCheckMinutes
                 )
             }
         }
@@ -131,6 +145,8 @@ class AddEditViewModel(
             _uiState.value = _uiState.value.copy(
                 isRecording = true, 
                 recordedAudioPath = null, 
+                isCustomAudioFile = false,
+                customAudioFileName = null,
                 showError = false,
                 recordingElapsedSeconds = 0
             )
@@ -172,7 +188,9 @@ class AddEditViewModel(
         // Show preview with temp file path
         _uiState.value = _uiState.value.copy(
             isRecording = false,
-            recordedAudioPath = tempAudioFile?.absolutePath
+            recordedAudioPath = tempAudioFile?.absolutePath,
+            isCustomAudioFile = false,
+            customAudioFileName = null
         )
     }
     
@@ -185,19 +203,56 @@ class AddEditViewModel(
         tempAudioFile = null
         _uiState.value = _uiState.value.copy(
             isRecording = false,
-            recordedAudioPath = null
+            recordedAudioPath = null,
+            isCustomAudioFile = false,
+            customAudioFileName = null
+        )
+    }
+
+    /**
+     * Use a persisted content URI selected from system picker as reminder audio.
+     */
+    fun setCustomAudio(uriString: String, displayName: String?) {
+        if (_uiState.value.isRecording) {
+            recordingTimerJob?.cancel()
+            recorder.stop()
+        }
+        stopPlayback()
+        tempAudioFile?.delete()
+        tempAudioFile = null
+        _uiState.value = _uiState.value.copy(
+            recordedAudioPath = uriString,
+            isCustomAudioFile = true,
+            customAudioFileName = displayName ?: ReminderAudioSource.resolveDisplayName(appContext, uriString),
+            isRecording = false,
+            showError = false
+        )
+    }
+
+    fun removeCustomAudio() {
+        if (!_uiState.value.isCustomAudioFile) return
+        stopPlayback()
+        _uiState.value = _uiState.value.copy(
+            recordedAudioPath = null,
+            isCustomAudioFile = false,
+            customAudioFileName = null
         )
     }
     
     fun playRecording() {
         val path = _uiState.value.recordedAudioPath ?: return
-        val file = File(path)
-        if (file.exists()) {
-            stopPlayback()
-            _uiState.value = _uiState.value.copy(isPlaying = true)
-            player.playFile(file)
-            startPlaybackTracking()
+        if (!ReminderAudioSource.isPlayable(appContext, path)) {
+            _uiState.value = _uiState.value.copy(isPlaying = false)
+            return
         }
+        stopPlayback()
+        _uiState.value = _uiState.value.copy(isPlaying = true)
+        if (_uiState.value.isCustomAudioFile || ReminderAudioSource.isContentUri(path)) {
+            player.playUri(Uri.parse(path))
+        } else {
+            player.playFile(File(path))
+        }
+        startPlaybackTracking()
     }
     
     fun stopPlayback() {
@@ -248,6 +303,7 @@ class AddEditViewModel(
             is RecurrenceModel.Daily -> RecurrenceType.DAILY
             is RecurrenceModel.Weekly -> RecurrenceType.WEEKLY
             is RecurrenceModel.Monthly -> RecurrenceType.MONTHLY
+            is RecurrenceModel.Yearly -> RecurrenceType.YEARLY
             is RecurrenceModel.Custom -> RecurrenceType.CUSTOM
         }
         val json = RecurrenceUtils.toJson(model)
@@ -256,6 +312,10 @@ class AddEditViewModel(
     
     fun setLoopPlayback(enabled: Boolean) {
         _uiState.value = _uiState.value.copy(loopPlayback = enabled)
+    }
+
+    fun setFollowUpCheckMinutes(minutes: Int) {
+        _uiState.value = _uiState.value.copy(followUpCheckMinutes = minutes.coerceAtLeast(0))
     }
 
     /**
@@ -268,7 +328,7 @@ class AddEditViewModel(
             val state = _uiState.value
             
             // VALIDATION: Must have Audio OR Text
-            val hasAudio = state.recordedAudioPath != null
+            val hasAudio = !state.recordedAudioPath.isNullOrBlank()
             val hasText = state.reminderText.isNotBlank()
             
             if (!hasAudio && !hasText) {
@@ -342,7 +402,8 @@ class AddEditViewModel(
                     recurrenceType = state.recurrenceType,
                     recurrenceJson = state.recurrenceJson,
                     missedPolicy = resolvedMissedPolicy,
-                    loopPlayback = state.loopPlayback
+                    loopPlayback = state.loopPlayback,
+                    followUpCheckMinutes = state.followUpCheckMinutes
                 )
                 
                 if (state.initialReminderId != -1L) {

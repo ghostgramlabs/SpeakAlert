@@ -12,9 +12,11 @@ import com.ghostgramlabs.speakalert.data.repository.ReminderRepository
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import com.ghostgramlabs.speakalert.service.ReminderPlaybackService
 import com.ghostgramlabs.speakalert.util.DateUtils
+import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -92,7 +94,7 @@ class HomeViewModel(
                 ToneAlertPlayer.stop()
                 
                 // Start playback for audio OR text
-                if (!audioPath.isNullOrBlank()) {
+                if (ReminderAudioSource.isPlayable(context, audioPath)) {
                     ReminderPlaybackService.start(context, reminder.id, title, audioPath, null)
                 } else if (!reminderText.isNullOrBlank()) {
                     ReminderPlaybackService.start(context, reminder.id, title, null, reminderText)
@@ -112,12 +114,102 @@ class HomeViewModel(
         }
     }
 
+    fun markMissedRemindersDone(missedReminders: List<MissedReminderEntity>) {
+        viewModelScope.launch {
+            val now = System.currentTimeMillis()
+            missedReminders.forEach { missed ->
+                val reminder = repository.getReminder(missed.reminderId)
+                if (reminder == null) {
+                    missedRepository.deleteMissedReminderById(missed.id)
+                    return@forEach
+                }
+
+                if (reminder.recurrenceType == RecurrenceType.NONE) {
+                    val updated = reminder.copy(
+                        isCompleted = true,
+                        completedAt = now,
+                        snoozeUntil = null,
+                        pendingFollowUpAt = null
+                    )
+                    alarmScheduler.cancel(reminder)
+                    repository.updateReminder(updated)
+                } else if (reminder.nextTriggerAt <= now) {
+                    var updated = reminder.copy(
+                        lastFiredAt = now,
+                        snoozeUntil = null,
+                        pendingFollowUpAt = null
+                    )
+                    updated = com.ghostgramlabs.speakalert.domain.RecurrenceUtils.updateForNextOccurrence(updated)
+                    val nextTrigger = com.ghostgramlabs.speakalert.domain.RecurrenceUtils.computeNextTrigger(
+                        updated,
+                        maxOf(now, reminder.nextTriggerAt)
+                    )
+                    if (nextTrigger != null) {
+                        updated = updated.copy(nextTriggerAt = nextTrigger)
+                        alarmScheduler.schedule(updated)
+                    } else {
+                        updated = updated.copy(isCompleted = true, completedAt = now)
+                        alarmScheduler.cancel(updated)
+                    }
+                    repository.updateReminder(updated)
+                } else {
+                    repository.updateReminder(
+                        reminder.copy(
+                            snoozeUntil = null,
+                            pendingFollowUpAt = null
+                        )
+                    )
+                }
+
+                missedRepository.deleteMissedReminderById(missed.id)
+            }
+        }
+    }
+
+    fun remindAgainForMissed(missedReminders: List<MissedReminderEntity>) {
+        viewModelScope.launch {
+            val snoozeMinutes = settingsRepository.defaultSnoozeDuration.first()
+            val remindAt = DateUtils.normalizeToMinute(System.currentTimeMillis() + snoozeMinutes * 60 * 1000L)
+
+            missedReminders.forEach { missed ->
+                val reminder = repository.getReminder(missed.reminderId)
+                if (reminder == null) {
+                    missedRepository.deleteMissedReminderById(missed.id)
+                    return@forEach
+                }
+
+                // For one-time reminders, move nextTriggerAt itself so UI + scheduling both show the new time.
+                // For recurring reminders, keep recurrence anchor and use temporary snoozeUntil.
+                val updated = if (reminder.recurrenceType == RecurrenceType.NONE) {
+                    reminder.copy(
+                        isCompleted = false,
+                        completedAt = null,
+                        nextTriggerAt = remindAt,
+                        snoozeUntil = null,
+                        pendingFollowUpAt = null
+                    )
+                } else {
+                    reminder.copy(
+                        isCompleted = false,
+                        completedAt = null,
+                        snoozeUntil = remindAt,
+                        pendingFollowUpAt = null
+                    )
+                }
+                repository.updateReminder(updated)
+                alarmScheduler.schedule(updated)
+                missedRepository.deleteMissedReminderById(missed.id)
+            }
+        }
+    }
+
     fun completeReminder(reminder: ReminderEntity) {
         viewModelScope.launch {
             val updated = reminder.copy(
                 isCompleted = true,
                 completedAt = System.currentTimeMillis(),
-                snoozeUntil = null
+                snoozeUntil = null,
+                pendingFollowUpAt = null
             )
             missedRepository.deleteMissedReminderByReminderId(reminder.id)
             alarmScheduler.cancel(reminder)
@@ -130,7 +222,8 @@ class HomeViewModel(
             val now = System.currentTimeMillis()
             var updated = reminder.copy(
                 lastFiredAt = now,
-                snoozeUntil = null
+                snoozeUntil = null,
+                pendingFollowUpAt = null
             )
             
             // Advance to next occurrence
@@ -212,7 +305,8 @@ class HomeViewModel(
                     nextTriggerAt = finalTime,
                     snoozeUntil = null,
                     isCompleted = false,
-                    lastFiredAt = null
+                    lastFiredAt = null,
+                    pendingFollowUpAt = null
                 )
                 repository.insertReminder(updated)
                 alarmScheduler.schedule(updated)
@@ -226,7 +320,7 @@ class HomeViewModel(
             val title = reminder.title ?: "Voice reminder"
             ToneAlertPlayer.stop()
             // Start playback for audio OR text
-            if (!reminder.audioPath.isNullOrBlank()) {
+            if (ReminderAudioSource.isPlayable(context, reminder.audioPath)) {
                 ReminderPlaybackService.start(context, reminder.id, title, reminder.audioPath, null)
             } else if (!reminder.reminderText.isNullOrBlank()) {
                 ReminderPlaybackService.start(context, reminder.id, title, null, reminder.reminderText)
@@ -249,7 +343,8 @@ class HomeViewModel(
                 completedAt = null,
                 nextTriggerAt = finalTime,
                 snoozeUntil = null,
-                lastFiredAt = null
+                lastFiredAt = null,
+                pendingFollowUpAt = null
             )
             repository.updateReminder(updated)
             alarmScheduler.schedule(updated)
@@ -261,7 +356,7 @@ class HomeViewModel(
             // Create a missed reminder entry
             val missed = MissedReminderEntity(
                 reminderId = reminder.id,
-                title = reminder.title ?: reminder.reminderText ?: "Reminder",
+                title = buildMissedDisplayTitle(reminder.title, reminder.reminderText),
                 scheduledTime = reminder.nextTriggerAt,
                 detectedTime = System.currentTimeMillis(),
                 reminderText = reminder.reminderText
@@ -275,5 +370,22 @@ class HomeViewModel(
             )
             repository.updateReminder(updated)
         }
+    }
+
+    // Keep missed tab labels consistent for untitled reminders.
+    private fun buildMissedDisplayTitle(title: String?, reminderText: String?): String {
+        val userTitle = title
+            ?.trim()
+            ?.takeIf { it.isNotEmpty() && !it.equals("SpeakAlert", ignoreCase = true) }
+        if (userTitle != null) return userTitle
+
+        val textFallback = reminderText
+            ?.trim()
+            ?.takeIf { it.isNotEmpty() }
+            ?.let { text ->
+                val words = text.split(Regex("\\s+"))
+                if (words.size > 8) words.take(8).joinToString(" ") else text
+            }
+        return textFallback ?: "Reminder"
     }
 }

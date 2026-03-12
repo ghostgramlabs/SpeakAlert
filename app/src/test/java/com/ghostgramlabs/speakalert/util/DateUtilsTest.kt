@@ -1,6 +1,8 @@
 package com.ghostgramlabs.speakalert.util
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.util.Calendar
 
@@ -25,5 +27,52 @@ class DateUtilsTest {
         assertEquals("Minute should remain same", 30, resultCal.get(Calendar.MINUTE))
         assertEquals("Second should be normalized to 0", 0, resultCal.get(Calendar.SECOND))
         assertEquals("Millisecond should be normalized to 0", 0, resultCal.get(Calendar.MILLISECOND))
+    }
+
+    @Test
+    fun `formatRelativeTime labels current timestamp as today`() {
+        val now = System.currentTimeMillis()
+        val today = DateUtils.formatRelativeTime(now)
+        assertTrue(today.startsWith("Today,"))
+    }
+
+    @Test
+    fun `formatDateLabel handles current and distant dates`() {
+        val now = System.currentTimeMillis()
+        val future = (Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 20) }).timeInMillis
+        assertEquals("Today", DateUtils.formatDateLabel(now))
+        assertTrue(DateUtils.formatDateLabel(future).isNotBlank())
+    }
+
+    @Test
+    fun `isToday and isUpcoming behave correctly`() {
+        val baseCal = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 12)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val now = baseCal.timeInMillis
+        val tomorrow = (baseCal.clone() as Calendar).apply { add(Calendar.DAY_OF_YEAR, 1) }.timeInMillis
+        val yesterday = (baseCal.clone() as Calendar).apply { add(Calendar.DAY_OF_YEAR, -1) }.timeInMillis
+
+        assertTrue(DateUtils.isToday(now))
+        assertTrue(DateUtils.isUpcoming(tomorrow))
+        assertFalse(DateUtils.isUpcoming(yesterday))
+    }
+
+    @Test
+    fun `formatSmartDate for today contains Today and time`() {
+        val now = System.currentTimeMillis()
+        val formatted = DateUtils.formatSmartDate(now)
+        assertTrue(formatted.contains("Today"))
+        assertTrue(formatted.contains(":"))
+    }
+
+    @Test
+    fun `formatDateTime and formatTimeOnly return non-empty values`() {
+        val ts = System.currentTimeMillis()
+        assertTrue(DateUtils.formatDateTime(ts).isNotBlank())
+        assertTrue(DateUtils.formatTimeOnly(ts).isNotBlank())
     }
 }

@@ -32,5 +32,11 @@ data class ReminderEntity(
     val missedPolicy: MissedPolicy = MissedPolicy.SKIP_TO_NEXT,
     
     // Loop Playback - when enabled, audio/TTS plays repeatedly until stopped
-    val loopPlayback: Boolean = false
+    val loopPlayback: Boolean = false,
+
+    // Optional one-time follow-up check after the reminder fires.
+    val followUpCheckMinutes: Int = 0,
+
+    // Internal marker for a scheduled follow-up that reuses the normal alarm path.
+    val pendingFollowUpAt: Long? = null
 )

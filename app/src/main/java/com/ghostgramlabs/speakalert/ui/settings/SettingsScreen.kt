@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.role
@@ -31,15 +32,58 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.core.app.NotificationManagerCompat
+import com.ghostgramlabs.speakalert.alarm.NotificationHelper
+import com.ghostgramlabs.speakalert.util.BatteryOptimizationSupport
+import com.ghostgramlabs.speakalert.util.FullScreenIntentSupport
+import com.ghostgramlabs.speakalert.util.WearOsConnectionInfo
+import com.ghostgramlabs.speakalert.util.WearOsSupport
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel,
-    onNavigateUp: () -> Unit
+    onNavigateUp: () -> Unit,
+    onOpenBatteryOptimizationGuide: () -> Unit
 ) {
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
     val scrollState = rememberScrollState()
+    var fullScreenAccessGranted by remember { mutableStateOf(FullScreenIntentSupport.canUseFullScreenIntent(context)) }
+    var batteryOptimizationEnabled by remember {
+        mutableStateOf(BatteryOptimizationSupport.isBatteryOptimizationEnabled(context))
+    }
+    var wearConnectionInfo by remember { mutableStateOf(WearOsConnectionInfo(isConnected = false)) }
+    var isCheckingWearStatus by remember { mutableStateOf(true) }
+    var wearRefreshTick by remember { mutableIntStateOf(0) }
+    var appNotificationStatus by remember { mutableStateOf(readAppNotificationStatus(context)) }
+
+    LaunchedEffect(context, wearRefreshTick) {
+        isCheckingWearStatus = true
+        appNotificationStatus = readAppNotificationStatus(context)
+        wearConnectionInfo = withContext(Dispatchers.IO) {
+            WearOsSupport.getConnectionInfo(context)
+        }
+        isCheckingWearStatus = false
+    }
+
+    DisposableEffect(lifecycleOwner, context) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                fullScreenAccessGranted = FullScreenIntentSupport.canUseFullScreenIntent(context)
+                batteryOptimizationEnabled = BatteryOptimizationSupport.isBatteryOptimizationEnabled(context)
+                wearRefreshTick++
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
     
     val autoPlayEnabled by viewModel.autoPlayEnabled.collectAsState()
     val autoPlayOnUnlockOnly by viewModel.autoPlayOnUnlockOnly.collectAsState()
@@ -55,6 +99,7 @@ fun SettingsScreen(
 
     val speakTextIfNoVoice by viewModel.speakTextIfNoVoice.collectAsState()
     val toneOnlyMode by viewModel.toneOnlyMode.collectAsState()
+    val fullScreenAlertEnabled by viewModel.fullScreenAlertEnabled.collectAsState()
     val debugLoggingEnabled by viewModel.debugLoggingEnabled.collectAsState()
     val appVolume by viewModel.appVolume.collectAsState()
     val toneAutoStopLabel = if (loopTimeoutMinutes == 0) "Infinite" else "${loopTimeoutMinutes}m"
@@ -177,6 +222,63 @@ fun SettingsScreen(
                         ).show()
                     }
                 )
+
+                SwitchRow(
+                    text = "Full-screen alert",
+                    description = if (fullScreenAccessGranted) {
+                        "Show reminder actions on top of the lock screen when a reminder fires"
+                    } else {
+                        "Needs Android full-screen alert access to appear over the lock screen"
+                    },
+                    checked = fullScreenAlertEnabled,
+                    onCheckedChange = {
+                        viewModel.setFullScreenAlertEnabled(it)
+                        if (it && !fullScreenAccessGranted) {
+                            Toast.makeText(
+                                context,
+                                "Allow full-screen alerts in system settings",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            FullScreenIntentSupport.openSettings(context)
+                        }
+                        Toast.makeText(
+                            context,
+                            if (it) "Full-screen alert on" else "Full-screen alert off",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                )
+
+                if (fullScreenAlertEnabled && !fullScreenAccessGranted) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f)
+                        )
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(16.dp),
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            Text(
+                                text = "Full-screen access is still off",
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Text(
+                                text = "Android 14+ requires a separate system permission for full-screen reminder alerts.",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            OutlinedButton(
+                                onClick = { FullScreenIntentSupport.openSettings(context) },
+                                shape = RoundedCornerShape(12.dp)
+                            ) {
+                                Text("Open permission settings")
+                            }
+                        }
+                    }
+                }
 
                 if (toneOnlyMode) {
                     Text(
@@ -363,7 +465,6 @@ fun SettingsScreen(
                             label = "Start",
                             hour = startHour,
                             minute = startMinute,
-                            context = context,
                             onTimeSelected = { h, m -> 
                                 viewModel.setQuietTimeStart(h, m)
                                 Toast.makeText(context, "Quiet starts at ${formatTime(h, m)}", Toast.LENGTH_SHORT).show()
@@ -374,7 +475,6 @@ fun SettingsScreen(
                             label = "End",
                             hour = endHour,
                             minute = endMinute,
-                            context = context,
                             onTimeSelected = { h, m -> 
                                 viewModel.setQuietTimeEnd(h, m)
                                 Toast.makeText(context, "Quiet ends at ${formatTime(h, m)}", Toast.LENGTH_SHORT).show()
@@ -498,7 +598,193 @@ fun SettingsScreen(
                 }
             }
 
-            // SECTION 4: HELP & GUIDE
+            // ============================================================
+            // SECTION 4: RELIABILITY
+            // ============================================================
+            CollapsibleSettingsSection(
+                title = "Reliability",
+                icon = "Safe",
+                initiallyExpanded = true
+            ) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                    )
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onOpenBatteryOptimizationGuide() }
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.BatteryAlert,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Spacer(Modifier.width(16.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = "Battery Optimization Guide",
+                                style = MaterialTheme.typography.bodyLarge,
+                                fontWeight = FontWeight.Medium
+                            )
+                            Text(
+                                text = if (batteryOptimizationEnabled) {
+                                    "Optimization is enabled. This can stop reminders on some phones."
+                                } else {
+                                    "SpeakAlert is already allowed to run more reliably in background."
+                                },
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                        Icon(Icons.Default.ChevronRight, contentDescription = null)
+                    }
+                }
+            }
+
+            // ============================================================
+            // SECTION 5: WEAR OS
+            // ============================================================
+            CollapsibleSettingsSection(
+                title = "Wear OS",
+                icon = "Wear",
+                initiallyExpanded = false
+            ) {
+                val notificationsReady =
+                    appNotificationStatus.appNotificationsEnabled && appNotificationStatus.reminderChannelEnabled
+                val statusText = when {
+                    isCheckingWearStatus -> "Checking Wear OS connection..."
+                    wearConnectionInfo.isConnected && wearConnectionInfo.connectedNodeCount > 1 -> {
+                        "${wearConnectionInfo.connectedNodeCount} Wear OS watches connected"
+                    }
+                    wearConnectionInfo.isConnected -> "Wear OS watch connected"
+                    else -> "No Wear OS watch connected"
+                }
+
+                val statusColor = if (wearConnectionInfo.isConnected) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                }
+
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f)
+                    )
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Watch,
+                                contentDescription = null,
+                                tint = statusColor
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
+                            if (isCheckingWearStatus) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(16.dp),
+                                    strokeWidth = 2.dp
+                                )
+                                Spacer(modifier = Modifier.width(10.dp))
+                            }
+                            Text(
+                                text = statusText,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = statusColor
+                            )
+                        }
+
+                        Text(
+                            text = "SpeakAlert watch reminders are supported on Wear OS watches only.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+
+                        if (wearConnectionInfo.isConnected && !notificationsReady) {
+                            Text(
+                                text = if (!appNotificationStatus.appNotificationsEnabled) {
+                                    "Phone app notifications are off. Turn them on so reminders can sync to watch."
+                                } else {
+                                    "SpeakAlert reminder channel is muted. Enable it to send reminders to watch."
+                                },
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.error
+                            )
+
+                            OutlinedButton(
+                                onClick = {
+                                    val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                                        putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                                    }
+                                    context.startActivity(intent)
+                                },
+                                shape = RoundedCornerShape(12.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Notifications,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(18.dp)
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text("Open notification settings")
+                            }
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                OutlinedButton(
+                                    onClick = {
+                                        val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
+                                            putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                                            putExtra(Settings.EXTRA_CHANNEL_ID, NotificationHelper.CHANNEL_ID)
+                                        }
+                                        context.startActivity(intent)
+                                    },
+                                    shape = RoundedCornerShape(12.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Tune,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text("Open reminder channel")
+                                }
+                            }
+                        } else if (wearConnectionInfo.isConnected) {
+                            Text(
+                                text = "Phone notifications are enabled. If reminders are still missing on watch, enable notification sync in your Wear OS companion app.",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+
+                        OutlinedButton(
+                            onClick = { wearRefreshTick++ },
+                            shape = RoundedCornerShape(12.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Refresh,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Refresh status")
+                        }
+                    }
+                }
+            }
+
+            // SECTION 6: HELP & GUIDE
             // ============================================================
             CollapsibleSettingsSection(
                 title = "How to use Speak Alert",
@@ -643,6 +929,26 @@ fun SettingsScreen(
             Spacer(modifier = Modifier.height(32.dp))
         }
     }
+}
+
+private data class AppNotificationStatus(
+    val appNotificationsEnabled: Boolean,
+    val reminderChannelEnabled: Boolean
+)
+
+private fun readAppNotificationStatus(context: android.content.Context): AppNotificationStatus {
+    val appEnabled = NotificationManagerCompat.from(context).areNotificationsEnabled()
+    val channelEnabled = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val manager = context.getSystemService(android.app.NotificationManager::class.java)
+        val reminderChannel = manager?.getNotificationChannel(NotificationHelper.CHANNEL_ID)
+        reminderChannel?.importance != android.app.NotificationManager.IMPORTANCE_NONE
+    } else {
+        true
+    }
+    return AppNotificationStatus(
+        appNotificationsEnabled = appEnabled,
+        reminderChannelEnabled = channelEnabled
+    )
 }
 
 @Composable
@@ -801,26 +1107,49 @@ private fun SwitchRow(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TimePickerButton(
     label: String,
     hour: Int,
     minute: Int,
-    context: android.content.Context,
     onTimeSelected: (Int, Int) -> Unit
 ) {
+    val context = LocalContext.current
+    var showPicker by remember { mutableStateOf(false) }
+
     OutlinedButton(
-        onClick = {
-            android.app.TimePickerDialog(
-                context,
-                { _, h, m -> onTimeSelected(h, m) },
-                hour,
-                minute,
-                false
-            ).show()
-        }
+        onClick = { showPicker = true }
     ) {
         Text("$label: ${formatTime(hour, minute)}")
+    }
+
+    if (showPicker) {
+        val timeState = rememberTimePickerState(
+            initialHour = hour,
+            initialMinute = minute,
+            is24Hour = android.text.format.DateFormat.is24HourFormat(context)
+        )
+        AlertDialog(
+            onDismissRequest = { showPicker = false },
+            title = { Text("Select $label time") },
+            text = { TimePicker(state = timeState) },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        onTimeSelected(timeState.hour, timeState.minute)
+                        showPicker = false
+                    }
+                ) {
+                    Text("Apply")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showPicker = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
     }
 }
 

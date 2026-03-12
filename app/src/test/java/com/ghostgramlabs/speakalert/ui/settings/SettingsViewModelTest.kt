@@ -16,9 +16,11 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.mockito.MockitoAnnotations
+import org.mockito.kotlin.argumentCaptor
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
@@ -45,8 +47,11 @@ class SettingsViewModelTest {
         
         // Mock required flows
         whenever(settingsRepository.autoPlayEnabled).thenReturn(MutableStateFlow(true))
+        whenever(settingsRepository.autoPlayOnUnlockOnly).thenReturn(MutableStateFlow(false))
         whenever(settingsRepository.speakTextIfNoVoice).thenReturn(MutableStateFlow(true))
+        whenever(settingsRepository.toneOnlyMode).thenReturn(MutableStateFlow(false))
         whenever(settingsRepository.themeMode).thenReturn(MutableStateFlow(0))
+        whenever(settingsRepository.fullScreenAlertEnabled).thenReturn(MutableStateFlow(false))
         whenever(settingsRepository.defaultSnoozeDuration).thenReturn(MutableStateFlow(5))
         whenever(settingsRepository.quietTimeEnabled).thenReturn(MutableStateFlow(false))
         whenever(settingsRepository.quietTimeStartHour).thenReturn(MutableStateFlow(22))
@@ -99,5 +104,53 @@ class SettingsViewModelTest {
 
         // Assert
         verify(settingsRepository).setThemeMode(1)
+    }
+
+    @Test
+    fun `setters forward values to settings repository`() = runTest {
+        viewModel.setAutoPlayEnabled(false)
+        viewModel.setAutoPlayOnUnlockOnly(true)
+        viewModel.setDefaultSnoozeDuration(10)
+        viewModel.setSpeakTextIfNoVoice(false)
+        viewModel.setToneOnlyMode(true)
+        viewModel.setFullScreenAlertEnabled(true)
+        viewModel.setAppVolume(0.7f)
+        viewModel.setLoopTimeoutMinutes(2)
+        viewModel.setQuietTimeEnabled(true)
+        viewModel.setQuietTimeStart(21, 30)
+        viewModel.setQuietTimeEnd(6, 45)
+        advanceUntilIdle()
+
+        verify(settingsRepository).setAutoPlayEnabled(false)
+        verify(settingsRepository).setAutoPlayOnUnlockOnly(true)
+        verify(settingsRepository).setDefaultSnoozeDuration(10)
+        verify(settingsRepository).setSpeakTextIfNoVoice(false)
+        verify(settingsRepository).setToneOnlyMode(true)
+        verify(settingsRepository).setFullScreenAlertEnabled(true)
+        verify(settingsRepository).setAppVolume(0.7f)
+        verify(settingsRepository).setLoopTimeoutMinutes(2)
+        verify(settingsRepository).setQuietTimeEnabled(true)
+        verify(settingsRepository).setQuietTimeStart(21, 30)
+        verify(settingsRepository).setQuietTimeEnd(6, 45)
+    }
+
+    @Test
+    fun `scheduleTestReminder inserts and schedules one-time reminder`() = runTest {
+        whenever(reminderRepository.insertReminder(org.mockito.kotlin.any())).thenReturn(123L)
+
+        viewModel.scheduleTestReminder()
+        advanceUntilIdle()
+
+        val insertCaptor = argumentCaptor<com.ghostgramlabs.speakalert.data.model.ReminderEntity>()
+        verify(reminderRepository).insertReminder(insertCaptor.capture())
+        val inserted = insertCaptor.firstValue
+        assertEquals("Test Reminder", inserted.title)
+        assertTrue((inserted.reminderText ?: "").contains("test reminder", ignoreCase = true))
+        assertTrue(inserted.nextTriggerAt > System.currentTimeMillis())
+        assertEquals(com.ghostgramlabs.speakalert.domain.models.RecurrenceType.NONE, inserted.recurrenceType)
+
+        val scheduleCaptor = argumentCaptor<com.ghostgramlabs.speakalert.data.model.ReminderEntity>()
+        verify(alarmScheduler).schedule(scheduleCaptor.capture(), org.mockito.kotlin.any())
+        assertEquals(123L, scheduleCaptor.firstValue.id)
     }
 }

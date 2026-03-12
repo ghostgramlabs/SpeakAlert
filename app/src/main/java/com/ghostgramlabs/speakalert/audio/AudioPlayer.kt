@@ -2,6 +2,7 @@ package com.ghostgramlabs.speakalert.audio
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.net.Uri
 import androidx.core.net.toUri
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -10,6 +11,7 @@ import java.io.File
 
 interface AudioPlayer {
     fun playFile(file: File)
+    fun playUri(uri: Uri)
     fun stop()
     fun pause()
     fun resume()
@@ -49,9 +51,6 @@ class AndroidAudioPlayer(
     }
 
     override fun playFile(file: File) {
-        // Stop previous if exists
-        stop()
-        
         val msg1 = "Attempting to play file: ${file.absolutePath}, exists=${file.exists()}"
         android.util.Log.d("AudioPlayer", msg1)
         logToFile(msg1)
@@ -64,10 +63,17 @@ class AndroidAudioPlayer(
              return
         }
 
+        playUri(file.toUri())
+    }
+
+    override fun playUri(uri: Uri) {
+        // Stop previous if exists
+        stop()
+
         try {
-            MediaPlayer.create(context, file.toUri()).apply {
+            MediaPlayer.create(context, uri).apply {
                 if (this == null) {
-                    val msgNull = "MediaPlayer.create returned null for ${file.absolutePath}"
+                    val msgNull = "MediaPlayer.create returned null for $uri"
                     android.util.Log.e("AudioPlayer", msgNull)
                     logToFile("ERROR: $msgNull")
                     showToast("Error: Media player failed")
@@ -86,7 +92,7 @@ class AndroidAudioPlayer(
                 showToast("Playing audio...")
             }
         } catch (e: Exception) {
-            val msgEx = "Error playing file: ${e.message}"
+            val msgEx = "Error playing media uri=$uri: ${e.message}"
             android.util.Log.e("AudioPlayer", msgEx, e)
             logToFile("EXCEPTION: $msgEx")
             showToast("Error: ${e.message}")

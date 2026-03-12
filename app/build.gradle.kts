@@ -12,8 +12,8 @@ android {
         applicationId = "com.ghostgramlabs.speakalert"
         minSdk = 26
         targetSdk = 35
-        versionCode = 35
-        versionName = "2.0.15"
+        versionCode = 36
+        versionName = "2.0.16"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -104,6 +104,9 @@ dependencies {
 
     // WorkManager (for boot-time alarm rescheduling outside BOOT_COMPLETED context)
     implementation("androidx.work:work-runtime-ktx:2.9.0")
+
+    // Wear OS connectivity detection from phone app
+    implementation("com.google.android.gms:play-services-wearable:18.2.0")
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:4.11.0")

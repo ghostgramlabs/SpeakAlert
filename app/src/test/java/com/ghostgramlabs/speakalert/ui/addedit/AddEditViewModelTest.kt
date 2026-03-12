@@ -9,6 +9,7 @@ import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.data.repository.ReminderRepository
 import com.ghostgramlabs.speakalert.data.repository.SettingsRepository
 import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
+import com.ghostgramlabs.speakalert.domain.models.MissedPolicy
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceModel
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -287,5 +288,134 @@ class AddEditViewModelTest {
         val captor = argumentCaptor<ReminderEntity>()
         verify(repository).insertReminder(captor.capture())
         assertEquals(selected, captor.firstValue.nextTriggerAt)
+    }
+
+    @Test
+    fun `setCustomAudio while recording stops recorder and switches to custom file mode`() = runTest {
+        // Arrange
+        viewModel.startRecording()
+        advanceTimeBy(100)
+
+        // Act
+        viewModel.setCustomAudio("content://com.test.provider/audio/1", "morning_alarm.mp3")
+        advanceUntilIdle()
+
+        // Assert
+        val state = viewModel.uiState.value
+        assertFalse(state.isRecording)
+        assertTrue(state.isCustomAudioFile)
+        assertEquals("content://com.test.provider/audio/1", state.recordedAudioPath)
+        assertEquals("morning_alarm.mp3", state.customAudioFileName)
+        verify(recorder).stop()
+    }
+
+    @Test
+    fun `removeCustomAudio clears selected content uri`() = runTest {
+        // Arrange
+        viewModel.setCustomAudio("content://com.test.provider/audio/2", "note.wav")
+        advanceUntilIdle()
+
+        // Act
+        viewModel.removeCustomAudio()
+        advanceUntilIdle()
+
+        // Assert
+        val state = viewModel.uiState.value
+        assertFalse(state.isCustomAudioFile)
+        assertNull(state.recordedAudioPath)
+        assertNull(state.customAudioFileName)
+    }
+
+    @Test
+    fun `setFollowUpCheckMinutes clamps negative to zero`() {
+        viewModel.setFollowUpCheckMinutes(-5)
+        assertEquals(0, viewModel.uiState.value.followUpCheckMinutes)
+
+        viewModel.setFollowUpCheckMinutes(15)
+        assertEquals(15, viewModel.uiState.value.followUpCheckMinutes)
+    }
+
+    @Test
+    fun `saveReminder one-time past trigger shows past time error`() = runTest {
+        // Arrange
+        viewModel.updateReminderText("Pay electricity bill")
+        viewModel.setRecurrence(RecurrenceType.NONE, null)
+        viewModel.setTriggerTime(System.currentTimeMillis() - 60_000)
+
+        // Act
+        viewModel.saveReminder()
+        advanceUntilIdle()
+
+        // Assert
+        assertTrue(viewModel.uiState.value.showPastTimeError)
+        verify(repository, Mockito.never()).insertReminder(any())
+        verify(repository, Mockito.never()).updateReminder(any())
+    }
+
+    @Test
+    fun `saveReminder recurring past trigger auto aligns to future`() = runTest {
+        // Arrange
+        val now = System.currentTimeMillis()
+        viewModel.updateReminderText("Daily check-in")
+        viewModel.setTriggerTime(now - 60_000)
+        viewModel.setRecurrence(RecurrenceType.DAILY, null)
+        whenever(repository.insertReminder(any())).thenReturn(55L)
+
+        // Act
+        viewModel.saveReminder()
+        advanceUntilIdle()
+
+        // Assert
+        val captor = argumentCaptor<ReminderEntity>()
+        verify(repository).insertReminder(captor.capture())
+        assertTrue(captor.firstValue.nextTriggerAt > now)
+        assertEquals(RecurrenceType.DAILY, captor.firstValue.recurrenceType)
+        verify(scheduler).schedule(any(), any())
+        assertFalse(viewModel.uiState.value.showPastTimeError)
+    }
+
+    @Test
+    fun `saveReminder existing reminder updates instead of insert`() = runTest {
+        // Arrange
+        val existing = ReminderEntity(
+            id = 99,
+            title = "Existing",
+            reminderText = "Original text",
+            nextTriggerAt = System.currentTimeMillis() + 3600_000,
+            recurrenceType = RecurrenceType.NONE
+        )
+        whenever(repository.getReminder(99)).thenReturn(existing)
+        viewModel.loadReminder(99)
+        advanceUntilIdle()
+        viewModel.updateReminderText("Updated text")
+
+        // Act
+        viewModel.saveReminder()
+        advanceUntilIdle()
+
+        // Assert
+        val captor = argumentCaptor<ReminderEntity>()
+        verify(repository).updateReminder(captor.capture())
+        assertEquals(99L, captor.firstValue.id)
+        assertEquals("Updated text", captor.firstValue.reminderText)
+        verify(repository, Mockito.never()).insertReminder(any())
+        verify(scheduler).schedule(any(), any())
+    }
+
+    @Test
+    fun `saveReminder maps FIRE default missed policy to FIRE_ON_RESUME`() = runTest {
+        // Arrange
+        whenever(settingsRepository.defaultMissedPolicy).thenReturn(MutableStateFlow("FIRE"))
+        viewModel.updateReminderText("Hydration reminder")
+        whenever(repository.insertReminder(any())).thenReturn(77L)
+
+        // Act
+        viewModel.saveReminder()
+        advanceUntilIdle()
+
+        // Assert
+        val captor = argumentCaptor<ReminderEntity>()
+        verify(repository).insertReminder(captor.capture())
+        assertEquals(MissedPolicy.FIRE_ON_RESUME, captor.firstValue.missedPolicy)
     }
 }

@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.CircleShape
@@ -36,6 +37,7 @@ import com.ghostgramlabs.speakalert.ui.AppViewModelProvider
 import com.ghostgramlabs.speakalert.ui.components.SectionCard
 import com.ghostgramlabs.speakalert.ui.components.PrimaryActionButton
 import com.ghostgramlabs.speakalert.util.DateUtils
+import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import kotlinx.coroutines.delay
 
 import java.io.File
@@ -77,11 +79,12 @@ fun ReminderDetailsScreen(
             }
         }
         val filter = android.content.IntentFilter("ACTION_PLAYBACK_STATUS")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            context.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED)
-        } else {
-            context.registerReceiver(receiver, filter)
-        }
+        ContextCompat.registerReceiver(
+            context,
+            receiver,
+            filter,
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
         onDispose {
             try {
                 context.unregisterReceiver(receiver)
@@ -146,6 +149,16 @@ fun ReminderDetailsScreen(
     
     // Check if recurring
     val isRecurring = item.recurrenceType != com.ghostgramlabs.speakalert.domain.models.RecurrenceType.NONE
+    val isCustomAudioFile = remember(item.audioPath) {
+        ReminderAudioSource.isContentUri(item.audioPath)
+    }
+    val audioFileName = remember(item.audioPath) {
+        if (isCustomAudioFile) {
+            ReminderAudioSource.resolveDisplayName(context, item.audioPath)
+                ?.takeIf { it.isNotBlank() }
+                ?: "Selected audio file"
+        } else null
+    }
 
     // Past Action Sheet State
     var showPastActionSheet by remember { mutableStateOf(false) }
@@ -153,44 +166,8 @@ fun ReminderDetailsScreen(
     // Reschedule Pickers
     var showRescheduleConfirmation by remember { mutableStateOf(false) }
     var pendingRescheduleTime by remember { mutableStateOf<Long?>(null) }
-
-    // Build native picker chain: Date -> Time -> confirm
-    val rescheduleCalendar = remember { java.util.Calendar.getInstance() }
-
-    val rescheduleTimePickerDialog = remember {
-        android.app.TimePickerDialog(
-            context,
-            { _, hourOfDay, minute ->
-                rescheduleCalendar.set(java.util.Calendar.HOUR_OF_DAY, hourOfDay)
-                rescheduleCalendar.set(java.util.Calendar.MINUTE, minute)
-                rescheduleCalendar.set(java.util.Calendar.SECOND, 0)
-                rescheduleCalendar.set(java.util.Calendar.MILLISECOND, 0)
-                pendingRescheduleTime = rescheduleCalendar.timeInMillis
-                showRescheduleConfirmation = true
-            },
-            rescheduleCalendar.get(java.util.Calendar.HOUR_OF_DAY),
-            rescheduleCalendar.get(java.util.Calendar.MINUTE),
-            false
-        )
-    }
-
-    val rescheduleDatePickerDialog = remember {
-        android.app.DatePickerDialog(
-            context,
-            { _, year, month, dayOfMonth ->
-                rescheduleCalendar.set(java.util.Calendar.YEAR, year)
-                rescheduleCalendar.set(java.util.Calendar.MONTH, month)
-                rescheduleCalendar.set(java.util.Calendar.DAY_OF_MONTH, dayOfMonth)
-                // After date is selected, show time picker
-                rescheduleTimePickerDialog.show()
-            },
-            rescheduleCalendar.get(java.util.Calendar.YEAR),
-            rescheduleCalendar.get(java.util.Calendar.MONTH),
-            rescheduleCalendar.get(java.util.Calendar.DAY_OF_MONTH)
-        ).apply {
-            datePicker.minDate = System.currentTimeMillis() - 1000
-        }
-    }
+    var showRescheduleDatePicker by remember { mutableStateOf(false) }
+    var showRescheduleTimePicker by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -245,7 +222,7 @@ fun ReminderDetailsScreen(
             
             // VOICE NOTE Section (if audio exists)
             if (item.audioPath != null) {
-                SectionCard(title = "Voice Note") {
+                SectionCard(title = if (isCustomAudioFile) "Audio File" else "Voice Note") {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
@@ -271,7 +248,20 @@ fun ReminderDetailsScreen(
                         Spacer(modifier = Modifier.width(16.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(if (isPlaying) "Playing..." else "Tap to play", style = MaterialTheme.typography.titleMedium)
-                            Text("Voice recording", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text(
+                                text = if (isCustomAudioFile) "Audio file" else "Voice recording",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            if (isCustomAudioFile) {
+                                Text(
+                                    text = audioFileName ?: "Selected audio file",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
                         }
                     }
                 }
@@ -281,7 +271,7 @@ fun ReminderDetailsScreen(
             if (!item.reminderText.isNullOrBlank()) {
                 SectionCard(title = "Text Content") {
                     Text(
-                        text = item.reminderText!!,
+                        text = item.reminderText,
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
@@ -289,15 +279,6 @@ fun ReminderDetailsScreen(
 
             // SCHEDULE Section (tappable, replaces "Settings")
             var showRecurrenceSheet by remember { mutableStateOf(false) }
-            val recurrenceSummary = remember(item) {
-                com.ghostgramlabs.speakalert.domain.RecurrenceUtils.getRecurrenceSummary(
-                    item.recurrenceType,
-                    item.recurrenceJson,
-                    item.nextTriggerAt,
-                    includeEndRule = true,
-                    includeMissedPolicy = true
-                )
-            }
             
             SectionCard(title = "Schedule") {
                 Column(
@@ -439,7 +420,7 @@ fun ReminderDetailsScreen(
                 val oneHourAgo = now - 3600_000
                 // Active if: currently snoozed, fired in the last hour, or scheduled time has passed but not completed
                 item.snoozeUntil != null || 
-                (item.lastFiredAt != null && item.lastFiredAt!! > oneHourAgo) ||
+                (item.lastFiredAt != null && item.lastFiredAt > oneHourAgo) ||
                 (item.nextTriggerAt < now && !item.isCompleted)
             }
 
@@ -483,6 +464,105 @@ fun ReminderDetailsScreen(
                 }
             }
         }
+    }
+
+    if (showRescheduleDatePicker && pendingRescheduleTime != null) {
+        val dateState = rememberDatePickerState(
+            initialSelectedDateMillis = detailsUtcStartOfTodayMillis(
+                pendingRescheduleTime ?: System.currentTimeMillis()
+            )
+        )
+        DatePickerDialog(
+            onDismissRequest = {
+                showRescheduleDatePicker = false
+                pendingRescheduleTime = null
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        val selectedDate = dateState.selectedDateMillis
+                        if (selectedDate != null) {
+                            if (detailsIsDateTodayOrFuture(selectedDate)) {
+                                pendingRescheduleTime = detailsMergeDateWithCurrentTime(
+                                    pendingRescheduleTime ?: System.currentTimeMillis(),
+                                    selectedDate
+                                )
+                                showRescheduleDatePicker = false
+                                showRescheduleTimePicker = true
+                            } else {
+                                Toast.makeText(context, "Date must be today or later", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    },
+                    enabled = dateState.selectedDateMillis != null
+                ) {
+                    Text("Apply")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        showRescheduleDatePicker = false
+                        pendingRescheduleTime = null
+                    }
+                ) {
+                    Text("Cancel")
+                }
+            }
+        ) {
+            DatePicker(state = dateState)
+        }
+    }
+
+    if (showRescheduleTimePicker && pendingRescheduleTime != null) {
+        val cal = remember(pendingRescheduleTime) {
+            java.util.Calendar.getInstance().apply {
+                timeInMillis = pendingRescheduleTime ?: System.currentTimeMillis()
+            }
+        }
+        val timeState = rememberTimePickerState(
+            initialHour = cal.get(java.util.Calendar.HOUR_OF_DAY),
+            initialMinute = cal.get(java.util.Calendar.MINUTE),
+            is24Hour = android.text.format.DateFormat.is24HourFormat(context)
+        )
+        AlertDialog(
+            onDismissRequest = {
+                showRescheduleTimePicker = false
+                pendingRescheduleTime = null
+            },
+            title = { Text("Select Time") },
+            text = { TimePicker(state = timeState) },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        val selectedTime = detailsMergeTimeWithCurrentDate(
+                            pendingRescheduleTime ?: System.currentTimeMillis(),
+                            timeState.hour,
+                            timeState.minute
+                        )
+                        if (selectedTime <= System.currentTimeMillis()) {
+                            Toast.makeText(context, "Please select a future time", Toast.LENGTH_SHORT).show()
+                            return@Button
+                        }
+                        pendingRescheduleTime = selectedTime
+                        showRescheduleTimePicker = false
+                        showRescheduleConfirmation = true
+                    }
+                ) {
+                    Text("Apply")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        showRescheduleTimePicker = false
+                        pendingRescheduleTime = null
+                    }
+                ) {
+                    Text("Cancel")
+                }
+            }
+        )
     }
     
     // Delete Confirmation Dialog
@@ -548,7 +628,9 @@ fun ReminderDetailsScreen(
             scheduledTime = item.nextTriggerAt,
             onReschedule = {
                 showPastActionSheet = false
-                rescheduleDatePickerDialog.show()
+                val now = System.currentTimeMillis()
+                pendingRescheduleTime = item.nextTriggerAt.takeIf { it > now } ?: now
+                showRescheduleDatePicker = true
             },
             onPlayNow = {
                 showPastActionSheet = false
@@ -603,6 +685,56 @@ fun ReminderDetailsScreen(
             }
         )
     }
+}
+
+private fun detailsMergeDateWithCurrentTime(currentTime: Long, selectedDateMillis: Long): Long {
+    val current = java.util.Calendar.getInstance().apply { timeInMillis = currentTime }
+    val utcDate = java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone("UTC")).apply {
+        timeInMillis = selectedDateMillis
+    }
+    return java.util.Calendar.getInstance().apply {
+        set(java.util.Calendar.YEAR, utcDate.get(java.util.Calendar.YEAR))
+        set(java.util.Calendar.MONTH, utcDate.get(java.util.Calendar.MONTH))
+        set(java.util.Calendar.DAY_OF_MONTH, utcDate.get(java.util.Calendar.DAY_OF_MONTH))
+        set(java.util.Calendar.HOUR_OF_DAY, current.get(java.util.Calendar.HOUR_OF_DAY))
+        set(java.util.Calendar.MINUTE, current.get(java.util.Calendar.MINUTE))
+        set(java.util.Calendar.SECOND, 0)
+        set(java.util.Calendar.MILLISECOND, 0)
+    }.timeInMillis
+}
+
+private fun detailsMergeTimeWithCurrentDate(currentTime: Long, hour: Int, minute: Int): Long {
+    return java.util.Calendar.getInstance().apply {
+        timeInMillis = currentTime
+        set(java.util.Calendar.HOUR_OF_DAY, hour)
+        set(java.util.Calendar.MINUTE, minute)
+        set(java.util.Calendar.SECOND, 0)
+        set(java.util.Calendar.MILLISECOND, 0)
+    }.timeInMillis
+}
+
+private fun detailsUtcStartOfTodayMillis(time: Long = System.currentTimeMillis()): Long {
+    return java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone("UTC")).apply {
+        timeInMillis = time
+        set(java.util.Calendar.HOUR_OF_DAY, 0)
+        set(java.util.Calendar.MINUTE, 0)
+        set(java.util.Calendar.SECOND, 0)
+        set(java.util.Calendar.MILLISECOND, 0)
+    }.timeInMillis
+}
+
+private fun detailsIsDateTodayOrFuture(selectedDateMillis: Long): Boolean {
+    return selectedDateMillis >= detailsUtcStartOfTodayMillis()
+}
+
+private fun detailsStartOfDayMillis(time: Long = System.currentTimeMillis()): Long {
+    return java.util.Calendar.getInstance().apply {
+        timeInMillis = time
+        set(java.util.Calendar.HOUR_OF_DAY, 0)
+        set(java.util.Calendar.MINUTE, 0)
+        set(java.util.Calendar.SECOND, 0)
+        set(java.util.Calendar.MILLISECOND, 0)
+    }.timeInMillis
 }
 
 private fun isPlaybackNotificationActive(context: Context): Boolean {

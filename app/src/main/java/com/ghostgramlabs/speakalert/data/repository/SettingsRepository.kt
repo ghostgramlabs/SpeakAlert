@@ -32,6 +32,8 @@ class SettingsRepository(private val context: Context) {
         val QUIET_TIME_END_MINUTE = intPreferencesKey("quiet_time_end_minute")
         
         val THEME_MODE = intPreferencesKey("theme_mode") // 0 = System, 1 = Light, 2 = Dark
+        val FULL_SCREEN_ALERT_ENABLED = booleanPreferencesKey("full_screen_alert_enabled")
+        val BATTERY_OPTIMIZATION_PROMPT_SHOWN = booleanPreferencesKey("battery_optimization_prompt_shown")
         
         // Android 15 FGS Boot Guard
         val LAST_BOOT_TIMESTAMP = longPreferencesKey("last_boot_timestamp")
@@ -55,6 +57,10 @@ class SettingsRepository(private val context: Context) {
     val quietTimeEndMinute: Flow<Int> = dataStore.data.map { it[QUIET_TIME_END_MINUTE] ?: 0 }
     
     val themeMode: Flow<Int> = dataStore.data.map { it[THEME_MODE] ?: 0 }
+    val fullScreenAlertEnabled: Flow<Boolean> = dataStore.data.map { it[FULL_SCREEN_ALERT_ENABLED] ?: false }
+    val batteryOptimizationPromptShown: Flow<Boolean> = dataStore.data.map {
+        it[BATTERY_OPTIMIZATION_PROMPT_SHOWN] ?: false
+    }
 
     suspend fun setAutoPlayEnabled(enabled: Boolean) {
         dataStore.edit { it[AUTO_PLAY_ENABLED] = enabled }
@@ -112,6 +118,14 @@ class SettingsRepository(private val context: Context) {
     
     suspend fun setThemeMode(mode: Int) {
         dataStore.edit { it[THEME_MODE] = mode }
+    }
+
+    suspend fun setFullScreenAlertEnabled(enabled: Boolean) {
+        dataStore.edit { it[FULL_SCREEN_ALERT_ENABLED] = enabled }
+    }
+
+    suspend fun setBatteryOptimizationPromptShown(shown: Boolean) {
+        dataStore.edit { it[BATTERY_OPTIMIZATION_PROMPT_SHOWN] = shown }
     }
 
     val lastBootTimestamp: Flow<Long> = dataStore.data.map { it[LAST_BOOT_TIMESTAMP] ?: 0L }

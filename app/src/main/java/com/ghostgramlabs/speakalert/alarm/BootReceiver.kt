@@ -6,7 +6,9 @@ import android.content.Intent
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.ghostgramlabs.speakalert.util.FileLogger
+import com.ghostgramlabs.speakalert.widget.SpeakAlertWidgetUpdater
 import kotlinx.coroutines.launch
 
 /**
@@ -45,13 +47,18 @@ class BootReceiver : BroadcastReceiver() {
                     }
 
                     // Enqueue Worker for safe rescheduling (OUTSIDE boot context)
-                    val workRequest = OneTimeWorkRequestBuilder<BootRescheduleWorker>().build()
+                    val workRequest = OneTimeWorkRequestBuilder<BootRescheduleWorker>()
+                        .setInputData(
+                            workDataOf(BootRescheduleWorker.KEY_TRIGGER_ACTION to intent.action)
+                        )
+                        .build()
                     WorkManager.getInstance(context).enqueueUniqueWork(
                         BootRescheduleWorker.WORK_NAME,
                         ExistingWorkPolicy.REPLACE,
                         workRequest
                     )
                     FileLogger.log("BOOT_RECEIVER: WorkManager job enqueued")
+                    SpeakAlertWidgetUpdater.requestUpdate(context)
                 } finally {
                     pendingResult.finish()
                 }

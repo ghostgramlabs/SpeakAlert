@@ -8,10 +8,10 @@ import com.ghostgramlabs.speakalert.alarm.NotificationHelper
 import com.ghostgramlabs.speakalert.alarm.ToneAlertPlayer
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.data.repository.ReminderRepository
+import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.io.File
 
 class ReminderDetailsViewModel(
     private val repository: ReminderRepository,
@@ -23,6 +23,7 @@ class ReminderDetailsViewModel(
 
     private val _reminder = MutableStateFlow<ReminderEntity?>(null)
     val reminder = _reminder.asStateFlow()
+    private val appContext = context
     
     private var isTtsEnabled = true
     
@@ -58,7 +59,8 @@ class ReminderDetailsViewModel(
             val newCompleted = !current.isCompleted
             var updated = current.copy(
                 isCompleted = newCompleted,
-                completedAt = if (newCompleted) System.currentTimeMillis() else null
+                completedAt = if (newCompleted) System.currentTimeMillis() else null,
+                pendingFollowUpAt = null
             )
             
             if (newCompleted) {
@@ -94,14 +96,15 @@ class ReminderDetailsViewModel(
                 val updated = current.copy(
                     isCompleted = true,
                     completedAt = System.currentTimeMillis(),
-                    snoozeUntil = null
+                    snoozeUntil = null,
+                    pendingFollowUpAt = null
                 )
                 repository.updateReminder(updated)
                 scheduler.cancel(current)
                 _reminder.value = updated
             } else {
                 // Recurring: always clear alert transient state and keep next schedule active.
-                val updated = current.copy(snoozeUntil = null)
+                val updated = current.copy(snoozeUntil = null, pendingFollowUpAt = null)
                 repository.updateReminder(updated)
                 scheduler.schedule(updated)
                 _reminder.value = updated
@@ -111,9 +114,11 @@ class ReminderDetailsViewModel(
     
     fun playAudio() {
         val path = _reminder.value?.audioPath ?: return
-        val file = File(path)
-        if (file.exists()) {
-            player.playFile(file)
+        if (!ReminderAudioSource.isPlayable(appContext, path)) return
+        if (ReminderAudioSource.isContentUri(path)) {
+            player.playUri(android.net.Uri.parse(path))
+        } else {
+            player.playFile(java.io.File(path))
         }
     }
 
@@ -123,8 +128,9 @@ class ReminderDetailsViewModel(
         val audioPath = rem.audioPath
         val reminderText = rem.reminderText
         val title = rem.title ?: "SpeakAlert"
+        val hasPlayableAudio = ReminderAudioSource.isPlayable(context, audioPath)
 
-        if (!audioPath.isNullOrBlank() && File(audioPath).exists()) {
+        if (hasPlayableAudio) {
              com.ghostgramlabs.speakalert.service.ReminderPlaybackService.start(
                 context, rem.id, title, audioPath, null
             )
@@ -154,9 +160,10 @@ class ReminderDetailsViewModel(
         val audioPath = rem.audioPath
         val reminderText = rem.reminderText
         val title = rem.title ?: "SpeakAlert"
+        val hasPlayableAudio = ReminderAudioSource.isPlayable(context, audioPath)
         
         // Use foreground service for autoplay
-        if (!audioPath.isNullOrBlank() && File(audioPath).exists()) {
+        if (hasPlayableAudio) {
             com.ghostgramlabs.speakalert.service.ReminderPlaybackService.start(
                 context, rem.id, title, audioPath, null
             )
@@ -186,6 +193,7 @@ class ReminderDetailsViewModel(
                     is com.ghostgramlabs.speakalert.domain.models.RecurrenceModel.Daily -> com.ghostgramlabs.speakalert.domain.models.RecurrenceType.DAILY
                     is com.ghostgramlabs.speakalert.domain.models.RecurrenceModel.Weekly -> com.ghostgramlabs.speakalert.domain.models.RecurrenceType.WEEKLY
                     is com.ghostgramlabs.speakalert.domain.models.RecurrenceModel.Monthly -> com.ghostgramlabs.speakalert.domain.models.RecurrenceType.MONTHLY
+                    is com.ghostgramlabs.speakalert.domain.models.RecurrenceModel.Yearly -> com.ghostgramlabs.speakalert.domain.models.RecurrenceType.YEARLY
                     is com.ghostgramlabs.speakalert.domain.models.RecurrenceModel.Custom -> com.ghostgramlabs.speakalert.domain.models.RecurrenceType.CUSTOM
                 }
             }
@@ -252,7 +260,8 @@ class ReminderDetailsViewModel(
                 isCompleted = false,
                 completedAt = null,
                 lastFiredAt = null,
-                nextTriggerAt = finalTime
+                nextTriggerAt = finalTime,
+                pendingFollowUpAt = null
             )
             
             repository.updateReminder(updated)
