@@ -24,4 +24,7 @@ interface MissedReminderDao {
     
     @Query("DELETE FROM missed_reminders WHERE reminderId = :reminderId")
     suspend fun deleteByReminderId(reminderId: Long)
+
+    @Query("DELETE FROM missed_reminders WHERE reminderId = :reminderId AND scheduledTime = :scheduledTime")
+    suspend fun deleteByReminderIdAndScheduledTime(reminderId: Long, scheduledTime: Long)
 }

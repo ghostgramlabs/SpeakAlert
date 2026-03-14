@@ -6,7 +6,7 @@ enum class MonthlyVariant {
 }
 
 enum class TimeUnit {
-    MINUTES, HOURS, DAYS, WEEKS, MONTHS
+    MINUTES, HOURS, DAYS, WEEKS, MONTHS, YEARS
 }
 
 enum class EndRuleType {

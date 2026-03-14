@@ -36,10 +36,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import com.ghostgramlabs.speakalert.ui.components.PremiumHeaderCard
+import com.ghostgramlabs.speakalert.ui.components.PremiumScreenBackground
+import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.BatteryOptimizationSupport
 
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
@@ -66,6 +70,7 @@ fun BatteryOptimizationGuideScreen(
     }
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
                 title = { Text("Battery Optimization Guide") },
@@ -73,18 +78,31 @@ fun BatteryOptimizationGuideScreen(
                     IconButton(onClick = onNavigateUp) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                     }
-                }
+                },
+                colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.94f)
+                )
             )
         }
     ) { paddingValues ->
-        Column(
+        PremiumScreenBackground(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+            PremiumHeaderCard(
+                title = "Keep reminders reliable",
+                subtitle = "Some phones pause or stop background alarms unless $APP_DISPLAY_NAME is exempt from battery restrictions.",
+                eyebrow = "Battery Optimization Guide"
+            )
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -111,10 +129,15 @@ fun BatteryOptimizationGuideScreen(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
+                        text = "Menu names can vary by MIUI, HyperOS, EMUI, Android version, and phone model.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
                         text = if (optimizationEnabled) {
-                            "Battery optimization is still enabled for SpeakAlert."
+                            "Battery optimization is still enabled for $APP_DISPLAY_NAME."
                         } else {
-                            "SpeakAlert is already allowed to run without battery optimization."
+                            "$APP_DISPLAY_NAME is already allowed to run without battery optimization."
                         },
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -134,14 +157,14 @@ fun BatteryOptimizationGuideScreen(
                             },
                             shape = RoundedCornerShape(14.dp)
                         ) {
-                            Text("Allow SpeakAlert")
+                            Text("Allow $APP_DISPLAY_NAME")
                         }
                     }
                 }
             }
 
             Text(
-                text = "Xiaomi / POCO / Redmi",
+                text = "Xiaomi / POCO / Redmi (MIUI / HyperOS)",
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.SemiBold
             )
@@ -149,9 +172,22 @@ fun BatteryOptimizationGuideScreen(
             BatteryGuideStep(number = "Step 1", text = "Open Settings")
             BatteryGuideStep(number = "Step 2", text = "Tap Battery")
             BatteryGuideStep(number = "Step 3", text = "Tap Battery Optimization")
-            BatteryGuideStep(number = "Step 4", text = "Find SpeakAlert")
+            BatteryGuideStep(number = "Step 4", text = "Find $APP_DISPLAY_NAME")
             BatteryGuideStep(number = "Step 5", text = "Select No Restrictions")
             BatteryGuideStep(number = "Optional", text = "Lock the app in the recent apps screen.")
+
+            Text(
+                text = "Huawei (EMUI)",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.SemiBold
+            )
+
+            BatteryGuideStep(number = "Step 1", text = "Open Settings")
+            BatteryGuideStep(number = "Step 2", text = "Open Apps or App launch")
+            BatteryGuideStep(number = "Step 3", text = "Find $APP_DISPLAY_NAME")
+            BatteryGuideStep(number = "Step 4", text = "Turn off Manage automatically")
+            BatteryGuideStep(number = "Step 5", text = "Allow auto-launch, secondary launch, and run in background")
+            BatteryGuideStep(number = "Optional", text = "Also check Battery optimization and set $APP_DISPLAY_NAME to Don't allow.")
 
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -170,7 +206,7 @@ fun BatteryOptimizationGuideScreen(
                         fontWeight = FontWeight.SemiBold
                     )
                     Text(
-                        text = "Phones from Xiaomi, POCO, Redmi, Huawei, and similar brands can aggressively stop apps in the background. Allowing SpeakAlert to ignore battery optimization improves reminder reliability.",
+                        text = "Phones from Xiaomi, POCO, Redmi, Huawei, and similar brands can aggressively stop apps in the background. Use the manufacturer family and software version as a guide; exact paths can differ by device model.",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -186,6 +222,7 @@ fun BatteryOptimizationGuideScreen(
             }
 
             Spacer(modifier = Modifier.height(24.dp))
+        }
         }
     }
 }

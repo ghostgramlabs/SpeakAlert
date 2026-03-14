@@ -20,8 +20,10 @@ import com.ghostgramlabs.speakalert.domain.models.MissedPolicy
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import com.ghostgramlabs.speakalert.domain.models.TimeUnit
 import com.ghostgramlabs.speakalert.service.ReminderPlaybackService
+import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.FileLogger
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
+import com.ghostgramlabs.speakalert.util.isDefaultAppDisplayName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -67,7 +69,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     withContext(Dispatchers.Main) {
                         notificationHelper.showNotification(
                             reminderId,
-                            "SpeakAlert",
+                            APP_DISPLAY_NAME,
                             "Reminder not found in database",
                             autoplayOnTap = false
                         )
@@ -114,6 +116,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     it != MissedPolicy.SKIP_TO_NEXT || settingsDefaultPolicy == MissedPolicy.SKIP_TO_NEXT
                 } ?: settingsDefaultPolicy
                 val toneOnlyMode = settingsRepository.toneOnlyMode.first()
+                val toneOnlyAlertToneUri = settingsRepository.toneOnlyAlertToneUri.first()
                 val loopTimeoutMinutes = settingsRepository.loopTimeoutMinutes.first()
                 val fullScreenAlertEnabled = settingsRepository.fullScreenAlertEnabled.first()
                 val audioPath = reminder.audioPath
@@ -241,7 +244,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                                 )
                             }
                             if (toneOnlyMode && missedNotificationShown) {
-                                ToneAlertPlayer.start(context, loopTimeoutMinutes)
+                                ToneAlertPlayer.start(context, loopTimeoutMinutes, toneOnlyAlertToneUri)
                             }
                             
                             // Still schedule next occurrence
@@ -285,17 +288,12 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 FileLogger.log("ALARM: State - locked=$isLocked, inCall=$inCall, telecomInCall=$telecomInCall, audioMode=${audioManager.mode}, hasAudioConfigured=$hasAudioConfigured, hasAudio=$hasAudio, hasText=$hasText")
                 val useLockScreenFullScreen = fullScreenAlertEnabled && isLocked
                 
-                val displayText = when {
-                    isFollowUpTrigger -> buildFollowUpMessage(reminder)
-                    hasText -> reminder.reminderText ?: "Tap to view"
-                    hasAudioConfigured && !hasAudio -> "Selected audio file is unavailable. Tap to choose another file."
-                    else -> "Tap to view"
-                }
-                val title = if (isFollowUpTrigger) {
-                    reminder.title ?: "Follow-Up Check"
-                } else {
-                    reminder.title ?: "SpeakAlert"
-                }
+                val alertPayload = buildReminderAlertPayload(
+                    reminder = reminder,
+                    isFollowUpTrigger = isFollowUpTrigger,
+                    hasPlayableAudio = hasAudio,
+                    hasAudioConfigured = hasAudioConfigured
+                )
 
                 // ===== ANDROID 15 BOOT & AUTOPLAY LOGIC =====
                 val isBootReschedule = intent.getBooleanExtra("isBootReschedule", false)
@@ -317,12 +315,18 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     FileLogger.log("ALARM: Autoplay BLOCKED. android15+=$isAndroid15OrAbove, isBootReschedule=$isBootReschedule, timeSinceBoot=${timeSinceBoot/1000}s (threshold 120s)")
                 }
                 
-                val canAutoPlay = autoPlayEnabled && 
-                                 !inCall && 
-                                 !(unlockedOnly && isLocked) && 
-                                 (hasAudio || (hasText && speakText)) &&
-                                 !bootBlocked &&
-                                 !toneOnlyMode
+                val canAutoPlay = shouldAutoPlayReminder(
+                    autoPlayEnabled = autoPlayEnabled,
+                    inCall = inCall,
+                    unlockedOnly = unlockedOnly,
+                    isLocked = isLocked,
+                    playbackAudioPath = alertPayload.playbackAudioPath,
+                    playbackText = alertPayload.playbackText,
+                    isFollowUpTrigger = isFollowUpTrigger,
+                    speakTextIfNoVoice = speakText,
+                    bootBlocked = bootBlocked,
+                    toneOnlyMode = toneOnlyMode
+                )
                 
                 FileLogger.log("ALARM: android15+=$isAndroid15OrAbove, bootReschedule=$isBootReschedule, hasBootTs=$hasBootTimestamp, closeToBoot=$isCloseToBoot, bootBlocked=$bootBlocked, canAutoPlay=$canAutoPlay")
 
@@ -330,25 +334,25 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     FileLogger.log("ALARM: Attempting to start service for autoplay")
                     try {
                         withContext(Dispatchers.Main) {
-                            if (hasAudio) {
-                                FileLogger.log("ALARM: Starting service with audio: $audioPath, loop=${reminder.loopPlayback}")
+                            if (alertPayload.playbackAudioPath != null) {
+                                FileLogger.log("ALARM: Starting service with audio: ${alertPayload.playbackAudioPath}, loop=${reminder.loopPlayback}")
                                 ReminderPlaybackService.start(
                                     context = context,
                                     id = reminder.id,
-                                    title = title,
-                                    audioPath = audioPath!!,
+                                    title = alertPayload.title,
+                                    audioPath = alertPayload.playbackAudioPath,
                                     ttsText = null,
                                     loop = reminder.loopPlayback,
                                     isFromBootContext = bootBlocked
                                 )
-                            } else {
+                            } else if (!alertPayload.playbackText.isNullOrBlank()) {
                                 FileLogger.log("ALARM: Starting service with TTS, loop=${reminder.loopPlayback}")
                                 ReminderPlaybackService.start(
                                     context = context,
                                     id = reminder.id,
-                                    title = title,
+                                    title = alertPayload.title,
                                     audioPath = null,
-                                    ttsText = reminder.reminderText,
+                                    ttsText = alertPayload.playbackText,
                                     loop = reminder.loopPlayback,
                                     isFromBootContext = bootBlocked
                                 )
@@ -365,12 +369,14 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     val shown = withContext(Dispatchers.Main) {
                         notificationHelper.showNotification(
                             reminder.id,
-                            title,
-                            displayText,
-                            audioPath = if (hasAudio) audioPath else null,
-                            reminderText = if (hasText) reminder.reminderText else null,
+                            alertPayload.title,
+                            alertPayload.message,
+                            audioPath = alertPayload.playbackAudioPath,
+                            reminderText = alertPayload.playbackText,
+                            autoplayOnTap = alertPayload.autoplayOnTap,
                             toneOnlyMode = toneOnlyMode,
-                            useFullScreenAlert = useLockScreenFullScreen
+                            useFullScreenAlert = useLockScreenFullScreen,
+                            isFollowUpAlert = alertPayload.isFollowUpAlert
                         )
                     }
                     FileLogger.log("ALARM: Showed notification after autoplay: $shown")
@@ -380,12 +386,14 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     val shown = withContext(Dispatchers.Main) {
                         notificationHelper.showNotification(
                             reminder.id,
-                            title,
-                            displayText,
-                            audioPath = if (hasAudio) audioPath else null,
-                            reminderText = if (hasText) reminder.reminderText else null,
+                            alertPayload.title,
+                            alertPayload.message,
+                            audioPath = alertPayload.playbackAudioPath,
+                            reminderText = alertPayload.playbackText,
+                            autoplayOnTap = alertPayload.autoplayOnTap,
                             toneOnlyMode = toneOnlyMode,
-                            useFullScreenAlert = useLockScreenFullScreen
+                            useFullScreenAlert = useLockScreenFullScreen,
+                            isFollowUpAlert = alertPayload.isFollowUpAlert
                         )
                     }
                     FileLogger.log("ALARM: Notification shown: $shown")
@@ -393,7 +401,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 }
 
                 if (toneOnlyMode && notificationShown) {
-                    ToneAlertPlayer.start(context, loopTimeoutMinutes)
+                    ToneAlertPlayer.start(context, loopTimeoutMinutes, toneOnlyAlertToneUri)
                 }
 
                 // Update state and AUTO-RESCHEDULE for recurring reminders
@@ -473,7 +481,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     withContext(Dispatchers.Main) {
                         notificationHelper.showNotification(
                             reminderId,
-                            "SpeakAlert",
+                            APP_DISPLAY_NAME,
                             "Error: ${e.message?.take(50) ?: "Unknown"}",
                             autoplayOnTap = false
                         )
@@ -528,20 +536,10 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun buildFollowUpMessage(reminder: com.ghostgramlabs.speakalert.data.model.ReminderEntity): String {
-        val subject = reminder.title
-            ?: reminder.reminderText?.takeIf { it.isNotBlank() }?.let { text ->
-                val words = text.trim().split(Regex("\\s+"))
-                if (words.size > 8) words.take(8).joinToString(" ") else text
-            }
-            ?: "this reminder"
-        return "Did you complete $subject?"
-    }
-
     private fun buildMissedDisplayTitle(title: String?, reminderText: String?): String {
         val userTitle = title
             ?.trim()
-            ?.takeIf { it.isNotEmpty() && !it.equals("SpeakAlert", ignoreCase = true) }
+            ?.takeIf { it.isNotEmpty() && !it.isDefaultAppDisplayName() }
         if (userTitle != null) return userTitle
 
         val textFallback = reminderText

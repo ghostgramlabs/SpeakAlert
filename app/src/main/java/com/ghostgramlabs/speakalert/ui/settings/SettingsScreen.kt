@@ -1,16 +1,22 @@
 package com.ghostgramlabs.speakalert.ui.settings
 
 import android.Manifest
+import android.app.Activity
 import android.app.AlarmManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.media.RingtoneManager
 import android.provider.Settings
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.*
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,6 +28,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -29,6 +36,9 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -36,10 +46,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.core.app.NotificationManagerCompat
 import com.ghostgramlabs.speakalert.alarm.NotificationHelper
+import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.BatteryOptimizationSupport
 import com.ghostgramlabs.speakalert.util.FullScreenIntentSupport
 import com.ghostgramlabs.speakalert.util.WearOsConnectionInfo
 import com.ghostgramlabs.speakalert.util.WearOsSupport
+import com.ghostgramlabs.speakalert.ui.components.PremiumScreenBackground
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -99,13 +111,32 @@ fun SettingsScreen(
 
     val speakTextIfNoVoice by viewModel.speakTextIfNoVoice.collectAsState()
     val toneOnlyMode by viewModel.toneOnlyMode.collectAsState()
+    val toneOnlyAlertToneUri by viewModel.toneOnlyAlertToneUri.collectAsState()
     val fullScreenAlertEnabled by viewModel.fullScreenAlertEnabled.collectAsState()
     val debugLoggingEnabled by viewModel.debugLoggingEnabled.collectAsState()
     val appVolume by viewModel.appVolume.collectAsState()
     val toneAutoStopLabel = if (loopTimeoutMinutes == 0) "Infinite" else "${loopTimeoutMinutes}m"
     val toneOnlySubtitle = "Plays a simple alarm tone instead of voice/TTS for maximum reliability. Auto-stop: $toneAutoStopLabel. Snooze: ${defaultSnoozeDuration}m."
+    val tonePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode != Activity.RESULT_OK) return@rememberLauncherForActivityResult
+        val pickedUri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            result.data?.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI, Uri::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            result.data?.getParcelableExtra<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
+        }
+        viewModel.setToneOnlyAlertToneUri(pickedUri?.toString())
+        Toast.makeText(
+            context,
+            if (pickedUri == null) "Using default alarm tone" else "Tone updated",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
                 title = { Text("Settings") },
@@ -113,18 +144,26 @@ fun SettingsScreen(
                     IconButton(onClick = onNavigateUp) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.94f)
+                )
             )
         }
     ) { paddingValues ->
-        Column(
+        PremiumScreenBackground(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .verticalScroll(scrollState)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
             // ============================================================
             // SECTION 0: APPEARANCE
             // ============================================================
@@ -168,11 +207,11 @@ fun SettingsScreen(
                 initiallyExpanded = true
             ) {
                 SwitchRow(
-                    text = "Auto-play audio",
+                    text = "Auto-play reminder audio",
                     description = if (toneOnlyMode) {
                         "Disabled while Tone-only mode is on"
                     } else {
-                        "Play sound automatically when reminder fires"
+                        "Automatically plays voice notes and audio files when a reminder fires"
                     },
                     checked = autoPlayEnabled,
                     onCheckedChange = { 
@@ -184,7 +223,7 @@ fun SettingsScreen(
 
                 if (autoPlayEnabled && !toneOnlyMode) {
                     SwitchRow(
-                        text = "Only when unlocked",
+                        text = "Only when phone is unlocked",
                         description = "Prevent playback on lock screen",
                         checked = autoPlayOnUnlockOnly,
                         onCheckedChange = { 
@@ -195,16 +234,20 @@ fun SettingsScreen(
                 }
                 
                 SwitchRow(
-                    text = "Text-to-Speech",
+                    text = "Speak typed reminders automatically",
                     description = if (toneOnlyMode) {
                         "Disabled while Tone-only mode is on"
                     } else {
-                        "Read text reminders aloud"
+                        "Only for text-only reminders with no voice note or audio file"
                     },
                     checked = speakTextIfNoVoice,
                     onCheckedChange = { 
                         viewModel.setSpeakTextIfNoVoice(it) 
-                        Toast.makeText(context, if (it) "TTS on" else "TTS off", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            if (it) "Automatic spoken text on" else "Automatic spoken text off",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     },
                     enabled = !toneOnlyMode
                 )
@@ -223,10 +266,36 @@ fun SettingsScreen(
                     }
                 )
 
+                ToneSelectionRow(
+                    currentToneLabel = resolveToneOnlyToneLabel(context, toneOnlyAlertToneUri),
+                    hasCustomTone = !toneOnlyAlertToneUri.isNullOrBlank(),
+                    enabled = toneOnlyMode,
+                    onChooseTone = {
+                        val existingUri = toneOnlyAlertToneUri
+                            ?.takeIf { it.isNotBlank() }
+                            ?.let(Uri::parse)
+                            ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+                        tonePickerLauncher.launch(
+                            Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
+                                putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM)
+                                putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
+                                putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false)
+                                putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
+                                putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, existingUri)
+                                putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select tone")
+                            }
+                        )
+                    },
+                    onUseDefault = {
+                        viewModel.setToneOnlyAlertToneUri(null)
+                        Toast.makeText(context, "Using default alarm tone", Toast.LENGTH_SHORT).show()
+                    }
+                )
+
                 SwitchRow(
-                    text = "Full-screen alert",
+                    text = "Lock-screen full-screen alert",
                     description = if (fullScreenAccessGranted) {
-                        "Show reminder actions on top of the lock screen when a reminder fires"
+                        "Show reminder actions over the lock screen when a reminder fires"
                     } else {
                         "Needs Android full-screen alert access to appear over the lock screen"
                     },
@@ -243,7 +312,7 @@ fun SettingsScreen(
                         }
                         Toast.makeText(
                             context,
-                            if (it) "Full-screen alert on" else "Full-screen alert off",
+                            if (it) "Lock-screen full-screen alert on" else "Lock-screen full-screen alert off",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -282,7 +351,7 @@ fun SettingsScreen(
 
                 if (toneOnlyMode) {
                     Text(
-                        text = "You can still tap Play Voice / Play TTS from the notification.",
+                        text = "You can still tap Play reminder or Speak reminder from the notification.",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -495,7 +564,7 @@ fun SettingsScreen(
                 ) {
                     Icon(Icons.Default.Notifications, contentDescription = null, modifier = Modifier.size(18.dp))
                     Spacer(Modifier.width(8.dp))
-                    Text("Test playback")
+                    Text("Test reminder")
                 }
             }
 
@@ -634,9 +703,9 @@ fun SettingsScreen(
                             )
                             Text(
                                 text = if (batteryOptimizationEnabled) {
-                                    "Optimization is enabled. This can stop reminders on some phones."
+                                    "Battery optimization can delay or stop reminders on some phones."
                                 } else {
-                                    "SpeakAlert is already allowed to run more reliably in background."
+                                    "$APP_DISPLAY_NAME is already allowed to run in the background."
                                 },
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -706,7 +775,7 @@ fun SettingsScreen(
                         }
 
                         Text(
-                            text = "SpeakAlert watch reminders are supported on Wear OS watches only.",
+                            text = "$APP_DISPLAY_NAME watch reminders are supported on Wear OS watches only.",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -716,7 +785,7 @@ fun SettingsScreen(
                                 text = if (!appNotificationStatus.appNotificationsEnabled) {
                                     "Phone app notifications are off. Turn them on so reminders can sync to watch."
                                 } else {
-                                    "SpeakAlert reminder channel is muted. Enable it to send reminders to watch."
+                                    "$APP_DISPLAY_NAME reminder channel is muted. Enable it to send reminders to watch."
                                 },
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.error
@@ -787,7 +856,7 @@ fun SettingsScreen(
             // SECTION 6: HELP & GUIDE
             // ============================================================
             CollapsibleSettingsSection(
-                title = "How to use Speak Alert",
+                title = "App guide",
                 icon = "Help",
                 initiallyExpanded = true
             ) {
@@ -813,7 +882,7 @@ fun SettingsScreen(
                         Spacer(Modifier.width(16.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                "App Usage Guide",
+                                "App guide",
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Medium
                             )
@@ -842,35 +911,12 @@ fun SettingsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            val openPlayStore = {
-                                try {
-                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${context.packageName}"))
-                                    context.startActivity(intent)
-                                } catch (e: android.content.ActivityNotFoundException) {
-                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=${context.packageName}"))
-                                    context.startActivity(intent)
-                                }
-                            }
-                            val activity = context as? android.app.Activity
-                            if (activity != null) {
-                                try {
-                                    val manager = com.google.android.play.core.review.ReviewManagerFactory.create(context)
-                                    val request = manager.requestReviewFlow()
-                                    request.addOnCompleteListener { task ->
-                                        if (task.isSuccessful) {
-                                            val flow = manager.launchReviewFlow(activity, task.result)
-                                            flow.addOnCompleteListener {
-                                                // Review flow finished (may or may not have shown dialog)
-                                            }
-                                        } else {
-                                            openPlayStore()
-                                        }
-                                    }
-                                } catch (e: Exception) {
-                                    openPlayStore()
-                                }
-                            } else {
-                                openPlayStore()
+                            if (!openAppRating(context)) {
+                                Toast.makeText(
+                                    context,
+                                    "Unable to open the rating page on this device.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
                         .padding(16.dp),
@@ -885,7 +931,7 @@ fun SettingsScreen(
                     Spacer(Modifier.width(16.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            "Rate Speak Alert",
+                            "Rate $APP_DISPLAY_NAME",
                             style = MaterialTheme.typography.bodyLarge,
                             fontWeight = FontWeight.Medium
                         )
@@ -928,6 +974,7 @@ fun SettingsScreen(
             
             Spacer(modifier = Modifier.height(32.dp))
         }
+        }
     }
 }
 
@@ -957,21 +1004,32 @@ private fun PermissionRow(
     granted: Boolean,
     onFix: () -> Unit
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = name,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.weight(1f)
+    Surface(
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.88f),
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.72f)
         )
-        if (granted) {
-            Icon(Icons.Filled.Check, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
-        } else {
-            TextButton(onClick = onFix) {
-                Text("Fix")
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 14.dp, vertical = 12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = name,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.weight(1f)
+            )
+            if (granted) {
+                Icon(Icons.Filled.Check, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+            } else {
+                TextButton(onClick = onFix) {
+                    Text("Fix")
+                }
             }
         }
     }
@@ -994,11 +1052,15 @@ private fun CollapsibleSettingsSection(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.96f)
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.72f)
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()
@@ -1015,17 +1077,12 @@ private fun CollapsibleSettingsSection(
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Surface(
-                        shape = RoundedCornerShape(8.dp),
-                        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f)
-                    ) {
-                        Text(
-                            text = icon,
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
-                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-                        )
-                    }
+                    Icon(
+                        imageVector = settingsSectionIcon(icon),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(20.dp)
+                    )
                     Text(
                         text = title,
                         style = MaterialTheme.typography.titleMedium.copy(
@@ -1060,6 +1117,47 @@ private fun CollapsibleSettingsSection(
     }
 }
 
+private fun settingsSectionIcon(icon: String): ImageVector {
+    return when (icon) {
+        "UI" -> Icons.Default.Palette
+        "Play" -> Icons.Default.PlayArrow
+        "Safe" -> Icons.Default.VerifiedUser
+        "Wear" -> Icons.Default.Watch
+        "Help" -> Icons.Default.Help
+        "Dev" -> Icons.Default.Build
+        else -> Icons.Default.Settings
+    }
+}
+
+private fun openAppRating(context: android.content.Context): Boolean {
+    val packageName = context.packageName
+    val marketIntent = Intent(
+        Intent.ACTION_VIEW,
+        Uri.parse("market://details?id=$packageName")
+    ).apply {
+        setPackage("com.android.vending")
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    }
+    val webIntent = Intent(
+        Intent.ACTION_VIEW,
+        Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+    ).apply {
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    }
+
+    return when {
+        marketIntent.resolveActivity(context.packageManager) != null -> {
+            context.startActivity(marketIntent)
+            true
+        }
+        webIntent.resolveActivity(context.packageManager) != null -> {
+            context.startActivity(webIntent)
+            true
+        }
+        else -> false
+    }
+}
+
 @Composable
 private fun SwitchRow(
     text: String,
@@ -1068,43 +1166,134 @@ private fun SwitchRow(
     onCheckedChange: (Boolean) -> Unit,
     enabled: Boolean = true
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 56.dp)
-            .toggleable(
-                value = checked,
-                role = Role.Switch,
-                enabled = enabled,
-                onValueChange = onCheckedChange
-            )
-            .semantics(mergeDescendants = true) {},
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+    Surface(
+        shape = RoundedCornerShape(18.dp),
+        color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.55f)
+        ),
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Column(modifier = Modifier.weight(1f)) {
-            val contentColor = if (enabled) {
-                MaterialTheme.colorScheme.onSurface
-            } else {
-                MaterialTheme.colorScheme.onSurfaceVariant
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = 64.dp)
+                .toggleable(
+                    value = checked,
+                    role = Role.Switch,
+                    enabled = enabled,
+                    onValueChange = onCheckedChange
+                )
+                .padding(horizontal = 14.dp, vertical = 12.dp)
+                .semantics(mergeDescendants = true) {
+                    stateDescription = if (checked) "On" else "Off"
+                },
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                val contentColor = if (enabled) {
+                    MaterialTheme.colorScheme.onSurface
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                }
+                Text(text, style = MaterialTheme.typography.bodyLarge, color = contentColor)
+                Text(
+                    description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
-            Text(text, style = MaterialTheme.typography.bodyLarge, color = contentColor)
+            Switch(
+                checked = checked,
+                onCheckedChange = null,
+                enabled = enabled,
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = MaterialTheme.colorScheme.primary,
+                    checkedTrackColor = MaterialTheme.colorScheme.primaryContainer
+                )
+            )
+        }
+    }
+}
+
+@Composable
+private fun ToneSelectionRow(
+    currentToneLabel: String,
+    hasCustomTone: Boolean,
+    enabled: Boolean,
+    onChooseTone: () -> Unit,
+    onUseDefault: () -> Unit
+) {
+    Surface(
+        shape = RoundedCornerShape(18.dp),
+        color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.55f)
+        ),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 14.dp, vertical = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
             Text(
-                description,
+                text = "Tone-only alert sound",
+                style = MaterialTheme.typography.bodyLarge,
+                color = if (enabled) {
+                    MaterialTheme.colorScheme.onSurface
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                }
+            )
+            Text(
+                text = if (enabled) {
+                    "$currentToneLabel. If it becomes unavailable, SpeakAlert falls back to the default alarm tone."
+                } else {
+                    "Enable Tone-only mode to choose a sound. SpeakAlert will use the default alarm tone until then."
+                },
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                OutlinedButton(
+                    onClick = onChooseTone,
+                    enabled = enabled,
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text("Choose tone")
+                }
+                if (hasCustomTone) {
+                    OutlinedButton(
+                        onClick = onUseDefault,
+                        enabled = enabled,
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text("Use default")
+                    }
+                }
+            }
         }
-        Switch(
-            checked = checked,
-            onCheckedChange = null,
-            enabled = enabled,
-            colors = SwitchDefaults.colors(
-                checkedThumbColor = MaterialTheme.colorScheme.primary,
-                checkedTrackColor = MaterialTheme.colorScheme.primaryContainer
-            )
-        )
     }
+}
+
+private fun resolveToneOnlyToneLabel(
+    context: android.content.Context,
+    uriString: String?
+): String {
+    if (uriString.isNullOrBlank()) return "Default alarm tone"
+    val uri = runCatching { Uri.parse(uriString) }.getOrNull() ?: return "Default alarm tone"
+    val ringtone = runCatching { RingtoneManager.getRingtone(context, uri) }.getOrNull()
+    return ringtone?.getTitle(context) ?: "Selected tone unavailable, using default alarm tone"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -1153,6 +1342,7 @@ private fun TimePickerButton(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CustomDurationDialog(
     title: String,
@@ -1163,76 +1353,74 @@ private fun CustomDurationDialog(
     onSave: (Int) -> Unit
 ) {
     var value by remember { mutableStateOf(initialValue.toString()) }
-    
-    AlertDialog(
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    ModalBottomSheet(
         onDismissRequest = onDismiss,
-        icon = {
-            Icon(
-                imageVector = Icons.Default.Timer,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(32.dp)
-            )
-        },
-        title = { 
+        sheetState = sheetState,
+        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
+        dragHandle = { BottomSheetDefaults.DragHandle() }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .imePadding()
+                .navigationBarsPadding()
+                .padding(bottom = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
+        ) {
             Text(
-                title,
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold
-            ) 
-        },
-        text = {
-            Column {
-                Text(
-                    "$description (Max ${maxMinutes}m)",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                OutlinedTextField(
-                    value = value,
-                    onValueChange = { newValue ->
-                        val digits = newValue.filter { it.isDigit() }
-                        if (digits.isEmpty()) {
-                            value = ""
-                        } else {
-                            val num = digits.toIntOrNull() ?: 0
-                            if (num <= maxMinutes) {
-                                value = digits
-                            }
+                text = title,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = "$description (Max ${maxMinutes}m)",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            OutlinedTextField(
+                value = value,
+                onValueChange = { newValue ->
+                    val digits = newValue.filter { it.isDigit() }
+                    if (digits.isEmpty()) {
+                        value = ""
+                    } else {
+                        val num = digits.toIntOrNull() ?: 0
+                        if (num <= maxMinutes) {
+                            value = digits
                         }
-                    },
-                    label = { Text("Minutes") },
-                    supportingText = { Text("Max allowed: $maxMinutes min") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-        },
-        confirmButton = {
+                    }
+                },
+                label = { Text("Minutes") },
+                supportingText = { Text("Max allowed: $maxMinutes min") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
             Button(
                 onClick = {
                     val mins = value.toIntOrNull() ?: 10
                     onSave(mins.coerceIn(1, maxMinutes))
                 },
-                shape = RoundedCornerShape(12.dp)
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(18.dp)
             ) {
                 Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(Modifier.width(8.dp))
                 Text("Save")
             }
-        },
-        dismissButton = {
             OutlinedButton(
                 onClick = onDismiss,
-                shape = RoundedCornerShape(12.dp)
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(18.dp)
             ) {
                 Text("Cancel")
             }
-        },
-        shape = RoundedCornerShape(24.dp)
-    )
+        }
+    }
 }
 
 private fun formatTime(hour: Int, minute: Int): String {

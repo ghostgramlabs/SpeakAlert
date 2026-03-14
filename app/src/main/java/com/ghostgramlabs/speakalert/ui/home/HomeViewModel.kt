@@ -13,6 +13,7 @@ import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import com.ghostgramlabs.speakalert.service.ReminderPlaybackService
 import com.ghostgramlabs.speakalert.util.DateUtils
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
+import com.ghostgramlabs.speakalert.util.isDefaultAppDisplayName
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -376,7 +377,7 @@ class HomeViewModel(
     private fun buildMissedDisplayTitle(title: String?, reminderText: String?): String {
         val userTitle = title
             ?.trim()
-            ?.takeIf { it.isNotEmpty() && !it.equals("SpeakAlert", ignoreCase = true) }
+            ?.takeIf { it.isNotEmpty() && !it.isDefaultAppDisplayName() }
         if (userTitle != null) return userTitle
 
         val textFallback = reminderText

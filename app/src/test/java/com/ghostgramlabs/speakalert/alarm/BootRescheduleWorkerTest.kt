@@ -25,8 +25,11 @@ import org.mockito.MockedStatic
 import org.mockito.Mockito.mockConstruction
 import org.mockito.Mockito.mockStatic
 import org.mockito.MockitoAnnotations
+import org.mockito.kotlin.argumentCaptor
+import org.mockito.kotlin.atLeastOnce
 import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
+import org.mockito.kotlin.isNull
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
@@ -80,6 +83,8 @@ class BootRescheduleWorkerTest {
         whenever(container.alarmScheduler).thenReturn(scheduler)
         whenever(settingsRepository.defaultMissedPolicy).thenReturn(MutableStateFlow("FIRE_ON_RESUME"))
         whenever(settingsRepository.toneOnlyMode).thenReturn(MutableStateFlow(false))
+        whenever(settingsRepository.toneOnlyAlertToneUri).thenReturn(MutableStateFlow(null))
+        whenever(settingsRepository.loopTimeoutMinutes).thenReturn(MutableStateFlow(10))
         whenever(taskExecutor.serialTaskExecutor).thenReturn(serialExecutor)
         whenever(taskExecutor.mainThreadExecutor).thenReturn(directExecutor)
         whenever(workerParams.taskExecutor).thenReturn(taskExecutor)
@@ -111,6 +116,7 @@ class BootRescheduleWorkerTest {
             assertTrue(result is ListenableWorker.Result.Success)
             assertTrue(notificationMocks.constructed().isNotEmpty())
             verify(notificationMocks.constructed().single(), never()).showNotification(
+                any(),
                 any(),
                 any(),
                 any(),
@@ -156,10 +162,79 @@ class BootRescheduleWorkerTest {
                 any(),
                 any(),
                 any(),
+                any(),
                 any()
             )
             verify(scheduler).schedule(eq(reminder), eq(true))
             verify(repository).updateReminder(any())
+        }
+    }
+
+    @Test
+    fun `doWork keeps rescheduled reminder fields when clearing expired follow up during boot`() = runTest {
+        val now = System.currentTimeMillis()
+        val reminder = ReminderEntity(
+            id = 33L,
+            title = "Daily walk",
+            nextTriggerAt = now - 60_000L,
+            recurrenceType = com.ghostgramlabs.speakalert.domain.models.RecurrenceType.DAILY,
+            pendingFollowUpAt = now - 30_000L,
+            followUpCheckMinutes = 10
+        )
+        whenever(repository.getAllActiveReminders()).thenReturn(listOf(reminder))
+        whenever(workerParams.inputData).thenReturn(
+            workDataOf(BootRescheduleWorker.KEY_TRIGGER_ACTION to Intent.ACTION_BOOT_COMPLETED)
+        )
+
+        mockConstruction(NotificationHelper::class.java).use {
+            val worker = BootRescheduleWorker(app, workerParams)
+
+            val result = worker.doWork()
+
+            assertTrue(result is ListenableWorker.Result.Success)
+            val reminderCaptor = argumentCaptor<ReminderEntity>()
+            verify(repository, atLeastOnce()).updateReminder(reminderCaptor.capture())
+
+            val finalUpdate = reminderCaptor.allValues.last()
+            assertTrue(finalUpdate.lastFiredAt != null)
+            assertTrue(finalUpdate.pendingFollowUpAt == null)
+            assertTrue(finalUpdate.nextTriggerAt > now)
+            assertTrue(!finalUpdate.isCompleted)
+        }
+    }
+
+    @Test
+    fun `doWork uses follow up question for overdue follow up notification`() = runTest {
+        val now = System.currentTimeMillis()
+        val reminder = ReminderEntity(
+            id = 44L,
+            title = "Daily walk",
+            audioPath = "/tmp/original-audio.mp3",
+            reminderText = "Go outside",
+            nextTriggerAt = now + 3_600_000L,
+            pendingFollowUpAt = now - 60_000L,
+            followUpCheckMinutes = 10
+        )
+        whenever(repository.getAllActiveReminders()).thenReturn(listOf(reminder))
+        whenever(workerParams.inputData).thenReturn(workDataOf())
+
+        mockConstruction(NotificationHelper::class.java).use { notificationMocks ->
+            val worker = BootRescheduleWorker(app, workerParams)
+
+            val result = worker.doWork()
+
+            assertTrue(result is ListenableWorker.Result.Success)
+            verify(notificationMocks.constructed().single()).showNotification(
+                eq(reminder.id),
+                eq("Daily walk"),
+                eq("Did you complete Daily walk?"),
+                isNull(),
+                eq("Did you complete Daily walk?"),
+                eq(false),
+                eq(false),
+                eq(false),
+                eq(true)
+            )
         }
     }
 }

@@ -106,6 +106,20 @@ class RecurrenceSummaryTest {
     }
 
     @Test
+    fun testCustomYears() {
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.HOUR_OF_DAY, 7)
+        cal.set(Calendar.MINUTE, 0)
+
+        val model = RecurrenceModel.Custom(interval = 2, unit = TimeUnit.YEARS)
+        val json = RecurrenceUtils.toJson(model)
+
+        val summary = RecurrenceUtils.getRecurrenceSummary(RecurrenceType.CUSTOM, json, cal.timeInMillis)
+        assertTrue(summary.startsWith("Every 2 years"))
+        assertTrue(summary.contains("7:00 AM"))
+    }
+
+    @Test
     fun testWithEndRuleAndPolicy() {
         val cal = Calendar.getInstance()
         cal.set(Calendar.HOUR_OF_DAY, 10)

@@ -27,13 +27,17 @@ import com.ghostgramlabs.speakalert.R
 import com.ghostgramlabs.speakalert.alarm.ToneAlertPlayer
 import com.ghostgramlabs.speakalert.alarm.ReminderActionReceiver
 import com.ghostgramlabs.speakalert.VoiceReminderApp
+import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.FileLogger
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -68,16 +72,45 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
     // Volume Control
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var currentVolume: Float = 1.0f
+    private var progressJob: Job? = null
 
     override fun onBind(intent: Intent?): IBinder? = null
 
     private fun broadcastPlaybackStatus(isPlaying: Boolean) {
+        val positionMs = if (!isTtsMode && ::player.isInitialized) {
+            runCatching { player.currentPosition.coerceAtLeast(0L) }.getOrDefault(0L)
+        } else {
+            0L
+        }
+        val durationMs = if (!isTtsMode && ::player.isInitialized) {
+            runCatching { player.duration.takeIf { it > 0L } ?: 0L }.getOrDefault(0L)
+        } else {
+            0L
+        }
         val statusIntent = Intent("ACTION_PLAYBACK_STATUS").apply {
             setPackage(packageName)
             putExtra("reminderId", currentReminderId)
             putExtra("isPlaying", isPlaying)
+            putExtra("positionMs", positionMs)
+            putExtra("durationMs", durationMs)
         }
         sendBroadcast(statusIntent)
+    }
+
+    private fun startProgressUpdates() {
+        if (isTtsMode) return
+        progressJob?.cancel()
+        progressJob = scope.launch {
+            while (isActive && ::player.isInitialized && player.isPlaying) {
+                broadcastPlaybackStatus(isPlaying = true)
+                delay(250)
+            }
+        }
+    }
+
+    private fun stopProgressUpdates() {
+        progressJob?.cancel()
+        progressJob = null
     }
 
     @UnstableApi
@@ -101,8 +134,20 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
                 .build()
                 
             player.addListener(object : Player.Listener {
+                override fun onIsPlayingChanged(isPlaying: Boolean) {
+                    if (currentReminderId != -1L) {
+                        broadcastPlaybackStatus(isPlaying = isPlaying)
+                    }
+                    if (isPlaying) {
+                        startProgressUpdates()
+                    } else {
+                        stopProgressUpdates()
+                    }
+                }
+
                 override fun onPlaybackStateChanged(playbackState: Int) {
                     if (playbackState == Player.STATE_ENDED) {
+                        stopProgressUpdates()
                         FileLogger.log("SERVICE: ExoPlayer playback ended, loop=$loopEnabled")
                         if (loopEnabled) {
                             // Restart playback from beginning
@@ -258,7 +303,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
             // startForeground() called before any early return.
             FileLogger.log("SERVICE: Creating placeholder notification")
             val placeholderNotification = NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("SpeakAlert")
+                .setContentTitle(APP_DISPLAY_NAME)
                 .setContentText("Processing...")
                 .setSmallIcon(R.drawable.ic_notification)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
@@ -282,8 +327,18 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
 
             if (intent?.action == "ACTION_STOP_SERVICE" || intent?.action == ACTION_STOP) {
                 FileLogger.log("SERVICE: Received STOP action")
+                stopProgressUpdates()
                 broadcastPlaybackStatus(isPlaying = false)
                 stopSelf()
+                return START_NOT_STICKY
+            }
+
+            if (intent?.action == ACTION_SEEK) {
+                val seekPositionMs = intent.getLongExtra(EXTRA_POSITION_MS, -1L)
+                if (!isTtsMode && seekPositionMs >= 0L && ::player.isInitialized) {
+                    player.seekTo(seekPositionMs)
+                    broadcastPlaybackStatus(isPlaying = player.isPlaying)
+                }
                 return START_NOT_STICKY
             }
 
@@ -614,6 +669,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
     override fun onDestroy() {
         FileLogger.log("SERVICE: onDestroy called")
         try {
+            stopProgressUpdates()
             // Ensure UI always gets a terminal "not playing" signal.
             broadcastPlaybackStatus(isPlaying = false)
 
@@ -652,7 +708,9 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
         
         const val ACTION_STOP = "action_stop"
         const val ACTION_REPLAY = "action_replay"
+        const val ACTION_SEEK = "action_seek"
         const val EXTRA_LOOP = "extra_loop"
+        const val EXTRA_POSITION_MS = "extra_position_ms"
         
         fun start(context: Context, id: Long, title: String?, audioPath: String?, ttsText: String?, loop: Boolean = false, isFromBootContext: Boolean = false) {
             FileLogger.log("SERVICE.start() called - id=$id, audio=$audioPath, tts=${ttsText?.take(20)}, loop=$loop, bootContext=$isFromBootContext")
@@ -692,7 +750,23 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
             val intent = Intent(context, ReminderPlaybackService::class.java).apply {
                 action = ACTION_STOP
             }
-            context.startService(intent)
+            try {
+                context.startService(intent)
+            } catch (e: Exception) {
+                FileLogger.logError("SERVICE.stop()", "Failed to request service stop", e)
+            }
+        }
+
+        fun seek(context: Context, positionMs: Long) {
+            val intent = Intent(context, ReminderPlaybackService::class.java).apply {
+                action = ACTION_SEEK
+                putExtra(EXTRA_POSITION_MS, positionMs)
+            }
+            try {
+                context.startService(intent)
+            } catch (e: Exception) {
+                FileLogger.logError("SERVICE.seek()", "Failed to request seek", e)
+            }
         }
     }
 }

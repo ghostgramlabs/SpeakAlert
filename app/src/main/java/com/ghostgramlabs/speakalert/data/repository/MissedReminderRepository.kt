@@ -21,6 +21,11 @@ class MissedReminderRepositoryImpl(
     override val allMissedReminders: Flow<List<MissedReminderEntity>> = missedReminderDao.getAllMissedReminders()
 
     override suspend fun insertMissedReminder(missedReminder: MissedReminderEntity) {
+        // Prevent the same missed occurrence from piling up after reboot/time-change recovery.
+        missedReminderDao.deleteByReminderIdAndScheduledTime(
+            missedReminder.reminderId,
+            missedReminder.scheduledTime
+        )
         missedReminderDao.insert(missedReminder)
         SpeakAlertWidgetUpdater.requestUpdate(context)
     }

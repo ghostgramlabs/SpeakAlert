@@ -1,153 +1,145 @@
 package com.ghostgramlabs.speakalert.ui.settings
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Divider
+import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HelpDialog(
     onDismiss: () -> Unit
 ) {
-    AlertDialog(
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    ModalBottomSheet(
         onDismissRequest = onDismiss,
-        title = {
+        sheetState = sheetState,
+        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
+        dragHandle = { BottomSheetDefaults.DragHandle() }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxHeight(0.92f)
+                .padding(horizontal = 24.dp)
+                .navigationBarsPadding()
+                .padding(bottom = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
             Text(
-                "App Guide",
-                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
+                text = "App guide",
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.SemiBold
             )
-        },
-        text = {
+            Text(
+                text = "Everything important about creating, playing, repeating, and recovering reminders in $APP_DISPLAY_NAME.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState())
+                    .weight(1f)
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 HelpSection(
                     title = "Creating reminders",
-                    content = "- Voice: Tap the Mic to record quickly.\n- Audio File: Pick an audio file from your device.\n- Text (TTS): Type reminder text.\n- The text you enter is shown in reminder screens/notifications.\n- If Voice or Audio File is selected, text is optional (display only).\n- If no audio is selected and TTS is enabled, text is spoken aloud.\n- Title: Add a short label to identify reminders faster.\n- Schedule: Pick date/time, repeat options, follow-up check, and save."
+                    content = "- Voice first: Tap the Mic to record a quick spoken reminder.\n- Audio file: Pick an existing audio file from your device.\n- Reminder message: Shown in the app and notifications.\n- Voice notes and audio files take priority over spoken typed text.\n- Typed reminders are spoken automatically only for text-only reminders when automatic spoken text is enabled.\n- Short label: Optional name for easier scanning in lists.\n- Schedule: Pick date, time, repeat, follow-up check, and save."
                 )
-
                 HelpSection(
-                    title = "One-time reminders",
-                    content = "- A one-time reminder is not completed just because it fired.\n- It stays active until you choose Done or Dismiss.\n- Snooze moves it to the snooze time and keeps it active."
+                    title = "Playback and preview",
+                    content = "- Add Reminder lets you preview recorded voice and selected audio before saving.\n- Reminder details lets you play, stop, and seek through voice notes and audio files.\n- Text-only reminders can still be spoken manually from the app or notification.\n- Tone-only mode uses the reminder tone instead of spoken playback.\n- You can choose a tone-only alert sound in Settings, and $APP_DISPLAY_NAME falls back to the default alarm tone if that sound becomes unavailable."
                 )
-
                 HelpSection(
-                    title = "Home tabs",
-                    content = "- Today: Reminders scheduled for today.\n- Upcoming: Future reminders after today.\n- Missed: Reminders that were not delivered at their scheduled moment.\n- Done: Completed reminders."
+                    title = "Home and quick actions",
+                    content = "- Today, Upcoming, Missed, and Done tabs group reminders by state.\n- Tap a card to open full reminder details.\n- Card actions include Play reminder, Done, and the three-dot sheet for Edit, Mark done, Stop recurring, or Delete."
                 )
-
-                HelpSection(
-                    title = "Widgets",
-                    content = "- Quick Reminder widget: Opens Add Reminder directly.\n- Upcoming widget: Shows upcoming reminders and missed reminders.\n- Tap a widget item to open the related reminder in the app.\n- Widget content auto-refreshes after add/edit/delete and missed updates."
-                )
-
-                HelpSection(
-                    title = "Missed reminder popup",
-                    content = "- On app open, missed reminders can appear in a quick recovery popup.\n- Play missed reminder: Plays the latest missed reminder immediately.\n- Close: Hides the popup and keeps missed reminders in the Missed tab."
-                )
-
-                HelpSection(
-                    title = "Card quick actions",
-                    content = "- Tap a card to open details.\n- Use the Play reminder or Stop playback button on the card.\n- Use the menu (three dots) for Edit, Mark done, Stop recurring, or Delete."
-                )
-
-                HelpSection(
-                    title = "Notification actions",
-                    content = "- Play Reminder: Plays available reminder audio (voice, audio file, or TTS).\n- Done: Marks the current occurrence as done.\n- Snooze: Delays by your configured snooze duration.\n- Swipe away: Same as Done - marks current occurrence done and stops active playback.\n- For repeating reminders, Done and swipe clear only the current occurrence. The next scheduled occurrence continues."
-                )
-
-                HelpSection(
-                    title = "Full-screen reminder alert",
-                    content = "- Optional full-screen alert can appear over lock screen when reminders fire.\n- Works with voice, audio file, and TTS reminder modes.\n- If Android full-screen permission is off, app falls back to standard notification."
-                )
-
                 HelpSection(
                     title = "Repeating reminders",
-                    content = "- Repeat modes: Daily, Weekly, Monthly, Yearly, or Custom.\n- The selected date/time is treated as the first occurrence.\n- Custom supports intervals such as every 2 days or every 3 hours.\n- Mark done on a repeating reminder clears only the current occurrence."
+                    content = "- Repeat modes: Daily, Weekly, Monthly, Yearly, or Custom.\n- The selected date and time become the first occurrence.\n- Weekly, monthly, and custom repeats open their own setup sheets.\n- Marking done on a repeating reminder clears only the current occurrence."
                 )
-
+                HelpSection(
+                    title = "Notifications and full-screen alerts",
+                    content = "- Reminder notifications support Play reminder or Speak reminder, plus Done and Snooze.\n- Swiping away an active reminder marks the current occurrence done.\n- Lock-screen full-screen alert can appear when enabled in Settings."
+                )
+                HelpSection(
+                    title = "Missed and restored reminders",
+                    content = "- Missed reminders stay in the Missed tab until you review them.\n- On app open, a missed reminder recovery sheet may offer quick playback of the latest missed reminder.\n- Past reminders can be restored, rescheduled, or replayed from their action sheets."
+                )
                 HelpSection(
                     title = "Playback settings",
-                    content = "- Auto-play audio: Starts playback automatically when reminder fires.\n- Text-to-Speech: Speaks typed reminders when no voice/audio file is selected.\n- Tone-only mode: Plays an alarm tone at fire time and keeps playback actions manual.\n- Loop duration: Controls auto-stop timeout."
+                    content = "- Auto-play reminder audio starts voice note or audio file playback when a reminder fires.\n- Speak typed reminders automatically controls spoken text for text-only reminders only.\n- Manual playback still works even if automatic spoken text is off.\n- Loop playback keeps audio repeating until you stop it or the loop timeout is reached.\n- Follow-up check asks again if the reminder is not marked done.\n- Quiet hours can silence reminder playback during selected times."
                 )
-
                 HelpSection(
-                    title = "Follow-up check",
-                    content = "- Follow-up asks again if a reminder is not marked done.\n- You can select preset minutes or set a custom minute value.\n- Follow-up runs after the active reminder or snooze cycle."
+                    title = "Tone-only mode and reliability",
+                    content = "- Tone-only mode uses a clear alarm tone instead of voice or TTS.\n- You can choose a custom tone-only alert sound, or keep the default alarm tone.\n- If the selected sound is missing later, $APP_DISPLAY_NAME automatically falls back to the default alarm tone.\n- Use tone-only mode if your phone delays, suppresses, or stops spoken playback.\n- Settings > Reliability includes the Battery Optimization Guide for phones with aggressive background restrictions.\n- Keep notifications, exact alarms, and battery settings enabled for the best reminder reliability."
                 )
-
                 HelpSection(
-                    title = "Tone-only mode (more reliable alerts)",
-                    content = "- On some phones, voice or text-to-speech playback may be less reliable due to system settings or battery optimization.\n- Tone-only mode plays a clear alarm tone instead of voice/TTS.\n- You can still tap Play Reminder from the notification.\n- Tone stop conditions: Done, Snooze, Play Reminder, or loop timeout.\n- Use this mode if voice playback is delayed, sometimes silent, or if you prefer a simple reliable alert."
+                    title = "Widgets and Wear OS",
+                    content = "- Quick Reminder widget opens Add Reminder directly.\n- Upcoming widget shows upcoming reminders and missed reminders.\n- Wear OS support depends on phone notifications and watch sync being enabled."
                 )
-
-                HelpSection(
-                    title = "Snooze and quiet hours",
-                    content = "- Snooze delays the reminder by your configured default duration.\n- Quiet hours silences reminder playback between selected start and end times.\n- Tone-only mode also follows quiet hours."
-                )
-
                 HelpSection(
                     title = "After device restart",
-                    content = "- Future reminders are rescheduled automatically.\n- Past-due reminders are handled through missed reminder flow.\n- If playback cannot start immediately, notification fallback is used."
-                )
-
-                HelpSection(
-                    title = "Wear OS support",
-                    content = "- SpeakAlert reminders can appear on connected Wear OS watches.\n- Phone app notifications and reminder channel must be enabled.\n- Notification sync must be enabled in your watch companion app (Wear OS / Galaxy Wearable)."
-                )
-
-                HelpSection(
-                    title = "Why voice reminders",
-                    content = "Voice reminders give context instantly, so you know exactly what to do without reading long text."
-                )
-
-                HelpSection(
-                    title = "Reliability tips",
-                    content = "- Keep Notifications and Exact Alarms permissions enabled.\n- Exclude the app from aggressive battery optimization for better delivery reliability."
+                    content = "- Future reminders are rescheduled automatically after restart.\n- Past-due reminders go through the missed reminder flow instead of firing unexpectedly on boot."
                 )
             }
-        },
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
+
+            OutlinedButton(
+                onClick = onDismiss,
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(18.dp)
+            ) {
                 Text("Close")
             }
-        },
-        shape = RoundedCornerShape(24.dp)
-    )
+        }
+    }
 }
 
 @Composable
 private fun HelpSection(title: String, content: String) {
-    Column(modifier = Modifier.padding(vertical = 8.dp)) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium.copy(
+    Surface(
+        shape = RoundedCornerShape(18.dp),
+        color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+        border = BorderStroke(
+            1.dp,
+            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.55f)
+        )
+    ) {
+        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.Bold
             )
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = content,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Divider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+            Text(
+                text = content,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = 6.dp)
+            )
+        }
     }
 }

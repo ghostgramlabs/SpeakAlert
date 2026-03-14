@@ -7,9 +7,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.media.AudioAttributes
-import android.media.RingtoneManager
-import android.net.Uri
 import android.os.Build
 import android.util.Log
 import com.ghostgramlabs.speakalert.MainActivity
@@ -18,6 +15,7 @@ import com.ghostgramlabs.speakalert.ui.alert.ReminderAlertActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.FullScreenIntentSupport
 
 class NotificationHelper(private val context: Context) {
@@ -42,29 +40,22 @@ class NotificationHelper(private val context: Context) {
     }
 
     private fun createNotificationChannel() {
-        val alarmToneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
         val normalChannel = NotificationChannel(
             CHANNEL_ID,
-            "SpeakAlert Reminders",
+            "$APP_DISPLAY_NAME Reminders",
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
-            description = "Notifications for SpeakAlert reminders"
+            description = "Notifications for $APP_DISPLAY_NAME reminders"
             enableVibration(true)
         }
         val toneOnlyChannel = NotificationChannel(
             TONE_ONLY_CHANNEL_ID,
-            "SpeakAlert Tone-Only Alerts",
+            "$APP_DISPLAY_NAME Tone-Only Alerts",
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
-            description = "System alarm tone alerts for Tone-only mode"
+            description = "Tone-only notifications with vibration only; playback tone is handled by $APP_DISPLAY_NAME"
             enableVibration(true)
-            setSound(
-                alarmToneUri,
-                AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_ALARM)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .build()
-            )
+            setSound(null, null)
         }
         val notificationManager: NotificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -81,11 +72,11 @@ class NotificationHelper(private val context: Context) {
         reminderText: String? = null,
         autoplayOnTap: Boolean = true,
         toneOnlyMode: Boolean = false,
-        useFullScreenAlert: Boolean = false
+        useFullScreenAlert: Boolean = false,
+        isFollowUpAlert: Boolean = false
     ): Boolean {
         Log.d(TAG, "showNotification called for reminderId=$reminderId, title=$title")
         val channelId = if (toneOnlyMode) TONE_ONLY_CHANNEL_ID else CHANNEL_ID
-        val alarmToneUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
         
         // Check permission on Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -116,6 +107,11 @@ class NotificationHelper(private val context: Context) {
             val fullScreenIntent = Intent(context, ReminderAlertActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                 putExtra("reminderId", reminderId)
+                putExtra(ReminderAlertActivity.EXTRA_ALERT_TITLE, title)
+                putExtra(ReminderAlertActivity.EXTRA_ALERT_MESSAGE, message)
+                putExtra(ReminderAlertActivity.EXTRA_PLAYBACK_AUDIO_PATH, audioPath)
+                putExtra(ReminderAlertActivity.EXTRA_PLAYBACK_TEXT, reminderText)
+                putExtra(ReminderAlertActivity.EXTRA_IS_FOLLOW_UP_ALERT, isFollowUpAlert)
             }
             PendingIntent.getActivity(
                 context,
@@ -209,13 +205,9 @@ class NotificationHelper(private val context: Context) {
             builder.setFullScreenIntent(fullScreenPendingIntent, true)
         }
 
-        if (toneOnlyMode && Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            builder.setSound(alarmToneUri)
-        }
-        
         // Add Play button if we have audio or text.
         if (audioPath != null || reminderText != null) {
-            val playLabel = if (!audioPath.isNullOrBlank()) "Play voice" else "Play TTS"
+            val playLabel = if (!audioPath.isNullOrBlank()) "Play reminder" else "Speak reminder"
             builder.addAction(android.R.drawable.ic_media_play, playLabel, playPendingIntent)
         }
         
