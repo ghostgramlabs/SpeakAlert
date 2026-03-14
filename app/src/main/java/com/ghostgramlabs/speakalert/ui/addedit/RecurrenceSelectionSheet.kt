@@ -12,7 +12,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.ghostgramlabs.speakalert.domain.models.*
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceModel
@@ -30,46 +35,65 @@ fun RecurrenceSelectionSheet(
     var showMonthlySheet by remember { mutableStateOf(false) }
     var showCustomSheet by remember { mutableStateOf(false) }
     var showWeeklySheet by remember { mutableStateOf(false) }
+    val mainSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val mainSheetMaxHeight = LocalConfiguration.current.screenHeightDp.dp * 0.72f
 
     val initialModel = remember(initialType, initialJson) {
         RecurrenceUtils.fromJson(initialType, initialJson)
     }
 
-    ModalBottomSheet(onDismissRequest = onDismiss) {
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 24.dp)
-                .navigationBarsPadding()
-                .padding(bottom = 24.dp)
+    if (!showMonthlySheet && !showCustomSheet && !showWeeklySheet) {
+        ModalBottomSheet(
+            onDismissRequest = onDismiss,
+            sheetState = mainSheetState,
+            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
+            tonalElevation = 0.dp,
+            dragHandle = { BottomSheetDefaults.DragHandle() }
         ) {
-            Text(
-                "Repeat",
-                style = MaterialTheme.typography.headlineSmall,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
+            Column(
+                modifier = Modifier
+                    .heightIn(max = mainSheetMaxHeight)
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 24.dp)
+                    .imePadding()
+                    .navigationBarsPadding()
+                    .padding(bottom = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                SheetHeader(
+                    title = "Repeat",
+                    subtitle = "Choose how this reminder should repeat."
+                )
 
-            // Options
-            RecurrenceOptionItem("Does not repeat", selected = initialType == RecurrenceType.NONE) {
-                onRecurrenceSelected(null)
-                onDismiss()
-            }
-            RecurrenceOptionItem("Daily", selected = initialType == RecurrenceType.DAILY) {
-                onRecurrenceSelected(RecurrenceModel.Daily())
-                onDismiss()
-            }
-            RecurrenceOptionItem("Weekly", selected = initialType == RecurrenceType.WEEKLY, hasSubMenu = true) {
-                showWeeklySheet = true
-            }
-            RecurrenceOptionItem("Monthly", selected = initialType == RecurrenceType.MONTHLY, hasSubMenu = true) {
-                showMonthlySheet = true
-            }
-            RecurrenceOptionItem("Yearly", selected = initialType == RecurrenceType.YEARLY) {
-                onRecurrenceSelected(RecurrenceModel.Yearly())
-                onDismiss()
-            }
-            RecurrenceOptionItem("Custom", selected = initialType == RecurrenceType.CUSTOM, hasSubMenu = true) {
-                showCustomSheet = true
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    RecurrenceOptionItem("Does not repeat", selected = initialType == RecurrenceType.NONE) {
+                        onRecurrenceSelected(null)
+                        onDismiss()
+                    }
+                    RecurrenceOptionItem("Daily", selected = initialType == RecurrenceType.DAILY) {
+                        onRecurrenceSelected(RecurrenceModel.Daily())
+                        onDismiss()
+                    }
+                    RecurrenceOptionItem("Weekly", selected = initialType == RecurrenceType.WEEKLY, hasSubMenu = true) {
+                        showMonthlySheet = false
+                        showCustomSheet = false
+                        showWeeklySheet = true
+                    }
+                    RecurrenceOptionItem("Monthly", selected = initialType == RecurrenceType.MONTHLY, hasSubMenu = true) {
+                        showWeeklySheet = false
+                        showCustomSheet = false
+                        showMonthlySheet = true
+                    }
+                    RecurrenceOptionItem("Yearly", selected = initialType == RecurrenceType.YEARLY) {
+                        onRecurrenceSelected(RecurrenceModel.Yearly())
+                        onDismiss()
+                    }
+                    RecurrenceOptionItem("Custom", selected = initialType == RecurrenceType.CUSTOM, hasSubMenu = true) {
+                        showWeeklySheet = false
+                        showMonthlySheet = false
+                        showCustomSheet = true
+                    }
+                }
             }
         }
     }
@@ -117,12 +141,29 @@ fun RecurrenceOptionItem(
 ) {
     Surface(
         onClick = onClick,
-        shape = MaterialTheme.shapes.medium,
-        color = if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
-        modifier = Modifier.padding(vertical = 2.dp).fillMaxWidth()
+        shape = RoundedCornerShape(20.dp),
+        color = if (selected) {
+            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.84f)
+        } else {
+            MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+        },
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            if (selected) {
+                MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
+            } else {
+                MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.62f)
+            }
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .semantics {
+                this.selected = selected
+                role = Role.Button
+            }
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
@@ -150,6 +191,8 @@ fun MonthlyConfigSheet(
     onCancel: () -> Unit
 ) {
     var variant by remember { mutableStateOf(initialModel?.variant ?: MonthlyVariant.DAY_OF_MONTH) }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val maxSheetHeight = LocalConfiguration.current.screenHeightDp.dp * 0.86f
     
     // Multi-day selection
     val selectedDays = remember { 
@@ -184,13 +227,20 @@ fun MonthlyConfigSheet(
     // Missed Policy - default to SKIP_TO_NEXT now
     var missedPolicy by remember { mutableStateOf(initialModel?.missedPolicy ?: MissedPolicy.SKIP_TO_NEXT) }
 
-    ModalBottomSheet(onDismissRequest = onCancel) {
+    ModalBottomSheet(
+        onDismissRequest = onCancel,
+        sheetState = sheetState,
+        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
+        tonalElevation = 0.dp,
+        dragHandle = { BottomSheetDefaults.DragHandle() }
+    ) {
         Column(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
+                .imePadding()
                 .navigationBarsPadding()
                 .padding(bottom = 8.dp)
-                .fillMaxHeight(0.9f) // Allow it to expand but not exceed screen
+                .heightIn(max = maxSheetHeight)
         ) {
             Column(
                 modifier = Modifier
@@ -198,11 +248,18 @@ fun MonthlyConfigSheet(
                     .verticalScroll(rememberScrollState())
                     .padding(top = 16.dp)
             ) {
-                Text("Monthly Settings", style = MaterialTheme.typography.headlineSmall)
+                SheetHeader(
+                    title = "Monthly settings",
+                    subtitle = "Pick which days or end rule to use."
+                )
                 Spacer(modifier = Modifier.height(24.dp))
                 
                 Text("Repeat on", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
                     FilterChip(
                         selected = variant == MonthlyVariant.DAY_OF_MONTH,
                         onClick = { variant = MonthlyVariant.DAY_OF_MONTH },
@@ -281,7 +338,7 @@ fun MonthlyConfigSheet(
                 OutlinedButton(
                     onClick = onCancel, 
                     modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(16.dp)
                 ) { Text("Back") }
                 Button(
                     onClick = {
@@ -299,7 +356,7 @@ fun MonthlyConfigSheet(
                     },
                     modifier = Modifier.weight(1f),
                     enabled = variant == MonthlyVariant.LAST_DAY || selectedDays.isNotEmpty(),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(16.dp)
                 ) { Text("Save") }
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -307,7 +364,7 @@ fun MonthlyConfigSheet(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun WeeklyConfigSheet(
     initialModel: RecurrenceModel.Weekly? = null,
@@ -319,14 +376,32 @@ fun WeeklyConfigSheet(
             addAll(initialModel.daysOfWeek)
         }
     }}
-    val weekdays = listOf(1 to "M", 2 to "T", 3 to "W", 4 to "T", 5 to "F", 6 to "S", 7 to "S")
+    val weekdays = listOf(
+        1 to "Mon",
+        2 to "Tue",
+        3 to "Wed",
+        4 to "Thu",
+        5 to "Fri",
+        6 to "Sat",
+        7 to "Sun"
+    )
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val maxSheetHeight = LocalConfiguration.current.screenHeightDp.dp * 0.68f
     
-    ModalBottomSheet(onDismissRequest = onCancel) {
+    ModalBottomSheet(
+        onDismissRequest = onCancel,
+        sheetState = sheetState,
+        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
+        tonalElevation = 0.dp,
+        dragHandle = { BottomSheetDefaults.DragHandle() }
+    ) {
         Column(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
+                .imePadding()
                 .navigationBarsPadding()
                 .padding(bottom = 8.dp)
+                .heightIn(max = maxSheetHeight)
         ) {
             Column(
                 modifier = Modifier
@@ -334,15 +409,19 @@ fun WeeklyConfigSheet(
                     .verticalScroll(rememberScrollState())
                     .padding(top = 16.dp)
             ) {
-                Text("Weekly Settings", style = MaterialTheme.typography.headlineSmall)
+                SheetHeader(
+                    title = "Weekly settings",
+                    subtitle = "Choose the weekdays to repeat on."
+                )
                 Spacer(modifier = Modifier.height(24.dp))
                 
                 Text("Select Days", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
                 Spacer(modifier = Modifier.height(16.dp))
                 
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp), 
-                    modifier = Modifier.fillMaxWidth()
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     weekdays.forEach { (day, label) ->
                         val isSelected = days.contains(day)
@@ -350,7 +429,6 @@ fun WeeklyConfigSheet(
                             selected = isSelected,
                             onClick = { if (isSelected) days.remove(day) else days.add(day) },
                             label = { Text(label) },
-                            modifier = Modifier.weight(1f),
                             colors = FilterChipDefaults.filterChipColors(
                                 selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
                                 selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -369,13 +447,13 @@ fun WeeklyConfigSheet(
                 OutlinedButton(
                     onClick = onCancel, 
                     modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(16.dp)
                 ) { Text("Back") }
                 Button(
                     onClick = { onSave(RecurrenceModel.Weekly(days.toSet())) },
                     modifier = Modifier.weight(1f),
                     enabled = days.isNotEmpty(),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(16.dp)
                 ) { Text("Save") }
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -393,17 +471,27 @@ fun CustomConfigSheet(
     var intervalText by remember { mutableStateOf(initialModel?.interval?.toString() ?: "1") }
     var unit by remember { mutableStateOf(initialModel?.unit ?: TimeUnit.DAYS) }
     var expanded by remember { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val maxSheetHeight = LocalConfiguration.current.screenHeightDp.dp * 0.64f
     
     // Validate interval
     val intervalValue = intervalText.toIntOrNull() ?: 0
     val isValid = intervalValue >= 1
 
-    ModalBottomSheet(onDismissRequest = onCancel) {
+    ModalBottomSheet(
+        onDismissRequest = onCancel,
+        sheetState = sheetState,
+        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
+        tonalElevation = 0.dp,
+        dragHandle = { BottomSheetDefaults.DragHandle() }
+    ) {
         Column(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
+                .imePadding()
                 .navigationBarsPadding()
                 .padding(bottom = 8.dp)
+                .heightIn(max = maxSheetHeight)
         ) {
             Column(
                 modifier = Modifier
@@ -411,12 +499,23 @@ fun CustomConfigSheet(
                     .verticalScroll(rememberScrollState())
                     .padding(top = 16.dp)
             ) {
-                Text("Custom Interval", style = MaterialTheme.typography.headlineSmall)
+                SheetHeader(
+                    title = "Custom interval",
+                    subtitle = "Set the gap between reminder repeats."
+                )
                 Spacer(modifier = Modifier.height(24.dp))
-                
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("Every", style = MaterialTheme.typography.bodyLarge)
-                    Spacer(modifier = Modifier.width(16.dp))
+
+                Text(
+                    "Repeat every",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
                     OutlinedTextField(
                         value = intervalText,
                         onValueChange = { newValue ->
@@ -430,11 +529,10 @@ fun CustomConfigSheet(
                         isError = intervalText.isNotEmpty() && !isValid,
                         placeholder = { Text("1") }
                     )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    
+
                     Box {
                         OutlinedButton(onClick = { expanded = true }) {
-                            Text(unit.name)
+                            Text(unit.name.lowercase().replaceFirstChar { it.uppercase() })
                         }
                         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                             TimeUnit.values().forEach { u ->
@@ -463,16 +561,35 @@ fun CustomConfigSheet(
                 OutlinedButton(
                     onClick = onCancel, 
                     modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(16.dp)
                 ) { Text("Back") }
                 Button(
                     onClick = { onSave(RecurrenceModel.Custom(intervalValue, unit)) },
                     modifier = Modifier.weight(1f),
                     enabled = isValid,
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(16.dp)
                 ) { Text("Save") }
             }
             Spacer(modifier = Modifier.height(16.dp))
         }
+    }
+}
+
+@Composable
+private fun SheetHeader(
+    title: String,
+    subtitle: String
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Text(
+            text = subtitle,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }

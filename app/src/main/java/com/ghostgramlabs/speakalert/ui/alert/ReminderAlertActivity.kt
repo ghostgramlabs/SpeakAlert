@@ -67,9 +67,18 @@ import androidx.compose.ui.unit.dp
 import com.ghostgramlabs.speakalert.VoiceReminderApp
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.ui.theme.VoiceReminderTheme
+import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.DateUtils
 
 class ReminderAlertActivity : ComponentActivity() {
+
+    companion object {
+        const val EXTRA_ALERT_TITLE = "alertTitle"
+        const val EXTRA_ALERT_MESSAGE = "alertMessage"
+        const val EXTRA_PLAYBACK_AUDIO_PATH = "playbackAudioPath"
+        const val EXTRA_PLAYBACK_TEXT = "playbackText"
+        const val EXTRA_IS_FOLLOW_UP_ALERT = "isFollowUpAlert"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,6 +96,11 @@ class ReminderAlertActivity : ComponentActivity() {
         }
 
         val reminderId = intent.getLongExtra("reminderId", -1L)
+        val alertTitleOverride = intent.getStringExtra(EXTRA_ALERT_TITLE)
+        val alertMessageOverride = intent.getStringExtra(EXTRA_ALERT_MESSAGE)
+        val playbackAudioPathOverride = intent.getStringExtra(EXTRA_PLAYBACK_AUDIO_PATH)
+        val playbackTextOverride = intent.getStringExtra(EXTRA_PLAYBACK_TEXT)
+        val isFollowUpAlert = intent.getBooleanExtra(EXTRA_IS_FOLLOW_UP_ALERT, false)
         if (reminderId == -1L) {
             finish()
             return
@@ -113,7 +127,12 @@ class ReminderAlertActivity : ComponentActivity() {
                     ReminderAlertContent(
                         reminder = it,
                         onPlayAgain = {
-                            sendPlayAction(it)
+                            sendPlayAction(
+                                reminderId = it.id,
+                                title = alertTitleOverride ?: it.title ?: APP_DISPLAY_NAME,
+                                audioPath = playbackAudioPathOverride,
+                                reminderText = playbackTextOverride
+                            )
                         },
                         onDone = {
                             sendReminderAction("ACTION_DONE", it.id)
@@ -126,7 +145,12 @@ class ReminderAlertActivity : ComponentActivity() {
                         onSnoozeTen = {
                             sendReminderAction("ACTION_SNOOZE", it.id, 10)
                             finish()
-                        }
+                        },
+                        titleOverride = alertTitleOverride,
+                        messageOverride = alertMessageOverride,
+                        playbackAudioPath = playbackAudioPathOverride,
+                        playbackText = playbackTextOverride,
+                        isFollowUpAlert = isFollowUpAlert
                     )
                 }
             }
@@ -145,14 +169,19 @@ class ReminderAlertActivity : ComponentActivity() {
         )
     }
 
-    private fun sendPlayAction(reminder: ReminderEntity) {
+    private fun sendPlayAction(
+        reminderId: Long,
+        title: String,
+        audioPath: String?,
+        reminderText: String?
+    ) {
         sendBroadcast(
             Intent(this, com.ghostgramlabs.speakalert.alarm.ReminderActionReceiver::class.java).apply {
                 action = "ACTION_PLAY"
-                putExtra("reminderId", reminder.id)
-                putExtra("title", reminder.title ?: "SpeakAlert")
-                reminder.audioPath?.let { putExtra("audioPath", it) }
-                reminder.reminderText?.let { putExtra("reminderText", it) }
+                putExtra("reminderId", reminderId)
+                putExtra("title", title)
+                audioPath?.let { putExtra("audioPath", it) }
+                reminderText?.let { putExtra("reminderText", it) }
             }
         )
     }
@@ -164,23 +193,31 @@ private fun ReminderAlertContent(
     onPlayAgain: () -> Unit,
     onDone: () -> Unit,
     onSnoozeFive: () -> Unit,
-    onSnoozeTen: () -> Unit
+    onSnoozeTen: () -> Unit,
+    titleOverride: String?,
+    messageOverride: String?,
+    playbackAudioPath: String?,
+    playbackText: String?,
+    isFollowUpAlert: Boolean
 ) {
-    val isFollowUp = reminder.followUpCheckMinutes > 0 && reminder.pendingFollowUpAt != null
-    val headline = reminder.title
+    val isFollowUp = isFollowUpAlert || (reminder.followUpCheckMinutes > 0 && reminder.pendingFollowUpAt != null)
+    val headline = titleOverride
+        ?: reminder.title
         ?: reminder.reminderText
-        ?: "SpeakAlert"
-    val bodyText = reminder.reminderText
+        ?: APP_DISPLAY_NAME
+    val bodyText = messageOverride
+        ?: reminder.reminderText
         ?: if (isFollowUp) {
             "Did you complete this reminder?"
         } else {
             "Reminder is active"
         }
     val scheduledText = DateUtils.formatSmartDate(reminder.nextTriggerAt)
-    val canPlayAgain = !reminder.audioPath.isNullOrBlank() || !reminder.reminderText.isNullOrBlank()
+    val canPlayAgain = !playbackAudioPath.isNullOrBlank() || !playbackText.isNullOrBlank()
     val sourceLabel = when {
-        !reminder.audioPath.isNullOrBlank() -> "Voice reminder"
-        !reminder.reminderText.isNullOrBlank() -> "Text reminder"
+        isFollowUp -> "Follow-up check"
+        !playbackAudioPath.isNullOrBlank() -> "Voice reminder"
+        !playbackText.isNullOrBlank() -> "Text reminder"
         else -> "Alert"
     }
     val pulse = rememberInfiniteTransition(label = "alert_pulse")
@@ -274,7 +311,7 @@ private fun ReminderAlertContent(
                         )
                     ) {
                         Text(
-                            text = if (isFollowUp) "Follow-up reminder" else "Speak Alert",
+                            text = if (isFollowUp) "Follow-up reminder" else APP_DISPLAY_NAME,
                             style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp)

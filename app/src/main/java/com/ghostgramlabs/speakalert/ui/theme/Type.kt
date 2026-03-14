@@ -6,120 +6,114 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-// Modern typography with clean, readable fonts
+private val HeadingFont = FontFamily.Serif
+private val BodyFont = FontFamily.SansSerif
+
+// Premium typography with restrained contrast between serif headlines and clean body copy.
 val Typography = Typography(
-    // Display styles - for hero text
     displayLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Bold,
-        fontSize = 57.sp,
-        lineHeight = 64.sp,
-        letterSpacing = (-0.25).sp
+        fontFamily = HeadingFont,
+        fontWeight = FontWeight.Medium,
+        fontSize = 56.sp,
+        lineHeight = 62.sp,
+        letterSpacing = (-0.9).sp
     ),
     displayMedium = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Bold,
-        fontSize = 45.sp,
-        lineHeight = 52.sp,
-        letterSpacing = 0.sp
+        fontFamily = HeadingFont,
+        fontWeight = FontWeight.Medium,
+        fontSize = 44.sp,
+        lineHeight = 50.sp,
+        letterSpacing = (-0.6).sp
     ),
     displaySmall = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = HeadingFont,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 36.sp,
-        lineHeight = 44.sp,
-        letterSpacing = 0.sp
-    ),
-    
-    // Headline styles - for section headers
-    headlineLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Bold,
-        fontSize = 32.sp,
+        fontSize = 34.sp,
         lineHeight = 40.sp,
-        letterSpacing = 0.sp
+        letterSpacing = (-0.3).sp
+    ),
+    headlineLarge = TextStyle(
+        fontFamily = HeadingFont,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 31.sp,
+        lineHeight = 38.sp,
+        letterSpacing = (-0.2).sp
     ),
     headlineMedium = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = HeadingFont,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 28.sp,
-        lineHeight = 36.sp,
+        fontSize = 27.sp,
+        lineHeight = 34.sp,
         letterSpacing = 0.sp
     ),
     headlineSmall = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = HeadingFont,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 24.sp,
-        lineHeight = 32.sp,
+        fontSize = 23.sp,
+        lineHeight = 30.sp,
         letterSpacing = 0.sp
     ),
-    
-    // Title styles - for cards and lists
     titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = HeadingFont,
         fontWeight = FontWeight.SemiBold,
         fontSize = 22.sp,
-        lineHeight = 28.sp,
+        lineHeight = 29.sp,
         letterSpacing = 0.sp
     ),
     titleMedium = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.15.sp
+        fontFamily = BodyFont,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 15.sp,
+        lineHeight = 22.sp,
+        letterSpacing = 0.05.sp
     ),
     titleSmall = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = BodyFont,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.1.sp
     ),
-    
-    // Body styles - for content
     bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = BodyFont,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
+        fontSize = 15.sp,
+        lineHeight = 23.sp,
+        letterSpacing = 0.1.sp
     ),
     bodyMedium = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = BodyFont,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.25.sp
+        lineHeight = 21.sp,
+        letterSpacing = 0.1.sp
     ),
     bodySmall = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = BodyFont,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.4.sp
+        lineHeight = 18.sp,
+        letterSpacing = 0.2.sp
     ),
-    
-    // Label styles - for buttons and chips
     labelLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = BodyFont,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.1.sp
     ),
     labelMedium = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = BodyFont,
         fontWeight = FontWeight.Medium,
         fontSize = 12.sp,
         lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 0.25.sp
     ),
     labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = BodyFont,
         fontWeight = FontWeight.Medium,
         fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+        lineHeight = 15.sp,
+        letterSpacing = 0.25.sp
     )
 )

@@ -8,6 +8,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.ghostgramlabs.speakalert.VoiceReminderApp
 import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
 import com.ghostgramlabs.speakalert.service.ReminderPlaybackService
+import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,25 +36,15 @@ class ReminderActionReceiver : BroadcastReceiver() {
                 ToneAlertPlayer.stop()
                 val audioPath = intent.getStringExtra("audioPath")
                 val reminderText = intent.getStringExtra("reminderText")
-                val title = intent.getStringExtra("title") ?: "SpeakAlert"
+                val title = intent.getStringExtra("title") ?: APP_DISPLAY_NAME
                 val canPlayAudio = ReminderAudioSource.isPlayable(context, audioPath)
                 
                 // Start playback (playback service has its own notification)
                 if (canPlayAudio) {
                     ReminderPlaybackService.start(context, reminderId, title, audioPath, null)
                 } else if (!reminderText.isNullOrBlank()) {
-                    // Check TTS setting before speaking text
-                    val pendingResult = goAsync()
-                    CoroutineScope(Dispatchers.IO).launch {
-                        try {
-                            val ttsEnabled = settingsRepository.speakTextIfNoVoice.first()
-                            if (ttsEnabled) {
-                                ReminderPlaybackService.start(context, reminderId, title, null, reminderText)
-                            }
-                        } finally {
-                            pendingResult.finish()
-                        }
-                    }
+                    // Manual playback should remain available even if automatic spoken text is off.
+                    ReminderPlaybackService.start(context, reminderId, title, null, reminderText)
                 } else if (!audioPath.isNullOrBlank()) {
                     android.widget.Toast.makeText(
                         context,

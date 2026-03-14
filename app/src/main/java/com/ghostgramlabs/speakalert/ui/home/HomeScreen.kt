@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.NotificationsOff
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Settings
@@ -37,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -52,8 +54,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.ui.AppViewModelProvider
+import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.DateUtils
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
+import com.ghostgramlabs.speakalert.util.isDefaultAppDisplayName
+import com.ghostgramlabs.speakalert.ui.components.ActionSheetRow
+import com.ghostgramlabs.speakalert.ui.components.PremiumHeaderCard
+import com.ghostgramlabs.speakalert.ui.components.PremiumScreenBackground
 import com.ghostgramlabs.speakalert.ui.components.ReminderCard
 import com.ghostgramlabs.speakalert.ui.components.RecurringCompletionDialog
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -83,14 +90,12 @@ fun HomeScreen(
 
     val screenWidthPx = with(density) { configuration.screenWidthDp.dp.toPx() }
     val screenHeightPx = with(density) { configuration.screenHeightDp.dp.toPx() }
-    val fabSizePx = with(density) { 96.dp.toPx() }
+    val fabSizePx = with(density) { 72.dp.toPx() }
     val fabMarginPx = with(density) { 16.dp.toPx() }
     val minFabX = -(screenWidthPx - fabSizePx - fabMarginPx * 2).coerceAtLeast(0f)
     val minFabY = -(screenHeightPx - fabSizePx - fabMarginPx * 2).coerceAtLeast(0f)
 
-    // Scroll state for Glassmorphism effect
     val scrollState = androidx.compose.foundation.lazy.rememberLazyListState()
-    val isScrolled = scrollState.firstVisibleItemIndex > 0 || scrollState.firstVisibleItemScrollOffset > 0
 
     // Listen for Playback Status Broadcasts
     DisposableEffect(context) {
@@ -344,165 +349,147 @@ fun HomeScreen(
 
     // Stop Recurring Confirmation Dialog
     if (reminderToStop != null) {
-        AlertDialog(
+        ModalBottomSheet(
             onDismissRequest = { reminderToStop = null },
-            icon = {
-                Icon(
-                    imageVector = Icons.Filled.Stop,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.size(32.dp)
+            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
+            dragHandle = { BottomSheetDefaults.DragHandle() }
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+                    .navigationBarsPadding()
+                    .padding(bottom = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Text(
+                    text = "Stop recurring reminder?",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
-            },
-            title = { 
                 Text(
-                    "Stop recurring reminder?",
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
-                ) 
-            },
-            text = { 
-                Text(
-                    "This will delete this reminder and all future occurrences. This cannot be undone.",
+                    text = "This will delete this reminder and all future occurrences. This cannot be undone.",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
-                ) 
-            },
-            confirmButton = {
-                Button(
+                )
+                ActionSheetRow(
+                    icon = Icons.Filled.Stop,
+                    label = "Stop recurring",
+                    subLabel = "Delete this reminder and all future occurrences",
                     onClick = {
                         reminderToStop?.let { viewModel.deleteReminder(it) }
                         reminderToStop = null
                     },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.error
-                    ),
-                    shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
-                ) {
-                    Icon(Icons.Filled.Stop, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(8.dp))
-                    Text("Stop Forever")
-                }
-            },
-            dismissButton = {
+                    isDestructive = true
+                )
                 OutlinedButton(
                     onClick = { reminderToStop = null },
-                    shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(18.dp)
                 ) {
-                    Text("Cancel")
+                    Text("Keep reminder")
                 }
-            },
-            shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp)
-        )
+            }
+        }
     }
 
     // Mark Occurrence Done Confirmation Dialog
     if (reminderToMarkOccurrence != null) {
-        AlertDialog(
+        ModalBottomSheet(
             onDismissRequest = { reminderToMarkOccurrence = null },
-            icon = {
-                Icon(
-                    imageVector = Icons.Filled.CheckCircle,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(32.dp)
+            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
+            dragHandle = { BottomSheetDefaults.DragHandle() }
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+                    .navigationBarsPadding()
+                    .padding(bottom = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Text(
+                    text = "Mark occurrence done?",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
-            },
-            title = { 
                 Text(
-                    "Mark occurrence done?",
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
-                ) 
-            },
-            text = { 
-                Text(
-                    "This marks only today's occurrence as completed. The reminder will still repeat as scheduled.",
+                    text = "This clears only today's occurrence. The reminder will still repeat on its next scheduled time.",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
-                ) 
-            },
-            confirmButton = {
-                Button(
+                )
+                ActionSheetRow(
+                    icon = Icons.Filled.Done,
+                    label = "Mark this occurrence done",
+                    subLabel = "Keep future occurrences scheduled",
                     onClick = {
                         reminderToMarkOccurrence?.let { viewModel.markTodayAsDone(it) }
                         reminderToMarkOccurrence = null
                     },
-                    shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
-                ) {
-                    Icon(Icons.Filled.Done, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(8.dp))
-                    Text("Mark Done")
-                }
-            },
-            dismissButton = {
+                    emphasize = true
+                )
                 OutlinedButton(
                     onClick = { reminderToMarkOccurrence = null },
-                    shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(18.dp)
                 ) {
                     Text("Cancel")
                 }
-            },
-            shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp)
-        )
+            }
+        }
     }
 
     // Mark as Done Confirmation Dialog
     if (showMarkDoneDialog && reminderToMarkDone != null) {
-        AlertDialog(
+        ModalBottomSheet(
             onDismissRequest = {
                 showMarkDoneDialog = false
                 reminderToMarkDone = null
             },
-            icon = {
-                Icon(
-                    imageVector = Icons.Filled.TaskAlt,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(32.dp)
+            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
+            dragHandle = { BottomSheetDefaults.DragHandle() }
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+                    .navigationBarsPadding()
+                    .padding(bottom = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Text(
+                    text = "Mark as done?",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
-            },
-            title = { 
                 Text(
-                    "Mark as done?",
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
-                ) 
-            },
-            text = { 
-                Text(
-                    "This will move the reminder to the Done tab.",
+                    text = "This will move the reminder to the Done tab.",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
-                ) 
-            },
-            confirmButton = {
-                Button(
+                )
+                ActionSheetRow(
+                    icon = Icons.Filled.Done,
+                    label = "Move to Done",
+                    subLabel = "Keep this reminder in your completed history",
                     onClick = {
                         reminderToMarkDone?.let { viewModel.completeReminder(it) }
                         showMarkDoneDialog = false
                         reminderToMarkDone = null
                     },
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    Icon(Icons.Filled.Done, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(8.dp))
-                    Text("Done")
-                }
-            },
-            dismissButton = {
+                    emphasize = true
+                )
                 OutlinedButton(
                     onClick = {
                         showMarkDoneDialog = false
                         reminderToMarkDone = null
                     },
-                    shape = RoundedCornerShape(12.dp)
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(18.dp)
                 ) {
                     Text("Cancel")
                 }
-            },
-            shape = RoundedCornerShape(24.dp)
-        )
+            }
+        }
     }
     
     
@@ -514,28 +501,22 @@ fun HomeScreen(
     )
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = Color.Transparent,
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
-            // Clean, minimal top bar
             TopAppBar(
                 title = { 
                     Text(
-                        "Speak Alert",
-                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+                        APP_DISPLAY_NAME,
+                        style = MaterialTheme.typography.titleMedium
                     )
                 },
                 actions = {
                     // Missed reminders badge
                     if (uiState.missedReminders.isNotEmpty()) {
-                        BadgedBox(
-                            badge = {
-                                Badge(
-                                    containerColor = MaterialTheme.colorScheme.error
-                                ) {
-                                    Text(if (uiState.missedReminders.size > 99) "99+" else "${uiState.missedReminders.size}")
-                                }
-                            }
+                        Box(
+                            modifier = Modifier.padding(end = 4.dp),
+                            contentAlignment = Alignment.TopEnd
                         ) {
                             IconButton(onClick = { selectedFilter = FilterType.MISSED }) {
                                 Icon(
@@ -543,6 +524,25 @@ fun HomeScreen(
                                     contentDescription = "Missed reminders",
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
+                            }
+                            Surface(
+                                shape = RoundedCornerShape(999.dp),
+                                color = MaterialTheme.colorScheme.error,
+                                modifier = Modifier
+                                    .padding(top = 6.dp, end = 4.dp)
+                                    .defaultMinSize(minWidth = 20.dp, minHeight = 20.dp)
+                            ) {
+                                Box(
+                                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = if (uiState.missedReminders.size > 99) "99+" else "${uiState.missedReminders.size}",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = MaterialTheme.colorScheme.onError,
+                                        maxLines = 1
+                                    )
+                                }
                             }
                         }
                     }
@@ -555,27 +555,23 @@ fun HomeScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = if (isScrolled) 
-                        MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
-                    else 
-                        MaterialTheme.colorScheme.surface
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.94f)
                 )
             )
         },
         floatingActionButton = {
-            // Modern, prominent FAB with Hint
             Column(
                 horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                // Formatting for Empty State Hint
-                // Show only if list is empty (simplified check) and filter is TODAY or UPCOMING
-                LargeFloatingActionButton(
+                FloatingActionButton(
                     onClick = navigateToAddItem,
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                     shape = CircleShape,
                     modifier = Modifier
+                        .size(72.dp)
                         .offset { IntOffset(fabOffsetX.roundToInt(), fabOffsetY.roundToInt()) }
                         .pointerInput(Unit) {
                             detectDragGestures { change, dragAmount ->
@@ -588,185 +584,167 @@ fun HomeScreen(
                     Icon(
                         Icons.Filled.Mic,
                         contentDescription = "Add Reminder",
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.size(28.dp)
                     )
                 }
             }
         },
         floatingActionButtonPosition = FabPosition.End
     ) { innerPadding ->
-        Column(
+        PremiumScreenBackground(
             modifier = modifier
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
-            // Header Section
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 12.dp)
-                    .semantics(mergeDescendants = true) {}
-            ) {
-                Text(
-                    text = getGreeting(),
-                    style = MaterialTheme.typography.headlineSmall.copy(
-                        fontWeight = FontWeight.SemiBold
-                    ),
-                    color = MaterialTheme.colorScheme.onBackground
+            Column(modifier = Modifier.fillMaxSize()) {
+                PremiumHeaderCard(
+                    title = getGreeting(),
+                    subtitle = getSubtitle(uiState),
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 8.dp, bottom = 14.dp)
+                        .semantics(mergeDescendants = true) {}
                 )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = getSubtitle(uiState),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
             
-            // Filter Chips - Scrollable with counts and semantic colors
-            // Filter Tabs - Redesigned for High Visibility & Contrast
-            LazyRow(
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .padding(bottom = 12.dp)
-                    .fillMaxWidth()
-            ) {
-                items(filters) { (type, label) ->
-                    val isSelected = selectedFilter == type
-                    
-                    // Check if Missed tab has items (for red dot)
-                    val hasMissedReminders = type == FilterType.MISSED && uiState.missedReminders.isNotEmpty()
-                    
-                    // Dynamic Colors for High Contrast
-                    val containerColor = if (isSelected) {
-                        MaterialTheme.colorScheme.primary
-                    } else {
-                        MaterialTheme.colorScheme.surfaceVariant
-                    }
-                    
-                    val contentColor = if (isSelected) {
-                        MaterialTheme.colorScheme.onPrimary
-                    } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant
-                    }
-                    
-                    // Custom Tab Chip
-                    Surface(
-                        color = containerColor,
-                        contentColor = contentColor,
-                        shape = RoundedCornerShape(16.dp),
-                        modifier = Modifier
-                            .height(44.dp)
-                            .clickable { selectedFilter = type }
-                            .animateContentSize()
-                            .semantics {
-                                role = androidx.compose.ui.semantics.Role.Tab
-                                selected = isSelected
-                            }
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center,
-                            modifier = Modifier.padding(horizontal = 16.dp)
-                        ) {
-                            Text(
-                                text = label,
-                                style = MaterialTheme.typography.labelLarge.copy(
-                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
-                                )
-                            )
-                            
-                            // Red dot indicator ONLY for Missed tab
-                            if (hasMissedReminders) {
-                                Spacer(modifier = Modifier.width(6.dp))
-                                Box(
-                                    modifier = Modifier
-                                        .size(8.dp)
-                                        .clip(CircleShape)
-                                        .background(MaterialTheme.colorScheme.error)
-                                )
-                            }
-                        }
-                    }
-                }
-            }
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier
+                        .padding(bottom = 12.dp)
+                        .fillMaxWidth()
+                ) {
+                    items(filters) { (type, label) ->
+                        val isSelected = selectedFilter == type
+                        val hasMissedReminders = type == FilterType.MISSED && uiState.missedReminders.isNotEmpty()
 
-            // Content
-            val missedList = uiState.missedReminders
-            
-            if (selectedFilter == FilterType.MISSED) {
-                if (missedList.isEmpty()) {
-                    EmptyState(
-                        icon = Icons.Filled.NotificationsOff,
-                        title = "All caught up!",
-                        subtitle = "No missed reminders"
-                    )
-                } else {
-                    // Batch Actions Row
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        OutlinedButton(
-                            onClick = { 
-                        missedList.forEach { viewModel.dismissMissedReminder(it) }
+                        Surface(
+                            color = if (isSelected) {
+                                MaterialTheme.colorScheme.primaryContainer
+                            } else {
+                                MaterialTheme.colorScheme.surface.copy(alpha = 0.94f)
                             },
-                            modifier = Modifier.fillMaxWidth(),
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                contentColor = MaterialTheme.colorScheme.error
-                            )
+                            contentColor = if (isSelected) {
+                                MaterialTheme.colorScheme.onPrimaryContainer
+                            } else {
+                                MaterialTheme.colorScheme.onSurfaceVariant
+                            },
+                            shape = RoundedCornerShape(18.dp),
+                            border = androidx.compose.foundation.BorderStroke(
+                                1.dp,
+                                if (isSelected) {
+                                    MaterialTheme.colorScheme.primary.copy(alpha = 0.16f)
+                                } else {
+                                    MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.72f)
+                                }
+                            ),
+                            modifier = Modifier
+                                .height(46.dp)
+                                .clickable { selectedFilter = type }
+                                .animateContentSize()
+                                .semantics {
+                                    role = androidx.compose.ui.semantics.Role.Tab
+                                    selected = isSelected
+                                }
                         ) {
-                            Icon(Icons.Filled.Close, contentDescription = null, modifier = Modifier.size(18.dp))
-                            Spacer(Modifier.width(6.dp))
-                            Text("Dismiss All", style = MaterialTheme.typography.labelLarge)
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
+                                modifier = Modifier.padding(horizontal = 16.dp)
+                            ) {
+                                Text(
+                                    text = label,
+                                    style = MaterialTheme.typography.labelLarge.copy(
+                                        fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Medium
+                                    )
+                                )
+
+                                if (hasMissedReminders) {
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Box(
+                                        modifier = Modifier
+                                            .size(8.dp)
+                                            .clip(CircleShape)
+                                            .background(MaterialTheme.colorScheme.error)
+                                    )
+                                }
+                            }
                         }
                     }
-                    
-                    MissedReminderList(
-                        missedReminders = missedList,
-                        currentPlayingId = currentPlayingId,
-                        onFireClick = {
-                            currentPlayingId = it.reminderId
-                            viewModel.fireMissedReminder(context, it)
-                        },
-                        onStopClick = {
-                            currentPlayingId = -1L
-                            com.ghostgramlabs.speakalert.service.ReminderPlaybackService.stop(context)
-                        },
-                        onDismissClick = { viewModel.dismissMissedReminder(it) }
-                    )
-                }
-            } else {
-                val list = when (selectedFilter) {
-                    FilterType.TODAY -> uiState.todayReminders
-                    FilterType.UPCOMING -> uiState.upcomingReminders
-                    FilterType.COMPLETED -> uiState.completedReminders
-                    FilterType.ALL -> (uiState.todayReminders + uiState.upcomingReminders + uiState.completedReminders).sortedBy { it.nextTriggerAt }
-                    else -> emptyList()
                 }
 
-                if (list.isEmpty()) {
-                    EmptyState(
-                        icon = when (selectedFilter) {
-                             FilterType.TODAY -> Icons.Filled.Schedule
-                             FilterType.COMPLETED -> Icons.Filled.Done
-                             else -> Icons.Filled.Mic
-                        },
-                        title = when (selectedFilter) {
-                            FilterType.COMPLETED -> "Nothing completed yet"
-                            FilterType.UPCOMING -> "No upcoming reminders"
-                            else -> "No reminders yet"
-                        },
-                        subtitle = when (selectedFilter) {
-                            FilterType.COMPLETED -> "Completed reminders will appear here."
-                            FilterType.UPCOMING -> "Scheduled reminders for later will appear here."
-                            else -> "Create a reminder using voice or text."
+                val missedList = uiState.missedReminders
+            
+                if (selectedFilter == FilterType.MISSED) {
+                    if (missedList.isEmpty()) {
+                        EmptyState(
+                            icon = Icons.Filled.NotificationsOff,
+                            title = "All caught up!",
+                            subtitle = "No missed reminders"
+                        )
+                    } else {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            OutlinedButton(
+                                onClick = {
+                                    missedList.forEach { viewModel.dismissMissedReminder(it) }
+                                },
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(18.dp),
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    contentColor = MaterialTheme.colorScheme.error
+                                )
+                            ) {
+                                Icon(Icons.Filled.Close, contentDescription = null, modifier = Modifier.size(18.dp))
+                                Spacer(Modifier.width(6.dp))
+                                Text("Dismiss All", style = MaterialTheme.typography.labelLarge)
+                            }
                         }
-                    )
+                        
+                        MissedReminderList(
+                            missedReminders = missedList,
+                            currentPlayingId = currentPlayingId,
+                            onFireClick = {
+                                currentPlayingId = it.reminderId
+                                viewModel.fireMissedReminder(context, it)
+                            },
+                            onStopClick = {
+                                currentPlayingId = -1L
+                                com.ghostgramlabs.speakalert.service.ReminderPlaybackService.stop(context)
+                            },
+                            onDismissClick = { viewModel.dismissMissedReminder(it) }
+                        )
+                    }
+                } else {
+                    val list = when (selectedFilter) {
+                        FilterType.TODAY -> uiState.todayReminders
+                        FilterType.UPCOMING -> uiState.upcomingReminders
+                        FilterType.COMPLETED -> uiState.completedReminders
+                        FilterType.ALL -> (uiState.todayReminders + uiState.upcomingReminders + uiState.completedReminders).sortedBy { it.nextTriggerAt }
+                        else -> emptyList()
+                    }
+
+                    if (list.isEmpty()) {
+                        EmptyState(
+                            icon = when (selectedFilter) {
+                                 FilterType.TODAY -> Icons.Filled.Schedule
+                                 FilterType.COMPLETED -> Icons.Filled.Done
+                                 else -> Icons.Filled.Mic
+                            },
+                            title = when (selectedFilter) {
+                                FilterType.COMPLETED -> "Nothing completed yet"
+                                FilterType.UPCOMING -> "No upcoming reminders"
+                                else -> "No reminders yet"
+                            },
+                            subtitle = when (selectedFilter) {
+                                FilterType.COMPLETED -> "Completed reminders will appear here."
+                                FilterType.UPCOMING -> "Scheduled reminders for later will appear here."
+                                else -> "Create a reminder using voice or text."
+                            }
+                        )
                 } else {
                     LazyColumn(
                         state = scrollState,
@@ -794,6 +772,7 @@ fun HomeScreen(
                             // Check if title is a legacy auto-generated one
                             val isLegacyTitle = reminder.title?.matches(Regex("Reminder at \\d{1,2}:\\d{2} [AP]M")) == true
                                     || reminder.title.equals("Voice reminder", ignoreCase = true)
+                                    || reminder.title.isDefaultAppDisplayName()
                             val hasUserTitle = !reminder.title.isNullOrBlank() && !isLegacyTitle
                             
                             val displayTitle = when {
@@ -876,6 +855,7 @@ fun HomeScreen(
                 }
             }
         }
+        }
     }
 }
 
@@ -934,7 +914,7 @@ fun MissedReminderItem(
     val displayTitle = remember(missed.title, missed.reminderText) {
         val userTitle = missed.title
             .trim()
-            .takeIf { it.isNotEmpty() && !it.equals("SpeakAlert", ignoreCase = true) }
+            .takeIf { it.isNotEmpty() && !it.isDefaultAppDisplayName() }
         if (userTitle != null) {
             userTitle
         } else {
@@ -951,31 +931,48 @@ fun MissedReminderItem(
 
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.5f)
-        )
+            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.96f)
+        ),
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            MaterialTheme.colorScheme.error.copy(alpha = 0.18f)
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.Top
             ) {
                 Surface(
                     shape = CircleShape,
-                    color = MaterialTheme.colorScheme.error,
+                    color = MaterialTheme.colorScheme.errorContainer,
                     modifier = Modifier.size(40.dp)
                 ) {
                     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
                         Icon(
                             Icons.Outlined.Notifications,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onError,
+                            tint = MaterialTheme.colorScheme.onErrorContainer,
                             modifier = Modifier.size(20.dp)
                         )
                     }
                 }
                 Spacer(modifier = Modifier.width(12.dp))
                 Column(modifier = Modifier.weight(1f)) {
+                    Surface(
+                        shape = RoundedCornerShape(12.dp),
+                        color = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.72f)
+                    ) {
+                        Text(
+                            text = "Missed",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onErrorContainer,
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = displayTitle,
                         style = MaterialTheme.typography.titleMedium,
@@ -986,40 +983,70 @@ fun MissedReminderItem(
                     
                     // Show text body if available and not identical to title
                     if (!missed.reminderText.isNullOrBlank() && !displayTitle.equals(missed.reminderText, ignoreCase = true)) {
-                        Text(
-                            text = missed.reminderText,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(top = 4.dp)
-                        )
+                        Surface(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 8.dp),
+                            shape = RoundedCornerShape(16.dp),
+                            color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                            border = androidx.compose.foundation.BorderStroke(
+                                1.dp,
+                                MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                            )
+                        ) {
+                            Text(
+                                text = missed.reminderText,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.padding(12.dp)
+                            )
+                        }
                     }
                     
                     Text(
-                        text = "Missed - ${DateUtils.formatDateTime(missed.scheduledTime)}",
+                        text = DateUtils.formatDateTime(missed.scheduledTime),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.padding(top = 4.dp)
+                        modifier = Modifier.padding(top = 8.dp)
                     )
                 }
             }
             
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(14.dp))
             
             Row(
-                horizontalArrangement = Arrangement.End,
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                TextButton(onClick = onDismissClick) {
-                    Text("Dismiss", color = MaterialTheme.colorScheme.error)
+                OutlinedButton(
+                    onClick = onDismissClick,
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        contentColor = MaterialTheme.colorScheme.error
+                    ),
+                    border = androidx.compose.foundation.BorderStroke(
+                        1.dp,
+                        MaterialTheme.colorScheme.error.copy(alpha = 0.24f)
+                    )
+                ) {
+                    Text("Dismiss")
                 }
-                Spacer(modifier = Modifier.width(8.dp))
                 Button(
                     onClick = if (isPlaying) onStopClick else onFireClick,
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.error
                     )
                 ) {
-                    Text(if (isPlaying) "Stop" else "Play Now")
+                    Icon(
+                        imageVector = if (isPlaying) Icons.Filled.Stop else Icons.Filled.PlayArrow,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(if (isPlaying) "Stop" else "Play now")
                 }
             }
         }
@@ -1038,42 +1065,54 @@ fun EmptyState(
             .padding(48.dp),
         contentAlignment = Alignment.Center
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+        Card(
+            shape = RoundedCornerShape(28.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.96f)
+            ),
+            border = androidx.compose.foundation.BorderStroke(
+                1.dp,
+                MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.72f)
+            ),
+            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
         ) {
-            // Icon with subtle background
-            Surface(
-                shape = CircleShape,
-                color = MaterialTheme.colorScheme.surfaceVariant,
-                modifier = Modifier.size(80.dp)
+            Column(
+                modifier = Modifier.padding(horizontal = 28.dp, vertical = 32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Icon(
-                        imageVector = icon,
-                        contentDescription = null,
-                        modifier = Modifier.size(40.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
-                    )
+                Surface(
+                    shape = CircleShape,
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    modifier = Modifier.size(80.dp)
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(
+                            imageVector = icon,
+                            contentDescription = null,
+                            modifier = Modifier.size(40.dp),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.72f)
+                        )
+                    }
                 }
-            }
-            
-            Spacer(modifier = Modifier.height(24.dp))
-            
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-                textAlign = TextAlign.Center
-            )
-            
-            if (subtitle != null) {
-                Spacer(modifier = Modifier.height(8.dp))
+                
+                Spacer(modifier = Modifier.height(24.dp))
+                
                 Text(
-                    text = subtitle,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    text = title,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
                     textAlign = TextAlign.Center
                 )
+                
+                if (subtitle != null) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = subtitle,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
     }

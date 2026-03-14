@@ -3,6 +3,7 @@ package com.ghostgramlabs.speakalert.ui.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ghostgramlabs.speakalert.data.repository.SettingsRepository
+import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -27,6 +28,9 @@ class SettingsViewModel(
 
     val toneOnlyMode = settingsRepository.toneOnlyMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
+    val toneOnlyAlertToneUri = settingsRepository.toneOnlyAlertToneUri
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
     val themeMode = settingsRepository.themeMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
@@ -61,6 +65,12 @@ class SettingsViewModel(
     fun setToneOnlyMode(enabled: Boolean) {
         viewModelScope.launch {
             settingsRepository.setToneOnlyMode(enabled)
+        }
+    }
+
+    fun setToneOnlyAlertToneUri(uri: String?) {
+        viewModelScope.launch {
+            settingsRepository.setToneOnlyAlertToneUri(uri)
         }
     }
 
@@ -154,7 +164,7 @@ class SettingsViewModel(
         val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
             type = "text/plain"
             putExtra(android.content.Intent.EXTRA_EMAIL, arrayOf("ghostgramlabs@gmail.com"))
-            putExtra(android.content.Intent.EXTRA_SUBJECT, "SpeakAlert App Logs")
+            putExtra(android.content.Intent.EXTRA_SUBJECT, "$APP_DISPLAY_NAME App Logs")
             putExtra(android.content.Intent.EXTRA_STREAM, uri)
             addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }

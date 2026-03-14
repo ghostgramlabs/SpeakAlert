@@ -32,17 +32,25 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.role
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ghostgramlabs.speakalert.ui.AppViewModelProvider
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
+import com.ghostgramlabs.speakalert.ui.components.PremiumHeaderCard
+import com.ghostgramlabs.speakalert.ui.components.PremiumScreenBackground
+import com.ghostgramlabs.speakalert.ui.components.SectionCard
+import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -108,9 +116,11 @@ fun AddEditReminderScreen(
     var showCustomFollowUpDialog by remember { mutableStateOf(false) }
     val followUpPresets = listOf(0, 5, 10, 15)
     val isCustomFollowUp = uiState.followUpCheckMinutes > 0 && uiState.followUpCheckMinutes !in followUpPresets
+    val dateFormatter = remember { java.text.SimpleDateFormat("EEE, MMM d, yyyy", java.util.Locale.getDefault()) }
+    val timeFormatter = remember { java.text.SimpleDateFormat("h:mm a", java.util.Locale.getDefault()) }
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
                 title = { 
@@ -128,42 +138,38 @@ fun AddEditReminderScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.94f)
                 )
             )
         }
     ) { innerPadding ->
-        Column(
+        PremiumScreenBackground(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Spacer(modifier = Modifier.height(8.dp))
-            
-            // Reminder Content Header
-            Text(
-                text = "Reminder Content",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(start = 4.dp)
-            )
-
-            // Reminder Content Card (Voice + Text)
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                ),
-                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Column(
-                    modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
+                Spacer(modifier = Modifier.height(8.dp))
+                PremiumHeaderCard(
+                    title = if (uiState.initialReminderId != -1L) "Edit reminder" else "Create reminder",
+                    subtitle = "${dateFormatter.format(java.util.Date(uiState.triggerTime))} at ${timeFormatter.format(java.util.Date(uiState.triggerTime))}"
+                )
+
+            SectionCard(title = "Reminder content") {
+                Text(
+                    text = "Record a voice note, add an audio file, or type a reminder message.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
                     // 1. Voice Recording Section
                     com.ghostgramlabs.speakalert.ui.components.VoiceRecorderCard(
                         isRecording = uiState.isRecording,
@@ -185,33 +191,22 @@ fun AddEditReminderScreen(
                         currentAmplitude = uiState.currentAmplitude
                     )
 
-                    // 2. OR Divider
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        Divider(
-                            modifier = Modifier.weight(1f),
-                            color = MaterialTheme.colorScheme.outlineVariant
-                        )
-                        Text(
-                            text = "OR",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
-                        )
-                        Divider(
-                            modifier = Modifier.weight(1f),
-                            color = MaterialTheme.colorScheme.outlineVariant
-                        )
-                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "Or choose an audio file",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     // 3. Choose Audio File section (new feature extension)
-                    Card(
+                    Surface(
                         modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(16.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f)
+                        shape = RoundedCornerShape(20.dp),
+                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                        border = androidx.compose.foundation.BorderStroke(
+                            1.dp,
+                            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.65f)
                         )
                     ) {
                         Column(
@@ -255,6 +250,10 @@ fun AddEditReminderScreen(
                                         modifier = Modifier
                                             .weight(1f)
                                             .padding(start = 8.dp)
+                                            .semantics {
+                                                contentDescription = "Audio preview progress"
+                                                stateDescription = "${(uiState.playbackProgress * 100).toInt()} percent"
+                                            }
                                     )
                                 }
                                 Row(
@@ -313,32 +312,19 @@ fun AddEditReminderScreen(
                         }
                     }
 
-                    // 4. OR Divider
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        Divider(
-                            modifier = Modifier.weight(1f),
-                            color = MaterialTheme.colorScheme.outlineVariant
-                        )
-                        Text(
-                            text = "OR",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
-                        )
-                        Divider(
-                            modifier = Modifier.weight(1f),
-                            color = MaterialTheme.colorScheme.outlineVariant
-                        )
-                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "Or type a reminder message",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     // 5. Text Input (Message)
                     OutlinedTextField(
                         value = uiState.reminderText,
                         onValueChange = { if (it.length <= 1000) viewModel.updateReminderText(it) },
-                        label = { Text("Message (Text-to-speech)") },
+                        label = { Text("Reminder message") },
                         placeholder = { Text("e.g., Take medicine after breakfast") },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -349,31 +335,19 @@ fun AddEditReminderScreen(
                         isError = uiState.showError,
                         supportingText = {
                             Column {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    Text(
-                                        text = "Used for Text-to-Speech when no voice or audio file is selected",
-                                        style = MaterialTheme.typography.bodySmall,
-                                        modifier = Modifier.weight(1f)
-                                    )
-                                    Text(
-                                        text = "${uiState.reminderText.length}/1000",
-                                        style = MaterialTheme.typography.bodySmall,
-                                        modifier = Modifier.padding(start = 8.dp)
-                                    )
-                                }
-                                
-                                if (uiState.reminderText.isNotEmpty() && uiState.recordedAudioPath == null && uiState.isTextToSpeechEnabled) {
-                                    Spacer(modifier = Modifier.height(4.dp))
-                                    Text(
-                                        "Will be spoken aloud when reminder plays",
-                                        color = MaterialTheme.colorScheme.primary,
-                                        fontWeight = FontWeight.Bold,
-                                        style = MaterialTheme.typography.bodySmall
-                                    )
-                                }
+                                Text(
+                                    text = "Shown in the app and notifications. Spoken only if no voice or audio is selected.",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                                Text(
+                                    text = "${uiState.reminderText.length}/1000",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(top = 2.dp),
+                                    textAlign = TextAlign.End
+                                )
                             }
                         },
                         colors = OutlinedTextFieldDefaults.colors(
@@ -384,37 +358,31 @@ fun AddEditReminderScreen(
                     
                     if (uiState.showError) {
                         Text(
-                            text = "Please add a voice recording, audio file, or text note",
+                            text = "Add a voice note, audio file, or reminder message.",
                             color = MaterialTheme.colorScheme.error,
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
-                }
             }
 
-            // Title Section - Wrapped in Card
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                ),
-                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(16.dp)
-                ) {
+            SectionCard(title = "Short label (optional)") {
+                Text(
+                    text = "Optional short name to help you scan reminders faster.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.height(12.dp))
                     OutlinedTextField(
                         value = uiState.title,
                         onValueChange = { if (it.length <= 40) viewModel.updateTitle(it) },
-                        label = { Text("Title (Optional)") },
+                        label = { Text("Short label (optional)") },
                         placeholder = { Text("e.g., Morning medicine") },
                         supportingText = { 
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                Text("Helps you identify the reminder later")
+                                Text("Shown as a short name in lists and details")
                                 Text("${uiState.title.length}/40")
                             }
                         },
@@ -426,45 +394,34 @@ fun AddEditReminderScreen(
                             unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
                         )
                     )
-                }
             }
 
-            // Schedule Section
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                ),
-                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
-            ) {
-                Column {
-                    val dateFormatter = remember { java.text.SimpleDateFormat("EEE, MMM d, yyyy", java.util.Locale.getDefault()) }
-                    val timeFormatter = remember { java.text.SimpleDateFormat("h:mm a", java.util.Locale.getDefault()) }
-
+            SectionCard(title = "Schedule") {
                     // UI-only enhancement: keep the same stored timestamp, but make selection clearer.
-                    Column(
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        Text(
-                            text = "When should this reminder fire?",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                        Text(
-                            text = "${dateFormatter.format(java.util.Date(uiState.triggerTime))} at ${timeFormatter.format(java.util.Date(uiState.triggerTime))}",
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
-
-                    Divider(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)
+                    Text(
+                        text = "When should this reminder fire?",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = "${dateFormatter.format(java.util.Date(uiState.triggerTime))} at ${timeFormatter.format(java.util.Date(uiState.triggerTime))}",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Spacer(modifier = Modifier.height(14.dp))
+
+                    Surface(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(20.dp),
+                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                        border = androidx.compose.foundation.BorderStroke(
+                            1.dp,
+                            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f)
+                        )
+                    ) {
+                        Column {
                     // Date Row
                     ScheduleRow(
                         icon = Icons.Outlined.CalendarMonth,
@@ -542,7 +499,9 @@ fun AddEditReminderScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp, vertical = 12.dp)
-                            .semantics(mergeDescendants = true) {},
+                            .semantics(mergeDescendants = true) {
+                                stateDescription = if (uiState.loopPlayback) "On" else "Off"
+                            },
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
@@ -554,14 +513,22 @@ fun AddEditReminderScreen(
                         Spacer(modifier = Modifier.width(16.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                "Loop Playback",
+                                "Loop playback",
                                 style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onSurface
+                                color = if (uiState.loopPlayback) {
+                                    MaterialTheme.colorScheme.primary
+                                } else {
+                                    MaterialTheme.colorScheme.onSurface
+                                }
                             )
                             Text(
-                                "Keep playing until dismissed",
+                                "Keep playing until you dismiss the reminder.",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                color = if (uiState.loopPlayback) {
+                                    MaterialTheme.colorScheme.primary
+                                } else {
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                }
                             )
                         }
                         Switch(
@@ -581,7 +548,14 @@ fun AddEditReminderScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 12.dp),
+                            .padding(horizontal = 16.dp, vertical = 12.dp)
+                            .semantics(mergeDescendants = true) {
+                                stateDescription = if (uiState.followUpCheckMinutes > 0) {
+                                    "Active"
+                                } else {
+                                    "Off"
+                                }
+                            },
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Row(
@@ -601,18 +575,26 @@ fun AddEditReminderScreen(
                             Spacer(modifier = Modifier.width(16.dp))
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
-                                    "Follow-Up Check",
+                                    "Follow-up check",
                                     style = MaterialTheme.typography.bodyLarge,
-                                    color = MaterialTheme.colorScheme.onSurface
+                                    color = if (uiState.followUpCheckMinutes > 0) {
+                                        MaterialTheme.colorScheme.primary
+                                    } else {
+                                        MaterialTheme.colorScheme.onSurface
+                                    }
                                 )
                                 Text(
                                     if (uiState.followUpCheckMinutes == 0) {
-                                        "If reminder is not marked done, SpeakAlert can ask again after a delay."
+                                        "Ask again after a delay if the reminder is not marked done."
                                     } else {
                                         "Active: asks again after ${uiState.followUpCheckMinutes} minutes if not marked done."
                                     },
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    color = if (uiState.followUpCheckMinutes > 0) {
+                                        MaterialTheme.colorScheme.primary
+                                    } else {
+                                        MaterialTheme.colorScheme.onSurfaceVariant
+                                    }
                                 )
                             }
                             Surface(
@@ -691,6 +673,7 @@ fun AddEditReminderScreen(
                         }
                     }
                 }
+            }
             }
 
             if (showDatePickerDialog) {
@@ -800,9 +783,11 @@ fun AddEditReminderScreen(
             // Bottom spacing for gesture nav
             Spacer(modifier = Modifier.height(80.dp))
         }
+        }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CustomFollowUpDurationDialog(
     initialValue: Int,
@@ -815,67 +800,73 @@ private fun CustomFollowUpDurationDialog(
     }
     val parsedValue = value.toIntOrNull()
     val isValid = parsedValue != null && parsedValue in 1..maxMinutes
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-    AlertDialog(
+    ModalBottomSheet(
         onDismissRequest = onDismiss,
-        title = {
+        sheetState = sheetState,
+        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
+        dragHandle = { BottomSheetDefaults.DragHandle() }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .imePadding()
+                .navigationBarsPadding()
+                .padding(bottom = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
+        ) {
             Text(
                 text = "Custom Follow-Up",
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.SemiBold
             )
-        },
-        text = {
-            Column {
-                Text(
-                    text = "Ask again after this many minutes if reminder is not marked done.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Spacer(modifier = Modifier.height(14.dp))
-                OutlinedTextField(
-                    value = value,
-                    onValueChange = { newValue ->
-                        val digits = newValue.filter { it.isDigit() }
-                        if (digits.isEmpty()) {
-                            value = ""
-                        } else {
-                            val num = digits.toIntOrNull() ?: 0
-                            if (num <= maxMinutes) {
-                                value = digits
-                            }
+            Text(
+                text = "Ask again after this many minutes if the reminder is not marked done.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            OutlinedTextField(
+                value = value,
+                onValueChange = { newValue ->
+                    val digits = newValue.filter { it.isDigit() }
+                    if (digits.isEmpty()) {
+                        value = ""
+                    } else {
+                        val num = digits.toIntOrNull() ?: 0
+                        if (num <= maxMinutes) {
+                            value = digits
                         }
-                    },
-                    label = { Text("Minutes") },
-                    supportingText = { Text("Allowed: 1-$maxMinutes min") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    singleLine = true,
-                    isError = value.isNotEmpty() && !isValid,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-        },
-        confirmButton = {
+                    }
+                },
+                label = { Text("Minutes") },
+                supportingText = { Text("Allowed: 1-$maxMinutes min") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                singleLine = true,
+                isError = value.isNotEmpty() && !isValid,
+                modifier = Modifier.fillMaxWidth()
+            )
             Button(
                 onClick = {
                     onSave((parsedValue ?: 10).coerceIn(1, maxMinutes))
                 },
                 enabled = isValid,
-                shape = RoundedCornerShape(12.dp)
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(18.dp)
             ) {
                 Text("Save")
             }
-        },
-        dismissButton = {
             OutlinedButton(
                 onClick = onDismiss,
-                shape = RoundedCornerShape(12.dp)
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(18.dp)
             ) {
                 Text("Cancel")
             }
-        },
-        shape = RoundedCornerShape(24.dp)
-    )
+        }
+    }
 }
 
 @Composable
@@ -891,7 +882,10 @@ private fun ScheduleRow(
             .clickable(onClick = onClick)
             .heightIn(min = 56.dp)
             .padding(horizontal = 16.dp, vertical = 12.dp)
-            .semantics { role = androidx.compose.ui.semantics.Role.Button },
+            .semantics(mergeDescendants = true) {
+                role = Role.Button
+                stateDescription = value
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(

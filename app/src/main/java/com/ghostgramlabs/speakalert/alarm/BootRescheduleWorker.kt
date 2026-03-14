@@ -10,6 +10,7 @@ import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
 import com.ghostgramlabs.speakalert.domain.models.MissedPolicy
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import com.ghostgramlabs.speakalert.util.FileLogger
+import com.ghostgramlabs.speakalert.util.isDefaultAppDisplayName
 import com.ghostgramlabs.speakalert.widget.SpeakAlertWidgetUpdater
 import kotlinx.coroutines.flow.first
 
@@ -47,6 +48,8 @@ class BootRescheduleWorker(
             val notificationHelper = NotificationHelper(applicationContext)
             val settingsDefaultPolicy = parseMissedPolicy(settingsRepository.defaultMissedPolicy.first())
             val toneOnlyMode = settingsRepository.toneOnlyMode.first()
+            val toneOnlyAlertToneUri = settingsRepository.toneOnlyAlertToneUri.first()
+            val loopTimeoutMinutes = settingsRepository.loopTimeoutMinutes.first()
 
             val activeReminders = repository.getAllActiveReminders()
             FileLogger.log("BOOT_WORKER: Found ${activeReminders.size} active reminders")
@@ -58,6 +61,7 @@ class BootRescheduleWorker(
             activeReminders.forEach { reminder ->
                 val triggerTime = reminder.snoozeUntil ?: reminder.nextTriggerAt
                 val followUpAt = reminder.pendingFollowUpAt
+                var persistedReminder = reminder
                 
                 // STRICT BOOT CHECK:
                 // If triggerTime is in the past (<= now), we CANNOT schedule it via AlarmManager
@@ -97,7 +101,7 @@ class BootRescheduleWorker(
                         val textContent = reminder.reminderText?.let { "\n$it" } ?: ""
                         val notificationMessage = "Scheduled: $dateTimeStr$textContent"
 
-                        notificationHelper.showNotification(
+                        val notificationShown = notificationHelper.showNotification(
                             reminder.id,
                             "Missed: ${buildMissedDisplayTitle(reminder.title, reminder.reminderText)}",
                             notificationMessage,
@@ -106,6 +110,9 @@ class BootRescheduleWorker(
                             autoplayOnTap = false,
                             toneOnlyMode = toneOnlyMode
                         )
+                        if (toneOnlyMode && notificationShown) {
+                            ToneAlertPlayer.start(applicationContext, loopTimeoutMinutes, toneOnlyAlertToneUri)
+                        }
                     } else if (shouldShowMissedNotification) {
                         FileLogger.log("BOOT_WORKER: Suppressed missed notification for ${reminder.id} during device restart")
                     } else {
@@ -141,25 +148,38 @@ class BootRescheduleWorker(
                         FileLogger.log("BOOT_WORKER: One-time reminder kept active (awaiting user action)")
                     }
                     
-                    repository.updateReminder(updatedReminder)
+                    persistedReminder = updatedReminder
+                    repository.updateReminder(persistedReminder)
                 }
 
                 if (followUpAt != null) {
                     if (followUpAt > now) {
                         FollowUpAlarmScheduler.schedule(applicationContext, reminder.id, followUpAt)
                     } else {
-                        val updatedReminder = reminder.copy(pendingFollowUpAt = null)
-                        repository.updateReminder(updatedReminder)
+                        if (persistedReminder.pendingFollowUpAt != null) {
+                            persistedReminder = persistedReminder.copy(pendingFollowUpAt = null)
+                            repository.updateReminder(persistedReminder)
+                        }
                         if (!suppressRestartNotifications) {
-                            notificationHelper.showNotification(
-                                reminder.id,
-                                reminder.title ?: "Follow-Up Check",
-                                buildFollowUpMessage(reminder),
-                                audioPath = reminder.audioPath,
-                                reminderText = reminder.reminderText,
-                                autoplayOnTap = false,
-                                toneOnlyMode = toneOnlyMode
+                            val followUpPayload = buildReminderAlertPayload(
+                                reminder = persistedReminder,
+                                isFollowUpTrigger = true,
+                                hasPlayableAudio = false,
+                                hasAudioConfigured = false
                             )
+                            val notificationShown = notificationHelper.showNotification(
+                                reminder.id,
+                                followUpPayload.title,
+                                followUpPayload.message,
+                                audioPath = followUpPayload.playbackAudioPath,
+                                reminderText = followUpPayload.playbackText,
+                                autoplayOnTap = false,
+                                toneOnlyMode = toneOnlyMode,
+                                isFollowUpAlert = true
+                            )
+                            if (toneOnlyMode && notificationShown) {
+                                ToneAlertPlayer.start(applicationContext, loopTimeoutMinutes, toneOnlyAlertToneUri)
+                            }
                         } else {
                             FileLogger.log("BOOT_WORKER: Suppressed follow-up notification for ${reminder.id} during device restart")
                         }
@@ -192,15 +212,10 @@ class BootRescheduleWorker(
             else -> MissedPolicy.SKIP_TO_NEXT
         }
     }
-    private fun buildFollowUpMessage(reminder: com.ghostgramlabs.speakalert.data.model.ReminderEntity): String {
-        val subject = reminder.title ?: reminder.reminderText ?: "this reminder"
-        return "Did you complete $subject?"
-    }
-
     private fun buildMissedDisplayTitle(title: String?, reminderText: String?): String {
         val userTitle = title
             ?.trim()
-            ?.takeIf { it.isNotEmpty() && !it.equals("SpeakAlert", ignoreCase = true) }
+            ?.takeIf { it.isNotEmpty() && !it.isDefaultAppDisplayName() }
         if (userTitle != null) return userTitle
 
         val textFallback = reminderText

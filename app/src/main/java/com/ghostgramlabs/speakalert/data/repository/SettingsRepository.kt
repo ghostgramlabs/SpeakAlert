@@ -18,6 +18,7 @@ class SettingsRepository(private val context: Context) {
         val AUTO_PLAY_ON_UNLOCK_ONLY = booleanPreferencesKey("auto_play_on_unlock_only")
         val SPEAK_TEXT_IF_NO_VOICE = booleanPreferencesKey("speak_text_if_no_voice")
         val TONE_ONLY_MODE = booleanPreferencesKey("tone_only_mode")
+        val TONE_ONLY_ALERT_TONE_URI = stringPreferencesKey("tone_only_alert_tone_uri")
         val DEFAULT_SNOOZE_DURATION = intPreferencesKey("default_snooze_duration")
         val DEFAULT_MISSED_POLICY = stringPreferencesKey("default_missed_policy") // "FIRE" or "SKIP"
         val DEBUG_LOGGING_ENABLED = booleanPreferencesKey("debug_logging_enabled")
@@ -34,6 +35,7 @@ class SettingsRepository(private val context: Context) {
         val THEME_MODE = intPreferencesKey("theme_mode") // 0 = System, 1 = Light, 2 = Dark
         val FULL_SCREEN_ALERT_ENABLED = booleanPreferencesKey("full_screen_alert_enabled")
         val BATTERY_OPTIMIZATION_PROMPT_SHOWN = booleanPreferencesKey("battery_optimization_prompt_shown")
+        val LAST_WHATS_NEW_VERSION_SHOWN = stringPreferencesKey("last_whats_new_version_shown")
         
         // Android 15 FGS Boot Guard
         val LAST_BOOT_TIMESTAMP = longPreferencesKey("last_boot_timestamp")
@@ -43,6 +45,7 @@ class SettingsRepository(private val context: Context) {
     val autoPlayOnUnlockOnly: Flow<Boolean> = dataStore.data.map { it[AUTO_PLAY_ON_UNLOCK_ONLY] ?: false }
     val speakTextIfNoVoice: Flow<Boolean> = dataStore.data.map { it[SPEAK_TEXT_IF_NO_VOICE] ?: true }
     val toneOnlyMode: Flow<Boolean> = dataStore.data.map { it[TONE_ONLY_MODE] ?: false }
+    val toneOnlyAlertToneUri: Flow<String?> = dataStore.data.map { it[TONE_ONLY_ALERT_TONE_URI] }
     val defaultSnoozeDuration: Flow<Int> = dataStore.data.map { it[DEFAULT_SNOOZE_DURATION] ?: 5 } // Minutes (Default 5)
     val defaultMissedPolicy: Flow<String> = dataStore.data.map { it[DEFAULT_MISSED_POLICY] ?: "FIRE_ON_RESUME" }
     val debugLoggingEnabled: Flow<Boolean> = dataStore.data.map { it[DEBUG_LOGGING_ENABLED] ?: false }
@@ -61,6 +64,9 @@ class SettingsRepository(private val context: Context) {
     val batteryOptimizationPromptShown: Flow<Boolean> = dataStore.data.map {
         it[BATTERY_OPTIMIZATION_PROMPT_SHOWN] ?: false
     }
+    val lastWhatsNewVersionShown: Flow<String?> = dataStore.data.map {
+        it[LAST_WHATS_NEW_VERSION_SHOWN]
+    }
 
     suspend fun setAutoPlayEnabled(enabled: Boolean) {
         dataStore.edit { it[AUTO_PLAY_ENABLED] = enabled }
@@ -76,6 +82,16 @@ class SettingsRepository(private val context: Context) {
 
     suspend fun setToneOnlyMode(enabled: Boolean) {
         dataStore.edit { it[TONE_ONLY_MODE] = enabled }
+    }
+
+    suspend fun setToneOnlyAlertToneUri(uri: String?) {
+        dataStore.edit {
+            if (uri.isNullOrBlank()) {
+                it.remove(TONE_ONLY_ALERT_TONE_URI)
+            } else {
+                it[TONE_ONLY_ALERT_TONE_URI] = uri
+            }
+        }
     }
 
     suspend fun setDefaultSnoozeDuration(minutes: Int) {
@@ -126,6 +142,10 @@ class SettingsRepository(private val context: Context) {
 
     suspend fun setBatteryOptimizationPromptShown(shown: Boolean) {
         dataStore.edit { it[BATTERY_OPTIMIZATION_PROMPT_SHOWN] = shown }
+    }
+
+    suspend fun setLastWhatsNewVersionShown(version: String) {
+        dataStore.edit { it[LAST_WHATS_NEW_VERSION_SHOWN] = version }
     }
 
     val lastBootTimestamp: Flow<Long> = dataStore.data.map { it[LAST_BOOT_TIMESTAMP] ?: 0L }

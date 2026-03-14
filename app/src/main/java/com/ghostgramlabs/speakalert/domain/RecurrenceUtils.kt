@@ -292,7 +292,12 @@ object RecurrenceUtils {
     private fun computeNextCustom(baseTrigger: Long, rule: RecurrenceModel.Custom, fromTime: Long): Long? {
         com.ghostgramlabs.speakalert.util.FileLogger.log("Recurrence: Custom calc. Base=${java.util.Date(baseTrigger)}, From=${java.util.Date(fromTime)}, Rule=$rule")
         
-        if (rule.unit == TimeUnit.MONTHS || rule.unit == TimeUnit.DAYS || rule.unit == TimeUnit.WEEKS) {
+        if (
+            rule.unit == TimeUnit.YEARS ||
+            rule.unit == TimeUnit.MONTHS ||
+            rule.unit == TimeUnit.DAYS ||
+            rule.unit == TimeUnit.WEEKS
+        ) {
             val cal = Calendar.getInstance()
             cal.timeInMillis = baseTrigger
             
@@ -303,6 +308,7 @@ object RecurrenceUtils {
                 TimeUnit.DAYS -> Calendar.DAY_OF_YEAR
                 TimeUnit.WEEKS -> Calendar.WEEK_OF_YEAR
                 TimeUnit.MONTHS -> Calendar.MONTH
+                TimeUnit.YEARS -> Calendar.YEAR
                 else -> Calendar.DAY_OF_YEAR // Should not happen
             }
             
@@ -317,6 +323,7 @@ object RecurrenceUtils {
                     TimeUnit.DAYS -> safeInterval * 86_400_000L
                     TimeUnit.WEEKS -> safeInterval * 7 * 86_400_000L
                     TimeUnit.MONTHS -> safeInterval * 30L * 86_400_000L // approximate
+                    TimeUnit.YEARS -> safeInterval * 365L * 86_400_000L // approximate
                     else -> 86_400_000L
                 }
                 if (estimatedIntervalMs > 0) {
@@ -443,6 +450,7 @@ object RecurrenceUtils {
                     TimeUnit.DAYS -> if (model.interval == 1) "day" else "days"
                     TimeUnit.WEEKS -> if (model.interval == 1) "week" else "weeks"
                     TimeUnit.MONTHS -> if (model.interval == 1) "month" else "months"
+                    TimeUnit.YEARS -> if (model.interval == 1) "year" else "years"
                 }
                 sb.append("Every ${model.interval} $unitStr")
             }

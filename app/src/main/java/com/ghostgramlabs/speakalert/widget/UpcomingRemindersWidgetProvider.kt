@@ -10,6 +10,7 @@ import android.widget.RemoteViews
 import com.ghostgramlabs.speakalert.MainActivity
 import com.ghostgramlabs.speakalert.R
 import com.ghostgramlabs.speakalert.VoiceReminderApp
+import com.ghostgramlabs.speakalert.util.isDefaultAppDisplayName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -166,7 +167,7 @@ class UpcomingRemindersWidgetProvider : AppWidgetProvider() {
     private fun buildDisplayTitle(title: String?, reminderText: String?): String {
         val userTitle = title
             ?.trim()
-            ?.takeIf { it.isNotEmpty() && !it.equals("SpeakAlert", ignoreCase = true) }
+            ?.takeIf { it.isNotEmpty() && !it.isDefaultAppDisplayName() }
         if (userTitle != null) return userTitle
 
         val textFallback = reminderText

@@ -8,6 +8,7 @@ import com.ghostgramlabs.speakalert.alarm.NotificationHelper
 import com.ghostgramlabs.speakalert.alarm.ToneAlertPlayer
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.data.repository.ReminderRepository
+import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -127,15 +128,15 @@ class ReminderDetailsViewModel(
         ToneAlertPlayer.stop()
         val audioPath = rem.audioPath
         val reminderText = rem.reminderText
-        val title = rem.title ?: "SpeakAlert"
+        val title = rem.title ?: APP_DISPLAY_NAME
         val hasPlayableAudio = ReminderAudioSource.isPlayable(context, audioPath)
 
         if (hasPlayableAudio) {
              com.ghostgramlabs.speakalert.service.ReminderPlaybackService.start(
                 context, rem.id, title, audioPath, null
             )
-        } else if (!reminderText.isNullOrBlank() && isTtsEnabled) {
-             // Only fall back to TTS if the setting is enabled
+        } else if (!reminderText.isNullOrBlank()) {
+             // Manual playback stays available even if automatic spoken text is off.
              com.ghostgramlabs.speakalert.service.ReminderPlaybackService.start(
                 context, rem.id, title, null, reminderText
             )
@@ -159,7 +160,7 @@ class ReminderDetailsViewModel(
         ToneAlertPlayer.stop()
         val audioPath = rem.audioPath
         val reminderText = rem.reminderText
-        val title = rem.title ?: "SpeakAlert"
+        val title = rem.title ?: APP_DISPLAY_NAME
         val hasPlayableAudio = ReminderAudioSource.isPlayable(context, audioPath)
         
         // Use foreground service for autoplay

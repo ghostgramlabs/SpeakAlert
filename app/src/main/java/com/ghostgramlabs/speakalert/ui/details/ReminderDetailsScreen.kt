@@ -5,7 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -22,9 +25,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -33,16 +42,22 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.EventBusy
 import androidx.compose.material.icons.filled.NotificationsActive
+import com.ghostgramlabs.speakalert.service.ReminderPlaybackService
 import com.ghostgramlabs.speakalert.ui.AppViewModelProvider
+import com.ghostgramlabs.speakalert.ui.components.PremiumHeaderCard
+import com.ghostgramlabs.speakalert.ui.components.PremiumScreenBackground
+import com.ghostgramlabs.speakalert.ui.components.PremiumStatusPill
 import com.ghostgramlabs.speakalert.ui.components.SectionCard
 import com.ghostgramlabs.speakalert.ui.components.PrimaryActionButton
 import com.ghostgramlabs.speakalert.util.DateUtils
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
+import com.ghostgramlabs.speakalert.util.isDefaultAppDisplayName
+import com.ghostgramlabs.speakalert.domain.models.EndRuleType
+import com.ghostgramlabs.speakalert.domain.models.MissedPolicy
+import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import kotlinx.coroutines.delay
 
-import java.io.File
-
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun ReminderDetailsScreen(
     reminderId: Long,
@@ -61,6 +76,10 @@ fun ReminderDetailsScreen(
     val reminder by viewModel.reminder.collectAsState()
     var isPlaying by remember { mutableStateOf(false) }
     var hasAutoPlayed by remember { mutableStateOf(false) }
+    var playbackPositionMs by remember { mutableStateOf(0L) }
+    var playbackDurationMs by remember { mutableStateOf(0L) }
+    var playbackSliderValue by remember { mutableStateOf(0f) }
+    var isSeekingPlayback by remember { mutableStateOf(false) }
 
     // Keep play/stop UI in sync with service playback lifecycle.
     DisposableEffect(context, reminderId) {
@@ -69,11 +88,31 @@ fun ReminderDetailsScreen(
                 if (intent?.action != "ACTION_PLAYBACK_STATUS") return
                 val id = intent.getLongExtra("reminderId", -1L)
                 val playing = intent.getBooleanExtra("isPlaying", false)
+                val positionMs = intent.getLongExtra("positionMs", 0L)
+                val durationMs = intent.getLongExtra("durationMs", 0L)
                 isPlaying = if (!playing) {
+                    isSeekingPlayback = false
+                    playbackPositionMs = 0L
+                    playbackDurationMs = 0L
+                    if (!isSeekingPlayback) {
+                        playbackSliderValue = 0f
+                    }
                     false
                 } else if (id == reminderId) {
+                    playbackPositionMs = positionMs.coerceAtLeast(0L)
+                    playbackDurationMs = durationMs.coerceAtLeast(0L)
+                    if (!isSeekingPlayback && durationMs > 0L) {
+                        playbackSliderValue =
+                            (positionMs.toFloat() / durationMs.toFloat()).coerceIn(0f, 1f)
+                    }
                     true
                 } else {
+                    isSeekingPlayback = false
+                    playbackPositionMs = 0L
+                    playbackDurationMs = 0L
+                    if (!isSeekingPlayback) {
+                        playbackSliderValue = 0f
+                    }
                     false
                 }
             }
@@ -99,6 +138,10 @@ fun ReminderDetailsScreen(
             delay(1200)
             if (!isPlaybackNotificationActive(context)) {
                 isPlaying = false
+                isSeekingPlayback = false
+                playbackPositionMs = 0L
+                playbackDurationMs = 0L
+                playbackSliderValue = 0f
             }
         }
     }
@@ -117,6 +160,10 @@ fun ReminderDetailsScreen(
             hasAutoPlayed = true
             viewModel.startAutoplay(context)
             isPlaying = true
+            isSeekingPlayback = false
+            playbackPositionMs = 0L
+            playbackDurationMs = 0L
+            playbackSliderValue = 0f
         }
     }
 
@@ -136,6 +183,7 @@ fun ReminderDetailsScreen(
     val createdTime = DateUtils.formatTimeOnly(item.createdAt)
     val isLegacyTitle = item.title?.matches(Regex("Reminder at \\d{1,2}:\\d{2} [AP]M")) == true
             || item.title.equals("Voice reminder", ignoreCase = true)
+            || item.title.isDefaultAppDisplayName()
     val hasUserTitle = !item.title.isNullOrBlank() && !isLegacyTitle
     
     val displayLabel = when {
@@ -168,8 +216,34 @@ fun ReminderDetailsScreen(
     var pendingRescheduleTime by remember { mutableStateOf<Long?>(null) }
     var showRescheduleDatePicker by remember { mutableStateOf(false) }
     var showRescheduleTimePicker by remember { mutableStateOf(false) }
+    val scheduleSummary = remember(item.nextTriggerAt) { DateUtils.formatDateTime(item.nextTriggerAt) }
+    val recurrenceSummary = remember(item.recurrenceType, item.recurrenceJson, item.nextTriggerAt) {
+        com.ghostgramlabs.speakalert.domain.RecurrenceUtils.getRecurrenceSummary(
+            item.recurrenceType,
+            item.recurrenceJson,
+            item.nextTriggerAt,
+            includeTime = false
+        )
+    }
+    val recurrenceBadgeText = remember(item.recurrenceType) {
+        when (item.recurrenceType) {
+            RecurrenceType.NONE -> "One-time"
+            RecurrenceType.DAILY -> "Daily"
+            RecurrenceType.WEEKLY -> "Weekly"
+            RecurrenceType.MONTHLY -> "Monthly"
+            RecurrenceType.YEARLY -> "Yearly"
+            RecurrenceType.CUSTOM -> "Custom"
+        }
+    }
+    val recurrenceModel = remember(item) {
+        com.ghostgramlabs.speakalert.domain.RecurrenceUtils.fromJson(
+            item.recurrenceType,
+            item.recurrenceJson
+        ) ?: com.ghostgramlabs.speakalert.domain.models.RecurrenceModel.Daily()
+    }
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
@@ -191,276 +265,353 @@ fun ReminderDetailsScreen(
                     IconButton(onClick = { showDeleteDialog = true }) {
                         Icon(Icons.Filled.Delete, "Delete", tint = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
-                }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.94f)
+                )
             )
         }
     ) { innerPadding ->
-        Column(
+        PremiumScreenBackground(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // HEADER: Label as primary + Date/Time as secondary
-            Column {
-                Text(
-                    text = displayLabel,
-                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onBackground,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = DateUtils.formatDateTime(item.nextTriggerAt),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-            
-            // VOICE NOTE Section (if audio exists)
-            if (item.audioPath != null) {
-                SectionCard(title = if (isCustomAudioFile) "Audio File" else "Voice Note") {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(
-                            onClick = {
-                                if (isPlaying) {
-                                    viewModel.stopAudio(context)
-                                    isPlaying = false
-                                } else {
-                                    viewModel.playAudio(context)
-                                    isPlaying = true
-                                }
-                            },
-                            modifier = Modifier.size(56.dp).background(MaterialTheme.colorScheme.primaryContainer, androidx.compose.foundation.shape.CircleShape)
-                        ) {
-                            Icon(
-                                if (isPlaying) Icons.Filled.Stop else Icons.Filled.PlayArrow,
-                                "Play Audio",
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                        }
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(if (isPlaying) "Playing..." else "Tap to play", style = MaterialTheme.typography.titleMedium)
-                            Text(
-                                text = if (isCustomAudioFile) "Audio file" else "Voice recording",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                            if (isCustomAudioFile) {
-                                Text(
-                                    text = audioFileName ?: "Selected audio file",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-            
-            // TEXT CONTENT Section (if text exists)
-            if (!item.reminderText.isNullOrBlank()) {
-                SectionCard(title = "Text Content") {
-                    Text(
-                        text = item.reminderText,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-            }
-
-            // SCHEDULE Section (tappable, replaces "Settings")
-            var showRecurrenceSheet by remember { mutableStateOf(false) }
-            
-            SectionCard(title = "Schedule") {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { showRecurrenceSheet = true }
-                        .padding(vertical = 4.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                PremiumHeaderCard(
+                    title = displayLabel,
+                    subtitle = scheduleSummary,
+                    eyebrow = "Reminder details"
                 ) {
-                    // 1. Frequency & Time
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(
-                            modifier = Modifier
-                                .size(32.dp)
-                                .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                Icons.Default.Refresh,
-                                contentDescription = null,
-                                modifier = Modifier.size(18.dp),
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        PremiumStatusPill(
+                            text = recurrenceBadgeText,
+                            highlighted = isRecurring
+                        )
+                        if (item.audioPath != null) {
+                            PremiumStatusPill(
+                                text = if (isCustomAudioFile) "Audio file" else "Voice note",
+                                highlighted = true
                             )
                         }
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Column(modifier = Modifier.weight(1f)) {
-                            val frequencyText = com.ghostgramlabs.speakalert.domain.RecurrenceUtils.getRecurrenceSummary(
-                                item.recurrenceType,
-                                item.recurrenceJson,
-                                item.nextTriggerAt,
-                                includeTime = false
+                        if (!item.reminderText.isNullOrBlank()) {
+                            PremiumStatusPill(
+                                text = "Text reminder",
+                                highlighted = item.audioPath == null
                             )
-                            Text(text = frequencyText, style = MaterialTheme.typography.titleSmall)
-                            Text(
-                                text = "At " + java.text.SimpleDateFormat("h:mm a", java.util.Locale.getDefault()).format(java.util.Date(item.nextTriggerAt)),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                        }
+                        if (item.loopPlayback) {
+                            PremiumStatusPill(text = "Loop enabled", highlighted = true)
+                        }
+                        if (item.followUpCheckMinutes > 0) {
+                            PremiumStatusPill(
+                                text = "Follow-up ${item.followUpCheckMinutes}m",
+                                highlighted = true
                             )
                         }
                     }
-
-                    // 2. End Rule (if not Never)
-                    val model = remember(item) { com.ghostgramlabs.speakalert.domain.RecurrenceUtils.fromJson(item.recurrenceType, item.recurrenceJson) ?: com.ghostgramlabs.speakalert.domain.models.RecurrenceModel.Daily() }
-                    if (model.endRule.type != com.ghostgramlabs.speakalert.domain.models.EndRuleType.NEVER) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Box(
-                                modifier = Modifier
-                                    .size(32.dp)
-                                    .background(MaterialTheme.colorScheme.secondaryContainer, CircleShape),
-                                contentAlignment = Alignment.Center
+                }
+            
+                // VOICE NOTE Section (if audio exists)
+                if (item.audioPath != null) {
+                    SectionCard(title = if (isCustomAudioFile) "Audio file" else "Voice note") {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            Surface(
+                                shape = CircleShape,
+                                color = if (isPlaying) {
+                                    MaterialTheme.colorScheme.errorContainer
+                                } else {
+                                    MaterialTheme.colorScheme.primaryContainer
+                                }
                             ) {
-                                Icon(
-                                    Icons.Default.EventBusy,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(18.dp),
-                                    tint = MaterialTheme.colorScheme.onSecondaryContainer
-                                )
+                                IconButton(
+                                    onClick = {
+                                        if (isPlaying) {
+                                            viewModel.stopAudio(context)
+                                            isPlaying = false
+                                            isSeekingPlayback = false
+                                            playbackPositionMs = 0L
+                                            playbackDurationMs = 0L
+                                            playbackSliderValue = 0f
+                                        } else {
+                                            viewModel.playAudio(context)
+                                            isPlaying = true
+                                            isSeekingPlayback = false
+                                            playbackPositionMs = 0L
+                                            playbackDurationMs = 0L
+                                            playbackSliderValue = 0f
+                                        }
+                                    },
+                                    modifier = Modifier.size(56.dp)
+                                ) {
+                                    Icon(
+                                        if (isPlaying) Icons.Filled.Stop else Icons.Filled.PlayArrow,
+                                        contentDescription = if (isPlaying) "Stop audio" else "Play audio",
+                                        tint = if (isPlaying) {
+                                            MaterialTheme.colorScheme.onErrorContainer
+                                        } else {
+                                            MaterialTheme.colorScheme.onPrimaryContainer
+                                        }
+                                    )
+                                }
                             }
-                            Spacer(modifier = Modifier.width(12.dp))
-                            val endRuleStr = when (model.endRule.type) {
-                                com.ghostgramlabs.speakalert.domain.models.EndRuleType.UNTIL_DATE -> {
-                                    val dateStr = java.text.SimpleDateFormat("MMM d, yyyy", java.util.Locale.getDefault()).format(java.util.Date(model.endRule.endDateMillis ?: 0L))
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = if (isPlaying) "Playing now" else if (isCustomAudioFile) "Ready to preview" else "Ready to play",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                                Text(
+                                    text = if (isCustomAudioFile) "Audio file" else "Voice recording",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                                if (isCustomAudioFile) {
+                                    Text(
+                                        text = audioFileName ?: "Selected audio file",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                }
+                                if (!isCustomAudioFile) {
+                                    Text(
+                                        text = "Tap play to preview the recorded reminder.",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        modifier = Modifier.padding(top = 4.dp)
+                                    )
+                                }
+                                if (isPlaying || playbackDurationMs > 0L) {
+                                    Spacer(modifier = Modifier.height(12.dp))
+                                    Slider(
+                                        value = playbackSliderValue.coerceIn(0f, 1f),
+                                        onValueChange = { value ->
+                                            isSeekingPlayback = true
+                                            playbackSliderValue = value
+                                            if (playbackDurationMs > 0L) {
+                                                playbackPositionMs =
+                                                    (playbackDurationMs * value).toLong()
+                                            }
+                                        },
+                                        onValueChangeFinished = {
+                                            val targetPositionMs =
+                                                (playbackDurationMs * playbackSliderValue).toLong()
+                                            if (isPlaying && playbackDurationMs > 0L) {
+                                                ReminderPlaybackService.seek(
+                                                    context,
+                                                    targetPositionMs
+                                                )
+                                            }
+                                            isSeekingPlayback = false
+                                        },
+                                        enabled = playbackDurationMs > 0L,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .semantics {
+                                                contentDescription = "Reminder audio progress"
+                                                stateDescription =
+                                                    "${detailsFormatPlaybackTime(playbackPositionMs)} of ${detailsFormatPlaybackTime(playbackDurationMs)}"
+                                            }
+                                    )
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceBetween
+                                    ) {
+                                        Text(
+                                            text = detailsFormatPlaybackTime(playbackPositionMs),
+                                            style = MaterialTheme.typography.labelMedium,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                        Text(
+                                            text = detailsFormatPlaybackTime(playbackDurationMs),
+                                            style = MaterialTheme.typography.labelMedium,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            
+                // TEXT CONTENT Section (if text exists)
+                if (!item.reminderText.isNullOrBlank()) {
+                    SectionCard(title = "Reminder message") {
+                        Surface(
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(18.dp),
+                            color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                            border = BorderStroke(
+                                1.dp,
+                                MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f)
+                            )
+                        ) {
+                            Text(
+                                text = item.reminderText,
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier.padding(16.dp)
+                            )
+                        }
+                    }
+                }
+
+                // SCHEDULE Section (tappable, replaces "Settings")
+                var showRecurrenceSheet by remember { mutableStateOf(false) }
+            
+                SectionCard(title = "Schedule") {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { showRecurrenceSheet = true }
+                            .semantics(mergeDescendants = true) {
+                                role = Role.Button
+                                stateDescription = "Double tap to edit"
+                            },
+                        verticalArrangement = Arrangement.spacedBy(14.dp)
+                    ) {
+                        DetailInfoRow(
+                            icon = Icons.Default.Refresh,
+                            label = "Repeat",
+                            value = recurrenceSummary
+                        )
+                        DetailInfoRow(
+                            icon = Icons.Default.NotificationsActive,
+                            label = "Time",
+                            value = java.text.SimpleDateFormat(
+                                "h:mm a",
+                                java.util.Locale.getDefault()
+                            ).format(java.util.Date(item.nextTriggerAt))
+                        )
+                        if (recurrenceModel.endRule.type != EndRuleType.NEVER) {
+                            val endRuleText = when (recurrenceModel.endRule.type) {
+                                EndRuleType.UNTIL_DATE -> {
+                                    val dateStr = java.text.SimpleDateFormat(
+                                        "MMM d, yyyy",
+                                        java.util.Locale.getDefault()
+                                    ).format(java.util.Date(recurrenceModel.endRule.endDateMillis ?: 0L))
                                     "Ends on $dateStr"
                                 }
-                                com.ghostgramlabs.speakalert.domain.models.EndRuleType.AFTER_OCCURRENCES -> "Ends after ${model.endRule.count} occurrences"
+                                EndRuleType.AFTER_OCCURRENCES -> "Ends after ${recurrenceModel.endRule.count} occurrences"
                                 else -> ""
                             }
-                            Text(
-                                text = endRuleStr,
-                                style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier.weight(1f)
+                            DetailInfoRow(
+                                icon = Icons.Default.EventBusy,
+                                label = "End rule",
+                                value = endRuleText
                             )
+                        }
+                        DetailInfoRow(
+                            icon = Icons.Default.NotificationsActive,
+                            label = "Missed reminder handling",
+                            value = when (recurrenceModel.missedPolicy) {
+                                MissedPolicy.FIRE_ON_RESUME -> "Alert when device turns back on"
+                                MissedPolicy.SKIP_TO_NEXT -> "Remind only at the next exact time"
+                            }
+                        )
+                        Surface(
+                            shape = RoundedCornerShape(14.dp),
+                            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.72f)
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.Edit,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                                Text(
+                                    text = "Tap to edit schedule",
+                                    style = MaterialTheme.typography.labelLarge,
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                                )
+                            }
                         }
                     }
+                }
+            
+                if (showRecurrenceSheet) {
+                    com.ghostgramlabs.speakalert.ui.addedit.RecurrenceSelectionSheet(
+                        initialType = item.recurrenceType,
+                        initialJson = item.recurrenceJson,
+                        onRecurrenceSelected = { model ->
+                            viewModel.updateRecurrence(model)
+                            showRecurrenceSheet = false
+                        },
+                        onDismiss = { showRecurrenceSheet = false }
+                    )
+                }
+            
+                Spacer(modifier = Modifier.height(4.dp))
+            
+                // ACTIONS - Context-aware buttons
+                val now = System.currentTimeMillis()
+                val isFiringOrMissed = remember(item) {
+                    val oneHourAgo = now - 3600_000
+                    // Active if: currently snoozed, fired in the last hour, or scheduled time has passed but not completed
+                    item.snoozeUntil != null || 
+                    (item.lastFiredAt != null && item.lastFiredAt > oneHourAgo) ||
+                    (item.nextTriggerAt < now && !item.isCompleted)
+                }
 
-                    // 3. Missed Policy
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(
-                            modifier = Modifier
-                                .size(32.dp)
-                                .background(MaterialTheme.colorScheme.tertiaryContainer, CircleShape),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                Icons.Filled.NotificationsActive,
-                                contentDescription = null,
-                                modifier = Modifier.size(16.dp),
-                                tint = MaterialTheme.colorScheme.onTertiaryContainer
-                            )
-                        }
-                        Spacer(modifier = Modifier.width(12.dp))
-                        val policyText = when (model.missedPolicy) {
-                            com.ghostgramlabs.speakalert.domain.models.MissedPolicy.FIRE_ON_RESUME -> "Alert when device back on"
-                            com.ghostgramlabs.speakalert.domain.models.MissedPolicy.SKIP_TO_NEXT -> "Remind at exact time only"
-                        }
-                        Text(
-                            text = policyText,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.weight(1f)
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    // Show button if: Completed (to undo), or Active (Firing/Missed/Snoozed)
+                    // This hiding logic now applies to BOTH one-time and recurring for consistency
+                    if (item.isCompleted || isFiringOrMissed) {
+                        PrimaryActionButton(
+                            text = when {
+                                item.isCompleted -> "Mark as Undone"
+                                isRecurring -> "Dismiss"
+                                else -> "Mark as Done"
+                            },
+                            icon = if (item.isCompleted) Icons.Filled.Refresh else Icons.Filled.Done,
+                            onClick = { 
+                                if (item.isCompleted && item.nextTriggerAt < now) {
+                                    showPastActionSheet = true
+                                } else if (isRecurring && !item.isCompleted) {
+                                    viewModel.dismissReminder(context)
+                                    navigateBack()
+                                } else {
+                                    viewModel.toggleDone()
+                                    navigateBack()
+                                }
+                            },
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
                     
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                    // Helper text for future reminders
+                    if (!item.isCompleted && !isFiringOrMissed) {
                         Text(
-                            text = "Tap to edit schedule",
+                            text = "Scheduled for: ${DateUtils.formatDateTime(item.nextTriggerAt)}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        Spacer(modifier = Modifier.width(6.dp))
-                        Icon(
-                            imageVector = Icons.Filled.Edit,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(16.dp)
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
-                }
-            }
-            
-            if (showRecurrenceSheet) {
-                com.ghostgramlabs.speakalert.ui.addedit.RecurrenceSelectionSheet(
-                    initialType = item.recurrenceType,
-                    initialJson = item.recurrenceJson,
-                    onRecurrenceSelected = { model ->
-                        viewModel.updateRecurrence(model)
-                        showRecurrenceSheet = false
-                    },
-                    onDismiss = { showRecurrenceSheet = false }
-                )
-            }
-            
-            Spacer(modifier = Modifier.weight(1f))
-            
-            // ACTIONS - Context-aware buttons
-            val now = System.currentTimeMillis()
-            val isFiringOrMissed = remember(item) {
-                val oneHourAgo = now - 3600_000
-                // Active if: currently snoozed, fired in the last hour, or scheduled time has passed but not completed
-                item.snoozeUntil != null || 
-                (item.lastFiredAt != null && item.lastFiredAt > oneHourAgo) ||
-                (item.nextTriggerAt < now && !item.isCompleted)
-            }
-
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                // Show button if: Completed (to undo), or Active (Firing/Missed/Snoozed)
-                // This hiding logic now applies to BOTH one-time and recurring for consistency
-                if (item.isCompleted || isFiringOrMissed) {
-                    PrimaryActionButton(
-                        text = when {
-                            item.isCompleted -> "Mark as Undone"
-                            isRecurring -> "Dismiss"
-                            else -> "Mark as Done"
-                        },
-                        icon = if (item.isCompleted) Icons.Filled.Refresh else Icons.Filled.Done,
-                        onClick = { 
-                            if (item.isCompleted && item.nextTriggerAt < now) {
-                                showPastActionSheet = true
-                            } else if (isRecurring && !item.isCompleted) {
-                                viewModel.dismissReminder(context)
-                                navigateBack()
-                            } else {
-                                viewModel.toggleDone()
-                                navigateBack()
-                            }
-                        },
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-                
-                // Helper text for future reminders
-                if (!item.isCompleted && !isFiringOrMissed) {
-                    Text(
-                        text = "Scheduled for: ${DateUtils.formatDateTime(item.nextTriggerAt)}",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    )
                 }
             }
         }
@@ -636,6 +787,10 @@ fun ReminderDetailsScreen(
                 showPastActionSheet = false
                 viewModel.playAudio(context)
                 isPlaying = true
+                isSeekingPlayback = false
+                playbackPositionMs = 0L
+                playbackDurationMs = 0L
+                playbackSliderValue = 0f
             },
             onCancel = { showPastActionSheet = false },
             onDismiss = { showPastActionSheet = false }
@@ -687,6 +842,45 @@ fun ReminderDetailsScreen(
     }
 }
 
+@Composable
+private fun DetailInfoRow(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    label: String,
+    value: String
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Surface(
+            shape = CircleShape,
+            color = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
+        ) {
+            Box(
+                modifier = Modifier.size(34.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+        }
+        Spacer(modifier = Modifier.width(12.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                text = value,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
+    }
+}
+
 private fun detailsMergeDateWithCurrentTime(currentTime: Long, selectedDateMillis: Long): Long {
     val current = java.util.Calendar.getInstance().apply { timeInMillis = currentTime }
     val utcDate = java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone("UTC")).apply {
@@ -735,6 +929,14 @@ private fun detailsStartOfDayMillis(time: Long = System.currentTimeMillis()): Lo
         set(java.util.Calendar.SECOND, 0)
         set(java.util.Calendar.MILLISECOND, 0)
     }.timeInMillis
+}
+
+private fun detailsFormatPlaybackTime(timeMs: Long): String {
+    if (timeMs <= 0L) return "0:00"
+    val totalSeconds = timeMs / 1000
+    val minutes = totalSeconds / 60
+    val seconds = totalSeconds % 60
+    return String.format(java.util.Locale.getDefault(), "%d:%02d", minutes, seconds)
 }
 
 private fun isPlaybackNotificationActive(context: Context): Boolean {

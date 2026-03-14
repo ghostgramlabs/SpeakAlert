@@ -277,6 +277,28 @@ class RecurrenceUtilsTest {
     }
 
     @Test
+    fun testCustomEvery2Years() {
+        val base = Calendar.getInstance().apply {
+            set(2026, Calendar.MARCH, 10, 8, 0, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val model = RecurrenceModel.Custom(interval = 2, unit = TimeUnit.YEARS)
+        val reminder = ReminderEntity(
+            nextTriggerAt = base.timeInMillis,
+            recurrenceType = RecurrenceType.CUSTOM,
+            recurrenceJson = RecurrenceUtils.toJson(model)
+        )
+
+        val next = RecurrenceUtils.computeNextTrigger(reminder, base.timeInMillis)
+        val expected = Calendar.getInstance().apply {
+            set(2028, Calendar.MARCH, 10, 8, 0, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+
+        assertEquals("Custom yearly interval should advance by two years", expected.timeInMillis, next)
+    }
+
+    @Test
     fun testEndRuleUntilDate() {
         val now = System.currentTimeMillis()
         val model = RecurrenceModel.Daily(endRule = RecurrenceEndRule(EndRuleType.UNTIL_DATE, endDateMillis = now))
