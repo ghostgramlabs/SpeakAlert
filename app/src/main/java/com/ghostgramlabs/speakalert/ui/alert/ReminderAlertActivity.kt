@@ -1,6 +1,9 @@
 package com.ghostgramlabs.speakalert.ui.alert
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -14,6 +17,8 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -40,6 +45,7 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.NotificationsActive
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -52,11 +58,16 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -64,8 +75,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import com.ghostgramlabs.speakalert.VoiceReminderApp
+import com.ghostgramlabs.speakalert.alarm.ToneAlertPlayer
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
+import com.ghostgramlabs.speakalert.service.ReminderPlaybackService
 import com.ghostgramlabs.speakalert.ui.theme.VoiceReminderTheme
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.DateUtils
@@ -134,6 +148,9 @@ class ReminderAlertActivity : ComponentActivity() {
                                 reminderText = playbackTextOverride
                             )
                         },
+                        onStopPlayback = {
+                            stopPlayback()
+                        },
                         onDone = {
                             sendReminderAction("ACTION_DONE", it.id)
                             finish()
@@ -185,12 +202,19 @@ class ReminderAlertActivity : ComponentActivity() {
             }
         )
     }
+
+    private fun stopPlayback() {
+        ReminderPlaybackService.stop(this)
+        ToneAlertPlayer.stop()
+    }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun ReminderAlertContent(
     reminder: ReminderEntity,
     onPlayAgain: () -> Unit,
+    onStopPlayback: () -> Unit,
     onDone: () -> Unit,
     onSnoozeFive: () -> Unit,
     onSnoozeTen: () -> Unit,
@@ -200,6 +224,33 @@ private fun ReminderAlertContent(
     playbackText: String?,
     isFollowUpAlert: Boolean
 ) {
+    val context = LocalContext.current
+    var isPlaying by remember(reminder.id) { mutableStateOf(false) }
+
+    DisposableEffect(context, reminder.id) {
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                if (intent?.action != "ACTION_PLAYBACK_STATUS") return
+                val activeReminderId = intent.getLongExtra("reminderId", -1L)
+                val playing = intent.getBooleanExtra("isPlaying", false)
+                isPlaying = activeReminderId == reminder.id && playing
+            }
+        }
+        val filter = IntentFilter("ACTION_PLAYBACK_STATUS")
+        ContextCompat.registerReceiver(
+            context,
+            receiver,
+            filter,
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
+        onDispose {
+            try {
+                context.unregisterReceiver(receiver)
+            } catch (_: Exception) {
+            }
+        }
+    }
+
     val isFollowUp = isFollowUpAlert || (reminder.followUpCheckMinutes > 0 && reminder.pendingFollowUpAt != null)
     val headline = titleOverride
         ?: reminder.title
@@ -219,6 +270,11 @@ private fun ReminderAlertContent(
         !playbackAudioPath.isNullOrBlank() -> "Voice reminder"
         !playbackText.isNullOrBlank() -> "Text reminder"
         else -> "Alert"
+    }
+    val statusLabel = when {
+        isPlaying -> "Playing now"
+        isFollowUp -> "Needs response"
+        else -> "Awaiting action"
     }
     val pulse = rememberInfiniteTransition(label = "alert_pulse")
     val outerScale by pulse.animateFloat(
@@ -379,7 +435,7 @@ private fun ReminderAlertContent(
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             Text(
-                                text = if (isFollowUp) "Waiting for your response" else "Reminder ready",
+                                text = if (isFollowUp) "Follow up on this reminder" else "Reminder on screen",
                                 style = MaterialTheme.typography.titleSmall,
                                 color = MaterialTheme.colorScheme.primary,
                                 textAlign = TextAlign.Center
@@ -402,49 +458,56 @@ private fun ReminderAlertContent(
                             }
                         }
 
-                        Row(
+                        FlowRow(
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center
+                            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
                             AlertTag(text = sourceLabel)
+                            AlertTag(text = statusLabel, highlighted = isPlaying)
                             if (isFollowUp) {
-                                Spacer(modifier = Modifier.width(8.dp))
-                                AlertTag(text = "Open")
+                                AlertTag(text = "Follow-up", highlighted = true)
                             }
                         }
 
-                        Divider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.42f))
-
-                        Row(
+                        Surface(
                             modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
+                            shape = RoundedCornerShape(22.dp),
+                            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.32f),
+                            border = BorderStroke(
+                                1.dp,
+                                MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.24f)
+                            )
                         ) {
-                            Icon(
-                                imageVector = Icons.Filled.Schedule,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.size(16.dp)
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(
-                                text = scheduledText,
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                textAlign = TextAlign.Center
-                            )
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp, vertical = 14.dp),
+                                verticalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                AlertMetaRow(
+                                    icon = Icons.Filled.Schedule,
+                                    label = "Scheduled for",
+                                    value = scheduledText
+                                )
+                                AlertMetaRow(
+                                    icon = if (isPlaying) Icons.Filled.Stop else Icons.Filled.NotificationsActive,
+                                    label = "Alert status",
+                                    value = if (isPlaying) {
+                                        "Audio is playing. Use Silence to stop it."
+                                    } else {
+                                        "Waiting for Done or Snooze."
+                                    }
+                                )
+                                if (reminder.followUpCheckMinutes > 0) {
+                                    AlertMetaRow(
+                                        icon = Icons.Filled.NotificationsActive,
+                                        label = "Follow-up",
+                                        value = "Repeats every ${reminder.followUpCheckMinutes} minutes until done."
+                                    )
+                                }
+                            }
                         }
-
-                        if (reminder.followUpCheckMinutes > 0) {
-                            Text(
-                                text = "Repeats every ${reminder.followUpCheckMinutes} minutes until you confirm it is done.",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                textAlign = TextAlign.Center
-                            )
-                        }
-
-                        Divider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.42f))
 
                         Column(
                             modifier = Modifier.fillMaxWidth(),
@@ -470,23 +533,63 @@ private fun ReminderAlertContent(
                                     style = MaterialTheme.typography.titleMedium
                                 )
                             }
-                            if (canPlayAgain) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
                                 OutlinedButton(
-                                    onClick = onPlayAgain,
+                                    onClick = {
+                                        isPlaying = false
+                                        onStopPlayback()
+                                    },
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(54.dp),
-                                    shape = RoundedCornerShape(18.dp)
+                                        .weight(1f)
+                                        .height(52.dp),
+                                    shape = RoundedCornerShape(16.dp),
+                                    colors = ButtonDefaults.outlinedButtonColors(
+                                        contentColor = MaterialTheme.colorScheme.onSurface
+                                    ),
+                                    border = BorderStroke(
+                                        1.dp,
+                                        if (isPlaying) {
+                                            MaterialTheme.colorScheme.primary.copy(alpha = 0.42f)
+                                        } else {
+                                            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.72f)
+                                        }
+                                    )
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Filled.PlayArrow,
+                                        imageVector = Icons.Filled.Stop,
                                         contentDescription = null
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Text(
-                                        text = "Replay",
+                                        text = if (isPlaying) "Silence now" else "Silence",
                                         style = MaterialTheme.typography.titleSmall
                                     )
+                                }
+                                if (canPlayAgain) {
+                                    FilledTonalButton(
+                                        onClick = onPlayAgain,
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .height(52.dp),
+                                        shape = RoundedCornerShape(16.dp),
+                                        colors = ButtonDefaults.filledTonalButtonColors(
+                                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                                        )
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Filled.PlayArrow,
+                                            contentDescription = null
+                                        )
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        Text(
+                                            text = if (isPlaying) "Replay" else "Play again",
+                                            style = MaterialTheme.typography.titleSmall
+                                        )
+                                    }
                                 }
                             }
                             Row(
@@ -505,7 +608,7 @@ private fun ReminderAlertContent(
                                 )
                             }
                             Text(
-                                text = "Choose an action to clear this lock screen alert.",
+                                text = "Silence stops playback. Mark Done or Snooze clears the lock-screen alert.",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 textAlign = TextAlign.Center,
@@ -521,22 +624,85 @@ private fun ReminderAlertContent(
 
 @Composable
 private fun AlertTag(
-    text: String
+    text: String,
+    highlighted: Boolean = false
 ) {
     Surface(
         shape = RoundedCornerShape(100.dp),
-        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.56f),
+        color = if (highlighted) {
+            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.92f)
+        } else {
+            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.56f)
+        },
         border = BorderStroke(
             width = 1.dp,
-            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.26f)
+            color = if (highlighted) {
+                MaterialTheme.colorScheme.primary.copy(alpha = 0.24f)
+            } else {
+                MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.26f)
+            }
         )
     ) {
         Text(
             text = text,
             style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            color = if (highlighted) {
+                MaterialTheme.colorScheme.onPrimaryContainer
+            } else {
+                MaterialTheme.colorScheme.onSurfaceVariant
+            },
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
         )
+    }
+}
+
+@Composable
+private fun AlertMetaRow(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    label: String,
+    value: String
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.Top,
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Surface(
+            shape = CircleShape,
+            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
+            border = BorderStroke(
+                1.dp,
+                MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
+            )
+        ) {
+            Box(
+                modifier = Modifier.size(32.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(16.dp)
+                )
+            }
+        }
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(2.dp)
+        ) {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Text(
+                text = value,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Start
+            )
+        }
     }
 }
 
