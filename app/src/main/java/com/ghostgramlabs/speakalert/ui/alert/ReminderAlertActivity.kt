@@ -533,63 +533,58 @@ private fun ReminderAlertContent(
                                     style = MaterialTheme.typography.titleMedium
                                 )
                             }
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            OutlinedButton(
+                                onClick = {
+                                    isPlaying = false
+                                    onStopPlayback()
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(52.dp),
+                                shape = RoundedCornerShape(16.dp),
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    contentColor = MaterialTheme.colorScheme.onSurface
+                                ),
+                                border = BorderStroke(
+                                    1.dp,
+                                    if (isPlaying) {
+                                        MaterialTheme.colorScheme.primary.copy(alpha = 0.42f)
+                                    } else {
+                                        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.72f)
+                                    }
+                                )
                             ) {
-                                OutlinedButton(
-                                    onClick = {
-                                        isPlaying = false
-                                        onStopPlayback()
-                                    },
+                                Icon(
+                                    imageVector = Icons.Filled.Stop,
+                                    contentDescription = null
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(
+                                    text = if (isPlaying) "Silence now" else "Silence",
+                                    style = MaterialTheme.typography.titleSmall
+                                )
+                            }
+                            if (canPlayAgain) {
+                                FilledTonalButton(
+                                    onClick = onPlayAgain,
                                     modifier = Modifier
-                                        .weight(1f)
+                                        .fillMaxWidth()
                                         .height(52.dp),
                                     shape = RoundedCornerShape(16.dp),
-                                    colors = ButtonDefaults.outlinedButtonColors(
-                                        contentColor = MaterialTheme.colorScheme.onSurface
-                                    ),
-                                    border = BorderStroke(
-                                        1.dp,
-                                        if (isPlaying) {
-                                            MaterialTheme.colorScheme.primary.copy(alpha = 0.42f)
-                                        } else {
-                                            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.72f)
-                                        }
+                                    colors = ButtonDefaults.filledTonalButtonColors(
+                                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                                     )
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Filled.Stop,
+                                        imageVector = Icons.Filled.PlayArrow,
                                         contentDescription = null
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Text(
-                                        text = if (isPlaying) "Silence now" else "Silence",
+                                        text = "Play again",
                                         style = MaterialTheme.typography.titleSmall
                                     )
-                                }
-                                if (canPlayAgain) {
-                                    FilledTonalButton(
-                                        onClick = onPlayAgain,
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .height(52.dp),
-                                        shape = RoundedCornerShape(16.dp),
-                                        colors = ButtonDefaults.filledTonalButtonColors(
-                                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                                        )
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Filled.PlayArrow,
-                                            contentDescription = null
-                                        )
-                                        Spacer(modifier = Modifier.width(8.dp))
-                                        Text(
-                                            text = if (isPlaying) "Replay" else "Play again",
-                                            style = MaterialTheme.typography.titleSmall
-                                        )
-                                    }
                                 }
                             }
                             Row(

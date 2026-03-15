@@ -65,6 +65,12 @@ class MainActivity : ComponentActivity() {
             var showBatteryOptimizationDialog by rememberSaveable { mutableStateOf(false) }
             var showWhatsNewSheet by rememberSaveable { mutableStateOf(false) }
             val shouldOfferWhatsNew = reminderId == -1L && !autoplay && !openAddEdit
+            val needsWhatsNew = shouldOfferWhatsNew && lastWhatsNewVersionShown != currentVersionName
+            val allowHomeStartupOverlays =
+                !needsWhatsNew &&
+                    !showWhatsNewSheet &&
+                    !showBatteryOptimizationDialog &&
+                    batteryOptimizationPromptShown
             
             val isDarkTheme = when (themeMode) {
                 1 -> false // Light
@@ -72,26 +78,19 @@ class MainActivity : ComponentActivity() {
                 else -> isSystemInDarkTheme() // System
             }
 
-            LaunchedEffect(batteryOptimizationPromptShown) {
+            LaunchedEffect(needsWhatsNew) {
+                if (!needsWhatsNew) return@LaunchedEffect
+                showWhatsNewSheet = true
+            }
+
+            LaunchedEffect(batteryOptimizationPromptShown, needsWhatsNew, showWhatsNewSheet) {
+                if (needsWhatsNew || showWhatsNewSheet) return@LaunchedEffect
                 if (batteryOptimizationPromptShown) return@LaunchedEffect
                 if (!BatteryOptimizationSupport.isBatteryOptimizationEnabled(this@MainActivity)) {
                     settingsRepository.setBatteryOptimizationPromptShown(true)
                     return@LaunchedEffect
                 }
                 showBatteryOptimizationDialog = true
-            }
-
-            LaunchedEffect(
-                batteryOptimizationPromptShown,
-                lastWhatsNewVersionShown,
-                showBatteryOptimizationDialog,
-                shouldOfferWhatsNew
-            ) {
-                if (!shouldOfferWhatsNew) return@LaunchedEffect
-                if (!batteryOptimizationPromptShown) return@LaunchedEffect
-                if (showBatteryOptimizationDialog) return@LaunchedEffect
-                if (lastWhatsNewVersionShown == currentVersionName) return@LaunchedEffect
-                showWhatsNewSheet = true
             }
 
             VoiceReminderTheme(darkTheme = isDarkTheme) {
@@ -102,7 +101,8 @@ class MainActivity : ComponentActivity() {
                     VoiceReminderNavGraph(
                         startReminderId = if (reminderId != -1L) reminderId else null,
                         autoplay = autoplay,
-                        startAddEdit = openAddEdit
+                        startAddEdit = openAddEdit,
+                        allowHomeStartupOverlays = allowHomeStartupOverlays
                     )
 
                     if (showBatteryOptimizationDialog) {
