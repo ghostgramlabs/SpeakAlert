@@ -74,6 +74,7 @@ fun HomeScreen(
     navigateToItemUpdate: (Long) -> Unit,
     navigateToAddItem: () -> Unit,
     navigateToSettings: () -> Unit,
+    allowStartupOverlays: Boolean = true,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
@@ -324,7 +325,11 @@ fun HomeScreen(
         )
     }
 
-    LaunchedEffect(uiState.missedReminders) {
+    LaunchedEffect(uiState.missedReminders, allowStartupOverlays) {
+        if (!allowStartupOverlays) {
+            showMissedRecoveryDialog = false
+            return@LaunchedEffect
+        }
         if (uiState.missedReminders.isEmpty()) {
             showMissedRecoveryDialog = false
             missedRecoveryHandled = false
@@ -933,11 +938,19 @@ fun MissedReminderItem(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.96f)
+            containerColor = if (isPlaying) {
+                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.34f)
+            } else {
+                MaterialTheme.colorScheme.surface.copy(alpha = 0.96f)
+            }
         ),
         border = androidx.compose.foundation.BorderStroke(
             1.dp,
-            MaterialTheme.colorScheme.error.copy(alpha = 0.18f)
+            if (isPlaying) {
+                MaterialTheme.colorScheme.primary.copy(alpha = 0.28f)
+            } else {
+                MaterialTheme.colorScheme.error.copy(alpha = 0.18f)
+            }
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
@@ -971,6 +984,20 @@ fun MissedReminderItem(
                             color = MaterialTheme.colorScheme.onErrorContainer,
                             modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
                         )
+                    }
+                    if (isPlaying) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Surface(
+                            shape = RoundedCornerShape(12.dp),
+                            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.86f)
+                        ) {
+                            Text(
+                                text = "Playing now",
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
+                            )
+                        }
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(

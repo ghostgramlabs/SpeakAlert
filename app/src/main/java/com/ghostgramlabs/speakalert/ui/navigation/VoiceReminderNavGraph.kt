@@ -21,7 +21,8 @@ fun VoiceReminderNavGraph(
     modifier: Modifier = Modifier,
     startReminderId: Long? = null,
     autoplay: Boolean = false,
-    startAddEdit: Boolean = false
+    startAddEdit: Boolean = false,
+    allowHomeStartupOverlays: Boolean = true
 ) {
     // If launched from notification, navigate to details screen
     LaunchedEffect(startReminderId) {
@@ -55,7 +56,8 @@ fun VoiceReminderNavGraph(
                 },
                 navigateToSettings = {
                     navController.navigate(NavigationDestination.Settings.route)
-                }
+                },
+                allowStartupOverlays = allowHomeStartupOverlays
             )
         }
         
