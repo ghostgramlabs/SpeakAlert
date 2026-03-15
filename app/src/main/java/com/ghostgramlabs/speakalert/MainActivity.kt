@@ -30,6 +30,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -37,6 +38,7 @@ import com.ghostgramlabs.speakalert.ui.theme.VoiceReminderTheme
 import com.ghostgramlabs.speakalert.ui.navigation.VoiceReminderNavGraph
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.BatteryOptimizationSupport
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -55,19 +57,33 @@ class MainActivity : ComponentActivity() {
             val settingsRepository = app.container.settingsRepository
             val currentVersionName = BuildConfig.VERSION_NAME
             val themeMode by app.container.settingsRepository.themeMode.collectAsState(initial = 0)
-            val batteryOptimizationPromptShown by settingsRepository
-                .batteryOptimizationPromptShown
-                .collectAsState(initial = false)
-            val lastWhatsNewVersionShown by settingsRepository
-                .lastWhatsNewVersionShown
-                .collectAsState(initial = null)
+            val startupPromptState by produceState<StartupPromptState?>(
+                initialValue = null,
+                key1 = settingsRepository
+            ) {
+                settingsRepository.batteryOptimizationPromptShown
+                    .combine(settingsRepository.lastWhatsNewVersionShown) { batteryPromptShown, lastVersionShown ->
+                        StartupPromptState(
+                            batteryOptimizationPromptShown = batteryPromptShown,
+                            lastWhatsNewVersionShown = lastVersionShown
+                        )
+                    }
+                    .collect { value = it }
+            }
             val coroutineScope = rememberCoroutineScope()
             var showBatteryOptimizationDialog by rememberSaveable { mutableStateOf(false) }
             var showWhatsNewSheet by rememberSaveable { mutableStateOf(false) }
+            val startupPromptsLoaded = startupPromptState != null
+            val batteryOptimizationPromptShown = startupPromptState?.batteryOptimizationPromptShown ?: false
+            val lastWhatsNewVersionShown = startupPromptState?.lastWhatsNewVersionShown
             val shouldOfferWhatsNew = reminderId == -1L && !autoplay && !openAddEdit
-            val needsWhatsNew = shouldOfferWhatsNew && lastWhatsNewVersionShown != currentVersionName
+            val needsWhatsNew =
+                startupPromptsLoaded &&
+                    shouldOfferWhatsNew &&
+                    lastWhatsNewVersionShown != currentVersionName
             val allowHomeStartupOverlays =
-                !needsWhatsNew &&
+                startupPromptsLoaded &&
+                    !needsWhatsNew &&
                     !showWhatsNewSheet &&
                     !showBatteryOptimizationDialog &&
                     batteryOptimizationPromptShown
@@ -78,12 +94,13 @@ class MainActivity : ComponentActivity() {
                 else -> isSystemInDarkTheme() // System
             }
 
-            LaunchedEffect(needsWhatsNew) {
-                if (!needsWhatsNew) return@LaunchedEffect
+            LaunchedEffect(startupPromptsLoaded, needsWhatsNew) {
+                if (!startupPromptsLoaded || !needsWhatsNew) return@LaunchedEffect
                 showWhatsNewSheet = true
             }
 
-            LaunchedEffect(batteryOptimizationPromptShown, needsWhatsNew, showWhatsNewSheet) {
+            LaunchedEffect(startupPromptsLoaded, batteryOptimizationPromptShown, needsWhatsNew, showWhatsNewSheet) {
+                if (!startupPromptsLoaded) return@LaunchedEffect
                 if (needsWhatsNew || showWhatsNewSheet) return@LaunchedEffect
                 if (batteryOptimizationPromptShown) return@LaunchedEffect
                 if (!BatteryOptimizationSupport.isBatteryOptimizationEnabled(this@MainActivity)) {
@@ -244,6 +261,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+private data class StartupPromptState(
+    val batteryOptimizationPromptShown: Boolean,
+    val lastWhatsNewVersionShown: String?
+)
 
 @Composable
 private fun WhatsNewFeatureCard(
