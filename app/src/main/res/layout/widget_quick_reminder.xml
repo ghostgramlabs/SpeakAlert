@@ -20,9 +20,10 @@
             android:src="@mipmap/ic_launcher_round" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
@@ -47,12 +48,14 @@
 
     <TextView
         android:id="@+id/quick_widget_caption"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Open Add Reminder instantly"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="@string/widget_quick_caption"
         android:textColor="@color/widget_text_secondary"
-        android:textSize="13sp" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/quick_add_button"
@@ -63,7 +66,7 @@
         android:drawableStart="@android:drawable/ic_input_add"
         android:drawablePadding="8dp"
         android:gravity="center"
-        android:minHeight="50dp"
+        android:minHeight="46dp"
         android:text="Add Reminder"
         android:textColor="@color/widget_button_text"
         android:textSize="15sp"
