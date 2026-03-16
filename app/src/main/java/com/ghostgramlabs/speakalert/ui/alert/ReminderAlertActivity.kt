@@ -11,7 +11,9 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.StartOffset
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
@@ -295,6 +297,34 @@ private fun ReminderAlertContent(
         ),
         label = "outer_alpha"
     )
+    val rippleOneProgress by pulse.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 2500, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "ripple_one_progress"
+    )
+    val rippleTwoProgress by pulse.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 2500, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart,
+            initialStartOffset = StartOffset(1250)
+        ),
+        label = "ripple_two_progress"
+    )
+    val cardLift by pulse.animateFloat(
+        initialValue = -3f,
+        targetValue = 7f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 2400, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "card_lift"
+    )
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -382,7 +412,9 @@ private fun ReminderAlertContent(
                     )
 
                     Card(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .offset(y = cardLift.dp),
                         shape = RoundedCornerShape(32.dp),
                         border = BorderStroke(
                             width = 1.dp,
@@ -402,8 +434,16 @@ private fun ReminderAlertContent(
                         ) {
                             Box(
                                 contentAlignment = Alignment.Center,
-                                modifier = Modifier.size(88.dp)
+                                modifier = Modifier.size(120.dp)
                             ) {
+                                AlertPulseRing(
+                                    progress = rippleOneProgress,
+                                    modifier = Modifier.size(108.dp)
+                                )
+                                AlertPulseRing(
+                                    progress = rippleTwoProgress,
+                                    modifier = Modifier.size(108.dp)
+                                )
                                 Box(
                                     modifier = Modifier
                                         .size(88.dp)
@@ -534,6 +574,27 @@ private fun ReminderAlertContent(
             }
         }
     }
+}
+
+@Composable
+private fun AlertPulseRing(
+    progress: Float,
+    modifier: Modifier = Modifier
+) {
+    val clampedProgress = progress.coerceIn(0f, 1f)
+    Box(
+        modifier = modifier
+            .graphicsLayer {
+                val scale = 0.84f + (clampedProgress * 0.92f)
+                scaleX = scale
+                scaleY = scale
+            }
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.primary.copy(alpha = (1f - clampedProgress) * 0.26f),
+                shape = CircleShape
+            )
+    )
 }
 
 @Composable
