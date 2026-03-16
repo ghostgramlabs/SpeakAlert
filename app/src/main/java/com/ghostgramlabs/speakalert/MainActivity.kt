@@ -21,12 +21,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.mutableStateOf
@@ -34,10 +37,14 @@ import androidx.compose.runtime.produceState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import com.ghostgramlabs.speakalert.ui.theme.VoiceReminderTheme
 import com.ghostgramlabs.speakalert.ui.navigation.VoiceReminderNavGraph
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.BatteryOptimizationSupport
+import com.ghostgramlabs.speakalert.util.FullScreenIntentSupport
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
@@ -57,6 +64,7 @@ class MainActivity : ComponentActivity() {
             val settingsRepository = app.container.settingsRepository
             val currentVersionName = BuildConfig.VERSION_NAME
             val themeMode by app.container.settingsRepository.themeMode.collectAsState(initial = 0)
+            val fullScreenAlertEnabled by settingsRepository.fullScreenAlertEnabled.collectAsState(initial = false)
             val startupPromptState by produceState<StartupPromptState?>(
                 initialValue = null,
                 key1 = settingsRepository
@@ -71,8 +79,13 @@ class MainActivity : ComponentActivity() {
                     .collect { value = it }
             }
             val coroutineScope = rememberCoroutineScope()
+            val lifecycleOwner = LocalLifecycleOwner.current
             var showBatteryOptimizationDialog by rememberSaveable { mutableStateOf(false) }
             var showWhatsNewSheet by rememberSaveable { mutableStateOf(false) }
+            var showFullScreenRecoveryDialog by rememberSaveable { mutableStateOf(false) }
+            var fullScreenAccessGranted by rememberSaveable {
+                mutableStateOf(FullScreenIntentSupport.canUseFullScreenIntent(this@MainActivity))
+            }
             val startupPromptsLoaded = startupPromptState != null
             val batteryOptimizationPromptShown = startupPromptState?.batteryOptimizationPromptShown ?: false
             val lastWhatsNewVersionShown = startupPromptState?.lastWhatsNewVersionShown
@@ -94,6 +107,19 @@ class MainActivity : ComponentActivity() {
                 else -> isSystemInDarkTheme() // System
             }
 
+            DisposableEffect(lifecycleOwner) {
+                val observer = LifecycleEventObserver { _, event ->
+                    if (event == Lifecycle.Event.ON_RESUME) {
+                        fullScreenAccessGranted =
+                            FullScreenIntentSupport.canUseFullScreenIntent(this@MainActivity)
+                    }
+                }
+                lifecycleOwner.lifecycle.addObserver(observer)
+                onDispose {
+                    lifecycleOwner.lifecycle.removeObserver(observer)
+                }
+            }
+
             LaunchedEffect(startupPromptsLoaded, needsWhatsNew) {
                 if (!startupPromptsLoaded || !needsWhatsNew) return@LaunchedEffect
                 showWhatsNewSheet = true
@@ -108,6 +134,23 @@ class MainActivity : ComponentActivity() {
                     return@LaunchedEffect
                 }
                 showBatteryOptimizationDialog = true
+            }
+
+            LaunchedEffect(
+                allowHomeStartupOverlays,
+                shouldOfferWhatsNew,
+                fullScreenAlertEnabled,
+                fullScreenAccessGranted
+            ) {
+                if (!allowHomeStartupOverlays || !shouldOfferWhatsNew) {
+                    showFullScreenRecoveryDialog = false
+                    return@LaunchedEffect
+                }
+                // Auto Backup can restore the in-app toggle after reinstall while Android
+                // resets the special full-screen access. Prompt for recovery instead of
+                // leaving the feature silently broken until the user toggles it manually.
+                showFullScreenRecoveryDialog =
+                    fullScreenAlertEnabled && !fullScreenAccessGranted
             }
 
             VoiceReminderTheme(darkTheme = isDarkTheme) {
@@ -255,6 +298,37 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                         }
+                    }
+
+                    if (showFullScreenRecoveryDialog) {
+                        AlertDialog(
+                            onDismissRequest = { showFullScreenRecoveryDialog = false },
+                            title = {
+                                Text("Allow full-screen alerts again")
+                            },
+                            text = {
+                                Text(
+                                    "Lock-screen reminder alerts are still turned on in $APP_DISPLAY_NAME, but Android full-screen access is off. This can happen after reinstall or restore."
+                                )
+                            },
+                            confirmButton = {
+                                Button(
+                                    onClick = {
+                                        showFullScreenRecoveryDialog = false
+                                        FullScreenIntentSupport.openSettings(this@MainActivity)
+                                    }
+                                ) {
+                                    Text("Open settings")
+                                }
+                            },
+                            dismissButton = {
+                                TextButton(
+                                    onClick = { showFullScreenRecoveryDialog = false }
+                                ) {
+                                    Text("Later")
+                                }
+                            }
+                        )
                     }
                 }
             }
