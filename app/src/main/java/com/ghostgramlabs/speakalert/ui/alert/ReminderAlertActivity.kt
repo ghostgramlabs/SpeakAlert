@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -50,7 +51,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -348,15 +348,15 @@ private fun ReminderAlertContent(
                 modifier = Modifier
                     .fillMaxSize()
                     .statusBarsPadding()
-                    .navigationBarsPadding()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 24.dp, vertical = 28.dp),
-                verticalArrangement = Arrangement.spacedBy(28.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .imePadding()
             ) {
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                    modifier = Modifier
+                        .weight(1f)
+                        .verticalScroll(rememberScrollState())
+                        .padding(horizontal = 24.dp, vertical = 22.dp),
+                    verticalArrangement = Arrangement.spacedBy(18.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Surface(
                         shape = RoundedCornerShape(100.dp),
@@ -373,81 +373,78 @@ private fun ReminderAlertContent(
                             modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp)
                         )
                     }
-                }
 
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(32.dp),
-                    border = BorderStroke(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.38f)
-                    ),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.90f)
-                    ),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 22.dp, vertical = 24.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(18.dp)
+                    Text(
+                        text = if (isFollowUp) "Follow up on this reminder" else "Reminder on screen",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        textAlign = TextAlign.Center
+                    )
+
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(32.dp),
+                        border = BorderStroke(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.38f)
+                        ),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.92f)
+                        ),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
                     ) {
-                        Box(
-                            contentAlignment = Alignment.Center,
+                        Column(
                             modifier = Modifier
-                                .size(104.dp)
+                                .fillMaxWidth()
+                                .padding(horizontal = 22.dp, vertical = 22.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
                             Box(
-                                modifier = Modifier
-                                    .size(104.dp)
-                                    .graphicsLayer {
-                                        scaleX = outerScale
-                                        scaleY = outerScale
-                                    }
-                                    .background(
-                                        color = MaterialTheme.colorScheme.primary.copy(alpha = outerAlpha),
-                                        shape = CircleShape
-                                    )
-                            )
-                            Surface(
-                                modifier = Modifier.size(78.dp),
-                                shape = CircleShape,
-                                color = MaterialTheme.colorScheme.surface,
-                                border = BorderStroke(
-                                    width = 1.dp,
-                                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.28f)
-                                )
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier.size(88.dp)
                             ) {
-                                Box(contentAlignment = Alignment.Center) {
-                                    Icon(
-                                        imageVector = Icons.Filled.NotificationsActive,
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.primary,
-                                        modifier = Modifier.size(30.dp)
+                                Box(
+                                    modifier = Modifier
+                                        .size(88.dp)
+                                        .graphicsLayer {
+                                            scaleX = outerScale
+                                            scaleY = outerScale
+                                        }
+                                        .background(
+                                            color = MaterialTheme.colorScheme.primary.copy(alpha = outerAlpha),
+                                            shape = CircleShape
+                                        )
+                                )
+                                Surface(
+                                    modifier = Modifier.size(64.dp),
+                                    shape = CircleShape,
+                                    color = MaterialTheme.colorScheme.surface,
+                                    border = BorderStroke(
+                                        width = 1.dp,
+                                        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.28f)
                                     )
+                                ) {
+                                    Box(contentAlignment = Alignment.Center) {
+                                        Icon(
+                                            imageVector = Icons.Filled.NotificationsActive,
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier.size(26.dp)
+                                        )
+                                    }
                                 }
                             }
-                        }
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(10.dp)
-                        ) {
-                            Text(
-                                text = if (isFollowUp) "Follow up on this reminder" else "Reminder on screen",
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.primary,
-                                textAlign = TextAlign.Center
-                            )
+
                             Text(
                                 text = headline,
-                                style = MaterialTheme.typography.headlineMedium,
+                                style = MaterialTheme.typography.headlineSmall,
                                 fontWeight = FontWeight.SemiBold,
                                 textAlign = TextAlign.Center,
                                 maxLines = 3,
                                 overflow = TextOverflow.Ellipsis
                             )
+
                             if (!bodyText.equals(headline, ignoreCase = true)) {
                                 Text(
                                     text = bodyText,
@@ -456,163 +453,246 @@ private fun ReminderAlertContent(
                                     textAlign = TextAlign.Center
                                 )
                             }
-                        }
 
-                        FlowRow(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-                            verticalArrangement = Arrangement.spacedBy(8.dp),
-                        ) {
-                            AlertTag(text = sourceLabel)
-                            AlertTag(text = statusLabel, highlighted = isPlaying)
-                            if (isFollowUp) {
-                                AlertTag(text = "Follow-up", highlighted = true)
-                            }
-                        }
-
-                        Surface(
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(22.dp),
-                            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.32f),
-                            border = BorderStroke(
-                                1.dp,
-                                MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.24f)
-                            )
-                        ) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp, vertical = 14.dp),
-                                verticalArrangement = Arrangement.spacedBy(12.dp)
+                            FlowRow(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                                verticalArrangement = Arrangement.spacedBy(8.dp),
                             ) {
-                                AlertMetaRow(
-                                    icon = Icons.Filled.Schedule,
-                                    label = "Scheduled for",
-                                    value = scheduledText
-                                )
-                                AlertMetaRow(
-                                    icon = if (isPlaying) Icons.Filled.Stop else Icons.Filled.NotificationsActive,
-                                    label = "Alert status",
-                                    value = if (isPlaying) {
-                                        "Audio is playing. Use Silence to stop it."
-                                    } else {
-                                        "Waiting for Done or Snooze."
-                                    }
-                                )
-                                if (reminder.followUpCheckMinutes > 0) {
-                                    AlertMetaRow(
-                                        icon = Icons.Filled.NotificationsActive,
-                                        label = "Follow-up",
-                                        value = "Repeats every ${reminder.followUpCheckMinutes} minutes until done."
-                                    )
+                                AlertTag(text = sourceLabel)
+                                AlertTag(text = statusLabel, highlighted = isPlaying)
+                                if (isFollowUp) {
+                                    AlertTag(text = "Follow-up", highlighted = true)
                                 }
                             }
-                        }
 
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            Button(
-                                onClick = onDone,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(56.dp),
-                                shape = RoundedCornerShape(18.dp),
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = MaterialTheme.colorScheme.primary
-                                )
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Filled.Done,
-                                    contentDescription = null
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(
-                                    text = "Mark Done",
-                                    style = MaterialTheme.typography.titleMedium
-                                )
-                            }
-                            OutlinedButton(
-                                onClick = {
-                                    isPlaying = false
-                                    onStopPlayback()
-                                },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(52.dp),
-                                shape = RoundedCornerShape(16.dp),
-                                colors = ButtonDefaults.outlinedButtonColors(
-                                    contentColor = MaterialTheme.colorScheme.onSurface
-                                ),
+                            Surface(
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(22.dp),
+                                color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.30f),
                                 border = BorderStroke(
                                     1.dp,
-                                    if (isPlaying) {
-                                        MaterialTheme.colorScheme.primary.copy(alpha = 0.42f)
-                                    } else {
-                                        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.72f)
-                                    }
+                                    MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.24f)
                                 )
                             ) {
-                                Icon(
-                                    imageVector = Icons.Filled.Stop,
-                                    contentDescription = null
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(
-                                    text = if (isPlaying) "Silence now" else "Silence",
-                                    style = MaterialTheme.typography.titleSmall
-                                )
-                            }
-                            if (canPlayAgain) {
-                                FilledTonalButton(
-                                    onClick = onPlayAgain,
+                                Column(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .height(52.dp),
-                                    shape = RoundedCornerShape(16.dp),
-                                    colors = ButtonDefaults.filledTonalButtonColors(
-                                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                                    )
+                                        .padding(horizontal = 16.dp, vertical = 14.dp),
+                                    verticalArrangement = Arrangement.spacedBy(12.dp)
                                 ) {
-                                    Icon(
-                                        imageVector = Icons.Filled.PlayArrow,
-                                        contentDescription = null
+                                    AlertMetaRow(
+                                        icon = Icons.Filled.Schedule,
+                                        label = "Scheduled for",
+                                        value = scheduledText
                                     )
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    Text(
-                                        text = "Play again",
-                                        style = MaterialTheme.typography.titleSmall
+                                    AlertMetaRow(
+                                        icon = if (isPlaying) Icons.Filled.Stop else Icons.Filled.NotificationsActive,
+                                        label = "Alert status",
+                                        value = if (isPlaying) {
+                                            "Audio is playing. Use Silence to stop it."
+                                        } else {
+                                            "Waiting for Done or Snooze."
+                                        }
                                     )
+                                    if (reminder.followUpCheckMinutes > 0) {
+                                        AlertMetaRow(
+                                            icon = Icons.Filled.NotificationsActive,
+                                            label = "Follow-up",
+                                            value = "Repeats every ${reminder.followUpCheckMinutes} minutes until done."
+                                        )
+                                    }
                                 }
                             }
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(12.dp)
-                            ) {
-                                SnoozeActionButton(
-                                    label = "Snooze 5m",
-                                    onClick = onSnoozeFive,
-                                    modifier = Modifier.weight(1f)
-                                )
-                                SnoozeActionButton(
-                                    label = "Snooze 10m",
-                                    onClick = onSnoozeTen,
-                                    modifier = Modifier.weight(1f)
-                                )
-                            }
+
                             Text(
-                                text = "Silence stops playback. Mark Done or Snooze clears the lock-screen alert.",
-                                style = MaterialTheme.typography.bodySmall,
+                                text = if (canPlayAgain) {
+                                    "Keep the reminder visible, stop the audio, or play it again before you act."
+                                } else {
+                                    "Keep the reminder visible, or choose Done or Snooze when you are ready."
+                                },
+                                style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.fillMaxWidth()
+                                textAlign = TextAlign.Center
                             )
                         }
                     }
                 }
+
+                AlertActionDock(
+                    canPlayAgain = canPlayAgain,
+                    isPlaying = isPlaying,
+                    onDone = onDone,
+                    onStopPlayback = {
+                        isPlaying = false
+                        onStopPlayback()
+                    },
+                    onPlayAgain = onPlayAgain,
+                    onSnoozeFive = onSnoozeFive,
+                    onSnoozeTen = onSnoozeTen
+                )
             }
+        }
+    }
+}
+
+@Composable
+private fun AlertActionDock(
+    canPlayAgain: Boolean,
+    isPlaying: Boolean,
+    onDone: () -> Unit,
+    onStopPlayback: () -> Unit,
+    onPlayAgain: () -> Unit,
+    onSnoozeFive: () -> Unit,
+    onSnoozeTen: () -> Unit
+) {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
+        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
+        shadowElevation = 8.dp,
+        border = BorderStroke(
+            1.dp,
+            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding()
+                .padding(horizontal = 20.dp, vertical = 18.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Button(
+                onClick = onDone,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                shape = RoundedCornerShape(18.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Done,
+                    contentDescription = null
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "Mark Done",
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+
+            if (canPlayAgain) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    OutlinedButton(
+                        onClick = onStopPlayback,
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(52.dp),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            contentColor = MaterialTheme.colorScheme.onSurface
+                        ),
+                        border = BorderStroke(
+                            1.dp,
+                            if (isPlaying) {
+                                MaterialTheme.colorScheme.primary.copy(alpha = 0.42f)
+                            } else {
+                                MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.72f)
+                            }
+                        )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Stop,
+                            contentDescription = null
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = if (isPlaying) "Silence now" else "Silence",
+                            style = MaterialTheme.typography.titleSmall
+                        )
+                    }
+                    FilledTonalButton(
+                        onClick = onPlayAgain,
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(52.dp),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = ButtonDefaults.filledTonalButtonColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.PlayArrow,
+                            contentDescription = null
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "Play again",
+                            style = MaterialTheme.typography.titleSmall
+                        )
+                    }
+                }
+            } else {
+                OutlinedButton(
+                    onClick = onStopPlayback,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        contentColor = MaterialTheme.colorScheme.onSurface
+                    ),
+                    border = BorderStroke(
+                        1.dp,
+                        if (isPlaying) {
+                            MaterialTheme.colorScheme.primary.copy(alpha = 0.42f)
+                        } else {
+                            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.72f)
+                        }
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Stop,
+                        contentDescription = null
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = if (isPlaying) "Silence now" else "Silence",
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                }
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                SnoozeActionButton(
+                    label = "Snooze 5m",
+                    onClick = onSnoozeFive,
+                    modifier = Modifier.weight(1f)
+                )
+                SnoozeActionButton(
+                    label = "Snooze 10m",
+                    onClick = onSnoozeTen,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+            Text(
+                text = "Silence stops audio. Done or Snooze clears the lock-screen alert.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }
