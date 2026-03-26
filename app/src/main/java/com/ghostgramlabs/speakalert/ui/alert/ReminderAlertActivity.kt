@@ -85,6 +85,7 @@ import com.ghostgramlabs.speakalert.service.ReminderPlaybackService
 import com.ghostgramlabs.speakalert.ui.theme.VoiceReminderTheme
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.DateUtils
+import com.ghostgramlabs.speakalert.util.sanitizeUnitFloat
 
 class ReminderAlertActivity : ComponentActivity() {
 
@@ -581,7 +582,7 @@ private fun AlertPulseRing(
     progress: Float,
     modifier: Modifier = Modifier
 ) {
-    val clampedProgress = progress.coerceIn(0f, 1f)
+    val clampedProgress = progress.sanitizeUnitFloat()
     Box(
         modifier = modifier
             .graphicsLayer {

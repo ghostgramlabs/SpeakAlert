@@ -25,6 +25,7 @@ import java.io.File
 import java.util.UUID
 import com.ghostgramlabs.speakalert.data.repository.SettingsRepository
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
+import com.ghostgramlabs.speakalert.util.sanitizeUnitFloat
 
 data class AddEditUiState(
     val initialReminderId: Long = -1L,
@@ -264,7 +265,7 @@ class AddEditViewModel(
     fun seekTo(progress: Float) {
         if (_uiState.value.isPlaying) {
             val duration = player.getDuration()
-            val position = (duration * progress).toInt()
+            val position = (duration * progress.sanitizeUnitFloat()).toInt()
             player.seekTo(position)
         }
     }
@@ -277,7 +278,7 @@ class AddEditViewModel(
                     val duration = player.getDuration()
                     val position = player.getCurrentPosition()
                     if (duration > 0) {
-                        val progress = position.toFloat() / duration
+                        val progress = (position.toFloat() / duration.toFloat()).sanitizeUnitFloat()
                         _uiState.value = _uiState.value.copy(playbackProgress = progress)
                     }
                 }

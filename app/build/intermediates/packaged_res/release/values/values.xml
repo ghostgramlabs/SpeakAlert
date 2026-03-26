@@ -8,8 +8,24 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="white">#FFFFFFFF</color>
-    <string name="app_name">Speak Alert</string>
+    <color name="widget_action_end">#FF243C5A</color>
+    <color name="widget_action_start">#FF314E75</color>
+    <color name="widget_action_stroke">#FF1D324B</color>
+    <color name="widget_button_text">#FFFFFFFF</color>
+    <color name="widget_item_stroke">#FFDEE6F0</color>
+    <color name="widget_item_surface">#FFF8FBFF</color>
+    <color name="widget_item_text_primary">#FF191816</color>
+    <color name="widget_surface_center">#FFF5F8FC</color>
+    <color name="widget_surface_end">#FFF0F5FB</color>
+    <color name="widget_surface_start">#FFFBFCFF</color>
+    <color name="widget_surface_stroke">#FFD6E1EC</color>
+    <color name="widget_text_primary">#FF20344D</color>
+    <color name="widget_text_secondary">#FF605A52</color>
+    <string name="app_name">Speak​Alert</string>
     <string name="app_tagline">Offline Voice Reminders</string>
+    <string name="widget_quick_caption">Open Add Reminder instantly</string>
+    <string name="widget_quick_description">Open the reminder form directly from your home screen</string>
+    <string name="widget_upcoming_description">Shows your next scheduled reminders</string>
     <style name="Theme.SpeakAlert" parent="android:Theme.Material.Light.NoActionBar">
         
     </style>

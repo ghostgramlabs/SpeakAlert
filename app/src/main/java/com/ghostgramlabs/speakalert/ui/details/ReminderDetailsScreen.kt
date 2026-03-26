@@ -52,6 +52,7 @@ import com.ghostgramlabs.speakalert.ui.components.PrimaryActionButton
 import com.ghostgramlabs.speakalert.util.DateUtils
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import com.ghostgramlabs.speakalert.util.isDefaultAppDisplayName
+import com.ghostgramlabs.speakalert.util.sanitizeUnitFloat
 import com.ghostgramlabs.speakalert.domain.models.EndRuleType
 import com.ghostgramlabs.speakalert.domain.models.MissedPolicy
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
@@ -103,7 +104,7 @@ fun ReminderDetailsScreen(
                     playbackDurationMs = durationMs.coerceAtLeast(0L)
                     if (!isSeekingPlayback && durationMs > 0L) {
                         playbackSliderValue =
-                            (positionMs.toFloat() / durationMs.toFloat()).coerceIn(0f, 1f)
+                            (positionMs.toFloat() / durationMs.toFloat()).sanitizeUnitFloat()
                     }
                     true
                 } else {
@@ -400,18 +401,19 @@ fun ReminderDetailsScreen(
                                 if (isPlaying || playbackDurationMs > 0L) {
                                     Spacer(modifier = Modifier.height(12.dp))
                                     Slider(
-                                        value = playbackSliderValue.coerceIn(0f, 1f),
+                                        value = playbackSliderValue.sanitizeUnitFloat(),
                                         onValueChange = { value ->
+                                            val safeValue = value.sanitizeUnitFloat()
                                             isSeekingPlayback = true
-                                            playbackSliderValue = value
+                                            playbackSliderValue = safeValue
                                             if (playbackDurationMs > 0L) {
                                                 playbackPositionMs =
-                                                    (playbackDurationMs * value).toLong()
+                                                    (playbackDurationMs * safeValue).toLong()
                                             }
                                         },
                                         onValueChangeFinished = {
                                             val targetPositionMs =
-                                                (playbackDurationMs * playbackSliderValue).toLong()
+                                                (playbackDurationMs * playbackSliderValue.sanitizeUnitFloat()).toLong()
                                             if (isPlaying && playbackDurationMs > 0L) {
                                                 ReminderPlaybackService.seek(
                                                     context,

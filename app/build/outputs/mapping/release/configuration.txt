@@ -1,4 +1,4 @@
-# The proguard configuration file for the following section is C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-8.2.0
+# The proguard configuration file for the following section is C:\sudhi\SpeakAlert\SpeakAlert\app\build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-8.2.0
 # This is a configuration file for ProGuard.
 # http://proguard.sourceforge.net/index.html#manual/usage.html
 #
@@ -117,8 +117,8 @@
 # These classes are duplicated between android.jar and core-lambda-stubs.jar.
 -dontnote java.lang.invoke.**
 
-# End of content from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-8.2.0
-# The proguard configuration file for the following section is C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\proguard-rules.pro
+# End of content from C:\sudhi\SpeakAlert\SpeakAlert\app\build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-8.2.0
+# The proguard configuration file for the following section is C:\sudhi\SpeakAlert\SpeakAlert\app\proguard-rules.pro
 # Speak Alert Proguard Rules
 
 # --- Room ---
@@ -150,8 +150,8 @@
 -keep public class * extends android.content.BroadcastReceiver
 -keep public class * extends android.content.ContentProvider
 
-# End of content from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\proguard-rules.pro
-# The proguard configuration file for the following section is C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\build\intermediates\aapt_proguard_file\release\aapt_rules.txt
+# End of content from C:\sudhi\SpeakAlert\SpeakAlert\app\proguard-rules.pro
+# The proguard configuration file for the following section is C:\sudhi\SpeakAlert\SpeakAlert\app\build\intermediates\aapt_proguard_file\release\aapt_rules.txt
 -keep class androidx.core.app.CoreComponentFactory { <init>(); }
 -keep class androidx.core.content.FileProvider { <init>(); }
 -keep class androidx.profileinstaller.ProfileInstallReceiver { <init>(); }
@@ -174,6 +174,11 @@
 -keep class com.ghostgramlabs.speakalert.alarm.ReminderActionReceiver { <init>(); }
 -keep class com.ghostgramlabs.speakalert.alarm.ReminderAlarmReceiver { <init>(); }
 -keep class com.ghostgramlabs.speakalert.service.ReminderPlaybackService { <init>(); }
+-keep class com.ghostgramlabs.speakalert.ui.alert.ReminderAlertActivity { <init>(); }
+-keep class com.ghostgramlabs.speakalert.widget.QuickReminderWidgetProvider { <init>(); }
+-keep class com.ghostgramlabs.speakalert.widget.UpcomingRemindersRemoteViewsService { <init>(); }
+-keep class com.ghostgramlabs.speakalert.widget.UpcomingRemindersWidgetProvider { <init>(); }
+-keep class com.google.android.gms.common.api.GoogleApiActivity { <init>(); }
 -keep class com.google.android.play.core.common.PlayCoreDialogWrapperActivity { <init>(); }
 -keep class androidx.media3.ui.AspectRatioFrameLayout { <init>(android.content.Context, android.util.AttributeSet); }
 
@@ -184,7 +189,7 @@
 -keep class androidx.recyclerview.widget.RecyclerView { <init>(android.content.Context, android.util.AttributeSet); }
 
 
-# End of content from C:\Users\sudhi\.gemini\antigravity\scratch\Voice_Reminder_app_new\app\build\intermediates\aapt_proguard_file\release\aapt_rules.txt
+# End of content from C:\sudhi\SpeakAlert\SpeakAlert\app\build\intermediates\aapt_proguard_file\release\aapt_rules.txt
 # The proguard configuration file for the following section is C:\Users\sudhi\.gradle\caches\8.9\transforms\50a43ee359d5eca6249f5f2b79828db9\transformed\work-runtime-2.9.0\proguard.txt
 -keep class * extends androidx.work.Worker
 -keep class * extends androidx.work.InputMerger
@@ -239,11 +244,29 @@
 -dontwarn module-info
 
 # End of content from C:\Users\sudhi\.gradle\caches\8.9\transforms\df447c886209ff2141b82e48efaf171a\transformed\review-ktx-2.0.1\proguard.txt
-# The proguard configuration file for the following section is C:\Users\sudhi\.gradle\caches\8.9\transforms\134e00db73bd89c46a9951be20648d5b\transformed\play-services-tasks-18.0.2\proguard.txt
+# The proguard configuration file for the following section is C:\Users\sudhi\.gradle\caches\8.9\transforms\9368858c7bba8aea70e39203e7225334\transformed\play-services-wearable-18.2.0\proguard.txt
+# We keep all fields for every generated proto file as the runtime uses
+# reflection over them that ProGuard cannot detect. Without this keep
+# rule, fields may be removed that would cause runtime failures.
+-keepclassmembers class * extends com.google.android.gms.internal.wearable.zzcg {
+  <fields>;
+}
+
+# End of content from C:\Users\sudhi\.gradle\caches\8.9\transforms\9368858c7bba8aea70e39203e7225334\transformed\play-services-wearable-18.2.0\proguard.txt
+# The proguard configuration file for the following section is C:\Users\sudhi\.gradle\caches\8.9\transforms\26947baf34e2f6728fe5a3b55ae56d7e\transformed\play-services-base-18.5.0\proguard.txt
+# b/35135904 Ensure that proguard will not strip the mResultGuardian.
+-keepclassmembers class com.google.android.gms.common.api.internal.BasePendingResult {
+  com.google.android.gms.common.api.internal.BasePendingResult$ReleasableResultGuardian mResultGuardian;
+}
 
 
-# End of content from C:\Users\sudhi\.gradle\caches\8.9\transforms\134e00db73bd89c46a9951be20648d5b\transformed\play-services-tasks-18.0.2\proguard.txt
-# The proguard configuration file for the following section is C:\Users\sudhi\.gradle\caches\8.9\transforms\a9edf4531ae0297c570646301495de98\transformed\play-services-basement-18.1.0\proguard.txt
+
+# End of content from C:\Users\sudhi\.gradle\caches\8.9\transforms\26947baf34e2f6728fe5a3b55ae56d7e\transformed\play-services-base-18.5.0\proguard.txt
+# The proguard configuration file for the following section is C:\Users\sudhi\.gradle\caches\8.9\transforms\80caf610131bfe7635350a96dae53abe\transformed\play-services-tasks-18.2.0\proguard.txt
+
+
+# End of content from C:\Users\sudhi\.gradle\caches\8.9\transforms\80caf610131bfe7635350a96dae53abe\transformed\play-services-tasks-18.2.0\proguard.txt
+# The proguard configuration file for the following section is C:\Users\sudhi\.gradle\caches\8.9\transforms\250e23709015d6b50f06167d6c7a1073\transformed\play-services-basement-18.4.0\proguard.txt
 # Needed when building against pre-Marshmallow SDK.
 -dontwarn android.security.NetworkSecurityPolicy
 
@@ -254,8 +277,9 @@
 -dontwarn sun.misc.Unsafe
 -dontwarn libcore.io.Memory
 
-# Internal Google annotations for generating Proguard keep rules.
+# Annotations used during internal SDK shrinking.
 -dontwarn com.google.android.apps.common.proguard.UsedBy*
+-dontwarn com.google.android.apps.common.proguard.SideEffectFree
 
 # Annotations referenced by the SDK but whose definitions are contained in
 # non-required dependencies.
@@ -263,6 +287,10 @@
 -dontwarn org.checkerframework.**
 -dontwarn com.google.errorprone.annotations.**
 -dontwarn org.jspecify.nullness.NullMarked
+
+# Annotations no longer exist. Suppression prevents ProGuard failures in
+# SDKs which depend on earlier versions of play-services-basement.
+-dontwarn com.google.android.gms.common.util.VisibleForTesting
 
 # Proguard flags for consumers of the Google Play services SDK
 # https://developers.google.com/android/guides/setup#add_google_play_services_to_your_project
@@ -316,7 +344,7 @@
 
 
 
-# End of content from C:\Users\sudhi\.gradle\caches\8.9\transforms\a9edf4531ae0297c570646301495de98\transformed\play-services-basement-18.1.0\proguard.txt
+# End of content from C:\Users\sudhi\.gradle\caches\8.9\transforms\250e23709015d6b50f06167d6c7a1073\transformed\play-services-basement-18.4.0\proguard.txt
 # The proguard configuration file for the following section is C:\Users\sudhi\.gradle\caches\8.9\transforms\fd58ce29da93ba826c2204b8e9f6ab14\transformed\lifecycle-process-2.6.2\proguard.txt
 # this rule is need to work properly when app is compiled with api 28, see b/142778206
 -keepclassmembers class * extends androidx.lifecycle.EmptyActivityLifecycleCallbacks { *; }

@@ -52,6 +52,7 @@ import com.ghostgramlabs.speakalert.ui.components.PremiumHeaderCard
 import com.ghostgramlabs.speakalert.ui.components.PremiumScreenBackground
 import com.ghostgramlabs.speakalert.ui.components.SectionCard
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
+import com.ghostgramlabs.speakalert.util.sanitizeUnitFloat
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -245,7 +246,7 @@ fun AddEditReminderScreen(
                                         )
                                     }
                                     Slider(
-                                        value = uiState.playbackProgress.coerceIn(0f, 1f),
+                                        value = uiState.playbackProgress.sanitizeUnitFloat(),
                                         onValueChange = { viewModel.seekTo(it) },
                                         enabled = uiState.isPlaying,
                                         modifier = Modifier
@@ -253,7 +254,7 @@ fun AddEditReminderScreen(
                                             .padding(start = 8.dp)
                                             .semantics {
                                                 contentDescription = "Audio preview progress"
-                                                stateDescription = "${(uiState.playbackProgress * 100).toInt()} percent"
+                                                stateDescription = "${(uiState.playbackProgress.sanitizeUnitFloat() * 100).toInt()} percent"
                                             }
                                     )
                                 }

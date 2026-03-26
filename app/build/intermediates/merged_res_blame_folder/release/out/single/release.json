@@ -1,86 +1,126 @@
 [
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/xml_backup_rules.xml.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/xml/backup_rules.xml"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\mipmap-xxxhdpi\\ic_launcher_round.png"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/xml_data_extraction_rules.xml.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/xml/data_extraction_rules.xml"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\mipmap-xxhdpi_ic_launcher_foreground.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\mipmap-xxhdpi\\ic_launcher_foreground.png"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/mipmap-anydpi-v26/ic_launcher.xml"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\mipmap-xxhdpi\\ic_launcher.png"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/mipmap-hdpi_ic_launcher_round.png.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/mipmap-hdpi/ic_launcher_round.png"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\xml_file_paths.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\xml\\file_paths.xml"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/drawable/ic_launcher_foreground.xml"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\mipmap-mdpi_ic_launcher_foreground.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\mipmap-mdpi\\ic_launcher_foreground.png"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/mipmap-xhdpi_ic_launcher.png.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/mipmap-xhdpi/ic_launcher.png"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\mipmap-xhdpi\\ic_launcher.png"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/mipmap-xxhdpi_ic_launcher_foreground.png.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/mipmap-xxhdpi/ic_launcher_foreground.png"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\xml_quick_reminder_widget_info.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\xml\\quick_reminder_widget_info.xml"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/xml_file_paths.xml.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/xml/file_paths.xml"
+        "merged": "com.ghostgramlabs.speakalert.app-merged_res-65:/layout_widget_upcoming_reminder_item.xml.flat",
+        "source": "com.ghostgramlabs.speakalert.app-main-66:/layout/widget_upcoming_reminder_item.xml"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/mipmap-hdpi_ic_launcher_foreground.png.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/mipmap-hdpi/ic_launcher_foreground.png"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\mipmap-mdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\mipmap-mdpi\\ic_launcher.png"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/mipmap-xxhdpi_ic_launcher.png.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/mipmap-xxhdpi/ic_launcher.png"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\mipmap-hdpi\\ic_launcher_round.png"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/mipmap-mdpi_ic_launcher_foreground.png.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/mipmap-mdpi/ic_launcher_foreground.png"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\mipmap-xhdpi_ic_launcher_foreground.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\mipmap-xhdpi\\ic_launcher_foreground.png"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/mipmap-xhdpi_ic_launcher_foreground.png.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/mipmap-xhdpi/ic_launcher_foreground.png"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\drawable_ic_notification.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\drawable\\ic_notification.xml"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/mipmap-xxxhdpi_ic_launcher.png.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/mipmap-xxxhdpi/ic_launcher.png"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\mipmap-hdpi_ic_launcher_foreground.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\mipmap-hdpi\\ic_launcher_foreground.png"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/mipmap-xhdpi_ic_launcher_round.png.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/mipmap-xhdpi/ic_launcher_round.png"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/mipmap-mdpi_ic_launcher.png.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/mipmap-mdpi/ic_launcher.png"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\mipmap-mdpi\\ic_launcher_round.png"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/mipmap-anydpi-v26/ic_launcher_round.xml"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\drawable\\ic_launcher_foreground.xml"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/mipmap-xxhdpi_ic_launcher_round.png.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/mipmap-xxhdpi/ic_launcher_round.png"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\layout_widget_quick_reminder.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\layout\\widget_quick_reminder.xml"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/mipmap-mdpi_ic_launcher_round.png.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/mipmap-mdpi/ic_launcher_round.png"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\mipmap-xxxhdpi_ic_launcher_foreground.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\mipmap-xxxhdpi\\ic_launcher_foreground.png"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/mipmap-hdpi_ic_launcher.png.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/mipmap-hdpi/ic_launcher.png"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\xml\\backup_rules.xml"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/mipmap-xxxhdpi_ic_launcher_foreground.png.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/mipmap-xxxhdpi/ic_launcher_foreground.png"
+        "merged": "com.ghostgramlabs.speakalert.app-merged_res-65:/layout_widget_upcoming_reminders.xml.flat",
+        "source": "com.ghostgramlabs.speakalert.app-main-66:/layout/widget_upcoming_reminders.xml"
     },
     {
-        "merged": "com.ghostgramlabs.speakalert.app-merged_res-4:/mipmap-xxxhdpi_ic_launcher_round.png.flat",
-        "source": "com.ghostgramlabs.speakalert.app-main-5:/mipmap-xxxhdpi/ic_launcher_round.png"
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\drawable_widget_surface.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\drawable\\widget_surface.xml"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\xml_data_extraction_rules.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\xml\\data_extraction_rules.xml"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\layout_widget_upcoming_reminders.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\layout\\widget_upcoming_reminders.xml"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\xml_upcoming_reminders_widget_info.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\xml\\upcoming_reminders_widget_info.xml"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\drawable_widget_item_surface.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\drawable\\widget_item_surface.xml"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\drawable_widget_action_button.xml.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\drawable\\widget_action_button.xml"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\mipmap-xxxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\mipmap-xhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\mipmap-xxhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-merged_res-65:\\mipmap-hdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\sudhi\\.gradle\\daemon\\8.9\\com.ghostgramlabs.speakalert.app-main-66:\\mipmap-hdpi\\ic_launcher.png"
     }
 ]

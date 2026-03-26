@@ -40,6 +40,8 @@ public final class MissedReminderDao_Impl implements MissedReminderDao {
 
   private final SharedSQLiteStatement __preparedStmtOfDeleteByReminderId;
 
+  private final SharedSQLiteStatement __preparedStmtOfDeleteByReminderIdAndScheduledTime;
+
   public MissedReminderDao_Impl(@NonNull final RoomDatabase __db) {
     this.__db = __db;
     this.__insertionAdapterOfMissedReminderEntity = new EntityInsertionAdapter<MissedReminderEntity>(__db) {
@@ -90,6 +92,14 @@ public final class MissedReminderDao_Impl implements MissedReminderDao {
       @NonNull
       public String createQuery() {
         final String _query = "DELETE FROM missed_reminders WHERE reminderId = ?";
+        return _query;
+      }
+    };
+    this.__preparedStmtOfDeleteByReminderIdAndScheduledTime = new SharedSQLiteStatement(__db) {
+      @Override
+      @NonNull
+      public String createQuery() {
+        final String _query = "DELETE FROM missed_reminders WHERE reminderId = ? AND scheduledTime = ?";
         return _query;
       }
     };
@@ -179,6 +189,34 @@ public final class MissedReminderDao_Impl implements MissedReminderDao {
           }
         } finally {
           __preparedStmtOfDeleteByReminderId.release(_stmt);
+        }
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object deleteByReminderIdAndScheduledTime(final long reminderId, final long scheduledTime,
+      final Continuation<? super Unit> $completion) {
+    return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
+      @Override
+      @NonNull
+      public Unit call() throws Exception {
+        final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteByReminderIdAndScheduledTime.acquire();
+        int _argIndex = 1;
+        _stmt.bindLong(_argIndex, reminderId);
+        _argIndex = 2;
+        _stmt.bindLong(_argIndex, scheduledTime);
+        try {
+          __db.beginTransaction();
+          try {
+            _stmt.executeUpdateDelete();
+            __db.setTransactionSuccessful();
+            return Unit.INSTANCE;
+          } finally {
+            __db.endTransaction();
+          }
+        } finally {
+          __preparedStmtOfDeleteByReminderIdAndScheduledTime.release(_stmt);
         }
       }
     }, $completion);

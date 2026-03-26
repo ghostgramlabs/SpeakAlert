@@ -91,6 +91,19 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
+      name="com.google.android.gms:play-services-wearable:18.2.0@aar"
+      jars="C:\Users\sudhi\.gradle\caches\8.9\transforms\9368858c7bba8aea70e39203e7225334\transformed\play-services-wearable-18.2.0\jars\classes.jar"
+      resolved="com.google.android.gms:play-services-wearable:18.2.0"
+      folder="C:\Users\sudhi\.gradle\caches\8.9\transforms\9368858c7bba8aea70e39203e7225334\transformed\play-services-wearable-18.2.0"
+      manifest="AndroidManifest.xml"
+      resFolder="res"
+      assetsFolder="assets"
+      lintJar="lint.jar"
+      publicResources="public.txt"
+      symbolFile="R.txt"
+      externalAnnotations="annotations.zip"
+      proguardRules="proguard.txt"/>
+  <library
       name="com.google.android.play:review:2.0.1@aar"
       jars="C:\Users\sudhi\.gradle\caches\8.9\transforms\440db1e4aa868bcfb40aa89a3c3d3dae\transformed\review-2.0.1\jars\classes.jar"
       resolved="com.google.android.play:review:2.0.1"
@@ -104,10 +117,10 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
-      name="com.google.android.gms:play-services-tasks:18.0.2@aar"
-      jars="C:\Users\sudhi\.gradle\caches\8.9\transforms\134e00db73bd89c46a9951be20648d5b\transformed\play-services-tasks-18.0.2\jars\classes.jar"
-      resolved="com.google.android.gms:play-services-tasks:18.0.2"
-      folder="C:\Users\sudhi\.gradle\caches\8.9\transforms\134e00db73bd89c46a9951be20648d5b\transformed\play-services-tasks-18.0.2"
+      name="com.google.android.gms:play-services-base:18.5.0@aar"
+      jars="C:\Users\sudhi\.gradle\caches\8.9\transforms\26947baf34e2f6728fe5a3b55ae56d7e\transformed\play-services-base-18.5.0\jars\classes.jar"
+      resolved="com.google.android.gms:play-services-base:18.5.0"
+      folder="C:\Users\sudhi\.gradle\caches\8.9\transforms\26947baf34e2f6728fe5a3b55ae56d7e\transformed\play-services-base-18.5.0"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"
@@ -117,10 +130,23 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
-      name="com.google.android.gms:play-services-basement:18.1.0@aar"
-      jars="C:\Users\sudhi\.gradle\caches\8.9\transforms\a9edf4531ae0297c570646301495de98\transformed\play-services-basement-18.1.0\jars\classes.jar"
-      resolved="com.google.android.gms:play-services-basement:18.1.0"
-      folder="C:\Users\sudhi\.gradle\caches\8.9\transforms\a9edf4531ae0297c570646301495de98\transformed\play-services-basement-18.1.0"
+      name="com.google.android.gms:play-services-tasks:18.2.0@aar"
+      jars="C:\Users\sudhi\.gradle\caches\8.9\transforms\80caf610131bfe7635350a96dae53abe\transformed\play-services-tasks-18.2.0\jars\classes.jar"
+      resolved="com.google.android.gms:play-services-tasks:18.2.0"
+      folder="C:\Users\sudhi\.gradle\caches\8.9\transforms\80caf610131bfe7635350a96dae53abe\transformed\play-services-tasks-18.2.0"
+      manifest="AndroidManifest.xml"
+      resFolder="res"
+      assetsFolder="assets"
+      lintJar="lint.jar"
+      publicResources="public.txt"
+      symbolFile="R.txt"
+      externalAnnotations="annotations.zip"
+      proguardRules="proguard.txt"/>
+  <library
+      name="com.google.android.gms:play-services-basement:18.4.0@aar"
+      jars="C:\Users\sudhi\.gradle\caches\8.9\transforms\250e23709015d6b50f06167d6c7a1073\transformed\play-services-basement-18.4.0\jars\classes.jar"
+      resolved="com.google.android.gms:play-services-basement:18.4.0"
+      folder="C:\Users\sudhi\.gradle\caches\8.9\transforms\250e23709015d6b50f06167d6c7a1073\transformed\play-services-basement-18.4.0"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"

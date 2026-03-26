@@ -1350,10 +1350,10 @@ library {
   maven_library {
     groupId: "com.google.android.gms"
     artifactId: "play-services-basement"
-    version: "18.1.0"
+    version: "18.4.0"
   }
   digests {
-    sha256: "\003\272\025\363\206\317&\v\336r\374@\020\373\211\250 \304}Q\316c\274\t)~\253\346\314\340\233\335"
+    sha256: "\316\\\223o\326h\024\263`/\\j^\222\231\021\377\227=K\005\366\336\231\226\332Yk\357\227\312\322"
   }
   repo_index {
   }
@@ -1362,10 +1362,10 @@ library {
   maven_library {
     groupId: "com.google.android.gms"
     artifactId: "play-services-tasks"
-    version: "18.0.2"
+    version: "18.2.0"
   }
   digests {
-    sha256: "\003F\\\3656\200\332#\323\324\243\231\\\003)\267\367;!\0358y\036\3136\345\221\376\273\211fd"
+    sha256: "\177*\252\217P h\352\365CV\312\222\256\300Bq\326\347\304\026\305,E\300\3224@\374\275\026T"
   }
   repo_index {
   }
@@ -1414,6 +1414,30 @@ library {
   }
   digests {
     sha256: "\213\205\363\212\250&\331\002\350\250\215*\371\334s\245\364?f\030r\004\205\361nt&\222\305\241\217o"
+  }
+  repo_index {
+  }
+}
+library {
+  maven_library {
+    groupId: "com.google.android.gms"
+    artifactId: "play-services-wearable"
+    version: "18.2.0"
+  }
+  digests {
+    sha256: "\354\247\033\370\357A9\313\265\232\016\371`\303\355\366\214\366\275P\2141@\244\366\242(\213\231<\261\236"
+  }
+  repo_index {
+  }
+}
+library {
+  maven_library {
+    groupId: "com.google.android.gms"
+    artifactId: "play-services-base"
+    version: "18.5.0"
+  }
+  digests {
+    sha256: "Y\245\300\302\332\0221\035u\331e\316\037A\224\230Sk\032\026\177\262\217\367\337\302\337\331\316\372AW"
   }
   repo_index {
   }
@@ -2459,6 +2483,21 @@ library_dependencies {
   library_dep_index: 18
   library_dep_index: 120
 }
+library_dependencies {
+  library_index: 122
+  library_dep_index: 8
+  library_dep_index: 123
+  library_dep_index: 116
+  library_dep_index: 117
+}
+library_dependencies {
+  library_index: 123
+  library_dep_index: 10
+  library_dep_index: 8
+  library_dep_index: 113
+  library_dep_index: 116
+  library_dep_index: 117
+}
 module_dependencies {
   module_name: "base"
   dependency_index: 0
@@ -2482,6 +2521,7 @@ module_dependencies {
   dependency_index: 109
   dependency_index: 112
   dependency_index: 120
+  dependency_index: 122
 }
 repositories {
   maven_repo {

@@ -52,7 +52,7 @@ public final class ReminderDao_Impl implements ReminderDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR REPLACE INTO `reminders` (`id`,`title`,`reminderText`,`transcript`,`audioPath`,`createdAt`,`nextTriggerAt`,`lastFiredAt`,`isCompleted`,`completedAt`,`recurrenceType`,`recurrenceJson`,`snoozeUntil`,`missedPolicy`,`loopPlayback`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `reminders` (`id`,`title`,`reminderText`,`transcript`,`audioPath`,`createdAt`,`nextTriggerAt`,`lastFiredAt`,`isCompleted`,`completedAt`,`recurrenceType`,`recurrenceJson`,`snoozeUntil`,`missedPolicy`,`loopPlayback`,`followUpCheckMinutes`,`pendingFollowUpAt`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -107,6 +107,12 @@ public final class ReminderDao_Impl implements ReminderDao {
         statement.bindString(14, __MissedPolicy_enumToString(entity.getMissedPolicy()));
         final int _tmp_1 = entity.getLoopPlayback() ? 1 : 0;
         statement.bindLong(15, _tmp_1);
+        statement.bindLong(16, entity.getFollowUpCheckMinutes());
+        if (entity.getPendingFollowUpAt() == null) {
+          statement.bindNull(17);
+        } else {
+          statement.bindLong(17, entity.getPendingFollowUpAt());
+        }
       }
     };
     this.__deletionAdapterOfReminderEntity = new EntityDeletionOrUpdateAdapter<ReminderEntity>(__db) {
@@ -126,7 +132,7 @@ public final class ReminderDao_Impl implements ReminderDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "UPDATE OR ABORT `reminders` SET `id` = ?,`title` = ?,`reminderText` = ?,`transcript` = ?,`audioPath` = ?,`createdAt` = ?,`nextTriggerAt` = ?,`lastFiredAt` = ?,`isCompleted` = ?,`completedAt` = ?,`recurrenceType` = ?,`recurrenceJson` = ?,`snoozeUntil` = ?,`missedPolicy` = ?,`loopPlayback` = ? WHERE `id` = ?";
+        return "UPDATE OR ABORT `reminders` SET `id` = ?,`title` = ?,`reminderText` = ?,`transcript` = ?,`audioPath` = ?,`createdAt` = ?,`nextTriggerAt` = ?,`lastFiredAt` = ?,`isCompleted` = ?,`completedAt` = ?,`recurrenceType` = ?,`recurrenceJson` = ?,`snoozeUntil` = ?,`missedPolicy` = ?,`loopPlayback` = ?,`followUpCheckMinutes` = ?,`pendingFollowUpAt` = ? WHERE `id` = ?";
       }
 
       @Override
@@ -181,7 +187,13 @@ public final class ReminderDao_Impl implements ReminderDao {
         statement.bindString(14, __MissedPolicy_enumToString(entity.getMissedPolicy()));
         final int _tmp_1 = entity.getLoopPlayback() ? 1 : 0;
         statement.bindLong(15, _tmp_1);
-        statement.bindLong(16, entity.getId());
+        statement.bindLong(16, entity.getFollowUpCheckMinutes());
+        if (entity.getPendingFollowUpAt() == null) {
+          statement.bindNull(17);
+        } else {
+          statement.bindLong(17, entity.getPendingFollowUpAt());
+        }
+        statement.bindLong(18, entity.getId());
       }
     };
     this.__preparedStmtOfDeleteReminderById = new SharedSQLiteStatement(__db) {
@@ -301,6 +313,8 @@ public final class ReminderDao_Impl implements ReminderDao {
           final int _cursorIndexOfSnoozeUntil = CursorUtil.getColumnIndexOrThrow(_cursor, "snoozeUntil");
           final int _cursorIndexOfMissedPolicy = CursorUtil.getColumnIndexOrThrow(_cursor, "missedPolicy");
           final int _cursorIndexOfLoopPlayback = CursorUtil.getColumnIndexOrThrow(_cursor, "loopPlayback");
+          final int _cursorIndexOfFollowUpCheckMinutes = CursorUtil.getColumnIndexOrThrow(_cursor, "followUpCheckMinutes");
+          final int _cursorIndexOfPendingFollowUpAt = CursorUtil.getColumnIndexOrThrow(_cursor, "pendingFollowUpAt");
           final List<ReminderEntity> _result = new ArrayList<ReminderEntity>(_cursor.getCount());
           while (_cursor.moveToNext()) {
             final ReminderEntity _item;
@@ -370,7 +384,15 @@ public final class ReminderDao_Impl implements ReminderDao {
             final int _tmp_1;
             _tmp_1 = _cursor.getInt(_cursorIndexOfLoopPlayback);
             _tmpLoopPlayback = _tmp_1 != 0;
-            _item = new ReminderEntity(_tmpId,_tmpTitle,_tmpReminderText,_tmpTranscript,_tmpAudioPath,_tmpCreatedAt,_tmpNextTriggerAt,_tmpLastFiredAt,_tmpIsCompleted,_tmpCompletedAt,_tmpRecurrenceType,_tmpRecurrenceJson,_tmpSnoozeUntil,_tmpMissedPolicy,_tmpLoopPlayback);
+            final int _tmpFollowUpCheckMinutes;
+            _tmpFollowUpCheckMinutes = _cursor.getInt(_cursorIndexOfFollowUpCheckMinutes);
+            final Long _tmpPendingFollowUpAt;
+            if (_cursor.isNull(_cursorIndexOfPendingFollowUpAt)) {
+              _tmpPendingFollowUpAt = null;
+            } else {
+              _tmpPendingFollowUpAt = _cursor.getLong(_cursorIndexOfPendingFollowUpAt);
+            }
+            _item = new ReminderEntity(_tmpId,_tmpTitle,_tmpReminderText,_tmpTranscript,_tmpAudioPath,_tmpCreatedAt,_tmpNextTriggerAt,_tmpLastFiredAt,_tmpIsCompleted,_tmpCompletedAt,_tmpRecurrenceType,_tmpRecurrenceJson,_tmpSnoozeUntil,_tmpMissedPolicy,_tmpLoopPlayback,_tmpFollowUpCheckMinutes,_tmpPendingFollowUpAt);
             _result.add(_item);
           }
           return _result;
@@ -411,6 +433,8 @@ public final class ReminderDao_Impl implements ReminderDao {
           final int _cursorIndexOfSnoozeUntil = CursorUtil.getColumnIndexOrThrow(_cursor, "snoozeUntil");
           final int _cursorIndexOfMissedPolicy = CursorUtil.getColumnIndexOrThrow(_cursor, "missedPolicy");
           final int _cursorIndexOfLoopPlayback = CursorUtil.getColumnIndexOrThrow(_cursor, "loopPlayback");
+          final int _cursorIndexOfFollowUpCheckMinutes = CursorUtil.getColumnIndexOrThrow(_cursor, "followUpCheckMinutes");
+          final int _cursorIndexOfPendingFollowUpAt = CursorUtil.getColumnIndexOrThrow(_cursor, "pendingFollowUpAt");
           final List<ReminderEntity> _result = new ArrayList<ReminderEntity>(_cursor.getCount());
           while (_cursor.moveToNext()) {
             final ReminderEntity _item;
@@ -480,7 +504,15 @@ public final class ReminderDao_Impl implements ReminderDao {
             final int _tmp_1;
             _tmp_1 = _cursor.getInt(_cursorIndexOfLoopPlayback);
             _tmpLoopPlayback = _tmp_1 != 0;
-            _item = new ReminderEntity(_tmpId,_tmpTitle,_tmpReminderText,_tmpTranscript,_tmpAudioPath,_tmpCreatedAt,_tmpNextTriggerAt,_tmpLastFiredAt,_tmpIsCompleted,_tmpCompletedAt,_tmpRecurrenceType,_tmpRecurrenceJson,_tmpSnoozeUntil,_tmpMissedPolicy,_tmpLoopPlayback);
+            final int _tmpFollowUpCheckMinutes;
+            _tmpFollowUpCheckMinutes = _cursor.getInt(_cursorIndexOfFollowUpCheckMinutes);
+            final Long _tmpPendingFollowUpAt;
+            if (_cursor.isNull(_cursorIndexOfPendingFollowUpAt)) {
+              _tmpPendingFollowUpAt = null;
+            } else {
+              _tmpPendingFollowUpAt = _cursor.getLong(_cursorIndexOfPendingFollowUpAt);
+            }
+            _item = new ReminderEntity(_tmpId,_tmpTitle,_tmpReminderText,_tmpTranscript,_tmpAudioPath,_tmpCreatedAt,_tmpNextTriggerAt,_tmpLastFiredAt,_tmpIsCompleted,_tmpCompletedAt,_tmpRecurrenceType,_tmpRecurrenceJson,_tmpSnoozeUntil,_tmpMissedPolicy,_tmpLoopPlayback,_tmpFollowUpCheckMinutes,_tmpPendingFollowUpAt);
             _result.add(_item);
           }
           return _result;
@@ -521,6 +553,8 @@ public final class ReminderDao_Impl implements ReminderDao {
           final int _cursorIndexOfSnoozeUntil = CursorUtil.getColumnIndexOrThrow(_cursor, "snoozeUntil");
           final int _cursorIndexOfMissedPolicy = CursorUtil.getColumnIndexOrThrow(_cursor, "missedPolicy");
           final int _cursorIndexOfLoopPlayback = CursorUtil.getColumnIndexOrThrow(_cursor, "loopPlayback");
+          final int _cursorIndexOfFollowUpCheckMinutes = CursorUtil.getColumnIndexOrThrow(_cursor, "followUpCheckMinutes");
+          final int _cursorIndexOfPendingFollowUpAt = CursorUtil.getColumnIndexOrThrow(_cursor, "pendingFollowUpAt");
           final List<ReminderEntity> _result = new ArrayList<ReminderEntity>(_cursor.getCount());
           while (_cursor.moveToNext()) {
             final ReminderEntity _item;
@@ -590,7 +624,15 @@ public final class ReminderDao_Impl implements ReminderDao {
             final int _tmp_1;
             _tmp_1 = _cursor.getInt(_cursorIndexOfLoopPlayback);
             _tmpLoopPlayback = _tmp_1 != 0;
-            _item = new ReminderEntity(_tmpId,_tmpTitle,_tmpReminderText,_tmpTranscript,_tmpAudioPath,_tmpCreatedAt,_tmpNextTriggerAt,_tmpLastFiredAt,_tmpIsCompleted,_tmpCompletedAt,_tmpRecurrenceType,_tmpRecurrenceJson,_tmpSnoozeUntil,_tmpMissedPolicy,_tmpLoopPlayback);
+            final int _tmpFollowUpCheckMinutes;
+            _tmpFollowUpCheckMinutes = _cursor.getInt(_cursorIndexOfFollowUpCheckMinutes);
+            final Long _tmpPendingFollowUpAt;
+            if (_cursor.isNull(_cursorIndexOfPendingFollowUpAt)) {
+              _tmpPendingFollowUpAt = null;
+            } else {
+              _tmpPendingFollowUpAt = _cursor.getLong(_cursorIndexOfPendingFollowUpAt);
+            }
+            _item = new ReminderEntity(_tmpId,_tmpTitle,_tmpReminderText,_tmpTranscript,_tmpAudioPath,_tmpCreatedAt,_tmpNextTriggerAt,_tmpLastFiredAt,_tmpIsCompleted,_tmpCompletedAt,_tmpRecurrenceType,_tmpRecurrenceJson,_tmpSnoozeUntil,_tmpMissedPolicy,_tmpLoopPlayback,_tmpFollowUpCheckMinutes,_tmpPendingFollowUpAt);
             _result.add(_item);
           }
           return _result;
@@ -635,6 +677,8 @@ public final class ReminderDao_Impl implements ReminderDao {
           final int _cursorIndexOfSnoozeUntil = CursorUtil.getColumnIndexOrThrow(_cursor, "snoozeUntil");
           final int _cursorIndexOfMissedPolicy = CursorUtil.getColumnIndexOrThrow(_cursor, "missedPolicy");
           final int _cursorIndexOfLoopPlayback = CursorUtil.getColumnIndexOrThrow(_cursor, "loopPlayback");
+          final int _cursorIndexOfFollowUpCheckMinutes = CursorUtil.getColumnIndexOrThrow(_cursor, "followUpCheckMinutes");
+          final int _cursorIndexOfPendingFollowUpAt = CursorUtil.getColumnIndexOrThrow(_cursor, "pendingFollowUpAt");
           final ReminderEntity _result;
           if (_cursor.moveToFirst()) {
             final long _tmpId;
@@ -703,7 +747,15 @@ public final class ReminderDao_Impl implements ReminderDao {
             final int _tmp_1;
             _tmp_1 = _cursor.getInt(_cursorIndexOfLoopPlayback);
             _tmpLoopPlayback = _tmp_1 != 0;
-            _result = new ReminderEntity(_tmpId,_tmpTitle,_tmpReminderText,_tmpTranscript,_tmpAudioPath,_tmpCreatedAt,_tmpNextTriggerAt,_tmpLastFiredAt,_tmpIsCompleted,_tmpCompletedAt,_tmpRecurrenceType,_tmpRecurrenceJson,_tmpSnoozeUntil,_tmpMissedPolicy,_tmpLoopPlayback);
+            final int _tmpFollowUpCheckMinutes;
+            _tmpFollowUpCheckMinutes = _cursor.getInt(_cursorIndexOfFollowUpCheckMinutes);
+            final Long _tmpPendingFollowUpAt;
+            if (_cursor.isNull(_cursorIndexOfPendingFollowUpAt)) {
+              _tmpPendingFollowUpAt = null;
+            } else {
+              _tmpPendingFollowUpAt = _cursor.getLong(_cursorIndexOfPendingFollowUpAt);
+            }
+            _result = new ReminderEntity(_tmpId,_tmpTitle,_tmpReminderText,_tmpTranscript,_tmpAudioPath,_tmpCreatedAt,_tmpNextTriggerAt,_tmpLastFiredAt,_tmpIsCompleted,_tmpCompletedAt,_tmpRecurrenceType,_tmpRecurrenceJson,_tmpSnoozeUntil,_tmpMissedPolicy,_tmpLoopPlayback,_tmpFollowUpCheckMinutes,_tmpPendingFollowUpAt);
           } else {
             _result = null;
           }
@@ -743,6 +795,8 @@ public final class ReminderDao_Impl implements ReminderDao {
           final int _cursorIndexOfSnoozeUntil = CursorUtil.getColumnIndexOrThrow(_cursor, "snoozeUntil");
           final int _cursorIndexOfMissedPolicy = CursorUtil.getColumnIndexOrThrow(_cursor, "missedPolicy");
           final int _cursorIndexOfLoopPlayback = CursorUtil.getColumnIndexOrThrow(_cursor, "loopPlayback");
+          final int _cursorIndexOfFollowUpCheckMinutes = CursorUtil.getColumnIndexOrThrow(_cursor, "followUpCheckMinutes");
+          final int _cursorIndexOfPendingFollowUpAt = CursorUtil.getColumnIndexOrThrow(_cursor, "pendingFollowUpAt");
           final List<ReminderEntity> _result = new ArrayList<ReminderEntity>(_cursor.getCount());
           while (_cursor.moveToNext()) {
             final ReminderEntity _item;
@@ -812,7 +866,15 @@ public final class ReminderDao_Impl implements ReminderDao {
             final int _tmp_1;
             _tmp_1 = _cursor.getInt(_cursorIndexOfLoopPlayback);
             _tmpLoopPlayback = _tmp_1 != 0;
-            _item = new ReminderEntity(_tmpId,_tmpTitle,_tmpReminderText,_tmpTranscript,_tmpAudioPath,_tmpCreatedAt,_tmpNextTriggerAt,_tmpLastFiredAt,_tmpIsCompleted,_tmpCompletedAt,_tmpRecurrenceType,_tmpRecurrenceJson,_tmpSnoozeUntil,_tmpMissedPolicy,_tmpLoopPlayback);
+            final int _tmpFollowUpCheckMinutes;
+            _tmpFollowUpCheckMinutes = _cursor.getInt(_cursorIndexOfFollowUpCheckMinutes);
+            final Long _tmpPendingFollowUpAt;
+            if (_cursor.isNull(_cursorIndexOfPendingFollowUpAt)) {
+              _tmpPendingFollowUpAt = null;
+            } else {
+              _tmpPendingFollowUpAt = _cursor.getLong(_cursorIndexOfPendingFollowUpAt);
+            }
+            _item = new ReminderEntity(_tmpId,_tmpTitle,_tmpReminderText,_tmpTranscript,_tmpAudioPath,_tmpCreatedAt,_tmpNextTriggerAt,_tmpLastFiredAt,_tmpIsCompleted,_tmpCompletedAt,_tmpRecurrenceType,_tmpRecurrenceJson,_tmpSnoozeUntil,_tmpMissedPolicy,_tmpLoopPlayback,_tmpFollowUpCheckMinutes,_tmpPendingFollowUpAt);
             _result.add(_item);
           }
           return _result;
@@ -836,6 +898,7 @@ public final class ReminderDao_Impl implements ReminderDao {
       case WEEKLY: return "WEEKLY";
       case MONTHLY: return "MONTHLY";
       case CUSTOM: return "CUSTOM";
+      case YEARLY: return "YEARLY";
       default: throw new IllegalArgumentException("Can't convert enum to string, unknown enum value: " + _value);
     }
   }
@@ -855,6 +918,7 @@ public final class ReminderDao_Impl implements ReminderDao {
       case "WEEKLY": return RecurrenceType.WEEKLY;
       case "MONTHLY": return RecurrenceType.MONTHLY;
       case "CUSTOM": return RecurrenceType.CUSTOM;
+      case "YEARLY": return RecurrenceType.YEARLY;
       default: throw new IllegalArgumentException("Can't convert value to enum, unknown value: " + _value);
     }
   }

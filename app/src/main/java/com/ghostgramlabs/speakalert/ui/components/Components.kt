@@ -52,6 +52,7 @@ import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
 import com.ghostgramlabs.speakalert.domain.models.MonthlyVariant
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceModel
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
+import com.ghostgramlabs.speakalert.util.sanitizeUnitFloat
 
 // ─── Monthly Day Grid ─────────────────────────────────────────────────────────
 @Composable
@@ -895,6 +896,13 @@ fun VoiceRecorderCard(
     maxRecordingSeconds: Int = 300, 
     modifier: Modifier = Modifier
 ) {
+    val safePlaybackProgress = playbackProgress.sanitizeUnitFloat()
+    val safeRecordingProgress = if (maxRecordingSeconds > 0) {
+        (recordingElapsedSeconds.toFloat() / maxRecordingSeconds.toFloat()).sanitizeUnitFloat()
+    } else {
+        0f
+    }
+
     // Pulsing animation for recording indicator
     val infiniteTransition = rememberInfiniteTransition(label = "pulse")
     val pulseScale by infiniteTransition.animateFloat(
@@ -995,7 +1003,7 @@ fun VoiceRecorderCard(
                  Box(contentAlignment = Alignment.Center) {
                      // Progress ring
                      CircularProgressIndicator(
-                         progress = recordingElapsedSeconds.toFloat() / maxRecordingSeconds.toFloat(),
+                         progress = safeRecordingProgress,
                          modifier = Modifier.size(100.dp),
                          color = MaterialTheme.colorScheme.error,
                          strokeWidth = 4.dp
@@ -1048,14 +1056,14 @@ fun VoiceRecorderCard(
                      }
                      
                      Slider(
-                         value = playbackProgress,
+                         value = safePlaybackProgress,
                          onValueChange = onSeek,
                          modifier = Modifier
                              .weight(1f)
                              .padding(horizontal = 16.dp)
                              .semantics {
                                  contentDescription = "Voice preview progress"
-                                 stateDescription = "${(playbackProgress * 100).toInt()} percent"
+                                 stateDescription = "${(safePlaybackProgress * 100).toInt()} percent"
                              }
                      )
                  }

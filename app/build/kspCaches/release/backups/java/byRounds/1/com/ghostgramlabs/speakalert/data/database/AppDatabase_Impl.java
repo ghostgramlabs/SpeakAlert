@@ -33,13 +33,13 @@ public final class AppDatabase_Impl extends AppDatabase {
   @Override
   @NonNull
   protected SupportSQLiteOpenHelper createOpenHelper(@NonNull final DatabaseConfiguration config) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(5) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(6) {
       @Override
       public void createAllTables(@NonNull final SupportSQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS `reminders` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT, `reminderText` TEXT, `transcript` TEXT, `audioPath` TEXT, `createdAt` INTEGER NOT NULL, `nextTriggerAt` INTEGER NOT NULL, `lastFiredAt` INTEGER, `isCompleted` INTEGER NOT NULL, `completedAt` INTEGER, `recurrenceType` TEXT NOT NULL, `recurrenceJson` TEXT, `snoozeUntil` INTEGER, `missedPolicy` TEXT NOT NULL, `loopPlayback` INTEGER NOT NULL)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `reminders` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT, `reminderText` TEXT, `transcript` TEXT, `audioPath` TEXT, `createdAt` INTEGER NOT NULL, `nextTriggerAt` INTEGER NOT NULL, `lastFiredAt` INTEGER, `isCompleted` INTEGER NOT NULL, `completedAt` INTEGER, `recurrenceType` TEXT NOT NULL, `recurrenceJson` TEXT, `snoozeUntil` INTEGER, `missedPolicy` TEXT NOT NULL, `loopPlayback` INTEGER NOT NULL, `followUpCheckMinutes` INTEGER NOT NULL, `pendingFollowUpAt` INTEGER)");
         db.execSQL("CREATE TABLE IF NOT EXISTS `missed_reminders` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `reminderId` INTEGER NOT NULL, `title` TEXT NOT NULL, `scheduledTime` INTEGER NOT NULL, `detectedTime` INTEGER NOT NULL, `reminderText` TEXT)");
         db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '49e75d782cbd6f6672dac8664254dbd6')");
+        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a213afd44d90c185aca0e7205d5801e5')");
       }
 
       @Override
@@ -89,7 +89,7 @@ public final class AppDatabase_Impl extends AppDatabase {
       @NonNull
       public RoomOpenHelper.ValidationResult onValidateSchema(
           @NonNull final SupportSQLiteDatabase db) {
-        final HashMap<String, TableInfo.Column> _columnsReminders = new HashMap<String, TableInfo.Column>(15);
+        final HashMap<String, TableInfo.Column> _columnsReminders = new HashMap<String, TableInfo.Column>(17);
         _columnsReminders.put("id", new TableInfo.Column("id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsReminders.put("title", new TableInfo.Column("title", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsReminders.put("reminderText", new TableInfo.Column("reminderText", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -105,6 +105,8 @@ public final class AppDatabase_Impl extends AppDatabase {
         _columnsReminders.put("snoozeUntil", new TableInfo.Column("snoozeUntil", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsReminders.put("missedPolicy", new TableInfo.Column("missedPolicy", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsReminders.put("loopPlayback", new TableInfo.Column("loopPlayback", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsReminders.put("followUpCheckMinutes", new TableInfo.Column("followUpCheckMinutes", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsReminders.put("pendingFollowUpAt", new TableInfo.Column("pendingFollowUpAt", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysReminders = new HashSet<TableInfo.ForeignKey>(0);
         final HashSet<TableInfo.Index> _indicesReminders = new HashSet<TableInfo.Index>(0);
         final TableInfo _infoReminders = new TableInfo("reminders", _columnsReminders, _foreignKeysReminders, _indicesReminders);
@@ -132,7 +134,7 @@ public final class AppDatabase_Impl extends AppDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "49e75d782cbd6f6672dac8664254dbd6", "2e1514e7435939156b96a39b0d2c26b9");
+    }, "a213afd44d90c185aca0e7205d5801e5", "5382b57f0ea78241408464d38d012281");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(config.context).name(config.name).callback(_openCallback).build();
     final SupportSQLiteOpenHelper _helper = config.sqliteOpenHelperFactory.create(_sqliteConfig);
     return _helper;

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.ghostgramlabs.speakalert.app-mergeReleaseResources-2:/values-en-rAU/values-en-rAU.xml",
+            "outputFile": "com.ghostgramlabs.speakalert.app-mergeReleaseResources-63:/values-en-rAU/values-en-rAU.xml",
             "map": [
                 {
                     "source": "C:\\Users\\sudhi\\.gradle\\caches\\8.9\\transforms\\a7661677c486b3072a99ca2b5828fedc\\transformed\\media3-ui-1.2.0\\res\\values-en-rAU\\values-en-rAU.xml",

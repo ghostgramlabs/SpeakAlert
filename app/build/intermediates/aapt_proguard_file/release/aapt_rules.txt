@@ -20,6 +20,11 @@
 -keep class com.ghostgramlabs.speakalert.alarm.ReminderActionReceiver { <init>(); }
 -keep class com.ghostgramlabs.speakalert.alarm.ReminderAlarmReceiver { <init>(); }
 -keep class com.ghostgramlabs.speakalert.service.ReminderPlaybackService { <init>(); }
+-keep class com.ghostgramlabs.speakalert.ui.alert.ReminderAlertActivity { <init>(); }
+-keep class com.ghostgramlabs.speakalert.widget.QuickReminderWidgetProvider { <init>(); }
+-keep class com.ghostgramlabs.speakalert.widget.UpcomingRemindersRemoteViewsService { <init>(); }
+-keep class com.ghostgramlabs.speakalert.widget.UpcomingRemindersWidgetProvider { <init>(); }
+-keep class com.google.android.gms.common.api.GoogleApiActivity { <init>(); }
 -keep class com.google.android.play.core.common.PlayCoreDialogWrapperActivity { <init>(); }
 -keep class androidx.media3.ui.AspectRatioFrameLayout { <init>(android.content.Context, android.util.AttributeSet); }
 
