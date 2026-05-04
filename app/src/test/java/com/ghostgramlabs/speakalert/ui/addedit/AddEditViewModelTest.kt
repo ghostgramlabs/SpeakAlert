@@ -10,6 +10,8 @@ import com.ghostgramlabs.speakalert.data.repository.ReminderRepository
 import com.ghostgramlabs.speakalert.data.repository.SettingsRepository
 import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
 import com.ghostgramlabs.speakalert.domain.models.MissedPolicy
+import com.ghostgramlabs.speakalert.domain.models.EndRuleType
+import com.ghostgramlabs.speakalert.domain.models.RecurrenceEndRule
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceModel
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -288,6 +290,61 @@ class AddEditViewModelTest {
         val captor = argumentCaptor<ReminderEntity>()
         verify(repository).insertReminder(captor.capture())
         assertEquals(selected, captor.firstValue.nextTriggerAt)
+    }
+
+    @Test
+    fun `setRecurrence clamps until date before trigger time`() = runTest {
+        val triggerTime = Calendar.getInstance().apply {
+            add(Calendar.DAY_OF_YEAR, 2)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
+        val earlierEndTime = triggerTime - 60_000L
+
+        viewModel.setTriggerTime(triggerTime)
+        viewModel.setRecurrence(
+            RecurrenceModel.Daily(
+                endRule = RecurrenceEndRule(
+                    type = EndRuleType.UNTIL_DATE,
+                    endDateMillis = earlierEndTime
+                )
+            )
+        )
+
+        val model = RecurrenceUtils.fromJson(
+            viewModel.uiState.value.recurrenceType,
+            viewModel.uiState.value.recurrenceJson
+        ) as RecurrenceModel.Daily
+        assertEquals(triggerTime, model.endRule.endDateMillis)
+    }
+
+    @Test
+    fun `setTriggerTime clamps existing until date when start moves later`() = runTest {
+        val originalTrigger = Calendar.getInstance().apply {
+            add(Calendar.DAY_OF_YEAR, 1)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
+        val originalEnd = originalTrigger + 60_000L
+        val movedLater = originalEnd + 60_000L
+
+        viewModel.setTriggerTime(originalTrigger)
+        viewModel.setRecurrence(
+            RecurrenceModel.Daily(
+                endRule = RecurrenceEndRule(
+                    type = EndRuleType.UNTIL_DATE,
+                    endDateMillis = originalEnd
+                )
+            )
+        )
+
+        viewModel.setTriggerTime(movedLater)
+
+        val model = RecurrenceUtils.fromJson(
+            viewModel.uiState.value.recurrenceType,
+            viewModel.uiState.value.recurrenceJson
+        ) as RecurrenceModel.Daily
+        assertEquals(movedLater, model.endRule.endDateMillis)
     }
 
     @Test

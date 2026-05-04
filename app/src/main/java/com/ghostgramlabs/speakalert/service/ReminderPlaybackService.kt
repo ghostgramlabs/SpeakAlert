@@ -8,6 +8,10 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.media.AudioFocusRequest
 import android.media.AudioManager
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Build
 import android.os.IBinder
 import android.speech.tts.TextToSpeech
@@ -41,7 +45,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.util.Locale
 
-class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
+class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEventListener {
 
     // ExoPlayer
     private lateinit var player: ExoPlayer
@@ -68,6 +72,14 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
     private lateinit var audioManager: AudioManager
     private var audioFocusRequest: AudioFocusRequest? = null
     private var pendingSpeakAfterFocusGain: String? = null
+    private var privatePlaybackEnabled: Boolean = false
+    private var privateRouteNearEar: Boolean = false
+    private var dndBypassEnabled: Boolean = true
+    private var originalAudioMode: Int? = null
+    private var originalSpeakerphoneOn: Boolean? = null
+    private var sensorManager: SensorManager? = null
+    private var proximitySensor: Sensor? = null
+    private var proximityListening: Boolean = false
     
     // Volume Control
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
@@ -120,17 +132,12 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
         
         try {
             audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+            sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+            proximitySensor = sensorManager?.getDefaultSensor(Sensor.TYPE_PROXIMITY)
 
-            // Initialize ExoPlayer
-            // NOTE: handleAudioFocus must be FALSE for USAGE_ALARM (only USAGE_MEDIA/USAGE_GAME supported)
+            // Initialize ExoPlayer. Audio attributes are set when playback starts
+            // because private playback uses phone-call style routing when enabled.
             player = ExoPlayer.Builder(this)
-                .setAudioAttributes(
-                    AudioAttributes.Builder()
-                        .setContentType(C.AUDIO_CONTENT_TYPE_SPEECH)
-                        .setUsage(C.USAGE_ALARM)
-                        .build(),
-                    false // Must be false for USAGE_ALARM
-                )
                 .build()
                 
             player.addListener(object : Player.Listener {
@@ -362,6 +369,9 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
             val title = intent?.getStringExtra(EXTRA_TITLE) ?: "Reminder"
             val id = intent?.getLongExtra(EXTRA_ID, -1L) ?: -1L
             loopEnabled = intent?.getBooleanExtra(EXTRA_LOOP, false) ?: false
+            privatePlaybackEnabled = intent?.getBooleanExtra(EXTRA_PRIVATE_PLAYBACK, false) ?: false
+            dndBypassEnabled = intent?.getBooleanExtra(EXTRA_DND_BYPASS, true) ?: true
+            configureAudioRoute(privatePlaybackEnabled)
             
             // Start loop timeout countdown if looping is enabled
             if (loopEnabled) {
@@ -394,6 +404,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
         FileLogger.log("SERVICE: playAudio called with path=$path")
         try {
             tts?.stop()
+            player.setAudioAttributes(buildPlayerAudioAttributes(), false)
 
             if (!ReminderAudioSource.isPlayable(this, path)) {
                 FileLogger.log("SERVICE: Audio source unavailable: $path")
@@ -430,6 +441,9 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
         currentTtsId = id
         
         try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                tts?.setAudioAttributes(buildPlatformAudioAttributes())
+            }
             // Show TTS Notification
             FileLogger.log("SERVICE: Creating TTS notification")
             val notification = createTtsNotification(title, text, id)
@@ -475,7 +489,14 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
 
     private fun speakNow(text: String) {
         val params = android.os.Bundle()
-        params.putInt(TextToSpeech.Engine.KEY_PARAM_STREAM, AudioManager.STREAM_ALARM)
+        params.putInt(
+            TextToSpeech.Engine.KEY_PARAM_STREAM,
+            when {
+                privatePlaybackEnabled && privateRouteNearEar -> AudioManager.STREAM_VOICE_CALL
+                dndBypassEnabled -> AudioManager.STREAM_ALARM
+                else -> AudioManager.STREAM_MUSIC
+            }
+        )
         params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, currentVolume)
         
         val utteranceId = "REMINDER_TTS"
@@ -492,10 +513,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
     private fun requestAudioFocus(): Int {
         FileLogger.log("SERVICE: Requesting audio focus")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val audioAttributes = android.media.AudioAttributes.Builder()
-                .setUsage(android.media.AudioAttributes.USAGE_ALARM)
-                .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SPEECH)
-                .build()
+            val audioAttributes = buildPlatformAudioAttributes()
                 
             audioFocusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)
                 .setAudioAttributes(audioAttributes)
@@ -525,7 +543,11 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
             @Suppress("DEPRECATION")
             val result = audioManager.requestAudioFocus(
                 { focusChange -> if (focusChange == AudioManager.AUDIOFOCUS_LOSS) stopSelf() },
-                AudioManager.STREAM_ALARM,
+                when {
+                    privatePlaybackEnabled && privateRouteNearEar -> AudioManager.STREAM_VOICE_CALL
+                    dndBypassEnabled -> AudioManager.STREAM_ALARM
+                    else -> AudioManager.STREAM_MUSIC
+                },
                 AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
             )
             return result
@@ -538,6 +560,133 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
         } else {
             @Suppress("DEPRECATION")
             audioManager.abandonAudioFocus(null)
+        }
+    }
+
+    private fun configureAudioRoute(privatePlayback: Boolean) {
+        if (!::audioManager.isInitialized) return
+        if (privatePlayback) {
+            if (originalAudioMode == null) {
+                originalAudioMode = audioManager.mode
+            }
+            if (originalSpeakerphoneOn == null) {
+                @Suppress("DEPRECATION")
+                originalSpeakerphoneOn = audioManager.isSpeakerphoneOn
+            }
+            applyPrivatePlaybackRoute(useEarpiece = false)
+            startProximityRouting()
+            FileLogger.log("SERVICE: Adaptive private playback route enabled")
+        } else {
+            restoreAudioRoute()
+        }
+    }
+
+    private fun restoreAudioRoute() {
+        if (!::audioManager.isInitialized) return
+        stopProximityRouting()
+        originalAudioMode?.let { mode ->
+            audioManager.mode = mode
+            originalAudioMode = null
+        }
+        originalSpeakerphoneOn?.let { wasSpeakerphoneOn ->
+            @Suppress("DEPRECATION")
+            audioManager.isSpeakerphoneOn = wasSpeakerphoneOn
+            originalSpeakerphoneOn = null
+        }
+        privateRouteNearEar = false
+        updatePlaybackAudioAttributes()
+    }
+
+    private fun startProximityRouting() {
+        if (proximityListening) return
+        val sensor = proximitySensor
+        if (sensor == null) {
+            applyPrivatePlaybackRoute(useEarpiece = false)
+            FileLogger.log("SERVICE: No proximity sensor; private playback stays on speaker")
+            return
+        }
+        proximityListening = sensorManager?.registerListener(
+            this,
+            sensor,
+            SensorManager.SENSOR_DELAY_NORMAL
+        ) == true
+        FileLogger.log("SERVICE: Proximity routing listener registered=$proximityListening")
+    }
+
+    private fun stopProximityRouting() {
+        if (!proximityListening) return
+        sensorManager?.unregisterListener(this)
+        proximityListening = false
+    }
+
+    private fun applyPrivatePlaybackRoute(useEarpiece: Boolean) {
+        if (!::audioManager.isInitialized) return
+        privateRouteNearEar = useEarpiece
+        if (useEarpiece) {
+            audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
+        } else {
+            audioManager.mode = originalAudioMode ?: AudioManager.MODE_NORMAL
+        }
+        @Suppress("DEPRECATION")
+        audioManager.isSpeakerphoneOn = !useEarpiece
+        updatePlaybackAudioAttributes()
+        FileLogger.log("SERVICE: Private playback route=${if (useEarpiece) "earpiece" else "speaker"}")
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        if (!privatePlaybackEnabled || event?.sensor?.type != Sensor.TYPE_PROXIMITY) return
+        val maxRange = event.sensor.maximumRange
+        val distance = event.values.firstOrNull() ?: maxRange
+        val nearEar = distance < maxRange
+        if (nearEar != privateRouteNearEar) {
+            applyPrivatePlaybackRoute(nearEar)
+        }
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) = Unit
+
+    private fun buildPlayerAudioAttributes(): AudioAttributes {
+        return AudioAttributes.Builder()
+            .setContentType(C.AUDIO_CONTENT_TYPE_SPEECH)
+            .setUsage(
+                when {
+                    privatePlaybackEnabled && privateRouteNearEar -> C.USAGE_VOICE_COMMUNICATION
+                    dndBypassEnabled -> C.USAGE_ALARM
+                    else -> C.USAGE_MEDIA
+                }
+            )
+            .build()
+    }
+
+    private fun buildPlatformAudioAttributes(): android.media.AudioAttributes {
+        return android.media.AudioAttributes.Builder()
+            .setUsage(
+                when {
+                    privatePlaybackEnabled && privateRouteNearEar -> {
+                        android.media.AudioAttributes.USAGE_VOICE_COMMUNICATION
+                    }
+                    dndBypassEnabled -> {
+                        android.media.AudioAttributes.USAGE_ALARM
+                    }
+                    else -> {
+                        android.media.AudioAttributes.USAGE_MEDIA
+                    }
+                }
+            )
+            .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SPEECH)
+            .build()
+    }
+
+    private fun updatePlaybackAudioAttributes() {
+        if (::player.isInitialized) {
+            runCatching {
+                player.setAudioAttributes(buildPlayerAudioAttributes(), false)
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            runCatching {
+                tts?.setAudioAttributes(buildPlatformAudioAttributes())
+            }
         }
     }
     
@@ -618,11 +767,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
         FileLogger.log("SERVICE: TTS onInit called with status=$status")
         if (status == TextToSpeech.SUCCESS) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                val ttsAudioAttributes = android.media.AudioAttributes.Builder()
-                    .setUsage(android.media.AudioAttributes.USAGE_ALARM)
-                    .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SPEECH)
-                    .build()
-                tts?.setAudioAttributes(ttsAudioAttributes)
+                tts?.setAudioAttributes(buildPlatformAudioAttributes())
             }
             val result = tts?.setLanguage(Locale.getDefault())
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
@@ -687,6 +832,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
             tts?.stop()
             tts?.shutdown()
             abandonAudioFocus()
+            restoreAudioRoute()
         } catch (e: Exception) {
             FileLogger.logError("SERVICE", "Error in onDestroy", e)
         }
@@ -711,8 +857,20 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
         const val ACTION_SEEK = "action_seek"
         const val EXTRA_LOOP = "extra_loop"
         const val EXTRA_POSITION_MS = "extra_position_ms"
+        const val EXTRA_PRIVATE_PLAYBACK = "extra_private_playback"
+        const val EXTRA_DND_BYPASS = "extra_dnd_bypass"
         
-        fun start(context: Context, id: Long, title: String?, audioPath: String?, ttsText: String?, loop: Boolean = false, isFromBootContext: Boolean = false) {
+        fun start(
+            context: Context,
+            id: Long,
+            title: String?,
+            audioPath: String?,
+            ttsText: String?,
+            loop: Boolean = false,
+            isFromBootContext: Boolean = false,
+            privatePlayback: Boolean = false,
+            dndBypass: Boolean = true
+        ) {
             FileLogger.log("SERVICE.start() called - id=$id, audio=$audioPath, tts=${ttsText?.take(20)}, loop=$loop, bootContext=$isFromBootContext")
             ToneAlertPlayer.stop()
 
@@ -728,6 +886,8 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener {
                 putExtra(EXTRA_ID, id)
                 putExtra(EXTRA_TITLE, title)
                 putExtra(EXTRA_LOOP, loop)
+                putExtra(EXTRA_PRIVATE_PLAYBACK, privatePlayback)
+                putExtra(EXTRA_DND_BYPASS, dndBypass)
                 if (audioPath != null) putExtra(EXTRA_AUDIO_PATH, audioPath)
                 if (ttsText != null) putExtra(EXTRA_TTS_TEXT, ttsText)
             }

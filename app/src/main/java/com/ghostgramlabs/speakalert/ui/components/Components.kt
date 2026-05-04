@@ -15,6 +15,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.PlayArrow
@@ -28,6 +29,7 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.AllInclusive
+import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -44,6 +46,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -292,6 +295,7 @@ fun ReminderCard(
     onCompleteClick: () -> Unit,
     onEditClick: () -> Unit,
     onDeleteClick: () -> Unit,
+    onDuplicateClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     val haptic = LocalHapticFeedback.current
@@ -437,11 +441,29 @@ fun ReminderCard(
                     )
                 }
                 
-                // More actions menu
-                Box {
+                // Quick actions
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (onDuplicateClick != null) {
+                        IconButton(
+                            onClick = {
+                                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                                onDuplicateClick()
+                            },
+                            modifier = Modifier.size(44.dp)
+                        ) {
+                            Icon(
+                                Icons.Filled.ContentCopy,
+                                contentDescription = "Duplicate reminder",
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(19.dp)
+                            )
+                        }
+                    }
                     IconButton(
                         onClick = { showMenu = true },
-                        modifier = Modifier.size(48.dp)
+                        modifier = Modifier.size(44.dp)
                     ) {
                         Icon(
                             Icons.Filled.MoreVert,
@@ -631,6 +653,18 @@ fun ReminderCard(
                     },
                     emphasize = true
                 )
+
+                if (onDuplicateClick != null) {
+                    ActionSheetRow(
+                        icon = Icons.Filled.ContentCopy,
+                        label = "Duplicate reminder",
+                        subLabel = "Create a copy with the same audio and schedule",
+                        onClick = {
+                            showMenu = false
+                            onDuplicateClick()
+                        }
+                    )
+                }
 
                 if (isPlaying && (hasAudio || (hasText && isTextToSpeechEnabled))) {
                     ActionSheetRow(
@@ -875,6 +909,153 @@ fun ActionSheetRow(
                         }
                     )
                 }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+@Composable
+fun FollowUpDurationPicker(
+    currentMinutes: Int,
+    onChange: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    presets: List<Int> = listOf(0, 5, 10, 15),
+    customDefault: Int = 20,
+    maxMinutes: Int = 240
+) {
+    var showCustomDialog by remember { mutableStateOf(false) }
+    val isCustom = currentMinutes > 0 && currentMinutes !in presets
+
+    FlowRow(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        presets.forEach { minutes ->
+            FilterChip(
+                selected = currentMinutes == minutes,
+                onClick = { onChange(minutes) },
+                label = {
+                    Text(
+                        text = if (minutes == 0) "Off" else "${minutes}m",
+                        maxLines = 1,
+                        softWrap = false,
+                        overflow = TextOverflow.Clip
+                    )
+                },
+                colors = FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                    selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f),
+                    labelColor = MaterialTheme.colorScheme.onSurface
+                )
+            )
+        }
+        FilterChip(
+            selected = isCustom,
+            onClick = { showCustomDialog = true },
+            label = {
+                Text(
+                    text = if (isCustom) "${currentMinutes}m" else "Custom",
+                    maxLines = 1,
+                    softWrap = false,
+                    overflow = TextOverflow.Ellipsis
+                )
+            },
+            colors = FilterChipDefaults.filterChipColors(
+                selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f),
+                labelColor = MaterialTheme.colorScheme.onSurface
+            )
+        )
+    }
+
+    if (showCustomDialog) {
+        CustomFollowUpDurationDialog(
+            initialValue = if (isCustom) currentMinutes else customDefault,
+            maxMinutes = maxMinutes,
+            onDismiss = { showCustomDialog = false },
+            onSave = { minutes ->
+                onChange(minutes)
+                showCustomDialog = false
+            }
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CustomFollowUpDurationDialog(
+    initialValue: Int,
+    maxMinutes: Int,
+    onDismiss: () -> Unit,
+    onSave: (Int) -> Unit
+) {
+    var value by remember(initialValue) {
+        mutableStateOf(initialValue.coerceAtLeast(1).toString())
+    }
+    val parsedValue = value.toIntOrNull()
+    val isValid = parsedValue != null && parsedValue in 1..maxMinutes
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
+        dragHandle = { BottomSheetDefaults.DragHandle() }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .imePadding()
+                .navigationBarsPadding()
+                .padding(bottom = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
+        ) {
+            Text(
+                text = "Custom Follow-Up",
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = "Ask again after this many minutes if the reminder is not marked done.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            OutlinedTextField(
+                value = value,
+                onValueChange = { newValue ->
+                    if (newValue.length <= maxMinutes.toString().length && newValue.all { it.isDigit() }) {
+                        value = newValue
+                    }
+                },
+                label = { Text("Minutes") },
+                supportingText = { Text("Allowed: 1-$maxMinutes min") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                singleLine = true,
+                isError = value.isNotEmpty() && !isValid,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Button(
+                onClick = {
+                    onSave((parsedValue ?: 10).coerceIn(1, maxMinutes))
+                },
+                enabled = isValid,
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(18.dp)
+            ) {
+                Text("Save")
+            }
+            OutlinedButton(
+                onClick = onDismiss,
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(18.dp)
+            ) {
+                Text("Cancel")
             }
         }
     }

@@ -113,20 +113,7 @@ object RecurrenceUtils {
             EndRuleType.UNTIL_DATE -> {
                 val until = end.endDateMillis ?: Long.MAX_VALUE
                 if (until == Long.MAX_VALUE) return false
-                
-                // Be inclusive of the day selected. 
-                // We consider it "ended" only if the candidate is strictly after 
-                // the end of that day (or the explicit timestamp).
-                // Usually DatePickers return 00:00:00.
-                // Let's check if they are on the same day.
-                val candidateCal = Calendar.getInstance().apply { timeInMillis = candidateTime }
-                val endCal = Calendar.getInstance().apply { timeInMillis = until }
-                
-                if (candidateCal.get(Calendar.YEAR) < endCal.get(Calendar.YEAR)) return false
-                if (candidateCal.get(Calendar.YEAR) > endCal.get(Calendar.YEAR)) return true
-                
-                // Same year
-                candidateCal.get(Calendar.DAY_OF_YEAR) > endCal.get(Calendar.DAY_OF_YEAR)
+                candidateTime > until
             }
             EndRuleType.AFTER_OCCURRENCES -> (end.count ?: 0) <= 0
         }
@@ -463,8 +450,8 @@ object RecurrenceUtils {
                  EndRuleType.NEVER -> sb.append("\nEnds: Never")
                  EndRuleType.UNTIL_DATE -> {
                      val endDate = model.endRule.endDateMillis ?: 0L
-                     val dateStr = java.text.SimpleDateFormat("MMM d, yyyy", java.util.Locale.getDefault()).format(java.util.Date(endDate))
-                     sb.append("\nEnds on $dateStr")
+                     val dateStr = java.text.SimpleDateFormat("MMM d, yyyy 'at' h:mm a", java.util.Locale.getDefault()).format(java.util.Date(endDate))
+                     sb.append("\nEnds by $dateStr")
                  }
                  EndRuleType.AFTER_OCCURRENCES -> sb.append("\nEnds after ${model.endRule.count ?: 0} times")
              }

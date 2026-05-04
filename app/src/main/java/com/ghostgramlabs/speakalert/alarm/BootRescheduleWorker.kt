@@ -49,6 +49,7 @@ class BootRescheduleWorker(
             val settingsDefaultPolicy = parseMissedPolicy(settingsRepository.defaultMissedPolicy.first())
             val toneOnlyMode = settingsRepository.toneOnlyMode.first()
             val toneOnlyAlertToneUri = settingsRepository.toneOnlyAlertToneUri.first()
+            val dndBypassEnabled = settingsRepository.dndBypassEnabled.first()
             val loopTimeoutMinutes = settingsRepository.loopTimeoutMinutes.first()
 
             val activeReminders = repository.getAllActiveReminders()
@@ -108,10 +109,11 @@ class BootRescheduleWorker(
                             audioPath = reminder.audioPath,
                             reminderText = reminder.reminderText,
                             autoplayOnTap = false,
-                            toneOnlyMode = toneOnlyMode
+                            toneOnlyMode = toneOnlyMode,
+                            dndBypassEnabled = dndBypassEnabled
                         )
                         if (toneOnlyMode && notificationShown) {
-                            ToneAlertPlayer.start(applicationContext, loopTimeoutMinutes, toneOnlyAlertToneUri)
+                            ToneAlertPlayer.start(applicationContext, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled)
                         }
                     } else if (shouldShowMissedNotification) {
                         FileLogger.log("BOOT_WORKER: Suppressed missed notification for ${reminder.id} during device restart")
@@ -175,10 +177,11 @@ class BootRescheduleWorker(
                                 reminderText = followUpPayload.playbackText,
                                 autoplayOnTap = false,
                                 toneOnlyMode = toneOnlyMode,
-                                isFollowUpAlert = true
+                                isFollowUpAlert = true,
+                                dndBypassEnabled = dndBypassEnabled
                             )
                             if (toneOnlyMode && notificationShown) {
-                                ToneAlertPlayer.start(applicationContext, loopTimeoutMinutes, toneOnlyAlertToneUri)
+                                ToneAlertPlayer.start(applicationContext, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled)
                             }
                         } else {
                             FileLogger.log("BOOT_WORKER: Suppressed follow-up notification for ${reminder.id} during device restart")

@@ -13,6 +13,7 @@ import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
 import com.ghostgramlabs.speakalert.domain.models.MissedPolicy
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceModel
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
+import com.ghostgramlabs.speakalert.domain.models.EndRuleType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,7 +49,8 @@ data class AddEditUiState(
     val recordingElapsedSeconds: Int = 0, // For displaying recording time
     val currentAmplitude: Int = 0, // For waveform visualization
     val isTextToSpeechEnabled: Boolean = true,
-    val showPastTimeError: Boolean = false
+    val showPastTimeError: Boolean = false,
+    val hasUnsavedChanges: Boolean = false
 )
 
 class AddEditViewModel(
@@ -72,6 +74,7 @@ class AddEditViewModel(
     private var tempAudioFile: File? = null
     private var playbackJob: kotlinx.coroutines.Job? = null
     private var recordingTimerJob: kotlinx.coroutines.Job? = null
+    private var savedDraft: ReminderDraft? = null
     
     companion object {
         const val MAX_RECORDING_SECONDS = 5 * 60 // 5 minutes
@@ -98,12 +101,26 @@ class AddEditViewModel(
     }
 
 
+    /**
+     * Pre-populate fields for a brand-new reminder from user-level defaults.
+     * Should be called only when reminderId == -1L. Has no effect on existing reminders.
+     */
+    fun applyDefaultsForNewReminder() {
+        viewModelScope.launch {
+            val defaultFollowUp = settingsRepository.defaultFollowUpMinutes.first()
+            // Only apply if state hasn't already been loaded into edit mode
+            if (_uiState.value.initialReminderId == -1L) {
+                setSavedDraft(_uiState.value.copy(followUpCheckMinutes = defaultFollowUp))
+            }
+        }
+    }
+
     fun loadReminder(id: Long) {
         viewModelScope.launch {
             val reminder = repository.getReminder(id)
             if (reminder != null) {
                 val isCustomAudio = ReminderAudioSource.isContentUri(reminder.audioPath)
-                _uiState.value = _uiState.value.copy(
+                setSavedDraft(_uiState.value.copy(
                     initialReminderId = reminder.id,
                     title = reminder.title ?: "",
                     reminderText = reminder.reminderText ?: "",
@@ -119,17 +136,17 @@ class AddEditViewModel(
                     recurrenceJson = reminder.recurrenceJson,
                     loopPlayback = reminder.loopPlayback,
                     followUpCheckMinutes = reminder.followUpCheckMinutes
-                )
+                ))
             }
         }
     }
 
     fun updateTitle(newTitle: String) {
-        _uiState.value = _uiState.value.copy(title = newTitle)
+        setDraftState(_uiState.value.copy(title = newTitle))
     }
 
     fun updateReminderText(newText: String) {
-        _uiState.value = _uiState.value.copy(reminderText = newText, showError = false)
+        setDraftState(_uiState.value.copy(reminderText = newText, showError = false))
     }
 
     fun startRecording() {
@@ -143,14 +160,14 @@ class AddEditViewModel(
         
         try {
             recorder.start(file)
-            _uiState.value = _uiState.value.copy(
+            setDraftState(_uiState.value.copy(
                 isRecording = true, 
                 recordedAudioPath = null, 
                 isCustomAudioFile = false,
                 customAudioFileName = null,
                 showError = false,
                 recordingElapsedSeconds = 0
-            )
+            ))
             
             // Start timer to track elapsed time and poll amplitude
             recordingTimerJob?.cancel()
@@ -187,12 +204,12 @@ class AddEditViewModel(
         recordingTimerJob?.cancel()
         recorder.stop()
         // Show preview with temp file path
-        _uiState.value = _uiState.value.copy(
+        setDraftState(_uiState.value.copy(
             isRecording = false,
             recordedAudioPath = tempAudioFile?.absolutePath,
             isCustomAudioFile = false,
             customAudioFileName = null
-        )
+        ))
     }
     
     /**
@@ -202,12 +219,12 @@ class AddEditViewModel(
         stopPlayback()
         tempAudioFile?.delete()
         tempAudioFile = null
-        _uiState.value = _uiState.value.copy(
+        setDraftState(_uiState.value.copy(
             isRecording = false,
             recordedAudioPath = null,
             isCustomAudioFile = false,
             customAudioFileName = null
-        )
+        ))
     }
 
     /**
@@ -221,23 +238,23 @@ class AddEditViewModel(
         stopPlayback()
         tempAudioFile?.delete()
         tempAudioFile = null
-        _uiState.value = _uiState.value.copy(
+        setDraftState(_uiState.value.copy(
             recordedAudioPath = uriString,
             isCustomAudioFile = true,
             customAudioFileName = displayName ?: ReminderAudioSource.resolveDisplayName(appContext, uriString),
             isRecording = false,
             showError = false
-        )
+        ))
     }
 
     fun removeCustomAudio() {
         if (!_uiState.value.isCustomAudioFile) return
         stopPlayback()
-        _uiState.value = _uiState.value.copy(
+        setDraftState(_uiState.value.copy(
             recordedAudioPath = null,
             isCustomAudioFile = false,
             customAudioFileName = null
-        )
+        ))
     }
     
     fun playRecording() {
@@ -288,11 +305,17 @@ class AddEditViewModel(
     }
     
     fun setTriggerTime(time: Long) {
-        _uiState.value = _uiState.value.copy(triggerTime = time, showPastTimeError = false)
+        val state = _uiState.value
+        val clampedJson = clampRecurrenceEndRuleJson(
+            type = state.recurrenceType,
+            json = state.recurrenceJson,
+            minEndDateTimeMillis = time
+        )
+        setDraftState(state.copy(triggerTime = time, recurrenceJson = clampedJson, showPastTimeError = false))
     }
     
     fun setRecurrence(type: RecurrenceType, json: String? = null) {
-        _uiState.value = _uiState.value.copy(recurrenceType = type, recurrenceJson = json)
+        setDraftState(_uiState.value.copy(recurrenceType = type, recurrenceJson = json))
     }
 
     fun setRecurrence(model: RecurrenceModel?) {
@@ -307,16 +330,17 @@ class AddEditViewModel(
             is RecurrenceModel.Yearly -> RecurrenceType.YEARLY
             is RecurrenceModel.Custom -> RecurrenceType.CUSTOM
         }
-        val json = RecurrenceUtils.toJson(model)
+        val clampedModel = clampRecurrenceEndRule(model, _uiState.value.triggerTime)
+        val json = RecurrenceUtils.toJson(clampedModel)
         setRecurrence(type, json)
     }
     
     fun setLoopPlayback(enabled: Boolean) {
-        _uiState.value = _uiState.value.copy(loopPlayback = enabled)
+        setDraftState(_uiState.value.copy(loopPlayback = enabled))
     }
 
     fun setFollowUpCheckMinutes(minutes: Int) {
-        _uiState.value = _uiState.value.copy(followUpCheckMinutes = minutes.coerceAtLeast(0))
+        setDraftState(_uiState.value.copy(followUpCheckMinutes = minutes.coerceAtLeast(0)))
     }
 
     /**
@@ -389,7 +413,12 @@ class AddEditViewModel(
                 // Only save user-provided title; display layer handles fallbacks
                 val smartLabel = state.title.ifBlank { null }
                 val settingsDefaultMissedPolicy = parseMissedPolicy(settingsRepository.defaultMissedPolicy.first())
-                val recurrenceModel = RecurrenceUtils.fromJson(state.recurrenceType, state.recurrenceJson)
+                val recurrenceJson = clampRecurrenceEndRuleJson(
+                    type = state.recurrenceType,
+                    json = state.recurrenceJson,
+                    minEndDateTimeMillis = finalTriggerTime
+                )
+                val recurrenceModel = RecurrenceUtils.fromJson(state.recurrenceType, recurrenceJson)
                 val resolvedMissedPolicy = recurrenceModel?.missedPolicy?.takeIf {
                     it != MissedPolicy.SKIP_TO_NEXT || settingsDefaultMissedPolicy == MissedPolicy.SKIP_TO_NEXT
                 } ?: settingsDefaultMissedPolicy
@@ -401,7 +430,7 @@ class AddEditViewModel(
                     audioPath = finalAudioPath,
                     nextTriggerAt = finalTriggerTime,
                     recurrenceType = state.recurrenceType,
-                    recurrenceJson = state.recurrenceJson,
+                    recurrenceJson = recurrenceJson,
                     missedPolicy = resolvedMissedPolicy,
                     loopPlayback = state.loopPlayback,
                     followUpCheckMinutes = state.followUpCheckMinutes
@@ -417,7 +446,12 @@ class AddEditViewModel(
                 }
                 
                 // Signal success - screen should now navigate back
-                _uiState.value = _uiState.value.copy(isSaving = false, saveCompleted = true)
+                val savedState = state.copy(
+                    recordedAudioPath = finalAudioPath,
+                    isSaving = false,
+                    saveCompleted = true
+                )
+                setSavedDraft(savedState)
                 
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -439,6 +473,94 @@ class AddEditViewModel(
             "FIRE_ON_RESUME", "FIRE" -> MissedPolicy.FIRE_ON_RESUME
             "SKIP_TO_NEXT", "SKIP" -> MissedPolicy.SKIP_TO_NEXT
             else -> MissedPolicy.SKIP_TO_NEXT
+        }
+    }
+
+    private fun clampRecurrenceEndRuleJson(
+        type: RecurrenceType,
+        json: String?,
+        minEndDateTimeMillis: Long
+    ): String? {
+        val model = RecurrenceUtils.fromJson(type, json) ?: return json
+        val clampedModel = clampRecurrenceEndRule(model, minEndDateTimeMillis)
+        return if (clampedModel == model) json else RecurrenceUtils.toJson(clampedModel)
+    }
+
+    private fun clampRecurrenceEndRule(
+        model: RecurrenceModel,
+        minEndDateTimeMillis: Long
+    ): RecurrenceModel {
+        val endRule = model.endRule
+        if (endRule.type != EndRuleType.UNTIL_DATE) return model
+        val endDateMillis = endRule.endDateMillis ?: return model
+        if (endDateMillis >= minEndDateTimeMillis) return model
+
+        val clampedEndRule = endRule.copy(endDateMillis = minEndDateTimeMillis)
+        return when (model) {
+            is RecurrenceModel.Daily -> model.copy(endRule = clampedEndRule)
+            is RecurrenceModel.Weekly -> model.copy(endRule = clampedEndRule)
+            is RecurrenceModel.Monthly -> model.copy(endRule = clampedEndRule)
+            is RecurrenceModel.Yearly -> model.copy(endRule = clampedEndRule)
+            is RecurrenceModel.Custom -> model.copy(endRule = clampedEndRule)
+        }
+    }
+
+    fun discardDraft() {
+        stopPlayback()
+        tempAudioFile?.delete()
+        tempAudioFile = null
+        if (_uiState.value.isRecording) {
+            recordingTimerJob?.cancel()
+            recorder.stop()
+        }
+    }
+
+    private fun setSavedDraft(state: AddEditUiState) {
+        savedDraft = state.toDraft()
+        _uiState.value = state.copy(hasUnsavedChanges = false)
+    }
+
+    private fun setDraftState(state: AddEditUiState) {
+        _uiState.value = state.copy(hasUnsavedChanges = isDraftDirty(state))
+    }
+
+    private fun isDraftDirty(state: AddEditUiState): Boolean {
+        val base = savedDraft ?: return state.toDraft().hasMeaningfulContent()
+        return state.toDraft() != base
+    }
+
+    private fun AddEditUiState.toDraft(): ReminderDraft {
+        return ReminderDraft(
+            title = title,
+            reminderText = reminderText,
+            recordedAudioPath = recordedAudioPath,
+            isCustomAudioFile = isCustomAudioFile,
+            triggerTime = triggerTime,
+            recurrenceType = recurrenceType,
+            recurrenceJson = recurrenceJson,
+            loopPlayback = loopPlayback,
+            followUpCheckMinutes = followUpCheckMinutes
+        )
+    }
+
+    private data class ReminderDraft(
+        val title: String,
+        val reminderText: String,
+        val recordedAudioPath: String?,
+        val isCustomAudioFile: Boolean,
+        val triggerTime: Long,
+        val recurrenceType: RecurrenceType,
+        val recurrenceJson: String?,
+        val loopPlayback: Boolean,
+        val followUpCheckMinutes: Int
+    ) {
+        fun hasMeaningfulContent(): Boolean {
+            return title.isNotBlank() ||
+                reminderText.isNotBlank() ||
+                !recordedAudioPath.isNullOrBlank() ||
+                recurrenceType != RecurrenceType.NONE ||
+                loopPlayback ||
+                followUpCheckMinutes > 0
         }
     }
 }

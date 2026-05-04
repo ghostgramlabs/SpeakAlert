@@ -66,6 +66,7 @@ fun SettingsScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
     val scrollState = rememberScrollState()
     var fullScreenAccessGranted by remember { mutableStateOf(FullScreenIntentSupport.canUseFullScreenIntent(context)) }
+    var dndPolicyAccessGranted by remember { mutableStateOf(readDndPolicyAccessGranted(context)) }
     var batteryOptimizationEnabled by remember {
         mutableStateOf(BatteryOptimizationSupport.isBatteryOptimizationEnabled(context))
     }
@@ -77,6 +78,7 @@ fun SettingsScreen(
     LaunchedEffect(context, wearRefreshTick) {
         isCheckingWearStatus = true
         appNotificationStatus = readAppNotificationStatus(context)
+        dndPolicyAccessGranted = readDndPolicyAccessGranted(context)
         wearConnectionInfo = withContext(Dispatchers.IO) {
             WearOsSupport.getConnectionInfo(context)
         }
@@ -85,9 +87,10 @@ fun SettingsScreen(
 
     DisposableEffect(lifecycleOwner, context) {
         val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
-                fullScreenAccessGranted = FullScreenIntentSupport.canUseFullScreenIntent(context)
-                batteryOptimizationEnabled = BatteryOptimizationSupport.isBatteryOptimizationEnabled(context)
+                if (event == Lifecycle.Event.ON_RESUME) {
+                    fullScreenAccessGranted = FullScreenIntentSupport.canUseFullScreenIntent(context)
+                    dndPolicyAccessGranted = readDndPolicyAccessGranted(context)
+                    batteryOptimizationEnabled = BatteryOptimizationSupport.isBatteryOptimizationEnabled(context)
                 wearRefreshTick++
             }
         }
@@ -100,6 +103,7 @@ fun SettingsScreen(
     val autoPlayEnabled by viewModel.autoPlayEnabled.collectAsState()
     val autoPlayOnUnlockOnly by viewModel.autoPlayOnUnlockOnly.collectAsState()
     val defaultSnoozeDuration by viewModel.defaultSnoozeDuration.collectAsState()
+    val defaultFollowUpMinutes by viewModel.defaultFollowUpMinutes.collectAsState()
     val loopTimeoutMinutes by viewModel.loopTimeoutMinutes.collectAsState()
     
     // Quiet Time state
@@ -110,6 +114,8 @@ fun SettingsScreen(
     val endMinute by viewModel.quietTimeEndMinute.collectAsState()
 
     val speakTextIfNoVoice by viewModel.speakTextIfNoVoice.collectAsState()
+    val privatePlaybackEnabled by viewModel.privatePlaybackEnabled.collectAsState()
+    val dndBypassEnabled by viewModel.dndBypassEnabled.collectAsState()
     val toneOnlyMode by viewModel.toneOnlyMode.collectAsState()
     val toneOnlyAlertToneUri by viewModel.toneOnlyAlertToneUri.collectAsState()
     val fullScreenAlertEnabled by viewModel.fullScreenAlertEnabled.collectAsState()
@@ -246,6 +252,25 @@ fun SettingsScreen(
                         Toast.makeText(
                             context,
                             if (it) "Automatic spoken text on" else "Automatic spoken text off",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    },
+                    enabled = !toneOnlyMode
+                )
+
+                SwitchRow(
+                    text = "Play through earpiece",
+                    description = if (toneOnlyMode) {
+                        "Disabled while Tone-only mode is on"
+                    } else {
+                        "Switches to earpiece when the phone is near your ear; otherwise uses speaker. May vary by device."
+                    },
+                    checked = privatePlaybackEnabled,
+                    onCheckedChange = {
+                        viewModel.setPrivatePlaybackEnabled(it)
+                        Toast.makeText(
+                            context,
+                            if (it) "Private playback on" else "Private playback off",
                             Toast.LENGTH_SHORT
                         ).show()
                     },
@@ -503,7 +528,7 @@ fun SettingsScreen(
                             maxMinutes = 240,
                             description = "Set how long the reminder is delayed",
                             onDismiss = { showCustomSnoozeDialog = false },
-                            onSave = { 
+                            onSave = {
                                 viewModel.setDefaultSnoozeDuration(it)
                                 Toast.makeText(context, "Snooze: $it min", Toast.LENGTH_SHORT).show()
                                 showCustomSnoozeDialog = false
@@ -511,9 +536,35 @@ fun SettingsScreen(
                         )
                     }
                 }
-                
+
                 Divider(modifier = Modifier.padding(vertical = 12.dp))
-                
+
+                // Default follow-up check
+                Text("Default follow-up check", style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    if (defaultFollowUpMinutes == 0) {
+                        "Off — new reminders are created with no follow-up. You can still set one per reminder."
+                    } else {
+                        "New reminders start with a ${defaultFollowUpMinutes}m follow-up that re-alerts if not marked done. Existing reminders are unchanged."
+                    },
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                com.ghostgramlabs.speakalert.ui.components.FollowUpDurationPicker(
+                    currentMinutes = defaultFollowUpMinutes,
+                    onChange = { minutes ->
+                        viewModel.setDefaultFollowUpMinutes(minutes)
+                        Toast.makeText(
+                            context,
+                            if (minutes == 0) "Default follow-up off" else "Default follow-up: ${minutes}m",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    },
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+
+                Divider(modifier = Modifier.padding(vertical = 12.dp))
+
                 // Quiet Time (moved from Timing)
                 SwitchRow(
                     text = "Quiet hours",
@@ -675,6 +726,52 @@ fun SettingsScreen(
                 icon = "Safe",
                 initiallyExpanded = true
             ) {
+                SwitchRow(
+                    text = "Alert even during DND",
+                    description = when {
+                        !dndBypassEnabled -> "Follows your phone's sound mode. DND or routines may silence reminders."
+                        dndPolicyAccessGranted -> "Active: reminders use alarm-priority sound and DND bypass."
+                        else -> "On, but Android DND access is needed before bypass works."
+                    },
+                    checked = dndBypassEnabled,
+                    onCheckedChange = {
+                        viewModel.setDndBypassEnabled(it)
+                        NotificationHelper(context).refreshChannels(dndBypassEnabled = it)
+                        Toast.makeText(
+                            context,
+                            if (it) "DND alert bypass on" else "DND alert bypass off",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                )
+
+                if (dndBypassEnabled && !dndPolicyAccessGranted) {
+                    OutlinedButton(
+                        onClick = {
+                            context.startActivity(Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS))
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.NotificationsActive,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Grant Android DND access")
+                    }
+                    Text(
+                        "This does not control your phone's DND mode. It only lets $APP_DISPLAY_NAME request permission to play important reminders through it.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                } else {
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
+
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
@@ -996,6 +1093,11 @@ private fun readAppNotificationStatus(context: android.content.Context): AppNoti
         appNotificationsEnabled = appEnabled,
         reminderChannelEnabled = channelEnabled
     )
+}
+
+private fun readDndPolicyAccessGranted(context: android.content.Context): Boolean {
+    val manager = context.getSystemService(android.app.NotificationManager::class.java)
+    return manager?.isNotificationPolicyAccessGranted == true
 }
 
 @Composable
@@ -1384,14 +1486,8 @@ private fun CustomDurationDialog(
             OutlinedTextField(
                 value = value,
                 onValueChange = { newValue ->
-                    val digits = newValue.filter { it.isDigit() }
-                    if (digits.isEmpty()) {
-                        value = ""
-                    } else {
-                        val num = digits.toIntOrNull() ?: 0
-                        if (num <= maxMinutes) {
-                            value = digits
-                        }
+                    if (newValue.length <= maxMinutes.toString().length && newValue.all { it.isDigit() }) {
+                        value = newValue
                     }
                 },
                 label = { Text("Minutes") },

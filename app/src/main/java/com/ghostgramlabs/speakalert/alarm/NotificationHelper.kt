@@ -22,7 +22,9 @@ class NotificationHelper(private val context: Context) {
 
     companion object {
         const val CHANNEL_ID = "voice_reminder_channel"
+        const val DND_BYPASS_CHANNEL_ID = "voice_reminder_dnd_bypass_channel_v2"
         const val TONE_ONLY_CHANNEL_ID = "voice_reminder_tone_only_channel"
+        const val TONE_ONLY_DND_BYPASS_CHANNEL_ID = "voice_reminder_tone_only_dnd_bypass_channel_v2"
         private const val TAG = "NotificationHelper"
         
         /**
@@ -36,10 +38,18 @@ class NotificationHelper(private val context: Context) {
     }
 
     init {
-        createNotificationChannel()
+        createNotificationChannel(dndBypassEnabled = true)
     }
 
-    private fun createNotificationChannel() {
+    fun refreshChannels(dndBypassEnabled: Boolean = true) {
+        createNotificationChannel(dndBypassEnabled)
+    }
+
+    private fun createNotificationChannel(dndBypassEnabled: Boolean) {
+        val notificationManager: NotificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val canBypassDnd = dndBypassEnabled && notificationManager.isNotificationPolicyAccessGranted
+
         val normalChannel = NotificationChannel(
             CHANNEL_ID,
             "$APP_DISPLAY_NAME Reminders",
@@ -47,6 +57,7 @@ class NotificationHelper(private val context: Context) {
         ).apply {
             description = "Notifications for $APP_DISPLAY_NAME reminders"
             enableVibration(true)
+            setBypassDnd(false)
         }
         val toneOnlyChannel = NotificationChannel(
             TONE_ONLY_CHANNEL_ID,
@@ -56,12 +67,34 @@ class NotificationHelper(private val context: Context) {
             description = "Tone-only notifications with vibration only; playback tone is handled by $APP_DISPLAY_NAME"
             enableVibration(true)
             setSound(null, null)
+            setBypassDnd(false)
         }
-        val notificationManager: NotificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(normalChannel)
         notificationManager.createNotificationChannel(toneOnlyChannel)
-        Log.d(TAG, "Notification channels created: $CHANNEL_ID, $TONE_ONLY_CHANNEL_ID")
+        if (canBypassDnd) {
+            val bypassChannel = NotificationChannel(
+                DND_BYPASS_CHANNEL_ID,
+                "$APP_DISPLAY_NAME Reminders (DND bypass)",
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = "Reminder alarms that can alert during Do Not Disturb when Android access is granted"
+                enableVibration(true)
+                setBypassDnd(true)
+            }
+            val toneOnlyBypassChannel = NotificationChannel(
+                TONE_ONLY_DND_BYPASS_CHANNEL_ID,
+                "$APP_DISPLAY_NAME Tone-Only Alerts (DND bypass)",
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = "Tone-only reminders that can alert during Do Not Disturb when Android access is granted"
+                enableVibration(true)
+                setSound(null, null)
+                setBypassDnd(true)
+            }
+            notificationManager.createNotificationChannel(bypassChannel)
+            notificationManager.createNotificationChannel(toneOnlyBypassChannel)
+        }
+        Log.d(TAG, "Notification channels created: $CHANNEL_ID, $DND_BYPASS_CHANNEL_ID, $TONE_ONLY_CHANNEL_ID, $TONE_ONLY_DND_BYPASS_CHANNEL_ID")
     }
 
     fun showNotification(
@@ -73,10 +106,20 @@ class NotificationHelper(private val context: Context) {
         autoplayOnTap: Boolean = true,
         toneOnlyMode: Boolean = false,
         useFullScreenAlert: Boolean = false,
-        isFollowUpAlert: Boolean = false
+        isFollowUpAlert: Boolean = false,
+        dndBypassEnabled: Boolean = true
     ): Boolean {
         Log.d(TAG, "showNotification called for reminderId=$reminderId, title=$title")
-        val channelId = if (toneOnlyMode) TONE_ONLY_CHANNEL_ID else CHANNEL_ID
+        createNotificationChannel(dndBypassEnabled)
+        val canBypassDnd = dndBypassEnabled &&
+            (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
+                .isNotificationPolicyAccessGranted
+        val channelId = when {
+            toneOnlyMode && canBypassDnd -> TONE_ONLY_DND_BYPASS_CHANNEL_ID
+            toneOnlyMode -> TONE_ONLY_CHANNEL_ID
+            canBypassDnd -> DND_BYPASS_CHANNEL_ID
+            else -> CHANNEL_ID
+        }
         
         // Check permission on Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

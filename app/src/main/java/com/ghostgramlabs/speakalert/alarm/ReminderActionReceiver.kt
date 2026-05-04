@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ReminderActionReceiver : BroadcastReceiver() {
 
@@ -40,17 +41,23 @@ class ReminderActionReceiver : BroadcastReceiver() {
                 val canPlayAudio = ReminderAudioSource.isPlayable(context, audioPath)
                 
                 // Start playback (playback service has its own notification)
-                if (canPlayAudio) {
-                    ReminderPlaybackService.start(context, reminderId, title, audioPath, null)
-                } else if (!reminderText.isNullOrBlank()) {
-                    // Manual playback should remain available even if automatic spoken text is off.
-                    ReminderPlaybackService.start(context, reminderId, title, null, reminderText)
-                } else if (!audioPath.isNullOrBlank()) {
-                    android.widget.Toast.makeText(
-                        context,
-                        "Selected audio file is unavailable.",
-                        android.widget.Toast.LENGTH_SHORT
-                    ).show()
+                CoroutineScope(Dispatchers.IO).launch {
+                    val privatePlayback = settingsRepository.privatePlaybackEnabled.first()
+                    val dndBypass = settingsRepository.dndBypassEnabled.first()
+                    if (canPlayAudio) {
+                        ReminderPlaybackService.start(context, reminderId, title, audioPath, null, privatePlayback = privatePlayback, dndBypass = dndBypass)
+                    } else if (!reminderText.isNullOrBlank()) {
+                        // Manual playback should remain available even if automatic spoken text is off.
+                        ReminderPlaybackService.start(context, reminderId, title, null, reminderText, privatePlayback = privatePlayback, dndBypass = dndBypass)
+                    } else if (!audioPath.isNullOrBlank()) {
+                        withContext(Dispatchers.Main) {
+                            android.widget.Toast.makeText(
+                                context,
+                                "Selected audio file is unavailable.",
+                                android.widget.Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 }
                 return // Don't proceed to DB operations for play action
             }
