@@ -1,6 +1,7 @@
 package com.ghostgramlabs.speakalert
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -202,7 +203,14 @@ class MainActivity : ComponentActivity() {
                                         coroutineScope.launch {
                                             settingsRepository.setBatteryOptimizationPromptShown(true)
                                         }
-                                        BatteryOptimizationSupport.requestIgnoreBatteryOptimizations(this@MainActivity)
+                                        val opened = BatteryOptimizationSupport.requestIgnoreBatteryOptimizations(this@MainActivity)
+                                        if (!opened) {
+                                            Toast.makeText(
+                                                this@MainActivity,
+                                                "Battery settings are not available on this device.",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
                                     },
                                     modifier = Modifier.fillMaxWidth(),
                                     shape = RoundedCornerShape(18.dp)
@@ -259,29 +267,29 @@ class MainActivity : ComponentActivity() {
                                         color = MaterialTheme.colorScheme.onSurface
                                     )
                                     Text(
-                                        text = "SpeakAlert now includes faster ways to add reminders, stronger playback options, and more control over alert behavior.",
+                                        text = "SpeakAlert now gives you stronger repeating reminders, clearer save protection, and more control over how alerts play.",
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                     WhatsNewFeatureCard(
-                                        title = "Home screen widgets",
-                                        description = "Add Quick Reminder or Upcoming Reminders from your phone's Widgets screen for faster access."
+                                        title = "Repeat until a date and time",
+                                        description = "Custom repeats can now end at an exact date and time, or after a set number of occurrences."
                                     )
                                     WhatsNewFeatureCard(
-                                        title = "Audio file selection",
-                                        description = "Choose an existing audio file instead of recording a new voice note when that fits better."
+                                        title = "Follow-up checks keep asking",
+                                        description = "Follow-up reminders repeat every selected interval until the reminder is marked done."
                                     )
                                     WhatsNewFeatureCard(
-                                        title = "Lock-screen full-screen alert",
-                                        description = "Turn it on in Settings for a stronger alert experience when reminders fire."
+                                        title = "Duplicate reminders",
+                                        description = "Use the copy button on a reminder card to create a new reminder with the same audio, repeat, and follow-up settings."
                                     )
                                     WhatsNewFeatureCard(
-                                        title = "Follow-up and missed reminders",
-                                        description = "Use follow-up checks and review missed reminders later without losing track."
+                                        title = "Save protection",
+                                        description = "The reminder editor now has a visible Save action at the top and warns before leaving with unsaved changes."
                                     )
                                     WhatsNewFeatureCard(
-                                        title = "Tone-only sound selection",
-                                        description = "Choose a sound for Tone-only mode in Settings. If it is unavailable later, SpeakAlert falls back to the default alarm tone."
+                                        title = "DND alerts and private playback",
+                                        description = "Alert even during DND is clearer about Android permission, and earpiece playback can switch near your ear when supported."
                                     )
                                 }
                                 Button(

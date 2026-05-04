@@ -85,6 +85,7 @@ class BootRescheduleWorkerTest {
         whenever(settingsRepository.toneOnlyMode).thenReturn(MutableStateFlow(false))
         whenever(settingsRepository.toneOnlyAlertToneUri).thenReturn(MutableStateFlow(null))
         whenever(settingsRepository.loopTimeoutMinutes).thenReturn(MutableStateFlow(10))
+        whenever(settingsRepository.dndBypassEnabled).thenReturn(MutableStateFlow(true))
         whenever(taskExecutor.serialTaskExecutor).thenReturn(serialExecutor)
         whenever(taskExecutor.mainThreadExecutor).thenReturn(directExecutor)
         whenever(workerParams.taskExecutor).thenReturn(taskExecutor)
@@ -124,6 +125,7 @@ class BootRescheduleWorkerTest {
                 any(),
                 any(),
                 any(),
+                any(),
                 any()
             )
             verify(missedRepository).insertMissedReminder(any())
@@ -155,6 +157,7 @@ class BootRescheduleWorkerTest {
             assertTrue(result is ListenableWorker.Result.Success)
             assertTrue(notificationMocks.constructed().isNotEmpty())
             verify(notificationMocks.constructed().single(), never()).showNotification(
+                any(),
                 any(),
                 any(),
                 any(),
@@ -233,6 +236,7 @@ class BootRescheduleWorkerTest {
                 eq(false),
                 eq(false),
                 eq(false),
+                eq(true),
                 eq(true)
             )
         }

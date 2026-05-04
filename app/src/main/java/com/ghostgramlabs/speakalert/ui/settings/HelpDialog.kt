@@ -74,11 +74,11 @@ fun HelpDialog(
                 )
                 HelpSection(
                     title = "Home and quick actions",
-                    content = "- Today, Upcoming, Missed, and Done tabs group reminders by state.\n- Tap a card to open full reminder details.\n- Card actions include Play reminder, Done, and the three-dot sheet for Edit, Mark done, Stop recurring, or Delete."
+                    content = "- Today, Upcoming, Missed, and Done tabs group reminders by state.\n- Tap a card to open full reminder details.\n- Use the copy button to duplicate an existing reminder.\n- Card actions include Play reminder, Done, and the three-dot sheet for Edit, Mark done, Stop recurring, or Delete."
                 )
                 HelpSection(
                     title = "Repeating reminders",
-                    content = "- Repeat modes: Daily, Weekly, Monthly, Yearly, or Custom.\n- The selected date and time become the first occurrence.\n- Weekly, monthly, and custom repeats open their own setup sheets.\n- Marking done on a repeating reminder clears only the current occurrence."
+                    content = "- Repeat modes: Daily, Weekly, Monthly, Yearly, or Custom.\n- The selected date and time become the first occurrence.\n- Repeats can end forever, by exact date and time, or after a number of occurrences.\n- Marking done on a repeating reminder clears only the current occurrence."
                 )
                 HelpSection(
                     title = "Notifications and full-screen alerts",
@@ -90,11 +90,11 @@ fun HelpDialog(
                 )
                 HelpSection(
                     title = "Playback settings",
-                    content = "- Auto-play reminder audio starts voice note or audio file playback when a reminder fires.\n- Speak typed reminders automatically controls spoken text for text-only reminders only.\n- Manual playback still works even if automatic spoken text is off.\n- Loop playback keeps audio repeating until you stop it or the loop timeout is reached.\n- Follow-up check asks again if the reminder is not marked done.\n- Quiet hours can silence reminder playback during selected times."
+                    content = "- Auto-play reminder audio starts voice note or audio file playback when a reminder fires.\n- Speak typed reminders automatically controls spoken text for text-only reminders only.\n- Manual playback still works even if automatic spoken text is off.\n- Play through earpiece can switch near-ear playback to the earpiece when supported.\n- Loop playback keeps audio repeating until you stop it or the loop timeout is reached.\n- Follow-up check asks again until the reminder is marked done.\n- Quiet hours can silence reminder playback during selected times."
                 )
                 HelpSection(
                     title = "Tone-only mode and reliability",
-                    content = "- Tone-only mode uses a clear alarm tone instead of voice or TTS.\n- You can choose a custom tone-only alert sound, or keep the default alarm tone.\n- If the selected sound is missing later, $APP_DISPLAY_NAME automatically falls back to the default alarm tone.\n- Use tone-only mode if your phone delays, suppresses, or stops spoken playback.\n- Settings > Reliability includes the Battery Optimization Guide for phones with aggressive background restrictions.\n- Keep notifications, exact alarms, and battery settings enabled for the best reminder reliability."
+                    content = "- Tone-only mode uses a clear alarm tone instead of voice or TTS.\n- You can choose a custom tone-only alert sound, or keep the default alarm tone.\n- Alert even during DND lets $APP_DISPLAY_NAME try to play important reminders through Do Not Disturb.\n- This setting does not turn your phone's DND mode on or off. Android DND access is required before notification bypass becomes active.\n- When enabled, reminders use alarm-priority audio. Some phone routines can still block alarms if the system mode silences alarm audio.\n- If the selected sound is missing later, $APP_DISPLAY_NAME automatically falls back to the default alarm tone.\n- Use tone-only mode if your phone delays, suppresses, or stops spoken playback.\n- Settings > Reliability includes the Battery Optimization Guide for phones with aggressive background restrictions.\n- Keep notifications, exact alarms, and battery settings enabled for the best reminder reliability."
                 )
                 HelpSection(
                     title = "Widgets and Wear OS",

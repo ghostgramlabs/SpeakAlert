@@ -505,10 +505,10 @@ fun ReminderDetailsScreen(
                             val endRuleText = when (recurrenceModel.endRule.type) {
                                 EndRuleType.UNTIL_DATE -> {
                                     val dateStr = java.text.SimpleDateFormat(
-                                        "MMM d, yyyy",
+                                        "MMM d, yyyy 'at' h:mm a",
                                         java.util.Locale.getDefault()
                                     ).format(java.util.Date(recurrenceModel.endRule.endDateMillis ?: 0L))
-                                    "Ends on $dateStr"
+                                    "Ends by $dateStr"
                                 }
                                 EndRuleType.AFTER_OCCURRENCES -> "Ends after ${recurrenceModel.endRule.count} occurrences"
                                 else -> ""
@@ -556,6 +556,7 @@ fun ReminderDetailsScreen(
                     com.ghostgramlabs.speakalert.ui.addedit.RecurrenceSelectionSheet(
                         initialType = item.recurrenceType,
                         initialJson = item.recurrenceJson,
+                        minEndDateTimeMillis = item.nextTriggerAt,
                         onRecurrenceSelected = { model ->
                             viewModel.updateRecurrence(model)
                             showRecurrenceSheet = false

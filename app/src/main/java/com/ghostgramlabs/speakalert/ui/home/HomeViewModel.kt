@@ -92,13 +92,14 @@ class HomeViewModel(
                 val audioPath = reminder.audioPath
                 val reminderText = reminder.reminderText
                 val title = reminder.title ?: "Voice reminder"
+                val privatePlayback = settingsRepository.privatePlaybackEnabled.first()
                 ToneAlertPlayer.stop()
                 
                 // Start playback for audio OR text
                 if (ReminderAudioSource.isPlayable(context, audioPath)) {
-                    ReminderPlaybackService.start(context, reminder.id, title, audioPath, null)
+                    ReminderPlaybackService.start(context, reminder.id, title, audioPath, null, privatePlayback = privatePlayback)
                 } else if (!reminderText.isNullOrBlank()) {
-                    ReminderPlaybackService.start(context, reminder.id, title, null, reminderText)
+                    ReminderPlaybackService.start(context, reminder.id, title, null, reminderText, privatePlayback = privatePlayback)
                 }
                 
                 // Do NOT delete from missed inbox here - wait for playback completion or user dismissal
@@ -257,6 +258,41 @@ class HomeViewModel(
         }
     }
 
+    /**
+     * Duplicate an existing reminder. Returns the new reminder's id, or null if the source
+     * reminder no longer exists. The duplicate inherits all configuration (audio path,
+     * recurrence, follow-up, loop) but starts fresh on lifecycle fields and is rescheduled
+     * forward from now if the original's nextTriggerAt is in the past.
+     */
+    suspend fun duplicateReminder(sourceId: Long): Long? {
+        val src = repository.getReminder(sourceId) ?: return null
+        val now = System.currentTimeMillis()
+        val baseTrigger = if (src.nextTriggerAt > now) {
+            src.nextTriggerAt
+        } else if (src.recurrenceType != RecurrenceType.NONE) {
+            // Try to advance recurring reminders to their next valid occurrence
+            com.ghostgramlabs.speakalert.domain.RecurrenceUtils.computeNextTrigger(src, now)
+                ?: (now + 5 * 60 * 1000L)
+        } else {
+            // One-time reminder in the past: schedule 5 minutes out
+            now + 5 * 60 * 1000L
+        }
+        val copy = src.copy(
+            id = 0L,
+            title = src.title?.let { "$it (copy)" },
+            createdAt = now,
+            nextTriggerAt = baseTrigger,
+            lastFiredAt = null,
+            isCompleted = false,
+            completedAt = null,
+            snoozeUntil = null,
+            pendingFollowUpAt = null
+        )
+        val newId = repository.insertReminder(copy)
+        alarmScheduler.schedule(copy.copy(id = newId))
+        return newId
+    }
+
     fun undoDelete() {
         viewModelScope.launch {
             lastDeletedReminder?.let { originalReminder ->
@@ -319,12 +355,13 @@ class HomeViewModel(
     fun playReminder(context: Context, reminder: ReminderEntity) {
         viewModelScope.launch {
             val title = reminder.title ?: "Voice reminder"
+            val privatePlayback = settingsRepository.privatePlaybackEnabled.first()
             ToneAlertPlayer.stop()
             // Start playback for audio OR text
             if (ReminderAudioSource.isPlayable(context, reminder.audioPath)) {
-                ReminderPlaybackService.start(context, reminder.id, title, reminder.audioPath, null)
+                ReminderPlaybackService.start(context, reminder.id, title, reminder.audioPath, null, privatePlayback = privatePlayback)
             } else if (!reminder.reminderText.isNullOrBlank()) {
-                ReminderPlaybackService.start(context, reminder.id, title, null, reminder.reminderText)
+                ReminderPlaybackService.start(context, reminder.id, title, null, reminder.reminderText, privatePlayback = privatePlayback)
             }
         }
     }

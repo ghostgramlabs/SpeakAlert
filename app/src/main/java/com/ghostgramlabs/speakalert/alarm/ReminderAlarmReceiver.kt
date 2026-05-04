@@ -117,6 +117,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 } ?: settingsDefaultPolicy
                 val toneOnlyMode = settingsRepository.toneOnlyMode.first()
                 val toneOnlyAlertToneUri = settingsRepository.toneOnlyAlertToneUri.first()
+                val privatePlaybackEnabled = settingsRepository.privatePlaybackEnabled.first()
+                val dndBypassEnabled = settingsRepository.dndBypassEnabled.first()
                 val loopTimeoutMinutes = settingsRepository.loopTimeoutMinutes.first()
                 val fullScreenAlertEnabled = settingsRepository.fullScreenAlertEnabled.first()
                 val audioPath = reminder.audioPath
@@ -128,7 +130,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
 
                 
                 // ===== DND & QUIET TIME CHECK =====
-                // Force "Missed" if DND is active or if we are in Quiet Time
+                // Quiet Time is an app-level silence rule. DND is system-controlled,
+                // so we still fire the reminder and let the channel/user DND settings decide.
                 val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                 val isDndActive = notificationManager.currentInterruptionFilter != NotificationManager.INTERRUPTION_FILTER_ALL
                 
@@ -145,8 +148,12 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     }
                 }
                 
-                if (isQuietTime || isDndActive) {
-                    FileLogger.log("ALARM: Silenced by ${if (isDndActive) "DND" else "Quiet Time"} ($now)")
+                if (isDndActive) {
+                    FileLogger.log("ALARM: DND is active; continuing with reminder alert so channel policy can decide delivery")
+                }
+                
+                if (isQuietTime) {
+                    FileLogger.log("ALARM: Silenced by Quiet Time ($now)")
                     
                     // Add to Missed Inbox
                     val missedEntry = MissedReminderEntity(
@@ -240,11 +247,12 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                                     audioPath = if (hasAudio) audioPath else null,
                                     reminderText = if (hasText) reminder.reminderText else null,
                                     autoplayOnTap = false,
-                                    toneOnlyMode = toneOnlyMode
+                                    toneOnlyMode = toneOnlyMode,
+                                    dndBypassEnabled = dndBypassEnabled
                                 )
                             }
                             if (toneOnlyMode && missedNotificationShown) {
-                                ToneAlertPlayer.start(context, loopTimeoutMinutes, toneOnlyAlertToneUri)
+                                ToneAlertPlayer.start(context, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled)
                             }
                             
                             // Still schedule next occurrence
@@ -343,7 +351,9 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                                     audioPath = alertPayload.playbackAudioPath,
                                     ttsText = null,
                                     loop = reminder.loopPlayback,
-                                    isFromBootContext = bootBlocked
+                                    isFromBootContext = bootBlocked,
+                                    privatePlayback = privatePlaybackEnabled,
+                                    dndBypass = dndBypassEnabled
                                 )
                             } else if (!alertPayload.playbackText.isNullOrBlank()) {
                                 FileLogger.log("ALARM: Starting service with TTS, loop=${reminder.loopPlayback}")
@@ -354,7 +364,9 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                                     audioPath = null,
                                     ttsText = alertPayload.playbackText,
                                     loop = reminder.loopPlayback,
-                                    isFromBootContext = bootBlocked
+                                    isFromBootContext = bootBlocked,
+                                    privatePlayback = privatePlaybackEnabled,
+                                    dndBypass = dndBypassEnabled
                                 )
                             }
                         }
@@ -376,7 +388,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             autoplayOnTap = alertPayload.autoplayOnTap,
                             toneOnlyMode = toneOnlyMode,
                             useFullScreenAlert = useLockScreenFullScreen,
-                            isFollowUpAlert = alertPayload.isFollowUpAlert
+                            isFollowUpAlert = alertPayload.isFollowUpAlert,
+                            dndBypassEnabled = dndBypassEnabled
                         )
                     }
                     FileLogger.log("ALARM: Showed notification after autoplay: $shown")
@@ -393,7 +406,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             autoplayOnTap = alertPayload.autoplayOnTap,
                             toneOnlyMode = toneOnlyMode,
                             useFullScreenAlert = useLockScreenFullScreen,
-                            isFollowUpAlert = alertPayload.isFollowUpAlert
+                            isFollowUpAlert = alertPayload.isFollowUpAlert,
+                            dndBypassEnabled = dndBypassEnabled
                         )
                     }
                     FileLogger.log("ALARM: Notification shown: $shown")
@@ -401,7 +415,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 }
 
                 if (toneOnlyMode && notificationShown) {
-                    ToneAlertPlayer.start(context, loopTimeoutMinutes, toneOnlyAlertToneUri)
+                    ToneAlertPlayer.start(context, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled)
                 }
 
                 // Update state and AUTO-RESCHEDULE for recurring reminders
@@ -451,7 +465,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     }
                 }
 
-                if (!isFollowUpTrigger && reminder.followUpCheckMinutes > 0 && !updatedReminder.isCompleted) {
+                if (reminder.followUpCheckMinutes > 0 && !updatedReminder.isCompleted) {
                     // Keep exactly one follow-up alive. This matters most after Snooze:
                     // the snoozed alert becomes the new active cycle and replaces any older follow-up.
                     FollowUpAlarmScheduler.cancel(context, reminder.id)
@@ -464,10 +478,10 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     )
                     FollowUpAlarmScheduler.schedule(context, reminder.id, followUpAt)
                     FileLogger.log(
-                        if (isSnoozeTrigger) {
-                            "ALARM: Scheduled post-snooze follow-up check at $followUpAt"
-                        } else {
-                            "ALARM: Scheduled follow-up check at $followUpAt"
+                        when {
+                            isFollowUpTrigger -> "ALARM: Scheduled next follow-up check at $followUpAt"
+                            isSnoozeTrigger -> "ALARM: Scheduled post-snooze follow-up check at $followUpAt"
+                            else -> "ALARM: Scheduled follow-up check at $followUpAt"
                         }
                     )
                 }

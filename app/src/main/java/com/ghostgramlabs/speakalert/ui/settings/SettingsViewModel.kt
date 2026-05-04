@@ -23,8 +23,17 @@ class SettingsViewModel(
     val defaultSnoozeDuration = settingsRepository.defaultSnoozeDuration
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 5)
 
+    val defaultFollowUpMinutes = settingsRepository.defaultFollowUpMinutes
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+
     val speakTextIfNoVoice = settingsRepository.speakTextIfNoVoice
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
+    val privatePlaybackEnabled = settingsRepository.privatePlaybackEnabled
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
+    val dndBypassEnabled = settingsRepository.dndBypassEnabled
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
     val toneOnlyMode = settingsRepository.toneOnlyMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
@@ -56,9 +65,27 @@ class SettingsViewModel(
         }
     }
 
+    fun setDefaultFollowUpMinutes(minutes: Int) {
+        viewModelScope.launch {
+            settingsRepository.setDefaultFollowUpMinutes(minutes)
+        }
+    }
+
     fun setSpeakTextIfNoVoice(enabled: Boolean) {
         viewModelScope.launch {
             settingsRepository.setSpeakTextIfNoVoice(enabled)
+        }
+    }
+
+    fun setPrivatePlaybackEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setPrivatePlaybackEnabled(enabled)
+        }
+    }
+
+    fun setDndBypassEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setDndBypassEnabled(enabled)
         }
     }
 

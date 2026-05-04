@@ -434,9 +434,9 @@ class RecurrenceUtilsTest {
 
     @Test
     fun testEndRuleUntilDateInclusivity() {
-        // Test that reminder triggers ON the end date
-        val endDay = Calendar.getInstance().apply {
-            set(2026, Calendar.FEBRUARY, 15, 0, 0, 0)
+        // End rule now uses the exact selected date/time, not the whole calendar day.
+        val endTime = Calendar.getInstance().apply {
+            set(2026, Calendar.FEBRUARY, 15, 10, 0, 0)
             set(Calendar.MILLISECOND, 0)
         }.timeInMillis
         
@@ -446,7 +446,7 @@ class RecurrenceUtilsTest {
         }.timeInMillis
         
         val model = RecurrenceModel.Daily(
-            endRule = RecurrenceEndRule(type = EndRuleType.UNTIL_DATE, endDateMillis = endDay)
+            endRule = RecurrenceEndRule(type = EndRuleType.UNTIL_DATE, endDateMillis = endTime)
         )
         
         val reminder = ReminderEntity(
@@ -456,12 +456,10 @@ class RecurrenceUtilsTest {
         )
         
         val next = RecurrenceUtils.computeNextTrigger(reminder, triggerTime - 1)
-        assertEquals("Should trigger on the end date itself", triggerTime, next)
+        assertEquals("Should trigger at the exact end date/time", triggerTime, next)
         
-        // Should NOT trigger after the end date
-        val DayAfter = triggerTime + 86400000L
-        val nextAfter = RecurrenceUtils.computeNextTrigger(reminder, DayAfter - 1)
-        assertEquals("Should be null after the end date", null, nextAfter)
+        val nextAfter = RecurrenceUtils.computeNextTrigger(reminder, triggerTime)
+        assertEquals("Should be null after the exact end date/time", null, nextAfter)
     }
     @Test
     fun testMarkDoneEarlyAdvancesToNextOccurrence() {

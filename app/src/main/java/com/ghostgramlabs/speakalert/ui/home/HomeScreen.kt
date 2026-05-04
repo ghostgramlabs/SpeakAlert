@@ -766,7 +766,10 @@ fun HomeScreen(
                                     null
                                 } else {
                                     com.ghostgramlabs.speakalert.domain.RecurrenceUtils.getRecurrenceSummary(
-                                        reminder.recurrenceType, reminder.recurrenceJson, reminder.nextTriggerAt
+                                        type = reminder.recurrenceType,
+                                        json = reminder.recurrenceJson,
+                                        nextTriggerAt = reminder.nextTriggerAt,
+                                        includeEndRule = true
                                     )
                                 }
                             }
@@ -852,6 +855,21 @@ fun HomeScreen(
                                     } else {
                                         // One-time: Complete immediately
                                         viewModel.completeReminder(reminder)
+                                    }
+                                },
+                                onDuplicateClick = {
+                                    scope.launch {
+                                        val newId = viewModel.duplicateReminder(reminder.id)
+                                        if (newId != null) {
+                                            val result = snackbarHostState.showSnackbar(
+                                                message = "Reminder duplicated",
+                                                actionLabel = "Open",
+                                                duration = SnackbarDuration.Short
+                                            )
+                                            if (result == SnackbarResult.ActionPerformed) {
+                                                navigateToItemUpdate(newId)
+                                            }
+                                        }
                                     }
                                 }
                             )

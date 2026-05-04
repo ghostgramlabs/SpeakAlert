@@ -12,6 +12,7 @@ import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class ReminderDetailsViewModel(
@@ -125,21 +126,24 @@ class ReminderDetailsViewModel(
 
     fun playAudio(context: Context) {
         val rem = _reminder.value ?: return
-        ToneAlertPlayer.stop()
-        val audioPath = rem.audioPath
-        val reminderText = rem.reminderText
-        val title = rem.title ?: APP_DISPLAY_NAME
-        val hasPlayableAudio = ReminderAudioSource.isPlayable(context, audioPath)
+        viewModelScope.launch {
+            ToneAlertPlayer.stop()
+            val audioPath = rem.audioPath
+            val reminderText = rem.reminderText
+            val title = rem.title ?: APP_DISPLAY_NAME
+            val hasPlayableAudio = ReminderAudioSource.isPlayable(context, audioPath)
+            val privatePlayback = settingsRepository.privatePlaybackEnabled.first()
 
-        if (hasPlayableAudio) {
-             com.ghostgramlabs.speakalert.service.ReminderPlaybackService.start(
-                context, rem.id, title, audioPath, null
-            )
-        } else if (!reminderText.isNullOrBlank()) {
-             // Manual playback stays available even if automatic spoken text is off.
-             com.ghostgramlabs.speakalert.service.ReminderPlaybackService.start(
-                context, rem.id, title, null, reminderText
-            )
+            if (hasPlayableAudio) {
+                 com.ghostgramlabs.speakalert.service.ReminderPlaybackService.start(
+                    context, rem.id, title, audioPath, null, privatePlayback = privatePlayback
+                )
+            } else if (!reminderText.isNullOrBlank()) {
+                 // Manual playback stays available even if automatic spoken text is off.
+                 com.ghostgramlabs.speakalert.service.ReminderPlaybackService.start(
+                    context, rem.id, title, null, reminderText, privatePlayback = privatePlayback
+                )
+            }
         }
     }
     
@@ -157,21 +161,24 @@ class ReminderDetailsViewModel(
      */
     fun startAutoplay(context: android.content.Context) {
         val rem = _reminder.value ?: return
-        ToneAlertPlayer.stop()
-        val audioPath = rem.audioPath
-        val reminderText = rem.reminderText
-        val title = rem.title ?: APP_DISPLAY_NAME
-        val hasPlayableAudio = ReminderAudioSource.isPlayable(context, audioPath)
-        
-        // Use foreground service for autoplay
-        if (hasPlayableAudio) {
-            com.ghostgramlabs.speakalert.service.ReminderPlaybackService.start(
-                context, rem.id, title, audioPath, null
-            )
-        } else if (!reminderText.isNullOrBlank() && isTtsEnabled) {
-            com.ghostgramlabs.speakalert.service.ReminderPlaybackService.start(
-                context, rem.id, title, null, reminderText
-            )
+        viewModelScope.launch {
+            ToneAlertPlayer.stop()
+            val audioPath = rem.audioPath
+            val reminderText = rem.reminderText
+            val title = rem.title ?: APP_DISPLAY_NAME
+            val hasPlayableAudio = ReminderAudioSource.isPlayable(context, audioPath)
+            val privatePlayback = settingsRepository.privatePlaybackEnabled.first()
+            
+            // Use foreground service for autoplay
+            if (hasPlayableAudio) {
+                com.ghostgramlabs.speakalert.service.ReminderPlaybackService.start(
+                    context, rem.id, title, audioPath, null, privatePlayback = privatePlayback
+                )
+            } else if (!reminderText.isNullOrBlank() && isTtsEnabled) {
+                com.ghostgramlabs.speakalert.service.ReminderPlaybackService.start(
+                    context, rem.id, title, null, reminderText, privatePlayback = privatePlayback
+                )
+            }
         }
     }
     

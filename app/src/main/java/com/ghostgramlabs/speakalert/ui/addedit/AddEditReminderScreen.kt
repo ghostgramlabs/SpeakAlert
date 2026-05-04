@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
@@ -67,11 +68,26 @@ fun AddEditReminderScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
+    var showUnsavedDialog by remember { mutableStateOf(false) }
+    val requestExit: () -> Unit = {
+        if (uiState.hasUnsavedChanges && !uiState.saveCompleted) {
+            showUnsavedDialog = true
+        } else {
+            viewModel.discardDraft()
+            onNavigateUp()
+        }
+    }
+
+    BackHandler(enabled = uiState.hasUnsavedChanges && !uiState.saveCompleted) {
+        showUnsavedDialog = true
+    }
     
-    // Load reminder if editing
+    // Load reminder if editing, otherwise seed user-level defaults for new reminders.
     LaunchedEffect(reminderId) {
         if (reminderId != -1L) {
             viewModel.loadReminder(reminderId)
+        } else {
+            viewModel.applyDefaultsForNewReminder()
         }
     }
     
@@ -115,11 +131,43 @@ fun AddEditReminderScreen(
     }
     var showDatePickerDialog by remember { mutableStateOf(false) }
     var showTimePickerDialog by remember { mutableStateOf(false) }
-    var showCustomFollowUpDialog by remember { mutableStateOf(false) }
-    val followUpPresets = listOf(0, 5, 10, 15)
-    val isCustomFollowUp = uiState.followUpCheckMinutes > 0 && uiState.followUpCheckMinutes !in followUpPresets
     val dateFormatter = remember { java.text.SimpleDateFormat("EEE, MMM d, yyyy", java.util.Locale.getDefault()) }
     val timeFormatter = remember { java.text.SimpleDateFormat("h:mm a", java.util.Locale.getDefault()) }
+
+    if (showUnsavedDialog) {
+        AlertDialog(
+            onDismissRequest = { showUnsavedDialog = false },
+            title = { Text("Save reminder?") },
+            text = { Text("You have unsaved reminder changes.") },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showUnsavedDialog = false
+                        viewModel.saveReminder()
+                    },
+                    enabled = !uiState.isSaving
+                ) {
+                    Text("Save")
+                }
+            },
+            dismissButton = {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    TextButton(onClick = { showUnsavedDialog = false }) {
+                        Text("Keep editing")
+                    }
+                    TextButton(
+                        onClick = {
+                            showUnsavedDialog = false
+                            viewModel.discardDraft()
+                            onNavigateUp()
+                        }
+                    ) {
+                        Text("Discard")
+                    }
+                }
+            }
+        )
+    }
 
     Scaffold(
         containerColor = Color.Transparent,
@@ -132,11 +180,29 @@ fun AddEditReminderScreen(
                     ) 
                 },
                 navigationIcon = {
-                    IconButton(onClick = {
-                        viewModel.cancelRecording()
-                        onNavigateUp()
-                    }) {
+                    IconButton(onClick = requestExit) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                actions = {
+                    TextButton(
+                        onClick = { viewModel.saveReminder() },
+                        enabled = !uiState.isSaving
+                    ) {
+                        if (uiState.isSaving) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(22.dp),
+                                strokeWidth = 2.dp
+                            )
+                        } else {
+                            Icon(
+                                Icons.Filled.Check,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text("Save")
+                        }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -155,6 +221,7 @@ fun AddEditReminderScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
+                    .imePadding()
                     .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
@@ -469,7 +536,8 @@ fun AddEditReminderScreen(
                                  type = uiState.recurrenceType,
                                  json = uiState.recurrenceJson,
                                  nextTriggerAt = uiState.triggerTime,
-                                 includeTime = false
+                                 includeTime = false,
+                                 includeEndRule = true
                              )
                          }
                     }
@@ -484,6 +552,7 @@ fun AddEditReminderScreen(
                         RecurrenceSelectionSheet(
                             initialType = uiState.recurrenceType,
                             initialJson = uiState.recurrenceJson,
+                            minEndDateTimeMillis = uiState.triggerTime,
                             onRecurrenceSelected = { model ->
                                 viewModel.setRecurrence(model)
                                 showRecurrenceSheet = false
@@ -589,7 +658,7 @@ fun AddEditReminderScreen(
                                     if (uiState.followUpCheckMinutes == 0) {
                                         "Ask again after a delay if the reminder is not marked done."
                                     } else {
-                                        "Active: asks again after ${uiState.followUpCheckMinutes} minutes if not marked done."
+                                        "Active: asks every ${uiState.followUpCheckMinutes} minutes until marked done."
                                     },
                                     style = MaterialTheme.typography.bodySmall,
                                     color = if (uiState.followUpCheckMinutes > 0) {
@@ -619,61 +688,10 @@ fun AddEditReminderScreen(
                                 )
                             }
                         }
-                        FlowRow(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            followUpPresets.forEach { minutes ->
-                                FilterChip(
-                                    selected = uiState.followUpCheckMinutes == minutes,
-                                    onClick = { viewModel.setFollowUpCheckMinutes(minutes) },
-                                    label = {
-                                        Text(
-                                            text = if (minutes == 0) "Off" else "${minutes}m",
-                                            maxLines = 1,
-                                            softWrap = false,
-                                            overflow = TextOverflow.Clip
-                                        )
-                                    },
-                                    colors = FilterChipDefaults.filterChipColors(
-                                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                                        selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                        containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f),
-                                        labelColor = MaterialTheme.colorScheme.onSurface
-                                    )
-                                )
-                            }
-                            FilterChip(
-                                selected = isCustomFollowUp,
-                                onClick = { showCustomFollowUpDialog = true },
-                                label = {
-                                    Text(
-                                        text = if (isCustomFollowUp) "${uiState.followUpCheckMinutes}m" else "Custom",
-                                        maxLines = 1,
-                                        softWrap = false,
-                                        overflow = TextOverflow.Ellipsis
-                                    )
-                                },
-                                colors = FilterChipDefaults.filterChipColors(
-                                    selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                                    selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f),
-                                    labelColor = MaterialTheme.colorScheme.onSurface
-                                )
-                            )
-                        }
-                        if (showCustomFollowUpDialog) {
-                            CustomFollowUpDurationDialog(
-                                initialValue = if (isCustomFollowUp) uiState.followUpCheckMinutes else 20,
-                                maxMinutes = 240,
-                                onDismiss = { showCustomFollowUpDialog = false },
-                                onSave = { minutes ->
-                                    viewModel.setFollowUpCheckMinutes(minutes)
-                                    showCustomFollowUpDialog = false
-                                }
-                            )
-                        }
+                        com.ghostgramlabs.speakalert.ui.components.FollowUpDurationPicker(
+                            currentMinutes = uiState.followUpCheckMinutes,
+                            onChange = { viewModel.setFollowUpCheckMinutes(it) }
+                        )
                     }
                 }
             }
@@ -786,88 +804,6 @@ fun AddEditReminderScreen(
             // Bottom spacing for gesture nav
             Spacer(modifier = Modifier.height(80.dp))
         }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun CustomFollowUpDurationDialog(
-    initialValue: Int,
-    maxMinutes: Int,
-    onDismiss: () -> Unit,
-    onSave: (Int) -> Unit
-) {
-    var value by remember(initialValue) {
-        mutableStateOf(initialValue.coerceAtLeast(1).toString())
-    }
-    val parsedValue = value.toIntOrNull()
-    val isValid = parsedValue != null && parsedValue in 1..maxMinutes
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
-        dragHandle = { BottomSheetDefaults.DragHandle() }
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp)
-                .imePadding()
-                .navigationBarsPadding()
-                .padding(bottom = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
-        ) {
-            Text(
-                text = "Custom Follow-Up",
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-                fontWeight = FontWeight.SemiBold
-            )
-            Text(
-                text = "Ask again after this many minutes if the reminder is not marked done.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            OutlinedTextField(
-                value = value,
-                onValueChange = { newValue ->
-                    val digits = newValue.filter { it.isDigit() }
-                    if (digits.isEmpty()) {
-                        value = ""
-                    } else {
-                        val num = digits.toIntOrNull() ?: 0
-                        if (num <= maxMinutes) {
-                            value = digits
-                        }
-                    }
-                },
-                label = { Text("Minutes") },
-                supportingText = { Text("Allowed: 1-$maxMinutes min") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                singleLine = true,
-                isError = value.isNotEmpty() && !isValid,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Button(
-                onClick = {
-                    onSave((parsedValue ?: 10).coerceIn(1, maxMinutes))
-                },
-                enabled = isValid,
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(18.dp)
-            ) {
-                Text("Save")
-            }
-            OutlinedButton(
-                onClick = onDismiss,
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(18.dp)
-            ) {
-                Text("Cancel")
-            }
         }
     }
 }

@@ -15,7 +15,12 @@ object ToneAlertPlayer {
     private val handler = Handler(Looper.getMainLooper())
     private var timeoutRunnable: Runnable? = null
 
-    fun start(context: Context, loopTimeoutMinutes: Int, selectedToneUri: String? = null) {
+    fun start(
+        context: Context,
+        loopTimeoutMinutes: Int,
+        selectedToneUri: String? = null,
+        dndBypass: Boolean = true
+    ) {
         stop()
 
         val uri = resolveToneUri(context, selectedToneUri) ?: run {
@@ -35,7 +40,7 @@ object ToneAlertPlayer {
                 nextTone.isLooping = true
             }
             nextTone.audioAttributes = AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_ALARM)
+                .setUsage(if (dndBypass) AudioAttributes.USAGE_ALARM else AudioAttributes.USAGE_NOTIFICATION)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .build()
             nextTone.play()
