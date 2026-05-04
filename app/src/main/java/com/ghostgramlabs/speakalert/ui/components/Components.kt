@@ -547,20 +547,6 @@ fun ReminderCard(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
             )
 
-            if (recurrenceEndRuleText != null) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 16.dp, end = 16.dp, bottom = 10.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    RecurrenceEndRuleChip(
-                        text = recurrenceEndRuleText,
-                        modifier = Modifier.widthIn(max = 280.dp)
-                    )
-                }
-            }
-
             if (hasAudio || (hasText && isTextToSpeechEnabled)) {
                 FilledTonalButton(
                     onClick = {
@@ -617,6 +603,22 @@ fun ReminderCard(
                     color = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
                     onColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+
+                if (recurrenceEndRuleText != null) {
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(horizontal = 8.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        RecurrenceEndRuleChip(
+                            text = recurrenceEndRuleText,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                } else {
+                    Spacer(modifier = Modifier.weight(1f))
+                }
                 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if (recurrenceType != RecurrenceType.NONE) {
