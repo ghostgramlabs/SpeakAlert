@@ -748,7 +748,15 @@ fun SettingsScreen(
                 if (dndBypassEnabled && !dndPolicyAccessGranted) {
                     OutlinedButton(
                         onClick = {
-                            context.startActivity(Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS))
+                            runCatching {
+                                context.startActivity(Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS))
+                            }.onFailure {
+                                Toast.makeText(
+                                    context,
+                                    "Android DND access settings are not available on this device.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(12.dp)

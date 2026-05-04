@@ -52,10 +52,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
+import com.ghostgramlabs.speakalert.domain.models.EndRuleType
 import com.ghostgramlabs.speakalert.domain.models.MonthlyVariant
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceModel
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import com.ghostgramlabs.speakalert.util.sanitizeUnitFloat
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 // ─── Monthly Day Grid ─────────────────────────────────────────────────────────
 @Composable
@@ -271,6 +275,58 @@ fun RecurrenceDetailsRow(
     }
 }
 
+@Composable
+private fun RecurrenceEndRuleChip(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Surface(
+        modifier = modifier,
+        shape = RoundedCornerShape(12.dp),
+        color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.62f)
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Schedule,
+                contentDescription = null,
+                modifier = Modifier.size(13.dp),
+                tint = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+            Spacer(modifier = Modifier.width(6.dp))
+            Text(
+                text = text,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+}
+
+private fun buildRecurrenceEndRuleText(
+    recurrenceType: RecurrenceType,
+    recurrenceJson: String?
+): String? {
+    val model = RecurrenceUtils.fromJson(recurrenceType, recurrenceJson) ?: return null
+    return when (model.endRule.type) {
+        EndRuleType.NEVER -> null
+        EndRuleType.UNTIL_DATE -> {
+            val endDate = model.endRule.endDateMillis ?: return null
+            val formatter = SimpleDateFormat("MMM d, yyyy 'at' h:mm a", Locale.getDefault())
+            "Ends by ${formatter.format(Date(endDate))}"
+        }
+        EndRuleType.AFTER_OCCURRENCES -> {
+            val count = model.endRule.count ?: 0
+            "Ends after $count ${if (count == 1) "occurrence" else "occurrences"}"
+        }
+    }
+}
+
 // ─── Redesigned Reminder Card ─────────────────────────────────────────────────
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -334,6 +390,9 @@ fun ReminderCard(
         dateLabel.takeIf { it.isNotEmpty() },
         recurrenceLabel
     ).joinToString(" • ")
+    val recurrenceEndRuleText = remember(recurrenceType, recurrenceJson) {
+        buildRecurrenceEndRuleText(recurrenceType, recurrenceJson)
+    }
     
     Card(
         modifier = modifier
@@ -487,6 +546,20 @@ fun ReminderCard(
                 recurrenceJson = recurrenceJson,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
             )
+
+            if (recurrenceEndRuleText != null) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp, bottom = 10.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    RecurrenceEndRuleChip(
+                        text = recurrenceEndRuleText,
+                        modifier = Modifier.widthIn(max = 280.dp)
+                    )
+                }
+            }
 
             if (hasAudio || (hasText && isTextToSpeechEnabled)) {
                 FilledTonalButton(
@@ -653,18 +726,6 @@ fun ReminderCard(
                     },
                     emphasize = true
                 )
-
-                if (onDuplicateClick != null) {
-                    ActionSheetRow(
-                        icon = Icons.Filled.ContentCopy,
-                        label = "Duplicate reminder",
-                        subLabel = "Create a copy with the same audio and schedule",
-                        onClick = {
-                            showMenu = false
-                            onDuplicateClick()
-                        }
-                    )
-                }
 
                 if (isPlaying && (hasAudio || (hasText && isTextToSpeechEnabled))) {
                     ActionSheetRow(
