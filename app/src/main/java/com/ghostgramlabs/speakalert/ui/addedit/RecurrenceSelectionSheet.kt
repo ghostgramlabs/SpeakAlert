@@ -617,18 +617,30 @@ fun CustomConfigSheet(
                     )
 
                     Box(modifier = Modifier.weight(1.25f)) {
-                        OutlinedButton(
-                            onClick = { expanded = true },
+                        OutlinedTextField(
+                            value = unitLabel(unit, intervalValue.takeIf { it > 0 } ?: 2),
+                            onValueChange = {},
+                            readOnly = true,
+                            label = { Text("Unit") },
+                            trailingIcon = {
+                                Icon(
+                                    imageVector = Icons.Filled.ChevronRight,
+                                    contentDescription = null
+                                )
+                            },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(56.dp),
-                            shape = RoundedCornerShape(12.dp)
-                        ) {
-                            Text(
-                                text = unitLabel(unit, intervalValue.takeIf { it > 0 } ?: 2),
-                                maxLines = 1
+                                .clickable { expanded = true },
+                            singleLine = true,
+                            shape = RoundedCornerShape(12.dp),
+                            enabled = false,
+                            colors = OutlinedTextFieldDefaults.colors(
+                                disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                                disabledBorderColor = MaterialTheme.colorScheme.outline,
+                                disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
                             )
-                        }
+                        )
                         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                             TimeUnit.values().forEach { u ->
                                 DropdownMenuItem(
