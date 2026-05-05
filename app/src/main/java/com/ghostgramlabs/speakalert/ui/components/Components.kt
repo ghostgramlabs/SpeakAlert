@@ -30,6 +30,7 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.AllInclusive
 import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.EventBusy
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -278,10 +279,13 @@ fun RecurrenceDetailsRow(
 @Composable
 private fun RecurrenceEndRuleChip(
     text: String,
+    contentDescription: String,
     modifier: Modifier = Modifier
 ) {
     Surface(
-        modifier = modifier,
+        modifier = modifier.semantics {
+            this.contentDescription = contentDescription
+        },
         shape = RoundedCornerShape(12.dp),
         color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.62f)
     ) {
@@ -291,7 +295,7 @@ private fun RecurrenceEndRuleChip(
             horizontalArrangement = Arrangement.Center
         ) {
             Icon(
-                imageVector = Icons.Filled.Schedule,
+                imageVector = Icons.Filled.EventBusy,
                 contentDescription = null,
                 modifier = Modifier.size(13.dp),
                 tint = MaterialTheme.colorScheme.onSecondaryContainer
@@ -311,21 +315,34 @@ private fun RecurrenceEndRuleChip(
 private fun buildRecurrenceEndRuleText(
     recurrenceType: RecurrenceType,
     recurrenceJson: String?
-): String? {
+): RecurrenceEndRuleDisplay? {
     val model = RecurrenceUtils.fromJson(recurrenceType, recurrenceJson) ?: return null
     return when (model.endRule.type) {
         EndRuleType.NEVER -> null
         EndRuleType.UNTIL_DATE -> {
             val endDate = model.endRule.endDateMillis ?: return null
-            val formatter = SimpleDateFormat("MMM d, yyyy 'at' h:mm a", Locale.getDefault())
-            "Ends by ${formatter.format(Date(endDate))}"
+            val compactFormatter = SimpleDateFormat("MMM d ''yy • h:mm a", Locale.getDefault())
+            val fullFormatter = SimpleDateFormat("MMM d, yyyy 'at' h:mm a", Locale.getDefault())
+            RecurrenceEndRuleDisplay(
+                text = compactFormatter.format(Date(endDate)),
+                contentDescription = "Ends by ${fullFormatter.format(Date(endDate))}"
+            )
         }
         EndRuleType.AFTER_OCCURRENCES -> {
             val count = model.endRule.count ?: 0
-            "Ends after $count ${if (count == 1) "occurrence" else "occurrences"}"
+            val unit = if (count == 1) "occurrence" else "occurrences"
+            RecurrenceEndRuleDisplay(
+                text = "$count $unit",
+                contentDescription = "Ends after $count $unit"
+            )
         }
     }
 }
+
+private data class RecurrenceEndRuleDisplay(
+    val text: String,
+    val contentDescription: String
+)
 
 // ─── Redesigned Reminder Card ─────────────────────────────────────────────────
 @OptIn(ExperimentalMaterial3Api::class)
@@ -612,7 +629,8 @@ fun ReminderCard(
                         contentAlignment = Alignment.Center
                     ) {
                         RecurrenceEndRuleChip(
-                            text = recurrenceEndRuleText,
+                            text = recurrenceEndRuleText.text,
+                            contentDescription = recurrenceEndRuleText.contentDescription,
                             modifier = Modifier.fillMaxWidth()
                         )
                     }

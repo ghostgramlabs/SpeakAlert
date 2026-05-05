@@ -69,9 +69,10 @@ internal fun shouldAutoPlayReminder(
     isFollowUpTrigger: Boolean,
     speakTextIfNoVoice: Boolean,
     bootBlocked: Boolean,
-    toneOnlyMode: Boolean
+    toneOnlyMode: Boolean,
+    blockedByDnd: Boolean = false
 ): Boolean {
-    if (!autoPlayEnabled || inCall || bootBlocked || toneOnlyMode) return false
+    if (!autoPlayEnabled || inCall || bootBlocked || toneOnlyMode || blockedByDnd) return false
     if (unlockedOnly && isLocked) return false
     if (!playbackAudioPath.isNullOrBlank()) return true
     if (playbackText.isNullOrBlank()) return false

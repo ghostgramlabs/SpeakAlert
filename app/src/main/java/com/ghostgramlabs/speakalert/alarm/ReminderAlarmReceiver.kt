@@ -130,10 +130,12 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
 
                 
                 // ===== DND & QUIET TIME CHECK =====
-                // Quiet Time is an app-level silence rule. DND is system-controlled,
-                // so we still fire the reminder and let the channel/user DND settings decide.
-                val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                val isDndActive = notificationManager.currentInterruptionFilter != NotificationManager.INTERRUPTION_FILTER_ALL
+                val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
+                val interruptionFilter = notificationManager?.currentInterruptionFilter
+                    ?: NotificationManager.INTERRUPTION_FILTER_UNKNOWN
+                val isDndActive = interruptionFilter != NotificationManager.INTERRUPTION_FILTER_ALL &&
+                    interruptionFilter != NotificationManager.INTERRUPTION_FILTER_UNKNOWN
+                val silenceForDnd = isDndActive && !dndBypassEnabled
                 
                 val quietTimeEnabled = settingsRepository.quietTimeEnabled.first()
                 var isQuietTime = false
@@ -148,12 +150,15 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     }
                 }
                 
-                if (isDndActive) {
-                    FileLogger.log("ALARM: DND is active; continuing with reminder alert so channel policy can decide delivery")
+                if (silenceForDnd) {
+                    FileLogger.log("ALARM: Silenced by DND because DND bypass setting is off")
+                } else if (isDndActive) {
+                    FileLogger.log("ALARM: DND is active; DND bypass setting is on, trying reminder alert")
                 }
                 
-                if (isQuietTime) {
-                    FileLogger.log("ALARM: Silenced by Quiet Time ($now)")
+                if (isQuietTime || silenceForDnd) {
+                    val silenceReason = if (silenceForDnd) "DND" else "Quiet Time"
+                    FileLogger.log("ALARM: Silenced by $silenceReason ($now)")
                     
                     // Add to Missed Inbox
                     val missedEntry = MissedReminderEntity(
@@ -179,17 +184,17 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                         if (nextTrigger != null) {
                              updatedReminder = updatedReminder.copy(nextTriggerAt = nextTrigger)
                              scheduler.schedule(updatedReminder)
-                             FileLogger.log("ALARM: Quiet Time - Scheduled next at $nextTrigger")
+                             FileLogger.log("ALARM: $silenceReason - Scheduled next at $nextTrigger")
                         } else {
                             // One-time reminders stay active until explicit Done/Dismiss.
                             if (reminder.recurrenceType == RecurrenceType.NONE) {
-                                FileLogger.log("ALARM: Quiet Time - One-time reminder kept active (awaiting Done/Dismiss)")
+                                FileLogger.log("ALARM: $silenceReason - One-time reminder kept active (awaiting Done/Dismiss)")
                             }
                         }
                     }
                     repository.updateReminder(updatedReminder)
                     
-                    return@launch // EXIT - No notification
+                    return@launch // EXIT - No notification or playback
                 }
 
                 // Handle late/missed reminders (Existing Logic)

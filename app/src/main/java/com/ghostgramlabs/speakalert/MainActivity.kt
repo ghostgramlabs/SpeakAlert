@@ -289,7 +289,7 @@ class MainActivity : ComponentActivity() {
                                     )
                                     WhatsNewFeatureCard(
                                         title = "DND alerts and private playback",
-                                        description = "Alert even during DND is clearer about Android permission, and earpiece playback can switch near your ear when supported."
+                                        description = "Alert even during DND now has clearer behavior: on tries to play through DND, while off sends DND-blocked reminders to Missed. Earpiece playback can switch near your ear when supported."
                                     )
                                 }
                                 Button(
