@@ -72,4 +72,23 @@ class ReminderAutoplayPolicyTest {
         assertFalse(toneOnlyBlocked)
         assertFalse(bootBlocked)
     }
+
+    @Test
+    fun `autoplay is blocked when reminder is silenced by DND`() {
+        val result = shouldAutoPlayReminder(
+            autoPlayEnabled = true,
+            inCall = false,
+            unlockedOnly = false,
+            isLocked = false,
+            playbackAudioPath = "content://audio/reminder",
+            playbackText = null,
+            isFollowUpTrigger = false,
+            speakTextIfNoVoice = true,
+            bootBlocked = false,
+            toneOnlyMode = false,
+            blockedByDnd = true
+        )
+
+        assertFalse(result)
+    }
 }

@@ -1,5 +1,6 @@
 package com.ghostgramlabs.speakalert.alarm
 
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import androidx.work.CoroutineWorker
@@ -58,6 +59,12 @@ class BootRescheduleWorker(
             val now = System.currentTimeMillis()
             val triggerAction = inputData.getString(KEY_TRIGGER_ACTION)
             val suppressRestartNotifications = triggerAction == Intent.ACTION_BOOT_COMPLETED
+            val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
+            val interruptionFilter = notificationManager?.currentInterruptionFilter
+                ?: NotificationManager.INTERRUPTION_FILTER_UNKNOWN
+            val isDndActive = interruptionFilter != NotificationManager.INTERRUPTION_FILTER_ALL &&
+                interruptionFilter != NotificationManager.INTERRUPTION_FILTER_UNKNOWN
+            val silenceForDnd = isDndActive && !dndBypassEnabled
 
             activeReminders.forEach { reminder ->
                 val triggerTime = reminder.snoozeUntil ?: reminder.nextTriggerAt
@@ -97,7 +104,7 @@ class BootRescheduleWorker(
                     missedRepository.insertMissedReminder(missedEntry)
                      
                     // 2. Show Missed Notification (No Service Start)
-                    if (shouldShowMissedNotification && !suppressRestartNotifications) {
+                    if (shouldShowMissedNotification && !suppressRestartNotifications && !silenceForDnd) {
                         val dateTimeStr = com.ghostgramlabs.speakalert.util.DateUtils.formatDateTime(triggerTime)
                         val textContent = reminder.reminderText?.let { "\n$it" } ?: ""
                         val notificationMessage = "Scheduled: $dateTimeStr$textContent"
@@ -116,7 +123,8 @@ class BootRescheduleWorker(
                             ToneAlertPlayer.start(applicationContext, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled)
                         }
                     } else if (shouldShowMissedNotification) {
-                        FileLogger.log("BOOT_WORKER: Suppressed missed notification for ${reminder.id} during device restart")
+                        val reason = if (silenceForDnd) "DND with bypass off" else "device restart"
+                        FileLogger.log("BOOT_WORKER: Suppressed missed notification for ${reminder.id} during $reason")
                     } else {
                         FileLogger.log("BOOT_WORKER: MissedPolicy SKIP_TO_NEXT - no missed notification for ${reminder.id}")
                     }
@@ -162,7 +170,7 @@ class BootRescheduleWorker(
                             persistedReminder = persistedReminder.copy(pendingFollowUpAt = null)
                             repository.updateReminder(persistedReminder)
                         }
-                        if (!suppressRestartNotifications) {
+                        if (!suppressRestartNotifications && !silenceForDnd) {
                             val followUpPayload = buildReminderAlertPayload(
                                 reminder = persistedReminder,
                                 isFollowUpTrigger = true,
@@ -184,7 +192,8 @@ class BootRescheduleWorker(
                                 ToneAlertPlayer.start(applicationContext, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled)
                             }
                         } else {
-                            FileLogger.log("BOOT_WORKER: Suppressed follow-up notification for ${reminder.id} during device restart")
+                            val reason = if (silenceForDnd) "DND with bypass off" else "device restart"
+                            FileLogger.log("BOOT_WORKER: Suppressed follow-up notification for ${reminder.id} during $reason")
                         }
                     }
                 }
