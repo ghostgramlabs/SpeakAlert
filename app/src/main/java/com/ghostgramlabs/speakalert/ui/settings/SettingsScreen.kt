@@ -1318,7 +1318,7 @@ private fun openAppRating(context: android.content.Context): Boolean {
 
 private fun openSupportEmail(context: android.content.Context): Boolean {
     val intent = Intent(Intent.ACTION_SENDTO).apply {
-        data = Uri.parse("mailto:207371342+ghostgramlabs@users.noreply.github.com")
+        data = Uri.parse("mailto:ghostgramlabs@gmail.com")
         putExtra(Intent.EXTRA_SUBJECT, "$APP_DISPLAY_NAME support")
     }
     return try {

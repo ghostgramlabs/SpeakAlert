@@ -371,9 +371,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             val title = intent?.getStringExtra(EXTRA_TITLE) ?: "Reminder"
             val id = intent?.getLongExtra(EXTRA_ID, -1L) ?: -1L
             loopEnabled = intent?.getBooleanExtra(EXTRA_LOOP, false) ?: false
-            privatePlaybackEnabled =
-                (intent?.getBooleanExtra(EXTRA_PRIVATE_PLAYBACK, false) ?: false) ||
-                    hasConnectedHearingAidOutput()
+            privatePlaybackEnabled = intent?.getBooleanExtra(EXTRA_PRIVATE_PLAYBACK, false) ?: false
             dndBypassEnabled = intent?.getBooleanExtra(EXTRA_DND_BYPASS, true) ?: true
             configureAudioRoute(privatePlaybackEnabled)
             
@@ -674,25 +672,23 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             .firstOrNull { it.isPrivatePlaybackDevice() }
     }
 
-    private fun hasConnectedHearingAidOutput(): Boolean {
-        if (!::audioManager.isInitialized || Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return false
-        }
-        return audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
-            .any { it.type == AudioDeviceInfo.TYPE_HEARING_AID }
-    }
-
     private fun AudioDeviceInfo.isPrivatePlaybackDevice(): Boolean {
         return when (type) {
             AudioDeviceInfo.TYPE_HEARING_AID,
-            AudioDeviceInfo.TYPE_BLE_HEADSET,
-            AudioDeviceInfo.TYPE_BLUETOOTH_A2DP,
-            AudioDeviceInfo.TYPE_BLUETOOTH_SCO,
             AudioDeviceInfo.TYPE_WIRED_HEADPHONES,
             AudioDeviceInfo.TYPE_WIRED_HEADSET,
             AudioDeviceInfo.TYPE_USB_HEADSET -> true
+            AudioDeviceInfo.TYPE_BLE_HEADSET,
+            AudioDeviceInfo.TYPE_BLUETOOTH_A2DP,
+            AudioDeviceInfo.TYPE_BLUETOOTH_SCO -> hasBluetoothConnectPermission()
             else -> false
         }
+    }
+
+    private fun hasBluetoothConnectPermission(): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return true
+        return checkSelfPermission(android.Manifest.permission.BLUETOOTH_CONNECT) ==
+            android.content.pm.PackageManager.PERMISSION_GRANTED
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
