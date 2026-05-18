@@ -267,7 +267,7 @@ class MainActivity : ComponentActivity() {
                                         color = MaterialTheme.colorScheme.onSurface
                                     )
                                     Text(
-                                        text = "SpeakAlert now handles reminder number fields more reliably across phone languages.",
+                                        text = "SpeakAlert now improves alarm settings across languages and gives you more private playback options.",
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
@@ -280,8 +280,12 @@ class MainActivity : ComponentActivity() {
                                         description = "The default count is selected automatically, so typing a new number replaces it instead of appending to it."
                                     )
                                     WhatsNewFeatureCard(
-                                        title = "Timing settings polished",
-                                        description = "Custom snooze, loop duration, follow-up, and repeat interval inputs now use the same safer number handling."
+                                        title = "Private playback for hearing aids",
+                                        description = "Reminder audio now prefers connected hearing aids, Bluetooth, wired headphones, or earpiece playback when supported."
+                                    )
+                                    WhatsNewFeatureCard(
+                                        title = "Contact support",
+                                        description = "Settings now includes a Contact support option for feedback, questions, and playback issues."
                                     )
                                 }
                                 Button(
