@@ -19,12 +19,16 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ghostgramlabs.speakalert.domain.models.*
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceModel
 import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
+import com.ghostgramlabs.speakalert.util.normalizeLocalizedDigitsOrNull
+import com.ghostgramlabs.speakalert.util.toLocalizedIntOrNull
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -558,7 +562,7 @@ fun CustomConfigSheet(
     }
 
     // Validate interval
-    val intervalValue = intervalText.toIntOrNull() ?: 0
+    val intervalValue = intervalText.toLocalizedIntOrNull() ?: 0
     val isValid = intervalValue >= 1
 
     ModalBottomSheet(
@@ -603,8 +607,9 @@ fun CustomConfigSheet(
                     OutlinedTextField(
                         value = intervalText,
                         onValueChange = { newValue ->
-                            if (newValue.length <= 3 && newValue.all { it.isDigit() }) {
-                                intervalText = newValue
+                            val normalized = newValue.normalizeLocalizedDigitsOrNull()
+                            if (normalized != null && normalized.length <= 3) {
+                                intervalText = normalized
                             }
                         },
                         modifier = Modifier.weight(0.75f),
@@ -843,23 +848,34 @@ private fun EndRuleControls(
                 }
             }
             "COUNT" -> {
-                val occurrencesText = remember(occurrences) { occurrences.toString() }
-                var fieldValue by remember(occurrencesText) { mutableStateOf(occurrencesText) }
-                val parsed = fieldValue.toIntOrNull()
+                var fieldValue by remember(endRuleType) {
+                    val initialText = occurrences.toString()
+                    mutableStateOf(
+                        TextFieldValue(
+                            text = initialText,
+                            selection = TextRange(0, initialText.length)
+                        )
+                    )
+                }
+                val parsed = fieldValue.text.toLocalizedIntOrNull()
                 val isValid = parsed != null && parsed in 1..999
                 OutlinedTextField(
                     value = fieldValue,
                     onValueChange = { newValue ->
-                        if (newValue.length <= 3 && newValue.all { it.isDigit() }) {
-                            fieldValue = newValue
-                            newValue.toIntOrNull()?.let { onOccurrencesChange(it.coerceIn(1, 999)) }
+                        val normalized = newValue.text.normalizeLocalizedDigitsOrNull()
+                        if (normalized != null && normalized.length <= 3) {
+                            fieldValue = TextFieldValue(
+                                text = normalized,
+                                selection = TextRange(normalized.length)
+                            )
+                            normalized.toLocalizedIntOrNull()?.let { onOccurrencesChange(it.coerceIn(1, 999)) }
                         }
                     },
                     label = { Text("Number of occurrences") },
                     supportingText = { Text("Allowed: 1-999") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
-                    isError = fieldValue.isNotEmpty() && !isValid,
+                    isError = fieldValue.text.isNotEmpty() && !isValid,
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp)
                 )
