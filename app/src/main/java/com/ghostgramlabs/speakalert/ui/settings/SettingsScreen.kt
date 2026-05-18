@@ -51,6 +51,8 @@ import com.ghostgramlabs.speakalert.util.BatteryOptimizationSupport
 import com.ghostgramlabs.speakalert.util.FullScreenIntentSupport
 import com.ghostgramlabs.speakalert.util.WearOsConnectionInfo
 import com.ghostgramlabs.speakalert.util.WearOsSupport
+import com.ghostgramlabs.speakalert.util.normalizeLocalizedDigitsOrNull
+import com.ghostgramlabs.speakalert.util.toLocalizedIntOrNull
 import com.ghostgramlabs.speakalert.ui.components.PremiumScreenBackground
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -1494,8 +1496,9 @@ private fun CustomDurationDialog(
             OutlinedTextField(
                 value = value,
                 onValueChange = { newValue ->
-                    if (newValue.length <= maxMinutes.toString().length && newValue.all { it.isDigit() }) {
-                        value = newValue
+                    val normalized = newValue.normalizeLocalizedDigitsOrNull()
+                    if (normalized != null && normalized.length <= maxMinutes.toString().length) {
+                        value = normalized
                     }
                 },
                 label = { Text("Minutes") },
@@ -1506,7 +1509,7 @@ private fun CustomDurationDialog(
             )
             Button(
                 onClick = {
-                    val mins = value.toIntOrNull() ?: 10
+                    val mins = value.toLocalizedIntOrNull() ?: 10
                     onSave(mins.coerceIn(1, maxMinutes))
                 },
                 modifier = Modifier.fillMaxWidth(),

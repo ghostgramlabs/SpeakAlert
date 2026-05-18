@@ -57,7 +57,9 @@ import com.ghostgramlabs.speakalert.domain.models.EndRuleType
 import com.ghostgramlabs.speakalert.domain.models.MonthlyVariant
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceModel
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
+import com.ghostgramlabs.speakalert.util.normalizeLocalizedDigitsOrNull
 import com.ghostgramlabs.speakalert.util.sanitizeUnitFloat
+import com.ghostgramlabs.speakalert.util.toLocalizedIntOrNull
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -1077,7 +1079,7 @@ fun CustomFollowUpDurationDialog(
     var value by remember(initialValue) {
         mutableStateOf(initialValue.coerceAtLeast(1).toString())
     }
-    val parsedValue = value.toIntOrNull()
+    val parsedValue = value.toLocalizedIntOrNull()
     val isValid = parsedValue != null && parsedValue in 1..maxMinutes
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
@@ -1110,8 +1112,9 @@ fun CustomFollowUpDurationDialog(
             OutlinedTextField(
                 value = value,
                 onValueChange = { newValue ->
-                    if (newValue.length <= maxMinutes.toString().length && newValue.all { it.isDigit() }) {
-                        value = newValue
+                    val normalized = newValue.normalizeLocalizedDigitsOrNull()
+                    if (normalized != null && normalized.length <= maxMinutes.toString().length) {
+                        value = normalized
                     }
                 },
                 label = { Text("Minutes") },
