@@ -142,6 +142,20 @@ fun SettingsScreen(
             Toast.LENGTH_SHORT
         ).show()
     }
+    val bluetoothPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        viewModel.setPrivatePlaybackEnabled(true)
+        Toast.makeText(
+            context,
+            if (granted) {
+                "Private playback on"
+            } else {
+                "Private playback on. Bluetooth routing needs nearby devices permission."
+            },
+            Toast.LENGTH_LONG
+        ).show()
+    }
 
     Scaffold(
         containerColor = Color.Transparent,
@@ -268,13 +282,17 @@ fun SettingsScreen(
                         "Prefer hearing aids, Bluetooth, wired headphones, or earpiece instead of the phone speaker. May vary by device."
                     },
                     checked = privatePlaybackEnabled,
-                    onCheckedChange = {
-                        viewModel.setPrivatePlaybackEnabled(it)
-                        Toast.makeText(
-                            context,
-                            if (it) "Private playback on" else "Private playback off",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    onCheckedChange = { enabled ->
+                        if (enabled && needsBluetoothConnectPermission(context)) {
+                            bluetoothPermissionLauncher.launch(Manifest.permission.BLUETOOTH_CONNECT)
+                        } else {
+                            viewModel.setPrivatePlaybackEnabled(enabled)
+                            Toast.makeText(
+                                context,
+                                if (enabled) "Private playback on" else "Private playback off",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     },
                     enabled = !toneOnlyMode
                 )
@@ -1327,6 +1345,12 @@ private fun openSupportEmail(context: android.content.Context): Boolean {
     } catch (_: Exception) {
         false
     }
+}
+
+private fun needsBluetoothConnectPermission(context: android.content.Context): Boolean {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+        context.checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) !=
+        android.content.pm.PackageManager.PERMISSION_GRANTED
 }
 
 @Composable
