@@ -261,11 +261,11 @@ fun SettingsScreen(
                 )
 
                 SwitchRow(
-                    text = "Play through earpiece",
+                    text = "Private playback",
                     description = if (toneOnlyMode) {
                         "Disabled while Tone-only mode is on"
                     } else {
-                        "Switches to earpiece when the phone is near your ear; otherwise uses speaker. May vary by device."
+                        "Prefer hearing aids, Bluetooth, wired headphones, or earpiece instead of the phone speaker. May vary by device."
                     },
                     checked = privatePlaybackEnabled,
                     onCheckedChange = {
@@ -1003,6 +1003,52 @@ fun SettingsScreen(
                 }
             }
 
+            Card(
+                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                ),
+                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            if (!openSupportEmail(context)) {
+                                Toast.makeText(
+                                    context,
+                                    "Unable to open email on this device.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Email,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(Modifier.width(16.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            "Contact support",
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.Medium
+                        )
+                        Text(
+                            "Email feedback, questions, or playback issues",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Icon(Icons.Default.ChevronRight, contentDescription = null)
+                }
+            }
+
             // ============================================================
             // SECTION 5: RATE & REVIEW
             // ============================================================
@@ -1267,6 +1313,19 @@ private fun openAppRating(context: android.content.Context): Boolean {
             true
         }
         else -> false
+    }
+}
+
+private fun openSupportEmail(context: android.content.Context): Boolean {
+    val intent = Intent(Intent.ACTION_SENDTO).apply {
+        data = Uri.parse("mailto:207371342+ghostgramlabs@users.noreply.github.com")
+        putExtra(Intent.EXTRA_SUBJECT, "$APP_DISPLAY_NAME support")
+    }
+    return try {
+        context.startActivity(intent)
+        true
+    } catch (_: Exception) {
+        false
     }
 }
 

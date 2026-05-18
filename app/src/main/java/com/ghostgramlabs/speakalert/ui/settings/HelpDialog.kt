@@ -90,7 +90,7 @@ fun HelpDialog(
                 )
                 HelpSection(
                     title = "Playback settings",
-                    content = "- Auto-play reminder audio starts voice note or audio file playback when a reminder fires.\n- Speak typed reminders automatically controls spoken text for text-only reminders only.\n- Manual playback still works even if automatic spoken text is off.\n- Play through earpiece can switch near-ear playback to the earpiece when supported.\n- Loop playback keeps audio repeating until you stop it or the loop timeout is reached.\n- Follow-up check asks again until the reminder is marked done.\n- Quiet hours can silence reminder playback during selected times."
+                    content = "- Auto-play reminder audio starts voice note or audio file playback when a reminder fires.\n- Speak typed reminders automatically controls spoken text for text-only reminders only.\n- Manual playback still works even if automatic spoken text is off.\n- Private playback can prefer connected hearing aids, Bluetooth, wired headphones, or near-ear earpiece playback when supported.\n- Loop playback keeps audio repeating until you stop it or the loop timeout is reached.\n- Follow-up check asks again until the reminder is marked done.\n- Quiet hours can silence reminder playback during selected times."
                 )
                 HelpSection(
                     title = "Tone-only mode and reliability",

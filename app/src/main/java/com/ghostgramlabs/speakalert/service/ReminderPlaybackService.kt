@@ -6,6 +6,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.media.AudioDeviceInfo
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.hardware.Sensor
@@ -77,6 +78,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     private var dndBypassEnabled: Boolean = true
     private var originalAudioMode: Int? = null
     private var originalSpeakerphoneOn: Boolean? = null
+    private var communicationDeviceSelected: Boolean = false
     private var sensorManager: SensorManager? = null
     private var proximitySensor: Sensor? = null
     private var proximityListening: Boolean = false
@@ -369,7 +371,9 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             val title = intent?.getStringExtra(EXTRA_TITLE) ?: "Reminder"
             val id = intent?.getLongExtra(EXTRA_ID, -1L) ?: -1L
             loopEnabled = intent?.getBooleanExtra(EXTRA_LOOP, false) ?: false
-            privatePlaybackEnabled = intent?.getBooleanExtra(EXTRA_PRIVATE_PLAYBACK, false) ?: false
+            privatePlaybackEnabled =
+                (intent?.getBooleanExtra(EXTRA_PRIVATE_PLAYBACK, false) ?: false) ||
+                    hasConnectedHearingAidOutput()
             dndBypassEnabled = intent?.getBooleanExtra(EXTRA_DND_BYPASS, true) ?: true
             configureAudioRoute(privatePlaybackEnabled)
             
@@ -573,9 +577,13 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
                 @Suppress("DEPRECATION")
                 originalSpeakerphoneOn = audioManager.isSpeakerphoneOn
             }
-            applyPrivatePlaybackRoute(useEarpiece = false)
-            startProximityRouting()
-            FileLogger.log("SERVICE: Adaptive private playback route enabled")
+            if (applyConnectedPrivateRoute()) {
+                FileLogger.log("SERVICE: Private playback using connected private audio device")
+            } else {
+                applyPrivatePlaybackRoute(useEarpiece = false)
+                startProximityRouting()
+                FileLogger.log("SERVICE: Adaptive private playback route enabled")
+            }
         } else {
             restoreAudioRoute()
         }
@@ -592,6 +600,10 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             @Suppress("DEPRECATION")
             audioManager.isSpeakerphoneOn = wasSpeakerphoneOn
             originalSpeakerphoneOn = null
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && communicationDeviceSelected) {
+            runCatching { audioManager.clearCommunicationDevice() }
+            communicationDeviceSelected = false
         }
         privateRouteNearEar = false
         updatePlaybackAudioAttributes()
@@ -631,6 +643,56 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         audioManager.isSpeakerphoneOn = !useEarpiece
         updatePlaybackAudioAttributes()
         FileLogger.log("SERVICE: Private playback route=${if (useEarpiece) "earpiece" else "speaker"}")
+    }
+
+    private fun applyConnectedPrivateRoute(): Boolean {
+        if (!::audioManager.isInitialized || Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            return false
+        }
+
+        val device = findConnectedPrivateOutputDevice() ?: return false
+        val applied = runCatching {
+            audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
+            @Suppress("DEPRECATION")
+            audioManager.isSpeakerphoneOn = false
+            audioManager.setCommunicationDevice(device)
+        }.getOrDefault(false)
+
+        if (!applied) return false
+
+        communicationDeviceSelected = true
+        privateRouteNearEar = true
+        stopProximityRouting()
+        updatePlaybackAudioAttributes()
+        FileLogger.log("SERVICE: Private playback route=device type=${device.type} name=${device.productName}")
+        return true
+    }
+
+    private fun findConnectedPrivateOutputDevice(): AudioDeviceInfo? {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return null
+        return audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
+            .firstOrNull { it.isPrivatePlaybackDevice() }
+    }
+
+    private fun hasConnectedHearingAidOutput(): Boolean {
+        if (!::audioManager.isInitialized || Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return false
+        }
+        return audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
+            .any { it.type == AudioDeviceInfo.TYPE_HEARING_AID }
+    }
+
+    private fun AudioDeviceInfo.isPrivatePlaybackDevice(): Boolean {
+        return when (type) {
+            AudioDeviceInfo.TYPE_HEARING_AID,
+            AudioDeviceInfo.TYPE_BLE_HEADSET,
+            AudioDeviceInfo.TYPE_BLUETOOTH_A2DP,
+            AudioDeviceInfo.TYPE_BLUETOOTH_SCO,
+            AudioDeviceInfo.TYPE_WIRED_HEADPHONES,
+            AudioDeviceInfo.TYPE_WIRED_HEADSET,
+            AudioDeviceInfo.TYPE_USB_HEADSET -> true
+            else -> false
+        }
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
