@@ -868,7 +868,9 @@ private fun EndRuleControls(
                                 text = normalized,
                                 selection = TextRange(normalized.length)
                             )
-                            normalized.toLocalizedIntOrNull()?.let { onOccurrencesChange(it.coerceIn(1, 999)) }
+                            normalized.toLocalizedIntOrNull()
+                                ?.takeIf { it in 1..999 }
+                                ?.let { onOccurrencesChange(it) }
                         }
                     },
                     label = { Text("Number of occurrences") },
