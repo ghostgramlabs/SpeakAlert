@@ -578,9 +578,8 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             if (applyConnectedPrivateRoute()) {
                 FileLogger.log("SERVICE: Private playback using connected private audio device")
             } else {
-                applyPrivatePlaybackRoute(useEarpiece = false)
-                startProximityRouting()
-                FileLogger.log("SERVICE: Adaptive private playback route enabled")
+                applyPrivatePlaybackRoute(useEarpiece = true)
+                FileLogger.log("SERVICE: Private playback using phone earpiece fallback")
             }
         } else {
             restoreAudioRoute()
@@ -988,4 +987,3 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         }
     }
 }
-
