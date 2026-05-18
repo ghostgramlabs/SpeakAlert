@@ -267,29 +267,21 @@ class MainActivity : ComponentActivity() {
                                         color = MaterialTheme.colorScheme.onSurface
                                     )
                                     Text(
-                                        text = "SpeakAlert now gives you stronger repeating reminders, clearer save protection, and more control over how alerts play.",
+                                        text = "SpeakAlert now handles reminder number fields more reliably across phone languages.",
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                     WhatsNewFeatureCard(
-                                        title = "Repeat until a date and time",
-                                        description = "Custom repeats can now end at an exact date and time, or after a set number of occurrences."
+                                        title = "Arabic number input fixed",
+                                        description = "Alarm settings now correctly save Arabic and other localized digits for custom durations and repeat counts."
                                     )
                                     WhatsNewFeatureCard(
-                                        title = "Follow-up checks keep asking",
-                                        description = "Follow-up reminders repeat every selected interval until the reminder is marked done."
+                                        title = "After count is easier to edit",
+                                        description = "The default count is selected automatically, so typing a new number replaces it instead of appending to it."
                                     )
                                     WhatsNewFeatureCard(
-                                        title = "Duplicate reminders",
-                                        description = "Use the copy button on a reminder card to create a new reminder with the same audio, repeat, and follow-up settings."
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = "Save protection",
-                                        description = "The reminder editor now has a visible Save action at the top and warns before leaving with unsaved changes."
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = "DND alerts and private playback",
-                                        description = "Alert even during DND now has clearer behavior: on tries to play through DND, while off sends DND-blocked reminders to Missed. Earpiece playback can switch near your ear when supported."
+                                        title = "Timing settings polished",
+                                        description = "Custom snooze, loop duration, follow-up, and repeat interval inputs now use the same safer number handling."
                                     )
                                 }
                                 Button(
