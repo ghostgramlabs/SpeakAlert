@@ -394,7 +394,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             toneOnlyMode = toneOnlyMode,
                             useFullScreenAlert = useLockScreenFullScreen,
                             isFollowUpAlert = alertPayload.isFollowUpAlert,
-                            dndBypassEnabled = dndBypassEnabled
+                            dndBypassEnabled = dndBypassEnabled,
+                            silentAlert = true
                         )
                     }
                     FileLogger.log("ALARM: Showed notification after autoplay: $shown")
@@ -412,7 +413,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             toneOnlyMode = toneOnlyMode,
                             useFullScreenAlert = useLockScreenFullScreen,
                             isFollowUpAlert = alertPayload.isFollowUpAlert,
-                            dndBypassEnabled = dndBypassEnabled
+                            dndBypassEnabled = dndBypassEnabled,
+                            silentAlert = privatePlaybackEnabled
                         )
                     }
                     FileLogger.log("ALARM: Notification shown: $shown")

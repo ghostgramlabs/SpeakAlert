@@ -126,6 +126,7 @@ class BootRescheduleWorkerTest {
                 any(),
                 any(),
                 any(),
+                any(),
                 any()
             )
             verify(missedRepository).insertMissedReminder(any())
@@ -157,6 +158,7 @@ class BootRescheduleWorkerTest {
             assertTrue(result is ListenableWorker.Result.Success)
             assertTrue(notificationMocks.constructed().isNotEmpty())
             verify(notificationMocks.constructed().single(), never()).showNotification(
+                any(),
                 any(),
                 any(),
                 any(),
@@ -237,7 +239,8 @@ class BootRescheduleWorkerTest {
                 eq(false),
                 eq(false),
                 eq(true),
-                eq(true)
+                eq(true),
+                eq(false)
             )
         }
     }
