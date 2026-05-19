@@ -87,6 +87,8 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var currentVolume: Float = 1.0f
     private var progressJob: Job? = null
+    private val routeWarmupHandler = android.os.Handler(android.os.Looper.getMainLooper())
+    private var routeWarmupRunnable: Runnable? = null
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -425,9 +427,12 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             
             player.setMediaItem(mediaItem)
             player.prepare()
-            player.play()
-            
-            FileLogger.log("SERVICE: ExoPlayer started")
+            runAfterPrivateRouteWarmup("audio") {
+                if (::player.isInitialized) {
+                    player.play()
+                    FileLogger.log("SERVICE: ExoPlayer started")
+                }
+            }
         } catch (e: Exception) {
             FileLogger.logError("SERVICE", "Error playing audio", e)
             stopSelf()
@@ -486,7 +491,31 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             FileLogger.log("SERVICE: Audio focus not granted ($focusRequestResult), attempting TTS fallback")
         }
 
-        speakNow(text)
+        speakAfterPrivateRouteWarmup(text)
+    }
+
+    private fun speakAfterPrivateRouteWarmup(text: String) {
+        runAfterPrivateRouteWarmup("tts") {
+            speakNow(text)
+        }
+    }
+
+    private fun runAfterPrivateRouteWarmup(label: String, block: () -> Unit) {
+        routeWarmupRunnable?.let { routeWarmupHandler.removeCallbacks(it) }
+        routeWarmupRunnable = null
+
+        if (!privatePlaybackEnabled || !privateRouteNearEar) {
+            block()
+            return
+        }
+
+        val runnable = Runnable {
+            routeWarmupRunnable = null
+            block()
+        }
+        routeWarmupRunnable = runnable
+        FileLogger.log("SERVICE: Waiting ${PRIVATE_ROUTE_WARMUP_MS}ms for private $label route to settle")
+        routeWarmupHandler.postDelayed(runnable, PRIVATE_ROUTE_WARMUP_MS)
     }
 
     private fun speakNow(text: String) {
@@ -526,7 +555,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
                             pendingSpeakAfterFocusGain?.let { pendingText ->
                                 FileLogger.log("SERVICE: Audio focus gained, resuming pending TTS")
                                 pendingSpeakAfterFocusGain = null
-                                speakNow(pendingText)
+                                speakAfterPrivateRouteWarmup(pendingText)
                             }
                         }
                         AudioManager.AUDIOFOCUS_LOSS -> {
@@ -902,6 +931,8 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             loopTimeoutHandler = null
             loopTimeoutRunnable = null
             pendingSpeakAfterFocusGain = null
+            routeWarmupRunnable?.let { routeWarmupHandler.removeCallbacks(it) }
+            routeWarmupRunnable = null
             
             mediaSession?.release()
             mediaSession = null
@@ -938,6 +969,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         const val EXTRA_POSITION_MS = "extra_position_ms"
         const val EXTRA_PRIVATE_PLAYBACK = "extra_private_playback"
         const val EXTRA_DND_BYPASS = "extra_dnd_bypass"
+        private const val PRIVATE_ROUTE_WARMUP_MS = 350L
         
         fun start(
             context: Context,
