@@ -281,7 +281,7 @@ class MainActivity : ComponentActivity() {
                                     )
                                     WhatsNewFeatureCard(
                                         title = "Private playback for hearing aids",
-                                        description = "Reminder audio now prefers connected hearing aids, Bluetooth, wired headphones, or earpiece playback when supported."
+                                        description = "Reminder audio now tries hearing aids, Bluetooth, or wired headphones first, then falls back to the phone earpiece instead of the speaker."
                                     )
                                     WhatsNewFeatureCard(
                                         title = "Contact support",
