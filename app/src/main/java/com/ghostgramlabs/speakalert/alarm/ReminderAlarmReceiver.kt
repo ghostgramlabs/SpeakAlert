@@ -22,6 +22,7 @@ import com.ghostgramlabs.speakalert.domain.models.TimeUnit
 import com.ghostgramlabs.speakalert.service.ReminderPlaybackService
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.FileLogger
+import com.ghostgramlabs.speakalert.util.PrivateAudioRoute
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import com.ghostgramlabs.speakalert.util.isDefaultAppDisplayName
 import kotlinx.coroutines.CoroutineScope
@@ -395,7 +396,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             useFullScreenAlert = useLockScreenFullScreen,
                             isFollowUpAlert = alertPayload.isFollowUpAlert,
                             dndBypassEnabled = dndBypassEnabled,
-                            silentAlert = true
+                            silentAlert = !privatePlaybackEnabled ||
+                                PrivateAudioRoute.hasExternalPrivateRoute(context)
                         )
                     }
                     FileLogger.log("ALARM: Showed notification after autoplay: $shown")
@@ -414,7 +416,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             useFullScreenAlert = useLockScreenFullScreen,
                             isFollowUpAlert = alertPayload.isFollowUpAlert,
                             dndBypassEnabled = dndBypassEnabled,
-                            silentAlert = privatePlaybackEnabled
+                            silentAlert = false
                         )
                     }
                     FileLogger.log("ALARM: Notification shown: $shown")

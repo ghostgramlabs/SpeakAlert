@@ -238,11 +238,13 @@ class NotificationHelper(private val context: Context) {
             .setDeleteIntent(dismissPendingIntent) // Handle notification swipe-dismiss
             .setAutoCancel(false) // Notification stays until user acts
             .setOngoing(false) // User can swipe to dismiss like normal notifications
+            // setSilent(true) below suppresses sound, vibration, and lights on Android Q+,
+            // so the silent-path defaults here are effectively informational.
             .setDefaults(if (toneOnlyMode || silentAlert) {
-                NotificationCompat.DEFAULT_LIGHTS or NotificationCompat.DEFAULT_VIBRATE
+                NotificationCompat.DEFAULT_LIGHTS
             } else {
                 NotificationCompat.DEFAULT_ALL
-            }) // Sound, vibration, lights
+            })
 
         if (silentAlert) {
             builder.setSilent(true)

@@ -6,7 +6,6 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.media.AudioDeviceInfo
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.hardware.Sensor
@@ -34,6 +33,7 @@ import com.ghostgramlabs.speakalert.alarm.ReminderActionReceiver
 import com.ghostgramlabs.speakalert.VoiceReminderApp
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.FileLogger
+import com.ghostgramlabs.speakalert.util.PrivateAudioRoute
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -621,8 +621,8 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
                 @Suppress("DEPRECATION")
                 originalSpeakerphoneOn = audioManager.isSpeakerphoneOn
             }
-            if (applyConnectedPrivateRoute()) {
-                FileLogger.log("SERVICE: Private playback using connected private audio device")
+            if (PrivateAudioRoute.hasExternalPrivateRoute(this)) {
+                applyExternalPrivateRoute()
             } else {
                 applyPrivatePlaybackRoute(useEarpiece = true)
                 FileLogger.log("SERVICE: Private playback using phone earpiece fallback")
@@ -632,12 +632,36 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         }
     }
 
+    private fun applyExternalPrivateRoute() {
+        if (!::audioManager.isInitialized) return
+        routeWarmupRunnable?.let { routeWarmupHandler.removeCallbacks(it) }
+        routeWarmupRunnable = null
+        stopProximityRouting()
+        // Stay in MODE_NORMAL and use media attributes so Android's auto-routing
+        // picks the connected external device (wired, BT A2DP, BLE Audio, hearing
+        // aid). Works on all supported APIs and keeps music-quality routing for
+        // A2DP instead of being forced down to SCO via setCommunicationDevice.
+        audioManager.mode = AudioManager.MODE_NORMAL
+        @Suppress("DEPRECATION")
+        audioManager.isSpeakerphoneOn = false
+        privateRouteNearEar = false
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && communicationDeviceSelected) {
+            runCatching { audioManager.clearCommunicationDevice() }
+        }
+        communicationDeviceSelected = false
+        updatePlaybackAudioAttributes()
+        FileLogger.log("SERVICE: Private playback routed to connected external device via media stream")
+    }
+
     private fun applyPublicPlaybackRoute() {
         if (!::audioManager.isInitialized) return
         routeWarmupRunnable?.let { routeWarmupHandler.removeCallbacks(it) }
         routeWarmupRunnable = null
         stopProximityRouting()
-        abandonAudioFocus()
+        val playbackActive = (::player.isInitialized && player.isPlaying) || isTtsMode
+        if (!playbackActive) {
+            abandonAudioFocus()
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             runCatching { audioManager.clearCommunicationDevice() }
         }
@@ -646,7 +670,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         originalAudioMode = null
         originalSpeakerphoneOn = null
         audioManager.mode = AudioManager.MODE_NORMAL
-        val hasExternalMediaRoute = hasConnectedExternalMediaOutputDevice()
+        val hasExternalMediaRoute = PrivateAudioRoute.hasExternalPrivateRoute(this)
         @Suppress("DEPRECATION")
         audioManager.isSpeakerphoneOn = !hasExternalMediaRoute
         updatePlaybackAudioAttributes()
@@ -714,72 +738,6 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         FileLogger.log("SERVICE: Private playback route=${if (useEarpiece) "earpiece" else "speaker"}")
     }
 
-    private fun applyConnectedPrivateRoute(): Boolean {
-        if (!::audioManager.isInitialized || Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-            return false
-        }
-
-        val device = findConnectedPrivateOutputDevice() ?: return false
-        val applied = runCatching {
-            audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
-            @Suppress("DEPRECATION")
-            audioManager.isSpeakerphoneOn = false
-            audioManager.setCommunicationDevice(device)
-        }.getOrDefault(false)
-
-        if (!applied) return false
-
-        communicationDeviceSelected = true
-        privateRouteNearEar = true
-        stopProximityRouting()
-        updatePlaybackAudioAttributes()
-        FileLogger.log("SERVICE: Private playback route=device type=${device.type} name=${device.productName}")
-        return true
-    }
-
-    private fun findConnectedPrivateOutputDevice(): AudioDeviceInfo? {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return null
-        return audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
-            .firstOrNull { it.isPrivatePlaybackDevice() }
-    }
-
-    private fun hasConnectedExternalMediaOutputDevice(): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false
-        return audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
-            .any { it.isExternalMediaOutputDevice() }
-    }
-
-    private fun AudioDeviceInfo.isPrivatePlaybackDevice(): Boolean {
-        return when (type) {
-            AudioDeviceInfo.TYPE_HEARING_AID,
-            AudioDeviceInfo.TYPE_WIRED_HEADPHONES,
-            AudioDeviceInfo.TYPE_WIRED_HEADSET,
-            AudioDeviceInfo.TYPE_USB_HEADSET -> true
-            AudioDeviceInfo.TYPE_BLE_HEADSET,
-            AudioDeviceInfo.TYPE_BLUETOOTH_A2DP,
-            AudioDeviceInfo.TYPE_BLUETOOTH_SCO -> hasBluetoothConnectPermission()
-            else -> false
-        }
-    }
-
-    private fun AudioDeviceInfo.isExternalMediaOutputDevice(): Boolean {
-        return when (type) {
-            AudioDeviceInfo.TYPE_HEARING_AID,
-            AudioDeviceInfo.TYPE_WIRED_HEADPHONES,
-            AudioDeviceInfo.TYPE_WIRED_HEADSET,
-            AudioDeviceInfo.TYPE_USB_HEADSET -> true
-            AudioDeviceInfo.TYPE_BLE_HEADSET,
-            AudioDeviceInfo.TYPE_BLUETOOTH_A2DP,
-            AudioDeviceInfo.TYPE_BLUETOOTH_SCO -> hasBluetoothConnectPermission()
-            else -> false
-        }
-    }
-
-    private fun hasBluetoothConnectPermission(): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return true
-        return checkSelfPermission(android.Manifest.permission.BLUETOOTH_CONNECT) ==
-            android.content.pm.PackageManager.PERMISSION_GRANTED
-    }
 
     override fun onSensorChanged(event: SensorEvent?) {
         if (!privatePlaybackEnabled || event?.sensor?.type != Sensor.TYPE_PROXIMITY) return
