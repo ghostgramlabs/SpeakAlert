@@ -279,7 +279,7 @@ fun SettingsScreen(
                     description = if (toneOnlyMode) {
                         "Disabled while Tone-only mode is on"
                     } else {
-                        "Prefer hearing aids, Bluetooth, wired headphones, or earpiece instead of the phone speaker. May vary by device."
+                        "Use connected hearing aids, Bluetooth, or wired headphones first. If none are connected, use the phone earpiece instead of the speaker."
                     },
                     checked = privatePlaybackEnabled,
                     onCheckedChange = { enabled ->
