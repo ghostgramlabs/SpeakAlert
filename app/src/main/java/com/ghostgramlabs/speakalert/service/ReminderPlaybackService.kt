@@ -582,8 +582,25 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
                 FileLogger.log("SERVICE: Private playback using phone earpiece fallback")
             }
         } else {
-            restoreAudioRoute()
+            applyPublicPlaybackRoute()
         }
+    }
+
+    private fun applyPublicPlaybackRoute() {
+        if (!::audioManager.isInitialized) return
+        stopProximityRouting()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            runCatching { audioManager.clearCommunicationDevice() }
+        }
+        communicationDeviceSelected = false
+        privateRouteNearEar = false
+        originalAudioMode = null
+        originalSpeakerphoneOn = null
+        audioManager.mode = AudioManager.MODE_NORMAL
+        @Suppress("DEPRECATION")
+        audioManager.isSpeakerphoneOn = true
+        updatePlaybackAudioAttributes()
+        FileLogger.log("SERVICE: Public playback route restored to speaker/media")
     }
 
     private fun restoreAudioRoute() {
@@ -603,6 +620,11 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             communicationDeviceSelected = false
         }
         privateRouteNearEar = false
+        if (audioManager.mode == AudioManager.MODE_IN_COMMUNICATION) {
+            audioManager.mode = AudioManager.MODE_NORMAL
+            @Suppress("DEPRECATION")
+            audioManager.isSpeakerphoneOn = true
+        }
         updatePlaybackAudioAttributes()
     }
 
