@@ -107,7 +107,8 @@ class NotificationHelper(private val context: Context) {
         toneOnlyMode: Boolean = false,
         useFullScreenAlert: Boolean = false,
         isFollowUpAlert: Boolean = false,
-        dndBypassEnabled: Boolean = true
+        dndBypassEnabled: Boolean = true,
+        silentAlert: Boolean = false
     ): Boolean {
         Log.d(TAG, "showNotification called for reminderId=$reminderId, title=$title")
         createNotificationChannel(dndBypassEnabled)
@@ -237,11 +238,15 @@ class NotificationHelper(private val context: Context) {
             .setDeleteIntent(dismissPendingIntent) // Handle notification swipe-dismiss
             .setAutoCancel(false) // Notification stays until user acts
             .setOngoing(false) // User can swipe to dismiss like normal notifications
-            .setDefaults(if (toneOnlyMode) {
+            .setDefaults(if (toneOnlyMode || silentAlert) {
                 NotificationCompat.DEFAULT_LIGHTS or NotificationCompat.DEFAULT_VIBRATE
             } else {
                 NotificationCompat.DEFAULT_ALL
             }) // Sound, vibration, lights
+
+        if (silentAlert) {
+            builder.setSilent(true)
+        }
 
         if (fullScreenPendingIntent != null) {
             builder.setPriority(NotificationCompat.PRIORITY_MAX)
