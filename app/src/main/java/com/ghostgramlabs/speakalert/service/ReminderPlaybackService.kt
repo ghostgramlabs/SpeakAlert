@@ -360,9 +360,13 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             if (intent?.action == ACTION_REPLAY) {
                 FileLogger.log("SERVICE: Received REPLAY action")
                 // Re-speak the current TTS text
-                currentTtsText?.let { text ->
-                    if (isTtsInitialized) {
-                        performSpeak(text)
+                scope.launch {
+                    privatePlaybackEnabled = readLatestPrivatePlaybackSetting(privatePlaybackEnabled)
+                    configureAudioRoute(privatePlaybackEnabled)
+                    currentTtsText?.let { text ->
+                        if (isTtsInitialized) {
+                            performSpeak(text)
+                        }
                     }
                 }
                 return START_NOT_STICKY
@@ -373,28 +377,32 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             val title = intent?.getStringExtra(EXTRA_TITLE) ?: "Reminder"
             val id = intent?.getLongExtra(EXTRA_ID, -1L) ?: -1L
             loopEnabled = intent?.getBooleanExtra(EXTRA_LOOP, false) ?: false
-            privatePlaybackEnabled = intent?.getBooleanExtra(EXTRA_PRIVATE_PLAYBACK, false) ?: false
+            val requestedPrivatePlayback = intent?.getBooleanExtra(EXTRA_PRIVATE_PLAYBACK, false) ?: false
             dndBypassEnabled = intent?.getBooleanExtra(EXTRA_DND_BYPASS, true) ?: true
-            configureAudioRoute(privatePlaybackEnabled)
-            
-            // Start loop timeout countdown if looping is enabled
-            if (loopEnabled) {
-                startLoopTimeoutIfNeeded()
-            }
 
-            FileLogger.log("SERVICE: Params - audio=$audioPath, tts=${ttsText?.take(20)}, title=$title, id=$id, loop=$loopEnabled")
+            scope.launch {
+                privatePlaybackEnabled = readLatestPrivatePlaybackSetting(requestedPrivatePlayback)
+                configureAudioRoute(privatePlaybackEnabled)
 
-            if (audioPath != null) {
-                isTtsMode = false
-                FileLogger.log("SERVICE: Playing audio")
-                playAudio(audioPath, title)
-            } else if (ttsText != null) {
-                isTtsMode = true
-                FileLogger.log("SERVICE: Speaking TTS")
-                speakTts(ttsText, title, id)
-            } else {
-                FileLogger.log("SERVICE: No audio or text provided, stopping")
-                stopSelf()
+                // Start loop timeout countdown if looping is enabled
+                if (loopEnabled) {
+                    startLoopTimeoutIfNeeded()
+                }
+
+                FileLogger.log("SERVICE: Params - audio=$audioPath, tts=${ttsText?.take(20)}, title=$title, id=$id, loop=$loopEnabled, privatePlayback=$privatePlaybackEnabled")
+
+                if (audioPath != null) {
+                    isTtsMode = false
+                    FileLogger.log("SERVICE: Playing audio")
+                    playAudio(audioPath, title)
+                } else if (ttsText != null) {
+                    isTtsMode = true
+                    FileLogger.log("SERVICE: Speaking TTS")
+                    speakTts(ttsText, title, id)
+                } else {
+                    FileLogger.log("SERVICE: No audio or text provided, stopping")
+                    stopSelf()
+                }
             }
         } catch (e: Exception) {
             FileLogger.logError("SERVICE", "Error in onStartCommand", e)
@@ -402,6 +410,15 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         }
 
         return START_NOT_STICKY
+    }
+
+    private suspend fun readLatestPrivatePlaybackSetting(fallback: Boolean): Boolean {
+        return runCatching {
+            (application as VoiceReminderApp).container.settingsRepository.privatePlaybackEnabled.first()
+        }.getOrElse {
+            FileLogger.logError("SERVICE", "Failed to read latest private playback setting", it)
+            fallback
+        }
     }
 
     private fun playAudio(path: String, title: String) {
@@ -617,7 +634,10 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
 
     private fun applyPublicPlaybackRoute() {
         if (!::audioManager.isInitialized) return
+        routeWarmupRunnable?.let { routeWarmupHandler.removeCallbacks(it) }
+        routeWarmupRunnable = null
         stopProximityRouting()
+        abandonAudioFocus()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             runCatching { audioManager.clearCommunicationDevice() }
         }
@@ -626,10 +646,11 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         originalAudioMode = null
         originalSpeakerphoneOn = null
         audioManager.mode = AudioManager.MODE_NORMAL
+        val hasExternalMediaRoute = hasConnectedExternalMediaOutputDevice()
         @Suppress("DEPRECATION")
-        audioManager.isSpeakerphoneOn = false
+        audioManager.isSpeakerphoneOn = !hasExternalMediaRoute
         updatePlaybackAudioAttributes()
-        FileLogger.log("SERVICE: Public playback route restored to normal media routing")
+        FileLogger.log("SERVICE: Public playback route restored to normal media routing; externalMediaRoute=$hasExternalMediaRoute")
     }
 
     private fun restoreAudioRoute() {
@@ -722,7 +743,26 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             .firstOrNull { it.isPrivatePlaybackDevice() }
     }
 
+    private fun hasConnectedExternalMediaOutputDevice(): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false
+        return audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
+            .any { it.isExternalMediaOutputDevice() }
+    }
+
     private fun AudioDeviceInfo.isPrivatePlaybackDevice(): Boolean {
+        return when (type) {
+            AudioDeviceInfo.TYPE_HEARING_AID,
+            AudioDeviceInfo.TYPE_WIRED_HEADPHONES,
+            AudioDeviceInfo.TYPE_WIRED_HEADSET,
+            AudioDeviceInfo.TYPE_USB_HEADSET -> true
+            AudioDeviceInfo.TYPE_BLE_HEADSET,
+            AudioDeviceInfo.TYPE_BLUETOOTH_A2DP,
+            AudioDeviceInfo.TYPE_BLUETOOTH_SCO -> hasBluetoothConnectPermission()
+            else -> false
+        }
+    }
+
+    private fun AudioDeviceInfo.isExternalMediaOutputDevice(): Boolean {
         return when (type) {
             AudioDeviceInfo.TYPE_HEARING_AID,
             AudioDeviceInfo.TYPE_WIRED_HEADPHONES,
