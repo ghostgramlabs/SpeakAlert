@@ -598,9 +598,9 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         originalSpeakerphoneOn = null
         audioManager.mode = AudioManager.MODE_NORMAL
         @Suppress("DEPRECATION")
-        audioManager.isSpeakerphoneOn = true
+        audioManager.isSpeakerphoneOn = false
         updatePlaybackAudioAttributes()
-        FileLogger.log("SERVICE: Public playback route restored to speaker/media")
+        FileLogger.log("SERVICE: Public playback route restored to normal media routing")
     }
 
     private fun restoreAudioRoute() {
