@@ -222,39 +222,50 @@ fun DateTimePickerDialog(
     }
 
     if (showDateDialog) {
-        val datePickerState = rememberDatePickerState(
-            initialSelectedDateMillis = startOfUtcDay(draftTime)
-        )
-        DatePickerDialog(
-            onDismissRequest = { showDateDialog = false },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        val pickedDate = datePickerState.selectedDateMillis
-                        if (pickedDate != null) {
-                            val candidate = mergeDate(draftTime, pickedDate)
-                            if (startOfDay(candidate) < startOfDay(System.currentTimeMillis())) {
-                                validationError = "Date must be today or in the future"
-                            } else {
-                                draftTime = candidate
-                                validationError = null
-                                showDateDialog = false
+        val applyPickedDate: (Long) -> Unit = { pickedDate ->
+            val candidate = mergeDate(draftTime, pickedDate)
+            if (startOfDay(candidate) < startOfDay(System.currentTimeMillis())) {
+                validationError = "Date must be today or in the future"
+            } else {
+                draftTime = candidate
+                validationError = null
+                showDateDialog = false
+            }
+        }
+        if (shouldUseSystemDateTimePickers()) {
+            SystemDatePickerDialog(
+                initialSelectedDateMillisUtc = startOfUtcDay(draftTime),
+                onDismiss = { showDateDialog = false },
+                onConfirm = applyPickedDate,
+            )
+        } else {
+            val datePickerState = rememberDatePickerState(
+                initialSelectedDateMillis = startOfUtcDay(draftTime)
+            )
+            DatePickerDialog(
+                onDismissRequest = { showDateDialog = false },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            val pickedDate = datePickerState.selectedDateMillis
+                            if (pickedDate != null) {
+                                applyPickedDate(pickedDate)
                             }
-                        }
-                    },
-                    enabled = datePickerState.selectedDateMillis != null
-                ) {
-                    Text("Apply")
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showDateDialog = false }) {
-                    Text("Cancel")
-                }
-            },
-            shape = RoundedCornerShape(24.dp)
-        ) {
-            DatePicker(state = datePickerState)
+                        },
+                        enabled = datePickerState.selectedDateMillis != null
+                    ) {
+                        Text("Apply")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showDateDialog = false }) {
+                        Text("Cancel")
+                    }
+                },
+                shape = RoundedCornerShape(24.dp)
+            ) {
+                DatePicker(state = datePickerState)
+            }
         }
     }
 
@@ -262,41 +273,54 @@ fun DateTimePickerDialog(
         val current = remember(draftTime) {
             Calendar.getInstance().apply { timeInMillis = draftTime }
         }
-        val timePickerState = rememberTimePickerState(
-            initialHour = current.get(Calendar.HOUR_OF_DAY),
-            initialMinute = current.get(Calendar.MINUTE),
-            is24Hour = false
-        )
-        AlertDialog(
-            onDismissRequest = { showTimeDialog = false },
-            shape = RoundedCornerShape(24.dp),
-            title = {
-                Text(
-                    text = "Pick exact time",
-                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
-                )
-            },
-            text = {
-                TimePicker(state = timePickerState)
-            },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        draftTime = mergeTime(draftTime, timePickerState.hour, timePickerState.minute)
-                        validationError = null
-                        showTimeDialog = false
-                    },
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    Text("Apply")
+        val applyPickedTime: (Int, Int) -> Unit = { hour, minute ->
+            draftTime = mergeTime(draftTime, hour, minute)
+            validationError = null
+            showTimeDialog = false
+        }
+        if (shouldUseSystemDateTimePickers()) {
+            SystemTimePickerDialog(
+                initialHour = current.get(Calendar.HOUR_OF_DAY),
+                initialMinute = current.get(Calendar.MINUTE),
+                is24Hour = false,
+                onDismiss = { showTimeDialog = false },
+                onConfirm = applyPickedTime,
+            )
+        } else {
+            val timePickerState = rememberTimePickerState(
+                initialHour = current.get(Calendar.HOUR_OF_DAY),
+                initialMinute = current.get(Calendar.MINUTE),
+                is24Hour = false
+            )
+            AlertDialog(
+                onDismissRequest = { showTimeDialog = false },
+                shape = RoundedCornerShape(24.dp),
+                title = {
+                    Text(
+                        text = "Pick exact time",
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
+                    )
+                },
+                text = {
+                    TimePicker(state = timePickerState)
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            applyPickedTime(timePickerState.hour, timePickerState.minute)
+                        },
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text("Apply")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showTimeDialog = false }) {
+                        Text("Cancel")
+                    }
                 }
-            },
-            dismissButton = {
-                TextButton(onClick = { showTimeDialog = false }) {
-                    Text("Cancel")
-                }
-            }
-        )
+            )
+        }
     }
 }
 

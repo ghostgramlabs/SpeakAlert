@@ -63,6 +63,9 @@ import com.ghostgramlabs.speakalert.ui.components.PremiumHeaderCard
 import com.ghostgramlabs.speakalert.ui.components.PremiumScreenBackground
 import com.ghostgramlabs.speakalert.ui.components.ReminderCard
 import com.ghostgramlabs.speakalert.ui.components.RecurringCompletionDialog
+import com.ghostgramlabs.speakalert.ui.components.SystemDatePickerDialog
+import com.ghostgramlabs.speakalert.ui.components.SystemTimePickerDialog
+import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDateTimePickers
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -210,54 +213,61 @@ fun HomeScreen(
     }
 
     if (showRescheduleDatePicker && pendingRescheduleTimeMillis != null) {
-        val dateState = rememberDatePickerState(
-            initialSelectedDateMillis = homeUtcStartOfTodayMillis(
-                pendingRescheduleTimeMillis ?: System.currentTimeMillis()
-            )
-        )
-        DatePickerDialog(
-            onDismissRequest = {
+        val cancelDateFlow = {
+            showRescheduleDatePicker = false
+            pendingRescheduleTimeMillis = null
+            pendingRestoreTarget = null
+            pendingRestoreFromUndo = false
+        }
+        val applyPickedDate: (Long) -> Unit = { selectedDate ->
+            if (homeIsDateTodayOrFuture(selectedDate)) {
+                pendingRescheduleTimeMillis = homeMergeDateWithCurrentTime(
+                    pendingRescheduleTimeMillis ?: System.currentTimeMillis(),
+                    selectedDate
+                )
                 showRescheduleDatePicker = false
-                pendingRescheduleTimeMillis = null
-                pendingRestoreTarget = null
-                pendingRestoreFromUndo = false
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        val selectedDate = dateState.selectedDateMillis
-                        if (selectedDate != null) {
-                            if (homeIsDateTodayOrFuture(selectedDate)) {
-                                pendingRescheduleTimeMillis = homeMergeDateWithCurrentTime(
-                                    pendingRescheduleTimeMillis ?: System.currentTimeMillis(),
-                                    selectedDate
-                                )
-                                showRescheduleDatePicker = false
-                                showRescheduleTimePicker = true
-                            } else {
-                                Toast.makeText(context, "Date must be today or later", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    },
-                    enabled = dateState.selectedDateMillis != null
-                ) {
-                    Text("Apply")
-                }
-            },
-            dismissButton = {
-                TextButton(
-                    onClick = {
-                        showRescheduleDatePicker = false
-                        pendingRescheduleTimeMillis = null
-                        pendingRestoreTarget = null
-                        pendingRestoreFromUndo = false
-                    }
-                ) {
-                    Text("Cancel")
-                }
+                showRescheduleTimePicker = true
+            } else {
+                Toast.makeText(context, "Date must be today or later", Toast.LENGTH_SHORT).show()
             }
-        ) {
-            DatePicker(state = dateState)
+        }
+        if (shouldUseSystemDateTimePickers()) {
+            SystemDatePickerDialog(
+                initialSelectedDateMillisUtc = homeUtcStartOfTodayMillis(
+                    pendingRescheduleTimeMillis ?: System.currentTimeMillis()
+                ),
+                onDismiss = cancelDateFlow,
+                onConfirm = applyPickedDate,
+            )
+        } else {
+            val dateState = rememberDatePickerState(
+                initialSelectedDateMillis = homeUtcStartOfTodayMillis(
+                    pendingRescheduleTimeMillis ?: System.currentTimeMillis()
+                )
+            )
+            DatePickerDialog(
+                onDismissRequest = cancelDateFlow,
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            val selectedDate = dateState.selectedDateMillis
+                            if (selectedDate != null) {
+                                applyPickedDate(selectedDate)
+                            }
+                        },
+                        enabled = dateState.selectedDateMillis != null
+                    ) {
+                        Text("Apply")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = cancelDateFlow) {
+                        Text("Cancel")
+                    }
+                }
+            ) {
+                DatePicker(state = dateState)
+            }
         }
     }
 
@@ -267,62 +277,69 @@ fun HomeScreen(
                 timeInMillis = pendingRescheduleTimeMillis ?: System.currentTimeMillis()
             }
         }
-        val timeState = rememberTimePickerState(
-            initialHour = current.get(java.util.Calendar.HOUR_OF_DAY),
-            initialMinute = current.get(java.util.Calendar.MINUTE),
-            is24Hour = android.text.format.DateFormat.is24HourFormat(context)
-        )
-        AlertDialog(
-            onDismissRequest = {
+        val cancelTimeFlow = {
+            showRescheduleTimePicker = false
+            pendingRescheduleTimeMillis = null
+            pendingRestoreTarget = null
+            pendingRestoreFromUndo = false
+        }
+        val applyPickedTime: (Int, Int) -> Unit = { hour, minute ->
+            val selectedTime = homeMergeTimeWithCurrentDate(
+                pendingRescheduleTimeMillis ?: System.currentTimeMillis(),
+                hour,
+                minute
+            )
+            if (selectedTime <= System.currentTimeMillis()) {
+                Toast.makeText(context, "Please select a future time", Toast.LENGTH_SHORT).show()
+            } else {
+                if (pendingRestoreFromUndo) {
+                    viewModel.undoDelete(selectedTime)
+                } else {
+                    pendingRestoreTarget?.let { viewModel.restoreReminder(it, selectedTime) }
+                }
                 showRescheduleTimePicker = false
                 pendingRescheduleTimeMillis = null
                 pendingRestoreTarget = null
                 pendingRestoreFromUndo = false
-            },
-            title = { Text("Select Time") },
-            text = { TimePicker(state = timeState) },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        val selectedTime = homeMergeTimeWithCurrentDate(
-                            pendingRescheduleTimeMillis ?: System.currentTimeMillis(),
-                            timeState.hour,
-                            timeState.minute
-                        )
-                        if (selectedTime <= System.currentTimeMillis()) {
-                            Toast.makeText(context, "Please select a future time", Toast.LENGTH_SHORT).show()
-                            return@Button
-                        }
-                        if (pendingRestoreFromUndo) {
-                            viewModel.undoDelete(selectedTime)
-                        } else {
-                            pendingRestoreTarget?.let { viewModel.restoreReminder(it, selectedTime) }
-                        }
-                        showRescheduleTimePicker = false
-                        pendingRescheduleTimeMillis = null
-                        pendingRestoreTarget = null
-                        pendingRestoreFromUndo = false
-                        showRestoreDialog = false
-                        reminderToRestore = null
-                        isRestoringFromUndo = false
-                    }
-                ) {
-                    Text("Apply")
-                }
-            },
-            dismissButton = {
-                TextButton(
-                    onClick = {
-                        showRescheduleTimePicker = false
-                        pendingRescheduleTimeMillis = null
-                        pendingRestoreTarget = null
-                        pendingRestoreFromUndo = false
-                    }
-                ) {
-                    Text("Cancel")
-                }
+                showRestoreDialog = false
+                reminderToRestore = null
+                isRestoringFromUndo = false
             }
-        )
+        }
+        if (shouldUseSystemDateTimePickers()) {
+            SystemTimePickerDialog(
+                initialHour = current.get(java.util.Calendar.HOUR_OF_DAY),
+                initialMinute = current.get(java.util.Calendar.MINUTE),
+                is24Hour = android.text.format.DateFormat.is24HourFormat(context),
+                onDismiss = cancelTimeFlow,
+                onConfirm = applyPickedTime,
+            )
+        } else {
+            val timeState = rememberTimePickerState(
+                initialHour = current.get(java.util.Calendar.HOUR_OF_DAY),
+                initialMinute = current.get(java.util.Calendar.MINUTE),
+                is24Hour = android.text.format.DateFormat.is24HourFormat(context)
+            )
+            AlertDialog(
+                onDismissRequest = cancelTimeFlow,
+                title = { Text("Select Time") },
+                text = { TimePicker(state = timeState) },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            applyPickedTime(timeState.hour, timeState.minute)
+                        }
+                    ) {
+                        Text("Apply")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = cancelTimeFlow) {
+                        Text("Cancel")
+                    }
+                }
+            )
+        }
     }
 
     LaunchedEffect(uiState.missedReminders, allowStartupOverlays) {

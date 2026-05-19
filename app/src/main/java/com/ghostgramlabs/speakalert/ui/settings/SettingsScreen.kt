@@ -54,6 +54,8 @@ import com.ghostgramlabs.speakalert.util.WearOsSupport
 import com.ghostgramlabs.speakalert.util.normalizeLocalizedDigitsOrNull
 import com.ghostgramlabs.speakalert.util.toLocalizedIntOrNull
 import com.ghostgramlabs.speakalert.ui.components.PremiumScreenBackground
+import com.ghostgramlabs.speakalert.ui.components.SystemTimePickerDialog
+import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDateTimePickers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -1509,31 +1511,44 @@ private fun TimePickerButton(
     }
 
     if (showPicker) {
-        val timeState = rememberTimePickerState(
-            initialHour = hour,
-            initialMinute = minute,
-            is24Hour = android.text.format.DateFormat.is24HourFormat(context)
-        )
-        AlertDialog(
-            onDismissRequest = { showPicker = false },
-            title = { Text("Select $label time") },
-            text = { TimePicker(state = timeState) },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        onTimeSelected(timeState.hour, timeState.minute)
-                        showPicker = false
+        if (shouldUseSystemDateTimePickers()) {
+            SystemTimePickerDialog(
+                initialHour = hour,
+                initialMinute = minute,
+                is24Hour = android.text.format.DateFormat.is24HourFormat(context),
+                onDismiss = { showPicker = false },
+                onConfirm = { h, m ->
+                    onTimeSelected(h, m)
+                    showPicker = false
+                },
+            )
+        } else {
+            val timeState = rememberTimePickerState(
+                initialHour = hour,
+                initialMinute = minute,
+                is24Hour = android.text.format.DateFormat.is24HourFormat(context)
+            )
+            AlertDialog(
+                onDismissRequest = { showPicker = false },
+                title = { Text("Select $label time") },
+                text = { TimePicker(state = timeState) },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            onTimeSelected(timeState.hour, timeState.minute)
+                            showPicker = false
+                        }
+                    ) {
+                        Text("Apply")
                     }
-                ) {
-                    Text("Apply")
+                },
+                dismissButton = {
+                    TextButton(onClick = { showPicker = false }) {
+                        Text("Cancel")
+                    }
                 }
-            },
-            dismissButton = {
-                TextButton(onClick = { showPicker = false }) {
-                    Text("Cancel")
-                }
-            }
-        )
+            )
+        }
     }
 }
 
