@@ -541,6 +541,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             TextToSpeech.Engine.KEY_PARAM_STREAM,
             when {
                 privatePlaybackEnabled && privateRouteNearEar -> AudioManager.STREAM_VOICE_CALL
+                privatePlaybackEnabled -> AudioManager.STREAM_MUSIC
                 dndBypassEnabled -> AudioManager.STREAM_ALARM
                 else -> AudioManager.STREAM_MUSIC
             }
@@ -593,6 +594,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
                 { focusChange -> if (focusChange == AudioManager.AUDIOFOCUS_LOSS) stopSelf() },
                 when {
                     privatePlaybackEnabled && privateRouteNearEar -> AudioManager.STREAM_VOICE_CALL
+                    privatePlaybackEnabled -> AudioManager.STREAM_MUSIC
                     dndBypassEnabled -> AudioManager.STREAM_ALARM
                     else -> AudioManager.STREAM_MUSIC
                 },
@@ -757,6 +759,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             .setUsage(
                 when {
                     privatePlaybackEnabled && privateRouteNearEar -> C.USAGE_VOICE_COMMUNICATION
+                    privatePlaybackEnabled -> C.USAGE_MEDIA
                     dndBypassEnabled -> C.USAGE_ALARM
                     else -> C.USAGE_MEDIA
                 }
@@ -770,6 +773,9 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
                 when {
                     privatePlaybackEnabled && privateRouteNearEar -> {
                         android.media.AudioAttributes.USAGE_VOICE_COMMUNICATION
+                    }
+                    privatePlaybackEnabled -> {
+                        android.media.AudioAttributes.USAGE_MEDIA
                     }
                     dndBypassEnabled -> {
                         android.media.AudioAttributes.USAGE_ALARM
