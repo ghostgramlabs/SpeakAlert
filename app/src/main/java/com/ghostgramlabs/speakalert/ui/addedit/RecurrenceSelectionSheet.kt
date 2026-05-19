@@ -27,6 +27,9 @@ import androidx.compose.ui.unit.dp
 import com.ghostgramlabs.speakalert.domain.models.*
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceModel
 import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
+import com.ghostgramlabs.speakalert.ui.components.SystemDatePickerDialog
+import com.ghostgramlabs.speakalert.ui.components.SystemTimePickerDialog
+import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDateTimePickers
 import com.ghostgramlabs.speakalert.util.normalizeLocalizedDigitsOrNull
 import com.ghostgramlabs.speakalert.util.toLocalizedIntOrNull
 import java.util.Calendar
@@ -887,35 +890,48 @@ private fun EndRuleControls(
 
     if (showDatePicker) {
         val initialUtc = remember(clampedEndDate) { localMillisToUtcStartOfDay(clampedEndDate) }
-        val dateState = rememberDatePickerState(initialSelectedDateMillis = initialUtc)
-        DatePickerDialog(
-            onDismissRequest = { showDatePicker = false },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        val pickedUtc = dateState.selectedDateMillis
-                        if (pickedUtc != null) {
-                            val candidate = mergeUtcDateKeepingLocalTime(pickedUtc, clampedEndDate)
-                            val clamped = maxOf(candidate, minEndDateTimeMillis)
-                            onDateChange(clamped)
-                            if (candidate < minEndDateTimeMillis) {
-                                android.widget.Toast.makeText(
-                                    context,
-                                    "End time cannot be before the reminder time",
-                                    android.widget.Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                        showDatePicker = false
-                    },
-                    enabled = dateState.selectedDateMillis != null
-                ) { Text("Apply") }
-            },
-            dismissButton = {
-                TextButton(onClick = { showDatePicker = false }) { Text("Cancel") }
+        val applyPickedDate: (Long) -> Unit = { pickedUtc ->
+            val candidate = mergeUtcDateKeepingLocalTime(pickedUtc, clampedEndDate)
+            val clamped = maxOf(candidate, minEndDateTimeMillis)
+            onDateChange(clamped)
+            if (candidate < minEndDateTimeMillis) {
+                android.widget.Toast.makeText(
+                    context,
+                    "End time cannot be before the reminder time",
+                    android.widget.Toast.LENGTH_SHORT
+                ).show()
             }
-        ) {
-            DatePicker(state = dateState)
+            showDatePicker = false
+        }
+        if (shouldUseSystemDateTimePickers()) {
+            SystemDatePickerDialog(
+                initialSelectedDateMillisUtc = initialUtc,
+                onDismiss = { showDatePicker = false },
+                onConfirm = applyPickedDate,
+            )
+        } else {
+            val dateState = rememberDatePickerState(initialSelectedDateMillis = initialUtc)
+            DatePickerDialog(
+                onDismissRequest = { showDatePicker = false },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            val pickedUtc = dateState.selectedDateMillis
+                            if (pickedUtc != null) {
+                                applyPickedDate(pickedUtc)
+                            } else {
+                                showDatePicker = false
+                            }
+                        },
+                        enabled = dateState.selectedDateMillis != null
+                    ) { Text("Apply") }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showDatePicker = false }) { Text("Cancel") }
+                }
+            ) {
+                DatePicker(state = dateState)
+            }
         }
     }
 
@@ -923,35 +939,48 @@ private fun EndRuleControls(
         val initial = remember(clampedEndDate) {
             Calendar.getInstance().apply { timeInMillis = clampedEndDate }
         }
-        val timeState = rememberTimePickerState(
-            initialHour = initial.get(Calendar.HOUR_OF_DAY),
-            initialMinute = initial.get(Calendar.MINUTE)
-        )
-        AlertDialog(
-            onDismissRequest = { showTimePicker = false },
-            title = { Text("Select end time") },
-            text = { TimePicker(state = timeState) },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        val candidate = mergeTimeKeepingDate(clampedEndDate, timeState.hour, timeState.minute)
-                        val clamped = maxOf(candidate, minEndDateTimeMillis)
-                        onDateChange(clamped)
-                        if (candidate < minEndDateTimeMillis) {
-                            android.widget.Toast.makeText(
-                                context,
-                                "End time cannot be before the reminder time",
-                                android.widget.Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                        showTimePicker = false
-                    }
-                ) { Text("Apply") }
-            },
-            dismissButton = {
-                TextButton(onClick = { showTimePicker = false }) { Text("Cancel") }
+        val applyPickedTime: (Int, Int) -> Unit = { hour, minute ->
+            val candidate = mergeTimeKeepingDate(clampedEndDate, hour, minute)
+            val clamped = maxOf(candidate, minEndDateTimeMillis)
+            onDateChange(clamped)
+            if (candidate < minEndDateTimeMillis) {
+                android.widget.Toast.makeText(
+                    context,
+                    "End time cannot be before the reminder time",
+                    android.widget.Toast.LENGTH_SHORT
+                ).show()
             }
-        )
+            showTimePicker = false
+        }
+        if (shouldUseSystemDateTimePickers()) {
+            SystemTimePickerDialog(
+                initialHour = initial.get(Calendar.HOUR_OF_DAY),
+                initialMinute = initial.get(Calendar.MINUTE),
+                is24Hour = android.text.format.DateFormat.is24HourFormat(context),
+                onDismiss = { showTimePicker = false },
+                onConfirm = applyPickedTime,
+            )
+        } else {
+            val timeState = rememberTimePickerState(
+                initialHour = initial.get(Calendar.HOUR_OF_DAY),
+                initialMinute = initial.get(Calendar.MINUTE)
+            )
+            AlertDialog(
+                onDismissRequest = { showTimePicker = false },
+                title = { Text("Select end time") },
+                text = { TimePicker(state = timeState) },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            applyPickedTime(timeState.hour, timeState.minute)
+                        }
+                    ) { Text("Apply") }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showTimePicker = false }) { Text("Cancel") }
+                }
+            )
+        }
     }
 }
 

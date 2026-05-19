@@ -272,6 +272,10 @@ class MainActivity : ComponentActivity() {
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                     WhatsNewFeatureCard(
+                                        title = "Date & time pickers in Arabic",
+                                        description = "Date and time pickers now use the reliable system pickers when your device language uses Arabic or other localized digits, so reminders are easier to schedule."
+                                    )
+                                    WhatsNewFeatureCard(
                                         title = "Private playback",
                                         description = "Reminders now reliably play through your connected hearing aids, Bluetooth, or wired headphones, including for recurring reminders. With nothing connected, they fall back to the phone earpiece and keep vibration on so you don't miss them."
                                     )

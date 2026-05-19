@@ -52,6 +52,9 @@ import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import com.ghostgramlabs.speakalert.ui.components.PremiumHeaderCard
 import com.ghostgramlabs.speakalert.ui.components.PremiumScreenBackground
 import com.ghostgramlabs.speakalert.ui.components.SectionCard
+import com.ghostgramlabs.speakalert.ui.components.SystemDatePickerDialog
+import com.ghostgramlabs.speakalert.ui.components.SystemTimePickerDialog
+import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDateTimePickers
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.sanitizeUnitFloat
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -698,38 +701,51 @@ fun AddEditReminderScreen(
             }
 
             if (showDatePickerDialog) {
-                val dateState = rememberDatePickerState(
-                    initialSelectedDateMillis = addEditDatePickerSelectionMillis(uiState.triggerTime)
-                )
-                DatePickerDialog(
-                    onDismissRequest = { showDatePickerDialog = false },
-                    confirmButton = {
-                        TextButton(
-                            onClick = {
-                                val pickedDate = dateState.selectedDateMillis
-                                if (pickedDate != null) {
-                                    if (addEditIsDateTodayOrFuture(pickedDate)) {
-                                        val candidate = mergeDateWithCurrentTime(uiState.triggerTime, pickedDate)
-                                        viewModel.setTriggerTime(candidate)
-                                        showTimePickerDialog = true
-                                    } else {
-                                        Toast.makeText(context, "Date must be today or later", Toast.LENGTH_SHORT).show()
-                                    }
-                                }
-                                showDatePickerDialog = false
-                            },
-                            enabled = dateState.selectedDateMillis != null
-                        ) {
-                            Text("Apply")
-                        }
-                    },
-                    dismissButton = {
-                        TextButton(onClick = { showDatePickerDialog = false }) {
-                            Text("Cancel")
-                        }
+                val applyPickedDate: (Long) -> Unit = { pickedDate ->
+                    if (addEditIsDateTodayOrFuture(pickedDate)) {
+                        val candidate = mergeDateWithCurrentTime(uiState.triggerTime, pickedDate)
+                        viewModel.setTriggerTime(candidate)
+                        showTimePickerDialog = true
+                    } else {
+                        Toast.makeText(context, "Date must be today or later", Toast.LENGTH_SHORT).show()
                     }
-                ) {
-                    DatePicker(state = dateState)
+                    showDatePickerDialog = false
+                }
+                if (shouldUseSystemDateTimePickers()) {
+                    SystemDatePickerDialog(
+                        initialSelectedDateMillisUtc = addEditDatePickerSelectionMillis(uiState.triggerTime),
+                        onDismiss = { showDatePickerDialog = false },
+                        onConfirm = applyPickedDate,
+                    )
+                } else {
+                    val dateState = rememberDatePickerState(
+                        initialSelectedDateMillis = addEditDatePickerSelectionMillis(uiState.triggerTime)
+                    )
+                    DatePickerDialog(
+                        onDismissRequest = { showDatePickerDialog = false },
+                        confirmButton = {
+                            TextButton(
+                                onClick = {
+                                    val pickedDate = dateState.selectedDateMillis
+                                    if (pickedDate != null) {
+                                        applyPickedDate(pickedDate)
+                                    } else {
+                                        showDatePickerDialog = false
+                                    }
+                                },
+                                enabled = dateState.selectedDateMillis != null
+                            ) {
+                                Text("Apply")
+                            }
+                        },
+                        dismissButton = {
+                            TextButton(onClick = { showDatePickerDialog = false }) {
+                                Text("Cancel")
+                            }
+                        }
+                    ) {
+                        DatePicker(state = dateState)
+                    }
                 }
             }
 
@@ -737,37 +753,50 @@ fun AddEditReminderScreen(
                 val cal = remember(uiState.triggerTime) {
                     java.util.Calendar.getInstance().apply { timeInMillis = uiState.triggerTime }
                 }
-                val timeState = rememberTimePickerState(
-                    initialHour = cal.get(java.util.Calendar.HOUR_OF_DAY),
-                    initialMinute = cal.get(java.util.Calendar.MINUTE),
-                    is24Hour = android.text.format.DateFormat.is24HourFormat(context)
-                )
-                AlertDialog(
-                    onDismissRequest = { showTimePickerDialog = false },
-                    title = { Text("Select Time") },
-                    text = { TimePicker(state = timeState) },
-                    confirmButton = {
-                        Button(
-                            onClick = {
-                                viewModel.setTriggerTime(
-                                    mergeTimeWithCurrentDate(
-                                        currentTime = uiState.triggerTime,
-                                        hour = timeState.hour,
-                                        minute = timeState.minute
-                                    )
-                                )
-                                showTimePickerDialog = false
+                val applyPickedTime: (Int, Int) -> Unit = { hour, minute ->
+                    viewModel.setTriggerTime(
+                        mergeTimeWithCurrentDate(
+                            currentTime = uiState.triggerTime,
+                            hour = hour,
+                            minute = minute
+                        )
+                    )
+                    showTimePickerDialog = false
+                }
+                if (shouldUseSystemDateTimePickers()) {
+                    SystemTimePickerDialog(
+                        initialHour = cal.get(java.util.Calendar.HOUR_OF_DAY),
+                        initialMinute = cal.get(java.util.Calendar.MINUTE),
+                        is24Hour = android.text.format.DateFormat.is24HourFormat(context),
+                        onDismiss = { showTimePickerDialog = false },
+                        onConfirm = applyPickedTime,
+                    )
+                } else {
+                    val timeState = rememberTimePickerState(
+                        initialHour = cal.get(java.util.Calendar.HOUR_OF_DAY),
+                        initialMinute = cal.get(java.util.Calendar.MINUTE),
+                        is24Hour = android.text.format.DateFormat.is24HourFormat(context)
+                    )
+                    AlertDialog(
+                        onDismissRequest = { showTimePickerDialog = false },
+                        title = { Text("Select Time") },
+                        text = { TimePicker(state = timeState) },
+                        confirmButton = {
+                            Button(
+                                onClick = {
+                                    applyPickedTime(timeState.hour, timeState.minute)
+                                }
+                            ) {
+                                Text("Apply")
                             }
-                        ) {
-                            Text("Apply")
+                        },
+                        dismissButton = {
+                            TextButton(onClick = { showTimePickerDialog = false }) {
+                                Text("Cancel")
+                            }
                         }
-                    },
-                    dismissButton = {
-                        TextButton(onClick = { showTimePickerDialog = false }) {
-                            Text("Cancel")
-                        }
-                    }
-                )
+                    )
+                }
             }
 
             // Save Button

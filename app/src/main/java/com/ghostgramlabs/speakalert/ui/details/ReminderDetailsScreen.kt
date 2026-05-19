@@ -49,6 +49,9 @@ import com.ghostgramlabs.speakalert.ui.components.PremiumScreenBackground
 import com.ghostgramlabs.speakalert.ui.components.PremiumStatusPill
 import com.ghostgramlabs.speakalert.ui.components.SectionCard
 import com.ghostgramlabs.speakalert.ui.components.PrimaryActionButton
+import com.ghostgramlabs.speakalert.ui.components.SystemDatePickerDialog
+import com.ghostgramlabs.speakalert.ui.components.SystemTimePickerDialog
+import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDateTimePickers
 import com.ghostgramlabs.speakalert.util.DateUtils
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import com.ghostgramlabs.speakalert.util.isDefaultAppDisplayName
@@ -621,50 +624,59 @@ fun ReminderDetailsScreen(
     }
 
     if (showRescheduleDatePicker && pendingRescheduleTime != null) {
-        val dateState = rememberDatePickerState(
-            initialSelectedDateMillis = detailsUtcStartOfTodayMillis(
-                pendingRescheduleTime ?: System.currentTimeMillis()
-            )
-        )
-        DatePickerDialog(
-            onDismissRequest = {
+        val cancelDateFlow = {
+            showRescheduleDatePicker = false
+            pendingRescheduleTime = null
+        }
+        val applyPickedDate: (Long) -> Unit = { selectedDate ->
+            if (detailsIsDateTodayOrFuture(selectedDate)) {
+                pendingRescheduleTime = detailsMergeDateWithCurrentTime(
+                    pendingRescheduleTime ?: System.currentTimeMillis(),
+                    selectedDate
+                )
                 showRescheduleDatePicker = false
-                pendingRescheduleTime = null
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        val selectedDate = dateState.selectedDateMillis
-                        if (selectedDate != null) {
-                            if (detailsIsDateTodayOrFuture(selectedDate)) {
-                                pendingRescheduleTime = detailsMergeDateWithCurrentTime(
-                                    pendingRescheduleTime ?: System.currentTimeMillis(),
-                                    selectedDate
-                                )
-                                showRescheduleDatePicker = false
-                                showRescheduleTimePicker = true
-                            } else {
-                                Toast.makeText(context, "Date must be today or later", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    },
-                    enabled = dateState.selectedDateMillis != null
-                ) {
-                    Text("Apply")
-                }
-            },
-            dismissButton = {
-                TextButton(
-                    onClick = {
-                        showRescheduleDatePicker = false
-                        pendingRescheduleTime = null
-                    }
-                ) {
-                    Text("Cancel")
-                }
+                showRescheduleTimePicker = true
+            } else {
+                Toast.makeText(context, "Date must be today or later", Toast.LENGTH_SHORT).show()
             }
-        ) {
-            DatePicker(state = dateState)
+        }
+        if (shouldUseSystemDateTimePickers()) {
+            SystemDatePickerDialog(
+                initialSelectedDateMillisUtc = detailsUtcStartOfTodayMillis(
+                    pendingRescheduleTime ?: System.currentTimeMillis()
+                ),
+                onDismiss = cancelDateFlow,
+                onConfirm = applyPickedDate,
+            )
+        } else {
+            val dateState = rememberDatePickerState(
+                initialSelectedDateMillis = detailsUtcStartOfTodayMillis(
+                    pendingRescheduleTime ?: System.currentTimeMillis()
+                )
+            )
+            DatePickerDialog(
+                onDismissRequest = cancelDateFlow,
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            val selectedDate = dateState.selectedDateMillis
+                            if (selectedDate != null) {
+                                applyPickedDate(selectedDate)
+                            }
+                        },
+                        enabled = dateState.selectedDateMillis != null
+                    ) {
+                        Text("Apply")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = cancelDateFlow) {
+                        Text("Cancel")
+                    }
+                }
+            ) {
+                DatePicker(state = dateState)
+            }
         }
     }
 
@@ -674,49 +686,58 @@ fun ReminderDetailsScreen(
                 timeInMillis = pendingRescheduleTime ?: System.currentTimeMillis()
             }
         }
-        val timeState = rememberTimePickerState(
-            initialHour = cal.get(java.util.Calendar.HOUR_OF_DAY),
-            initialMinute = cal.get(java.util.Calendar.MINUTE),
-            is24Hour = android.text.format.DateFormat.is24HourFormat(context)
-        )
-        AlertDialog(
-            onDismissRequest = {
+        val cancelTimeFlow = {
+            showRescheduleTimePicker = false
+            pendingRescheduleTime = null
+        }
+        val applyPickedTime: (Int, Int) -> Unit = { hour, minute ->
+            val selectedTime = detailsMergeTimeWithCurrentDate(
+                pendingRescheduleTime ?: System.currentTimeMillis(),
+                hour,
+                minute
+            )
+            if (selectedTime <= System.currentTimeMillis()) {
+                Toast.makeText(context, "Please select a future time", Toast.LENGTH_SHORT).show()
+            } else {
+                pendingRescheduleTime = selectedTime
                 showRescheduleTimePicker = false
-                pendingRescheduleTime = null
-            },
-            title = { Text("Select Time") },
-            text = { TimePicker(state = timeState) },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        val selectedTime = detailsMergeTimeWithCurrentDate(
-                            pendingRescheduleTime ?: System.currentTimeMillis(),
-                            timeState.hour,
-                            timeState.minute
-                        )
-                        if (selectedTime <= System.currentTimeMillis()) {
-                            Toast.makeText(context, "Please select a future time", Toast.LENGTH_SHORT).show()
-                            return@Button
-                        }
-                        pendingRescheduleTime = selectedTime
-                        showRescheduleTimePicker = false
-                        showRescheduleConfirmation = true
-                    }
-                ) {
-                    Text("Apply")
-                }
-            },
-            dismissButton = {
-                TextButton(
-                    onClick = {
-                        showRescheduleTimePicker = false
-                        pendingRescheduleTime = null
-                    }
-                ) {
-                    Text("Cancel")
-                }
+                showRescheduleConfirmation = true
             }
-        )
+        }
+        if (shouldUseSystemDateTimePickers()) {
+            SystemTimePickerDialog(
+                initialHour = cal.get(java.util.Calendar.HOUR_OF_DAY),
+                initialMinute = cal.get(java.util.Calendar.MINUTE),
+                is24Hour = android.text.format.DateFormat.is24HourFormat(context),
+                onDismiss = cancelTimeFlow,
+                onConfirm = applyPickedTime,
+            )
+        } else {
+            val timeState = rememberTimePickerState(
+                initialHour = cal.get(java.util.Calendar.HOUR_OF_DAY),
+                initialMinute = cal.get(java.util.Calendar.MINUTE),
+                is24Hour = android.text.format.DateFormat.is24HourFormat(context)
+            )
+            AlertDialog(
+                onDismissRequest = cancelTimeFlow,
+                title = { Text("Select Time") },
+                text = { TimePicker(state = timeState) },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            applyPickedTime(timeState.hour, timeState.minute)
+                        }
+                    ) {
+                        Text("Apply")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = cancelTimeFlow) {
+                        Text("Cancel")
+                    }
+                }
+            )
+        }
     }
     
     // Delete Confirmation Dialog
