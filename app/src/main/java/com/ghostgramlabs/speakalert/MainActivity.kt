@@ -267,9 +267,17 @@ class MainActivity : ComponentActivity() {
                                         color = MaterialTheme.colorScheme.onSurface
                                     )
                                     Text(
-                                        text = "SpeakAlert now improves alarm settings across languages and gives you more private playback options.",
+                                        text = "SpeakAlert now plays reminders more reliably through your connected devices, at the right volume, and improves alarm settings across languages.",
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                    WhatsNewFeatureCard(
+                                        title = "Private playback",
+                                        description = "Reminders now reliably play through your connected hearing aids, Bluetooth, or wired headphones, including for recurring reminders. With nothing connected, they fall back to the phone earpiece and keep vibration on so you don't miss them."
+                                    )
+                                    WhatsNewFeatureCard(
+                                        title = "Louder speaker reminders",
+                                        description = "Speaker reminders now use the alarm volume slider instead of media volume, so they're consistently audible."
                                     )
                                     WhatsNewFeatureCard(
                                         title = "Arabic number input fixed",
@@ -278,10 +286,6 @@ class MainActivity : ComponentActivity() {
                                     WhatsNewFeatureCard(
                                         title = "After count is easier to edit",
                                         description = "The default count is selected automatically, so typing a new number replaces it instead of appending to it."
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = "Private playback for hearing aids",
-                                        description = "Reminder audio now tries hearing aids, Bluetooth, or wired headphones first, then falls back to the phone earpiece instead of the speaker."
                                     )
                                     WhatsNewFeatureCard(
                                         title = "Contact support",
