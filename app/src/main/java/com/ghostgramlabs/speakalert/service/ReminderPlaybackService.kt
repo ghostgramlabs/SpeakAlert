@@ -542,8 +542,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             when {
                 privatePlaybackEnabled && privateRouteNearEar -> AudioManager.STREAM_VOICE_CALL
                 privatePlaybackEnabled -> AudioManager.STREAM_MUSIC
-                dndBypassEnabled -> AudioManager.STREAM_ALARM
-                else -> AudioManager.STREAM_MUSIC
+                else -> AudioManager.STREAM_ALARM
             }
         )
         params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, currentVolume)
@@ -595,8 +594,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
                 when {
                     privatePlaybackEnabled && privateRouteNearEar -> AudioManager.STREAM_VOICE_CALL
                     privatePlaybackEnabled -> AudioManager.STREAM_MUSIC
-                    dndBypassEnabled -> AudioManager.STREAM_ALARM
-                    else -> AudioManager.STREAM_MUSIC
+                    else -> AudioManager.STREAM_ALARM
                 },
                 AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
             )
@@ -760,8 +758,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
                 when {
                     privatePlaybackEnabled && privateRouteNearEar -> C.USAGE_VOICE_COMMUNICATION
                     privatePlaybackEnabled -> C.USAGE_MEDIA
-                    dndBypassEnabled -> C.USAGE_ALARM
-                    else -> C.USAGE_MEDIA
+                    else -> C.USAGE_ALARM
                 }
             )
             .build()
@@ -777,11 +774,8 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
                     privatePlaybackEnabled -> {
                         android.media.AudioAttributes.USAGE_MEDIA
                     }
-                    dndBypassEnabled -> {
-                        android.media.AudioAttributes.USAGE_ALARM
-                    }
                     else -> {
-                        android.media.AudioAttributes.USAGE_MEDIA
+                        android.media.AudioAttributes.USAGE_ALARM
                     }
                 }
             )
