@@ -15,6 +15,7 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.selection.toggleable
@@ -31,6 +32,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import com.ghostgramlabs.speakalert.R
+import com.ghostgramlabs.speakalert.openPlayStoreListing
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.semantics
@@ -125,8 +129,8 @@ fun SettingsScreen(
     val fullScreenAlertEnabled by viewModel.fullScreenAlertEnabled.collectAsState()
     val debugLoggingEnabled by viewModel.debugLoggingEnabled.collectAsState()
     val appVolume by viewModel.appVolume.collectAsState()
-    val toneAutoStopLabel = if (loopTimeoutMinutes == 0) "Infinite" else "${loopTimeoutMinutes}m"
-    val toneOnlySubtitle = "Plays a simple alarm tone instead of voice/TTS for maximum reliability. Auto-stop: $toneAutoStopLabel. Snooze: ${defaultSnoozeDuration}m."
+    val toneAutoStopLabel = if (loopTimeoutMinutes == 0) stringResource(R.string.set_infinite) else stringResource(R.string.set_minutes_short, loopTimeoutMinutes)
+    val toneOnlySubtitle = stringResource(R.string.set_tone_only_desc, toneAutoStopLabel, defaultSnoozeDuration)
     val tonePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -140,7 +144,7 @@ fun SettingsScreen(
         viewModel.setToneOnlyAlertToneUri(pickedUri?.toString())
         Toast.makeText(
             context,
-            if (pickedUri == null) "Using default alarm tone" else "Tone updated",
+            if (pickedUri == null) context.getString(R.string.set_toast_default_tone) else context.getString(R.string.set_toast_tone_updated),
             Toast.LENGTH_SHORT
         ).show()
     }
@@ -151,9 +155,9 @@ fun SettingsScreen(
         Toast.makeText(
             context,
             if (granted) {
-                "Private playback on"
+                context.getString(R.string.set_toast_private_on)
             } else {
-                "Private playback on. Bluetooth routing needs nearby devices permission."
+                context.getString(R.string.set_private_bt)
             },
             Toast.LENGTH_LONG
         ).show()
@@ -163,7 +167,7 @@ fun SettingsScreen(
         containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
-                title = { Text("Settings") },
+                title = { Text(stringResource(R.string.home_cd_settings)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateUp) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -193,30 +197,52 @@ fun SettingsScreen(
             // ============================================================
             val themeMode by viewModel.themeMode.collectAsState()
             CollapsibleSettingsSection(
-                title = "Appearance",
+                title = stringResource(R.string.set_appearance),
                 icon = "UI",
                 initiallyExpanded = true
             ) {
-                Text("App Theme", style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(R.string.set_app_theme), style = MaterialTheme.typography.bodyMedium)
                 Row(
                     modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    val themes = listOf("System", "Light", "Dark")
+                    val themes = listOf(
+                        stringResource(R.string.theme_system),
+                        stringResource(R.string.theme_light),
+                        stringResource(R.string.theme_dark)
+                    )
                     themes.forEachIndexed { index, name ->
                         SnoozeOptionChip(
                             text = name,
                             isSelected = themeMode == index,
-                            onClick = { 
+                            onClick = {
                                 viewModel.setThemeMode(index)
                                 val msg = when(index) {
-                                    1 -> "Light mode set"
-                                    2 -> "Dark mode set"
-                                    else -> "Following system theme"
+                                    1 -> context.getString(R.string.set_toast_theme_light)
+                                    2 -> context.getString(R.string.set_toast_theme_dark)
+                                    else -> context.getString(R.string.set_toast_theme_system)
                                 }
                                 Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
                             },
                             modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+
+                Spacer(Modifier.height(12.dp))
+                Text(stringResource(R.string.settings_language), style = MaterialTheme.typography.bodyMedium)
+                val currentLangTag = com.ghostgramlabs.speakalert.util.AppLocale.currentTag()
+                Row(
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    com.ghostgramlabs.speakalert.util.AppLocale.supported.forEach { (tag, label) ->
+                        SnoozeOptionChip(
+                            text = label,
+                            isSelected = currentLangTag == tag,
+                            onClick = { com.ghostgramlabs.speakalert.util.AppLocale.set(tag) }
                         )
                     }
                 }
@@ -226,62 +252,102 @@ fun SettingsScreen(
             // SECTION 1: PLAYBACK (includes Test Reminder at bottom)
             // ============================================================
             CollapsibleSettingsSection(
-                title = "Playback",
+                title = stringResource(R.string.set_playback),
                 icon = "Play",
                 initiallyExpanded = true
             ) {
                 SwitchRow(
-                    text = "Auto-play reminder audio",
+                    text = stringResource(R.string.set_autoplay),
                     description = if (toneOnlyMode) {
-                        "Disabled while Tone-only mode is on"
+                        stringResource(R.string.set_disabled_tone)
                     } else {
-                        "Automatically plays voice notes and audio files when a reminder fires"
+                        stringResource(R.string.set_autoplay_desc)
                     },
                     checked = autoPlayEnabled,
-                    onCheckedChange = { 
+                    onCheckedChange = {
                         viewModel.setAutoPlayEnabled(it)
-                        Toast.makeText(context, if (it) "Auto-play on" else "Auto-play off", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, if (it) context.getString(R.string.set_toast_autoplay_on) else context.getString(R.string.set_toast_autoplay_off), Toast.LENGTH_SHORT).show()
                     },
                     enabled = !toneOnlyMode
                 )
 
                 if (autoPlayEnabled && !toneOnlyMode) {
                     SwitchRow(
-                        text = "Only when phone is unlocked",
-                        description = "Prevent playback on lock screen",
+                        text = stringResource(R.string.set_unlock_only),
+                        description = stringResource(R.string.set_unlock_only_desc),
                         checked = autoPlayOnUnlockOnly,
                         onCheckedChange = { 
                             viewModel.setAutoPlayOnUnlockOnly(it)
-                            Toast.makeText(context, if (it) "Lock screen playback off" else "Lock screen playback on", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, if (it) context.getString(R.string.set_toast_lock_off) else context.getString(R.string.set_toast_lock_on), Toast.LENGTH_SHORT).show()
                         }
                     )
                 }
                 
                 SwitchRow(
-                    text = "Speak typed reminders automatically",
+                    text = stringResource(R.string.set_speak_text),
                     description = if (toneOnlyMode) {
-                        "Disabled while Tone-only mode is on"
+                        stringResource(R.string.set_disabled_tone)
                     } else {
-                        "Only for text-only reminders with no voice note or audio file"
+                        stringResource(R.string.set_speak_text_desc)
                     },
                     checked = speakTextIfNoVoice,
-                    onCheckedChange = { 
-                        viewModel.setSpeakTextIfNoVoice(it) 
+                    onCheckedChange = {
+                        viewModel.setSpeakTextIfNoVoice(it)
                         Toast.makeText(
                             context,
-                            if (it) "Automatic spoken text on" else "Automatic spoken text off",
+                            if (it) context.getString(R.string.set_toast_speak_on) else context.getString(R.string.set_toast_speak_off),
                             Toast.LENGTH_SHORT
                         ).show()
                     },
                     enabled = !toneOnlyMode
                 )
 
+                val ttsLanguageMode by viewModel.ttsLanguageMode.collectAsState()
+                Text(
+                    text = stringResource(R.string.set_spoken_language),
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+                Text(
+                    text = stringResource(R.string.set_spoken_language_desc),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Row(
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    val ttsOptions = listOf(
+                        stringResource(R.string.tts_auto),
+                        stringResource(R.string.tts_device),
+                        stringResource(R.string.tts_english)
+                    )
+                    ttsOptions.forEachIndexed { index, name ->
+                        SnoozeOptionChip(
+                            text = name,
+                            isSelected = ttsLanguageMode == index,
+                            onClick = {
+                                viewModel.setTtsLanguageMode(index)
+                                val msg = when (index) {
+                                    1 -> context.getString(R.string.set_toast_tts_device)
+                                    2 -> context.getString(R.string.set_toast_tts_english)
+                                    else -> context.getString(R.string.set_toast_tts_auto)
+                                }
+                                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                            },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+
                 SwitchRow(
-                    text = "Private playback",
+                    text = stringResource(R.string.set_private),
                     description = if (toneOnlyMode) {
-                        "Disabled while Tone-only mode is on"
+                        stringResource(R.string.set_disabled_tone)
                     } else {
-                        "Use connected hearing aids, Bluetooth, or wired headphones first. If none are connected, use the phone earpiece instead of the speaker."
+                        stringResource(R.string.set_private_desc)
                     },
                     checked = privatePlaybackEnabled,
                     onCheckedChange = { enabled ->
@@ -291,7 +357,7 @@ fun SettingsScreen(
                             viewModel.setPrivatePlaybackEnabled(enabled)
                             Toast.makeText(
                                 context,
-                                if (enabled) "Private playback on" else "Private playback off",
+                                if (enabled) context.getString(R.string.set_toast_private_on) else context.getString(R.string.set_toast_private_off),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -300,14 +366,14 @@ fun SettingsScreen(
                 )
 
                 SwitchRow(
-                    text = "Tone-only mode",
+                    text = stringResource(R.string.set_tone_only),
                     description = toneOnlySubtitle,
                     checked = toneOnlyMode,
                     onCheckedChange = {
                         viewModel.setToneOnlyMode(it)
                         Toast.makeText(
                             context,
-                            if (it) "Tone-only mode on" else "Tone-only mode off",
+                            if (it) context.getString(R.string.set_toast_tone_on) else context.getString(R.string.set_toast_tone_off),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -329,22 +395,22 @@ fun SettingsScreen(
                                 putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false)
                                 putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
                                 putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, existingUri)
-                                putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select tone")
+                                putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, context.getString(R.string.set_select_tone))
                             }
                         )
                     },
                     onUseDefault = {
                         viewModel.setToneOnlyAlertToneUri(null)
-                        Toast.makeText(context, "Using default alarm tone", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.set_toast_default_tone), Toast.LENGTH_SHORT).show()
                     }
                 )
 
                 SwitchRow(
-                    text = "Lock-screen full-screen alert",
+                    text = stringResource(R.string.set_fullscreen),
                     description = if (fullScreenAccessGranted) {
-                        "Show reminder actions over the lock screen when a reminder fires"
+                        stringResource(R.string.set_fullscreen_desc_granted)
                     } else {
-                        "Needs Android full-screen alert access to appear over the lock screen"
+                        stringResource(R.string.set_fullscreen_desc_denied)
                     },
                     checked = fullScreenAlertEnabled,
                     onCheckedChange = {
@@ -352,14 +418,14 @@ fun SettingsScreen(
                         if (it && !fullScreenAccessGranted) {
                             Toast.makeText(
                                 context,
-                                "Allow full-screen alerts in system settings",
+                                context.getString(R.string.set_allow_fullscreen),
                                 Toast.LENGTH_SHORT
                             ).show()
                             FullScreenIntentSupport.openSettings(context)
                         }
                         Toast.makeText(
                             context,
-                            if (it) "Lock-screen full-screen alert on" else "Lock-screen full-screen alert off",
+                            if (it) context.getString(R.string.set_toast_fs_on) else context.getString(R.string.set_toast_fs_off),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -377,12 +443,12 @@ fun SettingsScreen(
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             Text(
-                                text = "Full-screen access is still off",
+                                text = stringResource(R.string.set_fs_off_title),
                                 style = MaterialTheme.typography.bodyLarge,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                             Text(
-                                text = "Android 14+ requires a separate system permission for full-screen reminder alerts.",
+                                text = stringResource(R.string.set_fs_off_msg),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -390,7 +456,7 @@ fun SettingsScreen(
                                 onClick = { FullScreenIntentSupport.openSettings(context) },
                                 shape = RoundedCornerShape(12.dp)
                             ) {
-                                Text("Open permission settings")
+                                Text(stringResource(R.string.set_open_perm))
                             }
                         }
                     }
@@ -398,7 +464,7 @@ fun SettingsScreen(
 
                 if (toneOnlyMode) {
                     Text(
-                        text = "You can still tap Play reminder or Speak reminder from the notification.",
+                        text = stringResource(R.string.set_fs_note),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -411,7 +477,8 @@ fun SettingsScreen(
                     verticalAlignment = Alignment.CenterVertically, 
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Volume", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.width(60.dp))
+                    Text(stringResource(R.string.set_volume), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.width(60.dp))
+                    val volumeCd = stringResource(R.string.set_cd_volume, (appVolume * 100).toInt())
                     Slider(
                         value = appVolume,
                         onValueChange = { viewModel.setAppVolume(it) },
@@ -420,7 +487,7 @@ fun SettingsScreen(
                         enabled = !toneOnlyMode,
                         modifier = Modifier
                             .weight(1f)
-                            .semantics { contentDescription = "App Volume: ${(appVolume * 100).toInt()}%" },
+                            .semantics { contentDescription = volumeCd },
                         colors = SliderDefaults.colors(
                             thumbColor = MaterialTheme.colorScheme.primary,
                             activeTrackColor = MaterialTheme.colorScheme.primary,
@@ -440,17 +507,17 @@ fun SettingsScreen(
                 }
                 if (toneOnlyMode) {
                     Text(
-                        text = "In Tone-only mode, volume is controlled by your device alarm/notification volume.",
+                        text = stringResource(R.string.set_tone_volume_note),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
                  
                 // Loop Auto-Stop (compact inline)
-                Text("Loop duration", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 8.dp))
+                Text(stringResource(R.string.set_loop_duration), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 8.dp))
                 Text(
-                    "How long a looping reminder notification repeats before stopping",
-                    style = MaterialTheme.typography.bodySmall, 
+                    stringResource(R.string.set_loop_inline_desc),
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Row(
@@ -462,57 +529,57 @@ fun SettingsScreen(
                     
                     presets.forEach { mins ->
                         SnoozeOptionChip(
-                            text = "${mins}m",
+                            text = stringResource(R.string.set_minutes_short, mins),
                             isSelected = loopTimeoutMinutes == mins,
-                            onClick = { 
+                            onClick = {
                                 viewModel.setLoopTimeoutMinutes(mins)
-                                Toast.makeText(context, "Loop duration: ${mins} min", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.set_toast_loop, mins), Toast.LENGTH_SHORT).show()
                             },
                             modifier = Modifier.weight(1f)
                         )
                     }
-                    
+
                     // Infinite option
                     SnoozeOptionChip(
-                        text = "Infinite",
+                        text = stringResource(R.string.set_infinite),
                         isSelected = loopTimeoutMinutes == 0,
                         onClick = { 
                             viewModel.setLoopTimeoutMinutes(0)
-                            Toast.makeText(context, "Loop duration: Infinite", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.set_toast_loop_infinite), Toast.LENGTH_SHORT).show()
                         },
                         modifier = Modifier.weight(1f)
                     )
-                    
+
                     var showCustomLoopDialog by remember { mutableStateOf(false) }
                     SnoozeOptionChip(
-                        text = if (isCustom) "${loopTimeoutMinutes}m" else "Custom",
+                        text = if (isCustom) stringResource(R.string.set_minutes_short, loopTimeoutMinutes) else stringResource(R.string.set_custom),
                         isSelected = isCustom,
                         onClick = { showCustomLoopDialog = true },
                         modifier = Modifier.weight(1f)
                     )
-                    
+
                     if (showCustomLoopDialog) {
                         CustomDurationDialog(
-                            title = "Loop Duration",
+                            title = stringResource(R.string.set_loop_duration),
                             initialValue = if (isCustom) loopTimeoutMinutes else 20,
                             maxMinutes = 1440,
-                            description = "Set how long the reminder loop continues",
+                            description = stringResource(R.string.set_loop_duration_desc),
                             onDismiss = { showCustomLoopDialog = false },
-                            onSave = { 
+                            onSave = {
                                 viewModel.setLoopTimeoutMinutes(it)
-                                Toast.makeText(context, "Loop duration: $it min", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.set_toast_loop, it), Toast.LENGTH_SHORT).show()
                                 showCustomLoopDialog = false
                             }
                         )
                     }
                 }
-                
+
                 Divider(modifier = Modifier.padding(vertical = 12.dp))
-                
+
                 // Snooze Duration (moved from Timing)
-                Text("Default snooze", style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(R.string.set_default_snooze), style = MaterialTheme.typography.bodyMedium)
                 Text(
-                    "How long the reminder is delayed when you tap Snooze",
+                    stringResource(R.string.set_snooze_inline_desc),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -525,34 +592,34 @@ fun SettingsScreen(
                     
                     presets.forEach { mins ->
                         SnoozeOptionChip(
-                            text = "${mins}m",
+                            text = stringResource(R.string.set_minutes_short, mins),
                             isSelected = !isCustom && defaultSnoozeDuration == mins,
-                            onClick = { 
+                            onClick = {
                                 viewModel.setDefaultSnoozeDuration(mins)
-                                Toast.makeText(context, "Snooze: ${mins} min", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.set_toast_snooze, mins), Toast.LENGTH_SHORT).show()
                             },
                             modifier = Modifier.weight(1f)
                         )
                     }
-                    
+
                     var showCustomSnoozeDialog by remember { mutableStateOf(false) }
                     SnoozeOptionChip(
-                        text = if (isCustom) "${defaultSnoozeDuration}m" else "Custom",
+                        text = if (isCustom) stringResource(R.string.set_minutes_short, defaultSnoozeDuration) else stringResource(R.string.set_custom),
                         isSelected = isCustom,
                         onClick = { showCustomSnoozeDialog = true },
                         modifier = Modifier.weight(1f)
                     )
-                    
+
                     if (showCustomSnoozeDialog) {
                         CustomDurationDialog(
-                            title = "Custom Snooze",
+                            title = stringResource(R.string.set_custom_snooze),
                             initialValue = if (isCustom) defaultSnoozeDuration else 20,
                             maxMinutes = 240,
-                            description = "Set how long the reminder is delayed",
+                            description = stringResource(R.string.set_snooze_desc),
                             onDismiss = { showCustomSnoozeDialog = false },
                             onSave = {
                                 viewModel.setDefaultSnoozeDuration(it)
-                                Toast.makeText(context, "Snooze: $it min", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.set_toast_snooze, it), Toast.LENGTH_SHORT).show()
                                 showCustomSnoozeDialog = false
                             }
                         )
@@ -562,12 +629,12 @@ fun SettingsScreen(
                 Divider(modifier = Modifier.padding(vertical = 12.dp))
 
                 // Default follow-up check
-                Text("Default follow-up check", style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(R.string.set_default_followup), style = MaterialTheme.typography.bodyMedium)
                 Text(
                     if (defaultFollowUpMinutes == 0) {
-                        "Off — new reminders are created with no follow-up. You can still set one per reminder."
+                        stringResource(R.string.set_followup_off_desc)
                     } else {
-                        "New reminders start with a ${defaultFollowUpMinutes}m follow-up that re-alerts if not marked done. Existing reminders are unchanged."
+                        stringResource(R.string.set_followup_on_desc, defaultFollowUpMinutes)
                     },
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -578,23 +645,58 @@ fun SettingsScreen(
                         viewModel.setDefaultFollowUpMinutes(minutes)
                         Toast.makeText(
                             context,
-                            if (minutes == 0) "Default follow-up off" else "Default follow-up: ${minutes}m",
+                            if (minutes == 0) context.getString(R.string.set_toast_followup_off) else context.getString(R.string.set_toast_followup, minutes),
                             Toast.LENGTH_SHORT
                         ).show()
                     },
                     modifier = Modifier.padding(top = 4.dp)
                 )
 
+                // How many times a follow-up check repeats before it stops on its own.
+                val followUpMaxRepeats by viewModel.followUpMaxRepeats.collectAsState()
+                Text(
+                    text = stringResource(R.string.set_followup_repeat),
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(top = 12.dp)
+                )
+                Text(
+                    text = stringResource(R.string.set_followup_repeat_desc),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Row(
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    listOf(1, 3, 5, 10).forEach { count ->
+                        SnoozeOptionChip(
+                            text = "$count×",
+                            isSelected = followUpMaxRepeats == count,
+                            onClick = {
+                                viewModel.setFollowUpMaxRepeats(count)
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.set_toast_followup_repeat, count),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+
                 Divider(modifier = Modifier.padding(vertical = 12.dp))
 
                 // Quiet Time (moved from Timing)
                 SwitchRow(
-                    text = "Quiet hours",
-                    description = if (quietTimeEnabled) "${formatTime(startHour, startMinute)} - ${formatTime(endHour, endMinute)}" else "Silence reminders during set hours",
+                    text = stringResource(R.string.set_quiet),
+                    description = if (quietTimeEnabled) "${formatTime(startHour, startMinute)} - ${formatTime(endHour, endMinute)}" else stringResource(R.string.set_quiet_desc),
                     checked = quietTimeEnabled,
-                    onCheckedChange = { 
+                    onCheckedChange = {
                         viewModel.setQuietTimeEnabled(it)
-                        Toast.makeText(context, if (it) "Quiet hours on" else "Quiet hours off", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, if (it) context.getString(R.string.set_toast_quiet_on) else context.getString(R.string.set_toast_quiet_off), Toast.LENGTH_SHORT).show()
                     }
                 )
                 
@@ -604,22 +706,22 @@ fun SettingsScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         TimePickerButton(
-                            label = "Start",
+                            label = stringResource(R.string.set_start),
                             hour = startHour,
                             minute = startMinute,
-                            onTimeSelected = { h, m -> 
+                            onTimeSelected = { h, m ->
                                 viewModel.setQuietTimeStart(h, m)
-                                Toast.makeText(context, "Quiet starts at ${formatTime(h, m)}", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.set_toast_quiet_start, formatTime(h, m)), Toast.LENGTH_SHORT).show()
                             }
                         )
-                        
+
                         TimePickerButton(
-                            label = "End",
+                            label = stringResource(R.string.set_end),
                             hour = endHour,
                             minute = endMinute,
-                            onTimeSelected = { h, m -> 
+                            onTimeSelected = { h, m ->
                                 viewModel.setQuietTimeEnd(h, m)
-                                Toast.makeText(context, "Quiet ends at ${formatTime(h, m)}", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.set_toast_quiet_end, formatTime(h, m)), Toast.LENGTH_SHORT).show()
                             }
                         )
                     }
@@ -631,13 +733,13 @@ fun SettingsScreen(
                 OutlinedButton(
                     onClick = {
                         viewModel.scheduleTestReminder()
-                        Toast.makeText(context, "Test reminder in 10 seconds", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.set_toast_test), Toast.LENGTH_SHORT).show()
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Icon(Icons.Default.Notifications, contentDescription = null, modifier = Modifier.size(18.dp))
                     Spacer(Modifier.width(8.dp))
-                    Text("Test reminder")
+                    Text(stringResource(R.string.set_test_reminder))
                 }
             }
 
@@ -679,11 +781,11 @@ fun SettingsScreen(
                     ) {
                         Icon(
                             Icons.Filled.CheckCircle,
-                            contentDescription = "Permission granted",
+                            contentDescription = stringResource(R.string.set_cd_granted),
                             tint = MaterialTheme.colorScheme.primary
                         )
                         Spacer(modifier = Modifier.width(12.dp))
-                        Text("All permissions granted", style = MaterialTheme.typography.bodyMedium)
+                        Text(stringResource(R.string.set_all_granted), style = MaterialTheme.typography.bodyMedium)
                     }
                 } else {
                     // Expanded error state with fix buttons
@@ -691,18 +793,18 @@ fun SettingsScreen(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
                                 Icons.Filled.Warning,
-                                contentDescription = "Action required",
+                                contentDescription = stringResource(R.string.set_cd_action_required),
                                 tint = MaterialTheme.colorScheme.error
                             )
                             Spacer(modifier = Modifier.width(12.dp))
-                            Text("Some permissions needed", style = MaterialTheme.typography.titleSmall)
+                            Text(stringResource(R.string.set_some_needed), style = MaterialTheme.typography.titleSmall)
                         }
                         
                         Spacer(modifier = Modifier.height(12.dp))
                         
                         if (!hasNotifPerm && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                             PermissionRow(
-                                name = "Notifications",
+                                name = stringResource(R.string.set_notifications),
                                 granted = false,
                                 onFix = {
                                     val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
@@ -715,7 +817,7 @@ fun SettingsScreen(
                         
                         if (!canScheduleAlarms && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                             PermissionRow(
-                                name = "Exact Alarms",
+                                name = stringResource(R.string.set_exact_alarms),
                                 granted = false,
                                 onFix = {
                                     val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
@@ -726,7 +828,7 @@ fun SettingsScreen(
                         
                         if (!hasMicPerm) {
                             PermissionRow(
-                                name = "Microphone",
+                                name = stringResource(R.string.set_microphone),
                                 granted = false,
                                 onFix = {
                                     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
@@ -744,16 +846,31 @@ fun SettingsScreen(
             // SECTION 4: RELIABILITY
             // ============================================================
             CollapsibleSettingsSection(
-                title = "Reliability",
+                title = stringResource(R.string.set_reliability),
                 icon = "Safe",
                 initiallyExpanded = true
             ) {
+                val persistUntilDone by viewModel.persistUntilDone.collectAsState()
                 SwitchRow(
-                    text = "Alert even during DND",
+                    text = stringResource(R.string.set_persist),
+                    description = stringResource(R.string.set_persist_desc),
+                    checked = persistUntilDone,
+                    onCheckedChange = {
+                        viewModel.setPersistUntilDone(it)
+                        Toast.makeText(
+                            context,
+                            if (it) context.getString(R.string.set_toast_persist_on) else context.getString(R.string.set_toast_persist_off),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                )
+
+                SwitchRow(
+                    text = stringResource(R.string.set_dnd),
                     description = when {
-                        !dndBypassEnabled -> "Follows your phone's sound mode. DND or routines may silence reminders."
-                        dndPolicyAccessGranted -> "Active: reminders use alarm-priority sound and DND bypass."
-                        else -> "On, but Android DND access is needed before bypass works."
+                        !dndBypassEnabled -> stringResource(R.string.set_dnd_desc_off)
+                        dndPolicyAccessGranted -> stringResource(R.string.set_dnd_desc_active)
+                        else -> stringResource(R.string.set_dnd_desc_needed)
                     },
                     checked = dndBypassEnabled,
                     onCheckedChange = {
@@ -761,7 +878,7 @@ fun SettingsScreen(
                         NotificationHelper(context).refreshChannels(dndBypassEnabled = it)
                         Toast.makeText(
                             context,
-                            if (it) "DND alert bypass on" else "DND alert bypass off",
+                            if (it) context.getString(R.string.set_toast_dnd_on) else context.getString(R.string.set_toast_dnd_off),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -775,7 +892,7 @@ fun SettingsScreen(
                             }.onFailure {
                                 Toast.makeText(
                                     context,
-                                    "Android DND access settings are not available on this device.",
+                                    context.getString(R.string.set_dnd_unavailable),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -789,10 +906,10 @@ fun SettingsScreen(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Grant Android DND access")
+                        Text(stringResource(R.string.set_grant_dnd))
                     }
                     Text(
-                        "This does not control your phone's DND mode. It only lets $APP_DISPLAY_NAME request permission to play important reminders through it.",
+                        stringResource(R.string.set_dnd_note, APP_DISPLAY_NAME),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(top = 8.dp)
@@ -824,15 +941,15 @@ fun SettingsScreen(
                         Spacer(Modifier.width(16.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "Battery Optimization Guide",
+                                text = stringResource(R.string.set_battery_guide),
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Medium
                             )
                             Text(
                                 text = if (batteryOptimizationEnabled) {
-                                    "Battery optimization can delay or stop reminders on some phones."
+                                    stringResource(R.string.set_battery_desc)
                                 } else {
-                                    "$APP_DISPLAY_NAME is already allowed to run in the background."
+                                    stringResource(R.string.set_battery_desc_ok, APP_DISPLAY_NAME)
                                 },
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -847,19 +964,19 @@ fun SettingsScreen(
             // SECTION 5: WEAR OS
             // ============================================================
             CollapsibleSettingsSection(
-                title = "Wear OS",
+                title = stringResource(R.string.set_wear),
                 icon = "Wear",
                 initiallyExpanded = false
             ) {
                 val notificationsReady =
                     appNotificationStatus.appNotificationsEnabled && appNotificationStatus.reminderChannelEnabled
                 val statusText = when {
-                    isCheckingWearStatus -> "Checking Wear OS connection..."
+                    isCheckingWearStatus -> stringResource(R.string.set_wear_checking)
                     wearConnectionInfo.isConnected && wearConnectionInfo.connectedNodeCount > 1 -> {
-                        "${wearConnectionInfo.connectedNodeCount} Wear OS watches connected"
+                        stringResource(R.string.set_wear_watches, wearConnectionInfo.connectedNodeCount)
                     }
-                    wearConnectionInfo.isConnected -> "Wear OS watch connected"
-                    else -> "No Wear OS watch connected"
+                    wearConnectionInfo.isConnected -> stringResource(R.string.set_wear_connected)
+                    else -> stringResource(R.string.set_wear_none)
                 }
 
                 val statusColor = if (wearConnectionInfo.isConnected) {
@@ -902,7 +1019,7 @@ fun SettingsScreen(
                         }
 
                         Text(
-                            text = "$APP_DISPLAY_NAME watch reminders are supported on Wear OS watches only.",
+                            text = stringResource(R.string.set_wear_supported, APP_DISPLAY_NAME),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -910,9 +1027,9 @@ fun SettingsScreen(
                         if (wearConnectionInfo.isConnected && !notificationsReady) {
                             Text(
                                 text = if (!appNotificationStatus.appNotificationsEnabled) {
-                                    "Phone app notifications are off. Turn them on so reminders can sync to watch."
+                                    stringResource(R.string.set_wear_notif_off)
                                 } else {
-                                    "$APP_DISPLAY_NAME reminder channel is muted. Enable it to send reminders to watch."
+                                    stringResource(R.string.set_wear_channel_muted, APP_DISPLAY_NAME)
                                 },
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.error
@@ -933,7 +1050,7 @@ fun SettingsScreen(
                                     modifier = Modifier.size(18.dp)
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
-                                Text("Open notification settings")
+                                Text(stringResource(R.string.set_open_notif))
                             }
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -953,12 +1070,12 @@ fun SettingsScreen(
                                         modifier = Modifier.size(18.dp)
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
-                                    Text("Open reminder channel")
+                                    Text(stringResource(R.string.set_open_channel))
                                 }
                             }
                         } else if (wearConnectionInfo.isConnected) {
                             Text(
-                                text = "Phone notifications are enabled. If reminders are still missing on watch, enable notification sync in your Wear OS companion app.",
+                                text = stringResource(R.string.set_wear_enabled),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -974,7 +1091,7 @@ fun SettingsScreen(
                                 modifier = Modifier.size(18.dp)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("Refresh status")
+                            Text(stringResource(R.string.set_refresh))
                         }
                     }
                 }
@@ -983,7 +1100,7 @@ fun SettingsScreen(
             // SECTION 6: HELP & GUIDE
             // ============================================================
             CollapsibleSettingsSection(
-                title = "App guide",
+                title = stringResource(R.string.set_app_guide),
                 icon = "Help",
                 initiallyExpanded = true
             ) {
@@ -1009,7 +1126,7 @@ fun SettingsScreen(
                         Spacer(Modifier.width(16.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                "App guide",
+                                stringResource(R.string.set_app_guide),
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Medium
                             )
@@ -1038,7 +1155,7 @@ fun SettingsScreen(
                             if (!openSupportEmail(context)) {
                                 Toast.makeText(
                                     context,
-                                    "Unable to open email on this device.",
+                                    context.getString(R.string.set_toast_no_email),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -1055,12 +1172,12 @@ fun SettingsScreen(
                     Spacer(Modifier.width(16.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            "Contact support",
+                            stringResource(R.string.set_contact_support),
                             style = MaterialTheme.typography.bodyLarge,
                             fontWeight = FontWeight.Medium
                         )
                         Text(
-                            "Email feedback, questions, or playback issues",
+                            stringResource(R.string.set_contact_support_desc),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -1087,7 +1204,7 @@ fun SettingsScreen(
                             if (!openAppRating(context)) {
                                 Toast.makeText(
                                     context,
-                                    "Unable to open the rating page on this device.",
+                                    context.getString(R.string.set_toast_no_rating),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -1104,12 +1221,12 @@ fun SettingsScreen(
                     Spacer(Modifier.width(16.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            "Rate $APP_DISPLAY_NAME",
+                            stringResource(R.string.set_rate, APP_DISPLAY_NAME),
                             style = MaterialTheme.typography.bodyLarge,
                             fontWeight = FontWeight.Medium
                         )
                         Text(
-                            "If you enjoy the app, please leave a review!",
+                            stringResource(R.string.set_rate_desc),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -1118,20 +1235,69 @@ fun SettingsScreen(
                 }
             }
 
+            // ============================================================
+            // SECTION 6: MORE APPS FROM THE DEVELOPER
+            // ============================================================
+            Card(
+                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                ),
+                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+            ) {
+                Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Default.Apps,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Spacer(Modifier.width(16.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                stringResource(R.string.set_more_apps_title),
+                                style = MaterialTheme.typography.bodyLarge,
+                                fontWeight = FontWeight.Medium
+                            )
+                            Text(
+                                stringResource(R.string.set_more_apps_desc, APP_DISPLAY_NAME),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                    Spacer(Modifier.height(8.dp))
+                    MoreAppRow(
+                        name = stringResource(R.string.app_pettibox_name),
+                        description = stringResource(R.string.app_pettibox_desc),
+                        packageName = "com.ghostgramlabs.pettibox",
+                        context = context
+                    )
+                    MoreAppRow(
+                        name = stringResource(R.string.app_directserve_name),
+                        description = stringResource(R.string.app_directserve_desc),
+                        packageName = "com.ghostgramlabs.directserve",
+                        context = context
+                    )
+                }
+            }
+
             // Debug Section - ONLY for Debug builds (hidden from most users)
             if (com.ghostgramlabs.speakalert.BuildConfig.DEBUG) {
                 CollapsibleSettingsSection(
-                    title = "Developer",
+                    title = stringResource(R.string.set_developer),
                     icon = "Dev",
                     initiallyExpanded = false
                 ) {
                     SwitchRow(
-                        text = "Debug Logging",
-                        description = "Record detailed logs",
+                        text = stringResource(R.string.set_debug_logging),
+                        description = stringResource(R.string.set_debug_desc),
                         checked = debugLoggingEnabled,
                         onCheckedChange = { viewModel.setDebugLoggingEnabled(it) }
                     )
-                    
+
                     if (debugLoggingEnabled) {
                         OutlinedButton(
                             onClick = { viewModel.sendLogs(context) },
@@ -1139,7 +1305,7 @@ fun SettingsScreen(
                         ) {
                             Icon(Icons.Default.Send, contentDescription = null, modifier = Modifier.size(18.dp))
                             Spacer(Modifier.width(8.dp))
-                            Text("Send Logs")
+                            Text(stringResource(R.string.set_send_logs))
                         }
                     }
                 }
@@ -1206,7 +1372,7 @@ private fun PermissionRow(
                 Icon(Icons.Filled.Check, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
             } else {
                 TextButton(onClick = onFix) {
-                    Text("Fix")
+                    Text(stringResource(R.string.set_fix))
                 }
             }
         }
@@ -1272,7 +1438,7 @@ private fun CollapsibleSettingsSection(
                 
                 Icon(
                     imageVector = Icons.Default.ExpandMore,
-                    contentDescription = if (isExpanded) "Collapse" else "Expand",
+                    contentDescription = if (isExpanded) stringResource(R.string.set_cd_collapse) else stringResource(R.string.set_cd_expand),
                     modifier = Modifier.rotate(rotationAngle),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -1304,6 +1470,44 @@ private fun settingsSectionIcon(icon: String): ImageVector {
         "Help" -> Icons.Default.Help
         "Dev" -> Icons.Default.Build
         else -> Icons.Default.Settings
+    }
+}
+
+@Composable
+private fun MoreAppRow(
+    name: String,
+    description: String,
+    packageName: String,
+    context: android.content.Context
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                if (!openPlayStoreListing(context, packageName)) {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.set_toast_no_store),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            .padding(vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                name,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Medium
+            )
+            Text(
+                description,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        Icon(Icons.Default.ChevronRight, contentDescription = null)
     }
 }
 
@@ -1372,6 +1576,8 @@ private fun SwitchRow(
         ),
         modifier = Modifier.fillMaxWidth()
     ) {
+        val onLabel = stringResource(R.string.state_on)
+        val offLabel = stringResource(R.string.state_off)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -1384,7 +1590,7 @@ private fun SwitchRow(
                 )
                 .padding(horizontal = 14.dp, vertical = 12.dp)
                 .semantics(mergeDescendants = true) {
-                    stateDescription = if (checked) "On" else "Off"
+                    stateDescription = if (checked) onLabel else offLabel
                 },
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -1439,7 +1645,7 @@ private fun ToneSelectionRow(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Text(
-                text = "Tone-only alert sound",
+                text = stringResource(R.string.set_tone_sound),
                 style = MaterialTheme.typography.bodyLarge,
                 color = if (enabled) {
                     MaterialTheme.colorScheme.onSurface
@@ -1449,9 +1655,9 @@ private fun ToneSelectionRow(
             )
             Text(
                 text = if (enabled) {
-                    "$currentToneLabel. If it becomes unavailable, SpeakAlert falls back to the default alarm tone."
+                    stringResource(R.string.set_tone_sound_active, currentToneLabel)
                 } else {
-                    "Enable Tone-only mode to choose a sound. SpeakAlert will use the default alarm tone until then."
+                    stringResource(R.string.set_tone_sound_hint)
                 },
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -1466,7 +1672,7 @@ private fun ToneSelectionRow(
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(12.dp)
                 ) {
-                    Text("Choose tone")
+                    Text(stringResource(R.string.set_choose_tone))
                 }
                 if (hasCustomTone) {
                     OutlinedButton(
@@ -1475,7 +1681,7 @@ private fun ToneSelectionRow(
                         modifier = Modifier.weight(1f),
                         shape = RoundedCornerShape(12.dp)
                     ) {
-                        Text("Use default")
+                        Text(stringResource(R.string.set_use_default))
                     }
                 }
             }
@@ -1487,10 +1693,10 @@ private fun resolveToneOnlyToneLabel(
     context: android.content.Context,
     uriString: String?
 ): String {
-    if (uriString.isNullOrBlank()) return "Default alarm tone"
-    val uri = runCatching { Uri.parse(uriString) }.getOrNull() ?: return "Default alarm tone"
+    if (uriString.isNullOrBlank()) return context.getString(R.string.set_default_alarm_tone)
+    val uri = runCatching { Uri.parse(uriString) }.getOrNull() ?: return context.getString(R.string.set_default_alarm_tone)
     val ringtone = runCatching { RingtoneManager.getRingtone(context, uri) }.getOrNull()
-    return ringtone?.getTitle(context) ?: "Selected tone unavailable, using default alarm tone"
+    return ringtone?.getTitle(context) ?: context.getString(R.string.set_tone_unavailable)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -1507,7 +1713,7 @@ private fun TimePickerButton(
     OutlinedButton(
         onClick = { showPicker = true }
     ) {
-        Text("$label: ${formatTime(hour, minute)}")
+        Text(stringResource(R.string.set_label_time, label, formatTime(hour, minute)))
     }
 
     if (showPicker) {
@@ -1530,7 +1736,7 @@ private fun TimePickerButton(
             )
             AlertDialog(
                 onDismissRequest = { showPicker = false },
-                title = { Text("Select $label time") },
+                title = { Text(stringResource(R.string.set_select_label_time, label)) },
                 text = { TimePicker(state = timeState) },
                 confirmButton = {
                     Button(
@@ -1539,12 +1745,12 @@ private fun TimePickerButton(
                             showPicker = false
                         }
                     ) {
-                        Text("Apply")
+                        Text(stringResource(R.string.action_apply))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { showPicker = false }) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.action_cancel))
                     }
                 }
             )
@@ -1587,7 +1793,7 @@ private fun CustomDurationDialog(
                 fontWeight = FontWeight.SemiBold
             )
             Text(
-                text = "$description (Max ${maxMinutes}m)",
+                text = stringResource(R.string.set_desc_max, description, maxMinutes),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -1599,8 +1805,8 @@ private fun CustomDurationDialog(
                         value = normalized
                     }
                 },
-                label = { Text("Minutes") },
-                supportingText = { Text("Max allowed: $maxMinutes min") },
+                label = { Text(stringResource(R.string.set_minutes)) },
+                supportingText = { Text(stringResource(R.string.set_max_allowed, maxMinutes)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
@@ -1615,14 +1821,14 @@ private fun CustomDurationDialog(
             ) {
                 Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(Modifier.width(8.dp))
-                Text("Save")
+                Text(stringResource(R.string.action_save))
             }
             OutlinedButton(
                 onClick = onDismiss,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(18.dp)
             ) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         }
     }

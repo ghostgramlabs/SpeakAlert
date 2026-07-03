@@ -15,6 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
+import com.ghostgramlabs.speakalert.R
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.selected
@@ -72,34 +75,34 @@ fun RecurrenceSelectionSheet(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 SheetHeader(
-                    title = "Repeat",
-                    subtitle = "Choose how this reminder should repeat."
+                    title = stringResource(R.string.ae_repeat),
+                    subtitle = stringResource(R.string.rs_subtitle)
                 )
 
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    RecurrenceOptionItem("Does not repeat", selected = initialType == RecurrenceType.NONE) {
+                    RecurrenceOptionItem(stringResource(R.string.rs_none), selected = initialType == RecurrenceType.NONE) {
                         onRecurrenceSelected(null)
                         onDismiss()
                     }
-                    RecurrenceOptionItem("Daily", selected = initialType == RecurrenceType.DAILY) {
+                    RecurrenceOptionItem(stringResource(R.string.rec_daily), selected = initialType == RecurrenceType.DAILY) {
                         onRecurrenceSelected(RecurrenceModel.Daily())
                         onDismiss()
                     }
-                    RecurrenceOptionItem("Weekly", selected = initialType == RecurrenceType.WEEKLY, hasSubMenu = true) {
+                    RecurrenceOptionItem(stringResource(R.string.rec_weekly), selected = initialType == RecurrenceType.WEEKLY, hasSubMenu = true) {
                         showMonthlySheet = false
                         showCustomSheet = false
                         showWeeklySheet = true
                     }
-                    RecurrenceOptionItem("Monthly", selected = initialType == RecurrenceType.MONTHLY, hasSubMenu = true) {
+                    RecurrenceOptionItem(stringResource(R.string.rec_monthly), selected = initialType == RecurrenceType.MONTHLY, hasSubMenu = true) {
                         showWeeklySheet = false
                         showCustomSheet = false
                         showMonthlySheet = true
                     }
-                    RecurrenceOptionItem("Yearly", selected = initialType == RecurrenceType.YEARLY) {
+                    RecurrenceOptionItem(stringResource(R.string.rec_yearly), selected = initialType == RecurrenceType.YEARLY) {
                         onRecurrenceSelected(RecurrenceModel.Yearly())
                         onDismiss()
                     }
-                    RecurrenceOptionItem("Custom", selected = initialType == RecurrenceType.CUSTOM, hasSubMenu = true) {
+                    RecurrenceOptionItem(stringResource(R.string.rec_custom), selected = initialType == RecurrenceType.CUSTOM, hasSubMenu = true) {
                         showWeeklySheet = false
                         showMonthlySheet = false
                         showCustomSheet = true
@@ -266,12 +269,12 @@ fun MonthlyConfigSheet(
                     .padding(top = 16.dp)
             ) {
                 SheetHeader(
-                    title = "Monthly settings",
-                    subtitle = "Pick which days or end rule to use."
+                    title = stringResource(R.string.rs_monthly_settings),
+                    subtitle = stringResource(R.string.rs_monthly_subtitle)
                 )
                 Spacer(modifier = Modifier.height(24.dp))
-                
-                Text("Repeat on", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
+
+                Text(stringResource(R.string.rs_repeat_on), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
                 FlowRow(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -280,7 +283,7 @@ fun MonthlyConfigSheet(
                     FilterChip(
                         selected = variant == MonthlyVariant.DAY_OF_MONTH,
                         onClick = { variant = MonthlyVariant.DAY_OF_MONTH },
-                        label = { Text("Day(s) of Month") },
+                        label = { Text(stringResource(R.string.rs_days_of_month)) },
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
                             selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -289,7 +292,7 @@ fun MonthlyConfigSheet(
                     FilterChip(
                         selected = variant == MonthlyVariant.LAST_DAY,
                         onClick = { variant = MonthlyVariant.LAST_DAY },
-                        label = { Text("Last Day") },
+                        label = { Text(stringResource(R.string.rs_last_day)) },
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
                             selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -299,7 +302,7 @@ fun MonthlyConfigSheet(
                 
                 if (variant == MonthlyVariant.DAY_OF_MONTH) {
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text("Select days (tap to toggle)", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(R.string.rs_select_days_toggle), style = MaterialTheme.typography.labelMedium)
                     Spacer(modifier = Modifier.height(8.dp))
                     
                     // Day selector grid - 7 columns × 5 rows (1-31)
@@ -339,7 +342,7 @@ fun MonthlyConfigSheet(
                     
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        "Selected: ${selectedDays.sorted().joinToString(", ")}",
+                        stringResource(R.string.rs_selected, selectedDays.sorted().joinToString(", ")),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -368,7 +371,7 @@ fun MonthlyConfigSheet(
                     onClick = onCancel,
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(16.dp)
-                ) { Text("Back") }
+                ) { Text(stringResource(R.string.action_back)) }
                 Button(
                     onClick = {
                         val endRule = when(endRuleType) {
@@ -386,7 +389,7 @@ fun MonthlyConfigSheet(
                     modifier = Modifier.weight(1f),
                     enabled = variant == MonthlyVariant.LAST_DAY || selectedDays.isNotEmpty(),
                     shape = RoundedCornerShape(16.dp)
-                ) { Text("Save") }
+                ) { Text(stringResource(R.string.action_save)) }
             }
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -407,13 +410,13 @@ fun WeeklyConfigSheet(
         }
     }}
     val weekdays = listOf(
-        1 to "Mon",
-        2 to "Tue",
-        3 to "Wed",
-        4 to "Thu",
-        5 to "Fri",
-        6 to "Sat",
-        7 to "Sun"
+        1 to stringResource(R.string.day_mon),
+        2 to stringResource(R.string.day_tue),
+        3 to stringResource(R.string.day_wed),
+        4 to stringResource(R.string.day_thu),
+        5 to stringResource(R.string.day_fri),
+        6 to stringResource(R.string.day_sat),
+        7 to stringResource(R.string.day_sun)
     )
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val maxSheetHeight = LocalConfiguration.current.screenHeightDp.dp * 0.92f
@@ -460,12 +463,12 @@ fun WeeklyConfigSheet(
                     .padding(top = 16.dp)
             ) {
                 SheetHeader(
-                    title = "Weekly settings",
-                    subtitle = "Choose the weekdays to repeat on."
+                    title = stringResource(R.string.rs_weekly_settings),
+                    subtitle = stringResource(R.string.rs_weekly_subtitle)
                 )
                 Spacer(modifier = Modifier.height(24.dp))
-                
-                Text("Select Days", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
+
+                Text(stringResource(R.string.rs_select_days), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
                 Spacer(modifier = Modifier.height(16.dp))
                 
                 FlowRow(
@@ -510,7 +513,7 @@ fun WeeklyConfigSheet(
                     onClick = onCancel,
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(16.dp)
-                ) { Text("Back") }
+                ) { Text(stringResource(R.string.action_back)) }
                 Button(
                     onClick = {
                         val endRule = when (endRuleType) {
@@ -523,7 +526,7 @@ fun WeeklyConfigSheet(
                     modifier = Modifier.weight(1f),
                     enabled = days.isNotEmpty(),
                     shape = RoundedCornerShape(16.dp)
-                ) { Text("Save") }
+                ) { Text(stringResource(R.string.action_save)) }
             }
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -590,13 +593,13 @@ fun CustomConfigSheet(
                     .padding(top = 16.dp)
             ) {
                 SheetHeader(
-                    title = "Custom interval",
-                    subtitle = "Set the gap between reminder repeats."
+                    title = stringResource(R.string.rs_custom_interval),
+                    subtitle = stringResource(R.string.rs_custom_subtitle)
                 )
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Text(
-                    "Repeat every",
+                    stringResource(R.string.rs_repeat_every),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -618,7 +621,7 @@ fun CustomConfigSheet(
                         modifier = Modifier.weight(0.75f),
                         singleLine = true,
                         isError = intervalText.isNotEmpty() && !isValid,
-                        label = { Text("Number") },
+                        label = { Text(stringResource(R.string.rs_number)) },
                         placeholder = { Text("1") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         shape = RoundedCornerShape(12.dp)
@@ -629,7 +632,7 @@ fun CustomConfigSheet(
                             value = unitLabel(unit, intervalValue.takeIf { it > 0 } ?: 2),
                             onValueChange = {},
                             readOnly = true,
-                            label = { Text("Unit") },
+                            label = { Text(stringResource(R.string.rs_unit)) },
                             trailingIcon = {
                                 Icon(
                                     imageVector = Icons.Filled.ChevronRight,
@@ -662,7 +665,7 @@ fun CustomConfigSheet(
 
                 if (isValid) {
                     Text(
-                        text = "Repeats every $intervalValue ${unitLabel(unit, intervalValue).lowercase()}.",
+                        text = stringResource(R.string.rs_repeats_every, intervalValue, unitLabel(unit, intervalValue).lowercase()),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(top = 6.dp)
@@ -671,7 +674,7 @@ fun CustomConfigSheet(
                 
                 if (!isValid && intervalText.isNotEmpty()) {
                     Text(
-                        "Interval must be at least 1",
+                        stringResource(R.string.rs_interval_min),
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.bodySmall,
                         modifier = Modifier.padding(top = 4.dp)
@@ -701,7 +704,7 @@ fun CustomConfigSheet(
                     onClick = onCancel,
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(16.dp)
-                ) { Text("Back") }
+                ) { Text(stringResource(R.string.action_back)) }
                 Button(
                     onClick = {
                         val endRule = when (endRuleType) {
@@ -714,21 +717,22 @@ fun CustomConfigSheet(
                     modifier = Modifier.weight(1f),
                     enabled = isValid,
                     shape = RoundedCornerShape(16.dp)
-                ) { Text("Save") }
+                ) { Text(stringResource(R.string.action_save)) }
             }
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
 
+@Composable
 private fun unitLabel(unit: TimeUnit, count: Int): String {
     return when (unit) {
-        TimeUnit.MINUTES -> if (count == 1) "Minute" else "Minutes"
-        TimeUnit.HOURS -> if (count == 1) "Hour" else "Hours"
-        TimeUnit.DAYS -> if (count == 1) "Day" else "Days"
-        TimeUnit.WEEKS -> if (count == 1) "Week" else "Weeks"
-        TimeUnit.MONTHS -> if (count == 1) "Month" else "Months"
-        TimeUnit.YEARS -> if (count == 1) "Year" else "Years"
+        TimeUnit.MINUTES -> pluralStringResource(R.plurals.unit_minutes, count)
+        TimeUnit.HOURS -> pluralStringResource(R.plurals.unit_hours, count)
+        TimeUnit.DAYS -> pluralStringResource(R.plurals.unit_days, count)
+        TimeUnit.WEEKS -> pluralStringResource(R.plurals.unit_weeks, count)
+        TimeUnit.MONTHS -> pluralStringResource(R.plurals.unit_months, count)
+        TimeUnit.YEARS -> pluralStringResource(R.plurals.unit_years, count)
     }
 }
 
@@ -763,7 +767,7 @@ private fun EndRuleControls(
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(
-            "Ends",
+            stringResource(R.string.rs_ends),
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.primary
         )
@@ -775,7 +779,7 @@ private fun EndRuleControls(
             FilterChip(
                 selected = endRuleType == "NEVER",
                 onClick = { onTypeChange("NEVER") },
-                label = { Text("Forever") },
+                label = { Text(stringResource(R.string.rs_forever)) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
                     selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -789,7 +793,7 @@ private fun EndRuleControls(
                     }
                     onTypeChange("DATE")
                 },
-                label = { Text("Until date/time") },
+                label = { Text(stringResource(R.string.rs_until_date)) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
                     selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -798,7 +802,7 @@ private fun EndRuleControls(
             FilterChip(
                 selected = endRuleType == "COUNT",
                 onClick = { onTypeChange("COUNT") },
-                label = { Text("After count") },
+                label = { Text(stringResource(R.string.rs_after_count)) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
                     selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -810,12 +814,12 @@ private fun EndRuleControls(
             "DATE" -> {
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     Text(
-                        "Ends by ${dateTimeFormatter.format(java.util.Date(clampedEndDate))}",
+                        stringResource(R.string.det_ends_by, dateTimeFormatter.format(java.util.Date(clampedEndDate))),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
-                        "Must be on or after ${dateTimeFormatter.format(java.util.Date(minEndDateTimeMillis))}",
+                        stringResource(R.string.rs_must_be_after, dateTimeFormatter.format(java.util.Date(minEndDateTimeMillis))),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -830,7 +834,7 @@ private fun EndRuleControls(
                             contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
                         ) {
                             Text(
-                                "Date: ${dateFormatter.format(java.util.Date(clampedEndDate))}",
+                                stringResource(R.string.rs_date_label, dateFormatter.format(java.util.Date(clampedEndDate))),
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
                             )
@@ -842,7 +846,7 @@ private fun EndRuleControls(
                             contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
                         ) {
                             Text(
-                                "Time: ${timeFormatter.format(java.util.Date(clampedEndDate))}",
+                                stringResource(R.string.rs_time_label, timeFormatter.format(java.util.Date(clampedEndDate))),
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
                             )
@@ -876,8 +880,8 @@ private fun EndRuleControls(
                                 ?.let { onOccurrencesChange(it) }
                         }
                     },
-                    label = { Text("Number of occurrences") },
-                    supportingText = { Text("Allowed: 1-999") },
+                    label = { Text(stringResource(R.string.rs_num_occurrences)) },
+                    supportingText = { Text(stringResource(R.string.rs_allowed_range)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
                     isError = fieldValue.text.isNotEmpty() && !isValid,
@@ -897,7 +901,7 @@ private fun EndRuleControls(
             if (candidate < minEndDateTimeMillis) {
                 android.widget.Toast.makeText(
                     context,
-                    "End time cannot be before the reminder time",
+                    context.getString(R.string.rs_end_before_error),
                     android.widget.Toast.LENGTH_SHORT
                 ).show()
             }
@@ -924,10 +928,10 @@ private fun EndRuleControls(
                             }
                         },
                         enabled = dateState.selectedDateMillis != null
-                    ) { Text("Apply") }
+                    ) { Text(stringResource(R.string.action_apply)) }
                 },
                 dismissButton = {
-                    TextButton(onClick = { showDatePicker = false }) { Text("Cancel") }
+                    TextButton(onClick = { showDatePicker = false }) { Text(stringResource(R.string.action_cancel)) }
                 }
             ) {
                 DatePicker(state = dateState)
@@ -946,7 +950,7 @@ private fun EndRuleControls(
             if (candidate < minEndDateTimeMillis) {
                 android.widget.Toast.makeText(
                     context,
-                    "End time cannot be before the reminder time",
+                    context.getString(R.string.rs_end_before_error),
                     android.widget.Toast.LENGTH_SHORT
                 ).show()
             }
@@ -967,17 +971,17 @@ private fun EndRuleControls(
             )
             AlertDialog(
                 onDismissRequest = { showTimePicker = false },
-                title = { Text("Select end time") },
+                title = { Text(stringResource(R.string.rs_select_end_time)) },
                 text = { TimePicker(state = timeState) },
                 confirmButton = {
                     TextButton(
                         onClick = {
                             applyPickedTime(timeState.hour, timeState.minute)
                         }
-                    ) { Text("Apply") }
+                    ) { Text(stringResource(R.string.action_apply)) }
                 },
                 dismissButton = {
-                    TextButton(onClick = { showTimePicker = false }) { Text("Cancel") }
+                    TextButton(onClick = { showTimePicker = false }) { Text(stringResource(R.string.action_cancel)) }
                 }
             )
         }

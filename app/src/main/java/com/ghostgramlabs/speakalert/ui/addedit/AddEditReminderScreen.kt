@@ -45,8 +45,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ghostgramlabs.speakalert.R
 import com.ghostgramlabs.speakalert.ui.AppViewModelProvider
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import com.ghostgramlabs.speakalert.ui.components.PremiumHeaderCard
@@ -100,7 +103,7 @@ fun AddEditReminderScreen(
     LaunchedEffect(uiState.saveCompleted) {
         if (uiState.saveCompleted) {
             showSaveSuccess = true
-            android.widget.Toast.makeText(context, "Reminder saved!", android.widget.Toast.LENGTH_SHORT).show()
+            android.widget.Toast.makeText(context, context.getString(R.string.ae_saved), android.widget.Toast.LENGTH_SHORT).show()
             // Short delay for animation before navigating
             kotlinx.coroutines.delay(800L)
             navigateBack()
@@ -109,7 +112,7 @@ fun AddEditReminderScreen(
 
     LaunchedEffect(uiState.showPastTimeError) {
         if (uiState.showPastTimeError) {
-             android.widget.Toast.makeText(context, "Cannot set reminders for the past", android.widget.Toast.LENGTH_SHORT).show()
+             android.widget.Toast.makeText(context, context.getString(R.string.ae_cannot_past), android.widget.Toast.LENGTH_SHORT).show()
         }
     }
     
@@ -140,8 +143,8 @@ fun AddEditReminderScreen(
     if (showUnsavedDialog) {
         AlertDialog(
             onDismissRequest = { showUnsavedDialog = false },
-            title = { Text("Save reminder?") },
-            text = { Text("You have unsaved reminder changes.") },
+            title = { Text(stringResource(R.string.ae_unsaved_title)) },
+            text = { Text(stringResource(R.string.ae_unsaved_msg)) },
             confirmButton = {
                 Button(
                     onClick = {
@@ -150,13 +153,13 @@ fun AddEditReminderScreen(
                     },
                     enabled = !uiState.isSaving
                 ) {
-                    Text("Save")
+                    Text(stringResource(R.string.action_save))
                 }
             },
             dismissButton = {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     TextButton(onClick = { showUnsavedDialog = false }) {
-                        Text("Keep editing")
+                        Text(stringResource(R.string.ae_keep_editing))
                     }
                     TextButton(
                         onClick = {
@@ -165,7 +168,7 @@ fun AddEditReminderScreen(
                             onNavigateUp()
                         }
                     ) {
-                        Text("Discard")
+                        Text(stringResource(R.string.action_discard))
                     }
                 }
             }
@@ -178,13 +181,13 @@ fun AddEditReminderScreen(
             TopAppBar(
                 title = { 
                     Text(
-                        if (uiState.initialReminderId != -1L) "Edit Reminder" else "New Reminder",
+                        if (uiState.initialReminderId != -1L) stringResource(R.string.ae_title_edit) else stringResource(R.string.ae_title_new),
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
                     ) 
                 },
                 navigationIcon = {
                     IconButton(onClick = requestExit) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Filled.ArrowBack, contentDescription = stringResource(R.string.action_back))
                     }
                 },
                 actions = {
@@ -204,7 +207,7 @@ fun AddEditReminderScreen(
                                 modifier = Modifier.size(18.dp)
                             )
                             Spacer(modifier = Modifier.width(4.dp))
-                            Text("Save")
+                            Text(stringResource(R.string.action_save))
                         }
                     }
                 },
@@ -230,13 +233,17 @@ fun AddEditReminderScreen(
             ) {
                 Spacer(modifier = Modifier.height(8.dp))
                 PremiumHeaderCard(
-                    title = if (uiState.initialReminderId != -1L) "Edit reminder" else "Create reminder",
-                    subtitle = "${dateFormatter.format(java.util.Date(uiState.triggerTime))} at ${timeFormatter.format(java.util.Date(uiState.triggerTime))}"
+                    title = if (uiState.initialReminderId != -1L) stringResource(R.string.ae_header_edit) else stringResource(R.string.ae_header_create),
+                    subtitle = stringResource(
+                        R.string.ae_datetime_at,
+                        dateFormatter.format(java.util.Date(uiState.triggerTime)),
+                        timeFormatter.format(java.util.Date(uiState.triggerTime))
+                    )
                 )
 
-            SectionCard(title = "Reminder content") {
+            SectionCard(title = stringResource(R.string.ae_section_content)) {
                 Text(
-                    text = "Record a voice note, add an audio file, or type a reminder message.",
+                    text = stringResource(R.string.ae_content_desc),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -265,7 +272,7 @@ fun AddEditReminderScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "Or choose an audio file",
+                        text = stringResource(R.string.ae_or_choose_audio),
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -286,8 +293,11 @@ fun AddEditReminderScreen(
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             if (uiState.isCustomAudioFile && !uiState.recordedAudioPath.isNullOrBlank()) {
+                                val previewStopCd = stringResource(R.string.ae_cd_stop_preview)
+                                val previewPlayCd = stringResource(R.string.ae_cd_play_preview)
+                                val previewProgressCd = stringResource(R.string.ae_cd_audio_progress)
                                 Text(
-                                    text = uiState.customAudioFileName ?: "Selected audio file",
+                                    text = uiState.customAudioFileName ?: stringResource(R.string.ae_selected_audio),
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.primary
                                 )
@@ -306,7 +316,7 @@ fun AddEditReminderScreen(
                                                 shape = CircleShape
                                             )
                                             .semantics {
-                                                contentDescription = if (uiState.isPlaying) "Stop audio preview" else "Play audio preview"
+                                                contentDescription = if (uiState.isPlaying) previewStopCd else previewPlayCd
                                             }
                                     ) {
                                         Icon(
@@ -323,7 +333,7 @@ fun AddEditReminderScreen(
                                             .weight(1f)
                                             .padding(start = 8.dp)
                                             .semantics {
-                                                contentDescription = "Audio preview progress"
+                                                contentDescription = previewProgressCd
                                                 stateDescription = "${(uiState.playbackProgress.sanitizeUnitFloat() * 100).toInt()} percent"
                                             }
                                     )
@@ -336,7 +346,7 @@ fun AddEditReminderScreen(
                                     ) {
                                         Icon(Icons.Filled.Delete, contentDescription = null)
                                         Spacer(modifier = Modifier.width(6.dp))
-                                        Text("Remove")
+                                        Text(stringResource(R.string.action_remove))
                                     }
                                     TextButton(
                                         onClick = {
@@ -355,7 +365,7 @@ fun AddEditReminderScreen(
                                         },
                                         enabled = !uiState.isRecording
                                     ) {
-                                        Text("Change")
+                                        Text(stringResource(R.string.action_change))
                                     }
                                 }
                             } else {
@@ -378,7 +388,7 @@ fun AddEditReminderScreen(
                                 ) {
                                     Icon(Icons.Filled.FolderOpen, contentDescription = null)
                                     Spacer(modifier = Modifier.width(8.dp))
-                                    Text("Choose Audio File")
+                                    Text(stringResource(R.string.ae_choose_audio_file))
                                 }
                             }
                         }
@@ -386,7 +396,7 @@ fun AddEditReminderScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "Or type a reminder message",
+                        text = stringResource(R.string.ae_or_type),
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -396,8 +406,8 @@ fun AddEditReminderScreen(
                     OutlinedTextField(
                         value = uiState.reminderText,
                         onValueChange = { if (it.length <= 1000) viewModel.updateReminderText(it) },
-                        label = { Text("Reminder message") },
-                        placeholder = { Text("e.g., Take medicine after breakfast") },
+                        label = { Text(stringResource(R.string.ae_msg_label)) },
+                        placeholder = { Text(stringResource(R.string.ae_msg_placeholder)) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .heightIn(min = 120.dp, max = 200.dp),
@@ -408,12 +418,12 @@ fun AddEditReminderScreen(
                         supportingText = {
                             Column {
                                 Text(
-                                    text = "Shown in the app and notifications. Spoken only if no voice or audio is selected.",
+                                    text = stringResource(R.string.ae_msg_help),
                                     style = MaterialTheme.typography.bodySmall,
                                     modifier = Modifier.fillMaxWidth()
                                 )
                                 Text(
-                                    text = "${uiState.reminderText.length}/1000",
+                                    text = stringResource(R.string.ae_char_count, uiState.reminderText.length, 1000),
                                     style = MaterialTheme.typography.bodySmall,
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -430,16 +440,16 @@ fun AddEditReminderScreen(
                     
                     if (uiState.showError) {
                         Text(
-                            text = "Add a voice note, audio file, or reminder message.",
+                            text = stringResource(R.string.ae_need_content),
                             color = MaterialTheme.colorScheme.error,
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
             }
 
-            SectionCard(title = "Short label (optional)") {
+            SectionCard(title = stringResource(R.string.ae_section_label)) {
                 Text(
-                    text = "Optional short name to help you scan reminders faster.",
+                    text = stringResource(R.string.ae_label_desc),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -447,15 +457,15 @@ fun AddEditReminderScreen(
                     OutlinedTextField(
                         value = uiState.title,
                         onValueChange = { if (it.length <= 40) viewModel.updateTitle(it) },
-                        label = { Text("Short label (optional)") },
-                        placeholder = { Text("e.g., Morning medicine") },
-                        supportingText = { 
+                        label = { Text(stringResource(R.string.ae_section_label)) },
+                        placeholder = { Text(stringResource(R.string.ae_label_placeholder)) },
+                        supportingText = {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                Text("Shown as a short name in lists and details")
-                                Text("${uiState.title.length}/40")
+                                Text(stringResource(R.string.ae_label_hint))
+                                Text(stringResource(R.string.ae_char_count, uiState.title.length, 40))
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),
@@ -468,16 +478,24 @@ fun AddEditReminderScreen(
                     )
             }
 
-            SectionCard(title = "Schedule") {
+            SectionCard(title = stringResource(R.string.ae_section_schedule)) {
+                    val stateOn = stringResource(R.string.state_on)
+                    val stateOff = stringResource(R.string.state_off)
+                    val stateActiveLabel = stringResource(R.string.state_active)
+                    val neverLabel = stringResource(R.string.ae_repeat_never)
                     // UI-only enhancement: keep the same stored timestamp, but make selection clearer.
                     Text(
-                        text = "When should this reminder fire?",
+                        text = stringResource(R.string.ae_when_fire),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
-                        text = "${dateFormatter.format(java.util.Date(uiState.triggerTime))} at ${timeFormatter.format(java.util.Date(uiState.triggerTime))}",
+                        text = stringResource(
+                            R.string.ae_datetime_at,
+                            dateFormatter.format(java.util.Date(uiState.triggerTime)),
+                            timeFormatter.format(java.util.Date(uiState.triggerTime))
+                        ),
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.SemiBold
@@ -497,7 +515,7 @@ fun AddEditReminderScreen(
                     // Date Row
                     ScheduleRow(
                         icon = Icons.Outlined.CalendarMonth,
-                        label = "Date",
+                        label = stringResource(R.string.ae_date),
                         value = dateFormatter.format(java.util.Date(uiState.triggerTime)),
                         onClick = { showDatePickerDialog = true }
                     )
@@ -510,14 +528,14 @@ fun AddEditReminderScreen(
                     // Time Row
                     ScheduleRow(
                         icon = Icons.Outlined.Schedule,
-                        label = "Time",
+                        label = stringResource(R.string.ae_time),
                         value = timeFormatter.format(java.util.Date(uiState.triggerTime)),
                         onClick = { showTimePickerDialog = true }
                     )
                     
                     if (uiState.showPastTimeError) {
                          Text(
-                             text = "Time must be in the future",
+                             text = stringResource(R.string.ae_time_future),
                              color = MaterialTheme.colorScheme.error,
                              style = MaterialTheme.typography.bodySmall,
                              modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
@@ -531,22 +549,20 @@ fun AddEditReminderScreen(
                     
                     // Repeat Row
                     var showRecurrenceSheet by remember { mutableStateOf(false) }
-                    val recurrenceSummary = remember(uiState.recurrenceType, uiState.recurrenceJson, uiState.triggerTime) {
-                         if (uiState.recurrenceType == RecurrenceType.NONE) {
-                             "Never"
-                         } else {
-                             com.ghostgramlabs.speakalert.domain.RecurrenceUtils.getRecurrenceSummary(
-                                 type = uiState.recurrenceType,
-                                 json = uiState.recurrenceJson,
-                                 nextTriggerAt = uiState.triggerTime,
-                                 includeTime = false,
-                                 includeEndRule = true
-                             )
-                         }
+                    val recurrenceSummary = if (uiState.recurrenceType == RecurrenceType.NONE) {
+                        neverLabel
+                    } else {
+                        com.ghostgramlabs.speakalert.ui.util.localizedRecurrenceSummary(
+                            type = uiState.recurrenceType,
+                            json = uiState.recurrenceJson,
+                            nextTriggerAt = uiState.triggerTime,
+                            includeTime = false,
+                            includeEndRule = true
+                        )
                     }
                     ScheduleRow(
                         icon = Icons.Filled.Repeat,
-                        label = "Repeat",
+                        label = stringResource(R.string.ae_repeat),
                         value = recurrenceSummary,
                         onClick = { showRecurrenceSheet = true }
                     )
@@ -574,7 +590,7 @@ fun AddEditReminderScreen(
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp, vertical = 12.dp)
                             .semantics(mergeDescendants = true) {
-                                stateDescription = if (uiState.loopPlayback) "On" else "Off"
+                                stateDescription = if (uiState.loopPlayback) stateOn else stateOff
                             },
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -587,7 +603,7 @@ fun AddEditReminderScreen(
                         Spacer(modifier = Modifier.width(16.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                "Loop playback",
+                                stringResource(R.string.ae_loop),
                                 style = MaterialTheme.typography.bodyLarge,
                                 color = if (uiState.loopPlayback) {
                                     MaterialTheme.colorScheme.primary
@@ -596,7 +612,7 @@ fun AddEditReminderScreen(
                                 }
                             )
                             Text(
-                                "Keep playing until you dismiss the reminder.",
+                                stringResource(R.string.ae_loop_desc),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = if (uiState.loopPlayback) {
                                     MaterialTheme.colorScheme.primary
@@ -625,9 +641,9 @@ fun AddEditReminderScreen(
                             .padding(horizontal = 16.dp, vertical = 12.dp)
                             .semantics(mergeDescendants = true) {
                                 stateDescription = if (uiState.followUpCheckMinutes > 0) {
-                                    "Active"
+                                    stateActiveLabel
                                 } else {
-                                    "Off"
+                                    stateOff
                                 }
                             },
                         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -649,7 +665,7 @@ fun AddEditReminderScreen(
                             Spacer(modifier = Modifier.width(16.dp))
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
-                                    "Follow-up check",
+                                    stringResource(R.string.ae_followup),
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = if (uiState.followUpCheckMinutes > 0) {
                                         MaterialTheme.colorScheme.primary
@@ -659,9 +675,13 @@ fun AddEditReminderScreen(
                                 )
                                 Text(
                                     if (uiState.followUpCheckMinutes == 0) {
-                                        "Ask again after a delay if the reminder is not marked done."
+                                        stringResource(R.string.ae_followup_desc)
                                     } else {
-                                        "Active: asks every ${uiState.followUpCheckMinutes} minutes until marked done."
+                                        pluralStringResource(
+                                            R.plurals.ae_followup_active,
+                                            uiState.followUpCheckMinutes,
+                                            uiState.followUpCheckMinutes
+                                        )
                                     },
                                     style = MaterialTheme.typography.bodySmall,
                                     color = if (uiState.followUpCheckMinutes > 0) {
@@ -680,7 +700,7 @@ fun AddEditReminderScreen(
                                 }
                             ) {
                                 Text(
-                                    text = if (uiState.followUpCheckMinutes > 0) "Active" else "Off",
+                                    text = if (uiState.followUpCheckMinutes > 0) stateActiveLabel else stateOff,
                                     style = MaterialTheme.typography.labelMedium,
                                     color = if (uiState.followUpCheckMinutes > 0) {
                                         MaterialTheme.colorScheme.onPrimaryContainer
@@ -707,7 +727,7 @@ fun AddEditReminderScreen(
                         viewModel.setTriggerTime(candidate)
                         showTimePickerDialog = true
                     } else {
-                        Toast.makeText(context, "Date must be today or later", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.err_date_future), Toast.LENGTH_SHORT).show()
                     }
                     showDatePickerDialog = false
                 }
@@ -735,12 +755,12 @@ fun AddEditReminderScreen(
                                 },
                                 enabled = dateState.selectedDateMillis != null
                             ) {
-                                Text("Apply")
+                                Text(stringResource(R.string.action_apply))
                             }
                         },
                         dismissButton = {
                             TextButton(onClick = { showDatePickerDialog = false }) {
-                                Text("Cancel")
+                                Text(stringResource(R.string.action_cancel))
                             }
                         }
                     ) {
@@ -779,7 +799,7 @@ fun AddEditReminderScreen(
                     )
                     AlertDialog(
                         onDismissRequest = { showTimePickerDialog = false },
-                        title = { Text("Select Time") },
+                        title = { Text(stringResource(R.string.time_picker_title)) },
                         text = { TimePicker(state = timeState) },
                         confirmButton = {
                             Button(
@@ -787,12 +807,12 @@ fun AddEditReminderScreen(
                                     applyPickedTime(timeState.hour, timeState.minute)
                                 }
                             ) {
-                                Text("Apply")
+                                Text(stringResource(R.string.action_apply))
                             }
                         },
                         dismissButton = {
                             TextButton(onClick = { showTimePickerDialog = false }) {
-                                Text("Cancel")
+                                Text(stringResource(R.string.action_cancel))
                             }
                         }
                     )
@@ -801,6 +821,7 @@ fun AddEditReminderScreen(
 
             // Save Button
             Spacer(modifier = Modifier.height(8.dp))
+            val savingCd = stringResource(R.string.ae_cd_saving)
             Button(
                 onClick = { viewModel.saveReminder() },
                 modifier = Modifier
@@ -816,7 +837,7 @@ fun AddEditReminderScreen(
                     CircularProgressIndicator(
                         modifier = Modifier
                             .size(24.dp)
-                            .semantics { contentDescription = "Saving reminder" },
+                            .semantics { contentDescription = savingCd },
                         color = MaterialTheme.colorScheme.onPrimary,
                         strokeWidth = 2.dp
                     )
@@ -824,7 +845,7 @@ fun AddEditReminderScreen(
                     Icon(Icons.Filled.Check, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        "Save Reminder",
+                        stringResource(R.string.ae_save_reminder),
                         style = MaterialTheme.typography.titleMedium
                     )
                 }

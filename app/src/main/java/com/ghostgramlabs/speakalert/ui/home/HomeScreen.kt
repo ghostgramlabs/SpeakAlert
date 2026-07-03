@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.HelpOutline
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.NotificationsOff
@@ -52,6 +53,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.saveable.rememberSaveable
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
+import com.ghostgramlabs.speakalert.R
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.ui.AppViewModelProvider
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
@@ -63,6 +67,7 @@ import com.ghostgramlabs.speakalert.ui.components.PremiumHeaderCard
 import com.ghostgramlabs.speakalert.ui.components.PremiumScreenBackground
 import com.ghostgramlabs.speakalert.ui.components.ReminderCard
 import com.ghostgramlabs.speakalert.ui.components.RecurringCompletionDialog
+import com.ghostgramlabs.speakalert.ui.settings.HelpDialog
 import com.ghostgramlabs.speakalert.ui.components.SystemDatePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.SystemTimePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDateTimePickers
@@ -162,6 +167,7 @@ fun HomeScreen(
     var isRestoringFromUndo by remember { mutableStateOf(false) }
     var showMissedRecoveryDialog by rememberSaveable { mutableStateOf(false) }
     var missedRecoveryHandled by rememberSaveable { mutableStateOf(false) }
+    var showHelpDialog by remember { mutableStateOf(false) }
     
     // Recurring Action States
     var reminderToStop by remember { mutableStateOf<ReminderEntity?>(null) }
@@ -228,7 +234,7 @@ fun HomeScreen(
                 showRescheduleDatePicker = false
                 showRescheduleTimePicker = true
             } else {
-                Toast.makeText(context, "Date must be today or later", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.err_date_future), Toast.LENGTH_SHORT).show()
             }
         }
         if (shouldUseSystemDateTimePickers()) {
@@ -257,12 +263,12 @@ fun HomeScreen(
                         },
                         enabled = dateState.selectedDateMillis != null
                     ) {
-                        Text("Apply")
+                        Text(stringResource(R.string.action_apply))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = cancelDateFlow) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.action_cancel))
                     }
                 }
             ) {
@@ -290,7 +296,7 @@ fun HomeScreen(
                 minute
             )
             if (selectedTime <= System.currentTimeMillis()) {
-                Toast.makeText(context, "Please select a future time", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.err_time_future), Toast.LENGTH_SHORT).show()
             } else {
                 if (pendingRestoreFromUndo) {
                     viewModel.undoDelete(selectedTime)
@@ -322,7 +328,7 @@ fun HomeScreen(
             )
             AlertDialog(
                 onDismissRequest = cancelTimeFlow,
-                title = { Text("Select Time") },
+                title = { Text(stringResource(R.string.time_picker_title)) },
                 text = { TimePicker(state = timeState) },
                 confirmButton = {
                     Button(
@@ -330,12 +336,12 @@ fun HomeScreen(
                             applyPickedTime(timeState.hour, timeState.minute)
                         }
                     ) {
-                        Text("Apply")
+                        Text(stringResource(R.string.action_apply))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = cancelTimeFlow) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.action_cancel))
                     }
                 }
             )
@@ -385,19 +391,19 @@ fun HomeScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text(
-                    text = "Stop recurring reminder?",
+                    text = stringResource(R.string.home_stop_recurring_title),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
-                    text = "This will delete this reminder and all future occurrences. This cannot be undone.",
+                    text = stringResource(R.string.home_stop_recurring_msg),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 ActionSheetRow(
                     icon = Icons.Filled.Stop,
-                    label = "Stop recurring",
-                    subLabel = "Delete this reminder and all future occurrences",
+                    label = stringResource(R.string.home_stop_recurring_action),
+                    subLabel = stringResource(R.string.home_stop_recurring_sub),
                     onClick = {
                         reminderToStop?.let { viewModel.deleteReminder(it) }
                         reminderToStop = null
@@ -409,7 +415,7 @@ fun HomeScreen(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(18.dp)
                 ) {
-                    Text("Keep reminder")
+                    Text(stringResource(R.string.home_keep_reminder))
                 }
             }
         }
@@ -431,19 +437,19 @@ fun HomeScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text(
-                    text = "Mark occurrence done?",
+                    text = stringResource(R.string.home_mark_occurrence_title),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
-                    text = "This clears only today's occurrence. The reminder will still repeat on its next scheduled time.",
+                    text = stringResource(R.string.home_mark_occurrence_msg),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 ActionSheetRow(
                     icon = Icons.Filled.Done,
-                    label = "Mark this occurrence done",
-                    subLabel = "Keep future occurrences scheduled",
+                    label = stringResource(R.string.home_mark_occurrence_action),
+                    subLabel = stringResource(R.string.home_mark_occurrence_sub),
                     onClick = {
                         reminderToMarkOccurrence?.let { viewModel.markTodayAsDone(it) }
                         reminderToMarkOccurrence = null
@@ -455,7 +461,7 @@ fun HomeScreen(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(18.dp)
                 ) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.action_cancel))
                 }
             }
         }
@@ -480,19 +486,19 @@ fun HomeScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text(
-                    text = "Mark as done?",
+                    text = stringResource(R.string.home_mark_done_title),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
-                    text = "This will move the reminder to the Done tab.",
+                    text = stringResource(R.string.home_mark_done_msg),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 ActionSheetRow(
                     icon = Icons.Filled.Done,
-                    label = "Move to Done",
-                    subLabel = "Keep this reminder in your completed history",
+                    label = stringResource(R.string.home_move_to_done),
+                    subLabel = stringResource(R.string.home_move_to_done_sub),
                     onClick = {
                         reminderToMarkDone?.let { viewModel.completeReminder(it) }
                         showMarkDoneDialog = false
@@ -508,18 +514,22 @@ fun HomeScreen(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(18.dp)
                 ) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.action_cancel))
                 }
             }
         }
     }
     
     
+    if (showHelpDialog) {
+        HelpDialog(onDismiss = { showHelpDialog = false })
+    }
+
     val filters = listOf(
-        FilterType.UPCOMING to "Upcoming",
-        FilterType.TODAY to "Today",
-        FilterType.MISSED to "Missed",
-        FilterType.COMPLETED to "Done"
+        FilterType.UPCOMING to stringResource(R.string.home_filter_upcoming),
+        FilterType.TODAY to stringResource(R.string.home_filter_today),
+        FilterType.MISSED to stringResource(R.string.home_filter_missed),
+        FilterType.COMPLETED to stringResource(R.string.home_filter_done)
     )
 
     Scaffold(
@@ -543,7 +553,7 @@ fun HomeScreen(
                             IconButton(onClick = { selectedFilter = FilterType.MISSED }) {
                                 Icon(
                                     Icons.Outlined.Notifications,
-                                    contentDescription = "Missed reminders",
+                                    contentDescription = stringResource(R.string.home_cd_missed),
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
@@ -568,10 +578,17 @@ fun HomeScreen(
                             }
                         }
                     }
+                    IconButton(onClick = { showHelpDialog = true }) {
+                        Icon(
+                            Icons.Filled.HelpOutline,
+                            contentDescription = stringResource(R.string.home_cd_help),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                     IconButton(onClick = navigateToSettings) {
                         Icon(
                             Icons.Filled.Settings,
-                            contentDescription = "Settings",
+                            contentDescription = stringResource(R.string.home_cd_settings),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
@@ -605,7 +622,7 @@ fun HomeScreen(
                 ) {
                     Icon(
                         Icons.Filled.Mic,
-                        contentDescription = "Add Reminder",
+                        contentDescription = stringResource(R.string.home_cd_add),
                         modifier = Modifier.size(28.dp)
                     )
                 }
@@ -700,8 +717,8 @@ fun HomeScreen(
                     if (missedList.isEmpty()) {
                         EmptyState(
                             icon = Icons.Filled.NotificationsOff,
-                            title = "All caught up!",
-                            subtitle = "No missed reminders"
+                            title = stringResource(R.string.home_empty_all_caught_up),
+                            subtitle = stringResource(R.string.home_empty_no_missed)
                         )
                     } else {
                         Row(
@@ -722,7 +739,7 @@ fun HomeScreen(
                             ) {
                                 Icon(Icons.Filled.Close, contentDescription = null, modifier = Modifier.size(18.dp))
                                 Spacer(Modifier.width(6.dp))
-                                Text("Dismiss All", style = MaterialTheme.typography.labelLarge)
+                                Text(stringResource(R.string.home_dismiss_all), style = MaterialTheme.typography.labelLarge)
                             }
                         }
                         
@@ -757,14 +774,14 @@ fun HomeScreen(
                                  else -> Icons.Filled.Mic
                             },
                             title = when (selectedFilter) {
-                                FilterType.COMPLETED -> "Nothing completed yet"
-                                FilterType.UPCOMING -> "No upcoming reminders"
-                                else -> "No reminders yet"
+                                FilterType.COMPLETED -> stringResource(R.string.home_empty_nothing_done)
+                                FilterType.UPCOMING -> stringResource(R.string.home_empty_no_upcoming)
+                                else -> stringResource(R.string.home_empty_no_reminders)
                             },
                             subtitle = when (selectedFilter) {
-                                FilterType.COMPLETED -> "Completed reminders will appear here."
-                                FilterType.UPCOMING -> "Scheduled reminders for later will appear here."
-                                else -> "Create a reminder using voice or text."
+                                FilterType.COMPLETED -> stringResource(R.string.home_empty_done_sub)
+                                FilterType.UPCOMING -> stringResource(R.string.home_empty_upcoming_sub)
+                                else -> stringResource(R.string.home_empty_default_sub)
                             }
                         )
                 } else {
@@ -778,17 +795,15 @@ fun HomeScreen(
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         items(list, key = { it.id }) { reminder ->
-                            val summary = remember(reminder) {
-                                if (reminder.recurrenceType == com.ghostgramlabs.speakalert.domain.models.RecurrenceType.NONE) {
-                                    null
-                                } else {
-                                    com.ghostgramlabs.speakalert.domain.RecurrenceUtils.getRecurrenceSummary(
-                                        type = reminder.recurrenceType,
-                                        json = reminder.recurrenceJson,
-                                        nextTriggerAt = reminder.nextTriggerAt,
-                                        includeEndRule = true
-                                    )
-                                }
+                            val summary = if (reminder.recurrenceType == com.ghostgramlabs.speakalert.domain.models.RecurrenceType.NONE) {
+                                null
+                            } else {
+                                com.ghostgramlabs.speakalert.ui.util.localizedRecurrenceSummary(
+                                    type = reminder.recurrenceType,
+                                    json = reminder.recurrenceJson,
+                                    nextTriggerAt = reminder.nextTriggerAt,
+                                    includeEndRule = true
+                                )
                             }
                             // Smart fallback label
                             val timeOnly = DateUtils.formatTimeOnly(reminder.nextTriggerAt)
@@ -806,13 +821,14 @@ fun HomeScreen(
                                     val words = reminder.reminderText.trim().split(Regex("\\s+"))
                                     if (words.size > 10) words.take(10).joinToString(" ") + "..." else reminder.reminderText
                                 }
-                                else -> "Created at $createdTime"
+                                else -> stringResource(R.string.home_created_at, createdTime)
                             }
                             
                             // Context-aware Date Label: Hide "Today" if in Today tab
                             val isTodayTab = selectedFilter == FilterType.TODAY
-                            val rawDateLabel = DateUtils.formatDateLabel(reminder.nextTriggerAt)
-                            val finalDateLabel = if (isTodayTab && rawDateLabel == "Today") "" else rawDateLabel
+                            val isTodayDate = DateUtils.isToday(reminder.nextTriggerAt)
+                            val rawDateLabel = com.ghostgramlabs.speakalert.ui.util.localizedDateLabel(reminder.nextTriggerAt)
+                            val finalDateLabel = if (isTodayTab && isTodayDate) "" else rawDateLabel
                             
                             ReminderCard(
                                 title = displayTitle,
@@ -846,8 +862,8 @@ fun HomeScreen(
                                         viewModel.deleteReminder(reminder)
                                         scope.launch {
                                             val result = snackbarHostState.showSnackbar(
-                                                message = "Reminder deleted",
-                                                actionLabel = "Undo",
+                                                message = context.getString(R.string.home_snackbar_deleted),
+                                                actionLabel = context.getString(R.string.action_undo),
                                                 duration = SnackbarDuration.Short
                                             )
                                             if (result == SnackbarResult.ActionPerformed) {
@@ -879,8 +895,8 @@ fun HomeScreen(
                                         val newId = viewModel.duplicateReminder(reminder.id)
                                         if (newId != null) {
                                             val result = snackbarHostState.showSnackbar(
-                                                message = "Reminder duplicated",
-                                                actionLabel = "Open",
+                                                message = context.getString(R.string.home_snackbar_duplicated),
+                                                actionLabel = context.getString(R.string.action_open),
                                                 duration = SnackbarDuration.Short
                                             )
                                             if (result == SnackbarResult.ActionPerformed) {
@@ -903,19 +919,19 @@ fun HomeScreen(
 private fun getGreeting(): String {
     val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
     return when {
-        hour < 12 -> "Good Morning"
-        hour < 17 -> "Good Afternoon"
-        else -> "Good Evening"
+        hour < 12 -> stringResource(R.string.home_greeting_morning)
+        hour < 17 -> stringResource(R.string.home_greeting_afternoon)
+        else -> stringResource(R.string.home_greeting_evening)
     }
 }
 
 @Composable
 private fun getSubtitle(uiState: HomeUiState): String {
     val activeCount = uiState.upcomingReminders.size + uiState.todayReminders.size
-    return when {
-        activeCount == 0 -> "You're all caught up!"
-        activeCount == 1 -> "You have 1 active reminder"
-        else -> "You have $activeCount active reminders"
+    return if (activeCount == 0) {
+        stringResource(R.string.home_all_caught_up)
+    } else {
+        pluralStringResource(R.plurals.home_active_reminders, activeCount, activeCount)
     }
 }
 
@@ -951,7 +967,8 @@ fun MissedReminderItem(
     onStopClick: () -> Unit,
     onDismissClick: () -> Unit
 ) {
-    val displayTitle = remember(missed.title, missed.reminderText) {
+    val reminderFallback = stringResource(R.string.common_reminder)
+    val displayTitle = remember(missed.title, missed.reminderText, reminderFallback) {
         val userTitle = missed.title
             .trim()
             .takeIf { it.isNotEmpty() && !it.isDefaultAppDisplayName() }
@@ -965,7 +982,7 @@ fun MissedReminderItem(
                     val words = text.split(Regex("\\s+"))
                     if (words.size > 8) words.take(8).joinToString(" ") else text
                 }
-            textFallback ?: "Reminder"
+            textFallback ?: reminderFallback
         }
     }
 
@@ -1014,7 +1031,7 @@ fun MissedReminderItem(
                         color = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.72f)
                     ) {
                         Text(
-                            text = "Missed",
+                            text = stringResource(R.string.home_badge_missed),
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onErrorContainer,
                             modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
@@ -1027,7 +1044,7 @@ fun MissedReminderItem(
                             color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.86f)
                         ) {
                             Text(
-                                text = "Playing now",
+                                text = stringResource(R.string.alert_playing_now),
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
@@ -1092,7 +1109,7 @@ fun MissedReminderItem(
                         MaterialTheme.colorScheme.error.copy(alpha = 0.24f)
                     )
                 ) {
-                    Text("Dismiss")
+                    Text(stringResource(R.string.action_dismiss))
                 }
                 Button(
                     onClick = if (isPlaying) onStopClick else onFireClick,
@@ -1108,7 +1125,7 @@ fun MissedReminderItem(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(if (isPlaying) "Stop" else "Play now")
+                    Text(if (isPlaying) stringResource(R.string.action_stop) else stringResource(R.string.action_play_now))
                 }
             }
         }

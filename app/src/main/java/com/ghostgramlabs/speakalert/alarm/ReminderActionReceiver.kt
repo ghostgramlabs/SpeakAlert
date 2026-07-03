@@ -61,6 +61,17 @@ class ReminderActionReceiver : BroadcastReceiver() {
                 }
                 return // Don't proceed to DB operations for play action
             }
+
+            "ACTION_SILENCE" -> {
+                // Stop the alarm sound only. The reminder stays pending and its notification stays
+                // on screen so the user can still choose Done or Snooze.
+                ReminderPlaybackService.stop(context)
+                ToneAlertPlayer.stop()
+                com.ghostgramlabs.speakalert.util.FileLogger.log(
+                    "ACTION_SILENCE: Alarm silenced; reminder left pending for reminder $reminderId"
+                )
+                return
+            }
         }
 
         // Dismiss standard notification

@@ -35,11 +35,19 @@ class SettingsRepository(private val context: Context) {
         val QUIET_TIME_END_HOUR = intPreferencesKey("quiet_time_end_hour")
         val QUIET_TIME_END_MINUTE = intPreferencesKey("quiet_time_end_minute")
         
+        val TTS_LANGUAGE_MODE = intPreferencesKey("tts_language_mode") // 0 = Auto-detect, 1 = Device language, 2 = English
+        val PERSIST_UNTIL_DONE = booleanPreferencesKey("persist_until_done")
+        val FOLLOW_UP_MAX_REPEATS = intPreferencesKey("follow_up_max_repeats") // How many times a follow-up check repeats before stopping
         val THEME_MODE = intPreferencesKey("theme_mode") // 0 = System, 1 = Light, 2 = Dark
         val FULL_SCREEN_ALERT_ENABLED = booleanPreferencesKey("full_screen_alert_enabled")
         val BATTERY_OPTIMIZATION_PROMPT_SHOWN = booleanPreferencesKey("battery_optimization_prompt_shown")
         val LAST_WHATS_NEW_VERSION_SHOWN = stringPreferencesKey("last_whats_new_version_shown")
-        
+
+        // In-app rating prompt tracking
+        val APP_OPEN_COUNT = intPreferencesKey("app_open_count")
+        val RATING_PROMPT_DECIDED = booleanPreferencesKey("rating_prompt_decided")
+        val RATING_PROMPT_LAST_OPEN = intPreferencesKey("rating_prompt_last_open")
+
         // Android 15 FGS Boot Guard
         val LAST_BOOT_TIMESTAMP = longPreferencesKey("last_boot_timestamp")
     }
@@ -65,6 +73,10 @@ class SettingsRepository(private val context: Context) {
     val quietTimeEndHour: Flow<Int> = dataStore.data.map { it[QUIET_TIME_END_HOUR] ?: 7 }
     val quietTimeEndMinute: Flow<Int> = dataStore.data.map { it[QUIET_TIME_END_MINUTE] ?: 0 }
     
+    val ttsLanguageMode: Flow<Int> = dataStore.data.map { it[TTS_LANGUAGE_MODE] ?: 0 }
+    val persistUntilDone: Flow<Boolean> = dataStore.data.map { it[PERSIST_UNTIL_DONE] ?: false }
+    // Default 1: a follow-up fires once and then stops, so reminders never nag forever.
+    val followUpMaxRepeats: Flow<Int> = dataStore.data.map { (it[FOLLOW_UP_MAX_REPEATS] ?: 1).coerceIn(1, 10) }
     val themeMode: Flow<Int> = dataStore.data.map { it[THEME_MODE] ?: 0 }
     val fullScreenAlertEnabled: Flow<Boolean> = dataStore.data.map { it[FULL_SCREEN_ALERT_ENABLED] ?: false }
     val batteryOptimizationPromptShown: Flow<Boolean> = dataStore.data.map {
@@ -73,6 +85,10 @@ class SettingsRepository(private val context: Context) {
     val lastWhatsNewVersionShown: Flow<String?> = dataStore.data.map {
         it[LAST_WHATS_NEW_VERSION_SHOWN]
     }
+
+    val appOpenCount: Flow<Int> = dataStore.data.map { it[APP_OPEN_COUNT] ?: 0 }
+    val ratingPromptDecided: Flow<Boolean> = dataStore.data.map { it[RATING_PROMPT_DECIDED] ?: false }
+    val ratingPromptLastOpen: Flow<Int> = dataStore.data.map { it[RATING_PROMPT_LAST_OPEN] ?: 0 }
 
     suspend fun setAutoPlayEnabled(enabled: Boolean) {
         dataStore.edit { it[AUTO_PLAY_ENABLED] = enabled }
@@ -150,6 +166,18 @@ class SettingsRepository(private val context: Context) {
         }
     }
     
+    suspend fun setTtsLanguageMode(mode: Int) {
+        dataStore.edit { it[TTS_LANGUAGE_MODE] = mode.coerceIn(0, 2) }
+    }
+
+    suspend fun setPersistUntilDone(enabled: Boolean) {
+        dataStore.edit { it[PERSIST_UNTIL_DONE] = enabled }
+    }
+
+    suspend fun setFollowUpMaxRepeats(count: Int) {
+        dataStore.edit { it[FOLLOW_UP_MAX_REPEATS] = count.coerceIn(1, 10) }
+    }
+
     suspend fun setThemeMode(mode: Int) {
         dataStore.edit { it[THEME_MODE] = mode }
     }
@@ -164,6 +192,24 @@ class SettingsRepository(private val context: Context) {
 
     suspend fun setLastWhatsNewVersionShown(version: String) {
         dataStore.edit { it[LAST_WHATS_NEW_VERSION_SHOWN] = version }
+    }
+
+    /** Increments and returns the new app-open count. Used to pace the rating prompt. */
+    suspend fun incrementAppOpenCount(): Int {
+        var newCount = 0
+        dataStore.edit {
+            newCount = (it[APP_OPEN_COUNT] ?: 0) + 1
+            it[APP_OPEN_COUNT] = newCount
+        }
+        return newCount
+    }
+
+    suspend fun setRatingPromptDecided(decided: Boolean) {
+        dataStore.edit { it[RATING_PROMPT_DECIDED] = decided }
+    }
+
+    suspend fun setRatingPromptLastOpen(openCount: Int) {
+        dataStore.edit { it[RATING_PROMPT_LAST_OPEN] = openCount }
     }
 
     val lastBootTimestamp: Flow<Long> = dataStore.data.map { it[LAST_BOOT_TIMESTAMP] ?: 0L }

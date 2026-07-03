@@ -13,7 +13,7 @@ object DateUtils {
      * Returns positive if target is after now, negative if before.
      * Uses floor-division on midnight-aligned days to handle year boundaries correctly.
      */
-    private fun dayDifference(nowMillis: Long, targetMillis: Long): Int {
+    fun dayDifference(nowMillis: Long, targetMillis: Long): Int {
         val nowCal = Calendar.getInstance().apply {
             timeInMillis = nowMillis
             set(Calendar.HOUR_OF_DAY, 0)

@@ -108,7 +108,13 @@ class NotificationHelper(private val context: Context) {
         useFullScreenAlert: Boolean = false,
         isFollowUpAlert: Boolean = false,
         dndBypassEnabled: Boolean = true,
-        silentAlert: Boolean = false
+        silentAlert: Boolean = false,
+        // True when a reminder sound/tone is actively playing, so we offer "Silence" instead of
+        // "Play". Keeps the one-tap Play button for the no-autoplay case (no regression).
+        playingSound: Boolean = false,
+        // When true, the notification is ongoing (pinned) and a swipe no longer completes the
+        // reminder — it only silences it, leaving the reminder pending until Done/Snooze.
+        persistUntilDone: Boolean = false
     ): Boolean {
         Log.d(TAG, "showNotification called for reminderId=$reminderId, title=$title")
         createNotificationChannel(dndBypassEnabled)
@@ -170,19 +176,19 @@ class NotificationHelper(private val context: Context) {
             null
         }
 
-        // Action: Play (starts playback service)
+        // Action: Play (starts playback service) — used when nothing is currently playing.
         val playIntent = Intent(context, ReminderActionReceiver::class.java).apply {
             action = "ACTION_PLAY"
             putExtra("reminderId", reminderId)
             if (audioPath != null) putExtra("audioPath", audioPath)
             if (reminderText != null) putExtra("reminderText", reminderText)
-            putExtra("title", title ?: "Voice reminder")
+            putExtra("title", title ?: context.getString(R.string.notif_default_title))
         }
         val playPendingIntent = PendingIntent.getBroadcast(
-             context, 
-             reminderId.toInt() + 5000, 
-             playIntent, 
-             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            context,
+            reminderId.toInt() + 5000,
+            playIntent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         // Action: Done
@@ -209,9 +215,11 @@ class NotificationHelper(private val context: Context) {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        // Delete Intent: fires when notification is swiped away by user
+        // Delete Intent: fires when notification is swiped away by user.
+        // When persistent, a swipe only silences (keeps the reminder pending); otherwise it
+        // completes/advances the reminder as before.
         val dismissIntent = Intent(context, ReminderActionReceiver::class.java).apply {
-            action = "ACTION_DISMISS"
+            action = if (persistUntilDone) "ACTION_SILENCE" else "ACTION_DISMISS"
             putExtra("reminderId", reminderId)
         }
         val dismissPendingIntent = PendingIntent.getBroadcast(
@@ -221,11 +229,23 @@ class NotificationHelper(private val context: Context) {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
+        // Action: Silence — stop the alarm sound but keep the reminder pending.
+        val silenceIntent = Intent(context, ReminderActionReceiver::class.java).apply {
+            action = "ACTION_SILENCE"
+            putExtra("reminderId", reminderId)
+        }
+        val silencePendingIntent = PendingIntent.getBroadcast(
+            context,
+            reminderId.toInt() + 50000,
+            silenceIntent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle(title ?: "Voice reminder")
-            .setContentText(message ?: "Tap to play your reminder")
-            .setStyle(NotificationCompat.BigTextStyle().bigText(message ?: "Tap to play your reminder"))
+            .setContentTitle(title ?: context.getString(R.string.notif_default_title))
+            .setContentText(message ?: context.getString(R.string.notif_default_text))
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message ?: context.getString(R.string.notif_default_text)))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -237,7 +257,7 @@ class NotificationHelper(private val context: Context) {
             .setContentIntent(pendingIntent)
             .setDeleteIntent(dismissPendingIntent) // Handle notification swipe-dismiss
             .setAutoCancel(false) // Notification stays until user acts
-            .setOngoing(false) // User can swipe to dismiss like normal notifications
+            .setOngoing(persistUntilDone) // When persistent, pin it so it isn't swiped away
             // setSilent(true) below suppresses sound, vibration, and lights on Android Q+,
             // so the silent-path defaults here are effectively informational.
             .setDefaults(if (toneOnlyMode || silentAlert) {
@@ -255,14 +275,26 @@ class NotificationHelper(private val context: Context) {
             builder.setFullScreenIntent(fullScreenPendingIntent, true)
         }
 
-        // Add Play button if we have audio or text.
-        if (audioPath != null || reminderText != null) {
-            val playLabel = if (!audioPath.isNullOrBlank()) "Play reminder" else "Speak reminder"
-            builder.addAction(android.R.drawable.ic_media_play, playLabel, playPendingIntent)
+        // Pop-up actions (phones show up to three). First slot adapts to context, then Done + Snooze.
+        //  - "Done" was previously (confusingly) labelled "Dismiss" while still completing the task.
+        //  - "Silence" stops the alarm sound but leaves the reminder so the user can decide later.
+        //  - When nothing is playing, keep the one-tap "Play" so voice reminders are still
+        //    audible from the notification without opening the app (no regression).
+        val canPlayOnDemand = !audioPath.isNullOrBlank() || !reminderText.isNullOrBlank()
+        when {
+            playingSound ->
+                builder.addAction(android.R.drawable.ic_lock_silent_mode, context.getString(R.string.notif_action_silence), silencePendingIntent)
+            canPlayOnDemand -> {
+                val playLabel = if (!audioPath.isNullOrBlank()) {
+                    context.getString(R.string.notif_action_play)
+                } else {
+                    context.getString(R.string.notif_action_speak)
+                }
+                builder.addAction(android.R.drawable.ic_media_play, playLabel, playPendingIntent)
+            }
         }
-        
-        builder.addAction(android.R.drawable.ic_menu_close_clear_cancel, "Dismiss", donePendingIntent)
-        builder.addAction(android.R.drawable.ic_lock_idle_alarm, "Snooze", snoozePendingIntent)
+        builder.addAction(android.R.drawable.checkbox_on_background, context.getString(R.string.notif_action_done), donePendingIntent)
+        builder.addAction(android.R.drawable.ic_lock_idle_alarm, context.getString(R.string.notif_action_snooze), snoozePendingIntent)
 
         return try {
             NotificationManagerCompat.from(context).notify(reminderId.toInt(), builder.build())

@@ -70,6 +70,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -78,6 +80,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import com.ghostgramlabs.speakalert.R
 import com.ghostgramlabs.speakalert.VoiceReminderApp
 import com.ghostgramlabs.speakalert.alarm.ToneAlertPlayer
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
@@ -88,6 +91,10 @@ import com.ghostgramlabs.speakalert.util.DateUtils
 import com.ghostgramlabs.speakalert.util.sanitizeUnitFloat
 
 class ReminderAlertActivity : ComponentActivity() {
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(com.ghostgramlabs.speakalert.util.AppLocale.wrapContext(newBase))
+    }
 
     companion object {
         const val EXTRA_ALERT_TITLE = "alertTitle"
@@ -262,22 +269,22 @@ private fun ReminderAlertContent(
     val bodyText = messageOverride
         ?: reminder.reminderText
         ?: if (isFollowUp) {
-            "Did you complete this reminder?"
+            stringResource(R.string.alert_did_you_complete)
         } else {
-            "Reminder is active"
+            stringResource(R.string.alert_reminder_active)
         }
     val scheduledText = DateUtils.formatSmartDate(reminder.nextTriggerAt)
     val canPlayAgain = !playbackAudioPath.isNullOrBlank() || !playbackText.isNullOrBlank()
     val sourceLabel = when {
-        isFollowUp -> "Follow-up check"
-        !playbackAudioPath.isNullOrBlank() -> "Voice reminder"
-        !playbackText.isNullOrBlank() -> "Text reminder"
-        else -> "Alert"
+        isFollowUp -> stringResource(R.string.alert_followup_check)
+        !playbackAudioPath.isNullOrBlank() -> stringResource(R.string.alert_voice_reminder)
+        !playbackText.isNullOrBlank() -> stringResource(R.string.alert_text_reminder)
+        else -> stringResource(R.string.alert_generic)
     }
     val statusLabel = when {
-        isPlaying -> "Playing now"
-        isFollowUp -> "Needs response"
-        else -> "Awaiting action"
+        isPlaying -> stringResource(R.string.alert_playing_now)
+        isFollowUp -> stringResource(R.string.alert_needs_response)
+        else -> stringResource(R.string.alert_awaiting_action)
     }
     val pulse = rememberInfiniteTransition(label = "alert_pulse")
     val outerScale by pulse.animateFloat(
@@ -398,7 +405,7 @@ private fun ReminderAlertContent(
                         )
                     ) {
                         Text(
-                            text = if (isFollowUp) "Follow-up reminder" else APP_DISPLAY_NAME,
+                            text = if (isFollowUp) stringResource(R.string.alert_followup_reminder) else APP_DISPLAY_NAME,
                             style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp)
@@ -406,7 +413,7 @@ private fun ReminderAlertContent(
                     }
 
                     Text(
-                        text = if (isFollowUp) "Follow up on this reminder" else "Reminder on screen",
+                        text = if (isFollowUp) stringResource(R.string.alert_followup_on_this) else stringResource(R.string.alert_reminder_on_screen),
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.primary,
                         textAlign = TextAlign.Center
@@ -503,7 +510,7 @@ private fun ReminderAlertContent(
                                 AlertTag(text = sourceLabel)
                                 AlertTag(text = statusLabel, highlighted = isPlaying)
                                 if (isFollowUp) {
-                                    AlertTag(text = "Follow-up", highlighted = true)
+                                    AlertTag(text = stringResource(R.string.alert_followup_label), highlighted = true)
                                 }
                             }
 
@@ -524,23 +531,27 @@ private fun ReminderAlertContent(
                                 ) {
                                     AlertMetaRow(
                                         icon = Icons.Filled.Schedule,
-                                        label = "Scheduled for",
+                                        label = stringResource(R.string.alert_scheduled_for),
                                         value = scheduledText
                                     )
                                     AlertMetaRow(
                                         icon = if (isPlaying) Icons.Filled.Stop else Icons.Filled.NotificationsActive,
-                                        label = "Alert status",
+                                        label = stringResource(R.string.alert_status),
                                         value = if (isPlaying) {
-                                            "Audio is playing. Use Silence to stop it."
+                                            stringResource(R.string.alert_audio_playing)
                                         } else {
-                                            "Waiting for Done or Snooze."
+                                            stringResource(R.string.alert_waiting_done_snooze)
                                         }
                                     )
                                     if (reminder.followUpCheckMinutes > 0) {
                                         AlertMetaRow(
                                             icon = Icons.Filled.NotificationsActive,
-                                            label = "Follow-up",
-                                            value = "Repeats every ${reminder.followUpCheckMinutes} minutes until done."
+                                            label = stringResource(R.string.alert_followup_label),
+                                            value = pluralStringResource(
+                                                R.plurals.alert_followup_repeats,
+                                                reminder.followUpCheckMinutes,
+                                                reminder.followUpCheckMinutes
+                                            )
                                         )
                                     }
                                 }
@@ -548,9 +559,9 @@ private fun ReminderAlertContent(
 
                             Text(
                                 text = if (canPlayAgain) {
-                                    "Keep the reminder visible, stop the audio, or play it again before you act."
+                                    stringResource(R.string.alert_hint_with_play)
                                 } else {
-                                    "Keep the reminder visible, or choose Done or Snooze when you are ready."
+                                    stringResource(R.string.alert_hint_no_play)
                                 },
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -641,7 +652,7 @@ private fun AlertActionDock(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Mark Done",
+                    text = stringResource(R.string.alert_mark_done),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -675,7 +686,7 @@ private fun AlertActionDock(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = if (isPlaying) "Silence now" else "Silence",
+                            text = if (isPlaying) stringResource(R.string.alert_silence_now) else stringResource(R.string.alert_silence),
                             style = MaterialTheme.typography.titleSmall
                         )
                     }
@@ -696,7 +707,7 @@ private fun AlertActionDock(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Play again",
+                            text = stringResource(R.string.alert_play_again),
                             style = MaterialTheme.typography.titleSmall
                         )
                     }
@@ -737,19 +748,19 @@ private fun AlertActionDock(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 SnoozeActionButton(
-                    label = "Snooze 5m",
+                    label = stringResource(R.string.alert_snooze_minutes, 5),
                     onClick = onSnoozeFive,
                     modifier = Modifier.weight(1f)
                 )
                 SnoozeActionButton(
-                    label = "Snooze 10m",
+                    label = stringResource(R.string.alert_snooze_minutes, 10),
                     onClick = onSnoozeTen,
                     modifier = Modifier.weight(1f)
                 )
             }
 
             Text(
-                text = "Silence stops audio. Done or Snooze clears the lock-screen alert.",
+                text = stringResource(R.string.alert_dock_hint),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,

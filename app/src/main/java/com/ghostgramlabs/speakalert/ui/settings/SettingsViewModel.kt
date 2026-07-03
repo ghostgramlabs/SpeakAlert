@@ -41,6 +41,15 @@ class SettingsViewModel(
     val toneOnlyAlertToneUri = settingsRepository.toneOnlyAlertToneUri
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
+    val ttsLanguageMode = settingsRepository.ttsLanguageMode
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+
+    val persistUntilDone = settingsRepository.persistUntilDone
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
+    val followUpMaxRepeats = settingsRepository.followUpMaxRepeats
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 1)
+
     val themeMode = settingsRepository.themeMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
     
@@ -71,6 +80,12 @@ class SettingsViewModel(
         }
     }
 
+    fun setFollowUpMaxRepeats(count: Int) {
+        viewModelScope.launch {
+            settingsRepository.setFollowUpMaxRepeats(count)
+        }
+    }
+
     fun setSpeakTextIfNoVoice(enabled: Boolean) {
         viewModelScope.launch {
             settingsRepository.setSpeakTextIfNoVoice(enabled)
@@ -98,6 +113,18 @@ class SettingsViewModel(
     fun setToneOnlyAlertToneUri(uri: String?) {
         viewModelScope.launch {
             settingsRepository.setToneOnlyAlertToneUri(uri)
+        }
+    }
+
+    fun setTtsLanguageMode(mode: Int) {
+        viewModelScope.launch {
+            settingsRepository.setTtsLanguageMode(mode)
+        }
+    }
+
+    fun setPersistUntilDone(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setPersistUntilDone(enabled)
         }
     }
 

@@ -38,5 +38,9 @@ data class ReminderEntity(
     val followUpCheckMinutes: Int = 0,
 
     // Internal marker for a scheduled follow-up that reuses the normal alarm path.
-    val pendingFollowUpAt: Long? = null
+    val pendingFollowUpAt: Long? = null,
+
+    // How many follow-up checks have already fired in the current cycle. Reset to 0 when the
+    // reminder fires normally (or after snooze), so follow-ups can't nag forever until Done.
+    val followUpFireCount: Int = 0
 )
