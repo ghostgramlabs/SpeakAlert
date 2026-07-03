@@ -25,6 +25,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
+import com.ghostgramlabs.speakalert.R
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
@@ -196,7 +199,7 @@ fun ReminderDetailsScreen(
             val words = item.reminderText.trim().split(Regex("\\s+"))
             if (words.size > 10) words.take(10).joinToString(" ") + "..." else item.reminderText
         }
-        else -> "Created at $createdTime"
+        else -> stringResource(R.string.home_created_at, createdTime)
     }
     
     // Check if recurring
@@ -204,11 +207,12 @@ fun ReminderDetailsScreen(
     val isCustomAudioFile = remember(item.audioPath) {
         ReminderAudioSource.isContentUri(item.audioPath)
     }
-    val audioFileName = remember(item.audioPath) {
+    val selectedAudioLabel = stringResource(R.string.ae_selected_audio)
+    val audioFileName = remember(item.audioPath, selectedAudioLabel) {
         if (isCustomAudioFile) {
             ReminderAudioSource.resolveDisplayName(context, item.audioPath)
                 ?.takeIf { it.isNotBlank() }
-                ?: "Selected audio file"
+                ?: selectedAudioLabel
         } else null
     }
 
@@ -221,23 +225,19 @@ fun ReminderDetailsScreen(
     var showRescheduleDatePicker by remember { mutableStateOf(false) }
     var showRescheduleTimePicker by remember { mutableStateOf(false) }
     val scheduleSummary = remember(item.nextTriggerAt) { DateUtils.formatDateTime(item.nextTriggerAt) }
-    val recurrenceSummary = remember(item.recurrenceType, item.recurrenceJson, item.nextTriggerAt) {
-        com.ghostgramlabs.speakalert.domain.RecurrenceUtils.getRecurrenceSummary(
-            item.recurrenceType,
-            item.recurrenceJson,
-            item.nextTriggerAt,
-            includeTime = false
-        )
-    }
-    val recurrenceBadgeText = remember(item.recurrenceType) {
-        when (item.recurrenceType) {
-            RecurrenceType.NONE -> "One-time"
-            RecurrenceType.DAILY -> "Daily"
-            RecurrenceType.WEEKLY -> "Weekly"
-            RecurrenceType.MONTHLY -> "Monthly"
-            RecurrenceType.YEARLY -> "Yearly"
-            RecurrenceType.CUSTOM -> "Custom"
-        }
+    val recurrenceSummary = com.ghostgramlabs.speakalert.ui.util.localizedRecurrenceSummary(
+        item.recurrenceType,
+        item.recurrenceJson,
+        item.nextTriggerAt,
+        includeTime = false
+    )
+    val recurrenceBadgeText = when (item.recurrenceType) {
+        RecurrenceType.NONE -> stringResource(R.string.rec_onetime)
+        RecurrenceType.DAILY -> stringResource(R.string.rec_daily)
+        RecurrenceType.WEEKLY -> stringResource(R.string.rec_weekly)
+        RecurrenceType.MONTHLY -> stringResource(R.string.rec_monthly)
+        RecurrenceType.YEARLY -> stringResource(R.string.rec_yearly)
+        RecurrenceType.CUSTOM -> stringResource(R.string.rec_custom)
     }
     val recurrenceModel = remember(item) {
         com.ghostgramlabs.speakalert.domain.RecurrenceUtils.fromJson(
@@ -252,22 +252,22 @@ fun ReminderDetailsScreen(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "Reminder details",
+                        text = stringResource(R.string.det_title),
                         style = MaterialTheme.typography.titleLarge
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = navigateBack) {
-                        Icon(Icons.Default.ArrowBack, "Back")
+                        Icon(Icons.Default.ArrowBack, stringResource(R.string.action_back))
                     }
                 },
                 actions = {
                     IconButton(onClick = { navigateToEdit(reminderId) }) {
-                        Icon(Icons.Filled.Edit, "Edit")
+                        Icon(Icons.Filled.Edit, stringResource(R.string.action_edit))
                     }
                     // Delete moved to overflow-style (still icon, but with confirmation)
                     IconButton(onClick = { showDeleteDialog = true }) {
-                        Icon(Icons.Filled.Delete, "Delete", tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Icon(Icons.Filled.Delete, stringResource(R.string.action_delete), tint = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -292,7 +292,7 @@ fun ReminderDetailsScreen(
                 PremiumHeaderCard(
                     title = displayLabel,
                     subtitle = scheduleSummary,
-                    eyebrow = "Reminder details"
+                    eyebrow = stringResource(R.string.det_title)
                 ) {
                     FlowRow(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -304,22 +304,22 @@ fun ReminderDetailsScreen(
                         )
                         if (item.audioPath != null) {
                             PremiumStatusPill(
-                                text = if (isCustomAudioFile) "Audio file" else "Voice note",
+                                text = if (isCustomAudioFile) stringResource(R.string.det_audio_file) else stringResource(R.string.det_voice_note),
                                 highlighted = true
                             )
                         }
                         if (!item.reminderText.isNullOrBlank()) {
                             PremiumStatusPill(
-                                text = "Text reminder",
+                                text = stringResource(R.string.alert_text_reminder),
                                 highlighted = item.audioPath == null
                             )
                         }
                         if (item.loopPlayback) {
-                            PremiumStatusPill(text = "Loop enabled", highlighted = true)
+                            PremiumStatusPill(text = stringResource(R.string.det_loop_enabled), highlighted = true)
                         }
                         if (item.followUpCheckMinutes > 0) {
                             PremiumStatusPill(
-                                text = "Follow-up ${item.followUpCheckMinutes}m",
+                                text = stringResource(R.string.det_followup_pill, item.followUpCheckMinutes),
                                 highlighted = true
                             )
                         }
@@ -328,7 +328,7 @@ fun ReminderDetailsScreen(
             
                 // VOICE NOTE Section (if audio exists)
                 if (item.audioPath != null) {
-                    SectionCard(title = if (isCustomAudioFile) "Audio file" else "Voice note") {
+                    SectionCard(title = if (isCustomAudioFile) stringResource(R.string.det_audio_file) else stringResource(R.string.det_voice_note)) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
@@ -364,7 +364,7 @@ fun ReminderDetailsScreen(
                                 ) {
                                     Icon(
                                         if (isPlaying) Icons.Filled.Stop else Icons.Filled.PlayArrow,
-                                        contentDescription = if (isPlaying) "Stop audio" else "Play audio",
+                                        contentDescription = if (isPlaying) stringResource(R.string.det_cd_stop_audio) else stringResource(R.string.det_cd_play_audio),
                                         tint = if (isPlaying) {
                                             MaterialTheme.colorScheme.onErrorContainer
                                         } else {
@@ -375,18 +375,18 @@ fun ReminderDetailsScreen(
                             }
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
-                                    text = if (isPlaying) "Playing now" else if (isCustomAudioFile) "Ready to preview" else "Ready to play",
+                                    text = if (isPlaying) stringResource(R.string.alert_playing_now) else if (isCustomAudioFile) stringResource(R.string.det_ready_preview) else stringResource(R.string.det_ready_play),
                                     style = MaterialTheme.typography.titleMedium,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                                 Text(
-                                    text = if (isCustomAudioFile) "Audio file" else "Voice recording",
+                                    text = if (isCustomAudioFile) stringResource(R.string.det_audio_file) else stringResource(R.string.det_voice_recording),
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                                 if (isCustomAudioFile) {
                                     Text(
-                                        text = audioFileName ?: "Selected audio file",
+                                        text = audioFileName ?: selectedAudioLabel,
                                         style = MaterialTheme.typography.bodySmall,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                                         maxLines = 1,
@@ -395,13 +395,14 @@ fun ReminderDetailsScreen(
                                 }
                                 if (!isCustomAudioFile) {
                                     Text(
-                                        text = "Tap play to preview the recorded reminder.",
+                                        text = stringResource(R.string.det_tap_preview),
                                         style = MaterialTheme.typography.bodySmall,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                                         modifier = Modifier.padding(top = 4.dp)
                                     )
                                 }
                                 if (isPlaying || playbackDurationMs > 0L) {
+                                    val audioProgressCd = stringResource(R.string.det_cd_audio_progress)
                                     Spacer(modifier = Modifier.height(12.dp))
                                     Slider(
                                         value = playbackSliderValue.sanitizeUnitFloat(),
@@ -429,7 +430,7 @@ fun ReminderDetailsScreen(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .semantics {
-                                                contentDescription = "Reminder audio progress"
+                                                contentDescription = audioProgressCd
                                                 stateDescription =
                                                     "${detailsFormatPlaybackTime(playbackPositionMs)} of ${detailsFormatPlaybackTime(playbackDurationMs)}"
                                             }
@@ -457,7 +458,7 @@ fun ReminderDetailsScreen(
             
                 // TEXT CONTENT Section (if text exists)
                 if (!item.reminderText.isNullOrBlank()) {
-                    SectionCard(title = "Reminder message") {
+                    SectionCard(title = stringResource(R.string.ae_msg_label)) {
                         Surface(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(18.dp),
@@ -480,25 +481,26 @@ fun ReminderDetailsScreen(
                 // SCHEDULE Section (tappable, replaces "Settings")
                 var showRecurrenceSheet by remember { mutableStateOf(false) }
             
-                SectionCard(title = "Schedule") {
+                SectionCard(title = stringResource(R.string.ae_section_schedule)) {
+                    val doubleTapEdit = stringResource(R.string.det_double_tap_edit)
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable { showRecurrenceSheet = true }
                             .semantics(mergeDescendants = true) {
                                 role = Role.Button
-                                stateDescription = "Double tap to edit"
+                                stateDescription = doubleTapEdit
                             },
                         verticalArrangement = Arrangement.spacedBy(14.dp)
                     ) {
                         DetailInfoRow(
                             icon = Icons.Default.Refresh,
-                            label = "Repeat",
+                            label = stringResource(R.string.ae_repeat),
                             value = recurrenceSummary
                         )
                         DetailInfoRow(
                             icon = Icons.Default.NotificationsActive,
-                            label = "Time",
+                            label = stringResource(R.string.ae_time),
                             value = java.text.SimpleDateFormat(
                                 "h:mm a",
                                 java.util.Locale.getDefault()
@@ -511,23 +513,27 @@ fun ReminderDetailsScreen(
                                         "MMM d, yyyy 'at' h:mm a",
                                         java.util.Locale.getDefault()
                                     ).format(java.util.Date(recurrenceModel.endRule.endDateMillis ?: 0L))
-                                    "Ends by $dateStr"
+                                    stringResource(R.string.det_ends_by, dateStr)
                                 }
-                                EndRuleType.AFTER_OCCURRENCES -> "Ends after ${recurrenceModel.endRule.count} occurrences"
+                                EndRuleType.AFTER_OCCURRENCES -> pluralStringResource(
+                                    R.plurals.det_ends_after,
+                                    recurrenceModel.endRule.count ?: 0,
+                                    recurrenceModel.endRule.count ?: 0
+                                )
                                 else -> ""
                             }
                             DetailInfoRow(
                                 icon = Icons.Default.EventBusy,
-                                label = "End rule",
+                                label = stringResource(R.string.det_end_rule),
                                 value = endRuleText
                             )
                         }
                         DetailInfoRow(
                             icon = Icons.Default.NotificationsActive,
-                            label = "Missed reminder handling",
+                            label = stringResource(R.string.det_missed_handling),
                             value = when (recurrenceModel.missedPolicy) {
-                                MissedPolicy.FIRE_ON_RESUME -> "Alert when device turns back on"
-                                MissedPolicy.SKIP_TO_NEXT -> "Remind only at the next exact time"
+                                MissedPolicy.FIRE_ON_RESUME -> stringResource(R.string.det_missed_fire)
+                                MissedPolicy.SKIP_TO_NEXT -> stringResource(R.string.det_missed_skip)
                             }
                         )
                         Surface(
@@ -546,7 +552,7 @@ fun ReminderDetailsScreen(
                                     modifier = Modifier.size(16.dp)
                                 )
                                 Text(
-                                    text = "Tap to edit schedule",
+                                    text = stringResource(R.string.det_tap_edit_schedule),
                                     style = MaterialTheme.typography.labelLarge,
                                     color = MaterialTheme.colorScheme.onPrimaryContainer
                                 )
@@ -588,9 +594,9 @@ fun ReminderDetailsScreen(
                     if (item.isCompleted || isFiringOrMissed) {
                         PrimaryActionButton(
                             text = when {
-                                item.isCompleted -> "Mark as Undone"
-                                isRecurring -> "Dismiss"
-                                else -> "Mark as Done"
+                                item.isCompleted -> stringResource(R.string.det_mark_undone)
+                                isRecurring -> stringResource(R.string.action_dismiss)
+                                else -> stringResource(R.string.det_mark_done)
                             },
                             icon = if (item.isCompleted) Icons.Filled.Refresh else Icons.Filled.Done,
                             onClick = { 
@@ -611,7 +617,7 @@ fun ReminderDetailsScreen(
                     // Helper text for future reminders
                     if (!item.isCompleted && !isFiringOrMissed) {
                         Text(
-                            text = "Scheduled for: ${DateUtils.formatDateTime(item.nextTriggerAt)}",
+                            text = stringResource(R.string.det_scheduled_for, DateUtils.formatDateTime(item.nextTriggerAt)),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             textAlign = TextAlign.Center,
@@ -637,7 +643,7 @@ fun ReminderDetailsScreen(
                 showRescheduleDatePicker = false
                 showRescheduleTimePicker = true
             } else {
-                Toast.makeText(context, "Date must be today or later", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.err_date_future), Toast.LENGTH_SHORT).show()
             }
         }
         if (shouldUseSystemDateTimePickers()) {
@@ -666,12 +672,12 @@ fun ReminderDetailsScreen(
                         },
                         enabled = dateState.selectedDateMillis != null
                     ) {
-                        Text("Apply")
+                        Text(stringResource(R.string.action_apply))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = cancelDateFlow) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.action_cancel))
                     }
                 }
             ) {
@@ -697,7 +703,7 @@ fun ReminderDetailsScreen(
                 minute
             )
             if (selectedTime <= System.currentTimeMillis()) {
-                Toast.makeText(context, "Please select a future time", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.err_time_future), Toast.LENGTH_SHORT).show()
             } else {
                 pendingRescheduleTime = selectedTime
                 showRescheduleTimePicker = false
@@ -720,7 +726,7 @@ fun ReminderDetailsScreen(
             )
             AlertDialog(
                 onDismissRequest = cancelTimeFlow,
-                title = { Text("Select Time") },
+                title = { Text(stringResource(R.string.time_picker_title)) },
                 text = { TimePicker(state = timeState) },
                 confirmButton = {
                     Button(
@@ -728,12 +734,12 @@ fun ReminderDetailsScreen(
                             applyPickedTime(timeState.hour, timeState.minute)
                         }
                     ) {
-                        Text("Apply")
+                        Text(stringResource(R.string.action_apply))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = cancelTimeFlow) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.action_cancel))
                     }
                 }
             )
@@ -754,15 +760,15 @@ fun ReminderDetailsScreen(
             },
             title = { 
                 Text(
-                    "Delete Reminder?",
+                    stringResource(R.string.det_delete_title),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
-                ) 
+                )
             },
-            text = { 
+            text = {
                 Text(
-                    if (isRecurring) "This will stop all future occurrences. This cannot be undone."
-                    else "This cannot be undone.",
+                    if (isRecurring) stringResource(R.string.det_delete_recurring)
+                    else stringResource(R.string.det_delete_onetime),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -772,7 +778,7 @@ fun ReminderDetailsScreen(
                     onClick = {
                         showDeleteDialog = false
                         viewModel.deleteReminder()
-                        Toast.makeText(context, "Reminder deleted", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.home_snackbar_deleted), Toast.LENGTH_SHORT).show()
                         navigateBack()
                     },
                     colors = ButtonDefaults.buttonColors(
@@ -782,7 +788,7 @@ fun ReminderDetailsScreen(
                 ) {
                     Icon(Icons.Filled.Delete, contentDescription = null, modifier = Modifier.size(18.dp))
                     Spacer(Modifier.width(8.dp))
-                    Text("Delete")
+                    Text(stringResource(R.string.action_delete))
                 }
             },
             dismissButton = {
@@ -790,7 +796,7 @@ fun ReminderDetailsScreen(
                     onClick = { showDeleteDialog = false },
                     shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
                 ) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.action_cancel))
                 }
             },
             shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp)
@@ -834,14 +840,14 @@ fun ReminderDetailsScreen(
             },
             title = {
                 Text(
-                    text = "Reschedule Reminder?",
+                    text = stringResource(R.string.det_reschedule_title),
                     style = MaterialTheme.typography.titleLarge,
                     textAlign = TextAlign.Center
                 )
             },
             text = {
                 Text(
-                    text = "Reschedule to $formattedTime?",
+                    text = stringResource(R.string.det_reschedule_to, formattedTime),
                     style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center
                 )
@@ -854,12 +860,12 @@ fun ReminderDetailsScreen(
                         navigateBack()
                     }
                 ) {
-                    Text("Confirm")
+                    Text(stringResource(R.string.action_confirm))
                 }
             },
             dismissButton = {
                 OutlinedButton(onClick = { showRescheduleConfirmation = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.action_cancel))
                 }
             }
         )

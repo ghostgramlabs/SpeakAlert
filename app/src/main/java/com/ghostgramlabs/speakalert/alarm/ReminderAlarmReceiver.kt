@@ -122,6 +122,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 val dndBypassEnabled = settingsRepository.dndBypassEnabled.first()
                 val loopTimeoutMinutes = settingsRepository.loopTimeoutMinutes.first()
                 val fullScreenAlertEnabled = settingsRepository.fullScreenAlertEnabled.first()
+                val persistUntilDone = settingsRepository.persistUntilDone.first()
                 val audioPath = reminder.audioPath
                 val hasAudioConfigured = !audioPath.isNullOrBlank()
                 val hasAudio = ReminderAudioSource.isPlayable(context, audioPath)
@@ -254,7 +255,9 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                                     reminderText = if (hasText) reminder.reminderText else null,
                                     autoplayOnTap = false,
                                     toneOnlyMode = toneOnlyMode,
-                                    dndBypassEnabled = dndBypassEnabled
+                                    dndBypassEnabled = dndBypassEnabled,
+                                    playingSound = toneOnlyMode,
+                                    persistUntilDone = persistUntilDone
                                 )
                             }
                             if (toneOnlyMode && missedNotificationShown) {
@@ -397,7 +400,10 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             isFollowUpAlert = alertPayload.isFollowUpAlert,
                             dndBypassEnabled = dndBypassEnabled,
                             silentAlert = !privatePlaybackEnabled ||
-                                PrivateAudioRoute.hasExternalPrivateRoute(context)
+                                PrivateAudioRoute.hasExternalPrivateRoute(context),
+                            // Sound is actively playing on this path, so offer Silence.
+                            playingSound = true,
+                            persistUntilDone = persistUntilDone
                         )
                     }
                     FileLogger.log("ALARM: Showed notification after autoplay: $shown")
@@ -416,7 +422,10 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             useFullScreenAlert = useLockScreenFullScreen,
                             isFollowUpAlert = alertPayload.isFollowUpAlert,
                             dndBypassEnabled = dndBypassEnabled,
-                            silentAlert = false
+                            silentAlert = false,
+                            // No autoplay here; only a tone-only alarm makes sound, otherwise keep Play.
+                            playingSound = toneOnlyMode,
+                            persistUntilDone = persistUntilDone
                         )
                     }
                     FileLogger.log("ALARM: Notification shown: $shown")
@@ -478,21 +487,36 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     // Keep exactly one follow-up alive. This matters most after Snooze:
                     // the snoozed alert becomes the new active cycle and replaces any older follow-up.
                     FollowUpAlarmScheduler.cancel(context, reminder.id)
-                    val followUpBaseTime = maxOf(now, scheduledTime)
-                    val followUpAt = com.ghostgramlabs.speakalert.util.DateUtils.normalizeToMinute(
-                        followUpBaseTime + reminder.followUpCheckMinutes * 60 * 1000L
-                    )
-                    updatedReminder = updatedReminder.copy(
-                        pendingFollowUpAt = followUpAt
-                    )
-                    FollowUpAlarmScheduler.schedule(context, reminder.id, followUpAt)
-                    FileLogger.log(
-                        when {
-                            isFollowUpTrigger -> "ALARM: Scheduled next follow-up check at $followUpAt"
-                            isSnoozeTrigger -> "ALARM: Scheduled post-snooze follow-up check at $followUpAt"
-                            else -> "ALARM: Scheduled follow-up check at $followUpAt"
-                        }
-                    )
+                    // A normal/snooze fire starts a fresh follow-up cycle; a follow-up fire counts
+                    // toward the cap so reminders can't nag forever until Done.
+                    val firedSoFar = if (isFollowUpTrigger) reminder.followUpFireCount + 1 else 0
+                    val followUpMaxRepeats = settingsRepository.followUpMaxRepeats.first()
+                    if (isFollowUpTrigger && firedSoFar >= followUpMaxRepeats) {
+                        updatedReminder = updatedReminder.copy(
+                            pendingFollowUpAt = null,
+                            followUpFireCount = firedSoFar
+                        )
+                        FileLogger.log(
+                            "ALARM: Follow-up repeat limit ($followUpMaxRepeats) reached for ${reminder.id}; stopping follow-ups"
+                        )
+                    } else {
+                        val followUpBaseTime = maxOf(now, scheduledTime)
+                        val followUpAt = com.ghostgramlabs.speakalert.util.DateUtils.normalizeToMinute(
+                            followUpBaseTime + reminder.followUpCheckMinutes * 60 * 1000L
+                        )
+                        updatedReminder = updatedReminder.copy(
+                            pendingFollowUpAt = followUpAt,
+                            followUpFireCount = firedSoFar
+                        )
+                        FollowUpAlarmScheduler.schedule(context, reminder.id, followUpAt)
+                        FileLogger.log(
+                            when {
+                                isFollowUpTrigger -> "ALARM: Scheduled follow-up check ${firedSoFar + 1}/$followUpMaxRepeats at $followUpAt"
+                                isSnoozeTrigger -> "ALARM: Scheduled post-snooze follow-up check at $followUpAt"
+                                else -> "ALARM: Scheduled follow-up check at $followUpAt"
+                            }
+                        )
+                    }
                 }
                 
                 repository.updateReminder(updatedReminder)

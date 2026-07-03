@@ -35,6 +35,7 @@ import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.FileLogger
 import com.ghostgramlabs.speakalert.util.PrivateAudioRoute
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
+import com.ghostgramlabs.speakalert.util.TtsLanguageSupport
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -58,6 +59,9 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     private var pendingTtsText: String? = null
     private var isTtsInitialized = false
     private var isTtsMode = false
+    // Spoken-language preference: 0 = Auto-detect, 1 = Device language, 2 = English.
+    @Volatile
+    private var ttsLanguageMode = 0
     
     // For TTS replay
     private var currentTtsText: String? = null
@@ -194,6 +198,11 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
                         currentVolume = volume
                         player.volume = volume
                         FileLogger.log("SERVICE: Volume updated to $volume")
+                    }
+                }
+                scope.launch {
+                    repository.ttsLanguageMode.collect { mode ->
+                        ttsLanguageMode = mode
                     }
                 }
             } catch (e: Exception) {
@@ -536,6 +545,10 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     }
 
     private fun speakNow(text: String) {
+        // Pick the voice that matches the reminder's own language (with fallback) right before
+        // speaking, so e.g. a Hindi reminder is read correctly even on an English phone.
+        applyTtsLanguageForText(text)
+
         val params = android.os.Bundle()
         params.putInt(
             TextToSpeech.Engine.KEY_PARAM_STREAM,
@@ -555,6 +568,53 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         if (speakResult == TextToSpeech.ERROR) {
             FileLogger.log("SERVICE: tts.speak() failed with ERROR")
             stopSelf()
+        }
+    }
+
+    /**
+     * Selects the TTS voice for [text]. Tries, in order: the language auto-detected from the text,
+     * the device default, then English. If none has voice data installed, the engine keeps its own
+     * default and a one-time hint is shown (no longer fails silently).
+     */
+    private fun applyTtsLanguageForText(text: String) {
+        val engine = tts ?: return
+        // Honor the user's "Spoken language" preference; Auto-detect also keeps device/English as
+        // graceful fallbacks.
+        val detected = if (ttsLanguageMode == 0) TtsLanguageSupport.detectLocale(text) else null
+        val candidates = LinkedHashSet<Locale>().apply {
+            when (ttsLanguageMode) {
+                1 -> { add(Locale.getDefault()); add(Locale.ENGLISH) }          // Device language
+                2 -> { add(Locale.ENGLISH); add(Locale.getDefault()) }          // English
+                else -> {                                                       // Auto-detect
+                    detected?.let { add(it) }
+                    add(Locale.getDefault())
+                    add(Locale.ENGLISH)
+                }
+            }
+        }
+        for (locale in candidates) {
+            val res = engine.setLanguage(locale)
+            if (res >= TextToSpeech.LANG_AVAILABLE) {
+                FileLogger.log("SERVICE: TTS language set to ${locale.toLanguageTag()} (res=$res)")
+                return
+            }
+        }
+        FileLogger.log("SERVICE: No TTS voice data for text language; using engine default")
+        maybeShowVoiceDataHint(detected ?: Locale.getDefault())
+    }
+
+    /** Shows a single, non-blocking hint that voice data for [locale] should be installed. */
+    private fun maybeShowVoiceDataHint(locale: Locale) {
+        val prefs = getSharedPreferences("tts_hints", android.content.Context.MODE_PRIVATE)
+        if (prefs.getBoolean("voice_hint_shown", false)) return
+        prefs.edit().putBoolean("voice_hint_shown", true).apply()
+        val language = locale.getDisplayLanguage(Locale.getDefault()).ifBlank { "this language" }
+        android.os.Handler(android.os.Looper.getMainLooper()).post {
+            android.widget.Toast.makeText(
+                applicationContext,
+                "No $language voice installed. Add it in your phone's Text-to-speech settings to hear spoken reminders.",
+                android.widget.Toast.LENGTH_LONG
+            ).show()
         }
     }
 
@@ -875,40 +935,38 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 tts?.setAudioAttributes(buildPlatformAudioAttributes())
             }
-            val result = tts?.setLanguage(Locale.getDefault())
-            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                FileLogger.log("SERVICE: TTS language not supported")
-                stopSelf()
-            } else {
-                isTtsInitialized = true
-                FileLogger.log("SERVICE: TTS initialized successfully")
-                tts?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
-                    override fun onStart(utteranceId: String?) {
-                        FileLogger.log("SERVICE: TTS utterance started")
-                    }
-                    override fun onDone(utteranceId: String?) {
-                        FileLogger.log("SERVICE: TTS utterance done, loop=$loopEnabled")
-                        if (loopEnabled && currentTtsText != null) {
-                            // Replay TTS text
-                            performSpeak(currentTtsText!!)
-                        } else {
-                            broadcastPlaybackStatus(isPlaying = false)
-                            stopSelf()
-                        }
-                    }
-                    @Deprecated("Deprecated in Java")
-                    override fun onError(utteranceId: String?) {
-                        FileLogger.log("SERVICE: TTS utterance error")
+            // Best-effort initial language. The actual TTS voice is chosen per reminder text at
+            // speak time (with a fallback chain), so an unavailable device-default language must
+            // NOT abort playback here — that was the old "fails silently" behaviour.
+            tts?.setLanguage(Locale.getDefault())
+            isTtsInitialized = true
+            FileLogger.log("SERVICE: TTS initialized successfully")
+            tts?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+                override fun onStart(utteranceId: String?) {
+                    FileLogger.log("SERVICE: TTS utterance started")
+                }
+                override fun onDone(utteranceId: String?) {
+                    FileLogger.log("SERVICE: TTS utterance done, loop=$loopEnabled")
+                    if (loopEnabled && currentTtsText != null) {
+                        // Replay TTS text
+                        performSpeak(currentTtsText!!)
+                    } else {
                         broadcastPlaybackStatus(isPlaying = false)
                         stopSelf()
                     }
-                })
-                
-                pendingTtsText?.let {
-                    FileLogger.log("SERVICE: Speaking pending TTS text")
-                    performSpeak(it)
-                    pendingTtsText = null
                 }
+                @Deprecated("Deprecated in Java")
+                override fun onError(utteranceId: String?) {
+                    FileLogger.log("SERVICE: TTS utterance error")
+                    broadcastPlaybackStatus(isPlaying = false)
+                    stopSelf()
+                }
+            })
+
+            pendingTtsText?.let {
+                FileLogger.log("SERVICE: Speaking pending TTS text")
+                performSpeak(it)
+                pendingTtsText = null
             }
         } else {
             FileLogger.log("SERVICE: TTS initialization failed with status=$status")

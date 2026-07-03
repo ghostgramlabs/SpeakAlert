@@ -41,15 +41,24 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import com.ghostgramlabs.speakalert.ui.theme.VoiceReminderTheme
 import com.ghostgramlabs.speakalert.ui.navigation.VoiceReminderNavGraph
+import androidx.compose.ui.res.stringResource
+import com.ghostgramlabs.speakalert.R
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.BatteryOptimizationSupport
 import com.ghostgramlabs.speakalert.util.FullScreenIntentSupport
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
+
+    override fun attachBaseContext(newBase: android.content.Context) {
+        super.attachBaseContext(com.ghostgramlabs.speakalert.util.AppLocale.wrapContext(newBase))
+    }
+
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +93,9 @@ class MainActivity : ComponentActivity() {
             var showBatteryOptimizationDialog by rememberSaveable { mutableStateOf(false) }
             var showWhatsNewSheet by rememberSaveable { mutableStateOf(false) }
             var showFullScreenRecoveryDialog by rememberSaveable { mutableStateOf(false) }
+            var showRatingPrompt by rememberSaveable { mutableStateOf(false) }
+            var currentOpenCount by rememberSaveable { mutableStateOf(-1) }
+            var ratingEvaluated by rememberSaveable { mutableStateOf(false) }
             var fullScreenAccessGranted by rememberSaveable {
                 mutableStateOf(FullScreenIntentSupport.canUseFullScreenIntent(this@MainActivity))
             }
@@ -137,6 +149,33 @@ class MainActivity : ComponentActivity() {
                 showBatteryOptimizationDialog = true
             }
 
+            // Count this app open once per process launch to pace the rating prompt.
+            LaunchedEffect(Unit) {
+                if (currentOpenCount < 0) {
+                    currentOpenCount = settingsRepository.incrementAppOpenCount()
+                }
+            }
+
+            // Ask for a rating occasionally once the user has some history with the app,
+            // but only on a plain home launch and never while another prompt is showing.
+            LaunchedEffect(allowHomeStartupOverlays, currentOpenCount) {
+                if (ratingEvaluated) return@LaunchedEffect
+                if (!allowHomeStartupOverlays) return@LaunchedEffect
+                if (!shouldOfferWhatsNew) return@LaunchedEffect
+                if (currentOpenCount < 0) return@LaunchedEffect
+                if (settingsRepository.ratingPromptDecided.first()) {
+                    ratingEvaluated = true
+                    return@LaunchedEffect
+                }
+                val lastOpen = settingsRepository.ratingPromptLastOpen.first()
+                val eligible = currentOpenCount >= 4 && (currentOpenCount - lastOpen) >= 3
+                ratingEvaluated = true
+                if (eligible && Random.nextInt(100) < 50) {
+                    settingsRepository.setRatingPromptLastOpen(currentOpenCount)
+                    showRatingPrompt = true
+                }
+            }
+
             LaunchedEffect(
                 allowHomeStartupOverlays,
                 shouldOfferWhatsNew,
@@ -188,12 +227,12 @@ class MainActivity : ComponentActivity() {
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
                                 Text(
-                                    text = "Allow $APP_DISPLAY_NAME to run in background",
+                                    text = stringResource(R.string.batt_prompt_title, APP_DISPLAY_NAME),
                                     style = MaterialTheme.typography.titleLarge,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                                 Text(
-                                    text = "Some phones, especially Xiaomi and POCO models, stop apps from running in the background to save battery. This can prevent reminders from triggering. Allow $APP_DISPLAY_NAME to ignore battery optimization for more reliable reminders.",
+                                    text = stringResource(R.string.batt_prompt_message, APP_DISPLAY_NAME),
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -207,7 +246,7 @@ class MainActivity : ComponentActivity() {
                                         if (!opened) {
                                             Toast.makeText(
                                                 this@MainActivity,
-                                                "Battery settings are not available on this device.",
+                                                getString(R.string.batt_toast_unavailable),
                                                 Toast.LENGTH_SHORT
                                             ).show()
                                         }
@@ -215,7 +254,7 @@ class MainActivity : ComponentActivity() {
                                     modifier = Modifier.fillMaxWidth(),
                                     shape = RoundedCornerShape(18.dp)
                                 ) {
-                                    Text("Allow")
+                                    Text(stringResource(R.string.action_allow))
                                 }
                                 OutlinedButton(
                                     onClick = {
@@ -227,7 +266,7 @@ class MainActivity : ComponentActivity() {
                                     modifier = Modifier.fillMaxWidth(),
                                     shape = RoundedCornerShape(18.dp)
                                 ) {
-                                    Text("Later")
+                                    Text(stringResource(R.string.action_later))
                                 }
                             }
                         }
@@ -262,38 +301,34 @@ class MainActivity : ComponentActivity() {
                                     verticalArrangement = Arrangement.spacedBy(12.dp)
                                 ) {
                                     Text(
-                                        text = "What's new in $currentVersionName",
+                                        text = stringResource(R.string.wn_title, currentVersionName),
                                         style = MaterialTheme.typography.titleLarge,
                                         color = MaterialTheme.colorScheme.onSurface
                                     )
                                     Text(
-                                        text = "SpeakAlert now plays reminders more reliably through your connected devices, at the right volume, and improves alarm settings across languages.",
+                                        text = stringResource(R.string.wn_intro),
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                     WhatsNewFeatureCard(
-                                        title = "Date & time pickers in Arabic",
-                                        description = "Date and time pickers now use the reliable system pickers when your device language uses Arabic or other localized digits, so reminders are easier to schedule."
+                                        title = stringResource(R.string.wn_lang_title),
+                                        description = stringResource(R.string.wn_lang_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = "Private playback",
-                                        description = "Reminders now reliably play through your connected hearing aids, Bluetooth, or wired headphones, including for recurring reminders. With nothing connected, they fall back to the phone earpiece and keep vibration on so you don't miss them."
+                                        title = stringResource(R.string.wn_buttons_title),
+                                        description = stringResource(R.string.wn_buttons_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = "Louder speaker reminders",
-                                        description = "Speaker reminders now use the alarm volume slider instead of media volume, so they're consistently audible."
+                                        title = stringResource(R.string.wn_spoken_title),
+                                        description = stringResource(R.string.wn_spoken_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = "Arabic number input fixed",
-                                        description = "Alarm settings now correctly save Arabic and other localized digits for custom durations and repeat counts."
+                                        title = stringResource(R.string.wn_persist_title),
+                                        description = stringResource(R.string.wn_persist_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = "After count is easier to edit",
-                                        description = "The default count is selected automatically, so typing a new number replaces it instead of appending to it."
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = "Contact support",
-                                        description = "Settings now includes a Contact support option for feedback, questions, and playback issues."
+                                        title = stringResource(R.string.wn_followup_title),
+                                        description = stringResource(R.string.wn_followup_desc)
                                     )
                                 }
                                 Button(
@@ -306,7 +341,71 @@ class MainActivity : ComponentActivity() {
                                     modifier = Modifier.fillMaxWidth(),
                                     shape = RoundedCornerShape(18.dp)
                                 ) {
-                                    Text("Continue")
+                                    Text(stringResource(R.string.action_continue))
+                                }
+                            }
+                        }
+                    }
+
+                    if (showRatingPrompt) {
+                        val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+                        ModalBottomSheet(
+                            onDismissRequest = { showRatingPrompt = false },
+                            sheetState = sheetState,
+                            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
+                            dragHandle = { BottomSheetDefaults.DragHandle() }
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 24.dp)
+                                    .navigationBarsPadding()
+                                    .padding(bottom = 24.dp),
+                                verticalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.rate_prompt_title, APP_DISPLAY_NAME),
+                                    style = MaterialTheme.typography.titleLarge,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                                Text(
+                                    text = stringResource(R.string.rate_prompt_message, APP_DISPLAY_NAME),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                                Button(
+                                    onClick = {
+                                        showRatingPrompt = false
+                                        coroutineScope.launch {
+                                            settingsRepository.setRatingPromptDecided(true)
+                                        }
+                                        openPlayStoreListing(
+                                            this@MainActivity,
+                                            this@MainActivity.packageName
+                                        )
+                                    },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    shape = RoundedCornerShape(18.dp)
+                                ) {
+                                    Text(stringResource(R.string.rate_prompt_positive))
+                                }
+                                OutlinedButton(
+                                    onClick = { showRatingPrompt = false },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    shape = RoundedCornerShape(18.dp)
+                                ) {
+                                    Text(stringResource(R.string.rate_prompt_later))
+                                }
+                                TextButton(
+                                    onClick = {
+                                        showRatingPrompt = false
+                                        coroutineScope.launch {
+                                            settingsRepository.setRatingPromptDecided(true)
+                                        }
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text(stringResource(R.string.rate_prompt_never))
                                 }
                             }
                         }
@@ -316,11 +415,11 @@ class MainActivity : ComponentActivity() {
                         AlertDialog(
                             onDismissRequest = { showFullScreenRecoveryDialog = false },
                             title = {
-                                Text("Allow full-screen alerts again")
+                                Text(stringResource(R.string.fsr_title))
                             },
                             text = {
                                 Text(
-                                    "Lock-screen reminder alerts are still turned on in $APP_DISPLAY_NAME, but Android full-screen access is off. This can happen after reinstall or restore."
+                                    stringResource(R.string.fsr_message, APP_DISPLAY_NAME)
                                 )
                             },
                             confirmButton = {
@@ -330,14 +429,14 @@ class MainActivity : ComponentActivity() {
                                         FullScreenIntentSupport.openSettings(this@MainActivity)
                                     }
                                 ) {
-                                    Text("Open settings")
+                                    Text(stringResource(R.string.action_open_settings))
                                 }
                             },
                             dismissButton = {
                                 TextButton(
                                     onClick = { showFullScreenRecoveryDialog = false }
                                 ) {
-                                    Text("Later")
+                                    Text(stringResource(R.string.action_later))
                                 }
                             }
                         )
@@ -352,6 +451,32 @@ private data class StartupPromptState(
     val batteryOptimizationPromptShown: Boolean,
     val lastWhatsNewVersionShown: String?
 )
+
+/** Opens a Google Play listing, preferring the Play Store app and falling back to the browser. */
+internal fun openPlayStoreListing(context: android.content.Context, packageName: String): Boolean {
+    val marketIntent = android.content.Intent(
+        android.content.Intent.ACTION_VIEW,
+        android.net.Uri.parse("market://details?id=$packageName")
+    ).apply {
+        setPackage("com.android.vending")
+        addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+    }
+    val webIntent = android.content.Intent(
+        android.content.Intent.ACTION_VIEW,
+        android.net.Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+    ).apply {
+        addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+    }
+    return when {
+        marketIntent.resolveActivity(context.packageManager) != null -> {
+            context.startActivity(marketIntent); true
+        }
+        webIntent.resolveActivity(context.packageManager) != null -> {
+            context.startActivity(webIntent); true
+        }
+        else -> false
+    }
+}
 
 @Composable
 private fun WhatsNewFeatureCard(

@@ -22,7 +22,9 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ghostgramlabs.speakalert.R
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,13 +49,13 @@ fun HelpDialog(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                text = "App guide",
+                text = stringResource(R.string.set_app_guide),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.SemiBold
             )
             Text(
-                text = "Everything important about creating, playing, repeating, and recovering reminders in $APP_DISPLAY_NAME.",
+                text = stringResource(R.string.help_intro, APP_DISPLAY_NAME),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -65,44 +67,52 @@ fun HelpDialog(
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 HelpSection(
-                    title = "Creating reminders",
-                    content = "- Voice first: Tap the Mic to record a quick spoken reminder.\n- Audio file: Pick an existing audio file from your device.\n- Reminder message: Shown in the app and notifications.\n- Voice notes and audio files take priority over spoken typed text.\n- Typed reminders are spoken automatically only for text-only reminders when automatic spoken text is enabled.\n- Short label: Optional name for easier scanning in lists.\n- Schedule: Pick date, time, repeat, follow-up check, and save."
+                    title = stringResource(R.string.help_s1_title),
+                    content = stringResource(R.string.help_s1_content)
                 )
                 HelpSection(
-                    title = "Playback and preview",
-                    content = "- Add Reminder lets you preview recorded voice and selected audio before saving.\n- Reminder details lets you play, stop, and seek through voice notes and audio files.\n- Text-only reminders can still be spoken manually from the app or notification.\n- Tone-only mode uses the reminder tone instead of spoken playback.\n- You can choose a tone-only alert sound in Settings, and $APP_DISPLAY_NAME falls back to the default alarm tone if that sound becomes unavailable."
+                    title = stringResource(R.string.help_s2_title),
+                    content = stringResource(R.string.help_s2_content)
                 )
                 HelpSection(
-                    title = "Home and quick actions",
-                    content = "- Today, Upcoming, Missed, and Done tabs group reminders by state.\n- Tap a card to open full reminder details.\n- Use the copy button to duplicate an existing reminder.\n- Card actions include Play reminder, Done, and the three-dot sheet for Edit, Mark done, Stop recurring, or Delete."
+                    title = stringResource(R.string.help_s3_title),
+                    content = stringResource(R.string.help_s3_content, APP_DISPLAY_NAME)
                 )
                 HelpSection(
-                    title = "Repeating reminders",
-                    content = "- Repeat modes: Daily, Weekly, Monthly, Yearly, or Custom.\n- The selected date and time become the first occurrence.\n- Repeats can end forever, by exact date and time, or after a number of occurrences.\n- Marking done on a repeating reminder clears only the current occurrence."
+                    title = stringResource(R.string.help_s4_title),
+                    content = stringResource(R.string.help_s4_content)
                 )
                 HelpSection(
-                    title = "Notifications and full-screen alerts",
-                    content = "- Reminder notifications support Play reminder or Speak reminder, plus Done and Snooze.\n- Swiping away an active reminder marks the current occurrence done.\n- Lock-screen full-screen alert can appear when enabled in Settings."
+                    title = stringResource(R.string.help_s5_title),
+                    content = stringResource(R.string.help_s5_content)
                 )
                 HelpSection(
-                    title = "Missed and restored reminders",
-                    content = "- Missed reminders stay in the Missed tab until you review them.\n- On app open, a missed reminder recovery sheet may offer quick playback of the latest missed reminder.\n- Past reminders can be restored, rescheduled, or replayed from their action sheets."
+                    title = stringResource(R.string.help_s6_title),
+                    content = stringResource(R.string.help_s6_content)
                 )
                 HelpSection(
-                    title = "Playback settings",
-                    content = "- Auto-play reminder audio starts voice note or audio file playback when a reminder fires.\n- Speak typed reminders automatically controls spoken text for text-only reminders only.\n- Manual playback still works even if automatic spoken text is off.\n- Private playback tries connected hearing aids, Bluetooth, or wired headphones first. If none are connected, it uses the phone earpiece instead of the speaker.\n- Loop playback keeps audio repeating until you stop it or the loop timeout is reached.\n- Follow-up check asks again until the reminder is marked done.\n- Quiet hours can silence reminder playback during selected times."
+                    title = stringResource(R.string.help_s7_title),
+                    content = stringResource(R.string.help_s7_content)
                 )
                 HelpSection(
-                    title = "Tone-only mode and reliability",
-                    content = "- Tone-only mode uses a clear alarm tone instead of voice or TTS.\n- You can choose a custom tone-only alert sound, or keep the default alarm tone.\n- Alert even during DND lets $APP_DISPLAY_NAME try to play important reminders while Do Not Disturb is active.\n- When Alert even during DND is off, reminders blocked by DND go to Missed instead of playing.\n- This setting does not turn your phone's DND mode on or off. Android DND access is required before notification bypass becomes active.\n- When enabled, reminders use alarm-priority audio. Some phone routines can still block alarms if the system mode silences alarm audio.\n- If the selected sound is missing later, $APP_DISPLAY_NAME automatically falls back to the default alarm tone.\n- Use tone-only mode if your phone delays, suppresses, or stops spoken playback.\n- Settings > Reliability includes the Battery Optimization Guide for phones with aggressive background restrictions.\n- Keep notifications, exact alarms, and battery settings enabled for the best reminder reliability."
+                    title = stringResource(R.string.help_s8_title),
+                    content = stringResource(R.string.help_s8_content)
                 )
                 HelpSection(
-                    title = "Widgets and Wear OS",
-                    content = "- Quick Reminder widget opens Add Reminder directly.\n- Upcoming widget shows upcoming reminders and missed reminders.\n- Wear OS support depends on phone notifications and watch sync being enabled."
+                    title = stringResource(R.string.help_s9_title),
+                    content = stringResource(R.string.help_s9_content, APP_DISPLAY_NAME)
                 )
                 HelpSection(
-                    title = "After device restart",
-                    content = "- Future reminders are rescheduled automatically after restart.\n- Past-due reminders go through the missed reminder flow instead of firing unexpectedly on boot."
+                    title = stringResource(R.string.help_s10_title),
+                    content = stringResource(R.string.help_s10_content)
+                )
+                HelpSection(
+                    title = stringResource(R.string.help_s11_title),
+                    content = stringResource(R.string.help_s11_content)
+                )
+                HelpSection(
+                    title = stringResource(R.string.help_s12_title),
+                    content = stringResource(R.string.help_s12_content)
                 )
             }
 
@@ -111,7 +121,7 @@ fun HelpDialog(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(18.dp)
             ) {
-                Text("Close")
+                Text(stringResource(R.string.action_close))
             }
         }
     }
