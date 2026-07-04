@@ -48,7 +48,7 @@ class SettingsViewModel(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     val followUpMaxRepeats = settingsRepository.followUpMaxRepeats
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 1)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
     val themeMode = settingsRepository.themeMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
@@ -228,6 +228,56 @@ class SettingsViewModel(
         } catch (e: Exception) {
             android.widget.Toast.makeText(context, "No email app found", android.widget.Toast.LENGTH_SHORT).show()
         }
+    }
+
+    /** Writes all upcoming (active) reminders, including their audio, to [uri] as a ZIP backup. */
+    fun exportBackup(context: android.content.Context, uri: android.net.Uri) {
+        viewModelScope.launch {
+            try {
+                val reminders = reminderRepository.getAllActiveReminders()
+                if (reminders.isEmpty()) {
+                    showToast(context, context.getString(com.ghostgramlabs.speakalert.R.string.backup_export_none))
+                    return@launch
+                }
+                val count = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                    com.ghostgramlabs.speakalert.data.backup.ReminderBackupManager.export(context, uri, reminders)
+                }
+                showToast(context, context.getString(com.ghostgramlabs.speakalert.R.string.backup_export_success, count))
+            } catch (e: Exception) {
+                com.ghostgramlabs.speakalert.util.FileLogger.logError("BACKUP", "Export failed", e)
+                showToast(context, context.getString(com.ghostgramlabs.speakalert.R.string.backup_export_failed))
+            }
+        }
+    }
+
+    /** Restores reminders from a ZIP backup at [uri] and schedules the imported ones. */
+    fun importBackup(context: android.content.Context, uri: android.net.Uri) {
+        viewModelScope.launch {
+            try {
+                val result = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                    com.ghostgramlabs.speakalert.data.backup.ReminderBackupManager.import(
+                        context, uri, reminderRepository
+                    ) { reminder -> alarmScheduler.schedule(reminder) }
+                }
+                val message = if (result.skippedDuplicates == 0 && result.skippedExpired == 0) {
+                    context.getString(com.ghostgramlabs.speakalert.R.string.backup_import_success, result.imported)
+                } else {
+                    context.getString(
+                        com.ghostgramlabs.speakalert.R.string.backup_import_skipped,
+                        result.imported, result.skippedDuplicates, result.skippedExpired
+                    )
+                }
+                showToast(context, message)
+                com.ghostgramlabs.speakalert.widget.SpeakAlertWidgetUpdater.requestUpdate(context)
+            } catch (e: Exception) {
+                com.ghostgramlabs.speakalert.util.FileLogger.logError("BACKUP", "Import failed", e)
+                showToast(context, context.getString(com.ghostgramlabs.speakalert.R.string.backup_import_failed))
+            }
+        }
+    }
+
+    private fun showToast(context: android.content.Context, message: String) {
+        android.widget.Toast.makeText(context, message, android.widget.Toast.LENGTH_LONG).show()
     }
 
     fun scheduleTestReminder() {

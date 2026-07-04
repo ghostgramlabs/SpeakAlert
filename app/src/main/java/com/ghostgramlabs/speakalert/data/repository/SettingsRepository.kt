@@ -75,8 +75,9 @@ class SettingsRepository(private val context: Context) {
     
     val ttsLanguageMode: Flow<Int> = dataStore.data.map { it[TTS_LANGUAGE_MODE] ?: 0 }
     val persistUntilDone: Flow<Boolean> = dataStore.data.map { it[PERSIST_UNTIL_DONE] ?: false }
-    // Default 1: a follow-up fires once and then stops, so reminders never nag forever.
-    val followUpMaxRepeats: Flow<Int> = dataStore.data.map { (it[FOLLOW_UP_MAX_REPEATS] ?: 1).coerceIn(1, 10) }
+    // 0 = repeat until marked done. That is the default because it matches the behavior shipped
+    // up to 2.0.31; a finite limit is an opt-in guardrail, never a silent downgrade.
+    val followUpMaxRepeats: Flow<Int> = dataStore.data.map { (it[FOLLOW_UP_MAX_REPEATS] ?: 0).coerceIn(0, 10) }
     val themeMode: Flow<Int> = dataStore.data.map { it[THEME_MODE] ?: 0 }
     val fullScreenAlertEnabled: Flow<Boolean> = dataStore.data.map { it[FULL_SCREEN_ALERT_ENABLED] ?: false }
     val batteryOptimizationPromptShown: Flow<Boolean> = dataStore.data.map {
@@ -175,7 +176,7 @@ class SettingsRepository(private val context: Context) {
     }
 
     suspend fun setFollowUpMaxRepeats(count: Int) {
-        dataStore.edit { it[FOLLOW_UP_MAX_REPEATS] = count.coerceIn(1, 10) }
+        dataStore.edit { it[FOLLOW_UP_MAX_REPEATS] = count.coerceIn(0, 10) }
     }
 
     suspend fun setThemeMode(mode: Int) {

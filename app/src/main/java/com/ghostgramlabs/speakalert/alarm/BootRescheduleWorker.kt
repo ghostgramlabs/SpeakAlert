@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.ghostgramlabs.speakalert.R
 import com.ghostgramlabs.speakalert.VoiceReminderApp
 import com.ghostgramlabs.speakalert.data.model.MissedReminderEntity
 import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
@@ -52,6 +53,7 @@ class BootRescheduleWorker(
             val toneOnlyAlertToneUri = settingsRepository.toneOnlyAlertToneUri.first()
             val dndBypassEnabled = settingsRepository.dndBypassEnabled.first()
             val loopTimeoutMinutes = settingsRepository.loopTimeoutMinutes.first()
+            val followUpMaxRepeats = settingsRepository.followUpMaxRepeats.first()
 
             val activeReminders = repository.getAllActiveReminders()
             FileLogger.log("BOOT_WORKER: Found ${activeReminders.size} active reminders")
@@ -105,13 +107,17 @@ class BootRescheduleWorker(
                      
                     // 2. Show Missed Notification (No Service Start)
                     if (shouldShowMissedNotification && !suppressRestartNotifications && !silenceForDnd) {
+                        val strings = com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(applicationContext)
                         val dateTimeStr = com.ghostgramlabs.speakalert.util.DateUtils.formatDateTime(triggerTime)
                         val textContent = reminder.reminderText?.let { "\n$it" } ?: ""
-                        val notificationMessage = "Scheduled: $dateTimeStr$textContent"
+                        val notificationMessage = strings.getString(R.string.notif_missed_scheduled, dateTimeStr) + textContent
 
                         val notificationShown = notificationHelper.showNotification(
                             reminder.id,
-                            "Missed: ${buildMissedDisplayTitle(reminder.title, reminder.reminderText)}",
+                            strings.getString(
+                                R.string.notif_missed_title,
+                                buildMissedDisplayTitle(reminder.title, reminder.reminderText)
+                            ),
                             notificationMessage,
                             audioPath = reminder.audioPath,
                             reminderText = reminder.reminderText,
@@ -166,16 +172,41 @@ class BootRescheduleWorker(
                     if (followUpAt > now) {
                         FollowUpAlarmScheduler.schedule(applicationContext, reminder.id, followUpAt)
                     } else {
-                        if (persistedReminder.pendingFollowUpAt != null) {
-                            persistedReminder = persistedReminder.copy(pendingFollowUpAt = null)
-                            repository.updateReminder(persistedReminder)
+                        // The overdue follow-up fires (or is suppressed) right now, so it counts
+                        // toward the repeat cap. Resume the chain afterwards so a reboot doesn't
+                        // break the "repeats until done" promise — unless the main occurrence was
+                        // itself missed-advanced above, or the limit (0 = until done) is reached.
+                        val firedSoFar = reminder.followUpFireCount + 1
+                        val chainContinues = triggerTime > now &&
+                            reminder.followUpCheckMinutes > 0 &&
+                            (followUpMaxRepeats == 0 || firedSoFar < followUpMaxRepeats)
+                        val nextFollowUpAt = if (chainContinues) {
+                            com.ghostgramlabs.speakalert.util.DateUtils.normalizeToMinute(
+                                now + reminder.followUpCheckMinutes * 60 * 1000L
+                            )
+                        } else {
+                            null
+                        }
+                        persistedReminder = persistedReminder.copy(
+                            pendingFollowUpAt = nextFollowUpAt,
+                            followUpFireCount = firedSoFar
+                        )
+                        repository.updateReminder(persistedReminder)
+                        if (nextFollowUpAt != null) {
+                            runCatching {
+                                FollowUpAlarmScheduler.schedule(applicationContext, reminder.id, nextFollowUpAt)
+                            }.onFailure { error ->
+                                FileLogger.logError("BOOT_WORKER", "Failed to schedule resumed follow-up", error)
+                            }
+                            FileLogger.log("BOOT_WORKER: Follow-up chain resumed for ${reminder.id} at $nextFollowUpAt (fired $firedSoFar)")
                         }
                         if (!suppressRestartNotifications && !silenceForDnd) {
                             val followUpPayload = buildReminderAlertPayload(
                                 reminder = persistedReminder,
                                 isFollowUpTrigger = true,
                                 hasPlayableAudio = false,
-                                hasAudioConfigured = false
+                                hasAudioConfigured = false,
+                                strings = AlertStrings.from(applicationContext)
                             )
                             val notificationShown = notificationHelper.showNotification(
                                 reminder.id,
@@ -237,6 +268,7 @@ class BootRescheduleWorker(
                 val words = text.split(Regex("\\s+"))
                 if (words.size > 8) words.take(8).joinToString(" ") else text
             }
-        return textFallback ?: "Reminder"
+        return textFallback ?: com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(applicationContext)
+            .getString(R.string.fallback_reminder_title)
     }
 }

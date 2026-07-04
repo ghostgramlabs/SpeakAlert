@@ -17,6 +17,53 @@
     <string name="notif_action_speak">Speak</string>
     <string name="notif_default_title">Voice reminder</string>
     <string name="notif_default_text">Tap to play your reminder</string>
+    <string name="notif_action_replay">Replay</string>
+    <string name="notif_action_stop">Stop</string>
+    <string name="notif_playback_processing">Processing…</string>
+    <string name="notif_playback_speaking">Speaking: \"%1$s\"</string>
+    <string name="notif_reminder_missing">This reminder could not be found.</string>
+    <string name="notif_missed_title">Missed: %1$s</string>
+    <string name="notif_missed_scheduled_tap">Scheduled for %1$s - tap to open</string>
+    <string name="notif_missed_scheduled_audio_unavailable">Scheduled for %1$s. Selected audio file is unavailable.</string>
+    <string name="notif_missed_scheduled">Scheduled: %1$s</string>
+    <string name="fallback_reminder_title">Reminder</string>
+    <string name="toast_audio_unavailable">Selected audio file is unavailable.</string>
+    <string name="tts_voice_hint">No %1$s voice installed. Add it in your phone\'s Text-to-speech settings to hear spoken reminders.</string>
+    <string name="tts_voice_hint_this_language">this language</string>
+
+    <!-- Alert payload (notification / spoken follow-up text) -->
+    <string name="alert_followup_fallback_title">Follow-Up Check</string>
+    <string name="alert_followup_question">Did you complete %1$s?</string>
+    <string name="alert_followup_this_reminder">this reminder</string>
+    <string name="alert_audio_unavailable_full">Selected audio file is unavailable. Tap to choose another file.</string>
+    <string name="alert_tap_to_view">Tap to view</string>
+
+    <!-- Section titles -->
+    <string name="set_section_timing">Snooze &amp; follow-up</string>
+    <string name="set_section_backup">Backup &amp; restore</string>
+    <string name="set_section_about">Help &amp; about</string>
+
+    <!-- Backup & restore -->
+    <string name="set_backup_export">Back up reminders</string>
+    <string name="set_backup_export_desc">Save your upcoming reminders, including recordings, to a file</string>
+    <string name="set_backup_import">Import reminders</string>
+    <string name="set_backup_import_desc">Restore reminders from a backup file</string>
+    <string name="backup_export_none">No upcoming reminders to back up.</string>
+    <string name="backup_export_success">Backed up %1$d reminders.</string>
+    <string name="backup_export_failed">Backup failed.</string>
+    <string name="backup_import_success">Imported %1$d reminders.</string>
+    <string name="backup_import_skipped">Imported %1$d reminders (%2$d duplicates, %3$d expired skipped).</string>
+    <string name="backup_import_failed">Import failed. Choose a SpeakAlert backup file.</string>
+
+    <!-- Notification channels (visible in system Settings) -->
+    <string name="channel_reminders_name">%1$s Reminders</string>
+    <string name="channel_reminders_desc">Notifications for %1$s reminders</string>
+    <string name="channel_tone_only_name">%1$s Tone-Only Alerts</string>
+    <string name="channel_tone_only_desc">Tone-only notifications with vibration only; playback tone is handled by %1$s</string>
+    <string name="channel_dnd_bypass_name">%1$s Reminders (DND bypass)</string>
+    <string name="channel_dnd_bypass_desc">Reminder alarms that can alert during Do Not Disturb when Android access is granted</string>
+    <string name="channel_tone_only_bypass_name">%1$s Tone-Only Alerts (DND bypass)</string>
+    <string name="channel_tone_only_bypass_desc">Tone-only reminders that can alert during Do Not Disturb when Android access is granted</string>
 
     <!-- Alarm alert screen -->
     <string name="alert_mark_done">Mark Done</string>
@@ -395,7 +442,8 @@
     <string name="set_followup_off_desc">Off — new reminders are created with no follow-up. You can still set one per reminder.</string>
     <string name="set_followup_on_desc">New reminders start with a %1$dm follow-up that re-alerts if not marked done. Existing reminders are unchanged.</string>
     <string name="set_followup_repeat">Follow-up repeat limit</string>
-    <string name="set_followup_repeat_desc">How many times a follow-up re-alerts before it stops on its own, so a reminder you never mark done can\'t nag forever. Quiet Time also stops follow-ups.</string>
+    <string name="set_followup_repeat_desc">By default (∞) a follow-up keeps re-alerting until you mark the reminder done. Pick a limit if you want it to stop on its own after that many re-alerts. Quiet Time also stops follow-ups.</string>
+    <string name="set_toast_followup_repeat_until_done">Follow-up repeats until marked done</string>
     <string name="set_toast_followup_repeat">Follow-up repeat limit: %1$d×</string>
     <string name="set_reliability">Reliability</string>
     <string name="set_persist">Keep reminder on screen until done</string>
@@ -455,6 +503,10 @@
     <string name="help_s10_content">- Quick Reminder widget opens Add Reminder directly.\n- Upcoming widget shows upcoming reminders and missed reminders.\n- Wear OS support depends on phone notifications and watch sync being enabled.</string>
     <string name="help_s11_title">After device restart</string>
     <string name="help_s11_content">- Future reminders are rescheduled automatically after restart.\n- Past-due reminders go through the missed reminder flow instead of firing unexpectedly on boot.</string>
+    <string name="help_s13_title">Follow-up checks</string>
+    <string name="help_s13_content">- A follow-up check asks \"Did you complete …?\" a few minutes after a reminder fires.\n- By default it keeps repeating until you mark the reminder done. You can set a repeat limit in Settings &gt; Reliability if you want it to stop on its own.\n- Done and Snooze end the current follow-up cycle; Quiet Time also stops follow-ups.\n- Follow-up checks continue after a device restart until done or the limit is reached.</string>
+    <string name="help_s14_title">Backup and import</string>
+    <string name="help_s14_content">- Back up reminders in Settings saves all upcoming reminders, including voice recordings, to a single file you choose.\n- Import reminders restores them on this or another device.\n- Imports skip exact duplicates and expired one-time reminders; recurring reminders continue from their next occurrence.\n- Imported reminders are scheduled immediately.</string>
     <string name="help_s12_title">Keep reminders on screen until done</string>
     <string name="help_s12_content">- Turn on Settings &gt; Reliability &gt; Keep reminder on screen until done to pin the reminder notification so it isn\'t swiped away by accident.\n- While it is on, a swipe only silences the sound and leaves the reminder pending — it stays until you tap Done or Snooze.\n- Marking Done always works from the notification, the full-screen alert, or the reminder card, and it stops any follow-up re-alerts.\n- Pair it with a follow-up check so the reminder also re-alerts on a timer until it is completed.</string>
 
@@ -470,8 +522,10 @@
     <string name="wn_spoken_desc">Spoken reminders are read in their own language automatically — a Hindi reminder is read in Hindi even if the app is in English. Adjust it in Settings &gt; Playback &gt; Spoken language.</string>
     <string name="wn_persist_title">Keep reminders until done</string>
     <string name="wn_persist_desc">Turn on Settings &gt; Reliability &gt; Keep reminder on screen until done so a reminder stays pinned and only clears when you mark it Done or Snooze.</string>
-    <string name="wn_followup_title">Follow-up reminders that know when to stop</string>
-    <string name="wn_followup_desc">Follow-up checks now re-alert a set number of times and then stop on their own, instead of forever. Choose how many in Settings &gt; Reliability &gt; Follow-up repeat limit.</string>
+    <string name="wn_backup_title">Back up and move your reminders</string>
+    <string name="wn_backup_desc">Save all upcoming reminders — recordings included — to a file and restore them anytime, even on a new phone. Find it in Settings.</string>
+    <string name="wn_followup_title">Follow-up checks, your way</string>
+    <string name="wn_followup_desc">Follow-up checks keep re-alerting until you mark the reminder done, just like before. New: set a repeat limit in Settings &gt; Reliability if you want them to stop on their own.</string>
 
     <!-- Startup dialogs -->
     <string name="action_allow">Allow</string>

@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Modern Material 3 Theme for SpeakAlert -->
-    <!-- Inheriting from DayNight.NoActionBar ensures compatibility with Compose and Edge-to-Edge -->
+    <!-- Window themes only set the pre-Compose window background so cold start and the
+         full-screen alarm never flash the wrong color; everything visible is drawn by Compose.
+         Theme.SpeakAlert follows the system (dark variant lives in values-night); the .Light and
+         .Dark variants are applied at runtime when the user forces a theme in Settings. -->
     <style name="Theme.SpeakAlert" parent="android:Theme.Material.Light.NoActionBar">
-        <!-- Status bar and navigation bar are handled by enableEdgeToEdge() in MainActivity -->
+        <item name="android:windowBackground">@color/window_background_light</item>
+    </style>
+
+    <style name="Theme.SpeakAlert.Light" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/window_background_light</item>
+    </style>
+
+    <style name="Theme.SpeakAlert.Dark" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/window_background_dark</item>
     </style>
 </resources>

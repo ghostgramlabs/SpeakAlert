@@ -49,22 +49,25 @@ class NotificationHelper(private val context: Context) {
         val notificationManager: NotificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val canBypassDnd = dndBypassEnabled && notificationManager.isNotificationPolicyAccessGranted
+        // Recreating a channel updates its user-visible name/description, so these follow the
+        // in-app language on the next refresh.
+        val strings = com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(context)
 
         val normalChannel = NotificationChannel(
             CHANNEL_ID,
-            "$APP_DISPLAY_NAME Reminders",
+            strings.getString(R.string.channel_reminders_name, APP_DISPLAY_NAME),
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
-            description = "Notifications for $APP_DISPLAY_NAME reminders"
+            description = strings.getString(R.string.channel_reminders_desc, APP_DISPLAY_NAME)
             enableVibration(true)
             setBypassDnd(false)
         }
         val toneOnlyChannel = NotificationChannel(
             TONE_ONLY_CHANNEL_ID,
-            "$APP_DISPLAY_NAME Tone-Only Alerts",
+            strings.getString(R.string.channel_tone_only_name, APP_DISPLAY_NAME),
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
-            description = "Tone-only notifications with vibration only; playback tone is handled by $APP_DISPLAY_NAME"
+            description = strings.getString(R.string.channel_tone_only_desc, APP_DISPLAY_NAME)
             enableVibration(true)
             setSound(null, null)
             setBypassDnd(false)
@@ -74,19 +77,19 @@ class NotificationHelper(private val context: Context) {
         if (canBypassDnd) {
             val bypassChannel = NotificationChannel(
                 DND_BYPASS_CHANNEL_ID,
-                "$APP_DISPLAY_NAME Reminders (DND bypass)",
+                strings.getString(R.string.channel_dnd_bypass_name, APP_DISPLAY_NAME),
                 NotificationManager.IMPORTANCE_HIGH
             ).apply {
-                description = "Reminder alarms that can alert during Do Not Disturb when Android access is granted"
+                description = strings.getString(R.string.channel_dnd_bypass_desc)
                 enableVibration(true)
                 setBypassDnd(true)
             }
             val toneOnlyBypassChannel = NotificationChannel(
                 TONE_ONLY_DND_BYPASS_CHANNEL_ID,
-                "$APP_DISPLAY_NAME Tone-Only Alerts (DND bypass)",
+                strings.getString(R.string.channel_tone_only_bypass_name, APP_DISPLAY_NAME),
                 NotificationManager.IMPORTANCE_HIGH
             ).apply {
-                description = "Tone-only reminders that can alert during Do Not Disturb when Android access is granted"
+                description = strings.getString(R.string.channel_tone_only_bypass_desc)
                 enableVibration(true)
                 setSound(null, null)
                 setBypassDnd(true)
@@ -118,6 +121,9 @@ class NotificationHelper(private val context: Context) {
     ): Boolean {
         Log.d(TAG, "showNotification called for reminderId=$reminderId, title=$title")
         createNotificationChannel(dndBypassEnabled)
+        // Resolve user-facing text in the app's selected language (this runs off the UI thread, so
+        // use a locale-wrapped context rather than the process default).
+        val strings = com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(context)
         val canBypassDnd = dndBypassEnabled &&
             (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
                 .isNotificationPolicyAccessGranted
@@ -182,7 +188,7 @@ class NotificationHelper(private val context: Context) {
             putExtra("reminderId", reminderId)
             if (audioPath != null) putExtra("audioPath", audioPath)
             if (reminderText != null) putExtra("reminderText", reminderText)
-            putExtra("title", title ?: context.getString(R.string.notif_default_title))
+            putExtra("title", title ?: strings.getString(R.string.notif_default_title))
         }
         val playPendingIntent = PendingIntent.getBroadcast(
             context,
@@ -243,9 +249,9 @@ class NotificationHelper(private val context: Context) {
 
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle(title ?: context.getString(R.string.notif_default_title))
-            .setContentText(message ?: context.getString(R.string.notif_default_text))
-            .setStyle(NotificationCompat.BigTextStyle().bigText(message ?: context.getString(R.string.notif_default_text)))
+            .setContentTitle(title ?: strings.getString(R.string.notif_default_title))
+            .setContentText(message ?: strings.getString(R.string.notif_default_text))
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message ?: strings.getString(R.string.notif_default_text)))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -277,24 +283,26 @@ class NotificationHelper(private val context: Context) {
 
         // Pop-up actions (phones show up to three). First slot adapts to context, then Done + Snooze.
         //  - "Done" was previously (confusingly) labelled "Dismiss" while still completing the task.
-        //  - "Silence" stops the alarm sound but leaves the reminder so the user can decide later.
-        //  - When nothing is playing, keep the one-tap "Play" so voice reminders are still
-        //    audible from the notification without opening the app (no regression).
+        //  - Replay remains available during autoplay; the playback service notification owns
+        //    the separate Stop action.
+        //  - Tone-only alerts have no voice payload to replay, so they retain Silence.
         val canPlayOnDemand = !audioPath.isNullOrBlank() || !reminderText.isNullOrBlank()
         when {
-            playingSound ->
-                builder.addAction(android.R.drawable.ic_lock_silent_mode, context.getString(R.string.notif_action_silence), silencePendingIntent)
             canPlayOnDemand -> {
-                val playLabel = if (!audioPath.isNullOrBlank()) {
-                    context.getString(R.string.notif_action_play)
+                val playLabel = if (playingSound) {
+                    strings.getString(R.string.notif_action_replay)
+                } else if (!audioPath.isNullOrBlank()) {
+                    strings.getString(R.string.notif_action_play)
                 } else {
-                    context.getString(R.string.notif_action_speak)
+                    strings.getString(R.string.notif_action_speak)
                 }
                 builder.addAction(android.R.drawable.ic_media_play, playLabel, playPendingIntent)
             }
+            playingSound ->
+                builder.addAction(android.R.drawable.ic_lock_silent_mode, strings.getString(R.string.notif_action_silence), silencePendingIntent)
         }
-        builder.addAction(android.R.drawable.checkbox_on_background, context.getString(R.string.notif_action_done), donePendingIntent)
-        builder.addAction(android.R.drawable.ic_lock_idle_alarm, context.getString(R.string.notif_action_snooze), snoozePendingIntent)
+        builder.addAction(android.R.drawable.checkbox_on_background, strings.getString(R.string.notif_action_done), donePendingIntent)
+        builder.addAction(android.R.drawable.ic_lock_idle_alarm, strings.getString(R.string.notif_action_snooze), snoozePendingIntent)
 
         return try {
             NotificationManagerCompat.from(context).notify(reminderId.toInt(), builder.build())
@@ -309,4 +317,3 @@ class NotificationHelper(private val context: Context) {
         }
     }
 }
-

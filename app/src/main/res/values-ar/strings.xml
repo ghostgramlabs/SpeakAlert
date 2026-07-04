@@ -14,6 +14,48 @@
     <string name="notif_action_speak">نطق</string>
     <string name="notif_default_title">تذكير صوتي</string>
     <string name="notif_default_text">اضغط لتشغيل التذكير</string>
+    <string name="notif_action_replay">إعادة التشغيل</string>
+    <string name="notif_action_stop">إيقاف</string>
+    <string name="notif_playback_processing">جارٍ المعالجة…</string>
+    <string name="notif_playback_speaking">يتحدث: \"%1$s\"</string>
+    <string name="notif_reminder_missing">تعذر العثور على هذا التذكير.</string>
+    <string name="notif_missed_title">فائت: %1$s</string>
+    <string name="notif_missed_scheduled_tap">مجدول في %1$s - اضغط للفتح</string>
+    <string name="notif_missed_scheduled_audio_unavailable">مجدول في %1$s. ملف الصوت المحدد غير متوفر.</string>
+    <string name="notif_missed_scheduled">مجدول: %1$s</string>
+    <string name="fallback_reminder_title">تذكير</string>
+    <string name="toast_audio_unavailable">ملف الصوت المحدد غير متوفر.</string>
+    <string name="tts_voice_hint">لا يوجد صوت مثبت للغة %1$s. أضفه من إعدادات تحويل النص إلى كلام في هاتفك لسماع التذكيرات المنطوقة.</string>
+    <string name="tts_voice_hint_this_language">هذه اللغة</string>
+
+    <string name="alert_followup_fallback_title">فحص المتابعة</string>
+    <string name="alert_followup_question">هل أكملت %1$s؟</string>
+    <string name="alert_followup_this_reminder">هذا التذكير</string>
+    <string name="alert_audio_unavailable_full">ملف الصوت المحدد غير متوفر. اضغط لاختيار ملف آخر.</string>
+    <string name="alert_tap_to_view">اضغط للعرض</string>
+
+    <string name="set_section_timing">الغفوة والمتابعة</string>
+    <string name="set_section_backup">النسخ الاحتياطي والاستعادة</string>
+    <string name="set_section_about">المساعدة وحول التطبيق</string>
+    <string name="set_backup_export">نسخ التذكيرات احتياطيًا</string>
+    <string name="set_backup_export_desc">احفظ تذكيراتك القادمة، بما فيها التسجيلات، في ملف</string>
+    <string name="set_backup_import">استيراد التذكيرات</string>
+    <string name="set_backup_import_desc">استعادة التذكيرات من ملف نسخة احتياطية</string>
+    <string name="backup_export_none">لا توجد تذكيرات قادمة للنسخ الاحتياطي.</string>
+    <string name="backup_export_success">تم نسخ %1$d من التذكيرات احتياطيًا.</string>
+    <string name="backup_export_failed">فشل النسخ الاحتياطي.</string>
+    <string name="backup_import_success">تم استيراد %1$d من التذكيرات.</string>
+    <string name="backup_import_skipped">تم استيراد %1$d من التذكيرات (تم تخطي %2$d مكررة و%3$d منتهية).</string>
+    <string name="backup_import_failed">فشل الاستيراد. اختر ملف نسخة احتياطية من SpeakAlert.</string>
+
+    <string name="channel_reminders_name">تذكيرات %1$s</string>
+    <string name="channel_reminders_desc">إشعارات تذكيرات %1$s</string>
+    <string name="channel_tone_only_name">تنبيهات النغمة فقط من %1$s</string>
+    <string name="channel_tone_only_desc">إشعارات النغمة فقط مع الاهتزاز؛ يتولى %1$s تشغيل نغمة التنبيه</string>
+    <string name="channel_dnd_bypass_name">تذكيرات %1$s (تجاوز عدم الإزعاج)</string>
+    <string name="channel_dnd_bypass_desc">منبهات التذكير التي يمكنها التنبيه أثناء وضع عدم الإزعاج عند منح الإذن في Android</string>
+    <string name="channel_tone_only_bypass_name">تنبيهات النغمة فقط من %1$s (تجاوز عدم الإزعاج)</string>
+    <string name="channel_tone_only_bypass_desc">تذكيرات النغمة فقط التي يمكنها التنبيه أثناء وضع عدم الإزعاج عند منح الإذن في Android</string>
 
     <string name="alert_mark_done">وضع علامة تم</string>
     <string name="alert_silence">كتم</string>
@@ -403,7 +445,8 @@
     <string name="set_followup_off_desc">معطّل — تُنشأ التذكيرات الجديدة بدون متابعة. لا يزال بإمكانك ضبط واحدة لكل تذكير.</string>
     <string name="set_followup_on_desc">تبدأ التذكيرات الجديدة بمتابعة %1$d د تعيد التنبيه إذا لم توضع علامة منجز. التذكيرات الحالية لا تتغير.</string>
     <string name="set_followup_repeat">حدّ تكرار المتابعة</string>
-    <string name="set_followup_repeat_desc">كم مرّة تعيد المتابعة التنبيه قبل أن تتوقّف تلقائيًا، حتى لا يظلّ تذكير لم تضع له علامة منجز يزعجك إلى الأبد. كما يوقف وقت الهدوء المتابعات.</string>
+    <string name="set_followup_repeat_desc">افتراضيًا (∞) تواصل المتابعة إعادة التنبيه حتى تضع علامة تم على التذكير. اختر حدًّا إذا أردت أن تتوقّف تلقائيًا بعد هذا العدد من التنبيهات. كما يوقف وقت الهدوء المتابعات.</string>
+    <string name="set_toast_followup_repeat_until_done">تتكرر المتابعة حتى وضع علامة تم</string>
     <string name="set_toast_followup_repeat">حدّ تكرار المتابعة: %1$d×</string>
     <string name="set_reliability">الموثوقية</string>
     <string name="set_persist">إبقاء التذكير على الشاشة حتى الانتهاء</string>
@@ -462,6 +505,10 @@
     <string name="help_s9_content">- يستخدم وضع النغمة فقط نغمة إنذار واضحة بدلًا من الصوت أو TTS.\n- يمكنك اختيار صوت تنبيه مخصص للنغمة فقط، أو الاحتفاظ بنغمة الإنذار الافتراضية.\n- التنبيه حتى أثناء عدم الإزعاج يتيح لـ %1$s محاولة تشغيل التذكيرات المهمة أثناء تفعيل عدم الإزعاج.\n- عندما يكون التنبيه حتى أثناء عدم الإزعاج معطّلًا، تذهب التذكيرات المحجوبة بعدم الإزعاج إلى الفائتة بدلًا من التشغيل.\n- هذا الإعداد لا يشغّل وضع عدم الإزعاج بهاتفك أو يوقفه. يلزم وصول عدم الإزعاج في Android قبل أن يصبح تجاوز الإشعار نشطًا.\n- عند التفعيل، تستخدم التذكيرات صوتًا بأولوية الإنذار. لا يزال بإمكان بعض إجراءات الهاتف حجب الإنذارات إذا كتم وضع النظام صوت الإنذار.\n- إذا فُقد الصوت المحدد لاحقًا، يعود %1$s تلقائيًا إلى نغمة الإنذار الافتراضية.\n- استخدم وضع النغمة فقط إذا كان هاتفك يؤخر التشغيل المنطوق أو يكبته أو يوقفه.\n- الإعدادات &gt; الموثوقية تتضمن دليل تحسين البطارية للهواتف ذات القيود الخلفية الصارمة.\n- أبقِ الإشعارات والإنذارات الدقيقة وإعدادات البطارية مفعّلة لأفضل موثوقية للتذكير.</string>
     <string name="help_s10_content">- أداة التذكير السريع تفتح إضافة تذكير مباشرة.\n- أداة القادمة تعرض التذكيرات القادمة والفائتة.\n- يعتمد دعم Wear OS على تفعيل إشعارات الهاتف ومزامنة الساعة.</string>
     <string name="help_s11_content">- تُعاد جدولة التذكيرات المستقبلية تلقائيًا بعد إعادة التشغيل.\n- تمر التذكيرات المتأخرة بمسار التذكير الفائت بدلًا من الانطلاق بشكل غير متوقع عند الإقلاع.</string>
+    <string name="help_s13_title">فحوصات المتابعة</string>
+    <string name="help_s13_content">- يسأل فحص المتابعة \"هل أكملت …؟\" بعد دقائق من انطلاق التذكير.\n- افتراضيًا يتكرر حتى تضع علامة تم على التذكير. يمكنك تعيين حدّ للتكرار من الإعدادات &gt; الموثوقية إذا أردت أن يتوقّف تلقائيًا.\n- تم وغفوة ينهيان الدورة الحالية؛ كما يوقف وقت الهدوء المتابعات.\n- تستمر فحوصات المتابعة بعد إعادة تشغيل الهاتف حتى الإتمام أو بلوغ الحدّ.</string>
+    <string name="help_s14_title">النسخ الاحتياطي والاستيراد</string>
+    <string name="help_s14_content">- نسخ التذكيرات احتياطيًا في الإعدادات يحفظ كل تذكيراتك القادمة، بما فيها التسجيلات الصوتية، في ملف واحد تختاره بنفسك.\n- استيراد التذكيرات يستعيدها على هذا الجهاز أو جهاز آخر.\n- يتخطى الاستيراد التكرارات المطابقة والتذكيرات المنفردة المنتهية؛ وتستمر التذكيرات المتكررة من موعدها التالي.\n- تُجدول التذكيرات المستوردة فورًا.</string>
     <string name="help_s12_title">إبقاء التذكيرات على الشاشة حتى الانتهاء</string>
     <string name="help_s12_content">- فعّل الإعدادات &gt; الموثوقية &gt; إبقاء التذكير على الشاشة حتى الانتهاء لتثبيت إشعار التذكير كي لا يُمرَّر بعيدًا بالخطأ.\n- أثناء التفعيل، يكتم التمرير الصوت فقط ويترك التذكير معلّقًا — يبقى حتى تضغط تم أو غفوة.\n- وضع علامة تم يعمل دائمًا من الإشعار أو تنبيه ملء الشاشة أو بطاقة التذكير، ويوقف أي إعادة تنبيه للمتابعة.\n- اقرنه بفحص المتابعة كي يعيد التذكير التنبيه أيضًا على مؤقّت حتى يكتمل.</string>
 
@@ -477,8 +524,10 @@
     <string name="wn_persist_title">إبقاء التذكيرات حتى الانتهاء</string>
     <string name="wn_persist_desc">فعّل الإعدادات &gt; الموثوقية &gt; إبقاء التذكير على الشاشة حتى الانتهاء كي يبقى التذكير مثبّتًا ولا يُمسح إلا عند وضع علامة تم أو غفوة.</string>
 
-    <string name="wn_followup_title">متابعات تعرف متى تتوقّف</string>
-    <string name="wn_followup_desc">تعيد فحوصات المتابعة الآن التنبيه عددًا محدّدًا من المرّات ثم تتوقّف تلقائيًا بدلًا من الاستمرار للأبد. اختر العدد من الإعدادات &gt; الموثوقية &gt; حدّ تكرار المتابعة.</string>
+    <string name="wn_backup_title">انسخ تذكيراتك احتياطيًا وانقلها</string>
+    <string name="wn_backup_desc">احفظ كل التذكيرات القادمة — مع التسجيلات — في ملف واستعدها في أي وقت، حتى على هاتف جديد. تجدها في الإعدادات.</string>
+    <string name="wn_followup_title">فحوصات المتابعة على طريقتك</string>
+    <string name="wn_followup_desc">تواصل فحوصات المتابعة إعادة التنبيه حتى تضع علامة تم على التذكير، كما كانت من قبل. جديد: عيّن حدًّا للتكرار من الإعدادات &gt; الموثوقية إذا أردت أن تتوقّف تلقائيًا.</string>
 
     <!-- حوارات بدء التشغيل -->
     <string name="action_allow">السماح</string>

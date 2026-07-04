@@ -14,6 +14,48 @@
     <string name="notif_action_speak">Leer</string>
     <string name="notif_default_title">Recordatorio de voz</string>
     <string name="notif_default_text">Toca para reproducir tu recordatorio</string>
+    <string name="notif_action_replay">Repetir</string>
+    <string name="notif_action_stop">Detener</string>
+    <string name="notif_playback_processing">Procesando…</string>
+    <string name="notif_playback_speaking">Diciendo: \"%1$s\"</string>
+    <string name="notif_reminder_missing">No se encontró este recordatorio.</string>
+    <string name="notif_missed_title">Perdido: %1$s</string>
+    <string name="notif_missed_scheduled_tap">Programado para %1$s - toca para abrir</string>
+    <string name="notif_missed_scheduled_audio_unavailable">Programado para %1$s. El archivo de audio seleccionado no está disponible.</string>
+    <string name="notif_missed_scheduled">Programado: %1$s</string>
+    <string name="fallback_reminder_title">Recordatorio</string>
+    <string name="toast_audio_unavailable">El archivo de audio seleccionado no está disponible.</string>
+    <string name="tts_voice_hint">No hay voz de %1$s instalada. Añádela en los ajustes de texto a voz de tu teléfono para escuchar los recordatorios hablados.</string>
+    <string name="tts_voice_hint_this_language">este idioma</string>
+
+    <string name="alert_followup_fallback_title">Verificación de seguimiento</string>
+    <string name="alert_followup_question">¿Completaste %1$s?</string>
+    <string name="alert_followup_this_reminder">este recordatorio</string>
+    <string name="alert_audio_unavailable_full">El archivo de audio seleccionado no está disponible. Toca para elegir otro archivo.</string>
+    <string name="alert_tap_to_view">Toca para ver</string>
+
+    <string name="set_section_timing">Posponer y seguimiento</string>
+    <string name="set_section_backup">Copia de seguridad y restauración</string>
+    <string name="set_section_about">Ayuda y acerca de</string>
+    <string name="set_backup_export">Copia de seguridad de recordatorios</string>
+    <string name="set_backup_export_desc">Guarda tus próximos recordatorios, incluidas las grabaciones, en un archivo</string>
+    <string name="set_backup_import">Importar recordatorios</string>
+    <string name="set_backup_import_desc">Restaura recordatorios desde un archivo de copia de seguridad</string>
+    <string name="backup_export_none">No hay próximos recordatorios para respaldar.</string>
+    <string name="backup_export_success">Se respaldaron %1$d recordatorios.</string>
+    <string name="backup_export_failed">Error al crear la copia de seguridad.</string>
+    <string name="backup_import_success">Se importaron %1$d recordatorios.</string>
+    <string name="backup_import_skipped">Se importaron %1$d recordatorios (%2$d duplicados y %3$d vencidos omitidos).</string>
+    <string name="backup_import_failed">Error al importar. Elige un archivo de copia de seguridad de SpeakAlert.</string>
+
+    <string name="channel_reminders_name">Recordatorios de %1$s</string>
+    <string name="channel_reminders_desc">Notificaciones de los recordatorios de %1$s</string>
+    <string name="channel_tone_only_name">Alertas de solo tono de %1$s</string>
+    <string name="channel_tone_only_desc">Notificaciones de solo tono con vibración; %1$s reproduce el tono de alerta</string>
+    <string name="channel_dnd_bypass_name">Recordatorios de %1$s (omitir No molestar)</string>
+    <string name="channel_dnd_bypass_desc">Alarmas de recordatorio que pueden sonar durante No molestar cuando se concede el acceso en Android</string>
+    <string name="channel_tone_only_bypass_name">Alertas de solo tono de %1$s (omitir No molestar)</string>
+    <string name="channel_tone_only_bypass_desc">Recordatorios de solo tono que pueden sonar durante No molestar cuando se concede el acceso en Android</string>
 
     <string name="alert_mark_done">Marcar como hecho</string>
     <string name="alert_silence">Silenciar</string>
@@ -383,7 +425,8 @@
     <string name="set_followup_off_desc">Desactivado: los nuevos recordatorios se crean sin seguimiento. Aún puedes configurar uno por recordatorio.</string>
     <string name="set_followup_on_desc">Los nuevos recordatorios empiezan con un seguimiento de %1$dm que vuelve a avisar si no se marca como hecho. Los recordatorios existentes no cambian.</string>
     <string name="set_followup_repeat">Límite de repetición del seguimiento</string>
-    <string name="set_followup_repeat_desc">Cuántas veces vuelve a avisar un seguimiento antes de detenerse solo, para que un recordatorio que nunca marcas como hecho no insista para siempre. El Tiempo de silencio también detiene los seguimientos.</string>
+    <string name="set_followup_repeat_desc">De forma predeterminada (∞), el seguimiento sigue avisando hasta que marcas el recordatorio como hecho. Elige un límite si quieres que se detenga solo tras ese número de avisos. El Tiempo de silencio también detiene los seguimientos.</string>
+    <string name="set_toast_followup_repeat_until_done">El seguimiento se repite hasta marcarlo como hecho</string>
     <string name="set_toast_followup_repeat">Límite de repetición del seguimiento: %1$d×</string>
     <string name="set_reliability">Fiabilidad</string>
     <string name="set_persist">Mantener el recordatorio en pantalla hasta completarlo</string>
@@ -442,6 +485,10 @@
     <string name="help_s9_content">- El modo Solo tono usa un tono de alarma claro en lugar de voz o TTS.\n- Puedes elegir un sonido de alerta de Solo tono personalizado, o mantener el tono de alarma predeterminado.\n- Avisar incluso durante No molestar permite que %1$s intente reproducir recordatorios importantes mientras No molestar está activo.\n- Cuando Avisar incluso durante No molestar está desactivado, los recordatorios bloqueados por No molestar van a Perdidos en lugar de reproducirse.\n- Este ajuste no activa ni desactiva el modo No molestar del teléfono. Se requiere acceso a No molestar de Android antes de que la omisión funcione.\n- Cuando está activado, los recordatorios usan audio con prioridad de alarma. Algunas rutinas del teléfono aún pueden bloquear alarmas si el modo del sistema silencia el audio de alarma.\n- Si el sonido seleccionado falta más tarde, %1$s usa automáticamente el tono de alarma predeterminado.\n- Usa el modo Solo tono si tu teléfono retrasa, suprime o detiene la reproducción hablada.\n- Ajustes &gt; Fiabilidad incluye la Guía de optimización de batería para teléfonos con restricciones de fondo agresivas.\n- Mantén activadas las notificaciones, las alarmas exactas y los ajustes de batería para la mejor fiabilidad.</string>
     <string name="help_s10_content">- El widget Recordatorio rápido abre Añadir recordatorio directamente.\n- El widget Próximos muestra los próximos recordatorios y los perdidos.\n- La compatibilidad con Wear OS depende de que las notificaciones del teléfono y la sincronización del reloj estén activadas.</string>
     <string name="help_s11_content">- Los recordatorios futuros se reprograman automáticamente tras reiniciar.\n- Los recordatorios vencidos pasan por el flujo de recordatorios perdidos en lugar de sonar inesperadamente al arrancar.</string>
+    <string name="help_s13_title">Comprobaciones de seguimiento</string>
+    <string name="help_s13_content">- Una comprobación de seguimiento pregunta \"¿Completaste …?\" unos minutos después de que suene un recordatorio.\n- De forma predeterminada se repite hasta que marcas el recordatorio como hecho. Puedes establecer un límite de repetición en Ajustes &gt; Fiabilidad si quieres que se detenga sola.\n- Hecho y Posponer terminan el ciclo actual; el Tiempo de silencio también detiene los seguimientos.\n- Las comprobaciones de seguimiento continúan tras reiniciar el teléfono hasta completarse o alcanzar el límite.</string>
+    <string name="help_s14_title">Copia de seguridad e importación</string>
+    <string name="help_s14_content">- Copia de seguridad de recordatorios, en Ajustes, guarda todos los próximos recordatorios, incluidas las grabaciones de voz, en un solo archivo que tú eliges.\n- Importar recordatorios los restaura en este u otro dispositivo.\n- La importación omite duplicados exactos y recordatorios únicos vencidos; los recurrentes continúan desde su próxima repetición.\n- Los recordatorios importados se programan de inmediato.</string>
     <string name="help_s12_title">Mantener recordatorios en pantalla hasta completarlos</string>
     <string name="help_s12_content">- Activa Ajustes &gt; Fiabilidad &gt; Mantener el recordatorio en pantalla hasta completarlo para fijar la notificación y que no se descarte por accidente.\n- Mientras está activo, deslizar solo silencia el sonido y deja el recordatorio pendiente: permanece hasta que toques Hecho o Posponer.\n- Marcar Hecho siempre funciona desde la notificación, la alerta a pantalla completa o la tarjeta del recordatorio, y detiene los reavisos de seguimiento.\n- Combínalo con una comprobación de seguimiento para que el recordatorio también reavise por temporizador hasta completarse.</string>
 
@@ -457,8 +504,10 @@
     <string name="wn_persist_title">Mantener recordatorios hasta completarlos</string>
     <string name="wn_persist_desc">Activa Ajustes &gt; Fiabilidad &gt; Mantener el recordatorio en pantalla hasta completarlo para que un recordatorio permanezca fijo y solo se borre cuando lo marques como Hecho o lo pospongas.</string>
 
-    <string name="wn_followup_title">Seguimientos que saben cuándo parar</string>
-    <string name="wn_followup_desc">Las comprobaciones de seguimiento ahora vuelven a avisar un número determinado de veces y luego se detienen solas, en vez de para siempre. Elige cuántas en Ajustes &gt; Fiabilidad &gt; Límite de repetición del seguimiento.</string>
+    <string name="wn_backup_title">Respalda y lleva tus recordatorios</string>
+    <string name="wn_backup_desc">Guarda todos tus próximos recordatorios — grabaciones incluidas — en un archivo y restáuralos cuando quieras, incluso en un teléfono nuevo. Está en Ajustes.</string>
+    <string name="wn_followup_title">Seguimientos a tu manera</string>
+    <string name="wn_followup_desc">Las comprobaciones de seguimiento siguen avisando hasta que marcas el recordatorio como hecho, igual que antes. Novedad: establece un límite de repetición en Ajustes &gt; Fiabilidad si quieres que se detengan solas.</string>
 
     <!-- Diálogos de inicio -->
     <string name="action_allow">Permitir</string>

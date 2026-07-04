@@ -53,7 +53,8 @@ class ReminderActionReceiver : BroadcastReceiver() {
                         withContext(Dispatchers.Main) {
                             android.widget.Toast.makeText(
                                 context,
-                                "Selected audio file is unavailable.",
+                                com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(context)
+                                    .getString(com.ghostgramlabs.speakalert.R.string.toast_audio_unavailable),
                                 android.widget.Toast.LENGTH_SHORT
                             ).show()
                         }

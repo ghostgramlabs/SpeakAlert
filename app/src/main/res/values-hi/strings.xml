@@ -14,6 +14,48 @@
     <string name="notif_action_speak">बोलें</string>
     <string name="notif_default_title">वॉइस रिमाइंडर</string>
     <string name="notif_default_text">अपना रिमाइंडर चलाने के लिए टैप करें</string>
+    <string name="notif_action_replay">फिर से चलाएँ</string>
+    <string name="notif_action_stop">रोकें</string>
+    <string name="notif_playback_processing">प्रोसेस हो रहा है…</string>
+    <string name="notif_playback_speaking">बोल रहे हैं: \"%1$s\"</string>
+    <string name="notif_reminder_missing">यह रिमाइंडर नहीं मिला।</string>
+    <string name="notif_missed_title">छूट गया: %1$s</string>
+    <string name="notif_missed_scheduled_tap">%1$s के लिए निर्धारित - खोलने के लिए टैप करें</string>
+    <string name="notif_missed_scheduled_audio_unavailable">%1$s के लिए निर्धारित। चुनी गई ऑडियो फ़ाइल उपलब्ध नहीं है।</string>
+    <string name="notif_missed_scheduled">निर्धारित: %1$s</string>
+    <string name="fallback_reminder_title">रिमाइंडर</string>
+    <string name="toast_audio_unavailable">चुनी गई ऑडियो फ़ाइल उपलब्ध नहीं है।</string>
+    <string name="tts_voice_hint">%1$s की आवाज़ इंस्टॉल नहीं है। बोले गए रिमाइंडर सुनने के लिए इसे अपने फ़ोन की टेक्स्ट-टू-स्पीच सेटिंग में जोड़ें।</string>
+    <string name="tts_voice_hint_this_language">यह भाषा</string>
+
+    <string name="alert_followup_fallback_title">फ़ॉलो-अप जाँच</string>
+    <string name="alert_followup_question">क्या आपने %1$s पूरा किया?</string>
+    <string name="alert_followup_this_reminder">यह रिमाइंडर</string>
+    <string name="alert_audio_unavailable_full">चुनी गई ऑडियो फ़ाइल उपलब्ध नहीं है। दूसरी फ़ाइल चुनने के लिए टैप करें।</string>
+    <string name="alert_tap_to_view">देखने के लिए टैप करें</string>
+
+    <string name="set_section_timing">स्नूज़ और फ़ॉलो-अप</string>
+    <string name="set_section_backup">बैकअप और पुनर्स्थापना</string>
+    <string name="set_section_about">सहायता और जानकारी</string>
+    <string name="set_backup_export">रिमाइंडर का बैकअप लें</string>
+    <string name="set_backup_export_desc">अपने आगामी रिमाइंडर, रिकॉर्डिंग सहित, एक फ़ाइल में सहेजें</string>
+    <string name="set_backup_import">रिमाइंडर आयात करें</string>
+    <string name="set_backup_import_desc">बैकअप फ़ाइल से रिमाइंडर पुनर्स्थापित करें</string>
+    <string name="backup_export_none">बैकअप के लिए कोई आगामी रिमाइंडर नहीं है।</string>
+    <string name="backup_export_success">%1$d रिमाइंडर का बैकअप लिया गया।</string>
+    <string name="backup_export_failed">बैकअप विफल रहा।</string>
+    <string name="backup_import_success">%1$d रिमाइंडर आयात किए गए।</string>
+    <string name="backup_import_skipped">%1$d रिमाइंडर आयात किए गए (%2$d डुप्लिकेट और %3$d समाप्त छोड़े गए)।</string>
+    <string name="backup_import_failed">आयात विफल रहा। SpeakAlert बैकअप फ़ाइल चुनें।</string>
+
+    <string name="channel_reminders_name">%1$s रिमाइंडर</string>
+    <string name="channel_reminders_desc">%1$s रिमाइंडर की सूचनाएँ</string>
+    <string name="channel_tone_only_name">%1$s केवल-टोन अलर्ट</string>
+    <string name="channel_tone_only_desc">कंपन के साथ केवल-टोन सूचनाएँ; अलर्ट टोन %1$s चलाता है</string>
+    <string name="channel_dnd_bypass_name">%1$s रिमाइंडर (परेशान न करें बायपास)</string>
+    <string name="channel_dnd_bypass_desc">रिमाइंडर अलार्म जो Android में अनुमति मिलने पर परेशान न करें के दौरान भी अलर्ट कर सकते हैं</string>
+    <string name="channel_tone_only_bypass_name">%1$s केवल-टोन अलर्ट (परेशान न करें बायपास)</string>
+    <string name="channel_tone_only_bypass_desc">केवल-टोन रिमाइंडर जो Android में अनुमति मिलने पर परेशान न करें के दौरान भी अलर्ट कर सकते हैं</string>
 
     <string name="alert_mark_done">पूर्ण चिह्नित करें</string>
     <string name="alert_silence">शांत करें</string>
@@ -383,7 +425,8 @@
     <string name="set_followup_off_desc">बंद — नए रिमाइंडर बिना फ़ॉलो-अप के बनते हैं। आप प्रति रिमाइंडर एक सेट कर सकते हैं।</string>
     <string name="set_followup_on_desc">नए रिमाइंडर %1$dमि फ़ॉलो-अप के साथ शुरू होते हैं जो पूर्ण चिह्नित न होने पर फिर सूचित करता है। मौजूदा रिमाइंडर अपरिवर्तित रहते हैं।</string>
     <string name="set_followup_repeat">फ़ॉलो-अप दोहराव सीमा</string>
-    <string name="set_followup_repeat_desc">फ़ॉलो-अप अपने आप रुकने से पहले कितनी बार फिर सूचित करे, ताकि जिस रिमाइंडर को आप कभी पूर्ण चिह्नित न करें वह हमेशा परेशान न करे। शांत समय भी फ़ॉलो-अप रोक देता है।</string>
+    <string name="set_followup_repeat_desc">डिफ़ॉल्ट रूप से (∞) फ़ॉलो-अप तब तक सूचित करता रहता है जब तक आप रिमाइंडर को पूर्ण चिह्नित नहीं करते। यदि आप चाहते हैं कि यह उतनी बार सूचित करके अपने आप रुक जाए, तो एक सीमा चुनें। शांत समय भी फ़ॉलो-अप रोक देता है।</string>
+    <string name="set_toast_followup_repeat_until_done">फ़ॉलो-अप पूर्ण चिह्नित होने तक दोहराया जाएगा</string>
     <string name="set_toast_followup_repeat">फ़ॉलो-अप दोहराव सीमा: %1$d×</string>
     <string name="set_reliability">विश्वसनीयता</string>
     <string name="set_persist">पूर्ण होने तक रिमाइंडर स्क्रीन पर रखें</string>
@@ -442,6 +485,10 @@
     <string name="help_s9_content">- टोन-ओनली मोड आवाज़ या TTS के बजाय स्पष्ट अलार्म टोन का उपयोग करता है।\n- आप कस्टम टोन-ओनली अलर्ट ध्वनि चुन सकते हैं, या डिफ़ॉल्ट अलार्म टोन रख सकते हैं।\n- DND के दौरान भी सूचित करें %1$s को Do Not Disturb सक्रिय रहते हुए महत्वपूर्ण रिमाइंडर बजाने का प्रयास करने देता है।\n- जब DND के दौरान भी सूचित करें बंद हो, तो DND द्वारा अवरुद्ध रिमाइंडर बजने के बजाय छूटे में चले जाते हैं।\n- यह सेटिंग आपके फ़ोन के DND मोड को चालू या बंद नहीं करती। नोटिफ़िकेशन बायपास सक्रिय होने से पहले Android DND एक्सेस आवश्यक है।\n- सक्षम होने पर, रिमाइंडर अलार्म-प्राथमिकता ऑडियो का उपयोग करते हैं। यदि सिस्टम मोड अलार्म ऑडियो शांत करता है तो कुछ फ़ोन रूटीन अब भी अलार्म रोक सकते हैं।\n- यदि चयनित ध्वनि बाद में गायब हो, तो %1$s स्वतः डिफ़ॉल्ट अलार्म टोन पर वापस आ जाता है।\n- यदि आपका फ़ोन बोले गए प्लेबैक में देरी करता है, दबाता है या रोकता है तो टोन-ओनली मोड का उपयोग करें।\n- सेटिंग्स &gt; विश्वसनीयता में आक्रामक बैकग्राउंड प्रतिबंधों वाले फ़ोन के लिए बैटरी अनुकूलन गाइड शामिल है।\n- सर्वोत्तम रिमाइंडर विश्वसनीयता के लिए नोटिफ़िकेशन, सटीक अलार्म और बैटरी सेटिंग्स सक्षम रखें।</string>
     <string name="help_s10_content">- त्वरित रिमाइंडर विजेट सीधे रिमाइंडर जोड़ें खोलता है।\n- आगामी विजेट आगामी रिमाइंडर और छूटे रिमाइंडर दिखाता है।\n- Wear OS समर्थन फ़ोन नोटिफ़िकेशन और वॉच सिंक सक्षम होने पर निर्भर करता है।</string>
     <string name="help_s11_content">- रीस्टार्ट के बाद भविष्य के रिमाइंडर स्वतः पुनर्निर्धारित होते हैं।\n- बीते हुए रिमाइंडर बूट पर अप्रत्याशित रूप से बजने के बजाय छूटे रिमाइंडर प्रवाह से गुज़रते हैं।</string>
+    <string name="help_s13_title">फ़ॉलो-अप जांच</string>
+    <string name="help_s13_content">- फ़ॉलो-अप जांच रिमाइंडर बजने के कुछ मिनट बाद पूछती है \"क्या आपने … पूरा किया?\"\n- डिफ़ॉल्ट रूप से यह तब तक दोहराई जाती है जब तक आप रिमाइंडर को पूर्ण चिह्नित नहीं करते। यदि आप चाहते हैं कि यह अपने आप रुक जाए, तो सेटिंग्स &gt; विश्वसनीयता में दोहराव सीमा सेट करें।\n- हो गया और स्नूज़ वर्तमान चक्र समाप्त करते हैं; शांत समय भी फ़ॉलो-अप रोक देता है।\n- फ़ोन रीस्टार्ट के बाद भी फ़ॉलो-अप जांच जारी रहती है, जब तक पूर्ण न हो या सीमा न पहुँचे।</string>
+    <string name="help_s14_title">बैकअप और आयात</string>
+    <string name="help_s14_content">- सेटिंग्स में रिमाइंडर का बैकअप लें आपके सभी आगामी रिमाइंडर, वॉइस रिकॉर्डिंग सहित, आपकी चुनी हुई एक फ़ाइल में सहेजता है।\n- रिमाइंडर आयात करें उन्हें इस या किसी दूसरे डिवाइस पर पुनर्स्थापित करता है।\n- आयात में हूबहू डुप्लिकेट और समाप्त हो चुके एक-बार वाले रिमाइंडर छोड़ दिए जाते हैं; दोहराने वाले रिमाइंडर अगली बारी से जारी रहते हैं।\n- आयात किए गए रिमाइंडर तुरंत शेड्यूल हो जाते हैं।</string>
     <string name="help_s12_title">पूर्ण होने तक रिमाइंडर स्क्रीन पर रखें</string>
     <string name="help_s12_content">- नोटिफ़िकेशन को पिन करने के लिए सेटिंग्स &gt; विश्वसनीयता &gt; पूर्ण होने तक रिमाइंडर स्क्रीन पर रखें चालू करें ताकि यह गलती से स्वाइप न हो।\n- चालू रहते हुए, स्वाइप केवल ध्वनि शांत करता है और रिमाइंडर लंबित छोड़ देता है — यह तब तक रहता है जब तक आप हो गया या स्नूज़ टैप न करें।\n- हो गया चिह्नित करना नोटिफ़िकेशन, फ़ुल-स्क्रीन अलर्ट, या रिमाइंडर कार्ड से हमेशा काम करता है, और किसी भी फ़ॉलो-अप रिअलर्ट को रोकता है।\n- इसे फ़ॉलो-अप जांच के साथ जोड़ें ताकि रिमाइंडर पूर्ण होने तक टाइमर पर भी फिर सूचित करे।</string>
 
@@ -457,8 +504,10 @@
     <string name="wn_persist_title">पूर्ण होने तक रिमाइंडर रखें</string>
     <string name="wn_persist_desc">सेटिंग्स &gt; विश्वसनीयता &gt; पूर्ण होने तक रिमाइंडर स्क्रीन पर रखें चालू करें ताकि रिमाइंडर पिन रहे और केवल तभी हटे जब आप इसे हो गया चिह्नित करें या स्नूज़ करें।</string>
 
-    <string name="wn_followup_title">फ़ॉलो-अप जो रुकना जानते हैं</string>
-    <string name="wn_followup_desc">फ़ॉलो-अप जांच अब हमेशा के बजाय एक निश्चित संख्या में फिर सूचित करके अपने आप रुक जाती है। कितनी बार, यह सेटिंग्स &gt; विश्वसनीयता &gt; फ़ॉलो-अप दोहराव सीमा में चुनें।</string>
+    <string name="wn_backup_title">अपने रिमाइंडर का बैकअप लें और साथ ले जाएँ</string>
+    <string name="wn_backup_desc">सभी आगामी रिमाइंडर — रिकॉर्डिंग सहित — एक फ़ाइल में सहेजें और कभी भी, नए फ़ोन पर भी, पुनर्स्थापित करें। यह सेटिंग्स में है।</string>
+    <string name="wn_followup_title">फ़ॉलो-अप जांच, आपके तरीके से</string>
+    <string name="wn_followup_desc">फ़ॉलो-अप जांच पहले की तरह तब तक सूचित करती रहती है जब तक आप रिमाइंडर को पूर्ण चिह्नित नहीं करते। नया: यदि आप चाहते हैं कि वे अपने आप रुक जाएँ, तो सेटिंग्स &gt; विश्वसनीयता में दोहराव सीमा सेट करें।</string>
 
     <!-- स्टार्टअप संवाद -->
     <string name="action_allow">अनुमति दें</string>

@@ -61,6 +61,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -105,6 +106,9 @@ class ReminderAlertActivity : ComponentActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Apply before Activity restores and installs its window so a forced Light/Dark theme
+        // cannot flash the manifest theme when the alarm wakes the screen.
+        com.ghostgramlabs.speakalert.util.ThemePrefs.applyWindowTheme(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
@@ -132,11 +136,22 @@ class ReminderAlertActivity : ComponentActivity() {
 
         setContent {
             val app = applicationContext as VoiceReminderApp
-            val themeMode by app.container.settingsRepository.themeMode.collectAsState(initial = 0)
+            val themeMode by app.container.settingsRepository.themeMode.collectAsState(
+                initial = com.ghostgramlabs.speakalert.util.ThemePrefs.cached(
+                    this@ReminderAlertActivity
+                )
+            )
             val isDarkTheme = when (themeMode) {
                 1 -> false // Light
                 2 -> true  // Dark
                 else -> isSystemInDarkTheme() // System
+            }
+
+            LaunchedEffect(themeMode) {
+                com.ghostgramlabs.speakalert.util.ThemePrefs.cache(
+                    this@ReminderAlertActivity,
+                    themeMode
+                )
             }
 
             VoiceReminderTheme(darkTheme = isDarkTheme) {
