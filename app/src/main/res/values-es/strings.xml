@@ -383,7 +383,7 @@
     <string name="set_dnd_note">Esto no controla el modo No molestar del teléfono. Solo permite que %1$s solicite permiso para reproducir recordatorios importantes a través de él.</string>
     <string name="set_battery_guide">Guía de optimización de batería</string>
     <string name="set_battery_desc">La optimización de batería puede retrasar o detener recordatorios en algunos teléfonos.</string>
-    <string name="set_wear">Wear OS</string>
+    <string name="set_wear">Reloj inteligente (Wear OS)</string>
     <string name="set_wear_checking">Comprobando la conexión con Wear OS…</string>
     <string name="set_wear_connected">Reloj Wear OS conectado</string>
     <string name="set_wear_supported">Los recordatorios en reloj de %1$s solo son compatibles con relojes Wear OS.</string>

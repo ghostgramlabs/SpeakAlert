@@ -221,16 +221,20 @@ fun SettingsScreen(
                 Text(stringResource(R.string.settings_language), style = MaterialTheme.typography.bodyMedium)
                 val currentLangTag = com.ghostgramlabs.speakalert.util.AppLocale.currentTag(context)
                 // FlowRow so every language stays visible (wraps instead of scrolling offscreen).
+                // Chips size to their label, so wide scripts (हिन्दी, العربية) never clip, and
+                // the flow direction follows the layout direction for RTL locales.
                 FlowRow(
                     modifier = Modifier
                         .padding(top = 12.dp)
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     com.ghostgramlabs.speakalert.util.AppLocale.supported.forEach { (tag, label) ->
-                        SnoozeOptionChip(
-                            text = label,
+                        LanguageChip(
+                            // Language names stay in their own script; only the "follow the
+                            // system" option localizes with the UI language.
+                            text = if (tag.isEmpty()) stringResource(R.string.theme_system) else label,
                             isSelected = currentLangTag == tag,
                             onClick = {
                                 com.ghostgramlabs.speakalert.util.AppLocale

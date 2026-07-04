@@ -383,7 +383,7 @@
     <string name="set_dnd_note">यह आपके फ़ोन के DND मोड को नियंत्रित नहीं करता। यह केवल %1$s को इसके माध्यम से महत्वपूर्ण रिमाइंडर बजाने की अनुमति माँगने देता है।</string>
     <string name="set_battery_guide">बैटरी अनुकूलन गाइड</string>
     <string name="set_battery_desc">कुछ फ़ोन पर बैटरी अनुकूलन रिमाइंडर में देरी या रोक सकता है।</string>
-    <string name="set_wear">Wear OS</string>
+    <string name="set_wear">स्मार्टवॉच (Wear OS)</string>
     <string name="set_wear_checking">Wear OS कनेक्शन जांच रहे हैं…</string>
     <string name="set_wear_connected">Wear OS घड़ी कनेक्ट</string>
     <string name="set_wear_supported">%1$s घड़ी रिमाइंडर केवल Wear OS घड़ियों पर समर्थित हैं।</string>

@@ -403,7 +403,7 @@
     <string name="set_dnd_note">هذا لا يتحكم في وضع عدم الإزعاج بهاتفك. إنه فقط يتيح لـ %1$s طلب إذن لتشغيل التذكيرات المهمة من خلاله.</string>
     <string name="set_battery_guide">دليل تحسين البطارية</string>
     <string name="set_battery_desc">قد يؤخر تحسين البطارية التذكيرات أو يوقفها على بعض الهواتف.</string>
-    <string name="set_wear">Wear OS</string>
+    <string name="set_wear">الساعة الذكية (Wear OS)</string>
     <string name="set_wear_checking">جارٍ التحقق من اتصال Wear OS…</string>
     <string name="set_wear_connected">ساعة Wear OS متصلة</string>
     <string name="set_wear_supported">تذكيرات ساعة %1$s مدعومة فقط على ساعات Wear OS.</string>
