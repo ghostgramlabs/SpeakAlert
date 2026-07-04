@@ -466,9 +466,9 @@
     <string name="set_more_apps_title">More apps from GhostgramLabs</string>
     <string name="set_more_apps_desc">Free apps from the makers of %1$s</string>
     <string name="set_app_free_tag">Free on Google Play</string>
-    <string name="app_pettibox_name">PettiBox: Save &amp; Find</string>
+    <string name="app_pettibox_name">PettiBox: Bookmark Manager</string>
     <string name="app_pettibox_desc">Free • Private save-for-later for links, notes, files &amp; screenshots, with offline search</string>
-    <string name="app_directserve_name">DirectServe: Share &amp; Stream</string>
+    <string name="app_directserve_name">DirectServe: File Transfer</string>
     <string name="app_directserve_desc">Free • Share &amp; stream files to any device or TV — no cloud, no cables</string>
     <string name="set_toast_no_store">Unable to open Google Play on this device.</string>
 
