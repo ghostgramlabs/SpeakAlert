@@ -86,6 +86,7 @@ class BootRescheduleWorkerTest {
         whenever(settingsRepository.toneOnlyAlertToneUri).thenReturn(MutableStateFlow(null))
         whenever(settingsRepository.loopTimeoutMinutes).thenReturn(MutableStateFlow(10))
         whenever(settingsRepository.dndBypassEnabled).thenReturn(MutableStateFlow(true))
+        whenever(settingsRepository.followUpMaxRepeats).thenReturn(MutableStateFlow(0))
         whenever(taskExecutor.serialTaskExecutor).thenReturn(serialExecutor)
         whenever(taskExecutor.mainThreadExecutor).thenReturn(directExecutor)
         whenever(workerParams.taskExecutor).thenReturn(taskExecutor)
@@ -209,6 +210,72 @@ class BootRescheduleWorkerTest {
             assertTrue(finalUpdate.pendingFollowUpAt == null)
             assertTrue(finalUpdate.nextTriggerAt > now)
             assertTrue(!finalUpdate.isCompleted)
+        }
+    }
+
+    @Test
+    fun `doWork resumes follow up chain after reboot when limit allows`() = runTest {
+        val now = System.currentTimeMillis()
+        val reminder = ReminderEntity(
+            id = 55L,
+            title = "Take medicine",
+            nextTriggerAt = now + 3_600_000L,
+            pendingFollowUpAt = now - 60_000L,
+            followUpCheckMinutes = 10,
+            followUpFireCount = 0
+        )
+        whenever(repository.getAllActiveReminders()).thenReturn(listOf(reminder))
+        whenever(workerParams.inputData).thenReturn(
+            workDataOf(BootRescheduleWorker.KEY_TRIGGER_ACTION to Intent.ACTION_BOOT_COMPLETED)
+        )
+
+        mockConstruction(NotificationHelper::class.java).use {
+            val worker = BootRescheduleWorker(app, workerParams)
+
+            val result = worker.doWork()
+
+            assertTrue(result is ListenableWorker.Result.Success)
+            val reminderCaptor = argumentCaptor<ReminderEntity>()
+            verify(repository, atLeastOnce()).updateReminder(reminderCaptor.capture())
+
+            // Default limit 0 = until done: the chain continues past the reboot.
+            val finalUpdate = reminderCaptor.allValues.last()
+            assertTrue(finalUpdate.pendingFollowUpAt != null)
+            assertTrue(finalUpdate.pendingFollowUpAt!! > now)
+            assertTrue(finalUpdate.followUpFireCount == 1)
+        }
+    }
+
+    @Test
+    fun `doWork stops follow up chain after reboot when limit reached`() = runTest {
+        val now = System.currentTimeMillis()
+        val reminder = ReminderEntity(
+            id = 66L,
+            title = "Take medicine",
+            nextTriggerAt = now + 3_600_000L,
+            pendingFollowUpAt = now - 60_000L,
+            followUpCheckMinutes = 10,
+            followUpFireCount = 0
+        )
+        whenever(settingsRepository.followUpMaxRepeats).thenReturn(MutableStateFlow(1))
+        whenever(repository.getAllActiveReminders()).thenReturn(listOf(reminder))
+        whenever(workerParams.inputData).thenReturn(
+            workDataOf(BootRescheduleWorker.KEY_TRIGGER_ACTION to Intent.ACTION_BOOT_COMPLETED)
+        )
+
+        mockConstruction(NotificationHelper::class.java).use {
+            val worker = BootRescheduleWorker(app, workerParams)
+
+            val result = worker.doWork()
+
+            assertTrue(result is ListenableWorker.Result.Success)
+            val reminderCaptor = argumentCaptor<ReminderEntity>()
+            verify(repository, atLeastOnce()).updateReminder(reminderCaptor.capture())
+
+            // The overdue follow-up counts as the single allowed re-alert, so the chain ends.
+            val finalUpdate = reminderCaptor.allValues.last()
+            assertTrue(finalUpdate.pendingFollowUpAt == null)
+            assertTrue(finalUpdate.followUpFireCount == 1)
         }
     }
 

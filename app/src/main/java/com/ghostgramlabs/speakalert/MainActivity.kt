@@ -61,6 +61,9 @@ class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Apply before Activity restores and installs its window so a forced Light/Dark theme
+        // cannot expose the manifest theme's background during cold start.
+        com.ghostgramlabs.speakalert.util.ThemePrefs.applyWindowTheme(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         
@@ -73,7 +76,9 @@ class MainActivity : ComponentActivity() {
             val app = applicationContext as VoiceReminderApp
             val settingsRepository = app.container.settingsRepository
             val currentVersionName = BuildConfig.VERSION_NAME
-            val themeMode by app.container.settingsRepository.themeMode.collectAsState(initial = 0)
+            val themeMode by app.container.settingsRepository.themeMode.collectAsState(
+                initial = com.ghostgramlabs.speakalert.util.ThemePrefs.cached(this@MainActivity)
+            )
             val fullScreenAlertEnabled by settingsRepository.fullScreenAlertEnabled.collectAsState(initial = false)
             val startupPromptState by produceState<StartupPromptState?>(
                 initialValue = null,
@@ -118,6 +123,11 @@ class MainActivity : ComponentActivity() {
                 1 -> false // Light
                 2 -> true  // Dark
                 else -> isSystemInDarkTheme() // System
+            }
+
+            // Migrates existing DataStore-only preferences into the synchronous startup mirror.
+            LaunchedEffect(themeMode) {
+                com.ghostgramlabs.speakalert.util.ThemePrefs.cache(this@MainActivity, themeMode)
             }
 
             DisposableEffect(lifecycleOwner) {
@@ -329,6 +339,10 @@ class MainActivity : ComponentActivity() {
                                     WhatsNewFeatureCard(
                                         title = stringResource(R.string.wn_followup_title),
                                         description = stringResource(R.string.wn_followup_desc)
+                                    )
+                                    WhatsNewFeatureCard(
+                                        title = stringResource(R.string.wn_backup_title),
+                                        description = stringResource(R.string.wn_backup_desc)
                                     )
                                 }
                                 Button(

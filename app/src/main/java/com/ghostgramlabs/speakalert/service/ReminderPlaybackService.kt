@@ -324,7 +324,10 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             FileLogger.log("SERVICE: Creating placeholder notification")
             val placeholderNotification = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(APP_DISPLAY_NAME)
-                .setContentText("Processing...")
+                .setContentText(
+                    com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(this)
+                        .getString(R.string.notif_playback_processing)
+                )
                 .setSmallIcon(R.drawable.ic_notification)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .build()
@@ -608,11 +611,13 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         val prefs = getSharedPreferences("tts_hints", android.content.Context.MODE_PRIVATE)
         if (prefs.getBoolean("voice_hint_shown", false)) return
         prefs.edit().putBoolean("voice_hint_shown", true).apply()
-        val language = locale.getDisplayLanguage(Locale.getDefault()).ifBlank { "this language" }
+        val strings = com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(applicationContext)
+        val language = locale.getDisplayLanguage(Locale.getDefault())
+            .ifBlank { strings.getString(R.string.tts_voice_hint_this_language) }
         android.os.Handler(android.os.Looper.getMainLooper()).post {
             android.widget.Toast.makeText(
                 applicationContext,
-                "No $language voice installed. Add it in your phone's Text-to-speech settings to hear spoken reminders.",
+                strings.getString(R.string.tts_voice_hint, language),
                 android.widget.Toast.LENGTH_LONG
             ).show()
         }
@@ -918,13 +923,15 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         }
         val snoozePendingIntent = PendingIntent.getBroadcast(this, 1, snoozeIntent, PendingIntent.FLAG_IMMUTABLE)
 
+        val strings = com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(this)
+        val spokenPreview = text.take(50) + if (text.length > 50) "…" else ""
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(title)
-            .setContentText("Speaking: \"${text.take(50)}${if (text.length > 50) "..." else ""}\"")
+            .setContentText(strings.getString(R.string.notif_playback_speaking, spokenPreview))
             .setSmallIcon(R.drawable.ic_notification)
-            .addAction(android.R.drawable.ic_media_play, "Replay", replayPendingIntent)
-            .addAction(android.R.drawable.ic_media_pause, "Stop", stopPendingIntent)
-            .addAction(android.R.drawable.ic_lock_idle_alarm, "Snooze", snoozePendingIntent)
+            .addAction(android.R.drawable.ic_media_play, strings.getString(R.string.notif_action_replay), replayPendingIntent)
+            .addAction(android.R.drawable.ic_media_pause, strings.getString(R.string.notif_action_stop), stopPendingIntent)
+            .addAction(android.R.drawable.ic_lock_idle_alarm, strings.getString(R.string.notif_action_snooze), snoozePendingIntent)
             .setOngoing(true)
             .build()
     }

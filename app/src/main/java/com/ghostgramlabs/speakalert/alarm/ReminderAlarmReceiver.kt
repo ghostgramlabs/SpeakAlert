@@ -13,6 +13,7 @@ import android.os.Build
 import android.telecom.TelecomManager
 import android.util.Log
 import androidx.core.content.ContextCompat
+import com.ghostgramlabs.speakalert.R
 import com.ghostgramlabs.speakalert.VoiceReminderApp
 import com.ghostgramlabs.speakalert.data.model.MissedReminderEntity
 import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
@@ -71,7 +72,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                         notificationHelper.showNotification(
                             reminderId,
                             APP_DISPLAY_NAME,
-                            "Reminder not found in database",
+                            com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(context)
+                                .getString(R.string.notif_reminder_missing),
                             autoplayOnTap = false
                         )
                     }
@@ -165,7 +167,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     // Add to Missed Inbox
                     val missedEntry = MissedReminderEntity(
                         reminderId = reminder.id,
-                        title = buildMissedDisplayTitle(reminder.title, reminder.reminderText),
+                        title = buildMissedDisplayTitle(context, reminder.title, reminder.reminderText),
                         scheduledTime = scheduledTime,
                         detectedTime = now,
                         reminderText = reminder.reminderText
@@ -211,7 +213,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             // Add to missed inbox
                             val missedEntry = MissedReminderEntity(
                                 reminderId = reminder.id,
-                                title = buildMissedDisplayTitle(reminder.title, reminder.reminderText),
+                                title = buildMissedDisplayTitle(context, reminder.title, reminder.reminderText),
                                 scheduledTime = scheduledTime,
                                 detectedTime = now,
                                 reminderText = reminder.reminderText
@@ -243,13 +245,17 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             FileLogger.log("ALARM: FIRE_ON_RESUME - showing missed notification")
                             
                             val missedNotificationShown = withContext(Dispatchers.Main) {
+                                val strings = com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(context)
                                 notificationHelper.showNotification(
                                     reminder.id,
-                                    "Missed: ${buildMissedDisplayTitle(reminder.title, reminder.reminderText)}",
+                                    strings.getString(
+                                        R.string.notif_missed_title,
+                                        buildMissedDisplayTitle(context, reminder.title, reminder.reminderText)
+                                    ),
                                     if (hasAudioConfigured && !hasAudio && !hasText) {
-                                        "Scheduled for ${formatTime(scheduledTime)}. Selected audio file is unavailable."
+                                        strings.getString(R.string.notif_missed_scheduled_audio_unavailable, formatTime(scheduledTime))
                                     } else {
-                                        "Scheduled for ${formatTime(scheduledTime)} - tap to open"
+                                        strings.getString(R.string.notif_missed_scheduled_tap, formatTime(scheduledTime))
                                     },
                                     audioPath = if (hasAudio) audioPath else null,
                                     reminderText = if (hasText) reminder.reminderText else null,
@@ -309,7 +315,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     reminder = reminder,
                     isFollowUpTrigger = isFollowUpTrigger,
                     hasPlayableAudio = hasAudio,
-                    hasAudioConfigured = hasAudioConfigured
+                    hasAudioConfigured = hasAudioConfigured,
+                    strings = AlertStrings.from(context)
                 )
 
                 // ===== ANDROID 15 BOOT & AUTOPLAY LOGIC =====
@@ -475,7 +482,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                         missedRepository.insertMissedReminder(
                             com.ghostgramlabs.speakalert.data.model.MissedReminderEntity(
                                 reminderId = reminder.id,
-                                title = buildMissedDisplayTitle(reminder.title, reminder.reminderText),
+                                title = buildMissedDisplayTitle(context, reminder.title, reminder.reminderText),
                                 scheduledTime = scheduledTime,
                                 reminderText = reminder.reminderText
                             )
@@ -488,10 +495,11 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     // the snoozed alert becomes the new active cycle and replaces any older follow-up.
                     FollowUpAlarmScheduler.cancel(context, reminder.id)
                     // A normal/snooze fire starts a fresh follow-up cycle; a follow-up fire counts
-                    // toward the cap so reminders can't nag forever until Done.
+                    // toward the cap. Limit 0 means "until done" — no cap, matching pre-2.0.32
+                    // behavior; Done/Snooze/Quiet Time still end the cycle.
                     val firedSoFar = if (isFollowUpTrigger) reminder.followUpFireCount + 1 else 0
                     val followUpMaxRepeats = settingsRepository.followUpMaxRepeats.first()
-                    if (isFollowUpTrigger && firedSoFar >= followUpMaxRepeats) {
+                    if (isFollowUpTrigger && followUpMaxRepeats > 0 && firedSoFar >= followUpMaxRepeats) {
                         updatedReminder = updatedReminder.copy(
                             pendingFollowUpAt = null,
                             followUpFireCount = firedSoFar
@@ -511,7 +519,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                         FollowUpAlarmScheduler.schedule(context, reminder.id, followUpAt)
                         FileLogger.log(
                             when {
-                                isFollowUpTrigger -> "ALARM: Scheduled follow-up check ${firedSoFar + 1}/$followUpMaxRepeats at $followUpAt"
+                                isFollowUpTrigger -> "ALARM: Scheduled follow-up check ${firedSoFar + 1}/${if (followUpMaxRepeats > 0) "$followUpMaxRepeats" else "until-done"} at $followUpAt"
                                 isSnoozeTrigger -> "ALARM: Scheduled post-snooze follow-up check at $followUpAt"
                                 else -> "ALARM: Scheduled follow-up check at $followUpAt"
                             }
@@ -583,7 +591,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun buildMissedDisplayTitle(title: String?, reminderText: String?): String {
+    private fun buildMissedDisplayTitle(context: Context, title: String?, reminderText: String?): String {
         val userTitle = title
             ?.trim()
             ?.takeIf { it.isNotEmpty() && !it.isDefaultAppDisplayName() }
@@ -596,7 +604,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 val words = text.split(Regex("\\s+"))
                 if (words.size > 8) words.take(8).joinToString(" ") else text
             }
-        return textFallback ?: "Reminder"
+        return textFallback ?: com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(context)
+            .getString(R.string.fallback_reminder_title)
     }
 
     @SuppressLint("MissingPermission")

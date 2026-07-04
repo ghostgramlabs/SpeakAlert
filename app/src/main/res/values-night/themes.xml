@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- System theme at night: dark window background so cold start doesn't flash white.
+         Theme.SpeakAlert.Light/.Dark are intentionally not overridden here — a forced theme
+         must look the same regardless of the system setting. -->
+    <style name="Theme.SpeakAlert" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/window_background_dark</item>
+    </style>
+</resources>

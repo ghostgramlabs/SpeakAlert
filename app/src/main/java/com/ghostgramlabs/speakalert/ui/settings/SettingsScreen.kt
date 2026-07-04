@@ -63,7 +63,7 @@ import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDateTimePickers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel,
@@ -142,25 +142,16 @@ fun SettingsScreen(
             result.data?.getParcelableExtra<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
         }
         viewModel.setToneOnlyAlertToneUri(pickedUri?.toString())
-        Toast.makeText(
-            context,
-            if (pickedUri == null) context.getString(R.string.set_toast_default_tone) else context.getString(R.string.set_toast_tone_updated),
-            Toast.LENGTH_SHORT
-        ).show()
     }
     val bluetoothPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { granted ->
         viewModel.setPrivatePlaybackEnabled(true)
-        Toast.makeText(
-            context,
-            if (granted) {
-                context.getString(R.string.set_toast_private_on)
-            } else {
-                context.getString(R.string.set_private_bt)
-            },
-            Toast.LENGTH_LONG
-        ).show()
+        if (!granted) {
+            // Worth a toast: without the permission, routing to Bluetooth is limited and
+            // nothing on screen would explain that.
+            Toast.makeText(context, context.getString(R.string.set_private_bt), Toast.LENGTH_LONG).show()
+        }
     }
 
     Scaffold(
@@ -217,32 +208,36 @@ fun SettingsScreen(
                             isSelected = themeMode == index,
                             onClick = {
                                 viewModel.setThemeMode(index)
-                                val msg = when(index) {
-                                    1 -> context.getString(R.string.set_toast_theme_light)
-                                    2 -> context.getString(R.string.set_toast_theme_dark)
-                                    else -> context.getString(R.string.set_toast_theme_system)
-                                }
-                                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                                // Mirror synchronously so the next cold start picks the right
+                                // window background before DataStore loads.
+                                com.ghostgramlabs.speakalert.util.ThemePrefs.cache(context, index)
                             },
                             modifier = Modifier.weight(1f)
                         )
                     }
                 }
 
-                Spacer(Modifier.height(12.dp))
+                Spacer(Modifier.height(16.dp))
                 Text(stringResource(R.string.settings_language), style = MaterialTheme.typography.bodyMedium)
-                val currentLangTag = com.ghostgramlabs.speakalert.util.AppLocale.currentTag()
-                Row(
+                val currentLangTag = com.ghostgramlabs.speakalert.util.AppLocale.currentTag(context)
+                // FlowRow so every language stays visible (wraps instead of scrolling offscreen).
+                FlowRow(
                     modifier = Modifier
-                        .padding(top = 8.dp)
-                        .horizontalScroll(rememberScrollState()),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        .padding(top = 12.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     com.ghostgramlabs.speakalert.util.AppLocale.supported.forEach { (tag, label) ->
                         SnoozeOptionChip(
                             text = label,
                             isSelected = currentLangTag == tag,
-                            onClick = { com.ghostgramlabs.speakalert.util.AppLocale.set(tag) }
+                            onClick = {
+                                com.ghostgramlabs.speakalert.util.AppLocale
+                                    .activityFrom(context)?.let { activity ->
+                                        com.ghostgramlabs.speakalert.util.AppLocale.set(activity, tag)
+                                    }
+                            }
                         )
                     }
                 }
@@ -264,10 +259,7 @@ fun SettingsScreen(
                         stringResource(R.string.set_autoplay_desc)
                     },
                     checked = autoPlayEnabled,
-                    onCheckedChange = {
-                        viewModel.setAutoPlayEnabled(it)
-                        Toast.makeText(context, if (it) context.getString(R.string.set_toast_autoplay_on) else context.getString(R.string.set_toast_autoplay_off), Toast.LENGTH_SHORT).show()
-                    },
+                    onCheckedChange = { viewModel.setAutoPlayEnabled(it) },
                     enabled = !toneOnlyMode
                 )
 
@@ -276,10 +268,7 @@ fun SettingsScreen(
                         text = stringResource(R.string.set_unlock_only),
                         description = stringResource(R.string.set_unlock_only_desc),
                         checked = autoPlayOnUnlockOnly,
-                        onCheckedChange = { 
-                            viewModel.setAutoPlayOnUnlockOnly(it)
-                            Toast.makeText(context, if (it) context.getString(R.string.set_toast_lock_off) else context.getString(R.string.set_toast_lock_on), Toast.LENGTH_SHORT).show()
-                        }
+                        onCheckedChange = { viewModel.setAutoPlayOnUnlockOnly(it) }
                     )
                 }
                 
@@ -291,14 +280,7 @@ fun SettingsScreen(
                         stringResource(R.string.set_speak_text_desc)
                     },
                     checked = speakTextIfNoVoice,
-                    onCheckedChange = {
-                        viewModel.setSpeakTextIfNoVoice(it)
-                        Toast.makeText(
-                            context,
-                            if (it) context.getString(R.string.set_toast_speak_on) else context.getString(R.string.set_toast_speak_off),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    },
+                    onCheckedChange = { viewModel.setSpeakTextIfNoVoice(it) },
                     enabled = !toneOnlyMode
                 )
 
@@ -328,15 +310,7 @@ fun SettingsScreen(
                         SnoozeOptionChip(
                             text = name,
                             isSelected = ttsLanguageMode == index,
-                            onClick = {
-                                viewModel.setTtsLanguageMode(index)
-                                val msg = when (index) {
-                                    1 -> context.getString(R.string.set_toast_tts_device)
-                                    2 -> context.getString(R.string.set_toast_tts_english)
-                                    else -> context.getString(R.string.set_toast_tts_auto)
-                                }
-                                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-                            },
+                            onClick = { viewModel.setTtsLanguageMode(index) },
                             modifier = Modifier.weight(1f)
                         )
                     }
@@ -355,11 +329,6 @@ fun SettingsScreen(
                             bluetoothPermissionLauncher.launch(Manifest.permission.BLUETOOTH_CONNECT)
                         } else {
                             viewModel.setPrivatePlaybackEnabled(enabled)
-                            Toast.makeText(
-                                context,
-                                if (enabled) context.getString(R.string.set_toast_private_on) else context.getString(R.string.set_toast_private_off),
-                                Toast.LENGTH_SHORT
-                            ).show()
                         }
                     },
                     enabled = !toneOnlyMode
@@ -369,14 +338,7 @@ fun SettingsScreen(
                     text = stringResource(R.string.set_tone_only),
                     description = toneOnlySubtitle,
                     checked = toneOnlyMode,
-                    onCheckedChange = {
-                        viewModel.setToneOnlyMode(it)
-                        Toast.makeText(
-                            context,
-                            if (it) context.getString(R.string.set_toast_tone_on) else context.getString(R.string.set_toast_tone_off),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    onCheckedChange = { viewModel.setToneOnlyMode(it) }
                 )
 
                 ToneSelectionRow(
@@ -399,10 +361,7 @@ fun SettingsScreen(
                             }
                         )
                     },
-                    onUseDefault = {
-                        viewModel.setToneOnlyAlertToneUri(null)
-                        Toast.makeText(context, context.getString(R.string.set_toast_default_tone), Toast.LENGTH_SHORT).show()
-                    }
+                    onUseDefault = { viewModel.setToneOnlyAlertToneUri(null) }
                 )
 
                 SwitchRow(
@@ -416,6 +375,7 @@ fun SettingsScreen(
                     onCheckedChange = {
                         viewModel.setFullScreenAlertEnabled(it)
                         if (it && !fullScreenAccessGranted) {
+                            // Keep this toast: it explains why the system settings screen opens.
                             Toast.makeText(
                                 context,
                                 context.getString(R.string.set_allow_fullscreen),
@@ -423,11 +383,6 @@ fun SettingsScreen(
                             ).show()
                             FullScreenIntentSupport.openSettings(context)
                         }
-                        Toast.makeText(
-                            context,
-                            if (it) context.getString(R.string.set_toast_fs_on) else context.getString(R.string.set_toast_fs_off),
-                            Toast.LENGTH_SHORT
-                        ).show()
                     }
                 )
 
@@ -531,10 +486,7 @@ fun SettingsScreen(
                         SnoozeOptionChip(
                             text = stringResource(R.string.set_minutes_short, mins),
                             isSelected = loopTimeoutMinutes == mins,
-                            onClick = {
-                                viewModel.setLoopTimeoutMinutes(mins)
-                                Toast.makeText(context, context.getString(R.string.set_toast_loop, mins), Toast.LENGTH_SHORT).show()
-                            },
+                            onClick = { viewModel.setLoopTimeoutMinutes(mins) },
                             modifier = Modifier.weight(1f)
                         )
                     }
@@ -543,10 +495,7 @@ fun SettingsScreen(
                     SnoozeOptionChip(
                         text = stringResource(R.string.set_infinite),
                         isSelected = loopTimeoutMinutes == 0,
-                        onClick = { 
-                            viewModel.setLoopTimeoutMinutes(0)
-                            Toast.makeText(context, context.getString(R.string.set_toast_loop_infinite), Toast.LENGTH_SHORT).show()
-                        },
+                        onClick = { viewModel.setLoopTimeoutMinutes(0) },
                         modifier = Modifier.weight(1f)
                     )
 
@@ -567,7 +516,6 @@ fun SettingsScreen(
                             onDismiss = { showCustomLoopDialog = false },
                             onSave = {
                                 viewModel.setLoopTimeoutMinutes(it)
-                                Toast.makeText(context, context.getString(R.string.set_toast_loop, it), Toast.LENGTH_SHORT).show()
                                 showCustomLoopDialog = false
                             }
                         )
@@ -576,7 +524,29 @@ fun SettingsScreen(
 
                 Divider(modifier = Modifier.padding(vertical = 12.dp))
 
-                // Snooze Duration (moved from Timing)
+                // Test Reminder Button
+                OutlinedButton(
+                    onClick = {
+                        viewModel.scheduleTestReminder()
+                        Toast.makeText(context, context.getString(R.string.set_toast_test), Toast.LENGTH_SHORT).show()
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(Icons.Default.Notifications, contentDescription = null, modifier = Modifier.size(18.dp))
+                    Spacer(Modifier.width(8.dp))
+                    Text(stringResource(R.string.set_test_reminder))
+                }
+            }
+
+            // ============================================================
+            // SECTION 2: SNOOZE, FOLLOW-UP & QUIET TIME
+            // ============================================================
+            CollapsibleSettingsSection(
+                title = stringResource(R.string.set_section_timing),
+                icon = "Time",
+                initiallyExpanded = false
+            ) {
+                // Snooze Duration
                 Text(stringResource(R.string.set_default_snooze), style = MaterialTheme.typography.bodyMedium)
                 Text(
                     stringResource(R.string.set_snooze_inline_desc),
@@ -594,10 +564,7 @@ fun SettingsScreen(
                         SnoozeOptionChip(
                             text = stringResource(R.string.set_minutes_short, mins),
                             isSelected = !isCustom && defaultSnoozeDuration == mins,
-                            onClick = {
-                                viewModel.setDefaultSnoozeDuration(mins)
-                                Toast.makeText(context, context.getString(R.string.set_toast_snooze, mins), Toast.LENGTH_SHORT).show()
-                            },
+                            onClick = { viewModel.setDefaultSnoozeDuration(mins) },
                             modifier = Modifier.weight(1f)
                         )
                     }
@@ -619,7 +586,6 @@ fun SettingsScreen(
                             onDismiss = { showCustomSnoozeDialog = false },
                             onSave = {
                                 viewModel.setDefaultSnoozeDuration(it)
-                                Toast.makeText(context, context.getString(R.string.set_toast_snooze, it), Toast.LENGTH_SHORT).show()
                                 showCustomSnoozeDialog = false
                             }
                         )
@@ -641,18 +607,12 @@ fun SettingsScreen(
                 )
                 com.ghostgramlabs.speakalert.ui.components.FollowUpDurationPicker(
                     currentMinutes = defaultFollowUpMinutes,
-                    onChange = { minutes ->
-                        viewModel.setDefaultFollowUpMinutes(minutes)
-                        Toast.makeText(
-                            context,
-                            if (minutes == 0) context.getString(R.string.set_toast_followup_off) else context.getString(R.string.set_toast_followup, minutes),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    },
+                    onChange = { minutes -> viewModel.setDefaultFollowUpMinutes(minutes) },
                     modifier = Modifier.padding(top = 4.dp)
                 )
 
-                // How many times a follow-up check repeats before it stops on its own.
+                // How many times a follow-up check repeats. 0 (∞) = until marked done, the
+                // default — it matches the behavior existing users had before the limit existed.
                 val followUpMaxRepeats by viewModel.followUpMaxRepeats.collectAsState()
                 Text(
                     text = stringResource(R.string.set_followup_repeat),
@@ -670,18 +630,11 @@ fun SettingsScreen(
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    listOf(1, 3, 5, 10).forEach { count ->
+                    listOf(0, 1, 3, 5, 10).forEach { count ->
                         SnoozeOptionChip(
-                            text = "$count×",
+                            text = if (count == 0) "∞" else "$count×",
                             isSelected = followUpMaxRepeats == count,
-                            onClick = {
-                                viewModel.setFollowUpMaxRepeats(count)
-                                Toast.makeText(
-                                    context,
-                                    context.getString(R.string.set_toast_followup_repeat, count),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            },
+                            onClick = { viewModel.setFollowUpMaxRepeats(count) },
                             modifier = Modifier.weight(1f)
                         )
                     }
@@ -694,10 +647,7 @@ fun SettingsScreen(
                     text = stringResource(R.string.set_quiet),
                     description = if (quietTimeEnabled) "${formatTime(startHour, startMinute)} - ${formatTime(endHour, endMinute)}" else stringResource(R.string.set_quiet_desc),
                     checked = quietTimeEnabled,
-                    onCheckedChange = {
-                        viewModel.setQuietTimeEnabled(it)
-                        Toast.makeText(context, if (it) context.getString(R.string.set_toast_quiet_on) else context.getString(R.string.set_toast_quiet_off), Toast.LENGTH_SHORT).show()
-                    }
+                    onCheckedChange = { viewModel.setQuietTimeEnabled(it) }
                 )
                 
                 if (quietTimeEnabled) {
@@ -709,38 +659,18 @@ fun SettingsScreen(
                             label = stringResource(R.string.set_start),
                             hour = startHour,
                             minute = startMinute,
-                            onTimeSelected = { h, m ->
-                                viewModel.setQuietTimeStart(h, m)
-                                Toast.makeText(context, context.getString(R.string.set_toast_quiet_start, formatTime(h, m)), Toast.LENGTH_SHORT).show()
-                            }
+                            onTimeSelected = { h, m -> viewModel.setQuietTimeStart(h, m) }
                         )
 
                         TimePickerButton(
                             label = stringResource(R.string.set_end),
                             hour = endHour,
                             minute = endMinute,
-                            onTimeSelected = { h, m ->
-                                viewModel.setQuietTimeEnd(h, m)
-                                Toast.makeText(context, context.getString(R.string.set_toast_quiet_end, formatTime(h, m)), Toast.LENGTH_SHORT).show()
-                            }
+                            onTimeSelected = { h, m -> viewModel.setQuietTimeEnd(h, m) }
                         )
                     }
                 }
                 
-                Divider(modifier = Modifier.padding(vertical = 12.dp))
-                
-                // Test Reminder Button (moved here from separate section)
-                OutlinedButton(
-                    onClick = {
-                        viewModel.scheduleTestReminder()
-                        Toast.makeText(context, context.getString(R.string.set_toast_test), Toast.LENGTH_SHORT).show()
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(Icons.Default.Notifications, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(8.dp))
-                    Text(stringResource(R.string.set_test_reminder))
-                }
             }
 
 
@@ -848,21 +778,14 @@ fun SettingsScreen(
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_reliability),
                 icon = "Safe",
-                initiallyExpanded = true
+                initiallyExpanded = false
             ) {
                 val persistUntilDone by viewModel.persistUntilDone.collectAsState()
                 SwitchRow(
                     text = stringResource(R.string.set_persist),
                     description = stringResource(R.string.set_persist_desc),
                     checked = persistUntilDone,
-                    onCheckedChange = {
-                        viewModel.setPersistUntilDone(it)
-                        Toast.makeText(
-                            context,
-                            if (it) context.getString(R.string.set_toast_persist_on) else context.getString(R.string.set_toast_persist_off),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    onCheckedChange = { viewModel.setPersistUntilDone(it) }
                 )
 
                 SwitchRow(
@@ -876,11 +799,6 @@ fun SettingsScreen(
                     onCheckedChange = {
                         viewModel.setDndBypassEnabled(it)
                         NotificationHelper(context).refreshChannels(dndBypassEnabled = it)
-                        Toast.makeText(
-                            context,
-                            if (it) context.getString(R.string.set_toast_dnd_on) else context.getString(R.string.set_toast_dnd_off),
-                            Toast.LENGTH_SHORT
-                        ).show()
                     }
                 )
 
@@ -1097,57 +1015,45 @@ fun SettingsScreen(
                 }
             }
 
-            // SECTION 6: HELP & GUIDE
+            // SECTION 6: HELP & ABOUT (guide, support, rating, more apps)
             // ============================================================
             CollapsibleSettingsSection(
-                title = stringResource(R.string.set_app_guide),
+                title = stringResource(R.string.set_section_about),
                 icon = "Help",
-                initiallyExpanded = true
+                initiallyExpanded = false
             ) {
                 var showHelpDialog by remember { mutableStateOf(false) }
-                
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { showHelpDialog = true }
+                        .padding(vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { showHelpDialog = true }
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Help,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(24.dp)
+                    Icon(
+                        imageVector = Icons.Default.Help,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(Modifier.width(16.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            stringResource(R.string.set_app_guide),
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.Medium
                         )
-                        Spacer(Modifier.width(16.dp))
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                stringResource(R.string.set_app_guide),
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.Medium
-                            )
-                        }
-                        Icon(Icons.Default.ChevronRight, contentDescription = null)
                     }
+                    Icon(Icons.Default.ChevronRight, contentDescription = null)
                 }
-                
+
                 if (showHelpDialog) {
                     HelpDialog(onDismiss = { showHelpDialog = false })
                 }
-            }
 
-            Card(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                ),
-                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
-            ) {
+                Divider()
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -1160,7 +1066,7 @@ fun SettingsScreen(
                                 ).show()
                             }
                         }
-                        .padding(16.dp),
+                        .padding(vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
@@ -1184,19 +1090,9 @@ fun SettingsScreen(
                     }
                     Icon(Icons.Default.ChevronRight, contentDescription = null)
                 }
-            }
 
-            // ============================================================
-            // SECTION 5: RATE & REVIEW
-            // ============================================================
-            Card(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                ),
-                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
-            ) {
+                Divider()
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -1209,7 +1105,7 @@ fun SettingsScreen(
                                 ).show()
                             }
                         }
-                        .padding(16.dp),
+                        .padding(vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
@@ -1233,54 +1129,119 @@ fun SettingsScreen(
                     }
                     Icon(Icons.Default.ChevronRight, contentDescription = null)
                 }
+
+                Divider()
+
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(vertical = 8.dp)) {
+                    Icon(
+                        imageVector = Icons.Default.Apps,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(Modifier.width(16.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            stringResource(R.string.set_more_apps_title),
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.Medium
+                        )
+                        Text(
+                            stringResource(R.string.set_more_apps_desc, APP_DISPLAY_NAME),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+                MoreAppRow(
+                    name = stringResource(R.string.app_pettibox_name),
+                    description = stringResource(R.string.app_pettibox_desc),
+                    packageName = "com.ghostgramlabs.pettibox",
+                    context = context
+                )
+                MoreAppRow(
+                    name = stringResource(R.string.app_directserve_name),
+                    description = stringResource(R.string.app_directserve_desc),
+                    packageName = "com.ghostgramlabs.directserve",
+                    context = context
+                )
             }
 
             // ============================================================
-            // SECTION 6: MORE APPS FROM THE DEVELOPER
+            // BACKUP & RESTORE
             // ============================================================
-            Card(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                ),
-                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+            val backupManager = com.ghostgramlabs.speakalert.data.backup.ReminderBackupManager
+            val exportBackupLauncher = rememberLauncherForActivityResult(
+                ActivityResultContracts.CreateDocument(backupManager.MIME_TYPE)
+            ) { uri -> uri?.let { viewModel.exportBackup(context, it) } }
+            val importBackupLauncher = rememberLauncherForActivityResult(
+                ActivityResultContracts.OpenDocument()
+            ) { uri -> uri?.let { viewModel.importBackup(context, it) } }
+            CollapsibleSettingsSection(
+                title = stringResource(R.string.set_section_backup),
+                icon = "Backup",
+                initiallyExpanded = false
             ) {
-                Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Default.Apps,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(24.dp)
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { exportBackupLauncher.launch(backupManager.suggestedFileName()) }
+                        .padding(vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.CloudUpload,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(Modifier.width(16.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            stringResource(R.string.set_backup_export),
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.Medium
                         )
-                        Spacer(Modifier.width(16.dp))
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                stringResource(R.string.set_more_apps_title),
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.Medium
-                            )
-                            Text(
-                                stringResource(R.string.set_more_apps_desc, APP_DISPLAY_NAME),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                        Text(
+                            stringResource(R.string.set_backup_export_desc),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Icon(Icons.Default.ChevronRight, contentDescription = null)
+                }
+                Divider()
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            importBackupLauncher.launch(
+                                arrayOf(backupManager.MIME_TYPE, "application/octet-stream")
                             )
                         }
+                        .padding(vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.CloudDownload,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(Modifier.width(16.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            stringResource(R.string.set_backup_import),
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.Medium
+                        )
+                        Text(
+                            stringResource(R.string.set_backup_import_desc),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                     }
-                    Spacer(Modifier.height(8.dp))
-                    MoreAppRow(
-                        name = stringResource(R.string.app_pettibox_name),
-                        description = stringResource(R.string.app_pettibox_desc),
-                        packageName = "com.ghostgramlabs.pettibox",
-                        context = context
-                    )
-                    MoreAppRow(
-                        name = stringResource(R.string.app_directserve_name),
-                        description = stringResource(R.string.app_directserve_desc),
-                        packageName = "com.ghostgramlabs.directserve",
-                        context = context
-                    )
+                    Icon(Icons.Default.ChevronRight, contentDescription = null)
                 }
             }
 
@@ -1465,7 +1426,9 @@ private fun settingsSectionIcon(icon: String): ImageVector {
     return when (icon) {
         "UI" -> Icons.Default.Palette
         "Play" -> Icons.Default.PlayArrow
+        "Time" -> Icons.Default.Schedule
         "Safe" -> Icons.Default.VerifiedUser
+        "Backup" -> Icons.Default.CloudUpload
         "Wear" -> Icons.Default.Watch
         "Help" -> Icons.Default.Help
         "Dev" -> Icons.Default.Build
