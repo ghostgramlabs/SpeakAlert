@@ -449,9 +449,9 @@
     <string name="set_more_apps_title">GhostgramLabs के और ऐप्स</string>
     <string name="set_more_apps_desc">%1$s के निर्माताओं की मुफ़्त ऐप्स</string>
     <string name="set_app_free_tag">Google Play पर मुफ़्त</string>
-    <string name="app_pettibox_name">PettiBox: Save &amp; Find</string>
+    <string name="app_pettibox_name">PettiBox: Bookmark Manager</string>
     <string name="app_pettibox_desc">मुफ़्त • लिंक, नोट्स, फ़ाइलें और स्क्रीनशॉट बाद के लिए सहेजें, ऑफ़लाइन खोज के साथ</string>
-    <string name="app_directserve_name">DirectServe: Share &amp; Stream</string>
+    <string name="app_directserve_name">DirectServe: File Transfer</string>
     <string name="app_directserve_desc">मुफ़्त • किसी भी डिवाइस या TV पर फ़ाइलें शेयर और स्ट्रीम करें — बिना क्लाउड, बिना केबल</string>
     <string name="set_toast_no_store">इस डिवाइस पर Google Play नहीं खोला जा सका।</string>
 
