@@ -146,6 +146,9 @@
 
     <string name="ae_saved">¡Recordatorio guardado!</string>
     <string name="ae_cannot_past">No se pueden crear recordatorios en el pasado</string>
+    <string name="ae_record_too_short">Demasiado corto: mantén pulsado mientras hablas</string>
+    <string name="ae_record_failed">No se pudo iniciar la grabación. Puede que otra app esté usando el micrófono.</string>
+    <string name="ae_record_silent">No se escuchó nada. Comprueba el acceso al micrófono de SpeakAlert.</string>
     <string name="ae_unsaved_title">¿Guardar recordatorio?</string>
     <string name="ae_unsaved_msg">Tienes cambios sin guardar en el recordatorio.</string>
     <string name="action_save">Guardar</string>

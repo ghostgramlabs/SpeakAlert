@@ -154,6 +154,9 @@
 
     <string name="ae_saved">تم حفظ التذكير!</string>
     <string name="ae_cannot_past">لا يمكن ضبط تذكيرات في الماضي</string>
+    <string name="ae_record_too_short">كان قصيرًا جدًا — استمر بالضغط أثناء التحدث</string>
+    <string name="ae_record_failed">تعذّر بدء التسجيل. قد يستخدم تطبيق آخر الميكروفون.</string>
+    <string name="ae_record_silent">لم نسمع أي صوت. تحقق من إذن الميكروفون لتطبيق SpeakAlert.</string>
     <string name="ae_unsaved_title">حفظ التذكير؟</string>
     <string name="ae_unsaved_msg">لديك تغييرات غير محفوظة في التذكير.</string>
     <string name="action_save">حفظ</string>

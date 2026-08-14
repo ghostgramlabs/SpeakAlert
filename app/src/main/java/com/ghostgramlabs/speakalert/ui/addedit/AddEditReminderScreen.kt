@@ -123,6 +123,27 @@ fun AddEditReminderScreen(
              android.widget.Toast.makeText(context, context.getString(R.string.ae_cannot_past), android.widget.Toast.LENGTH_SHORT).show()
         }
     }
+
+    LaunchedEffect(uiState.recordingIssue) {
+        val issue = uiState.recordingIssue
+        val messageRes = when (issue) {
+            RecordingIssue.TOO_SHORT -> R.string.ae_record_too_short
+            RecordingIssue.CAPTURE_FAILED -> R.string.ae_record_failed
+            RecordingIssue.SILENT -> R.string.ae_record_silent
+            null -> null
+        }
+        if (messageRes != null) {
+            // A quick tap is everyday behaviour, so keep that nudge short; the two that ask the
+            // user to go check something stay up long enough to read.
+            val duration = if (issue == RecordingIssue.TOO_SHORT) {
+                Toast.LENGTH_SHORT
+            } else {
+                Toast.LENGTH_LONG
+            }
+            Toast.makeText(context, context.getString(messageRes), duration).show()
+            viewModel.clearRecordingIssue()
+        }
+    }
     
     val micPermissionState = rememberPermissionState(Manifest.permission.RECORD_AUDIO)
     val audioPickerLauncher = rememberLauncherForActivityResult(
