@@ -1,0 +1,452 @@
+package com.ghostgramlabs.speakalert.audio
+
+import kotlin.math.PI
+import kotlin.math.abs
+import kotlin.math.cos
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.sin
+import kotlin.math.sqrt
+
+/**
+ * The voice cleanup itself: everything that happens to a reminder between the microphone and
+ * the file, expressed as plain arithmetic on samples.
+ *
+ * This is deliberately free of any Android media class so it can be run and checked directly in
+ * unit tests, which is where the maths is actually verified. [Mp4AudioEnhancer] owns the codec
+ * plumbing and does nothing but feed this.
+ *
+ * Three stages, in order:
+ *
+ *  1. **High-pass at 90 Hz.** Handling thumps, pocket rustle and mains hum live below speech and
+ *     do nothing but eat headroom.
+ *  2. **Spectral subtraction.** Estimates the steady background noise of the room and removes it
+ *     from each short slice of the recording, keeping the phase intact. This is what takes out
+ *     fan, hiss, traffic and air conditioning from underneath the voice.
+ *  3. **Loudness normalisation.** Lifts the result to a consistent, room-audible level.
+ *
+ * Usage is two passes over the same audio: [analyze] every sample first, then [Analysis] from
+ * [finishAnalysis] drives [render].
+ */
+class VoiceProcessor(private val sampleRate: Int) {
+
+    /** What the first pass learned about the recording. */
+    data class Analysis(
+        val noiseMagnitudes: FloatArray?,
+        val peak: Float,
+        val frameCount: Int
+    ) {
+        val canDenoise: Boolean get() = noiseMagnitudes != null
+    }
+
+    private val fft = Fft(FRAME_SIZE)
+    private val window = FloatArray(FRAME_SIZE) { index ->
+        // Root-Hann. Applied on both analysis and synthesis it squares to a Hann window, which
+        // overlap-adds back to exactly 1.0 at this hop - so unmodified audio passes through
+        // untouched and only the changes we actually make are audible.
+        sqrt(0.5f * (1f - cos(2.0 * PI * index / FRAME_SIZE).toFloat()))
+    }
+
+    private val highPass = Biquad.highPass(HIGH_PASS_HZ, sampleRate)
+
+    // Framing state, shared by both passes.
+    private val pending = FloatArray(FRAME_SIZE * 2)
+    private var pendingSize = 0
+    private val real = FloatArray(FRAME_SIZE)
+    private val imaginary = FloatArray(FRAME_SIZE)
+    private val magnitude = FloatArray(BIN_COUNT)
+
+    // First pass. The noise estimate is the average of the quietest moment in each half-second
+    // window rather than the single quietest moment overall: a plain global minimum keeps
+    // drifting lower the longer someone talks, which would make the same room sound like
+    // different amounts of noise depending on how long the reminder was.
+    private val windowMinimum = FloatArray(BIN_COUNT) { Float.MAX_VALUE }
+    private val noiseTotals = FloatArray(BIN_COUNT)
+    private var noiseWindows = 0
+    private var framesInWindow = 0
+    private var peak = 0f
+    private var frames = 0
+
+    // Second pass.
+    private var noise: FloatArray? = null
+    private var gain = 1f
+    private val previousGains = FloatArray(BIN_COUNT) { 1f }
+    private val overlap = FloatArray(FRAME_SIZE)
+    private var overlapPrimed = false
+
+    // ---------------------------------------------------------------- analysis pass
+
+    /** Feed every sample of the recording through this first, in order. */
+    fun analyze(samples: ShortArray, count: Int) {
+        var offset = 0
+        while (offset < count) {
+            val taken = fill(samples, offset, count)
+            offset += taken
+            while (pendingSize >= FRAME_SIZE) {
+                loadFrame()
+                fft.forward(real, imaginary)
+                magnitudes()
+                for (bin in 0 until BIN_COUNT) {
+                    // The quietest this bin gets within a window is, by definition, a moment
+                    // where only the room is audible. That is the noise.
+                    if (magnitude[bin] < windowMinimum[bin]) windowMinimum[bin] = magnitude[bin]
+                }
+                frames++
+                if (++framesInWindow >= NOISE_WINDOW_FRAMES) closeNoiseWindow()
+                consume()
+            }
+        }
+    }
+
+    fun finishAnalysis(): Analysis {
+        flushPending { sample ->
+            val level = abs(sample)
+            if (level > peak) peak = level
+        }
+        if (framesInWindow > 0) closeNoiseWindow()
+
+        // Too short to tell background from speech; a fraction of a second of audio gives the
+        // estimator nothing to work with and guessing would damage the voice.
+        val usable = frames >= MIN_FRAMES_FOR_NOISE_ESTIMATE && noiseWindows > 0
+        val estimate = if (usable) {
+            val averaged = FloatArray(BIN_COUNT) { bin -> noiseTotals[bin] / noiseWindows }
+            FloatArray(BIN_COUNT) { bin ->
+                // Smooth across neighbouring bins so one unlucky minimum cannot punch a hole in
+                // the estimate, then lean high: the quietest moment in a window still sits below
+                // the true average noise level, so it needs correcting upward.
+                val low = averaged[max(0, bin - 1)]
+                val high = averaged[min(BIN_COUNT - 1, bin + 1)]
+                ((low + averaged[bin] + high) / 3f) * NOISE_OVERESTIMATE
+            }
+        } else {
+            null
+        }
+        return Analysis(estimate, peak, frames)
+    }
+
+    // ---------------------------------------------------------------- render pass
+
+    /**
+     * Prepare for the second pass. [outputGain] is applied after denoising; derive it from
+     * [Analysis.peak] with [normalizationGain].
+     */
+    fun beginRender(analysis: Analysis, outputGain: Float) {
+        reset()
+        noise = analysis.noiseMagnitudes
+        gain = outputGain
+    }
+
+    /**
+     * Process the next block of input, handing finished output to [onOutput]. Output lags input
+     * by one frame because of the overlap-add, so [finishRender] must be called at the end.
+     */
+    fun render(samples: ShortArray, count: Int, onOutput: (FloatArray, Int) -> Unit) {
+        var offset = 0
+        while (offset < count) {
+            val taken = fill(samples, offset, count)
+            offset += taken
+            while (pendingSize >= FRAME_SIZE) {
+                loadFrame()
+                val cleaned = noise
+                if (cleaned != null) {
+                    fft.forward(real, imaginary)
+                    subtract(cleaned)
+                    fft.inverse(real, imaginary)
+                }
+                overlapAdd(onOutput)
+                consume()
+            }
+        }
+    }
+
+    /** Emit the final partial frame held back by the overlap. */
+    fun finishRender(onOutput: (FloatArray, Int) -> Unit) {
+        if (noise == null) {
+            flushPending { sample -> emitOne(sample, onOutput) }
+            return
+        }
+        if (!overlapPrimed) {
+            // Never reached a full frame; pass the audio through with gain only.
+            flushPending { sample -> emitOne(sample, onOutput) }
+            return
+        }
+        val tail = FloatArray(FRAME_SIZE - HOP)
+        for (i in tail.indices) tail[i] = clamp(overlap[i] * gain)
+        onOutput(tail, tail.size)
+    }
+
+    /** How much to lift the recording, or null when it is already at a good level. */
+    fun normalizationGain(peak: Float): Float? {
+        if (peak <= 0f) return null
+        val desired = TARGET_PEAK / peak
+        if (desired <= MIN_WORTHWHILE_GAIN) return null
+        return min(desired, MAX_GAIN)
+    }
+
+    // ---------------------------------------------------------------- internals
+
+    /** Bank this window's quietest reading and start the next one. */
+    private fun closeNoiseWindow() {
+        for (bin in 0 until BIN_COUNT) {
+            val value = windowMinimum[bin]
+            if (value != Float.MAX_VALUE) noiseTotals[bin] += value
+            windowMinimum[bin] = Float.MAX_VALUE
+        }
+        noiseWindows++
+        framesInWindow = 0
+    }
+
+    private fun reset() {
+        pendingSize = 0
+        overlapPrimed = false
+        java.util.Arrays.fill(overlap, 0f)
+        java.util.Arrays.fill(previousGains, 1f)
+        highPass.reset()
+    }
+
+    /** Copy input into the frame buffer, high-passing on the way in. */
+    private fun fill(samples: ShortArray, offset: Int, count: Int): Int {
+        val room = pending.size - pendingSize
+        val taken = min(room, count - offset)
+        for (i in 0 until taken) {
+            pending[pendingSize + i] = highPass.process(samples[offset + i].toFloat())
+        }
+        pendingSize += taken
+        return taken
+    }
+
+    private fun loadFrame() {
+        for (i in 0 until FRAME_SIZE) {
+            real[i] = pending[i] * window[i]
+            imaginary[i] = 0f
+        }
+    }
+
+    private fun consume() {
+        System.arraycopy(pending, HOP, pending, 0, pendingSize - HOP)
+        pendingSize -= HOP
+    }
+
+    private fun magnitudes() {
+        for (bin in 0 until BIN_COUNT) {
+            magnitude[bin] = sqrt(real[bin] * real[bin] + imaginary[bin] * imaginary[bin])
+        }
+    }
+
+    /**
+     * Scale each frequency bin down by how much of it is noise, leaving phase alone. A bin that
+     * is mostly voice passes through; a bin that is mostly room gets pushed toward the floor.
+     */
+    private fun subtract(noiseEstimate: FloatArray) {
+        magnitudes()
+        for (bin in 0 until BIN_COUNT) {
+            val level = magnitude[bin]
+            val target = if (level <= 1e-6f) {
+                SPECTRAL_FLOOR
+            } else {
+                val clean = level - SUBTRACTION_STRENGTH * noiseEstimate[bin]
+                max(clean / level, SPECTRAL_FLOOR)
+            }
+            // Ease each bin's gain toward its new value instead of snapping. Abrupt per-frame
+            // changes are what turns spectral subtraction into warbling "musical noise".
+            val smoothed = GAIN_SMOOTHING * previousGains[bin] + (1f - GAIN_SMOOTHING) * target
+            previousGains[bin] = smoothed
+
+            real[bin] *= smoothed
+            imaginary[bin] *= smoothed
+            // Keep the spectrum conjugate-symmetric so the inverse transform stays real.
+            if (bin in 1 until BIN_COUNT - 1) {
+                val mirror = FRAME_SIZE - bin
+                real[mirror] *= smoothed
+                imaginary[mirror] *= smoothed
+            }
+        }
+    }
+
+    private fun overlapAdd(onOutput: (FloatArray, Int) -> Unit) {
+        for (i in 0 until FRAME_SIZE) {
+            overlap[i] += real[i] * window[i]
+        }
+        if (!overlapPrimed) {
+            // The first frame's leading hop has not been overlapped by anything yet; holding it
+            // back keeps the reconstruction exact.
+            overlapPrimed = true
+        } else {
+            val out = FloatArray(HOP)
+            for (i in 0 until HOP) out[i] = clamp(overlap[i] * gain)
+            onOutput(out, HOP)
+        }
+        System.arraycopy(overlap, HOP, overlap, 0, FRAME_SIZE - HOP)
+        java.util.Arrays.fill(overlap, FRAME_SIZE - HOP, FRAME_SIZE, 0f)
+    }
+
+    private fun emitOne(sample: Float, onOutput: (FloatArray, Int) -> Unit) {
+        single[0] = clamp(sample * gain)
+        onOutput(single, 1)
+    }
+
+    private val single = FloatArray(1)
+
+    /** Drain whatever never made up a full frame. */
+    private inline fun flushPending(onSample: (Float) -> Unit) {
+        for (i in 0 until pendingSize) onSample(pending[i])
+        pendingSize = 0
+    }
+
+    private fun clamp(value: Float): Float {
+        return when {
+            value > MAX_PCM -> MAX_PCM
+            value < MIN_PCM -> MIN_PCM
+            else -> value
+        }
+    }
+
+    /** Direct-form-1 biquad. */
+    private class Biquad(
+        private val b0: Float,
+        private val b1: Float,
+        private val b2: Float,
+        private val a1: Float,
+        private val a2: Float
+    ) {
+        private var x1 = 0f
+        private var x2 = 0f
+        private var y1 = 0f
+        private var y2 = 0f
+
+        fun reset() {
+            x1 = 0f; x2 = 0f; y1 = 0f; y2 = 0f
+        }
+
+        fun process(x0: Float): Float {
+            val y0 = b0 * x0 + b1 * x1 + b2 * x2 - a1 * y1 - a2 * y2
+            x2 = x1; x1 = x0
+            y2 = y1; y1 = y0
+            return y0
+        }
+
+        companion object {
+            /** Standard RBJ high-pass at Butterworth Q, so the passband stays flat. */
+            fun highPass(cutoffHz: Float, sampleRate: Int): Biquad {
+                val omega = 2.0 * PI * cutoffHz / sampleRate
+                val cosOmega = cos(omega)
+                val alpha = sin(omega) / (2.0 * FILTER_Q)
+                val a0 = 1.0 + alpha
+                return Biquad(
+                    b0 = (((1.0 + cosOmega) / 2.0) / a0).toFloat(),
+                    b1 = ((-(1.0 + cosOmega)) / a0).toFloat(),
+                    b2 = (((1.0 + cosOmega) / 2.0) / a0).toFloat(),
+                    a1 = ((-2.0 * cosOmega) / a0).toFloat(),
+                    a2 = ((1.0 - alpha) / a0).toFloat()
+                )
+            }
+        }
+    }
+
+    /** In-place radix-2 Cooley-Tukey FFT, sized once at construction. */
+    private class Fft(private val size: Int) {
+        private val reversed = IntArray(size)
+        private val cosTable = FloatArray(size / 2)
+        private val sinTable = FloatArray(size / 2)
+
+        init {
+            require(size > 0 && size and (size - 1) == 0) { "FFT size must be a power of two" }
+            var bits = 0
+            while (1 shl bits < size) bits++
+            for (i in 0 until size) {
+                var value = i
+                var result = 0
+                for (bit in 0 until bits) {
+                    result = (result shl 1) or (value and 1)
+                    value = value shr 1
+                }
+                reversed[i] = result
+            }
+            for (i in 0 until size / 2) {
+                val angle = -2.0 * PI * i / size
+                cosTable[i] = cos(angle).toFloat()
+                sinTable[i] = sin(angle).toFloat()
+            }
+        }
+
+        fun forward(real: FloatArray, imaginary: FloatArray) = transform(real, imaginary, false)
+
+        fun inverse(real: FloatArray, imaginary: FloatArray) {
+            transform(real, imaginary, true)
+            val scale = 1f / size
+            for (i in 0 until size) {
+                real[i] *= scale
+                imaginary[i] *= scale
+            }
+        }
+
+        private fun transform(real: FloatArray, imaginary: FloatArray, invert: Boolean) {
+            for (i in 0 until size) {
+                val j = reversed[i]
+                if (j > i) {
+                    var swap = real[i]; real[i] = real[j]; real[j] = swap
+                    swap = imaginary[i]; imaginary[i] = imaginary[j]; imaginary[j] = swap
+                }
+            }
+            var length = 2
+            while (length <= size) {
+                val step = size / length
+                val half = length / 2
+                var start = 0
+                while (start < size) {
+                    var index = 0
+                    for (offset in start until start + half) {
+                        val cosine = cosTable[index]
+                        val sine = if (invert) -sinTable[index] else sinTable[index]
+                        val pairIndex = offset + half
+                        val realPart = real[pairIndex] * cosine - imaginary[pairIndex] * sine
+                        val imagPart = real[pairIndex] * sine + imaginary[pairIndex] * cosine
+                        real[pairIndex] = real[offset] - realPart
+                        imaginary[pairIndex] = imaginary[offset] - imagPart
+                        real[offset] += realPart
+                        imaginary[offset] += imagPart
+                        index += step
+                    }
+                    start += length
+                }
+                length = length shl 1
+            }
+        }
+    }
+
+    companion object {
+        const val FRAME_SIZE = 1024
+        const val HOP = FRAME_SIZE / 2
+        const val BIN_COUNT = FRAME_SIZE / 2 + 1
+
+        /** Below this there is no speech, only rumble, handling noise and mains hum. */
+        const val HIGH_PASS_HZ = 90f
+        private const val FILTER_Q = 0.7071
+
+        /** Roughly a quarter second at 44.1 kHz - less than that cannot describe a room. */
+        const val MIN_FRAMES_FOR_NOISE_ESTIMATE = 20
+        /** About half a second: long enough to contain a gap between words. */
+        private const val NOISE_WINDOW_FRAMES = 43
+        /**
+         * The quietest moment in a window still sits under the room's average level, so the
+         * estimate is corrected upward. Together with [SUBTRACTION_STRENGTH] this is the
+         * balance between audible noise and a hollowed-out voice - raise them and the
+         * background disappears but speech starts to sound thin and watery.
+         */
+        private const val NOISE_OVERESTIMATE = 1.5f
+        private const val SUBTRACTION_STRENGTH = 1.5f
+        /** Leave ~26 dB of the original noise rather than a silence full of artefacts. */
+        private const val SPECTRAL_FLOOR = 0.05f
+        private const val GAIN_SMOOTHING = 0.5f
+
+        /** About -1 dBFS: loud and consistent, with headroom left for the encoder. */
+        const val TARGET_PEAK = 29_000f
+        /** Not worth a re-encode for less than roughly 1 dB of change. */
+        private const val MIN_WORTHWHILE_GAIN = 1.12f
+        /** ~18 dB. Beyond this a near-silent take just gets a louder noise floor. */
+        private const val MAX_GAIN = 8f
+
+        private const val MAX_PCM = 32_767f
+        private const val MIN_PCM = -32_768f
+    }
+}

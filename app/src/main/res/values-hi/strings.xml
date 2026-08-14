@@ -146,6 +146,9 @@
 
     <string name="ae_saved">रिमाइंडर सहेजा गया!</string>
     <string name="ae_cannot_past">बीते समय के लिए रिमाइंडर सेट नहीं किया जा सकता</string>
+    <string name="ae_record_too_short">बहुत छोटा था — बोलते समय दबाए रखें</string>
+    <string name="ae_record_failed">रिकॉर्डिंग शुरू नहीं हो सकी। शायद कोई दूसरा ऐप माइक्रोफ़ोन का उपयोग कर रहा है।</string>
+    <string name="ae_record_silent">कुछ सुनाई नहीं दिया। SpeakAlert के लिए माइक्रोफ़ोन की अनुमति जाँचें।</string>
     <string name="ae_unsaved_title">रिमाइंडर सहेजें?</string>
     <string name="ae_unsaved_msg">आपके पास असहेजे रिमाइंडर बदलाव हैं।</string>
     <string name="action_save">सहेजें</string>

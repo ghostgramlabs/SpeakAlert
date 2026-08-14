@@ -3,8 +3,10 @@ package com.ghostgramlabs.speakalert.ui.addedit
 import android.content.Context
 import com.ghostgramlabs.speakalert.MainDispatcherRule
 import com.ghostgramlabs.speakalert.alarm.AlarmScheduler
+import com.ghostgramlabs.speakalert.audio.AudioEnhancer
 import com.ghostgramlabs.speakalert.audio.AudioPlayer
 import com.ghostgramlabs.speakalert.audio.AudioRecorder
+import com.ghostgramlabs.speakalert.audio.RecordingOutcome
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.data.repository.ReminderRepository
 import com.ghostgramlabs.speakalert.data.repository.SettingsRepository
@@ -31,6 +33,7 @@ import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argumentCaptor
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.never
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
@@ -52,7 +55,8 @@ class AddEditViewModelTest {
     private lateinit var context: Context
     private lateinit var recorder: AudioRecorder
     private lateinit var player: AudioPlayer
-    
+    private lateinit var enhancer: AudioEnhancer
+
     private lateinit var viewModel: AddEditViewModel
     
     @Before
@@ -65,7 +69,17 @@ class AddEditViewModelTest {
         context = mock()
         recorder = mock()
         player = mock()
-        
+        enhancer = mock()
+
+        // Default: the recorder returns a healthy, audible take.
+        whenever(recorder.stop()).thenReturn(
+            RecordingOutcome(
+                file = tempFolder.newFile("take.m4a"),
+                peakAmplitude = 12_000,
+                sizeBytes = 4_096L
+            )
+        )
+
         // Mock Context filesDir and cacheDir
         val filesDir = tempFolder.newFolder("files")
         val cacheDir = tempFolder.newFolder("cache")
@@ -87,7 +101,8 @@ class AddEditViewModelTest {
             settingsRepository,
             context,
             recorder,
-            player
+            player,
+            enhancer
         )
     }
 
@@ -177,8 +192,126 @@ class AddEditViewModelTest {
         assertFalse(viewModel.uiState.value.isRecording)
         verify(recorder).stop()
         assertNotNull(viewModel.uiState.value.recordedAudioPath)
+        assertNull(viewModel.uiState.value.recordingIssue)
     }
-    
+
+    @Test
+    fun `a quick tap reports too-short rather than a failure`() = runTest {
+        // Arrange: released before the encoder had a frame
+        whenever(recorder.stop()).thenReturn(RecordingOutcome.NOTHING)
+        viewModel.startRecording()
+        advanceTimeBy(100)
+
+        // Act
+        viewModel.stopRecording()
+        advanceTimeBy(100)
+
+        // Assert
+        val state = viewModel.uiState.value
+        assertFalse(state.isRecording)
+        assertNull(state.recordedAudioPath)
+        assertEquals(RecordingIssue.TOO_SHORT, state.recordingIssue)
+    }
+
+    @Test
+    fun `nothing captured after a real attempt reports a device failure`() = runTest {
+        // Arrange: recorded well past the quick-tap window, still nothing on disk
+        whenever(recorder.stop()).thenReturn(RecordingOutcome.NOTHING)
+        whenever(recorder.getMaxAmplitude()).thenReturn(1_500)
+        viewModel.startRecording()
+        advanceTimeBy(3_000)
+
+        // Act
+        viewModel.stopRecording()
+        advanceTimeBy(100)
+
+        // Assert
+        assertEquals(RecordingIssue.CAPTURE_FAILED, viewModel.uiState.value.recordingIssue)
+    }
+
+    @Test
+    fun `a usable take is handed to the enhancer`() = runTest {
+        // Act
+        viewModel.startRecording()
+        advanceTimeBy(100)
+        viewModel.stopRecording()
+        advanceUntilIdle()
+
+        // Assert
+        verify(enhancer).enhance(any())
+    }
+
+    @Test
+    fun `a silent take is not enhanced`() = runTest {
+        // Arrange: no signal at all, so there is nothing to lift
+        whenever(recorder.stop()).thenReturn(
+            RecordingOutcome(
+                file = tempFolder.newFile("dead.m4a"),
+                peakAmplitude = 0,
+                sizeBytes = 2_048L
+            )
+        )
+
+        // Act
+        viewModel.startRecording()
+        advanceTimeBy(100)
+        viewModel.stopRecording()
+        advanceUntilIdle()
+
+        // Assert
+        verify(enhancer, never()).enhance(any())
+    }
+
+    @Test
+    fun `a quiet but real take is left alone`() = runTest {
+        // Arrange: a whisper in a quiet room - low peak, but genuine audio
+        whenever(recorder.stop()).thenReturn(
+            RecordingOutcome(
+                file = tempFolder.newFile("whisper.m4a"),
+                peakAmplitude = 300,
+                sizeBytes = 3_072L
+            )
+        )
+        whenever(recorder.getMaxAmplitude()).thenReturn(300)
+        viewModel.startRecording()
+        advanceTimeBy(2_000)
+
+        // Act
+        viewModel.stopRecording()
+        advanceTimeBy(100)
+
+        // Assert: kept, and no warning shown
+        val state = viewModel.uiState.value
+        assertNotNull(state.recordedAudioPath)
+        assertNull(state.recordingIssue)
+    }
+
+    @Test
+    fun `stopRecording with a silent take keeps the file but warns the user`() = runTest {
+        // Arrange: a file was written, but the microphone never delivered any level
+        whenever(recorder.stop()).thenReturn(
+            RecordingOutcome(
+                file = tempFolder.newFile("silent.m4a"),
+                peakAmplitude = 0,
+                sizeBytes = 2_048L
+            )
+        )
+        viewModel.startRecording()
+        advanceTimeBy(100)
+
+        // Act
+        viewModel.stopRecording()
+        advanceTimeBy(100)
+
+        // Assert
+        val state = viewModel.uiState.value
+        assertNotNull(state.recordedAudioPath)
+        assertEquals(RecordingIssue.SILENT, state.recordingIssue)
+
+        viewModel.clearRecordingIssue()
+        assertNull(viewModel.uiState.value.recordingIssue)
+    }
+
     @Test
     fun `loadReminder populates ui state`() = runTest {
         // Arrange
@@ -493,7 +626,8 @@ class AddEditViewModelTest {
             settingsRepository,
             context,
             recorder,
-            player
+            player,
+            enhancer
         )
         advanceUntilIdle()
 

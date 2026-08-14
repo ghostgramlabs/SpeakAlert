@@ -5,8 +5,11 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ghostgramlabs.speakalert.alarm.AlarmScheduler
+import com.ghostgramlabs.speakalert.audio.AudioEnhancer
 import com.ghostgramlabs.speakalert.audio.AudioRecorder
 import com.ghostgramlabs.speakalert.audio.AudioPlayer
+import com.ghostgramlabs.speakalert.audio.Mp4AudioEnhancer
+import com.ghostgramlabs.speakalert.audio.RecordingOutcome
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.data.repository.ReminderRepository
 import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
@@ -29,6 +32,19 @@ import com.ghostgramlabs.speakalert.data.repository.SettingsRepository
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import com.ghostgramlabs.speakalert.util.sanitizeUnitFloat
 
+/**
+ * One-shot notice about the take that just finished. Only raised when there is something the
+ * user can actually do about it - a recording that merely came out quiet is left alone.
+ */
+enum class RecordingIssue {
+    /** Released the button before the encoder had a frame to work with. */
+    TOO_SHORT,
+    /** The device refused to record at all. */
+    CAPTURE_FAILED,
+    /** A file was written but the microphone delivered nothing for the whole take. */
+    SILENT
+}
+
 data class AddEditUiState(
     val initialReminderId: Long = -1L,
     val title: String = "",
@@ -49,6 +65,7 @@ data class AddEditUiState(
     val saveCompleted: Boolean = false,
     val recordingElapsedSeconds: Int = 0, // For displaying recording time
     val currentAmplitude: Int = 0, // For waveform visualization
+    val recordingIssue: RecordingIssue? = null,
     val isTextToSpeechEnabled: Boolean = true,
     val showVoiceRecordingSection: Boolean = true,
     val showAudioFileSection: Boolean = true,
@@ -65,6 +82,7 @@ class AddEditViewModel(
     context: Context,
     private val recorder: AudioRecorder,
     private val player: AudioPlayer,
+    private val enhancer: AudioEnhancer = Mp4AudioEnhancer(),
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
 
@@ -194,7 +212,9 @@ class AddEditViewModel(
                 isCustomAudioFile = false,
                 customAudioFileName = null,
                 showError = false,
-                recordingElapsedSeconds = 0
+                recordingElapsedSeconds = 0,
+                currentAmplitude = 0,
+                recordingIssue = null
             ))
             
             // Start timer to track elapsed time and poll amplitude
@@ -204,10 +224,10 @@ class AddEditViewModel(
                 while (_uiState.value.isRecording && elapsedMs < MAX_RECORDING_SECONDS * 1000L) {
                     kotlinx.coroutines.delay(100) // Poll every 100ms for smoother wave
                     elapsedMs += 100
-                    
+
                     val amplitude = recorder.getMaxAmplitude()
                     val seconds = (elapsedMs / 1000).toInt()
-                    
+
                     _uiState.value = _uiState.value.copy(
                         recordingElapsedSeconds = seconds,
                         currentAmplitude = amplitude
@@ -220,7 +240,12 @@ class AddEditViewModel(
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            _uiState.value = _uiState.value.copy(showError = true)
+            file.delete()
+            tempAudioFile = null
+            _uiState.value = _uiState.value.copy(
+                isRecording = false,
+                recordingIssue = RecordingIssue.CAPTURE_FAILED
+            )
         }
     }
 
@@ -230,14 +255,68 @@ class AddEditViewModel(
      */
     fun stopRecording() {
         recordingTimerJob?.cancel()
-        recorder.stop()
+        val outcome = try {
+            recorder.stop()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            RecordingOutcome.NOTHING
+        }
+
+        // Nothing usable on disk: stay in the pre-record state instead of handing the player an
+        // empty file. A quick tap is the user's own doing, not a malfunction, so say so
+        // differently from a device that genuinely refused to record.
+        if (outcome.file == null) {
+            val releasedEarly = _uiState.value.recordingElapsedSeconds < 1
+            tempAudioFile?.delete()
+            tempAudioFile = null
+            setDraftState(_uiState.value.copy(
+                isRecording = false,
+                recordedAudioPath = null,
+                isCustomAudioFile = false,
+                customAudioFileName = null,
+                recordingIssue = if (releasedEarly) {
+                    RecordingIssue.TOO_SHORT
+                } else {
+                    RecordingIssue.CAPTURE_FAILED
+                }
+            ))
+            return
+        }
+
         // Show preview with temp file path
         setDraftState(_uiState.value.copy(
             isRecording = false,
             recordedAudioPath = tempAudioFile?.absolutePath,
             isCustomAudioFile = false,
-            customAudioFileName = null
+            customAudioFileName = null,
+            recordingIssue = if (outcome.isSilent) RecordingIssue.SILENT else null
         ))
+
+        // Clean up the take in the background. It swaps the file in place under the same path,
+        // so the preview is usable straight away and nothing on screen has to wait or move. A
+        // recording with no signal has nothing to improve, so leave it be.
+        if (!outcome.isSilent) {
+            enhanceRecording(outcome.file)
+        }
+    }
+
+    /**
+     * Applies the high-pass and loudness pass off the main thread. Failure is not worth telling
+     * the user about: the original recording is still there and still plays.
+     */
+    private fun enhanceRecording(file: File) {
+        viewModelScope.launch {
+            withContext(ioDispatcher) {
+                runCatching { enhancer.enhance(file) }
+            }
+        }
+    }
+
+    /** Clears a one-shot recording warning after the UI has shown it. */
+    fun clearRecordingIssue() {
+        if (_uiState.value.recordingIssue != null) {
+            _uiState.value = _uiState.value.copy(recordingIssue = null)
+        }
     }
     
     /**

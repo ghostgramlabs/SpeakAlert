@@ -159,6 +159,9 @@
     <!-- Add / Edit reminder -->
     <string name="ae_saved">Reminder saved!</string>
     <string name="ae_cannot_past">Cannot set reminders for the past</string>
+    <string name="ae_record_too_short">That was too short — hold while you speak</string>
+    <string name="ae_record_failed">Couldn\'t start recording. Another app may be using the microphone.</string>
+    <string name="ae_record_silent">Couldn\'t hear anything. Check microphone access for SpeakAlert.</string>
     <string name="ae_unsaved_title">Save reminder?</string>
     <string name="ae_unsaved_msg">You have unsaved reminder changes.</string>
     <string name="action_save">Save</string>
