@@ -296,6 +296,17 @@
     <plurals name="unit_years"><item quantity="one">Año</item><item quantity="other">Años</item></plurals>
 
     <string name="set_appearance">Apariencia</string>
+    <string name="set_reminder_form">Formulario de recordatorio</string>
+    <string name="set_reminder_form_desc">Elige cada sección de forma independiente. Si ocultas todas las entradas, vuelve a activar una antes de crear un recordatorio.</string>
+    <string name="ae_no_content_sections">No hay ninguna sección de entrada activada. Activa Grabación de voz, Elegir archivo de audio o Recordatorio escrito en Ajustes &gt; Formulario del recordatorio.</string>
+    <string name="set_show_voice_recording">Grabación de voz</string>
+    <string name="set_show_voice_recording_desc">Mostrar la sección para grabar con el micrófono.</string>
+    <string name="set_show_audio_file">Elegir archivo de audio</string>
+    <string name="set_show_audio_file_desc">Mostrar la opción para seleccionar un archivo de audio existente.</string>
+    <string name="set_show_typed_reminder">Recordatorio escrito</string>
+    <string name="set_show_typed_reminder_desc">Mostrar el campo del mensaje del recordatorio.</string>
+    <string name="set_show_short_label">Etiqueta corta</string>
+    <string name="set_show_short_label_desc">Mostrar el campo opcional de etiqueta corta.</string>
     <string name="set_app_theme">Tema de la app</string>
     <string name="theme_system">Sistema</string>
     <string name="theme_light">Claro</string>
@@ -494,7 +505,7 @@
 
     <string name="action_continue">Continuar</string>
     <string name="wn_title">Novedades en %1$s</string>
-    <string name="wn_intro">SpeakAlert ahora habla tu idioma: una app totalmente traducida, botones de alarma más claros y recordatorios que pueden permanecer hasta que termines.</string>
+    <string name="wn_intro">Personaliza un formulario más sencillo, graba notas de voz más limpias y disfruta de una reproducción más fiable en teléfonos Android nuevos.</string>
     <string name="wn_lang_title">Ahora en tu idioma</string>
     <string name="wn_lang_desc">Toda la app está disponible en inglés, español, hindi y árabe, con soporte de derecha a izquierda. Elígelo en Ajustes &gt; Apariencia &gt; Idioma.</string>
     <string name="wn_buttons_title">Botones de alarma más claros</string>
@@ -518,4 +529,17 @@
     <string name="batt_toast_unavailable">Los ajustes de batería no están disponibles en este dispositivo.</string>
     <string name="fsr_title">Permitir de nuevo las alertas de pantalla completa</string>
     <string name="fsr_message">Las alertas de recordatorio en la pantalla de bloqueo siguen activadas en %1$s, pero el acceso a pantalla completa de Android está desactivado. Esto puede ocurrir tras reinstalar o restaurar.</string>
+    <!-- Ayuda y novedades de la versión 2.0.34 -->
+    <string name="help_s15_title">Personalizar el formulario del recordatorio</string>
+    <string name="help_s15_content">- Abre Ajustes &gt; Formulario del recordatorio para mostrar u ocultar Grabación de voz, Elegir archivo de audio, Recordatorio escrito y Etiqueta corta.\n- Cada interruptor funciona de forma independiente. Si ocultas los tres métodos de entrada, Añadir recordatorio te indica cuál debes volver a activar.\n- Al editar, una sección oculta aparece automáticamente si el recordatorio ya contiene ese tipo de contenido.</string>
+    <string name="help_s16_title">Grabaciones de voz más limpias</string>
+    <string name="help_s16_content">- La grabación de voz ahora usa el procesamiento de voz de Android cuando el teléfono lo admite para reducir el ruido de fondo y el eco.\n- Para obtener el sonido más claro, mantén el micrófono a poca distancia de la boca y no lo cubras.\n- La reducción de ruido varía según el teléfono y el entorno; escucha la grabación antes de guardarla.</string>
+    <string name="help_s17_title">Reproducción de recordatorios más fiable</string>
+    <string name="help_s17_content">- La reproducción inicia de inmediato la notificación en primer plano que exige Android, incluso en versiones nuevas y teléfonos con inicio en segundo plano más lento.\n- Esto evita que el tiempo de espera del sistema detenga un recordatorio antes de que comience el sonido o la voz.\n- Mantén activados el permiso de notificaciones, las alarmas exactas y los ajustes de batería recomendados.</string>
+    <string name="wn_form_title">Tu formulario, a tu manera</string>
+    <string name="wn_form_desc">En Ajustes &gt; Formulario del recordatorio, muestra u oculta de forma independiente Grabación de voz, Elegir archivo de audio, Recordatorio escrito y Etiqueta corta.</string>
+    <string name="wn_recording_title">Notas de voz más limpias</string>
+    <string name="wn_recording_desc">La grabación usa la reducción de ruido y eco de Android cuando está disponible para disminuir el sonido de fondo. Puedes escuchar cada grabación antes de guardarla.</string>
+    <string name="wn_reliability_title">Más fiable en Android reciente</string>
+    <string name="wn_reliability_desc">La reproducción del recordatorio ahora se inicia de forma segura e inmediata en primer plano, evitando tiempos de espera observados en algunos dispositivos con Android 12 y Android 16.</string>
 </resources>

@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ServiceInfo
 import android.graphics.Bitmap
 import android.media.AudioFocusRequest
 import android.media.AudioManager
@@ -18,6 +19,7 @@ import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.app.ServiceCompat
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -47,6 +49,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.util.Locale
 
+@UnstableApi
 class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEventListener {
 
     // ExoPlayer
@@ -91,6 +94,8 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var currentVolume: Float = 1.0f
     private var progressJob: Job? = null
+    private var foregroundStarted = false
+    private var startupPromotionFailed = false
     private val routeWarmupHandler = android.os.Handler(android.os.Looper.getMainLooper())
     private var routeWarmupRunnable: Runnable? = null
 
@@ -133,9 +138,18 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         progressJob = null
     }
 
-    @UnstableApi
     override fun onCreate() {
         super.onCreate()
+
+        // The foreground-service deadline starts before onStartCommand(). Promote before
+        // initializing ExoPlayer, MediaSession, TTS, sensors, or settings observers because
+        // those can be slow on heavily customized Android devices.
+        if (!promoteToForeground(createStartupNotification())) {
+            startupPromotionFailed = true
+            stopSelf()
+            return
+        }
+
         FileLogger.log("SERVICE: onCreate started")
         
         try {
@@ -216,7 +230,6 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         }
     }
 
-    @UnstableApi
     private fun initPlayerNotificationManager() {
         FileLogger.log("SERVICE: Initializing PlayerNotificationManager")
         playerNotificationManager = PlayerNotificationManager.Builder(
@@ -257,7 +270,9 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             override fun onNotificationPosted(notificationId: Int, notification: Notification, ongoing: Boolean) {
                 FileLogger.log("SERVICE: Notification posted (audio mode), ongoing=$ongoing")
                 if (!isTtsMode && ongoing) {
-                    startForeground(notificationId, notification)
+                    if (!promoteToForeground(notification)) {
+                        stopSelf()
+                    }
                 }
             }
             override fun onNotificationCancelled(notificationId: Int, dismissedByUser: Boolean) {
@@ -311,34 +326,50 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         FileLogger.log("SERVICE: PlayerNotificationManager initialized")
     }
 
+    private fun createStartupNotification(): Notification {
+        return NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle(APP_DISPLAY_NAME)
+            .setContentText(getString(R.string.notif_playback_processing))
+            .setSmallIcon(R.drawable.ic_notification)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setCategory(NotificationCompat.CATEGORY_SERVICE)
+            .setOngoing(true)
+            .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
+            .build()
+    }
+
+    private fun promoteToForeground(notification: Notification): Boolean {
+        return try {
+            val serviceType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK
+            } else {
+                0
+            }
+            ServiceCompat.startForeground(this, NOTIFICATION_ID, notification, serviceType)
+            foregroundStarted = true
+            true
+        } catch (exception: Exception) {
+            Log.e(TAG, "Unable to promote playback service to foreground", exception)
+            FileLogger.logError("SERVICE", "startForeground failed", exception)
+            false
+        }
+    }
+
     private var currentReminderId: Long = -1L
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         FileLogger.log("SERVICE: onStartCommand started")
-        
+
+        if (startupPromotionFailed) {
+            stopSelfResult(startId)
+            return START_NOT_STICKY
+        }
+
         try {
-            // IMMEDIATELY satisfy FGS contract — must be the very first thing.
-            // Android 16+ (SDK 36) enforces stricter timing on startForeground().
-            // All code paths (ACTION_STOP, ACTION_REPLAY, normal start) must have
-            // startForeground() called before any early return.
-            FileLogger.log("SERVICE: Creating placeholder notification")
-            val placeholderNotification = NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle(APP_DISPLAY_NAME)
-                .setContentText(
-                    com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(this)
-                        .getString(R.string.notif_playback_processing)
-                )
-                .setSmallIcon(R.drawable.ic_notification)
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-                .build()
-            
-            try {
-                startForeground(NOTIFICATION_ID, placeholderNotification)
-                FileLogger.log("SERVICE: startForeground succeeded")
-            } catch (e: Exception) {
-                // Catches ForegroundServiceStartNotAllowedException (Android 12+)
-                FileLogger.logError("SERVICE", "startForeground failed", e)
-                stopSelf()
+            // Defensive retry for unusual lifecycle restoration paths. Normal starts are already
+            // promoted at the beginning of onCreate().
+            if (!foregroundStarted && !promoteToForeground(createStartupNotification())) {
+                stopSelfResult(startId)
                 return START_NOT_STICKY
             }
 
@@ -484,7 +515,10 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             FileLogger.log("SERVICE: Creating TTS notification")
             val notification = createTtsNotification(title, text, id)
             FileLogger.log("SERVICE: Calling startForeground for TTS")
-            startForeground(NOTIFICATION_ID, notification)
+            if (!promoteToForeground(notification)) {
+                stopSelf()
+                return
+            }
             FileLogger.log("SERVICE: TTS foreground started")
 
             if (isTtsInitialized) {
@@ -1016,6 +1050,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     }
 
     companion object {
+        private const val TAG = "ReminderPlaybackSvc"
         const val CHANNEL_ID = "playback_channel"
         // Reserve a high fixed ID so it never collides with reminder alert IDs (which use reminderId.toInt()).
         const val NOTIFICATION_ID = 2_000_001

@@ -18,6 +18,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -49,6 +50,10 @@ data class AddEditUiState(
     val recordingElapsedSeconds: Int = 0, // For displaying recording time
     val currentAmplitude: Int = 0, // For waveform visualization
     val isTextToSpeechEnabled: Boolean = true,
+    val showVoiceRecordingSection: Boolean = true,
+    val showAudioFileSection: Boolean = true,
+    val showTypedReminderSection: Boolean = true,
+    val showShortLabelSection: Boolean = true,
     val showPastTimeError: Boolean = false,
     val hasUnsavedChanges: Boolean = false
 )
@@ -96,6 +101,29 @@ class AddEditViewModel(
         viewModelScope.launch {
             settingsRepository.speakTextIfNoVoice.collect { enabled ->
                 _uiState.value = _uiState.value.copy(isTextToSpeechEnabled = enabled)
+            }
+        }
+
+        viewModelScope.launch {
+            combine(
+                settingsRepository.showVoiceRecordingSection,
+                settingsRepository.showAudioFileSection,
+                settingsRepository.showTypedReminderSection,
+                settingsRepository.showShortLabelSection
+            ) { voice, audioFile, typed, shortLabel ->
+                AddEditSectionVisibility(
+                    voiceRecording = voice,
+                    audioFile = audioFile,
+                    typedReminder = typed,
+                    shortLabel = shortLabel
+                )
+            }.collect { visibility ->
+                _uiState.value = _uiState.value.copy(
+                    showVoiceRecordingSection = visibility.voiceRecording,
+                    showAudioFileSection = visibility.audioFile,
+                    showTypedReminderSection = visibility.typedReminder,
+                    showShortLabelSection = visibility.shortLabel
+                )
             }
         }
     }
@@ -563,4 +591,11 @@ class AddEditViewModel(
                 followUpCheckMinutes > 0
         }
     }
+
+    private data class AddEditSectionVisibility(
+        val voiceRecording: Boolean,
+        val audioFile: Boolean,
+        val typedReminder: Boolean,
+        val shortLabel: Boolean
+    )
 }

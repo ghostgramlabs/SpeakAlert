@@ -129,6 +129,10 @@ fun SettingsScreen(
     val fullScreenAlertEnabled by viewModel.fullScreenAlertEnabled.collectAsState()
     val debugLoggingEnabled by viewModel.debugLoggingEnabled.collectAsState()
     val appVolume by viewModel.appVolume.collectAsState()
+    val showVoiceRecordingSection by viewModel.showVoiceRecordingSection.collectAsState()
+    val showAudioFileSection by viewModel.showAudioFileSection.collectAsState()
+    val showTypedReminderSection by viewModel.showTypedReminderSection.collectAsState()
+    val showShortLabelSection by viewModel.showShortLabelSection.collectAsState()
     val toneAutoStopLabel = if (loopTimeoutMinutes == 0) stringResource(R.string.set_infinite) else stringResource(R.string.set_minutes_short, loopTimeoutMinutes)
     val toneOnlySubtitle = stringResource(R.string.set_tone_only_desc, toneAutoStopLabel, defaultSnoozeDuration)
     val tonePickerLauncher = rememberLauncherForActivityResult(
@@ -245,6 +249,43 @@ fun SettingsScreen(
                         )
                     }
                 }
+            }
+
+            CollapsibleSettingsSection(
+                title = stringResource(R.string.set_reminder_form),
+                icon = "Form",
+                initiallyExpanded = false
+            ) {
+                Text(
+                    text = stringResource(R.string.set_reminder_form_desc),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(Modifier.height(10.dp))
+                SwitchRow(
+                    text = stringResource(R.string.set_show_voice_recording),
+                    description = stringResource(R.string.set_show_voice_recording_desc),
+                    checked = showVoiceRecordingSection,
+                    onCheckedChange = viewModel::setShowVoiceRecordingSection
+                )
+                SwitchRow(
+                    text = stringResource(R.string.set_show_audio_file),
+                    description = stringResource(R.string.set_show_audio_file_desc),
+                    checked = showAudioFileSection,
+                    onCheckedChange = viewModel::setShowAudioFileSection
+                )
+                SwitchRow(
+                    text = stringResource(R.string.set_show_typed_reminder),
+                    description = stringResource(R.string.set_show_typed_reminder_desc),
+                    checked = showTypedReminderSection,
+                    onCheckedChange = viewModel::setShowTypedReminderSection
+                )
+                SwitchRow(
+                    text = stringResource(R.string.set_show_short_label),
+                    description = stringResource(R.string.set_show_short_label_desc),
+                    checked = showShortLabelSection,
+                    onCheckedChange = viewModel::setShowShortLabelSection
+                )
             }
 
             // ============================================================

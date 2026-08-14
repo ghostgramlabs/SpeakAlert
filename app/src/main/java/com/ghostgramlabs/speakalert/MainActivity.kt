@@ -321,28 +321,16 @@ class MainActivity : ComponentActivity() {
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_lang_title),
-                                        description = stringResource(R.string.wn_lang_desc)
+                                        title = stringResource(R.string.wn_form_title),
+                                        description = stringResource(R.string.wn_form_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_buttons_title),
-                                        description = stringResource(R.string.wn_buttons_desc)
+                                        title = stringResource(R.string.wn_recording_title),
+                                        description = stringResource(R.string.wn_recording_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_spoken_title),
-                                        description = stringResource(R.string.wn_spoken_desc)
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_persist_title),
-                                        description = stringResource(R.string.wn_persist_desc)
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_followup_title),
-                                        description = stringResource(R.string.wn_followup_desc)
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_backup_title),
-                                        description = stringResource(R.string.wn_backup_desc)
+                                        title = stringResource(R.string.wn_reliability_title),
+                                        description = stringResource(R.string.wn_reliability_desc)
                                     )
                                 }
                                 Button(

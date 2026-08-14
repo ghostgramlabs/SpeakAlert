@@ -6,14 +6,14 @@ plugins {
 
 android {
     namespace = "com.ghostgramlabs.speakalert"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.ghostgramlabs.speakalert"
         minSdk = 26
-        targetSdk = 35
-        versionCode = 52
-        versionName = "2.0.32"
+        targetSdk = 36
+        versionCode = 54
+        versionName = "2.0.34"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
