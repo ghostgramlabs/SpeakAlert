@@ -313,6 +313,17 @@
 
     <!-- Settings -->
     <string name="set_appearance">Appearance</string>
+    <string name="set_reminder_form">Reminder form</string>
+    <string name="set_reminder_form_desc">Choose each section independently. If you hide every input section, turn one back on before creating a reminder.</string>
+    <string name="ae_no_content_sections">No reminder input sections are enabled. Turn on Voice recording, Choose audio file, or Typed reminder in Settings &gt; Reminder form.</string>
+    <string name="set_show_voice_recording">Voice recording</string>
+    <string name="set_show_voice_recording_desc">Show the microphone recording section.</string>
+    <string name="set_show_audio_file">Choose audio file</string>
+    <string name="set_show_audio_file_desc">Show the option to select an existing audio file.</string>
+    <string name="set_show_typed_reminder">Typed reminder</string>
+    <string name="set_show_typed_reminder_desc">Show the reminder message field.</string>
+    <string name="set_show_short_label">Short label</string>
+    <string name="set_show_short_label_desc">Show the optional short label field.</string>
     <string name="set_app_theme">App Theme</string>
     <string name="theme_system">System</string>
     <string name="theme_light">Light</string>
@@ -513,7 +524,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">Continue</string>
     <string name="wn_title">What\'s new in %1$s</string>
-    <string name="wn_intro">SpeakAlert now speaks your language — a fully translated app, clearer alarm buttons, and reminders that can stay until you\'re done.</string>
+    <string name="wn_intro">Customize a simpler reminder form, capture cleaner voice notes, and get more reliable playback across newer Android phones.</string>
     <string name="wn_lang_title">Now in your language</string>
     <string name="wn_lang_desc">The whole app is available in English, Spanish, Hindi, and Arabic, with right-to-left support. Choose it in Settings &gt; Appearance &gt; Language.</string>
     <string name="wn_buttons_title">Clearer alarm buttons</string>
@@ -536,4 +547,17 @@
     <string name="batt_toast_unavailable">Battery settings are not available on this device.</string>
     <string name="fsr_title">Allow full-screen alerts again</string>
     <string name="fsr_message">Lock-screen reminder alerts are still turned on in %1$s, but Android full-screen access is off. This can happen after reinstall or restore.</string>
+    <!-- Version 2.0.34 help and startup highlights -->
+    <string name="help_s15_title">Customize the reminder form</string>
+    <string name="help_s15_content">- Open Settings &gt; Reminder form to show or hide Voice recording, Choose audio file, Typed reminder, and Short label.\n- Every switch works independently. If all three input methods are hidden, Add Reminder tells you which setting to turn back on.\n- When editing, a hidden section appears automatically if that reminder already contains its content.</string>
+    <string name="help_s16_title">Cleaner voice recordings</string>
+    <string name="help_s16_content">- Voice recording now uses Android voice-processing features when your phone supports them to reduce background noise and echo.\n- For the clearest result, keep the microphone a short distance from your mouth and avoid covering it.\n- Noise reduction varies by phone and recording environment; preview the recording before saving.</string>
+    <string name="help_s17_title">More reliable reminder playback</string>
+    <string name="help_s17_content">- Reminder playback now starts its required Android foreground notification immediately, including on newer Android versions and phones with slower background startup.\n- This prevents the system timeout that could stop a reminder before its sound or voice begins.\n- Keep notification permission, exact alarms, and the recommended battery settings enabled for best reliability.</string>
+    <string name="wn_form_title">Your reminder form, your way</string>
+    <string name="wn_form_desc">In Settings &gt; Reminder form, independently show or hide Voice recording, Choose audio file, Typed reminder, and Short label.</string>
+    <string name="wn_recording_title">Cleaner voice notes</string>
+    <string name="wn_recording_desc">Voice recording now uses supported Android noise and echo processing to reduce unwanted background sound. You can still preview every recording before saving.</string>
+    <string name="wn_reliability_title">More reliable on newer Android phones</string>
+    <string name="wn_reliability_desc">Reminder playback now starts safely and immediately in the foreground, preventing startup timeouts seen on some Android 12 and Android 16 devices.</string>
 </resources>

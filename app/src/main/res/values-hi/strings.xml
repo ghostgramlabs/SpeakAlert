@@ -296,6 +296,17 @@
     <plurals name="unit_years"><item quantity="one">वर्ष</item><item quantity="other">वर्ष</item></plurals>
 
     <string name="set_appearance">दिखावट</string>
+    <string name="set_reminder_form">रिमाइंडर फ़ॉर्म</string>
+    <string name="set_reminder_form_desc">हर सेक्शन को अलग-अलग चुनें। यदि आप सभी इनपुट सेक्शन छिपाते हैं, तो रिमाइंडर बनाने से पहले एक को फिर चालू करें।</string>
+    <string name="ae_no_content_sections">कोई रिमाइंडर इनपुट सेक्शन चालू नहीं है। सेटिंग्स &gt; रिमाइंडर फ़ॉर्म में वॉइस रिकॉर्डिंग, ऑडियो फ़ाइल चुनें या लिखित रिमाइंडर चालू करें।</string>
+    <string name="set_show_voice_recording">वॉइस रिकॉर्डिंग</string>
+    <string name="set_show_voice_recording_desc">माइक्रोफ़ोन रिकॉर्डिंग सेक्शन दिखाएँ।</string>
+    <string name="set_show_audio_file">ऑडियो फ़ाइल चुनें</string>
+    <string name="set_show_audio_file_desc">पहले से मौजूद ऑडियो फ़ाइल चुनने का विकल्प दिखाएँ।</string>
+    <string name="set_show_typed_reminder">लिखित रिमाइंडर</string>
+    <string name="set_show_typed_reminder_desc">रिमाइंडर संदेश फ़ील्ड दिखाएँ।</string>
+    <string name="set_show_short_label">छोटा लेबल</string>
+    <string name="set_show_short_label_desc">वैकल्पिक छोटे लेबल का फ़ील्ड दिखाएँ।</string>
     <string name="set_app_theme">ऐप थीम</string>
     <string name="theme_system">सिस्टम</string>
     <string name="theme_light">लाइट</string>
@@ -494,7 +505,7 @@
 
     <string name="action_continue">जारी रखें</string>
     <string name="wn_title">%1$s में नया</string>
-    <string name="wn_intro">SpeakAlert अब आपकी भाषा बोलता है — पूरी तरह अनुवादित ऐप, स्पष्ट अलार्म बटन, और ऐसे रिमाइंडर जो पूरा होने तक बने रह सकते हैं।</string>
+    <string name="wn_intro">सरल रिमाइंडर फ़ॉर्म को अपने अनुसार बनाएँ, अधिक साफ़ वॉइस नोट रिकॉर्ड करें और नए Android फ़ोन पर अधिक भरोसेमंद प्लेबैक पाएँ।</string>
     <string name="wn_lang_title">अब आपकी भाषा में</string>
     <string name="wn_lang_desc">पूरा ऐप अंग्रेज़ी, स्पेनिश, हिंदी और अरबी में उपलब्ध है, दाएँ-से-बाएँ समर्थन के साथ। इसे सेटिंग्स &gt; दिखावट &gt; भाषा में चुनें।</string>
     <string name="wn_buttons_title">स्पष्ट अलार्म बटन</string>
@@ -518,4 +529,17 @@
     <string name="batt_toast_unavailable">इस डिवाइस पर बैटरी सेटिंग्स उपलब्ध नहीं हैं।</string>
     <string name="fsr_title">फ़ुल-स्क्रीन अलर्ट फिर से अनुमति दें</string>
     <string name="fsr_message">%1$s में लॉक-स्क्रीन रिमाइंडर अलर्ट अभी भी चालू हैं, लेकिन Android फ़ुल-स्क्रीन एक्सेस बंद है। यह पुनः इंस्टॉल या रीस्टोर के बाद हो सकता है।</string>
+    <!-- संस्करण 2.0.34 सहायता और नया क्या है -->
+    <string name="help_s15_title">रिमाइंडर फ़ॉर्म को अपने अनुसार बनाएँ</string>
+    <string name="help_s15_content">- वॉइस रिकॉर्डिंग, ऑडियो फ़ाइल चुनें, टाइप किया हुआ रिमाइंडर और छोटा लेबल दिखाने या छिपाने के लिए सेटिंग्स &gt; रिमाइंडर फ़ॉर्म खोलें।\n- हर स्विच अलग-अलग काम करता है। यदि तीनों इनपुट तरीके छिपे हैं, तो रिमाइंडर जोड़ें स्क्रीन बताती है कि कौन-सी सेटिंग फिर चालू करनी है।\n- संपादन करते समय, यदि रिमाइंडर में पहले से उस प्रकार की सामग्री है तो छिपा हुआ अनुभाग अपने आप दिखाई देगा।</string>
+    <string name="help_s16_title">अधिक साफ़ वॉइस रिकॉर्डिंग</string>
+    <string name="help_s16_content">- फ़ोन द्वारा समर्थित होने पर वॉइस रिकॉर्डिंग अब बैकग्राउंड शोर और गूँज कम करने के लिए Android की वॉइस प्रोसेसिंग का उपयोग करती है।\n- सबसे साफ़ आवाज़ के लिए माइक्रोफ़ोन को मुँह से थोड़ी दूरी पर रखें और उसे ढकें नहीं।\n- शोर में कमी फ़ोन और वातावरण के अनुसार बदलती है; सहेजने से पहले रिकॉर्डिंग सुन लें।</string>
+    <string name="help_s17_title">अधिक भरोसेमंद रिमाइंडर प्लेबैक</string>
+    <string name="help_s17_content">- रिमाइंडर प्लेबैक अब Android की आवश्यक फ़ोरग्राउंड नोटिफ़िकेशन तुरंत शुरू करता है, नई Android रिलीज़ और धीमे बैकग्राउंड स्टार्ट वाले फ़ोन पर भी।\n- इससे सिस्टम टाइमआउट के कारण आवाज़ शुरू होने से पहले रिमाइंडर रुकने की समस्या नहीं होती।\n- सर्वोत्तम विश्वसनीयता के लिए नोटिफ़िकेशन अनुमति, सटीक अलार्म और सुझाई गई बैटरी सेटिंग्स चालू रखें।</string>
+    <string name="wn_form_title">आपका रिमाइंडर फ़ॉर्म, आपके तरीके से</string>
+    <string name="wn_form_desc">सेटिंग्स &gt; रिमाइंडर फ़ॉर्म में वॉइस रिकॉर्डिंग, ऑडियो फ़ाइल चुनें, टाइप किया हुआ रिमाइंडर और छोटा लेबल अलग-अलग दिखाएँ या छिपाएँ।</string>
+    <string name="wn_recording_title">अधिक साफ़ वॉइस नोट</string>
+    <string name="wn_recording_desc">उपलब्ध होने पर रिकॉर्डिंग अब बैकग्राउंड आवाज़ कम करने के लिए Android की शोर और गूँज प्रोसेसिंग का उपयोग करती है। सहेजने से पहले हर रिकॉर्डिंग सुनी जा सकती है।</string>
+    <string name="wn_reliability_title">नए Android पर अधिक भरोसेमंद</string>
+    <string name="wn_reliability_desc">रिमाइंडर प्लेबैक अब सुरक्षित रूप से और तुरंत फ़ोरग्राउंड में शुरू होता है, जिससे कुछ Android 12 और Android 16 डिवाइस पर देखा गया स्टार्टअप टाइमआउट नहीं होता।</string>
 </resources>

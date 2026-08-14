@@ -75,6 +75,10 @@ class AddEditViewModelTest {
         // Mock Settings
         whenever(settingsRepository.appVolume).thenReturn(MutableStateFlow(1.0f))
         whenever(settingsRepository.speakTextIfNoVoice).thenReturn(MutableStateFlow(true))
+        whenever(settingsRepository.showVoiceRecordingSection).thenReturn(MutableStateFlow(true))
+        whenever(settingsRepository.showAudioFileSection).thenReturn(MutableStateFlow(true))
+        whenever(settingsRepository.showTypedReminderSection).thenReturn(MutableStateFlow(true))
+        whenever(settingsRepository.showShortLabelSection).thenReturn(MutableStateFlow(true))
         whenever(settingsRepository.defaultMissedPolicy).thenReturn(MutableStateFlow("SKIP_TO_NEXT"))
         
         viewModel = AddEditViewModel(
@@ -474,5 +478,28 @@ class AddEditViewModelTest {
         val captor = argumentCaptor<ReminderEntity>()
         verify(repository).insertReminder(captor.capture())
         assertEquals(MissedPolicy.FIRE_ON_RESUME, captor.firstValue.missedPolicy)
+    }
+
+    @Test
+    fun `section visibility preferences remain independent`() = runTest {
+        whenever(settingsRepository.showVoiceRecordingSection).thenReturn(MutableStateFlow(false))
+        whenever(settingsRepository.showAudioFileSection).thenReturn(MutableStateFlow(false))
+        whenever(settingsRepository.showTypedReminderSection).thenReturn(MutableStateFlow(false))
+        whenever(settingsRepository.showShortLabelSection).thenReturn(MutableStateFlow(false))
+
+        viewModel = AddEditViewModel(
+            repository,
+            scheduler,
+            settingsRepository,
+            context,
+            recorder,
+            player
+        )
+        advanceUntilIdle()
+
+        assertFalse(viewModel.uiState.value.showVoiceRecordingSection)
+        assertFalse(viewModel.uiState.value.showAudioFileSection)
+        assertFalse(viewModel.uiState.value.showTypedReminderSection)
+        assertFalse(viewModel.uiState.value.showShortLabelSection)
     }
 }

@@ -56,6 +56,18 @@ class SettingsViewModel(
     val fullScreenAlertEnabled = settingsRepository.fullScreenAlertEnabled
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
+    val showVoiceRecordingSection = settingsRepository.showVoiceRecordingSection
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+
+    val showAudioFileSection = settingsRepository.showAudioFileSection
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+
+    val showTypedReminderSection = settingsRepository.showTypedReminderSection
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+
+    val showShortLabelSection = settingsRepository.showShortLabelSection
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+
     fun setAutoPlayEnabled(enabled: Boolean) {
         viewModelScope.launch {
             settingsRepository.setAutoPlayEnabled(enabled)
@@ -138,6 +150,22 @@ class SettingsViewModel(
         viewModelScope.launch {
             settingsRepository.setFullScreenAlertEnabled(enabled)
         }
+    }
+
+    fun setShowVoiceRecordingSection(visible: Boolean) {
+        viewModelScope.launch { settingsRepository.setShowVoiceRecordingSection(visible) }
+    }
+
+    fun setShowAudioFileSection(visible: Boolean) {
+        viewModelScope.launch { settingsRepository.setShowAudioFileSection(visible) }
+    }
+
+    fun setShowTypedReminderSection(visible: Boolean) {
+        viewModelScope.launch { settingsRepository.setShowTypedReminderSection(visible) }
+    }
+
+    fun setShowShortLabelSection(visible: Boolean) {
+        viewModelScope.launch { settingsRepository.setShowShortLabelSection(visible) }
     }
 
     val debugLoggingEnabled = settingsRepository.debugLoggingEnabled

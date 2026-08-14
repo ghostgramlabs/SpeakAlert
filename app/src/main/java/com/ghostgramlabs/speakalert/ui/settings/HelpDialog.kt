@@ -122,6 +122,18 @@ fun HelpDialog(
                     title = stringResource(R.string.help_s14_title),
                     content = stringResource(R.string.help_s14_content)
                 )
+                HelpSection(
+                    title = stringResource(R.string.help_s15_title),
+                    content = stringResource(R.string.help_s15_content)
+                )
+                HelpSection(
+                    title = stringResource(R.string.help_s16_title),
+                    content = stringResource(R.string.help_s16_content)
+                )
+                HelpSection(
+                    title = stringResource(R.string.help_s17_title),
+                    content = stringResource(R.string.help_s17_content)
+                )
             }
 
             OutlinedButton(

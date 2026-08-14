@@ -73,6 +73,14 @@ fun AddEditReminderScreen(
     viewModel: AddEditViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    // Hidden preferences simplify new reminders, but never conceal data already attached to the
+    // reminder being edited.
+    val showVoiceRecordingSection = uiState.showVoiceRecordingSection ||
+        (!uiState.recordedAudioPath.isNullOrBlank() && !uiState.isCustomAudioFile)
+    val showAudioFileSection = uiState.showAudioFileSection ||
+        (!uiState.recordedAudioPath.isNullOrBlank() && uiState.isCustomAudioFile)
+    val showTypedReminderSection = uiState.showTypedReminderSection || uiState.reminderText.isNotBlank()
+    val showShortLabelSection = uiState.showShortLabelSection || uiState.title.isNotBlank()
     val context = LocalContext.current
     var showUnsavedDialog by remember { mutableStateOf(false) }
     val requestExit: () -> Unit = {
@@ -247,10 +255,19 @@ fun AddEditReminderScreen(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+                if (!showVoiceRecordingSection && !showAudioFileSection && !showTypedReminderSection) {
+                    Text(
+                        text = stringResource(R.string.ae_no_content_sections),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.padding(top = 12.dp)
+                    )
+                }
                 Spacer(modifier = Modifier.height(16.dp))
 
                     // 1. Voice Recording Section
-                    com.ghostgramlabs.speakalert.ui.components.VoiceRecorderCard(
+                    if (showVoiceRecordingSection) {
+                        com.ghostgramlabs.speakalert.ui.components.VoiceRecorderCard(
                         isRecording = uiState.isRecording,
                         isPlaying = uiState.isPlaying && !uiState.isCustomAudioFile,
                         hasRecording = uiState.recordedAudioPath != null && !uiState.isCustomAudioFile,
@@ -268,18 +285,22 @@ fun AddEditReminderScreen(
                         onSeek = { viewModel.seekTo(it) },
                         recordingElapsedSeconds = uiState.recordingElapsedSeconds,
                         currentAmplitude = uiState.currentAmplitude
-                    )
+                        )
+                    }
 
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = stringResource(R.string.ae_or_choose_audio),
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    if (showVoiceRecordingSection && showAudioFileSection) {
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = stringResource(R.string.ae_or_choose_audio),
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
 
                     // 3. Choose Audio File section (new feature extension)
-                    Surface(
+                    if (showAudioFileSection) {
+                        Surface(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(20.dp),
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
@@ -392,18 +413,22 @@ fun AddEditReminderScreen(
                                 }
                             }
                         }
+                        }
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = stringResource(R.string.ae_or_type),
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    if (showTypedReminderSection && (showVoiceRecordingSection || showAudioFileSection)) {
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = stringResource(R.string.ae_or_type),
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
 
                     // 5. Text Input (Message)
-                    OutlinedTextField(
+                    if (showTypedReminderSection) {
+                        OutlinedTextField(
                         value = uiState.reminderText,
                         onValueChange = { if (it.length <= 1000) viewModel.updateReminderText(it) },
                         label = { Text(stringResource(R.string.ae_msg_label)) },
@@ -436,8 +461,9 @@ fun AddEditReminderScreen(
                             focusedBorderColor = MaterialTheme.colorScheme.primary,
                             unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
                         )
-                    )
-                    
+                        )
+                    }
+
                     if (uiState.showError) {
                         Text(
                             text = stringResource(R.string.ae_need_content),
@@ -447,7 +473,8 @@ fun AddEditReminderScreen(
                     }
             }
 
-            SectionCard(title = stringResource(R.string.ae_section_label)) {
+            if (showShortLabelSection) {
+                SectionCard(title = stringResource(R.string.ae_section_label)) {
                 Text(
                     text = stringResource(R.string.ae_label_desc),
                     style = MaterialTheme.typography.bodySmall,
@@ -476,6 +503,7 @@ fun AddEditReminderScreen(
                             unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
                         )
                     )
+                }
             }
 
             SectionCard(title = stringResource(R.string.ae_section_schedule)) {

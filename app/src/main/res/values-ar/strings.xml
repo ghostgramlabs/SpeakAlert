@@ -316,6 +316,17 @@
     <plurals name="unit_years"><item quantity="one">سنة</item><item quantity="other">سنوات</item></plurals>
 
     <string name="set_appearance">المظهر</string>
+    <string name="set_reminder_form">نموذج التذكير</string>
+    <string name="set_reminder_form_desc">اختر كل قسم بشكل مستقل. إذا أخفيت كل أقسام الإدخال، فأعد تشغيل أحدها قبل إنشاء تذكير.</string>
+    <string name="ae_no_content_sections">لا توجد أقسام إدخال مفعّلة. فعّل تسجيل الصوت أو اختيار ملف صوتي أو التذكير المكتوب من الإعدادات &gt; نموذج التذكير.</string>
+    <string name="set_show_voice_recording">تسجيل صوتي</string>
+    <string name="set_show_voice_recording_desc">إظهار قسم التسجيل بالميكروفون.</string>
+    <string name="set_show_audio_file">اختيار ملف صوتي</string>
+    <string name="set_show_audio_file_desc">إظهار خيار تحديد ملف صوتي موجود.</string>
+    <string name="set_show_typed_reminder">تذكير مكتوب</string>
+    <string name="set_show_typed_reminder_desc">إظهار حقل رسالة التذكير.</string>
+    <string name="set_show_short_label">تسمية قصيرة</string>
+    <string name="set_show_short_label_desc">إظهار حقل التسمية القصيرة الاختياري.</string>
     <string name="set_app_theme">سمة التطبيق</string>
     <string name="theme_system">النظام</string>
     <string name="theme_light">فاتح</string>
@@ -514,7 +525,7 @@
 
     <string name="action_continue">متابعة</string>
     <string name="wn_title">الجديد في %1$s</string>
-    <string name="wn_intro">يتحدث SpeakAlert الآن لغتك — تطبيق مترجَم بالكامل وأزرار إنذار أوضح وتذكيرات يمكن أن تبقى حتى تنتهي.</string>
+    <string name="wn_intro">خصّص نموذج تذكير أبسط، وسجّل ملاحظات صوتية أوضح، واحصل على تشغيل أكثر موثوقية على هواتف Android الحديثة.</string>
     <string name="wn_lang_title">الآن بلغتك</string>
     <string name="wn_lang_desc">التطبيق بأكمله متوفر بالإنجليزية والإسبانية والهندية والعربية، مع دعم الاتجاه من اليمين إلى اليسار. اخترها من الإعدادات &gt; المظهر &gt; اللغة.</string>
     <string name="wn_buttons_title">أزرار إنذار أوضح</string>
@@ -538,4 +549,17 @@
     <string name="batt_toast_unavailable">إعدادات البطارية غير متوفرة على هذا الجهاز.</string>
     <string name="fsr_title">اسمح بتنبيهات ملء الشاشة مجددًا</string>
     <string name="fsr_message">لا تزال تنبيهات التذكير على شاشة القفل مفعّلة في %1$s، لكن وصول ملء الشاشة في Android متوقّف. قد يحدث ذلك بعد إعادة التثبيت أو الاستعادة.</string>
+    <!-- مساعدة ومستجدات الإصدار 2.0.34 -->
+    <string name="help_s15_title">تخصيص نموذج التذكير</string>
+    <string name="help_s15_content">- افتح الإعدادات &gt; نموذج التذكير لإظهار أو إخفاء تسجيل الصوت واختيار ملف صوتي والتذكير المكتوب والتسمية القصيرة.\n- يعمل كل مفتاح بشكل مستقل. إذا أخفيت طرق الإدخال الثلاث، فستخبرك شاشة إضافة تذكير بالإعداد الذي يجب إعادة تشغيله.\n- عند التعديل، يظهر القسم المخفي تلقائيًا إذا كان التذكير يحتوي بالفعل على ذلك النوع من المحتوى.</string>
+    <string name="help_s16_title">تسجيلات صوتية أوضح</string>
+    <string name="help_s16_content">- يستخدم تسجيل الصوت الآن معالجة الصوت في Android عندما يدعمها هاتفك لتقليل ضوضاء الخلفية والصدى.\n- للحصول على أوضح نتيجة، أبقِ الميكروفون على مسافة قصيرة من فمك ولا تغطّه.\n- يختلف تقليل الضوضاء حسب الهاتف ومكان التسجيل؛ استمع إلى التسجيل قبل حفظه.</string>
+    <string name="help_s17_title">تشغيل تذكيرات أكثر موثوقية</string>
+    <string name="help_s17_content">- يبدأ تشغيل التذكير الآن إشعار الواجهة الأمامية المطلوب من Android فورًا، بما في ذلك إصدارات Android الجديدة والهواتف الأبطأ في بدء العمل بالخلفية.\n- يمنع ذلك مهلة النظام التي قد توقف التذكير قبل بدء الصوت.\n- أبقِ إذن الإشعارات والمنبهات الدقيقة وإعدادات البطارية الموصى بها مفعّلة لأفضل موثوقية.</string>
+    <string name="wn_form_title">نموذج التذكير بطريقتك</string>
+    <string name="wn_form_desc">من الإعدادات &gt; نموذج التذكير، أظهر أو أخفِ بشكل مستقل تسجيل الصوت واختيار ملف صوتي والتذكير المكتوب والتسمية القصيرة.</string>
+    <string name="wn_recording_title">ملاحظات صوتية أوضح</string>
+    <string name="wn_recording_desc">يستخدم التسجيل الآن تقليل الضوضاء والصدى في Android عند توفره لتخفيف صوت الخلفية. ويمكنك الاستماع إلى كل تسجيل قبل حفظه.</string>
+    <string name="wn_reliability_title">موثوقية أكبر على Android الحديث</string>
+    <string name="wn_reliability_desc">يبدأ تشغيل التذكير الآن بأمان وفورًا في الواجهة الأمامية، مما يمنع مهلة البدء التي ظهرت على بعض أجهزة Android 12 وAndroid 16.</string>
 </resources>

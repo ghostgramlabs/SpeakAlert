@@ -18,13 +18,15 @@ class VoiceReminderApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        container = AppContainerImpl(this)
+        // Keep cold process startup short. A foreground service's promotion deadline includes
+        // application startup on some devices, so create its channel before any disk work.
         createNotificationChannels()
-        
-        // Initialize file-based logging for debugging
-        com.ghostgramlabs.speakalert.util.FileLogger.init(this)
-        
+        container = AppContainerImpl(this)
+
         applicationScope.launch {
+            // External-storage setup is not required for app/service startup and can be slow on
+            // heavily customized devices. Initialize diagnostics away from the main thread.
+            com.ghostgramlabs.speakalert.util.FileLogger.init(this@VoiceReminderApp)
             container.settingsRepository.debugLoggingEnabled.collect { enabled ->
                 com.ghostgramlabs.speakalert.util.FileLogger.isEnabled = enabled
                 if (enabled) {

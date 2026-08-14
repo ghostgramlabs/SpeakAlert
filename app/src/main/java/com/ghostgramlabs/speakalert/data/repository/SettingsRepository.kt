@@ -40,6 +40,10 @@ class SettingsRepository(private val context: Context) {
         val FOLLOW_UP_MAX_REPEATS = intPreferencesKey("follow_up_max_repeats") // How many times a follow-up check repeats before stopping
         val THEME_MODE = intPreferencesKey("theme_mode") // 0 = System, 1 = Light, 2 = Dark
         val FULL_SCREEN_ALERT_ENABLED = booleanPreferencesKey("full_screen_alert_enabled")
+        val SHOW_VOICE_RECORDING_SECTION = booleanPreferencesKey("show_voice_recording_section")
+        val SHOW_AUDIO_FILE_SECTION = booleanPreferencesKey("show_audio_file_section")
+        val SHOW_TYPED_REMINDER_SECTION = booleanPreferencesKey("show_typed_reminder_section")
+        val SHOW_SHORT_LABEL_SECTION = booleanPreferencesKey("show_short_label_section")
         val BATTERY_OPTIMIZATION_PROMPT_SHOWN = booleanPreferencesKey("battery_optimization_prompt_shown")
         val LAST_WHATS_NEW_VERSION_SHOWN = stringPreferencesKey("last_whats_new_version_shown")
 
@@ -80,6 +84,10 @@ class SettingsRepository(private val context: Context) {
     val followUpMaxRepeats: Flow<Int> = dataStore.data.map { (it[FOLLOW_UP_MAX_REPEATS] ?: 0).coerceIn(0, 10) }
     val themeMode: Flow<Int> = dataStore.data.map { it[THEME_MODE] ?: 0 }
     val fullScreenAlertEnabled: Flow<Boolean> = dataStore.data.map { it[FULL_SCREEN_ALERT_ENABLED] ?: false }
+    val showVoiceRecordingSection: Flow<Boolean> = dataStore.data.map { it[SHOW_VOICE_RECORDING_SECTION] ?: true }
+    val showAudioFileSection: Flow<Boolean> = dataStore.data.map { it[SHOW_AUDIO_FILE_SECTION] ?: true }
+    val showTypedReminderSection: Flow<Boolean> = dataStore.data.map { it[SHOW_TYPED_REMINDER_SECTION] ?: true }
+    val showShortLabelSection: Flow<Boolean> = dataStore.data.map { it[SHOW_SHORT_LABEL_SECTION] ?: true }
     val batteryOptimizationPromptShown: Flow<Boolean> = dataStore.data.map {
         it[BATTERY_OPTIMIZATION_PROMPT_SHOWN] ?: false
     }
@@ -185,6 +193,22 @@ class SettingsRepository(private val context: Context) {
 
     suspend fun setFullScreenAlertEnabled(enabled: Boolean) {
         dataStore.edit { it[FULL_SCREEN_ALERT_ENABLED] = enabled }
+    }
+
+    suspend fun setShowVoiceRecordingSection(visible: Boolean) {
+        dataStore.edit { it[SHOW_VOICE_RECORDING_SECTION] = visible }
+    }
+
+    suspend fun setShowAudioFileSection(visible: Boolean) {
+        dataStore.edit { it[SHOW_AUDIO_FILE_SECTION] = visible }
+    }
+
+    suspend fun setShowTypedReminderSection(visible: Boolean) {
+        dataStore.edit { it[SHOW_TYPED_REMINDER_SECTION] = visible }
+    }
+
+    suspend fun setShowShortLabelSection(visible: Boolean) {
+        dataStore.edit { it[SHOW_SHORT_LABEL_SECTION] = visible }
     }
 
     suspend fun setBatteryOptimizationPromptShown(shown: Boolean) {
