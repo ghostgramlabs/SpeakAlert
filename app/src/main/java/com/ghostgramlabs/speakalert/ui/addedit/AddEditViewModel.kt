@@ -19,10 +19,13 @@ import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import com.ghostgramlabs.speakalert.domain.models.EndRuleType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.isActive
@@ -88,6 +91,12 @@ class AddEditViewModel(
 
     private val _uiState = MutableStateFlow(AddEditUiState())
     val uiState = _uiState.asStateFlow()
+    private val experimentalVoiceEnhancementEnabled =
+        settingsRepository.experimentalVoiceEnhancementEnabled.stateIn(
+            viewModelScope,
+            SharingStarted.Eagerly,
+            false
+        )
     private val appContext = context
     
     // Audio
@@ -97,6 +106,9 @@ class AddEditViewModel(
     private var tempAudioFile: File? = null
     private var playbackJob: kotlinx.coroutines.Job? = null
     private var recordingTimerJob: kotlinx.coroutines.Job? = null
+    private var enhancementJob: Job? = null
+    private var currentRecordingUsesExperimentalBehavior = false
+    private val detachedTempFiles = java.util.Collections.synchronizedSet(mutableSetOf<File>())
     private var savedDraft: ReminderDraft? = null
     
     companion object {
@@ -196,16 +208,23 @@ class AddEditViewModel(
     }
 
     fun startRecording() {
+        if (_uiState.value.isRecording) return
+
         // Stop any playback first
         stopPlayback()
-        
+
+        // A retake gets a new path, so an older background enhancement can finish safely while
+        // its file is removed afterwards. Recording starts immediately and never waits for it.
+        detachAndDeleteTempRecording()
+
         // Record to TEMP file first (not final location)
         val fileName = "temp_${UUID.randomUUID()}.m4a"
         val file = File(tempDir, fileName)
         tempAudioFile = file
+        currentRecordingUsesExperimentalBehavior = experimentalVoiceEnhancementEnabled.value
         
         try {
-            recorder.start(file)
+            recorder.start(file, currentRecordingUsesExperimentalBehavior)
             setDraftState(_uiState.value.copy(
                 isRecording = true, 
                 recordedAudioPath = null, 
@@ -240,12 +259,18 @@ class AddEditViewModel(
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            file.delete()
-            tempAudioFile = null
-            _uiState.value = _uiState.value.copy(
-                isRecording = false,
-                recordingIssue = RecordingIssue.CAPTURE_FAILED
-            )
+            if (currentRecordingUsesExperimentalBehavior) {
+                file.delete()
+                tempAudioFile = null
+                _uiState.value = _uiState.value.copy(
+                    isRecording = false,
+                    recordingIssue = RecordingIssue.CAPTURE_FAILED
+                )
+            } else {
+                // Baseline behavior from 300df35: report the ordinary form error only.
+                _uiState.value = _uiState.value.copy(isRecording = false, showError = true)
+            }
+            currentRecordingUsesExperimentalBehavior = false
         }
     }
 
@@ -255,11 +280,26 @@ class AddEditViewModel(
      */
     fun stopRecording() {
         recordingTimerJob?.cancel()
+        val useExperimentalBehavior = currentRecordingUsesExperimentalBehavior
+        currentRecordingUsesExperimentalBehavior = false
         val outcome = try {
             recorder.stop()
         } catch (e: Exception) {
             e.printStackTrace()
             RecordingOutcome.NOTHING
+        }
+
+        if (!useExperimentalBehavior) {
+            // Exact audio behavior from 300df35: accept the raw recorder file without silence
+            // classification, warnings, normalization, or codec post-processing.
+            setDraftState(_uiState.value.copy(
+                isRecording = false,
+                recordedAudioPath = tempAudioFile?.absolutePath,
+                isCustomAudioFile = false,
+                customAudioFileName = null,
+                recordingIssue = null
+            ))
+            return
         }
 
         // Nothing usable on disk: stay in the pre-record state instead of handing the player an
@@ -283,7 +323,8 @@ class AddEditViewModel(
             return
         }
 
-        // Show preview with temp file path
+        // A successfully finalized file belongs to the user, even when the device reports no
+        // measurable level. Keep it available for Preview and Save; the warning is informational.
         setDraftState(_uiState.value.copy(
             isRecording = false,
             recordedAudioPath = tempAudioFile?.absolutePath,
@@ -293,11 +334,10 @@ class AddEditViewModel(
         ))
 
         // Clean up the take in the background. It swaps the file in place under the same path,
-        // so the preview is usable straight away and nothing on screen has to wait or move. A
-        // recording with no signal has nothing to improve, so leave it be.
-        if (!outcome.isSilent) {
-            enhanceRecording(outcome.file)
-        }
+        // so the preview is usable straight away and nothing on screen has to wait or move.
+        // Do not normalize a silent take: preserving the exact captured file is safer than
+        // turning its noise floor into audible sound.
+        if (!outcome.isSilent) enhanceRecording(outcome.file)
     }
 
     /**
@@ -305,9 +345,31 @@ class AddEditViewModel(
      * the user about: the original recording is still there and still plays.
      */
     private fun enhanceRecording(file: File) {
-        viewModelScope.launch {
-            withContext(ioDispatcher) {
-                runCatching { enhancer.enhance(file) }
+        enhancementJob = viewModelScope.launch(ioDispatcher) {
+            // MIC capture, validation, and short-tap protection stay enabled on every device.
+            // Only the codec/DSP pass is experimental and therefore explicitly opt-in.
+            runCatching { enhancer.enhance(file) }
+        }
+    }
+
+    /**
+     * Detach the current temporary take immediately, then delete it after any codec work that
+     * already owns it has returned. This keeps Cancel/Retake responsive without leaving an
+     * enhancer able to recreate an abandoned file.
+     */
+    private fun detachAndDeleteTempRecording() {
+        val file = tempAudioFile ?: return
+        val pendingEnhancement = enhancementJob
+        tempAudioFile = null
+        enhancementJob = null
+        detachedTempFiles.add(file)
+        viewModelScope.launch(ioDispatcher) {
+            try {
+                pendingEnhancement?.join()
+            } finally {
+                file.delete()
+                File(file.parentFile, file.name + ".enhanced").delete()
+                detachedTempFiles.remove(file)
             }
         }
     }
@@ -324,8 +386,7 @@ class AddEditViewModel(
      */
     fun cancelRecording() {
         stopPlayback()
-        tempAudioFile?.delete()
-        tempAudioFile = null
+        detachAndDeleteTempRecording()
         setDraftState(_uiState.value.copy(
             isRecording = false,
             recordedAudioPath = null,
@@ -343,8 +404,7 @@ class AddEditViewModel(
             recorder.stop()
         }
         stopPlayback()
-        tempAudioFile?.delete()
-        tempAudioFile = null
+        detachAndDeleteTempRecording()
         setDraftState(_uiState.value.copy(
             recordedAudioPath = uriString,
             isCustomAudioFile = true,
@@ -480,17 +540,27 @@ class AddEditViewModel(
             _uiState.value = _uiState.value.copy(isSaving = true)
             
             try {
+                // Enhancement runs after Stop so recording controls and Preview are immediate.
+                // If Save is tapped at once, wait here so the saved file is never a partial or
+                // unprocessed copy racing the codec pipeline.
+                enhancementJob?.join()
+
                 // Move temp file to final location on IO thread
-                val finalAudioPath = if (tempAudioFile != null) {
+                val sourceAudioFile = tempAudioFile
+                val finalAudioPath = if (sourceAudioFile != null) {
                     withContext(ioDispatcher) {
                         val finalFileName = "${UUID.randomUUID()}.m4a"
                         val finalFile = File(audioDir, finalFileName)
-                        tempAudioFile?.copyTo(finalFile, overwrite = true)
-                        tempAudioFile?.delete()
+                        sourceAudioFile.copyTo(finalFile, overwrite = true)
+                        sourceAudioFile.delete()
                         finalFile.absolutePath
                     }
                 } else {
                     state.recordedAudioPath
+                }
+                if (sourceAudioFile != null) {
+                    tempAudioFile = null
+                    enhancementJob = null
                 }
 
                 // Auto-align recurring reminders to their rule
@@ -572,7 +642,19 @@ class AddEditViewModel(
         player.stop()
         playbackJob?.cancel()
         // Clean up temp file if not saved
-        tempAudioFile?.delete()
+        enhancementJob?.cancel()
+        tempAudioFile?.let { file ->
+            file.delete()
+            File(file.parentFile, file.name + ".enhanced").delete()
+        }
+        synchronized(detachedTempFiles) {
+            detachedTempFiles.forEach { file ->
+                file.delete()
+                File(file.parentFile, file.name + ".enhanced").delete()
+            }
+            detachedTempFiles.clear()
+        }
+        tempAudioFile = null
     }
 
     private fun parseMissedPolicy(raw: String): MissedPolicy {
@@ -614,12 +696,11 @@ class AddEditViewModel(
 
     fun discardDraft() {
         stopPlayback()
-        tempAudioFile?.delete()
-        tempAudioFile = null
         if (_uiState.value.isRecording) {
             recordingTimerJob?.cancel()
             recorder.stop()
         }
+        detachAndDeleteTempRecording()
     }
 
     private fun setSavedDraft(state: AddEditUiState) {

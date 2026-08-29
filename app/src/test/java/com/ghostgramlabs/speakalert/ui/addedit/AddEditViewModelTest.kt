@@ -19,6 +19,7 @@ import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
@@ -56,6 +57,7 @@ class AddEditViewModelTest {
     private lateinit var recorder: AudioRecorder
     private lateinit var player: AudioPlayer
     private lateinit var enhancer: AudioEnhancer
+    private lateinit var experimentalVoiceEnhancementEnabled: MutableStateFlow<Boolean>
 
     private lateinit var viewModel: AddEditViewModel
     
@@ -70,6 +72,7 @@ class AddEditViewModelTest {
         recorder = mock()
         player = mock()
         enhancer = mock()
+        experimentalVoiceEnhancementEnabled = MutableStateFlow(true)
 
         // Default: the recorder returns a healthy, audible take.
         whenever(recorder.stop()).thenReturn(
@@ -90,6 +93,8 @@ class AddEditViewModelTest {
         whenever(settingsRepository.appVolume).thenReturn(MutableStateFlow(1.0f))
         whenever(settingsRepository.speakTextIfNoVoice).thenReturn(MutableStateFlow(true))
         whenever(settingsRepository.showVoiceRecordingSection).thenReturn(MutableStateFlow(true))
+        whenever(settingsRepository.experimentalVoiceEnhancementEnabled)
+            .thenReturn(experimentalVoiceEnhancementEnabled)
         whenever(settingsRepository.showAudioFileSection).thenReturn(MutableStateFlow(true))
         whenever(settingsRepository.showTypedReminderSection).thenReturn(MutableStateFlow(true))
         whenever(settingsRepository.showShortLabelSection).thenReturn(MutableStateFlow(true))
@@ -102,7 +107,8 @@ class AddEditViewModelTest {
             context,
             recorder,
             player,
-            enhancer
+            enhancer,
+            UnconfinedTestDispatcher()
         )
     }
 
@@ -175,7 +181,7 @@ class AddEditViewModelTest {
         
         // Assert
         assertTrue(viewModel.uiState.value.isRecording)
-        verify(recorder).start(any())
+        verify(recorder).start(any(), any())
     }
     
     @Test
@@ -231,6 +237,8 @@ class AddEditViewModelTest {
 
     @Test
     fun `a usable take is handed to the enhancer`() = runTest {
+        experimentalVoiceEnhancementEnabled.value = true
+
         // Act
         viewModel.startRecording()
         advanceTimeBy(100)
@@ -242,8 +250,37 @@ class AddEditViewModelTest {
     }
 
     @Test
+    fun `a usable take skips enhancement when experiment is disabled`() = runTest {
+        experimentalVoiceEnhancementEnabled.value = false
+        viewModel.startRecording()
+        advanceTimeBy(100)
+        viewModel.stopRecording()
+        advanceUntilIdle()
+
+        verify(enhancer, never()).enhance(any())
+    }
+
+    @Test
+    fun `disabled experiment keeps baseline raw take without outcome classification`() = runTest {
+        experimentalVoiceEnhancementEnabled.value = false
+        whenever(recorder.stop()).thenReturn(RecordingOutcome.NOTHING)
+
+        viewModel.startRecording()
+        advanceTimeBy(100)
+        viewModel.stopRecording()
+        advanceUntilIdle()
+
+        val state = viewModel.uiState.value
+        assertNotNull(state.recordedAudioPath)
+        assertNull(state.recordingIssue)
+        verify(recorder).start(any(), org.mockito.kotlin.eq(false))
+        verify(enhancer, never()).enhance(any())
+    }
+
+    @Test
     fun `a silent take is not enhanced`() = runTest {
         // Arrange: no signal at all, so there is nothing to lift
+        experimentalVoiceEnhancementEnabled.value = true
         whenever(recorder.stop()).thenReturn(
             RecordingOutcome(
                 file = tempFolder.newFile("dead.m4a"),
@@ -287,7 +324,7 @@ class AddEditViewModelTest {
     }
 
     @Test
-    fun `stopRecording with a silent take keeps the file but warns the user`() = runTest {
+    fun `stopRecording with a silent take keeps the file and warns the user`() = runTest {
         // Arrange: a file was written, but the microphone never delivered any level
         whenever(recorder.stop()).thenReturn(
             RecordingOutcome(
@@ -627,7 +664,8 @@ class AddEditViewModelTest {
             context,
             recorder,
             player,
-            enhancer
+            enhancer,
+            UnconfinedTestDispatcher()
         )
         advanceUntilIdle()
 

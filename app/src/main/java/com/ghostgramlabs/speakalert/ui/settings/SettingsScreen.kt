@@ -130,6 +130,8 @@ fun SettingsScreen(
     val debugLoggingEnabled by viewModel.debugLoggingEnabled.collectAsState()
     val appVolume by viewModel.appVolume.collectAsState()
     val showVoiceRecordingSection by viewModel.showVoiceRecordingSection.collectAsState()
+    val experimentalVoiceEnhancementEnabled by
+        viewModel.experimentalVoiceEnhancementEnabled.collectAsState()
     val showAudioFileSection by viewModel.showAudioFileSection.collectAsState()
     val showTypedReminderSection by viewModel.showTypedReminderSection.collectAsState()
     val showShortLabelSection by viewModel.showShortLabelSection.collectAsState()
@@ -268,6 +270,40 @@ fun SettingsScreen(
                     checked = showVoiceRecordingSection,
                     onCheckedChange = viewModel::setShowVoiceRecordingSection
                 )
+                if (showVoiceRecordingSection) {
+                    SwitchRow(
+                        text = stringResource(R.string.set_experimental_voice_enhancement),
+                        description = stringResource(R.string.set_experimental_voice_enhancement_desc),
+                        checked = experimentalVoiceEnhancementEnabled,
+                        onCheckedChange = viewModel::setExperimentalVoiceEnhancementEnabled
+                    )
+                    if (experimentalVoiceEnhancementEnabled) {
+                        Surface(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
+                            shape = RoundedCornerShape(12.dp),
+                            color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.55f)
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(12.dp),
+                                verticalAlignment = Alignment.Top
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.Science,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onTertiaryContainer
+                                )
+                                Spacer(Modifier.width(10.dp))
+                                Text(
+                                    text = stringResource(R.string.set_experimental_voice_enhancement_note),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onTertiaryContainer
+                                )
+                            }
+                        }
+                    }
+                }
                 SwitchRow(
                     text = stringResource(R.string.set_show_audio_file),
                     description = stringResource(R.string.set_show_audio_file_desc),

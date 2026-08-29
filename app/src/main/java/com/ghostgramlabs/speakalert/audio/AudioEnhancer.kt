@@ -59,7 +59,9 @@ class Mp4AudioEnhancer : AudioEnhancer {
             }
             // Same directory, so this is an atomic swap. A player holding the old file open
             // keeps reading it safely; the next play picks up the improved one.
-            if (working.renameTo(source)) {
+            // The user may have cancelled the take while codec work was in progress. Never
+            // recreate a recording that the UI has deliberately removed.
+            if (source.exists() && working.renameTo(source)) {
                 true
             } else {
                 working.delete()
@@ -104,6 +106,7 @@ class Mp4AudioEnhancer : AudioEnhancer {
             val info = MediaCodec.BufferInfo()
 
             fun drain(endOfStream: Boolean) {
+                var idlePolls = 0
                 while (true) {
                     val index = encoder.dequeueOutputBuffer(info, DEQUEUE_TIMEOUT_US)
                     when {
@@ -116,8 +119,12 @@ class Mp4AudioEnhancer : AudioEnhancer {
                         }
                         index == MediaCodec.INFO_TRY_AGAIN_LATER -> {
                             if (!endOfStream) return
+                            if (++idlePolls >= MAX_END_OF_STREAM_POLLS) {
+                                throw IllegalStateException("AAC encoder did not finish")
+                            }
                         }
                         index >= 0 -> {
+                            idlePolls = 0
                             val encoded = encoder.getOutputBuffer(index)
                             val isConfig = info.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0
                             if (encoded != null && info.size > 0 && !isConfig && muxing) {
@@ -142,12 +149,17 @@ class Mp4AudioEnhancer : AudioEnhancer {
                 carrySize += count
 
                 var consumed = 0
+                var idlePolls = 0
                 while (consumed < carrySize) {
                     val inputIndex = encoder.dequeueInputBuffer(DEQUEUE_TIMEOUT_US)
                     if (inputIndex < 0) {
                         drain(endOfStream = false)
+                        if (++idlePolls >= MAX_CODEC_IDLE_POLLS) {
+                            throw IllegalStateException("AAC encoder stopped accepting audio")
+                        }
                         if (consumed > 0) break else continue
                     }
+                    idlePolls = 0
                     val input = encoder.getInputBuffer(inputIndex)
                     if (input == null) {
                         drain(endOfStream = false)
@@ -179,6 +191,7 @@ class Mp4AudioEnhancer : AudioEnhancer {
             processor.finishRender { processed, produced -> feed(processed, produced) }
 
             // Signal end of stream and flush whatever the encoder still holds.
+            var endInputPolls = 0
             while (true) {
                 val inputIndex = encoder.dequeueInputBuffer(DEQUEUE_TIMEOUT_US)
                 if (inputIndex >= 0) {
@@ -192,6 +205,9 @@ class Mp4AudioEnhancer : AudioEnhancer {
                     break
                 }
                 drain(endOfStream = false)
+                if (++endInputPolls >= MAX_CODEC_IDLE_POLLS) {
+                    throw IllegalStateException("AAC encoder could not accept end of stream")
+                }
             }
             drain(endOfStream = true)
 
@@ -250,8 +266,10 @@ class Mp4AudioEnhancer : AudioEnhancer {
             var sawInputEnd = false
             var sawOutputEnd = false
             var scratch = ShortArray(0)
+            var idlePolls = 0
 
             while (!sawOutputEnd) {
+                var madeProgress = false
                 if (!sawInputEnd) {
                     val inputIndex = codec.dequeueInputBuffer(DEQUEUE_TIMEOUT_US)
                     if (inputIndex >= 0) {
@@ -270,11 +288,13 @@ class Mp4AudioEnhancer : AudioEnhancer {
                             codec.queueInputBuffer(inputIndex, 0, read, extractor.sampleTime, 0)
                             extractor.advance()
                         }
+                        madeProgress = true
                     }
                 }
 
                 val outputIndex = codec.dequeueOutputBuffer(info, DEQUEUE_TIMEOUT_US)
                 if (outputIndex >= 0) {
+                    madeProgress = true
                     val buffer = codec.getOutputBuffer(outputIndex)
                     if (buffer != null && info.size > 0) {
                         buffer.position(info.offset)
@@ -289,6 +309,11 @@ class Mp4AudioEnhancer : AudioEnhancer {
                     if (info.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
                         sawOutputEnd = true
                     }
+                }
+                if (madeProgress) {
+                    idlePolls = 0
+                } else if (++idlePolls >= MAX_CODEC_IDLE_POLLS) {
+                    throw IllegalStateException("Audio decoder stopped making progress")
                 }
             }
         } finally {
@@ -310,5 +335,7 @@ class Mp4AudioEnhancer : AudioEnhancer {
         const val BIT_RATE_BPS = 128_000
         const val MAX_INPUT_SIZE = 16_384
         const val DEQUEUE_TIMEOUT_US = 10_000L
+        const val MAX_END_OF_STREAM_POLLS = 100
+        const val MAX_CODEC_IDLE_POLLS = 300
     }
 }

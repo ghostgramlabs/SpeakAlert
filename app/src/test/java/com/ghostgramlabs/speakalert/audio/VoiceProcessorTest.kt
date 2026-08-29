@@ -99,6 +99,26 @@ class VoiceProcessorTest {
     }
 
     @Test
+    fun `normalization peak covers the whole recording rather than only its ending`() {
+        val loudBeginning = tone(
+            frequency = 300f,
+            amplitude = 24_000f,
+            samples = SAMPLE_COUNT / 2
+        )
+        val endingInSilence = loudBeginning + ShortArray(SAMPLE_COUNT / 2)
+
+        val processor = VoiceProcessor(sampleRate)
+        processor.analyze(endingInSilence, endingInSilence.size)
+        val analysis = processor.finishAnalysis()
+
+        assertTrue(
+            "The loud beginning must prevent destructive over-amplification (peak=${analysis.peak})",
+            analysis.peak > 20_000f
+        )
+        assertNull(processor.normalizationGain(analysis.peak))
+    }
+
+    @Test
     fun `normalization never pushes samples past full scale`() {
         val quiet = tone(frequency = 250f, amplitude = 900f, samples = SAMPLE_COUNT)
 
@@ -144,12 +164,7 @@ class VoiceProcessorTest {
 
         val output = process(input)
 
-        // Overlap-add holds back one hop, so allow a frame of slack either way.
-        val difference = abs(output.size - input.size)
-        assertTrue(
-            "Output length ${output.size} should track input length ${input.size}",
-            difference <= VoiceProcessor.FRAME_SIZE
-        )
+        assertEquals("Processing must not trim either end", input.size, output.size)
     }
 
     @Test
