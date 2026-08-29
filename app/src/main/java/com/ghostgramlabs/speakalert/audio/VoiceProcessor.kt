@@ -73,6 +73,9 @@ class VoiceProcessor(private val sampleRate: Int) {
     private val previousGains = FloatArray(BIN_COUNT) { 1f }
     private val overlap = FloatArray(FRAME_SIZE)
     private var overlapPrimed = false
+    private var renderInputSamples = 0L
+    private var renderOutputSamples = 0L
+    private val directOutput = FloatArray(FRAME_SIZE)
 
     // ---------------------------------------------------------------- analysis pass
 
@@ -80,7 +83,7 @@ class VoiceProcessor(private val sampleRate: Int) {
     fun analyze(samples: ShortArray, count: Int) {
         var offset = 0
         while (offset < count) {
-            val taken = fill(samples, offset, count)
+            val taken = fill(samples, offset, count, trackPeak = true)
             offset += taken
             while (pendingSize >= FRAME_SIZE) {
                 loadFrame()
@@ -134,6 +137,12 @@ class VoiceProcessor(private val sampleRate: Int) {
         reset()
         noise = analysis.noiseMagnitudes
         gain = outputGain
+        if (noise != null) {
+            // Centre the first analysis frame on the beginning of the recording. The matching
+            // padding in finishRender lets overlap-add retain the first and last half-frame.
+            java.util.Arrays.fill(pending, 0, HOP, 0f)
+            pendingSize = HOP
+        }
     }
 
     /**
@@ -141,9 +150,28 @@ class VoiceProcessor(private val sampleRate: Int) {
      * by one frame because of the overlap-add, so [finishRender] must be called at the end.
      */
     fun render(samples: ShortArray, count: Int, onOutput: (FloatArray, Int) -> Unit) {
+        require(count in 0..samples.size) { "count must describe samples in the input array" }
+        renderInputSamples += count
+
+        // Short takes do not have a trustworthy noise estimate. Stream the high-pass and gain
+        // directly so they remain sample-exact and do not pay the FFT's frame latency.
+        if (noise == null) {
+            var offset = 0
+            while (offset < count) {
+                val chunk = min(directOutput.size, count - offset)
+                for (i in 0 until chunk) {
+                    directOutput[i] = clamp(highPass.process(samples[offset + i].toFloat()) * gain)
+                }
+                onOutput(directOutput, chunk)
+                renderOutputSamples += chunk
+                offset += chunk
+            }
+            return
+        }
+
         var offset = 0
         while (offset < count) {
-            val taken = fill(samples, offset, count)
+            val taken = fill(samples, offset, count, trackPeak = false)
             offset += taken
             while (pendingSize >= FRAME_SIZE) {
                 loadFrame()
@@ -162,17 +190,26 @@ class VoiceProcessor(private val sampleRate: Int) {
     /** Emit the final partial frame held back by the overlap. */
     fun finishRender(onOutput: (FloatArray, Int) -> Unit) {
         if (noise == null) {
-            flushPending { sample -> emitOne(sample, onOutput) }
             return
         }
-        if (!overlapPrimed) {
-            // Never reached a full frame; pass the audio through with gain only.
-            flushPending { sample -> emitOne(sample, onOutput) }
-            return
+
+        // Complete the final frame with silence. Together with the leading half-frame inserted
+        // in beginRender this preserves both boundaries instead of trimming the first consonant
+        // and the end of the reminder.
+        while (pendingSize < FRAME_SIZE) pending[pendingSize++] = 0f
+        loadFrame()
+        fft.forward(real, imaginary)
+        subtract(checkNotNull(noise))
+        fft.inverse(real, imaginary)
+        overlapAdd(onOutput)
+        consume()
+
+        if (overlapPrimed) {
+            val tail = FloatArray(FRAME_SIZE - HOP)
+            for (i in tail.indices) tail[i] = clamp(overlap[i] * gain)
+            emitProcessed(tail, tail.size, onOutput)
         }
-        val tail = FloatArray(FRAME_SIZE - HOP)
-        for (i in tail.indices) tail[i] = clamp(overlap[i] * gain)
-        onOutput(tail, tail.size)
+        pendingSize = 0
     }
 
     /** How much to lift the recording, or null when it is already at a good level. */
@@ -199,17 +236,24 @@ class VoiceProcessor(private val sampleRate: Int) {
     private fun reset() {
         pendingSize = 0
         overlapPrimed = false
+        renderInputSamples = 0L
+        renderOutputSamples = 0L
         java.util.Arrays.fill(overlap, 0f)
         java.util.Arrays.fill(previousGains, 1f)
         highPass.reset()
     }
 
     /** Copy input into the frame buffer, high-passing on the way in. */
-    private fun fill(samples: ShortArray, offset: Int, count: Int): Int {
+    private fun fill(samples: ShortArray, offset: Int, count: Int, trackPeak: Boolean): Int {
         val room = pending.size - pendingSize
         val taken = min(room, count - offset)
         for (i in 0 until taken) {
-            pending[pendingSize + i] = highPass.process(samples[offset + i].toFloat())
+            val filtered = highPass.process(samples[offset + i].toFloat())
+            pending[pendingSize + i] = filtered
+            if (trackPeak) {
+                val level = abs(filtered)
+                if (level > peak) peak = level
+            }
         }
         pendingSize += taken
         return taken
@@ -274,18 +318,25 @@ class VoiceProcessor(private val sampleRate: Int) {
         } else {
             val out = FloatArray(HOP)
             for (i in 0 until HOP) out[i] = clamp(overlap[i] * gain)
-            onOutput(out, HOP)
+            emitProcessed(out, HOP, onOutput)
         }
         System.arraycopy(overlap, HOP, overlap, 0, FRAME_SIZE - HOP)
         java.util.Arrays.fill(overlap, FRAME_SIZE - HOP, FRAME_SIZE, 0f)
     }
 
-    private fun emitOne(sample: Float, onOutput: (FloatArray, Int) -> Unit) {
-        single[0] = clamp(sample * gain)
-        onOutput(single, 1)
+    /** Emit no more samples than were supplied by the caller, trimming only FFT padding. */
+    private fun emitProcessed(
+        samples: FloatArray,
+        count: Int,
+        onOutput: (FloatArray, Int) -> Unit
+    ) {
+        val remaining = (renderInputSamples - renderOutputSamples).coerceAtLeast(0L)
+        val emitted = min(count.toLong(), remaining).toInt()
+        if (emitted > 0) {
+            onOutput(samples, emitted)
+            renderOutputSamples += emitted
+        }
     }
-
-    private val single = FloatArray(1)
 
     /** Drain whatever never made up a full frame. */
     private inline fun flushPending(onSample: (Float) -> Unit) {

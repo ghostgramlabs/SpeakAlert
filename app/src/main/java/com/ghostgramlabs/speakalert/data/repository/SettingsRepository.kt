@@ -41,6 +41,8 @@ class SettingsRepository(private val context: Context) {
         val THEME_MODE = intPreferencesKey("theme_mode") // 0 = System, 1 = Light, 2 = Dark
         val FULL_SCREEN_ALERT_ENABLED = booleanPreferencesKey("full_screen_alert_enabled")
         val SHOW_VOICE_RECORDING_SECTION = booleanPreferencesKey("show_voice_recording_section")
+        val EXPERIMENTAL_VOICE_ENHANCEMENT_ENABLED =
+            booleanPreferencesKey("experimental_voice_enhancement_enabled")
         val SHOW_AUDIO_FILE_SECTION = booleanPreferencesKey("show_audio_file_section")
         val SHOW_TYPED_REMINDER_SECTION = booleanPreferencesKey("show_typed_reminder_section")
         val SHOW_SHORT_LABEL_SECTION = booleanPreferencesKey("show_short_label_section")
@@ -85,6 +87,11 @@ class SettingsRepository(private val context: Context) {
     val themeMode: Flow<Int> = dataStore.data.map { it[THEME_MODE] ?: 0 }
     val fullScreenAlertEnabled: Flow<Boolean> = dataStore.data.map { it[FULL_SCREEN_ALERT_ENABLED] ?: false }
     val showVoiceRecordingSection: Flow<Boolean> = dataStore.data.map { it[SHOW_VOICE_RECORDING_SECTION] ?: true }
+    // Software denoising uses the device codec stack and can vary by manufacturer. Keep it
+    // opt-in until it has broad device coverage; reliable MIC capture is not gated by this.
+    val experimentalVoiceEnhancementEnabled: Flow<Boolean> = dataStore.data.map {
+        it[EXPERIMENTAL_VOICE_ENHANCEMENT_ENABLED] ?: false
+    }
     val showAudioFileSection: Flow<Boolean> = dataStore.data.map { it[SHOW_AUDIO_FILE_SECTION] ?: true }
     val showTypedReminderSection: Flow<Boolean> = dataStore.data.map { it[SHOW_TYPED_REMINDER_SECTION] ?: true }
     val showShortLabelSection: Flow<Boolean> = dataStore.data.map { it[SHOW_SHORT_LABEL_SECTION] ?: true }
@@ -197,6 +204,10 @@ class SettingsRepository(private val context: Context) {
 
     suspend fun setShowVoiceRecordingSection(visible: Boolean) {
         dataStore.edit { it[SHOW_VOICE_RECORDING_SECTION] = visible }
+    }
+
+    suspend fun setExperimentalVoiceEnhancementEnabled(enabled: Boolean) {
+        dataStore.edit { it[EXPERIMENTAL_VOICE_ENHANCEMENT_ENABLED] = enabled }
     }
 
     suspend fun setShowAudioFileSection(visible: Boolean) {

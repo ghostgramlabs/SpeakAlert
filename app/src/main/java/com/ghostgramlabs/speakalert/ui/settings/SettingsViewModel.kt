@@ -59,6 +59,9 @@ class SettingsViewModel(
     val showVoiceRecordingSection = settingsRepository.showVoiceRecordingSection
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
+    val experimentalVoiceEnhancementEnabled = settingsRepository.experimentalVoiceEnhancementEnabled
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
     val showAudioFileSection = settingsRepository.showAudioFileSection
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
@@ -154,6 +157,10 @@ class SettingsViewModel(
 
     fun setShowVoiceRecordingSection(visible: Boolean) {
         viewModelScope.launch { settingsRepository.setShowVoiceRecordingSection(visible) }
+    }
+
+    fun setExperimentalVoiceEnhancementEnabled(enabled: Boolean) {
+        viewModelScope.launch { settingsRepository.setExperimentalVoiceEnhancementEnabled(enabled) }
     }
 
     fun setShowAudioFileSection(visible: Boolean) {

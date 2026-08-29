@@ -304,6 +304,9 @@
     <string name="ae_no_content_sections">No hay ninguna sección de entrada activada. Activa Grabación de voz, Elegir archivo de audio o Recordatorio escrito en Ajustes &gt; Formulario del recordatorio.</string>
     <string name="set_show_voice_recording">Grabación de voz</string>
     <string name="set_show_voice_recording_desc">Mostrar la sección para grabar con el micrófono.</string>
+    <string name="set_experimental_voice_enhancement">Mejora de voz experimental</string>
+    <string name="set_experimental_voice_enhancement_desc">Desactivado usa la grabación original sin procesar. Activado habilita las nuevas protecciones, el aviso de silencio y la mejora de voz.</string>
+    <string name="set_experimental_voice_enhancement_note">Experimental: los resultados y el tiempo de procesamiento pueden variar según el dispositivo. Desactívala si las grabaciones suenan distorsionadas o tardan más en guardarse.</string>
     <string name="set_show_audio_file">Elegir archivo de audio</string>
     <string name="set_show_audio_file_desc">Mostrar la opción para seleccionar un archivo de audio existente.</string>
     <string name="set_show_typed_reminder">Recordatorio escrito</string>
@@ -535,14 +538,14 @@
     <!-- Ayuda y novedades de la versión 2.0.34 -->
     <string name="help_s15_title">Personalizar el formulario del recordatorio</string>
     <string name="help_s15_content">- Abre Ajustes &gt; Formulario del recordatorio para mostrar u ocultar Grabación de voz, Elegir archivo de audio, Recordatorio escrito y Etiqueta corta.\n- Cada interruptor funciona de forma independiente. Si ocultas los tres métodos de entrada, Añadir recordatorio te indica cuál debes volver a activar.\n- Al editar, una sección oculta aparece automáticamente si el recordatorio ya contiene ese tipo de contenido.</string>
-    <string name="help_s16_title">Grabaciones de voz más limpias</string>
-    <string name="help_s16_content">- La grabación de voz ahora usa el procesamiento de voz de Android cuando el teléfono lo admite para reducir el ruido de fondo y el eco.\n- Para obtener el sonido más claro, mantén el micrófono a poca distancia de la boca y no lo cubras.\n- La reducción de ruido varía según el teléfono y el entorno; escucha la grabación antes de guardarla.</string>
+    <string name="help_s16_title">Elige el modo de grabación de voz</string>
+    <string name="help_s16_content">- Abre Ajustes &gt; Formulario del recordatorio &gt; Mejora de voz experimental.\n- Desactivada (opción predeterminada) mantiene la grabación MIC/AAC original sin procesamiento posterior.\n- Activada habilita las nuevas protecciones, el aviso de silencio, la limpieza del ruido de fondo y la normalización de la voz. Los resultados y el tiempo pueden variar según el dispositivo.\n- Las grabaciones silenciosas se pueden escuchar y guardar.</string>
     <string name="help_s17_title">Reproducción de recordatorios más fiable</string>
     <string name="help_s17_content">- La reproducción inicia de inmediato la notificación en primer plano que exige Android, incluso en versiones nuevas y teléfonos con inicio en segundo plano más lento.\n- Esto evita que el tiempo de espera del sistema detenga un recordatorio antes de que comience el sonido o la voz.\n- Mantén activados el permiso de notificaciones, las alarmas exactas y los ajustes de batería recomendados.</string>
     <string name="wn_form_title">Tu formulario, a tu manera</string>
     <string name="wn_form_desc">En Ajustes &gt; Formulario del recordatorio, muestra u oculta de forma independiente Grabación de voz, Elegir archivo de audio, Recordatorio escrito y Etiqueta corta.</string>
-    <string name="wn_recording_title">Notas de voz más limpias</string>
-    <string name="wn_recording_desc">La grabación usa la reducción de ruido y eco de Android cuando está disponible para disminuir el sonido de fondo. Puedes escuchar cada grabación antes de guardarla.</string>
+    <string name="wn_recording_title">Mejora de voz experimental opcional</string>
+    <string name="wn_recording_desc">Un nuevo ajuste permite mantener la grabación original sin procesar (opción predeterminada) o activar nuevas protecciones, avisos de silencio, limpieza de ruido y normalización de voz. Las grabaciones silenciosas siempre se conservan.</string>
     <string name="wn_reliability_title">Más fiable en Android reciente</string>
     <string name="wn_reliability_desc">La reproducción del recordatorio ahora se inicia de forma segura e inmediata en primer plano, evitando tiempos de espera observados en algunos dispositivos con Android 12 y Android 16.</string>
 </resources>
