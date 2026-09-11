@@ -127,6 +127,15 @@ class HomeViewModel(
                     return@forEach
                 }
 
+                // The inbox row describes one occurrence, not every future use of this ID.
+                // Editing/rescheduling or automatic recurrence may already have replaced it.
+                if (reminder.isCompleted ||
+                    (reminder.nextTriggerAt != missed.scheduledTime &&
+                        reminder.snoozeUntil != missed.scheduledTime)) {
+                    missedRepository.deleteMissedReminderById(missed.id)
+                    return@forEach
+                }
+
                 if (reminder.recurrenceType == RecurrenceType.NONE) {
                     val updated = reminder.copy(
                         isCompleted = true,
@@ -149,19 +158,20 @@ class HomeViewModel(
                     )
                     if (nextTrigger != null) {
                         updated = updated.copy(nextTriggerAt = nextTrigger)
-                        alarmScheduler.schedule(updated)
                     } else {
                         updated = updated.copy(isCompleted = true, completedAt = now)
-                        alarmScheduler.cancel(updated)
                     }
                     repository.updateReminder(updated)
+                    alarmScheduler.cancel(reminder)
+                    if (nextTrigger != null) alarmScheduler.schedule(updated)
                 } else {
-                    repository.updateReminder(
-                        reminder.copy(
-                            snoozeUntil = null,
-                            pendingFollowUpAt = null
-                        )
+                    val updated = reminder.copy(
+                        snoozeUntil = null,
+                        pendingFollowUpAt = null
                     )
+                    repository.updateReminder(updated)
+                    alarmScheduler.cancel(reminder)
+                    alarmScheduler.schedule(updated)
                 }
 
                 missedRepository.deleteMissedReminderById(missed.id)

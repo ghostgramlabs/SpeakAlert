@@ -91,6 +91,21 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     
     // Volume Control
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    private var playbackRequestJob: Job? = null
+    private val ttsCallbacks = TtsCallbackGuard(scope,
+        onDone = {
+            if (loopEnabled && isTtsMode && currentTtsText != null) {
+                performSpeak(currentTtsText!!)
+            } else {
+                broadcastPlaybackStatus(isPlaying = false)
+                stopSelf()
+            }
+        },
+        onError = {
+            broadcastPlaybackStatus(isPlaying = false)
+            stopSelf()
+        }
+    )
     private val playbackTimeout = PlaybackTimeout(
         scope = scope,
         readTimeoutMinutes = {
@@ -181,6 +196,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
                 
             player.addListener(object : Player.Listener {
                 override fun onIsPlayingChanged(isPlaying: Boolean) {
+                    if (isTtsMode) return
                     if (currentReminderId != -1L) {
                         broadcastPlaybackStatus(isPlaying = isPlaying)
                     }
@@ -192,6 +208,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
                 }
 
                 override fun onPlaybackStateChanged(playbackState: Int) {
+                    if (isTtsMode) return
                     if (playbackState == Player.STATE_ENDED) {
                         stopProgressUpdates()
                         FileLogger.log("SERVICE: ExoPlayer playback ended, loop=$loopEnabled")
@@ -436,12 +453,19 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             val ttsText = intent?.getStringExtra(EXTRA_TTS_TEXT)
             val title = intent?.getStringExtra(EXTRA_TITLE) ?: "Reminder"
             val id = intent?.getLongExtra(EXTRA_ID, -1L) ?: -1L
+            playbackRequestJob?.cancel()
+            ttsCallbacks.invalidate()
+            pendingTtsText = null
+            pendingSpeakAfterFocusGain = null
+            routeWarmupRunnable?.let { routeWarmupHandler.removeCallbacks(it) }
+            routeWarmupRunnable = null
+            isTtsMode = audioPath == null && ttsText != null
             loopEnabled = intent?.getBooleanExtra(EXTRA_LOOP, false) ?: false
             playbackTimeout.restart(loopEnabled)
             val requestedPrivatePlayback = intent?.getBooleanExtra(EXTRA_PRIVATE_PLAYBACK, false) ?: false
             dndBypassEnabled = intent?.getBooleanExtra(EXTRA_DND_BYPASS, true) ?: true
 
-            scope.launch {
+            playbackRequestJob = scope.launch {
                 privatePlaybackEnabled = readLatestPrivatePlaybackSetting(requestedPrivatePlayback)
                 configureAudioRoute(privatePlaybackEnabled)
 
@@ -469,10 +493,12 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     }
 
     private suspend fun readLatestPrivatePlaybackSetting(fallback: Boolean): Boolean {
-        return runCatching {
+        return try {
             (application as VoiceReminderApp).container.settingsRepository.privatePlaybackEnabled.first()
-        }.getOrElse {
-            FileLogger.logError("SERVICE", "Failed to read latest private playback setting", it)
+        } catch (e: kotlinx.coroutines.CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            FileLogger.logError("SERVICE", "Failed to read latest private playback setting", e)
             fallback
         }
     }
@@ -480,6 +506,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     private fun playAudio(path: String, title: String) {
         FileLogger.log("SERVICE: playAudio called with path=$path")
         try {
+            ttsCallbacks.invalidate()
             pendingTtsText = null
             pendingSpeakAfterFocusGain = null
             tts?.stop()
@@ -528,6 +555,9 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         currentTtsId = id
         
         try {
+            // A speech request replaces recorded playback in this single-player service.
+            stopProgressUpdates()
+            if (::player.isInitialized) player.stop()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 tts?.setAudioAttributes(buildPlatformAudioAttributes())
             }
@@ -617,7 +647,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         )
         params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, currentVolume)
         
-        val utteranceId = "REMINDER_TTS"
+        val utteranceId = ttsCallbacks.begin()
         
         FileLogger.log("SERVICE: Calling tts.speak()")
         val speakResult = tts?.speak(text, TextToSpeech.QUEUE_FLUSH, params, utteranceId) ?: TextToSpeech.ERROR
@@ -971,19 +1001,12 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
                 }
                 override fun onDone(utteranceId: String?) {
                     FileLogger.log("SERVICE: TTS utterance done, loop=$loopEnabled")
-                    if (loopEnabled && currentTtsText != null) {
-                        // Replay TTS text
-                        performSpeak(currentTtsText!!)
-                    } else {
-                        broadcastPlaybackStatus(isPlaying = false)
-                        stopSelf()
-                    }
+                    ttsCallbacks.complete(utteranceId)
                 }
                 @Deprecated("Deprecated in Java")
                 override fun onError(utteranceId: String?) {
                     FileLogger.log("SERVICE: TTS utterance error")
-                    broadcastPlaybackStatus(isPlaying = false)
-                    stopSelf()
+                    ttsCallbacks.complete(utteranceId, failed = true)
                 }
             })
 
@@ -1007,6 +1030,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
 
     override fun onDestroy() {
         FileLogger.log("SERVICE: onDestroy called")
+        ttsCallbacks.invalidate()
         try {
             stopProgressUpdates()
             // Ensure UI always gets a terminal "not playing" signal.

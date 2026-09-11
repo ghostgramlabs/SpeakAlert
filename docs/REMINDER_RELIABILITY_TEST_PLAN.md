@@ -94,3 +94,18 @@ reproduction and the remaining device checklist above are not confirmed by that 
   open What's New sheet cannot briefly turn into Quick Start during restoration.
 - Device checks: snooze the last occurrence of a count-limited reminder; then mark it Done.
   Rotate while What's New is open and confirm that its content stays consistent.
+
+## Missed-entry, clock-format, and playback replacement fixes
+
+- Reschedule a missed one-time reminder, then dismiss its old Missed entry: the new reminder
+  remains scheduled. Repeat with an already-advanced recurring reminder and an active snooze.
+- Dismiss an actually missed snooze: the regular recurring alarm is restored, and its old
+  snooze/follow-up alarms are cancelled.
+- Save a clock format opposite to the phone setting, stop the app process, and launch again:
+  the first displayed clock uses the saved format. Existing DataStore-only preferences migrate
+  once into the startup mirror; migration has a 500 ms bound to protect service startup.
+- Without an explicit app clock preference, change the phone clock format while the app is alive:
+  visible times, the Settings switch, and widgets update. An explicit app preference wins.
+- Start recorded playback, then a spoken-text reminder: recorded playback stops. Start another
+  reminder before the old speech completion/error callback arrives: the newer playback continues.
+- These changes retain version 2.0.35 (55). Rebuilt artifacts replace the earlier local artifacts.

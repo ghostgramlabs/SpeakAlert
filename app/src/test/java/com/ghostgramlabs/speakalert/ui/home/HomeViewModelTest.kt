@@ -407,7 +407,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `markMissedRemindersDone keeps recurring future reminder active and clears transient fields`() = runTest {
+    fun `markMissedRemindersDone leaves later recurring occurrence and its transient fields intact`() = runTest {
         val now = System.currentTimeMillis()
         val reminder = ReminderEntity(
             id = 30,
@@ -422,12 +422,7 @@ class HomeViewModelTest {
         viewModel.markMissedRemindersDone(listOf(missed))
         advanceUntilIdle()
 
-        val updatedCaptor = argumentCaptor<ReminderEntity>()
-        verify(repository).updateReminder(updatedCaptor.capture())
-        assertEquals(reminder.nextTriggerAt, updatedCaptor.firstValue.nextTriggerAt)
-        assertFalse(updatedCaptor.firstValue.isCompleted)
-        assertNull(updatedCaptor.firstValue.snoozeUntil)
-        assertNull(updatedCaptor.firstValue.pendingFollowUpAt)
+        verify(repository, never()).updateReminder(any())
         verify(scheduler, never()).schedule(any(), any())
         verify(scheduler, never()).cancel(any())
         verify(missedRepository).deleteMissedReminderById(missed.id)
