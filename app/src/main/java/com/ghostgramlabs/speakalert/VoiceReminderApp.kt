@@ -22,6 +22,13 @@ class VoiceReminderApp : Application() {
         // application startup on some devices, so create its channel before any disk work.
         createNotificationChannels()
         container = AppContainerImpl(this)
+        // Clock style is read from widgets, notifications and pure formatters, so seed the
+        // shared holder before any UI renders.
+        com.ghostgramlabs.speakalert.util.TimeFormat.initialize(
+            context = this,
+            scope = applicationScope,
+            repository = container.settingsRepository
+        )
 
         applicationScope.launch {
             // External-storage setup is not required for app/service startup and can be slow on

@@ -323,8 +323,8 @@ private fun buildRecurrenceEndRuleText(
         EndRuleType.NEVER -> null
         EndRuleType.UNTIL_DATE -> {
             val endDate = model.endRule.endDateMillis ?: return null
-            val compactFormatter = SimpleDateFormat("MMM d ''yy • h:mm a", Locale.getDefault())
-            val fullFormatter = SimpleDateFormat("MMM d, yyyy 'at' h:mm a", Locale.getDefault())
+            val compactFormatter = SimpleDateFormat("MMM d ''yy • ${com.ghostgramlabs.speakalert.util.TimeFormat.timePattern}", Locale.getDefault())
+            val fullFormatter = SimpleDateFormat("MMM d, yyyy 'at' ${com.ghostgramlabs.speakalert.util.TimeFormat.timePattern}", Locale.getDefault())
             RecurrenceEndRuleDisplay(
                 text = compactFormatter.format(Date(endDate)),
                 contentDescription = "Ends by ${fullFormatter.format(Date(endDate))}"

@@ -164,7 +164,7 @@ private class UpcomingRemindersRemoteViewsFactory(
         val target = Calendar.getInstance().apply { timeInMillis = triggerAt }
         val targetYear = target.get(Calendar.YEAR)
         val targetDay = target.get(Calendar.DAY_OF_YEAR)
-        val time = SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date(triggerAt))
+        val time = SimpleDateFormat(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern, Locale.getDefault()).format(Date(triggerAt))
         return when {
             targetYear == todayYear && targetDay == today -> "Today • $time"
             targetYear == todayYear && targetDay == today + 1 -> "Tomorrow • $time"

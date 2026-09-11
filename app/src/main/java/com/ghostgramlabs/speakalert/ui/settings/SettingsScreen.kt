@@ -109,6 +109,7 @@ fun SettingsScreen(
         }
     }
     
+    val use24HourTime by viewModel.use24HourTime.collectAsState()
     val autoPlayEnabled by viewModel.autoPlayEnabled.collectAsState()
     val autoPlayOnUnlockOnly by viewModel.autoPlayOnUnlockOnly.collectAsState()
     val defaultSnoozeDuration by viewModel.defaultSnoozeDuration.collectAsState()
@@ -258,6 +259,14 @@ fun SettingsScreen(
                         )
                     }
                 }
+
+                Spacer(Modifier.height(16.dp))
+                SwitchRow(
+                    text = stringResource(R.string.settings_24_hour_time),
+                    description = stringResource(R.string.settings_24_hour_time_desc),
+                    checked = use24HourTime,
+                    onCheckedChange = viewModel::setUse24HourTime
+                )
             }
 
             CollapsibleSettingsSection(
@@ -1768,7 +1777,7 @@ private fun TimePickerButton(
             SystemTimePickerDialog(
                 initialHour = hour,
                 initialMinute = minute,
-                is24Hour = android.text.format.DateFormat.is24HourFormat(context),
+                is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour,
                 onDismiss = { showPicker = false },
                 onConfirm = { h, m ->
                     onTimeSelected(h, m)
@@ -1779,7 +1788,7 @@ private fun TimePickerButton(
             val timeState = rememberTimePickerState(
                 initialHour = hour,
                 initialMinute = minute,
-                is24Hour = android.text.format.DateFormat.is24HourFormat(context)
+                is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour
             )
             AlertDialog(
                 onDismissRequest = { showPicker = false },

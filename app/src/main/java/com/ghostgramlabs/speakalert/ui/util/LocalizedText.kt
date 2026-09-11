@@ -49,7 +49,7 @@ fun localizedRecurrenceSummary(
     includeTime: Boolean = true
 ): String {
     val timeStr = if (includeTime) {
-        " • " + SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date(nextTriggerAt))
+        " • " + SimpleDateFormat(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern, Locale.getDefault()).format(Date(nextTriggerAt))
     } else {
         ""
     }
@@ -106,7 +106,7 @@ fun localizedRecurrenceSummary(
             EndRuleType.NEVER -> sb.append("\n").append(stringResource(R.string.rec_ends_never))
             EndRuleType.UNTIL_DATE -> {
                 val endDate = model.endRule.endDateMillis ?: 0L
-                val dateStr = SimpleDateFormat("MMM d, yyyy 'at' h:mm a", Locale.getDefault())
+                val dateStr = SimpleDateFormat("MMM d, yyyy 'at' ${com.ghostgramlabs.speakalert.util.TimeFormat.timePattern}", Locale.getDefault())
                     .format(Date(endDate))
                 sb.append("\n").append(stringResource(R.string.det_ends_by, dateStr))
             }

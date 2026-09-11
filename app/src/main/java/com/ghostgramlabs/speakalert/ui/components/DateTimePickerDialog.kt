@@ -61,8 +61,8 @@ fun DateTimePickerDialog(
     var showDateDialog by remember { mutableStateOf(false) }
     var showTimeDialog by remember { mutableStateOf(false) }
 
-    val dateFormatter = remember { SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault()) }
-    val timeFormatter = remember { SimpleDateFormat("h:mm a", Locale.getDefault()) }
+    val dateFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault()) }
+    val timeFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { SimpleDateFormat(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern, Locale.getDefault()) }
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -282,7 +282,7 @@ fun DateTimePickerDialog(
             SystemTimePickerDialog(
                 initialHour = current.get(Calendar.HOUR_OF_DAY),
                 initialMinute = current.get(Calendar.MINUTE),
-                is24Hour = false,
+                is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour,
                 onDismiss = { showTimeDialog = false },
                 onConfirm = applyPickedTime,
             )
@@ -290,7 +290,7 @@ fun DateTimePickerDialog(
             val timePickerState = rememberTimePickerState(
                 initialHour = current.get(Calendar.HOUR_OF_DAY),
                 initialMinute = current.get(Calendar.MINUTE),
-                is24Hour = false
+                is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour
             )
             AlertDialog(
                 onDismissRequest = { showTimeDialog = false },

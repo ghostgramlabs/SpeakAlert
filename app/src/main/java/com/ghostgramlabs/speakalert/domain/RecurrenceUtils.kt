@@ -371,7 +371,7 @@ object RecurrenceUtils {
         includeTime: Boolean = true
     ): String {
         val timeStr = if (includeTime) {
-            " • " + java.text.SimpleDateFormat("h:mm a", java.util.Locale.getDefault()).format(java.util.Date(nextTriggerAt))
+            " • " + java.text.SimpleDateFormat(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern, java.util.Locale.getDefault()).format(java.util.Date(nextTriggerAt))
         } else {
             ""
         }
@@ -450,7 +450,7 @@ object RecurrenceUtils {
                  EndRuleType.NEVER -> sb.append("\nEnds: Never")
                  EndRuleType.UNTIL_DATE -> {
                      val endDate = model.endRule.endDateMillis ?: 0L
-                     val dateStr = java.text.SimpleDateFormat("MMM d, yyyy 'at' h:mm a", java.util.Locale.getDefault()).format(java.util.Date(endDate))
+                     val dateStr = java.text.SimpleDateFormat("MMM d, yyyy 'at' ${com.ghostgramlabs.speakalert.util.TimeFormat.timePattern}", java.util.Locale.getDefault()).format(java.util.Date(endDate))
                      sb.append("\nEnds by $dateStr")
                  }
                  EndRuleType.AFTER_OCCURRENCES -> sb.append("\nEnds after ${model.endRule.count ?: 0} times")
