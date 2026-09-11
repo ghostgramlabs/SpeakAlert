@@ -178,7 +178,6 @@ class MainActivity : ComponentActivity() {
                 if (ratingEvaluated) return@LaunchedEffect
                 if (!allowHomeStartupOverlays) return@LaunchedEffect
                 if (!shouldOfferWhatsNew || !isHomeDestination || !activityResumed) return@LaunchedEffect
-                ratingEvaluated = true
                 try {
                     if (fullScreenAlertEnabled && !fullScreenAccessGranted) return@LaunchedEffect
                     if (!androidx.core.app.NotificationManagerCompat.from(this@MainActivity).areNotificationsEnabled()) return@LaunchedEffect
@@ -186,6 +185,9 @@ class MainActivity : ComponentActivity() {
                     val notifications = getSystemService(android.app.NotificationManager::class.java)
                     if (notifications.activeNotifications.isNotEmpty()) return@LaunchedEffect
                     if (!window.decorView.hasWindowFocus()) return@LaunchedEffect
+                    // Latch only after the transient checks pass, so one unfocused evaluation
+                    // does not suppress the prompt for the whole session.
+                    ratingEvaluated = true
                     showRatingPrompt = settingsRepository.claimRatingPrompt(System.currentTimeMillis())
                 } catch (e: kotlinx.coroutines.CancellationException) {
                     throw e
