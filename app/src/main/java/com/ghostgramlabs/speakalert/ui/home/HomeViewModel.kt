@@ -110,10 +110,11 @@ class HomeViewModel(
         }
     }
 
+    // Dismissing must resolve the reminder itself, not just the inbox row. Deleting the row
+    // alone leaves a one-time reminder active with a past trigger time, so BootRescheduleWorker
+    // re-detects it as missed and re-notifies after every reboot.
     fun dismissMissedReminder(missed: MissedReminderEntity) {
-        viewModelScope.launch {
-            missedRepository.deleteMissedReminderById(missed.id)
-        }
+        markMissedRemindersDone(listOf(missed))
     }
 
     fun markMissedRemindersDone(missedReminders: List<MissedReminderEntity>) {
