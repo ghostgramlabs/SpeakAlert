@@ -47,11 +47,22 @@ object TimeFormat {
      */
     fun initialize(context: Context, scope: CoroutineScope, repository: SettingsRepository) {
         val appContext = context.applicationContext
+        // Seed synchronously. An alarm can wake the process cold and build a notification before
+        // DataStore has emitted, and that notification must not render in the wrong clock style.
+        use24HourState = android.text.format.DateFormat.is24HourFormat(appContext)
         scope.launch {
             repository.use24HourTimeOverride.collect { override ->
                 val resolved = override ?: android.text.format.DateFormat.is24HourFormat(appContext)
                 // Compose state must be written from the main thread.
-                withContext(Dispatchers.Main) { use24HourState = resolved }
+                withContext(Dispatchers.Main) {
+                    if (use24HourState != resolved) {
+                        use24HourState = resolved
+                        // Widgets render into RemoteViews outside composition, so they only pick
+                        // up a new clock style when their provider is asked to redraw.
+                        com.ghostgramlabs.speakalert.widget.SpeakAlertWidgetUpdater
+                            .requestUpdate(appContext)
+                    }
+                }
             }
         }
     }
