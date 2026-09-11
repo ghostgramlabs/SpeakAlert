@@ -24,6 +24,8 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
         val DEFAULT_FOLLOW_UP_MINUTES = intPreferencesKey("default_follow_up_minutes")
         val DEFAULT_MISSED_POLICY = stringPreferencesKey("default_missed_policy") // "FIRE" or "SKIP"
         val DEBUG_LOGGING_ENABLED = booleanPreferencesKey("debug_logging_enabled")
+        // Absent means "follow the device clock setting".
+        val USE_24_HOUR_TIME = booleanPreferencesKey("use_24_hour_time")
         val APP_VOLUME = floatPreferencesKey("app_volume")
         val LOOP_TIMEOUT_MINUTES = intPreferencesKey("loop_timeout_minutes") // 0 = never, 1/2/5/10 minutes
         
@@ -71,6 +73,9 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
     val defaultSnoozeDuration: Flow<Int> = dataStore.data.map { it[DEFAULT_SNOOZE_DURATION] ?: 5 } // Minutes (Default 5)
     val defaultFollowUpMinutes: Flow<Int> = dataStore.data.map { it[DEFAULT_FOLLOW_UP_MINUTES] ?: 0 } // 0 = off (preserves existing behavior)
     val defaultMissedPolicy: Flow<String> = dataStore.data.map { it[DEFAULT_MISSED_POLICY] ?: "FIRE_ON_RESUME" }
+    /** null until the user chooses explicitly; callers fall back to the device clock setting. */
+    val use24HourTimeOverride: Flow<Boolean?> = dataStore.data.map { it[USE_24_HOUR_TIME] }
+
     val debugLoggingEnabled: Flow<Boolean> = dataStore.data.map { it[DEBUG_LOGGING_ENABLED] ?: false }
     val appVolume: Flow<Float> = dataStore.data.map { it[APP_VOLUME] ?: 1.0f }
     val loopTimeoutMinutes: Flow<Int> = dataStore.data.map { it[LOOP_TIMEOUT_MINUTES] ?: 10 } // Default 10 min, 0 = never
@@ -157,6 +162,10 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
     
     suspend fun setDebugLoggingEnabled(enabled: Boolean) {
         dataStore.edit { it[DEBUG_LOGGING_ENABLED] = enabled }
+    }
+
+    suspend fun setUse24HourTime(enabled: Boolean) {
+        dataStore.edit { it[USE_24_HOUR_TIME] = enabled }
     }
 
     suspend fun setAppVolume(volume: Float) {

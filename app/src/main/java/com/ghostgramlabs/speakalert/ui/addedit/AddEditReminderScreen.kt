@@ -166,8 +166,8 @@ fun AddEditReminderScreen(
     }
     var showDatePickerDialog by remember { mutableStateOf(false) }
     var showTimePickerDialog by remember { mutableStateOf(false) }
-    val dateFormatter = remember { java.text.SimpleDateFormat("EEE, MMM d, yyyy", java.util.Locale.getDefault()) }
-    val timeFormatter = remember { java.text.SimpleDateFormat("h:mm a", java.util.Locale.getDefault()) }
+    val dateFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { java.text.SimpleDateFormat("EEE, MMM d, yyyy", java.util.Locale.getDefault()) }
+    val timeFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { java.text.SimpleDateFormat(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern, java.util.Locale.getDefault()) }
 
     if (showUnsavedDialog) {
         AlertDialog(
@@ -836,7 +836,7 @@ fun AddEditReminderScreen(
                     SystemTimePickerDialog(
                         initialHour = cal.get(java.util.Calendar.HOUR_OF_DAY),
                         initialMinute = cal.get(java.util.Calendar.MINUTE),
-                        is24Hour = android.text.format.DateFormat.is24HourFormat(context),
+                        is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour,
                         onDismiss = { showTimePickerDialog = false },
                         onConfirm = applyPickedTime,
                     )
@@ -844,7 +844,7 @@ fun AddEditReminderScreen(
                     val timeState = rememberTimePickerState(
                         initialHour = cal.get(java.util.Calendar.HOUR_OF_DAY),
                         initialMinute = cal.get(java.util.Calendar.MINUTE),
-                        is24Hour = android.text.format.DateFormat.is24HourFormat(context)
+                        is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour
                     )
                     AlertDialog(
                         onDismissRequest = { showTimePickerDialog = false },

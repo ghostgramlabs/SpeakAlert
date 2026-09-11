@@ -598,7 +598,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
     }
 
     private fun formatTime(millis: Long): String {
-        val sdf = java.text.SimpleDateFormat("h:mm a", java.util.Locale.getDefault())
+        val sdf = java.text.SimpleDateFormat(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern, java.util.Locale.getDefault())
         return sdf.format(java.util.Date(millis))
     }
 

@@ -317,7 +317,7 @@ fun HomeScreen(
             SystemTimePickerDialog(
                 initialHour = current.get(java.util.Calendar.HOUR_OF_DAY),
                 initialMinute = current.get(java.util.Calendar.MINUTE),
-                is24Hour = android.text.format.DateFormat.is24HourFormat(context),
+                is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour,
                 onDismiss = cancelTimeFlow,
                 onConfirm = applyPickedTime,
             )
@@ -325,7 +325,7 @@ fun HomeScreen(
             val timeState = rememberTimePickerState(
                 initialHour = current.get(java.util.Calendar.HOUR_OF_DAY),
                 initialMinute = current.get(java.util.Calendar.MINUTE),
-                is24Hour = android.text.format.DateFormat.is24HourFormat(context)
+                is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour
             )
             AlertDialog(
                 onDismissRequest = cancelTimeFlow,

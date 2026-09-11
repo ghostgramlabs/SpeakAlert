@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ghostgramlabs.speakalert.data.repository.SettingsRepository
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -173,6 +174,16 @@ class SettingsViewModel(
 
     fun setShowShortLabelSection(visible: Boolean) {
         viewModelScope.launch { settingsRepository.setShowShortLabelSection(visible) }
+    }
+
+    // Reflects the device clock until the user chooses explicitly, so the switch opens
+    // on the format they already see everywhere else on the phone.
+    val use24HourTime = settingsRepository.use24HourTimeOverride
+        .map { it ?: com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour)
+
+    fun setUse24HourTime(enabled: Boolean) {
+        viewModelScope.launch { settingsRepository.setUse24HourTime(enabled) }
     }
 
     val debugLoggingEnabled = settingsRepository.debugLoggingEnabled

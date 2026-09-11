@@ -572,4 +572,6 @@
     <string name="wn_recording_desc">A new setting lets you choose: keep the original raw recording behavior (the default), or opt in to newer recorder safeguards, silence notices, noise cleanup, and voice-level normalization. Silent takes are always kept.</string>
     <string name="wn_reliability_title">More reliable on newer Android phones</string>
     <string name="wn_reliability_desc">Reminder playback now starts safely and immediately in the foreground, preventing startup timeouts seen on some Android 12 and Android 16 devices.</string>
+    <string name="settings_24_hour_time">Use 24-hour time</string>
+    <string name="settings_24_hour_time_desc">Show every time as 17:30 instead of 5:30 PM.</string>
 </resources>

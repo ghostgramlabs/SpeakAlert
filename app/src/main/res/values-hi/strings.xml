@@ -554,4 +554,6 @@
     <string name="wn_recording_desc">नई सेटिंग से मूल रॉ रिकॉर्डिंग (डिफ़ॉल्ट) रखी जा सकती है या नई रिकॉर्डर सुरक्षा, साइलेंस सूचना, शोर की सफ़ाई और आवाज़ सामान्य करने की सुविधा चालू की जा सकती है। साइलेंट रिकॉर्डिंग हमेशा रखी जाती है।</string>
     <string name="wn_reliability_title">नए Android पर अधिक भरोसेमंद</string>
     <string name="wn_reliability_desc">रिमाइंडर प्लेबैक अब सुरक्षित रूप से और तुरंत फ़ोरग्राउंड में शुरू होता है, जिससे कुछ Android 12 और Android 16 डिवाइस पर देखा गया स्टार्टअप टाइमआउट नहीं होता।</string>
+    <string name="settings_24_hour_time">24-घंटे का समय प्रारूप</string>
+    <string name="settings_24_hour_time_desc">सभी समय 5:30 PM के बजाय 17:30 के रूप में दिखाएँ।</string>
 </resources>

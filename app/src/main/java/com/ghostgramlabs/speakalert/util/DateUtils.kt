@@ -33,13 +33,13 @@ object DateUtils {
     }
 
     fun formatDateTime(timestamp: Long): String {
-        val sdf = SimpleDateFormat("EEE, MMM d, h:mm a", Locale.getDefault())
+        val sdf = SimpleDateFormat("EEE, MMM d, ${com.ghostgramlabs.speakalert.util.TimeFormat.timePattern}", Locale.getDefault())
         return sdf.format(Date(timestamp))
     }
 
     fun formatRelativeTime(timestamp: Long): String {
         // e.g. "Today, 10:00 AM" or "Tomorrow, 10:00 AM"
-        val timeFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
+        val timeFormat = SimpleDateFormat(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern, Locale.getDefault())
         val timeStr = timeFormat.format(Date(timestamp))
         
         return when (dayDifference(System.currentTimeMillis(), timestamp)) {
@@ -61,7 +61,7 @@ object DateUtils {
         val nowYear = Calendar.getInstance().get(Calendar.YEAR)
         val targetYear = Calendar.getInstance().apply { timeInMillis = timestamp }.get(Calendar.YEAR)
         
-        val timeFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
+        val timeFormat = SimpleDateFormat(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern, Locale.getDefault())
         val timeStr = timeFormat.format(Date(timestamp))
         
         val dayDiff = dayDifference(now, timestamp)
@@ -125,7 +125,7 @@ object DateUtils {
     }
 
     fun formatTimeOnly(timestamp: Long): String {
-        return SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date(timestamp))
+        return SimpleDateFormat(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern, Locale.getDefault()).format(Date(timestamp))
     }
 
     /**

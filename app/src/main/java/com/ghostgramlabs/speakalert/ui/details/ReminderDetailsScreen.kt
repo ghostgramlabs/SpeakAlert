@@ -502,7 +502,7 @@ fun ReminderDetailsScreen(
                             icon = Icons.Default.NotificationsActive,
                             label = stringResource(R.string.ae_time),
                             value = java.text.SimpleDateFormat(
-                                "h:mm a",
+                                com.ghostgramlabs.speakalert.util.TimeFormat.timePattern,
                                 java.util.Locale.getDefault()
                             ).format(java.util.Date(item.nextTriggerAt))
                         )
@@ -510,7 +510,7 @@ fun ReminderDetailsScreen(
                             val endRuleText = when (recurrenceModel.endRule.type) {
                                 EndRuleType.UNTIL_DATE -> {
                                     val dateStr = java.text.SimpleDateFormat(
-                                        "MMM d, yyyy 'at' h:mm a",
+                                        "MMM d, yyyy 'at' ${com.ghostgramlabs.speakalert.util.TimeFormat.timePattern}",
                                         java.util.Locale.getDefault()
                                     ).format(java.util.Date(recurrenceModel.endRule.endDateMillis ?: 0L))
                                     stringResource(R.string.det_ends_by, dateStr)
@@ -714,7 +714,7 @@ fun ReminderDetailsScreen(
             SystemTimePickerDialog(
                 initialHour = cal.get(java.util.Calendar.HOUR_OF_DAY),
                 initialMinute = cal.get(java.util.Calendar.MINUTE),
-                is24Hour = android.text.format.DateFormat.is24HourFormat(context),
+                is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour,
                 onDismiss = cancelTimeFlow,
                 onConfirm = applyPickedTime,
             )
@@ -722,7 +722,7 @@ fun ReminderDetailsScreen(
             val timeState = rememberTimePickerState(
                 initialHour = cal.get(java.util.Calendar.HOUR_OF_DAY),
                 initialMinute = cal.get(java.util.Calendar.MINUTE),
-                is24Hour = android.text.format.DateFormat.is24HourFormat(context)
+                is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour
             )
             AlertDialog(
                 onDismissRequest = cancelTimeFlow,

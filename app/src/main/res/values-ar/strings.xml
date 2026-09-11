@@ -573,4 +573,6 @@
     <string name="wn_recording_desc">يتيح إعداد جديد إبقاء التسجيل الخام الأصلي (الافتراضي) أو تفعيل حماية المسجل الجديدة وتنبيه الصمت وتنظيف الضوضاء وضبط مستوى الصوت. يتم الاحتفاظ بالتسجيلات الصامتة دائمًا.</string>
     <string name="wn_reliability_title">موثوقية أكبر على Android الحديث</string>
     <string name="wn_reliability_desc">يبدأ تشغيل التذكير الآن بأمان وفورًا في الواجهة الأمامية، مما يمنع مهلة البدء التي ظهرت على بعض أجهزة Android 12 وAndroid 16.</string>
+    <string name="settings_24_hour_time">استخدام نظام 24 ساعة</string>
+    <string name="settings_24_hour_time_desc">عرض جميع الأوقات بصيغة 17:30 بدلاً من 5:30 م.</string>
 </resources>
