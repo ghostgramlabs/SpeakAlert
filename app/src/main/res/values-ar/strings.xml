@@ -5,7 +5,9 @@
     <string name="widget_quick_description">افتح نموذج التذكير مباشرة من الشاشة الرئيسية</string>
     <string name="widget_upcoming_description">يعرض تذكيراتك المجدولة القادمة</string>
 
-    <string name="settings_language">اللغة</string>
+    <string name="settings_language">لغة التطبيق</string>
+    <string name="settings_language_system">اتباع لغة الجهاز</string>
+    <string name="settings_language_description">لغات التطبيق المتاحة: الإنجليزية والإسبانية والهندية والعربية.\nيختار اتباع لغة الجهاز لغة مدعومة من لغات الهاتف؛ وإذا لم تتوفر لغة مدعومة، يستخدم التطبيق الإنجليزية.\nتعتمد التذكيرات المنطوقة على الأصوات المثبتة في الهاتف. اضبطها بشكل منفصل في التشغيل &gt; لغة النطق.</string>
 
     <string name="notif_action_done">تم</string>
     <string name="notif_action_silence">كتم</string>
@@ -311,12 +313,12 @@
     <string name="rs_allowed_range">المسموح: 1-999</string>
     <string name="rs_end_before_error">لا يمكن أن يكون وقت الانتهاء قبل وقت التذكير</string>
     <string name="rs_select_end_time">اختر وقت الانتهاء</string>
-    <plurals name="unit_minutes"><item quantity="one">دقيقة</item><item quantity="other">دقائق</item></plurals>
-    <plurals name="unit_hours"><item quantity="one">ساعة</item><item quantity="other">ساعات</item></plurals>
-    <plurals name="unit_days"><item quantity="one">يوم</item><item quantity="other">أيام</item></plurals>
-    <plurals name="unit_weeks"><item quantity="one">أسبوع</item><item quantity="other">أسابيع</item></plurals>
-    <plurals name="unit_months"><item quantity="one">شهر</item><item quantity="other">أشهر</item></plurals>
-    <plurals name="unit_years"><item quantity="one">سنة</item><item quantity="other">سنوات</item></plurals>
+    <plurals name="unit_minutes"><item quantity="zero">دقائق</item><item quantity="one">دقيقة</item><item quantity="two">دقيقتان</item><item quantity="few">دقائق</item><item quantity="many">دقيقة</item><item quantity="other">دقيقة</item></plurals>
+    <plurals name="unit_hours"><item quantity="zero">ساعات</item><item quantity="one">ساعة</item><item quantity="two">ساعتان</item><item quantity="few">ساعات</item><item quantity="many">ساعة</item><item quantity="other">ساعة</item></plurals>
+    <plurals name="unit_days"><item quantity="zero">أيام</item><item quantity="one">يوم</item><item quantity="two">يومان</item><item quantity="few">أيام</item><item quantity="many">يوم</item><item quantity="other">يوم</item></plurals>
+    <plurals name="unit_weeks"><item quantity="zero">أسابيع</item><item quantity="one">أسبوع</item><item quantity="two">أسبوعان</item><item quantity="few">أسابيع</item><item quantity="many">أسبوع</item><item quantity="other">أسبوع</item></plurals>
+    <plurals name="unit_months"><item quantity="zero">أشهر</item><item quantity="one">شهر</item><item quantity="two">شهران</item><item quantity="few">أشهر</item><item quantity="many">شهر</item><item quantity="other">شهر</item></plurals>
+    <plurals name="unit_years"><item quantity="zero">سنوات</item><item quantity="one">سنة</item><item quantity="two">سنتان</item><item quantity="few">سنوات</item><item quantity="many">سنة</item><item quantity="other">سنة</item></plurals>
 
     <string name="set_appearance">المظهر</string>
     <string name="set_reminder_form">نموذج التذكير</string>
@@ -430,9 +432,12 @@
     <string name="set_wear_enabled">إشعارات الهاتف مفعّلة. إذا كانت التذكيرات لا تزال غير موجودة على الساعة، فعّل مزامنة الإشعارات في تطبيق Wear OS المرافق.</string>
     <string name="set_refresh">تحديث الحالة</string>
     <string name="set_app_guide">دليل التطبيق</string>
-    <string name="set_toast_no_email">تعذّر فتح البريد على هذا الجهاز.</string>
-    <string name="set_contact_support">التواصل مع الدعم</string>
-    <string name="set_contact_support_desc">أرسل ملاحظات أو أسئلة أو مشكلات تشغيل بالبريد</string>
+    <string name="set_toast_no_email">لا يتوفر تطبيق بريد إلكتروني. يمكنك مراسلتنا على ghostgramlabs@gmail.com أو نسخ العنوان الظاهر.</string>
+    <string name="set_contact_support">اقتراح ميزات والدعم</string>
+    <string name="set_contact_support_desc">لديك فكرة أو تحتاج إلى مساعدة؟ راسلنا عبر البريد الإلكتروني.</string>
+    <string name="support_email_subject">%1$s — اقتراح ميزة أو طلب دعم</string>
+    <string name="feature_request_email_subject">%1$s — اقتراح ميزة</string>
+    <string name="suggest_feature">اقترح ميزة</string>
     <string name="set_toast_no_rating">تعذّر فتح صفحة التقييم على هذا الجهاز.</string>
     <string name="set_rate">قيّم %1$s</string>
     <string name="set_developer">المطوّر</string>
@@ -479,7 +484,7 @@
     <string name="set_wear_watches">%1$d ساعات Wear OS متصلة</string>
     <string name="set_wear_none">لا توجد ساعة Wear OS متصلة</string>
     <string name="set_wear_channel_muted">قناة تذكيرات %1$s مكتومة. فعّلها لإرسال التذكيرات إلى الساعة.</string>
-    <string name="set_rate_desc">إذا أعجبك التطبيق، فيرجى ترك تقييم!</string>
+    <string name="set_rate_desc">شارك تجربتك على Google Play.</string>
     <string name="set_tone_sound_active">%1$s. إذا أصبح غير متوفر، يعود SpeakAlert إلى نغمة الإنذار الافتراضية.</string>
 
     <!-- المزيد من تطبيقات المطوّر -->
@@ -493,8 +498,8 @@
     <string name="set_toast_no_store">تعذّر فتح Google Play على هذا الجهاز.</string>
 
     <!-- طلب التقييم -->
-    <string name="rate_prompt_title">هل يعجبك %1$s؟</string>
-    <string name="rate_prompt_message">تقييم سريع على Google Play يساعد الآخرين على العثور على %1$s ويساعدنا على مواصلة تحسينه. لا يستغرق سوى لحظة.</string>
+    <string name="rate_prompt_title">%1$s مجاني. دعمك مهم.</string>
+    <string name="rate_prompt_message">تساعد مراجعتك المزيد من الأشخاص على اكتشاف %1$s وتشجعنا على مواصلة التحسين. خصص لحظة لمشاركة تجربتك على Google Play.</string>
     <string name="rate_prompt_positive">قيّم الآن</string>
     <string name="rate_prompt_later">ربما لاحقًا</string>
     <string name="rate_prompt_never">لا، شكرًا</string>

@@ -89,6 +89,10 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 )
                 val isFollowUpTrigger = intent.getBooleanExtra("isFollowUpAlarm", false) ||
                     (reminder.pendingFollowUpAt != null && reminder.pendingFollowUpAt == scheduledTime)
+                if (shouldIgnoreReminderAlarm(reminder, scheduledTime, isFollowUpTrigger)) {
+                    FileLogger.log("ALARM: Ignoring completed reminder or stale follow-up for $reminderId at $scheduledTime")
+                    return@launch
+                }
                 val isSnoozeTrigger = !isFollowUpTrigger &&
                     reminder.snoozeUntil != null &&
                     reminder.snoozeUntil == scheduledTime
@@ -356,7 +360,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
 
                 val notificationShown = if (canAutoPlay) {
                     FileLogger.log("ALARM: Attempting to start service for autoplay")
-                    try {
+                    val playbackRequested = try {
                         withContext(Dispatchers.Main) {
                             if (alertPayload.playbackAudioPath != null) {
                                 FileLogger.log("ALARM: Starting service with audio: ${alertPayload.playbackAudioPath}, loop=${reminder.loopPlayback}")
@@ -384,16 +388,19 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                                     privatePlayback = privatePlaybackEnabled,
                                     dndBypass = dndBypassEnabled
                                 )
+                            } else {
+                                false
                             }
                         }
-                        FileLogger.log("ALARM: Service started successfully")
                     } catch (e: Exception) {
                         // Catches ForegroundServiceStartNotAllowedException or any SecurityException
-                        FileLogger.logError("ALARM", "Failed to start service (likely Android 15 FGS restriction)", e)
+                        FileLogger.logError("ALARM", "Failed to request playback service", e)
                         // Note: If service fails, the notification is still shown below, fulfilling the "Tap to play" fallback.
+                        false
                     }
+                    FileLogger.log("ALARM: Playback launch accepted=$playbackRequested")
                     
-                    // ALWAYS show notification after autoplay (it stays until user dismisses)
+                    // Keep the alert visible even when Android rejects the playback launch.
                     val shown = withContext(Dispatchers.Main) {
                         notificationHelper.showNotification(
                             reminder.id,
@@ -406,14 +413,14 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             useFullScreenAlert = useLockScreenFullScreen,
                             isFollowUpAlert = alertPayload.isFollowUpAlert,
                             dndBypassEnabled = dndBypassEnabled,
-                            silentAlert = !privatePlaybackEnabled ||
-                                PrivateAudioRoute.hasExternalPrivateRoute(context),
-                            // Sound is actively playing on this path, so offer Silence.
-                            playingSound = true,
+                            silentAlert = playbackRequested && (!privatePlaybackEnabled ||
+                                PrivateAudioRoute.hasExternalPrivateRoute(context)),
+                            // A rejected launch must retain the normal notification sound and Play action.
+                            playingSound = playbackRequested,
                             persistUntilDone = persistUntilDone
                         )
                     }
-                    FileLogger.log("ALARM: Showed notification after autoplay: $shown")
+                    FileLogger.log("ALARM: Notification shown=$shown, playback launch accepted=$playbackRequested")
                     shown
                 } else {
                     FileLogger.log("ALARM: Showing standard notification (no autoplay)")
@@ -529,6 +536,18 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 
                 repository.updateReminder(updatedReminder)
                 FileLogger.log("ALARM: Database updated")
+
+                // Review pacing must never affect delivery or recurrence scheduling.
+                // Skipped occurrences, snoozes and follow-ups do not earn extra usage days.
+                if (notificationShown && !isFollowUpTrigger && !isSnoozeTrigger) {
+                    try {
+                        settingsRepository.recordReminderDelivery(now)
+                    } catch (e: kotlinx.coroutines.CancellationException) {
+                        throw e
+                    } catch (e: Exception) {
+                        FileLogger.logError("REVIEW", "Could not record reminder usage", e)
+                    }
+                }
                 
             } catch (e: Exception) {
                 FileLogger.logError("ALARM", "Error processing alarm", e)

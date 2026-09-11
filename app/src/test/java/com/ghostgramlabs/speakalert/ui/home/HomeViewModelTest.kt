@@ -1,6 +1,9 @@
 package com.ghostgramlabs.speakalert.ui.home
 
 import com.ghostgramlabs.speakalert.alarm.AlarmScheduler
+import com.ghostgramlabs.speakalert.alarm.buildReminderAlertPayload
+import com.ghostgramlabs.speakalert.alarm.shouldAutoPlayReminder
+import com.ghostgramlabs.speakalert.alarm.shouldIgnoreReminderAlarm
 import com.ghostgramlabs.speakalert.data.model.MissedReminderEntity
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.data.repository.MissedReminderRepository
@@ -213,6 +216,127 @@ class HomeViewModelTest {
             // Verify next trigger advanced?
             assertTrue(it.nextTriggerAt > now)
         })
+    }
+
+    @Test
+    fun `skipping two upcoming occurrences cancels old cycles and preserves playback`() = runTest {
+        val original = ReminderEntity(
+            id = 91,
+            nextTriggerAt = System.currentTimeMillis() + 86_400_000L,
+            recurrenceType = RecurrenceType.DAILY,
+            audioPath = "/recordings/voice.m4a",
+            reminderText = "Take a break",
+            loopPlayback = true,
+            pendingFollowUpAt = System.currentTimeMillis() + 60_000L
+        )
+        var current = original
+        whenever(repository.updateReminder(any())).thenAnswer {
+            current = it.getArgument(0)
+            Unit
+        }
+        val order = org.mockito.kotlin.inOrder(repository, scheduler, missedRepository)
+        repeat(2) {
+            val previous = current
+            viewModel.markTodayAsDone(previous)
+            advanceUntilIdle()
+            assertTrue(current.nextTriggerAt > previous.nextTriggerAt)
+            assertFalse(current.isCompleted)
+            assertNull(current.pendingFollowUpAt)
+            assertNull(current.snoozeUntil)
+            assertEquals(original.audioPath, current.audioPath)
+            assertEquals(original.reminderText, current.reminderText)
+            assertTrue(current.loopPlayback)
+            order.verify(repository).updateReminder(current)
+            order.verify(scheduler).cancel(previous)
+            order.verify(missedRepository).deleteMissedReminderByReminderId(original.id)
+            order.verify(scheduler).schedule(current)
+        }
+    }
+
+    @Test
+    fun `completing and restoring preserves audio and text over repeated cycles`() = runTest {
+        val original = ReminderEntity(
+            id = 92,
+            nextTriggerAt = System.currentTimeMillis() + 86_400_000L,
+            audioPath = "/recordings/voice.m4a",
+            reminderText = "Take a break",
+            loopPlayback = true
+        )
+        var current = original
+        whenever(repository.updateReminder(any())).thenAnswer {
+            current = it.getArgument(0)
+            Unit
+        }
+        repeat(2) {
+            viewModel.completeReminder(current)
+            advanceUntilIdle()
+            assertTrue(current.isCompleted)
+            viewModel.restoreReminder(current, current.nextTriggerAt + 86_400_000L)
+            advanceUntilIdle()
+            assertFalse(current.isCompleted)
+            assertNull(current.lastFiredAt)
+            assertEquals(original.audioPath, current.audioPath)
+            assertEquals(original.reminderText, current.reminderText)
+            assertTrue(current.loopPlayback)
+            verify(scheduler).schedule(current)
+        }
+    }
+
+    @Test
+    fun `recording only remains eligible for autoplay after two upcoming skips`() =
+        assertAutoplayAfterUpcomingSkips(audioPath = "/recordings/voice.m4a", text = null)
+
+    @Test
+    fun `text only remains eligible for autoplay after two upcoming skips`() =
+        assertAutoplayAfterUpcomingSkips(audioPath = null, text = "Take a break")
+
+    private fun assertAutoplayAfterUpcomingSkips(audioPath: String?, text: String?) = runTest {
+        var current = ReminderEntity(
+            id = 93,
+            nextTriggerAt = System.currentTimeMillis() + 86_400_000L,
+            recurrenceType = RecurrenceType.DAILY,
+            audioPath = audioPath,
+            reminderText = text
+        )
+        whenever(repository.updateReminder(any())).thenAnswer {
+            current = it.getArgument(0)
+            Unit
+        }
+        repeat(2) {
+            viewModel.markTodayAsDone(current)
+            advanceUntilIdle()
+
+            val scheduled = argumentCaptor<ReminderEntity>()
+            verify(scheduler, org.mockito.kotlin.atLeastOnce()).schedule(
+                scheduled.capture(), org.mockito.kotlin.eq(false)
+            )
+            val next = scheduled.lastValue
+            assertEquals(current, next)
+            assertFalse(shouldIgnoreReminderAlarm(next, next.nextTriggerAt, false))
+            assertTrue(next.lastFiredAt == null || next.lastFiredAt!! < next.nextTriggerAt)
+
+            // Model an accessible recording and an on-time alarm; device playback is separate.
+            val payload = buildReminderAlertPayload(
+                reminder = next,
+                isFollowUpTrigger = false,
+                hasPlayableAudio = audioPath != null,
+                hasAudioConfigured = audioPath != null
+            )
+            assertEquals(audioPath, payload.playbackAudioPath)
+            assertEquals(text, payload.playbackText)
+            assertTrue(shouldAutoPlayReminder(
+                autoPlayEnabled = true,
+                inCall = false,
+                unlockedOnly = false,
+                isLocked = true,
+                playbackAudioPath = payload.playbackAudioPath,
+                playbackText = payload.playbackText,
+                isFollowUpTrigger = false,
+                speakTextIfNoVoice = text != null,
+                bootBlocked = false,
+                toneOnlyMode = false
+            ))
+        }
     }
 
     @Test

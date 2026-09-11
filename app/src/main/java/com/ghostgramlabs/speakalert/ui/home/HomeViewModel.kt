@@ -237,13 +237,18 @@ class HomeViewModel(
             
             if (nextTrigger != null) {
                 updated = updated.copy(nextTriggerAt = nextTrigger)
-                alarmScheduler.schedule(updated)
             } else {
                 // Recurrence ended
                 updated = updated.copy(isCompleted = true, completedAt = now)
-                alarmScheduler.cancel(updated)
             }
             repository.updateReminder(updated)
+            // End the skipped occurrence's snooze/follow-up cycle before scheduling the next.
+            // Clearing pendingFollowUpAt alone does not cancel the Android alarm.
+            alarmScheduler.cancel(reminder)
+            missedRepository.deleteMissedReminderByReminderId(reminder.id)
+            if (nextTrigger != null) {
+                alarmScheduler.schedule(updated)
+            }
         }
     }
     

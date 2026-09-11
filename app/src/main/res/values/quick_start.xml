@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quick_title">Quick start</string>
+    <string name="quick_progress">Step %1$d of %2$d</string>
+    <string name="quick_back">Back</string>
+    <string name="quick_next">Next</string>
+    <string name="quick_finish">Start using the app</string>
+    <string name="quick_later">Close — find this again in Help</string>
+    <string name="quick_create_title">Create your first reminder</string>
+    <string name="quick_create_body">Tap + to add a reminder. Record your voice, choose an audio file, or type a message to be read aloud. Microphone access is only needed to record.\n\nChoose a future date and time. For a repeating reminder, choose how often it repeats. Preview your recording, then tap Save.\n\nToday shows reminders due today. Upcoming shows later dates.</string>
+    <string name="quick_ready_title">Make sure you can hear it</string>
+    <string name="quick_ready_body">Allow notifications when asked. In Settings, check alarm timing access and background battery settings so Android can deliver reminders reliably.\n\nFor voice alerts, keep automatic playback on and tone-only mode off. Typed messages also need spoken text enabled. Turn up alarm volume; private playback uses a headset or the earpiece.\n\nQuiet Time and lock-screen playback settings can change when you hear speech. You can review these in Settings.</string>
+    <string name="quick_actions_title">Done, Snooze, or Silence?</string>
+    <string name="quick_actions_body">Snooze delays the current alert; a repeating schedule continues afterward. Silence stops sound but leaves the reminder pending.\n\nDone on an alert completes that occurrence and stops its follow-up checks. Repeating reminders continue at their next time.\n\nIn Upcoming, marking a repeating occurrence Done skips that future occurrence. It does not pause the whole schedule. A one-time reminder moves to Done, where you can reschedule it.</string>
+    <string name="quick_try_title">Try one before you rely on it</string>
+    <string name="quick_try_body">Create a reminder two minutes from now. Lock your phone and wait for the notification and voice. Then try Snooze and Done.\n\nIf a notification appears without voice, try Play or Replay. Check playback settings, volume, and connected headphones. Missed shows reminders that could not be delivered normally; a late reminder may require you to tap Play.\n\nUse Help on the home screen or App guide in Settings to reopen these steps anytime.</string>
+    <string name="quick_settings_title">Make Settings work for you</string>
+    <string name="quick_review_settings">Review Settings</string>
+    <string name="quick_settings_body">Take a moment to review Settings. You can keep the defaults and change things later.\n\nStart with Playback: choose voice or tone, volume, spoken language, and private playback.\n\nCheck snooze duration and quiet hours, then Reliability for follow-up checks and keeping alerts visible until Done. Also review notification, exact-alarm, and battery access.\n\nExplore Appearance and Reminder form to choose your language, theme, and the inputs you want to see. Backup lets you save reminders and recordings.\n\nUse the test reminder in Playback to check your setup.</string>
+</resources>

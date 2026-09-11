@@ -35,6 +35,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.ghostgramlabs.speakalert.R
 import com.ghostgramlabs.speakalert.openPlayStoreListing
+import com.ghostgramlabs.speakalert.util.openSupportEmail
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.semantics
@@ -225,6 +226,12 @@ fun SettingsScreen(
 
                 Spacer(Modifier.height(16.dp))
                 Text(stringResource(R.string.settings_language), style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    text = stringResource(R.string.settings_language_description),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
                 val currentLangTag = com.ghostgramlabs.speakalert.util.AppLocale.currentTag(context)
                 // FlowRow so every language stays visible (wraps instead of scrolling offscreen).
                 // Chips size to their label, so wide scripts (हिन्दी, العربية) never clip, and
@@ -240,7 +247,7 @@ fun SettingsScreen(
                         LanguageChip(
                             // Language names stay in their own script; only the "follow the
                             // system" option localizes with the UI language.
-                            text = if (tag.isEmpty()) stringResource(R.string.theme_system) else label,
+                            text = if (tag.isEmpty()) stringResource(R.string.settings_language_system) else label,
                             isSelected = currentLangTag == tag,
                             onClick = {
                                 com.ghostgramlabs.speakalert.util.AppLocale
@@ -1168,6 +1175,15 @@ fun SettingsScreen(
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
+                        androidx.compose.foundation.text.selection.SelectionContainer {
+                            Text(
+                                stringResource(R.string.support_email_address),
+                                style = MaterialTheme.typography.bodySmall.copy(
+                                    textDirection = androidx.compose.ui.text.style.TextDirection.Ltr
+                                ),
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
                     }
                     Icon(Icons.Default.ChevronRight, contentDescription = null)
                 }
@@ -1581,19 +1597,6 @@ private fun openAppRating(context: android.content.Context): Boolean {
             true
         }
         else -> false
-    }
-}
-
-private fun openSupportEmail(context: android.content.Context): Boolean {
-    val intent = Intent(Intent.ACTION_SENDTO).apply {
-        data = Uri.parse("mailto:ghostgramlabs@gmail.com")
-        putExtra(Intent.EXTRA_SUBJECT, "$APP_DISPLAY_NAME support")
-    }
-    return try {
-        context.startActivity(intent)
-        true
-    } catch (_: Exception) {
-        false
     }
 }
 
