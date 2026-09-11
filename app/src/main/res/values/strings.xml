@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Speak&#8203;Alert</string>
+    <string name="app_name" translatable="false">Speak&#8203;Alert</string>
     <string name="app_tagline">Offline Voice Reminders</string>
     <string name="widget_quick_caption">Open Add Reminder instantly</string>
     <string name="widget_quick_description">Open the reminder form directly from your home screen</string>
     <string name="widget_upcoming_description">Shows your next scheduled reminders</string>
 
     <!-- Settings -->
-    <string name="settings_language">Language</string>
+    <string name="settings_language">App language</string>
+    <string name="settings_language_system">Follow device language</string>
+    <string name="settings_language_description">Supported app languages: English, Spanish, Hindi, and Arabic.\nFollow device language chooses a supported phone language; otherwise the app uses English.\nSpoken reminders depend on your phone\'s installed voices. Set them separately in Playback &gt; Spoken language.</string>
 
     <!-- Notification actions -->
     <string name="notif_action_done">Done</string>
@@ -427,9 +429,13 @@
     <string name="set_wear_enabled">Phone notifications are enabled. If reminders are still missing on watch, enable notification sync in your Wear OS companion app.</string>
     <string name="set_refresh">Refresh status</string>
     <string name="set_app_guide">App guide</string>
-    <string name="set_toast_no_email">Unable to open email on this device.</string>
-    <string name="set_contact_support">Contact support</string>
-    <string name="set_contact_support_desc">Email feedback, questions, or playback issues</string>
+    <string name="set_toast_no_email">No email app available. You can email ghostgramlabs@gmail.com or copy the address shown.</string>
+    <string name="set_contact_support">Feature requests &amp; support</string>
+    <string name="set_contact_support_desc">Have an idea or need help? Send us an email.</string>
+    <string name="support_email_address" translatable="false">ghostgramlabs@gmail.com</string>
+    <string name="support_email_subject">%1$s — Feature request or support</string>
+    <string name="feature_request_email_subject">%1$s — Feature request</string>
+    <string name="suggest_feature">Suggest a feature</string>
     <string name="set_toast_no_rating">Unable to open the rating page on this device.</string>
     <string name="set_rate">Rate %1$s</string>
     <string name="set_developer">Developer</string>
@@ -476,7 +482,7 @@
     <string name="set_wear_watches">%1$d Wear OS watches connected</string>
     <string name="set_wear_none">No Wear OS watch connected</string>
     <string name="set_wear_channel_muted">%1$s reminder channel is muted. Enable it to send reminders to watch.</string>
-    <string name="set_rate_desc">If you enjoy the app, please leave a review!</string>
+    <string name="set_rate_desc">Share your experience on Google Play.</string>
     <string name="set_tone_sound_active">%1$s. If it becomes unavailable, SpeakAlert falls back to the default alarm tone.</string>
 
     <!-- More apps from the developer -->
@@ -490,8 +496,8 @@
     <string name="set_toast_no_store">Unable to open Google Play on this device.</string>
 
     <!-- In-app rating prompt -->
-    <string name="rate_prompt_title">Enjoying %1$s?</string>
-    <string name="rate_prompt_message">A quick rating on Google Play helps other people find %1$s and helps us keep improving it. It only takes a moment.</string>
+    <string name="rate_prompt_title">%1$s is free. Your support matters.</string>
+    <string name="rate_prompt_message">Your review helps more people discover %1$s and encourages us to keep improving. Take a moment to share your experience on Google Play.</string>
     <string name="rate_prompt_positive">Rate now</string>
     <string name="rate_prompt_later">Maybe later</string>
     <string name="rate_prompt_never">No thanks</string>

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_tagline">ऑफ़लाइन वॉइस रिमाइंडर</string>
     <string name="widget_quick_caption">रिमाइंडर जोड़ें तुरंत खोलें</string>
     <string name="widget_quick_description">अपनी होम स्क्रीन से सीधे रिमाइंडर फ़ॉर्म खोलें</string>
     <string name="widget_upcoming_description">आपके अगले निर्धारित रिमाइंडर दिखाता है</string>
 
-    <string name="settings_language">भाषा</string>
+    <string name="settings_language">ऐप की भाषा</string>
+    <string name="settings_language_system">डिवाइस की भाषा अपनाएं</string>
+    <string name="settings_language_description">ऐप की उपलब्ध भाषाएं: अंग्रेज़ी, स्पैनिश, हिंदी और अरबी।\nडिवाइस की भाषा अपनाने पर फ़ोन की समर्थित भाषा चुनी जाती है; कोई समर्थित भाषा न हो तो ऐप अंग्रेज़ी में दिखता है।\nबोले जाने वाले रिमाइंडर फ़ोन में स्थापित आवाज़ों पर निर्भर हैं। उन्हें प्लेबैक &gt; बोली जाने वाली भाषा में अलग से चुनें।</string>
 
     <string name="notif_action_done">हो गया</string>
     <string name="notif_action_silence">शांत करें</string>
@@ -83,7 +85,7 @@
     <string name="alert_hint_no_play">रिमाइंडर को दिखाए रखें, या तैयार होने पर हो गया या स्नूज़ चुनें।</string>
     <string name="alert_dock_hint">शांत करें ऑडियो रोकता है। हो गया या स्नूज़ लॉक-स्क्रीन अलर्ट हटाता है।</string>
     <plurals name="alert_followup_repeats">
-        <item quantity="one">हर मिनट दोहराता है जब तक पूरा न हो।</item>
+        <item quantity="one">हर %1$d मिनट दोहराता है जब तक पूरा न हो।</item>
         <item quantity="other">हर %1$d मिनट दोहराता है जब तक पूरा न हो।</item>
     </plurals>
 
@@ -197,7 +199,7 @@
     <string name="ae_cd_saving">रिमाइंडर सहेजा जा रहा है</string>
     <string name="ae_save_reminder">रिमाइंडर सहेजें</string>
     <plurals name="ae_followup_active">
-        <item quantity="one">सक्रिय: पूर्ण चिह्नित होने तक हर मिनट पूछता है।</item>
+        <item quantity="one">सक्रिय: पूर्ण चिह्नित होने तक हर %1$d मिनट पूछता है।</item>
         <item quantity="other">सक्रिय: पूर्ण चिह्नित होने तक हर %1$d मिनट पूछता है।</item>
     </plurals>
 
@@ -291,12 +293,13 @@
     <string name="rs_allowed_range">अनुमत: 1-999</string>
     <string name="rs_end_before_error">समाप्ति समय रिमाइंडर समय से पहले नहीं हो सकता</string>
     <string name="rs_select_end_time">समाप्ति समय चुनें</string>
-    <plurals name="unit_minutes"><item quantity="one">मिनट</item><item quantity="other">मिनट</item></plurals>
-    <plurals name="unit_hours"><item quantity="one">घंटा</item><item quantity="other">घंटे</item></plurals>
-    <plurals name="unit_days"><item quantity="one">दिन</item><item quantity="other">दिन</item></plurals>
-    <plurals name="unit_weeks"><item quantity="one">सप्ताह</item><item quantity="other">सप्ताह</item></plurals>
-    <plurals name="unit_months"><item quantity="one">महीना</item><item quantity="other">महीने</item></plurals>
-    <plurals name="unit_years"><item quantity="one">वर्ष</item><item quantity="other">वर्ष</item></plurals>
+    <!-- These are unit labels only; callers display the number separately. -->
+    <plurals name="unit_minutes" tools:ignore="ImpliedQuantity"><item quantity="one">मिनट</item><item quantity="other">मिनट</item></plurals>
+    <plurals name="unit_hours" tools:ignore="ImpliedQuantity"><item quantity="one">घंटा</item><item quantity="other">घंटे</item></plurals>
+    <plurals name="unit_days" tools:ignore="ImpliedQuantity"><item quantity="one">दिन</item><item quantity="other">दिन</item></plurals>
+    <plurals name="unit_weeks" tools:ignore="ImpliedQuantity"><item quantity="one">सप्ताह</item><item quantity="other">सप्ताह</item></plurals>
+    <plurals name="unit_months" tools:ignore="ImpliedQuantity"><item quantity="one">महीना</item><item quantity="other">महीने</item></plurals>
+    <plurals name="unit_years" tools:ignore="ImpliedQuantity"><item quantity="one">वर्ष</item><item quantity="other">वर्ष</item></plurals>
 
     <string name="set_appearance">दिखावट</string>
     <string name="set_reminder_form">रिमाइंडर फ़ॉर्म</string>
@@ -410,9 +413,12 @@
     <string name="set_wear_enabled">फ़ोन नोटिफ़िकेशन चालू हैं। यदि घड़ी पर रिमाइंडर अब भी नहीं दिख रहे, तो अपने Wear OS कंपैनियन ऐप में नोटिफ़िकेशन सिंक चालू करें।</string>
     <string name="set_refresh">स्थिति ताज़ा करें</string>
     <string name="set_app_guide">ऐप गाइड</string>
-    <string name="set_toast_no_email">इस डिवाइस पर ईमेल नहीं खोल सका।</string>
-    <string name="set_contact_support">सहायता से संपर्क करें</string>
-    <string name="set_contact_support_desc">प्रतिक्रिया, प्रश्न या प्लेबैक समस्याएं ईमेल करें</string>
+    <string name="set_toast_no_email">कोई ईमेल ऐप उपलब्ध नहीं है। आप ghostgramlabs@gmail.com पर ईमेल कर सकते हैं या दिखाया गया पता कॉपी कर सकते हैं।</string>
+    <string name="set_contact_support">फ़ीचर सुझाव और सहायता</string>
+    <string name="set_contact_support_desc">कोई सुझाव है या मदद चाहिए? हमें ईमेल करें।</string>
+    <string name="support_email_subject">%1$s — फ़ीचर सुझाव या सहायता</string>
+    <string name="feature_request_email_subject">%1$s — फ़ीचर सुझाव</string>
+    <string name="suggest_feature">फ़ीचर का सुझाव दें</string>
     <string name="set_toast_no_rating">इस डिवाइस पर रेटिंग पेज नहीं खोल सका।</string>
     <string name="set_rate">%1$s को रेट करें</string>
     <string name="set_developer">डेवलपर</string>
@@ -459,7 +465,7 @@
     <string name="set_wear_watches">%1$d Wear OS घड़ियाँ कनेक्ट</string>
     <string name="set_wear_none">कोई Wear OS घड़ी कनेक्ट नहीं</string>
     <string name="set_wear_channel_muted">%1$s रिमाइंडर चैनल म्यूट है। घड़ी पर रिमाइंडर भेजने के लिए इसे सक्षम करें।</string>
-    <string name="set_rate_desc">यदि आपको ऐप पसंद है, तो कृपया समीक्षा दें!</string>
+    <string name="set_rate_desc">Google Play पर अपना अनुभव साझा करें।</string>
     <string name="set_tone_sound_active">%1$s। यदि यह अनुपलब्ध हो जाए, तो SpeakAlert डिफ़ॉल्ट अलार्म टोन पर वापस आ जाता है।</string>
 
     <!-- डेवलपर के और ऐप्स -->
@@ -473,8 +479,8 @@
     <string name="set_toast_no_store">इस डिवाइस पर Google Play नहीं खोला जा सका।</string>
 
     <!-- रेटिंग अनुरोध -->
-    <string name="rate_prompt_title">%1$s पसंद आ रहा है?</string>
-    <string name="rate_prompt_message">Google Play पर एक त्वरित रेटिंग दूसरों को %1$s ढूँढने में मदद करती है और हमें इसे बेहतर बनाते रहने में मदद करती है। इसमें बस एक पल लगता है।</string>
+    <string name="rate_prompt_title">%1$s मुफ़्त है। आपका सहयोग मायने रखता है।</string>
+    <string name="rate_prompt_message">आपकी समीक्षा से और लोगों को %1$s के बारे में पता चलता है और हमें इसे बेहतर बनाते रहने की प्रेरणा मिलती है। थोड़ा समय निकालकर Google Play पर अपना अनुभव साझा करें।</string>
     <string name="rate_prompt_positive">अभी रेट करें</string>
     <string name="rate_prompt_later">शायद बाद में</string>
     <string name="rate_prompt_never">नहीं, धन्यवाद</string>

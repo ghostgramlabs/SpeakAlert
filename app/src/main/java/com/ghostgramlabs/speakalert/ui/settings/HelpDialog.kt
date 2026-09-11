@@ -20,6 +20,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.res.stringResource
@@ -30,8 +34,21 @@ import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HelpDialog(
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onOpenSettings: (() -> Unit)? = null
 ) {
+    var showQuickStart by rememberSaveable { mutableStateOf(false) }
+    if (showQuickStart) {
+        QuickStartGuide(
+            onDismiss = { showQuickStart = false },
+            onOpenSettings = {
+                // In Settings already, closing Help reveals it; Home supplies navigation.
+                onDismiss()
+                onOpenSettings?.invoke()
+            }
+        )
+        return
+    }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     ModalBottomSheet(
@@ -59,6 +76,10 @@ fun HelpDialog(
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
+
+            OutlinedButton(onClick = { showQuickStart = true }, modifier = Modifier.fillMaxWidth()) {
+                Text(stringResource(R.string.quick_title))
+            }
 
             Column(
                 modifier = Modifier

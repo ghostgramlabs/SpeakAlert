@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quick_title">Guía rápida</string>
+    <string name="quick_progress">Paso %1$d de %2$d</string>
+    <string name="quick_back">Atrás</string>
+    <string name="quick_next">Siguiente</string>
+    <string name="quick_finish">Empezar a usar la app</string>
+    <string name="quick_later">Cerrar — disponible en Ayuda</string>
+    <string name="quick_create_title">Crea tu primer recordatorio</string>
+    <string name="quick_create_body">Toca + para añadir un recordatorio. Graba tu voz, elige un archivo de audio o escribe un mensaje para escucharlo en voz alta. El micrófono solo se necesita para grabar.\n\nElige una fecha y hora futuras. Si quieres que se repita, elige la frecuencia. Escucha la grabación y toca Guardar.\n\nHoy muestra los recordatorios de hoy. Próximos muestra los de fechas posteriores.</string>
+    <string name="quick_ready_title">Comprueba que puedes oírlo</string>
+    <string name="quick_ready_body">Permite las notificaciones cuando se solicite. En Ajustes, revisa el acceso a alarmas exactas y las opciones de batería en segundo plano para que Android pueda entregar los recordatorios.\n\nPara escuchar la voz, activa la reproducción automática y desactiva el modo de solo tono. Los mensajes escritos también necesitan la lectura de texto activada. Sube el volumen de alarma; la reproducción privada usa auriculares o el auricular del teléfono.\n\nEl horario de silencio y los ajustes de pantalla bloqueada pueden cambiar cuándo se escucha la voz.</string>
+    <string name="quick_actions_title">¿Hecho, Posponer o Silenciar?</string>
+    <string name="quick_actions_body">Posponer retrasa la alerta actual; el calendario de repetición continúa después. Silenciar detiene el sonido, pero deja el recordatorio pendiente.\n\nHecho en una alerta completa esa ocasión y detiene sus avisos de seguimiento. Los recordatorios recurrentes continúan a la siguiente hora.\n\nEn Próximos, marcar una ocasión recurrente como hecha omite esa ocasión futura. No pausa todo el calendario. Un recordatorio único pasa a Hechos, donde puedes reprogramarlo.</string>
+    <string name="quick_try_title">Haz una prueba primero</string>
+    <string name="quick_try_body">Crea un recordatorio para dentro de dos minutos. Bloquea el teléfono y espera la notificación y la voz. Después prueba Posponer y Hecho.\n\nSi aparece una notificación sin voz, prueba Reproducir o Repetir. Revisa los ajustes de reproducción, el volumen y los auriculares conectados. Perdidos muestra los recordatorios que no se entregaron normalmente; uno atrasado puede requerir que toques Reproducir.\n\nAbre Ayuda en la pantalla principal o la guía de la app en Ajustes para volver a estos pasos.</string>
+    <string name="quick_settings_title">Adapta los ajustes a tus necesidades</string>
+    <string name="quick_review_settings">Revisar ajustes</string>
+    <string name="quick_settings_body">Dedica un momento a revisar los ajustes. Puedes conservar los valores predeterminados y cambiarlos después.\n\nEmpieza por Reproducción: elige voz o tono, volumen, idioma hablado y reproducción privada.\n\nRevisa la duración de la posposición y las horas de silencio. En Fiabilidad, revisa los avisos de seguimiento y mantener las alertas visibles hasta marcarlas como hechas. Comprueba también los permisos de notificaciones, alarmas exactas y batería.\n\nExplora Apariencia y Formulario del recordatorio para elegir idioma, tema y campos visibles. Copia de seguridad permite guardar recordatorios y grabaciones.\n\nUsa el recordatorio de prueba en Reproducción para comprobar la configuración.</string>
+</resources>

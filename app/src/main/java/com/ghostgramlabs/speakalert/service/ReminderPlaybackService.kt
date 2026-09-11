@@ -49,7 +49,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.util.Locale
 
-@UnstableApi
+@androidx.annotation.OptIn(UnstableApi::class)
 class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEventListener {
 
     // ExoPlayer
@@ -61,6 +61,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     private var tts: TextToSpeech? = null
     private var pendingTtsText: String? = null
     private var isTtsInitialized = false
+    private var ttsInitializationFailed = false
     private var isTtsMode = false
     // Spoken-language preference: 0 = Auto-detect, 1 = Device language, 2 = English.
     @Volatile
@@ -73,8 +74,6 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     
     // Loop mode
     private var loopEnabled: Boolean = false
-    private var loopTimeoutHandler: android.os.Handler? = null
-    private var loopTimeoutRunnable: Runnable? = null
 
     // Audio Focus
     private lateinit var audioManager: AudioManager
@@ -92,6 +91,24 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     
     // Volume Control
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    private val playbackTimeout = PlaybackTimeout(
+        scope = scope,
+        readTimeoutMinutes = {
+            try {
+                (application as VoiceReminderApp).container.settingsRepository.loopTimeoutMinutes.first()
+            } catch (e: kotlinx.coroutines.CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                FileLogger.logError("SERVICE", "Failed to read loop timeout", e)
+                0
+            }
+        },
+        onTimeout = { minutes ->
+            FileLogger.log("SERVICE: Loop timeout reached ($minutes minutes), auto-stopping")
+            loopEnabled = false
+            stopSelf()
+        }
+    )
     private var currentVolume: Float = 1.0f
     private var progressJob: Job? = null
     private var foregroundStarted = false
@@ -420,17 +437,13 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             val title = intent?.getStringExtra(EXTRA_TITLE) ?: "Reminder"
             val id = intent?.getLongExtra(EXTRA_ID, -1L) ?: -1L
             loopEnabled = intent?.getBooleanExtra(EXTRA_LOOP, false) ?: false
+            playbackTimeout.restart(loopEnabled)
             val requestedPrivatePlayback = intent?.getBooleanExtra(EXTRA_PRIVATE_PLAYBACK, false) ?: false
             dndBypassEnabled = intent?.getBooleanExtra(EXTRA_DND_BYPASS, true) ?: true
 
             scope.launch {
                 privatePlaybackEnabled = readLatestPrivatePlaybackSetting(requestedPrivatePlayback)
                 configureAudioRoute(privatePlaybackEnabled)
-
-                // Start loop timeout countdown if looping is enabled
-                if (loopEnabled) {
-                    startLoopTimeoutIfNeeded()
-                }
 
                 FileLogger.log("SERVICE: Params - audio=$audioPath, tts=${ttsText?.take(20)}, title=$title, id=$id, loop=$loopEnabled, privatePlayback=$privatePlaybackEnabled")
 
@@ -467,6 +480,8 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     private fun playAudio(path: String, title: String) {
         FileLogger.log("SERVICE: playAudio called with path=$path")
         try {
+            pendingTtsText = null
+            pendingSpeakAfterFocusGain = null
             tts?.stop()
             player.setAudioAttributes(buildPlayerAudioAttributes(), false)
 
@@ -501,6 +516,11 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
 
     private fun speakTts(text: String, title: String, id: Long) {
         FileLogger.log("SERVICE: speakTts called with text='${text.take(30)}'")
+        if (ttsInitializationFailed) {
+            FileLogger.log("SERVICE: Cannot speak: TTS initialization failed")
+            stopSelf()
+            return
+        }
         
         // Store for replay
         currentTtsText = text
@@ -895,46 +915,6 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         }
     }
     
-    /**
-     * Starts a countdown timer to auto-stop looping playback.
-     * Timer duration is read from settings. If set to 0 (Never), no timer is started.
-     */
-    private fun startLoopTimeoutIfNeeded() {
-        scope.launch {
-            try {
-                val app = applicationContext as com.ghostgramlabs.speakalert.VoiceReminderApp
-                val timeoutMinutes = app.container.settingsRepository.loopTimeoutMinutes.first()
-                
-                FileLogger.log("SERVICE: Loop timeout setting = $timeoutMinutes minutes")
-                
-                if (timeoutMinutes == 0) {
-                    // "Never" - no timeout
-                    FileLogger.log("SERVICE: Loop timeout disabled (Never)")
-                    return@launch
-                }
-                
-                val timeoutMs = timeoutMinutes * 60 * 1000L
-                
-                // Cancel any existing timeout
-                loopTimeoutRunnable?.let { loopTimeoutHandler?.removeCallbacks(it) }
-                
-                // Create handler on main thread
-                loopTimeoutHandler = android.os.Handler(android.os.Looper.getMainLooper())
-                loopTimeoutRunnable = Runnable {
-                    FileLogger.log("SERVICE: Loop timeout reached ($timeoutMinutes minutes), auto-stopping")
-                    loopEnabled = false
-                    stopSelf()
-                }
-                
-                loopTimeoutHandler?.postDelayed(loopTimeoutRunnable!!, timeoutMs)
-                FileLogger.log("SERVICE: Loop timeout scheduled for $timeoutMinutes minutes")
-                
-            } catch (e: Exception) {
-                FileLogger.logError("SERVICE", "Error starting loop timeout", e)
-            }
-        }
-    }
-
     private fun createTtsNotification(title: String, text: String, id: Long): Notification {
         FileLogger.log("SERVICE: Creating TTS notification")
         
@@ -955,7 +935,9 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             action = "ACTION_SNOOZE"
             putExtra("reminderId", id)
         }
-        val snoozePendingIntent = PendingIntent.getBroadcast(this, 1, snoozeIntent, PendingIntent.FLAG_IMMUTABLE)
+        val snoozePendingIntent = PendingIntent.getBroadcast(
+            this, 1, snoozeIntent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
 
         val strings = com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(this)
         val spokenPreview = text.take(50) + if (text.length > 50) "…" else ""
@@ -973,6 +955,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     override fun onInit(status: Int) {
         FileLogger.log("SERVICE: TTS onInit called with status=$status")
         if (status == TextToSpeech.SUCCESS) {
+            ttsInitializationFailed = false
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 tts?.setAudioAttributes(buildPlatformAudioAttributes())
             }
@@ -1011,11 +994,17 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             }
         } else {
             FileLogger.log("SERVICE: TTS initialization failed with status=$status")
-            stopSelf()
+            isTtsInitialized = false
+            ttsInitializationFailed = true
+            // Recorded audio has no dependency on the speech engine. An initialization
+            // failure must only terminate a request that is actually using TTS.
+            if (isTtsMode) {
+                pendingTtsText = null
+                stopSelf()
+            }
         }
     }
 
-    @UnstableApi
     override fun onDestroy() {
         FileLogger.log("SERVICE: onDestroy called")
         try {
@@ -1024,9 +1013,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             broadcastPlaybackStatus(isPlaying = false)
 
             // Cancel loop timeout if active
-            loopTimeoutRunnable?.let { loopTimeoutHandler?.removeCallbacks(it) }
-            loopTimeoutHandler = null
-            loopTimeoutRunnable = null
+            playbackTimeout.cancel()
             pendingSpeakAfterFocusGain = null
             routeWarmupRunnable?.let { routeWarmupHandler.removeCallbacks(it) }
             routeWarmupRunnable = null
@@ -1069,6 +1056,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         const val EXTRA_DND_BYPASS = "extra_dnd_bypass"
         private const val PRIVATE_ROUTE_WARMUP_MS = 350L
         
+        /** Returns launch acceptance only; decoding and speech initialization happen asynchronously. */
         fun start(
             context: Context,
             id: Long,
@@ -1079,7 +1067,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             isFromBootContext: Boolean = false,
             privatePlayback: Boolean = false,
             dndBypass: Boolean = true
-        ) {
+        ): Boolean {
             FileLogger.log("SERVICE.start() called - id=$id, audio=$audioPath, tts=${ttsText?.take(20)}, loop=$loop, bootContext=$isFromBootContext")
             ToneAlertPlayer.stop()
 
@@ -1088,7 +1076,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             // a boot-rescheduled alarm, unconditionally skip on Android 15+.
             if (isFromBootContext && Build.VERSION.SDK_INT >= 35) {
                 FileLogger.log("SERVICE.start() - SKIPPED: Android 15+ boot context restriction. Notification-only fallback.")
-                return
+                return false
             }
 
             val intent = Intent(context, ReminderPlaybackService::class.java).apply {
@@ -1100,18 +1088,18 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
                 if (audioPath != null) putExtra(EXTRA_AUDIO_PATH, audioPath)
                 if (ttsText != null) putExtra(EXTRA_TTS_TEXT, ttsText)
             }
-            try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    context.startForegroundService(intent)
-                } else {
-                    context.startService(intent)
-                }
-                FileLogger.log("SERVICE.start() - service started successfully")
+            return try {
+                // minSdk is 26, so every supported device uses a foreground service launch.
+                val component = context.startForegroundService(intent)
+                val accepted = component != null
+                FileLogger.log("SERVICE.start() - playback launch accepted=$accepted")
+                accepted
             } catch (e: Exception) {
                 // Catch ForegroundServiceStartNotAllowedException (Android 12+) and others
                 FileLogger.logError("SERVICE.start()", "Failed to start service", e)
                 // We do NOT rethrow here, because that crashes the app.
                 // The caller falls through to show a notification-only experience.
+                false
             }
         }
         

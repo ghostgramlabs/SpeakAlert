@@ -5,7 +5,9 @@
     <string name="widget_quick_description">Abre el formulario de recordatorio directamente desde tu pantalla de inicio</string>
     <string name="widget_upcoming_description">Muestra tus próximos recordatorios programados</string>
 
-    <string name="settings_language">Idioma</string>
+    <string name="settings_language">Idioma de la app</string>
+    <string name="settings_language_system">Usar el idioma del dispositivo</string>
+    <string name="settings_language_description">Idiomas disponibles en la app: inglés, español, hindi y árabe.\nUsar el idioma del dispositivo elige un idioma compatible del teléfono; si no hay ninguno, la app usa inglés.\nLos recordatorios hablados dependen de las voces instaladas en el teléfono. Configúralas por separado en Reproducción &gt; Idioma hablado.</string>
 
     <string name="notif_action_done">Hecho</string>
     <string name="notif_action_silence">Silenciar</string>
@@ -410,9 +412,12 @@
     <string name="set_wear_enabled">Las notificaciones del teléfono están activadas. Si aún faltan recordatorios en el reloj, activa la sincronización de notificaciones en tu app complementaria de Wear OS.</string>
     <string name="set_refresh">Actualizar estado</string>
     <string name="set_app_guide">Guía de la app</string>
-    <string name="set_toast_no_email">No se puede abrir el correo en este dispositivo.</string>
-    <string name="set_contact_support">Contactar con soporte</string>
-    <string name="set_contact_support_desc">Envía comentarios, preguntas o problemas de reproducción por correo</string>
+    <string name="set_toast_no_email">No hay ninguna aplicación de correo disponible. Puedes escribir a ghostgramlabs@gmail.com o copiar la dirección que aparece.</string>
+    <string name="set_contact_support">Sugerencias de funciones y ayuda</string>
+    <string name="set_contact_support_desc">¿Tienes una idea o necesitas ayuda? Envíanos un correo.</string>
+    <string name="support_email_subject">%1$s — Sugerencia de función o ayuda</string>
+    <string name="feature_request_email_subject">%1$s — Sugerencia de función</string>
+    <string name="suggest_feature">Sugerir una función</string>
     <string name="set_toast_no_rating">No se puede abrir la página de valoración en este dispositivo.</string>
     <string name="set_rate">Valorar %1$s</string>
     <string name="set_developer">Desarrollador</string>
@@ -459,7 +464,7 @@
     <string name="set_wear_watches">%1$d relojes Wear OS conectados</string>
     <string name="set_wear_none">Ningún reloj Wear OS conectado</string>
     <string name="set_wear_channel_muted">El canal de recordatorios de %1$s está silenciado. Actívalo para enviar recordatorios al reloj.</string>
-    <string name="set_rate_desc">Si disfrutas la app, ¡deja una reseña!</string>
+    <string name="set_rate_desc">Comparte tu experiencia en Google Play.</string>
     <string name="set_tone_sound_active">%1$s. Si deja de estar disponible, SpeakAlert usa el tono de alarma predeterminado.</string>
 
     <!-- Más apps del desarrollador -->
@@ -473,8 +478,8 @@
     <string name="set_toast_no_store">No se puede abrir Google Play en este dispositivo.</string>
 
     <!-- Aviso de valoración -->
-    <string name="rate_prompt_title">¿Disfrutas de %1$s?</string>
-    <string name="rate_prompt_message">Una valoración rápida en Google Play ayuda a que otras personas encuentren %1$s y a que sigamos mejorándolo. Solo lleva un momento.</string>
+    <string name="rate_prompt_title">%1$s es gratis. Tu apoyo importa.</string>
+    <string name="rate_prompt_message">Tu reseña ayuda a más personas a descubrir %1$s y nos anima a seguir mejorando. Dedica un momento a compartir tu experiencia en Google Play.</string>
     <string name="rate_prompt_positive">Valorar ahora</string>
     <string name="rate_prompt_later">Quizás más tarde</string>
     <string name="rate_prompt_never">No, gracias</string>

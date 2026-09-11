@@ -83,6 +83,7 @@ fun HomeScreen(
     navigateToAddItem: () -> Unit,
     navigateToSettings: () -> Unit,
     allowStartupOverlays: Boolean = true,
+    allowNotificationPrompt: Boolean = allowStartupOverlays,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
@@ -152,8 +153,8 @@ fun HomeScreen(
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         val notificationPermissionState = rememberPermissionState(Manifest.permission.POST_NOTIFICATIONS)
         
-        LaunchedEffect(Unit) {
-            if (!notificationPermissionState.status.isGranted) {
+        LaunchedEffect(allowNotificationPrompt) {
+            if (allowNotificationPrompt && !notificationPermissionState.status.isGranted) {
                 notificationPermissionState.launchPermissionRequest()
             }
         }
@@ -522,7 +523,7 @@ fun HomeScreen(
     
     
     if (showHelpDialog) {
-        HelpDialog(onDismiss = { showHelpDialog = false })
+        HelpDialog(onDismiss = { showHelpDialog = false }, onOpenSettings = navigateToSettings)
     }
 
     val filters = listOf(

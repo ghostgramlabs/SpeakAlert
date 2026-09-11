@@ -41,6 +41,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import com.ghostgramlabs.speakalert.ui.theme.VoiceReminderTheme
 import com.ghostgramlabs.speakalert.ui.navigation.VoiceReminderNavGraph
+import com.ghostgramlabs.speakalert.ui.navigation.NavigationDestination
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.compose.ui.res.stringResource
 import com.ghostgramlabs.speakalert.R
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
@@ -51,7 +54,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
 
@@ -73,6 +75,9 @@ class MainActivity : ComponentActivity() {
         val openAddEdit = intent.getBooleanExtra("openAddEdit", false)
         
         setContent {
+            val navController = rememberNavController()
+            val backStackEntry by navController.currentBackStackEntryAsState()
+            val isHomeDestination = backStackEntry?.destination?.route == NavigationDestination.Home.route
             val app = applicationContext as VoiceReminderApp
             val settingsRepository = app.container.settingsRepository
             val currentVersionName = BuildConfig.VERSION_NAME
@@ -99,8 +104,10 @@ class MainActivity : ComponentActivity() {
             var showWhatsNewSheet by rememberSaveable { mutableStateOf(false) }
             var showFullScreenRecoveryDialog by rememberSaveable { mutableStateOf(false) }
             var showRatingPrompt by rememberSaveable { mutableStateOf(false) }
-            var currentOpenCount by rememberSaveable { mutableStateOf(-1) }
             var ratingEvaluated by rememberSaveable { mutableStateOf(false) }
+            var activityResumed by androidx.compose.runtime.remember {
+                mutableStateOf(lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED))
+            }
             var fullScreenAccessGranted by rememberSaveable {
                 mutableStateOf(FullScreenIntentSupport.canUseFullScreenIntent(this@MainActivity))
             }
@@ -108,10 +115,10 @@ class MainActivity : ComponentActivity() {
             val batteryOptimizationPromptShown = startupPromptState?.batteryOptimizationPromptShown ?: false
             val lastWhatsNewVersionShown = startupPromptState?.lastWhatsNewVersionShown
             val shouldOfferWhatsNew = reminderId == -1L && !autoplay && !openAddEdit
+            val startupIntro = startupIntroFor(lastWhatsNewVersionShown, currentVersionName, shouldOfferWhatsNew)
             val needsWhatsNew =
                 startupPromptsLoaded &&
-                    shouldOfferWhatsNew &&
-                    lastWhatsNewVersionShown != currentVersionName
+                    startupIntro != null
             val allowHomeStartupOverlays =
                 startupPromptsLoaded &&
                     !needsWhatsNew &&
@@ -132,6 +139,7 @@ class MainActivity : ComponentActivity() {
 
             DisposableEffect(lifecycleOwner) {
                 val observer = LifecycleEventObserver { _, event ->
+                    activityResumed = lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
                     if (event == Lifecycle.Event.ON_RESUME) {
                         fullScreenAccessGranted =
                             FullScreenIntentSupport.canUseFullScreenIntent(this@MainActivity)
@@ -145,11 +153,14 @@ class MainActivity : ComponentActivity() {
 
             LaunchedEffect(startupPromptsLoaded, needsWhatsNew) {
                 if (!startupPromptsLoaded || !needsWhatsNew) return@LaunchedEffect
+                ratingEvaluated = true // Never ask during an introduction or release-notes session.
                 showWhatsNewSheet = true
             }
 
-            LaunchedEffect(startupPromptsLoaded, batteryOptimizationPromptShown, needsWhatsNew, showWhatsNewSheet) {
+            LaunchedEffect(startupPromptsLoaded, batteryOptimizationPromptShown, needsWhatsNew, showWhatsNewSheet, shouldOfferWhatsNew, isHomeDestination) {
                 if (!startupPromptsLoaded) return@LaunchedEffect
+                if (!isHomeDestination) return@LaunchedEffect
+                if (!shouldOfferWhatsNew) return@LaunchedEffect
                 if (needsWhatsNew || showWhatsNewSheet) return@LaunchedEffect
                 if (batteryOptimizationPromptShown) return@LaunchedEffect
                 if (!BatteryOptimizationSupport.isBatteryOptimizationEnabled(this@MainActivity)) {
@@ -159,30 +170,24 @@ class MainActivity : ComponentActivity() {
                 showBatteryOptimizationDialog = true
             }
 
-            // Count this app open once per process launch to pace the rating prompt.
-            LaunchedEffect(Unit) {
-                if (currentOpenCount < 0) {
-                    currentOpenCount = settingsRepository.incrementAppOpenCount()
-                }
-            }
-
-            // Ask for a rating occasionally once the user has some history with the app,
-            // but only on a plain home launch and never while another prompt is showing.
-            LaunchedEffect(allowHomeStartupOverlays, currentOpenCount) {
+            // Ask after sustained reminder use, only at an unobstructed home launch.
+            LaunchedEffect(allowHomeStartupOverlays, isHomeDestination, activityResumed) {
                 if (ratingEvaluated) return@LaunchedEffect
                 if (!allowHomeStartupOverlays) return@LaunchedEffect
-                if (!shouldOfferWhatsNew) return@LaunchedEffect
-                if (currentOpenCount < 0) return@LaunchedEffect
-                if (settingsRepository.ratingPromptDecided.first()) {
-                    ratingEvaluated = true
-                    return@LaunchedEffect
-                }
-                val lastOpen = settingsRepository.ratingPromptLastOpen.first()
-                val eligible = currentOpenCount >= 4 && (currentOpenCount - lastOpen) >= 3
+                if (!shouldOfferWhatsNew || !isHomeDestination || !activityResumed) return@LaunchedEffect
                 ratingEvaluated = true
-                if (eligible && Random.nextInt(100) < 50) {
-                    settingsRepository.setRatingPromptLastOpen(currentOpenCount)
-                    showRatingPrompt = true
+                try {
+                    if (fullScreenAlertEnabled && !fullScreenAccessGranted) return@LaunchedEffect
+                    if (!androidx.core.app.NotificationManagerCompat.from(this@MainActivity).areNotificationsEnabled()) return@LaunchedEffect
+                    if (app.container.missedReminderRepository.allMissedReminders.first().isNotEmpty()) return@LaunchedEffect
+                    val notifications = getSystemService(android.app.NotificationManager::class.java)
+                    if (notifications.activeNotifications.isNotEmpty()) return@LaunchedEffect
+                    if (!window.decorView.hasWindowFocus()) return@LaunchedEffect
+                    showRatingPrompt = settingsRepository.claimRatingPrompt(System.currentTimeMillis())
+                } catch (e: kotlinx.coroutines.CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    com.ghostgramlabs.speakalert.util.FileLogger.logError("REVIEW", "Could not check review timing", e)
                 }
             }
 
@@ -209,10 +214,15 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     VoiceReminderNavGraph(
+                        navController = navController,
                         startReminderId = if (reminderId != -1L) reminderId else null,
                         autoplay = autoplay,
                         startAddEdit = openAddEdit,
-                        allowHomeStartupOverlays = allowHomeStartupOverlays
+                        allowHomeStartupOverlays = allowHomeStartupOverlays,
+                        // Direct widget launches skip introductions, but still need notification access.
+                        allowNotificationPrompt = startupPromptsLoaded && !needsWhatsNew &&
+                            !showWhatsNewSheet && !showBatteryOptimizationDialog &&
+                            (batteryOptimizationPromptShown || !shouldOfferWhatsNew)
                     )
 
                     if (showBatteryOptimizationDialog) {
@@ -282,7 +292,25 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
-                    if (showWhatsNewSheet) {
+                    if (showWhatsNewSheet && startupIntro == StartupIntro.QUICK_START) {
+                        com.ghostgramlabs.speakalert.ui.settings.QuickStartGuide(
+                            onDismiss = {
+                                showWhatsNewSheet = false
+                                coroutineScope.launch {
+                                    settingsRepository.setLastWhatsNewVersionShown(currentVersionName)
+                                }
+                            },
+                            onOpenSettings = {
+                                showWhatsNewSheet = false
+                                navController.navigate(NavigationDestination.Settings.route) {
+                                    launchSingleTop = true
+                                }
+                                coroutineScope.launch {
+                                    settingsRepository.setLastWhatsNewVersionShown(currentVersionName)
+                                }
+                            }
+                        )
+                    } else if (showWhatsNewSheet) {
                         val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                         ModalBottomSheet(
                             onDismissRequest = {
@@ -362,6 +390,7 @@ class MainActivity : ComponentActivity() {
                                     .fillMaxWidth()
                                     .padding(horizontal = 24.dp)
                                     .navigationBarsPadding()
+                                    .verticalScroll(rememberScrollState())
                                     .padding(bottom = 24.dp),
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
@@ -408,6 +437,35 @@ class MainActivity : ComponentActivity() {
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
                                     Text(stringResource(R.string.rate_prompt_never))
+                                }
+                                TextButton(
+                                    onClick = {
+                                        if (com.ghostgramlabs.speakalert.util.openSupportEmail(
+                                                this@MainActivity, featureRequest = true
+                                            )) {
+                                            showRatingPrompt = false
+                                        } else {
+                                            Toast.makeText(
+                                                this@MainActivity,
+                                                getString(R.string.set_toast_no_email),
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        }
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text(stringResource(R.string.suggest_feature))
+                                }
+                                androidx.compose.foundation.text.selection.SelectionContainer {
+                                    Text(
+                                        stringResource(R.string.support_email_address),
+                                        modifier = Modifier.fillMaxWidth(),
+                                        style = MaterialTheme.typography.bodySmall.copy(
+                                            textDirection = androidx.compose.ui.text.style.TextDirection.Ltr,
+                                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                                        ),
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
                                 }
                             }
                         }

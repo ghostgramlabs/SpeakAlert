@@ -9,9 +9,8 @@ import kotlinx.coroutines.flow.map
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-class SettingsRepository(private val context: Context) {
-
-    private val dataStore = context.dataStore
+class SettingsRepository internal constructor(private val dataStore: DataStore<Preferences>) {
+    constructor(context: Context) : this(context.dataStore)
 
     companion object {
         val AUTO_PLAY_ENABLED = booleanPreferencesKey("auto_play_enabled")
@@ -53,6 +52,10 @@ class SettingsRepository(private val context: Context) {
         val APP_OPEN_COUNT = intPreferencesKey("app_open_count")
         val RATING_PROMPT_DECIDED = booleanPreferencesKey("rating_prompt_decided")
         val RATING_PROMPT_LAST_OPEN = intPreferencesKey("rating_prompt_last_open")
+        private val REVIEW_FIRST_DELIVERY_AT = longPreferencesKey("review_first_delivery_at")
+        private val REVIEW_LAST_DELIVERY_AT = longPreferencesKey("review_last_delivery_at")
+        private val REVIEW_DELIVERY_DAYS = intPreferencesKey("review_delivery_days")
+        private val REVIEW_LAST_PROMPT_AT = longPreferencesKey("review_last_prompt_at")
 
         // Android 15 FGS Boot Guard
         val LAST_BOOT_TIMESTAMP = longPreferencesKey("last_boot_timestamp")
@@ -242,6 +245,35 @@ class SettingsRepository(private val context: Context) {
 
     suspend fun setRatingPromptDecided(decided: Boolean) {
         dataStore.edit { it[RATING_PROMPT_DECIDED] = decided }
+    }
+
+    private fun reviewUsage(prefs: Preferences) = ReviewUsage(
+        firstDeliveryAt = prefs[REVIEW_FIRST_DELIVERY_AT] ?: 0,
+        lastDeliveryAt = prefs[REVIEW_LAST_DELIVERY_AT] ?: 0,
+        deliveryDays = prefs[REVIEW_DELIVERY_DAYS] ?: 0,
+        lastPromptAt = prefs[REVIEW_LAST_PROMPT_AT] ?: 0,
+        decided = prefs[RATING_PROMPT_DECIDED] ?: false
+    )
+
+    suspend fun recordReminderDelivery(now: Long) {
+        dataStore.edit { prefs ->
+            val usage = reviewUsage(prefs).recordDelivery(now)
+            prefs[REVIEW_FIRST_DELIVERY_AT] = usage.firstDeliveryAt
+            prefs[REVIEW_LAST_DELIVERY_AT] = usage.lastDeliveryAt
+            prefs[REVIEW_DELIVERY_DAYS] = usage.deliveryDays
+        }
+    }
+
+    /** Atomically starts the cooldown, including sheet dismissal and Maybe later. */
+    suspend fun claimRatingPrompt(now: Long): Boolean {
+        var claimed = false
+        dataStore.edit { prefs ->
+            if (reviewUsage(prefs).eligible(now)) {
+                prefs[REVIEW_LAST_PROMPT_AT] = now
+                claimed = true
+            }
+        }
+        return claimed
     }
 
     suspend fun setRatingPromptLastOpen(openCount: Int) {
