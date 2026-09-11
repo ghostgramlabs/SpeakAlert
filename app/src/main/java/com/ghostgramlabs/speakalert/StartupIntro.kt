@@ -5,8 +5,10 @@ internal enum class StartupIntro { QUICK_START, RELEASE_NOTES }
 internal fun startupIntroFor(
     lastVersionShown: String?,
     currentVersion: String,
-    isHomeLaunch: Boolean
+    isHomeLaunch: Boolean,
+    preferencesLoaded: Boolean = true
 ): StartupIntro? = when {
+    !preferencesLoaded -> null
     !isHomeLaunch -> null
     lastVersionShown.isNullOrBlank() -> StartupIntro.QUICK_START
     lastVersionShown != currentVersion -> StartupIntro.RELEASE_NOTES

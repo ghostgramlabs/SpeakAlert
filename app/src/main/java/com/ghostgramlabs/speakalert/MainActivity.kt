@@ -115,7 +115,10 @@ class MainActivity : ComponentActivity() {
             val batteryOptimizationPromptShown = startupPromptState?.batteryOptimizationPromptShown ?: false
             val lastWhatsNewVersionShown = startupPromptState?.lastWhatsNewVersionShown
             val shouldOfferWhatsNew = reminderId == -1L && !autoplay && !openAddEdit
-            val startupIntro = startupIntroFor(lastWhatsNewVersionShown, currentVersionName, shouldOfferWhatsNew)
+            val startupIntro = startupIntroFor(
+                lastWhatsNewVersionShown, currentVersionName, shouldOfferWhatsNew,
+                preferencesLoaded = startupPromptsLoaded
+            )
             val needsWhatsNew =
                 startupPromptsLoaded &&
                     startupIntro != null
@@ -310,7 +313,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                         )
-                    } else if (showWhatsNewSheet) {
+                    } else if (showWhatsNewSheet && startupIntro == StartupIntro.RELEASE_NOTES) {
                         val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                         ModalBottomSheet(
                             onDismissRequest = {
