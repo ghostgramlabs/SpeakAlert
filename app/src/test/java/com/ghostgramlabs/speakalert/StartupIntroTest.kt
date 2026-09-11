@@ -5,6 +5,14 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 
 class StartupIntroTest {
+    @Test fun `restoring an open introduction waits for preferences before choosing its content`() {
+        // The saved sheet visibility can be true before DataStore loads after rotation.
+        assertNull(startupIntroFor(null, "2.0.35", true, preferencesLoaded = false))
+        assertEquals(StartupIntro.RELEASE_NOTES,
+            startupIntroFor("2.0.34", "2.0.35", true, preferencesLoaded = true))
+        assertEquals(StartupIntro.QUICK_START,
+            startupIntroFor(null, "2.0.35", true, preferencesLoaded = true))
+    }
     @Test fun `first home launch explains the app instead of showing release notes`() {
         assertEquals(StartupIntro.QUICK_START, startupIntroFor(null, "2.0.34", true))
     }

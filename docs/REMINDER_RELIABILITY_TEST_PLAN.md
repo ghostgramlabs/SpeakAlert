@@ -83,3 +83,14 @@ speech-engine, routing, or volume problem. Launch acceptance alone is not proof 
 The app owner reported that one reminder repeating every two minutes worked correctly.
 This confirms that basic recurring-reminder scenario only; the specific Upcoming > Mark done
 reproduction and the remaining device checklist above are not confirmed by that report.
+
+## Additional regression review
+
+- Confirmed and corrected a 2.0.35 regression: the completed-reminder guard rejected an
+  explicit snooze of the final occurrence of a finite repeating schedule. A targeted test
+  failed before the fix; the guard now permits only the matching persisted snooze time.
+  Done still clears that snooze and blocks its queued broadcast.
+- Introduction selection now waits for preferences to load after activity recreation, so an
+  open What's New sheet cannot briefly turn into Quick Start during restoration.
+- Device checks: snooze the last occurrence of a count-limited reminder; then mark it Done.
+  Rotate while What's New is open and confirm that its content stays consistent.

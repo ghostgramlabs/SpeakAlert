@@ -27,4 +27,26 @@ class ReminderAlarmValidityTest {
         assertFalse(shouldIgnoreReminderAlarm(reminder.copy(snoozeUntil = 15_000L), 15_000L, false))
         assertFalse(shouldIgnoreReminderAlarm(reminder.copy(pendingFollowUpAt = 20_000L), 20_000L, true))
     }
+
+    @Test
+    fun `final recurring occurrence can still fire its explicitly requested snooze`() {
+        // Receiver completes a finite schedule on its last fire. Notification Snooze
+        // sets snoozeUntil while preserving isCompleted and the recurrence definition.
+        val lastOccurrence = reminder.copy(
+            recurrenceType = com.ghostgramlabs.speakalert.domain.models.RecurrenceType.DAILY,
+            isCompleted = true,
+            completedAt = 10_000L,
+            lastFiredAt = 10_000L,
+            snoozeUntil = 15_000L
+        )
+        assertFalse(shouldIgnoreReminderAlarm(lastOccurrence, 15_000L, false))
+        assertTrue(shouldIgnoreReminderAlarm(lastOccurrence, 10_000L, false))
+        assertTrue(shouldIgnoreReminderAlarm(lastOccurrence, 15_000L, true))
+    }
+
+    @Test
+    fun `done cancels the final snooze and rejects its queued broadcast`() {
+        val done = reminder.copy(isCompleted = true, snoozeUntil = null)
+        assertTrue(shouldIgnoreReminderAlarm(done, 15_000L, false))
+    }
 }

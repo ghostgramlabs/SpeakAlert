@@ -7,5 +7,11 @@ internal fun shouldIgnoreReminderAlarm(
     reminder: ReminderEntity,
     scheduledTime: Long,
     isFollowUpTrigger: Boolean
-): Boolean = reminder.isCompleted ||
-    (isFollowUpTrigger && reminder.pendingFollowUpAt != scheduledTime)
+): Boolean {
+    // A finite recurring schedule is completed when its final occurrence fires,
+    // but the notification can still explicitly snooze that occurrence.
+    // Done clears snoozeUntil, so a queued broadcast remains rejected afterward.
+    val isRequestedSnooze = !isFollowUpTrigger && reminder.snoozeUntil == scheduledTime
+    return (reminder.isCompleted && !isRequestedSnooze) ||
+        (isFollowUpTrigger && reminder.pendingFollowUpAt != scheduledTime)
+}
