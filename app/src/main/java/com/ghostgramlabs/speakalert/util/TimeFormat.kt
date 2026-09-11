@@ -9,6 +9,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -25,6 +29,10 @@ import java.util.Locale
 object TimeFormat {
 
     private var use24HourState by mutableStateOf(false)
+    private val clockFlow = MutableStateFlow(false)
+    val changes = clockFlow.asStateFlow()
+    private var savedOverride: Boolean? = null
+    private var clockObserver: android.database.ContentObserver? = null
 
     /** True when times should render as 17:30 rather than 5:30 PM. */
     val use24Hour: Boolean
@@ -45,23 +53,56 @@ object TimeFormat {
      * Seeds from the device clock setting, then follows the user's stored preference.
      * Safe to call once from Application startup.
      */
-    fun initialize(context: Context, scope: CoroutineScope, repository: SettingsRepository) {
+    internal fun initialize(
+        context: Context,
+        scope: CoroutineScope,
+        repository: SettingsRepository,
+        readDeviceClock: () -> Boolean = {
+            android.text.format.DateFormat.is24HourFormat(context.applicationContext)
+        },
+        onClockChanged: () -> Unit = {
+            com.ghostgramlabs.speakalert.widget.SpeakAlertWidgetUpdater.requestUpdate(context.applicationContext)
+        }
+    ) {
         val appContext = context.applicationContext
-        // Seed synchronously. An alarm can wake the process cold and build a notification before
-        // DataStore has emitted, and that notification must not render in the wrong clock style.
-        use24HourState = android.text.format.DateFormat.is24HourFormat(appContext)
+        // Migrate older DataStore-only installations once. Subsequent starts use the small
+        // synchronous mirror, just as the window theme does. Do not seed with the device
+        // format when the user has already saved a different explicit app preference.
+        savedOverride = if (ClockPreferences.hasValue(appContext)) {
+            ClockPreferences.read(appContext)
+        } else {
+            runCatching {
+                // Bound the one-time migration so storage trouble cannot consume the
+                // foreground-service startup deadline. The async collector retries later.
+                runBlocking(Dispatchers.IO) {
+                    kotlinx.coroutines.withTimeout(500L) { repository.use24HourTimeOverride.first() }
+                }.also { ClockPreferences.write(appContext, it) }
+            }.getOrElse { null }
+        }
+        fun refresh() {
+            val resolved = resolveClockFormat(savedOverride, readDeviceClock())
+            if (use24HourState != resolved) {
+                use24HourState = resolved
+                clockFlow.value = resolved
+                onClockChanged()
+            }
+        }
+        refresh()
+        clockObserver?.let { appContext.contentResolver.unregisterContentObserver(it) }
+        clockObserver = object : android.database.ContentObserver(android.os.Handler(android.os.Looper.getMainLooper())) {
+            override fun onChange(selfChange: Boolean) { refresh() }
+        }.also {
+            appContext.contentResolver.registerContentObserver(
+                android.provider.Settings.System.getUriFor(android.provider.Settings.System.TIME_12_24),
+                false, it
+            )
+        }
         scope.launch {
             repository.use24HourTimeOverride.collect { override ->
-                val resolved = override ?: android.text.format.DateFormat.is24HourFormat(appContext)
-                // Compose state must be written from the main thread.
                 withContext(Dispatchers.Main) {
-                    if (use24HourState != resolved) {
-                        use24HourState = resolved
-                        // Widgets render into RemoteViews outside composition, so they only pick
-                        // up a new clock style when their provider is asked to redraw.
-                        com.ghostgramlabs.speakalert.widget.SpeakAlertWidgetUpdater
-                            .requestUpdate(appContext)
-                    }
+                    savedOverride = override
+                    ClockPreferences.write(appContext, override)
+                    refresh()
                 }
             }
         }
@@ -70,5 +111,9 @@ object TimeFormat {
     /** Test seam — sets the value directly without a DataStore. */
     internal fun setForTesting(enabled: Boolean) {
         use24HourState = enabled
+        clockFlow.value = enabled
     }
 }
+
+internal fun resolveClockFormat(override: Boolean?, deviceUses24Hour: Boolean): Boolean =
+    override ?: deviceUses24Hour

@@ -10,6 +10,24 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
 class ReminderTtsFailureTest {
+    @Test
+    fun `speech request stops recorded playback before creating its notification`() {
+        val service = service(usingTts = true)
+        val player = mock<androidx.media3.exoplayer.ExoPlayer>()
+        ReminderPlaybackService::class.java.getDeclaredField("player").apply {
+            isAccessible = true
+            set(service, player)
+        }
+        // The Android notification path is unavailable in a JVM test and is caught by
+        // speakTts. The previous player must already be stopped before reaching it.
+        ReminderPlaybackService::class.java.getDeclaredMethod(
+            "speakTts", String::class.java, String::class.java, java.lang.Long.TYPE
+        ).apply {
+            isAccessible = true
+            invoke(service, "Take a break", "Reminder", 1L)
+        }
+        verify(player).stop()
+    }
     private fun service(usingTts: Boolean): ReminderPlaybackService {
         // Exercise the real callback without constructing Android players or a speech engine.
         val service = mock<ReminderPlaybackService>(defaultAnswer = CALLS_REAL_METHODS)

@@ -9,8 +9,13 @@ import kotlinx.coroutines.flow.map
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-class SettingsRepository internal constructor(private val dataStore: DataStore<Preferences>) {
-    constructor(context: Context) : this(context.dataStore)
+class SettingsRepository internal constructor(
+    private val dataStore: DataStore<Preferences>,
+    private val cacheClockOverride: (Boolean?) -> Unit = {}
+) {
+    constructor(context: Context) : this(context.dataStore, {
+        com.ghostgramlabs.speakalert.util.ClockPreferences.write(context, it)
+    })
 
     companion object {
         val AUTO_PLAY_ENABLED = booleanPreferencesKey("auto_play_enabled")
@@ -166,6 +171,7 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
 
     suspend fun setUse24HourTime(enabled: Boolean) {
         dataStore.edit { it[USE_24_HOUR_TIME] = enabled }
+        cacheClockOverride(enabled)
     }
 
     suspend fun setAppVolume(volume: Float) {

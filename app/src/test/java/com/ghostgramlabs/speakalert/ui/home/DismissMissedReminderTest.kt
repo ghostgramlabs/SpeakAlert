@@ -24,6 +24,8 @@ import org.mockito.kotlin.argumentCaptor
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
+import org.mockito.kotlin.any
+import org.mockito.kotlin.never
 
 /**
  * A dismissed missed reminder must not stay active and past due, or BootRescheduleWorker
@@ -32,6 +34,36 @@ import org.mockito.kotlin.whenever
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 class DismissMissedReminderTest {
+    @Test
+    fun `dismissing old inbox row preserves a rescheduled one-time reminder`() = runTest {
+        val oldTime = System.currentTimeMillis() - 3_600_000L
+        val reminder = ReminderEntity(id = 1, nextTriggerAt = oldTime + 7_200_000L)
+        whenever(repository.getReminder(1)).thenReturn(reminder)
+        viewModel.dismissMissedReminder(MissedReminderEntity(
+            id = 99, reminderId = 1, title = "Old occurrence", scheduledTime = oldTime
+        ))
+        advanceUntilIdle()
+        verify(missedRepository).deleteMissedReminderById(99)
+        verify(repository, never()).updateReminder(any())
+        verify(scheduler, never()).cancel(any())
+        verify(scheduler, never()).schedule(any(), any())
+    }
+
+    @Test
+    fun `dismissing a missed snooze restores the next regular alarm`() = runTest {
+        val now = System.currentTimeMillis()
+        val reminder = ReminderEntity(id = 2, recurrenceType = RecurrenceType.DAILY,
+            nextTriggerAt = now + 86_400_000L, snoozeUntil = now - 60_000L)
+        whenever(repository.getReminder(2)).thenReturn(reminder)
+        viewModel.dismissMissedReminder(MissedReminderEntity(
+            id = 98, reminderId = 2, title = "Missed snooze", scheduledTime = reminder.snoozeUntil!!
+        ))
+        advanceUntilIdle()
+        val restored = reminder.copy(snoozeUntil = null, pendingFollowUpAt = null)
+        verify(repository).updateReminder(restored)
+        verify(scheduler).cancel(reminder)
+        verify(scheduler).schedule(restored)
+    }
 
     private val testDispatcher = StandardTestDispatcher()
     private lateinit var repository: ReminderRepository
