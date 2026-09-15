@@ -1,0 +1,10 @@
+<resources>
+    <string name="unnamed_title_setting">बिना नाम वाले रिमाइंडर का शीर्षक</string>
+    <string name="unnamed_title_description">बिना नाम वाले रिमाइंडर की सूची और विवरण में दिखने वाला शीर्षक चुनें। आपके लेबल और लिखे हुए संदेश हमेशा दिखेंगे। शीर्षक न होने पर भी तारीख और समय दिखेंगे।</string>
+    <string name="unnamed_creation_time">बनाने का समय</string>
+    <string name="unnamed_reminder_type">रिमाइंडर का प्रकार</string>
+    <string name="unnamed_no_title">कोई शीर्षक नहीं</string>
+    <string name="unnamed_voice_reminder">आवाज़ वाला रिमाइंडर</string>
+    <string name="unnamed_audio_reminder">ऑडियो रिमाइंडर</string>
+    <string name="unnamed_generic_reminder">रिमाइंडर</string>
+</resources>
