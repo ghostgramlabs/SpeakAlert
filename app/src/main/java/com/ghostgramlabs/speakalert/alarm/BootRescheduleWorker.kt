@@ -34,10 +34,13 @@ import kotlinx.coroutines.flow.first
  *    Boot-triggered reschedules keep those items in the missed inbox without
  *    surfacing a notification while the device is still coming back up.
  */
-class BootRescheduleWorker(
+class BootRescheduleWorker internal constructor(
     appContext: Context,
-    workerParams: WorkerParameters
+    workerParams: WorkerParameters,
+    private val requestWidgetUpdate: (Context) -> Unit
 ) : CoroutineWorker(appContext, workerParams) {
+    constructor(appContext: Context, workerParams: WorkerParameters) :
+        this(appContext, workerParams, SpeakAlertWidgetUpdater::requestUpdate)
 
     override suspend fun doWork(): Result {
         FileLogger.log("BOOT_WORKER: Starting alarm rescheduling")
@@ -232,7 +235,7 @@ class BootRescheduleWorker(
 
             FileLogger.log("BOOT_WORKER: Alarm rescheduling complete")
             runCatching {
-                SpeakAlertWidgetUpdater.requestUpdate(applicationContext)
+                requestWidgetUpdate(applicationContext)
             }.onFailure { error ->
                 FileLogger.logError("BOOT_WORKER", "Failed to refresh widgets after boot reschedule", error)
             }

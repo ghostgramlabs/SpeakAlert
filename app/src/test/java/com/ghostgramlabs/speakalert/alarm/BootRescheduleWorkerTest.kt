@@ -111,7 +111,7 @@ class BootRescheduleWorkerTest {
         )
 
         mockConstruction(NotificationHelper::class.java).use { notificationMocks ->
-            val worker = BootRescheduleWorker(app, workerParams)
+            val worker = BootRescheduleWorker(app, workerParams, requestWidgetUpdate = {})
 
             val result = worker.doWork()
 
@@ -154,7 +154,7 @@ class BootRescheduleWorkerTest {
         )
 
         mockConstruction(NotificationHelper::class.java).use { notificationMocks ->
-            val worker = BootRescheduleWorker(app, workerParams)
+            val worker = BootRescheduleWorker(app, workerParams, requestWidgetUpdate = {})
 
             val result = worker.doWork()
 
@@ -197,7 +197,7 @@ class BootRescheduleWorkerTest {
         )
 
         mockConstruction(NotificationHelper::class.java).use {
-            val worker = BootRescheduleWorker(app, workerParams)
+            val worker = BootRescheduleWorker(app, workerParams, requestWidgetUpdate = {})
 
             val result = worker.doWork()
 
@@ -230,7 +230,7 @@ class BootRescheduleWorkerTest {
         )
 
         mockConstruction(NotificationHelper::class.java).use {
-            val worker = BootRescheduleWorker(app, workerParams)
+            val worker = BootRescheduleWorker(app, workerParams, requestWidgetUpdate = {})
 
             val result = worker.doWork()
 
@@ -264,7 +264,7 @@ class BootRescheduleWorkerTest {
         )
 
         mockConstruction(NotificationHelper::class.java).use {
-            val worker = BootRescheduleWorker(app, workerParams)
+            val worker = BootRescheduleWorker(app, workerParams, requestWidgetUpdate = {})
 
             val result = worker.doWork()
 
@@ -295,7 +295,7 @@ class BootRescheduleWorkerTest {
         whenever(workerParams.inputData).thenReturn(workDataOf())
 
         mockConstruction(NotificationHelper::class.java).use { notificationMocks ->
-            val worker = BootRescheduleWorker(app, workerParams)
+            val worker = BootRescheduleWorker(app, workerParams, requestWidgetUpdate = {})
 
             val result = worker.doWork()
 

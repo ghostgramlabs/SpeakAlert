@@ -134,3 +134,19 @@ reproduction and the remaining device checklist above are not confirmed by that 
   Confirm responsive navigation and no delayed playback after stopping or leaving the screen.
 - This addresses the supplied synchronous-prepare stack; production ANR resolution must be
   confirmed after rollout. Version remains 2.0.35 (55).
+
+## Widget lookup ANR after deleting a reminder
+
+- Supplied production trace: OfflineReminderRepository.deleteReminder ->
+  SpeakAlertWidgetUpdater.requestUpdate -> AppWidgetManager.getAppWidgetIds -> BinderProxy.transact,
+  resumed on the main looper after the database deletion.
+- Widget refresh requests now enqueue application context for a process-wide IO worker. Both
+  widget-ID lookups and broadcasts run there, covering insert/update/delete and clock refreshes.
+- Requests are conflated: at most one refresh runs and one remains pending. Service exceptions
+  are isolated so later refreshes still work and reminder operations remain successful.
+- Regression tests simulate a blocked service, verify calls return on the caller thread, preserve
+  a refresh requested during in-flight work, coalesce bursts, and recover after service failure.
+- Device check: add both widgets, delete/edit reminders repeatedly, then confirm responsive app
+  navigation and refreshed widget contents. Repeat with no widgets installed.
+- This fixes the supplied getAppWidgetIds main-thread path. Device and production verification
+  remain required; it does not establish that every widget-service call is free of ANR risk.
