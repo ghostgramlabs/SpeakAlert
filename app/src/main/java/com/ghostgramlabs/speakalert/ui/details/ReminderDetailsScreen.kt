@@ -57,7 +57,6 @@ import com.ghostgramlabs.speakalert.ui.components.SystemTimePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDateTimePickers
 import com.ghostgramlabs.speakalert.util.DateUtils
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
-import com.ghostgramlabs.speakalert.util.isDefaultAppDisplayName
 import com.ghostgramlabs.speakalert.util.sanitizeUnitFloat
 import com.ghostgramlabs.speakalert.domain.models.EndRuleType
 import com.ghostgramlabs.speakalert.domain.models.MissedPolicy
@@ -186,21 +185,8 @@ fun ReminderDetailsScreen(
     // Delete confirmation state
     var showDeleteDialog by remember { mutableStateOf(false) }
     
-    // Smart fallback label (matches HomeScreen logic)
-    val createdTime = DateUtils.formatTimeOnly(item.createdAt)
-    val isLegacyTitle = item.title?.matches(Regex("Reminder at \\d{1,2}:\\d{2} [AP]M")) == true
-            || item.title.equals("Voice reminder", ignoreCase = true)
-            || item.title.isDefaultAppDisplayName()
-    val hasUserTitle = !item.title.isNullOrBlank() && !isLegacyTitle
-    
-    val displayLabel = when {
-        hasUserTitle -> item.title!!
-        !item.reminderText.isNullOrBlank() -> {
-            val words = item.reminderText.trim().split(Regex("\\s+"))
-            if (words.size > 10) words.take(10).joinToString(" ") + "..." else item.reminderText
-        }
-        else -> stringResource(R.string.home_created_at, createdTime)
-    }
+    val unnamedTitleStyle = com.ghostgramlabs.speakalert.ui.settings.rememberUnnamedReminderTitleStyle()
+    val displayLabel = com.ghostgramlabs.speakalert.ui.settings.reminderTitle(item, unnamedTitleStyle)
     
     // Check if recurring
     val isRecurring = item.recurrenceType != com.ghostgramlabs.speakalert.domain.models.RecurrenceType.NONE

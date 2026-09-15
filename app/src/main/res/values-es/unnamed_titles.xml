@@ -1,0 +1,10 @@
+<resources>
+    <string name="unnamed_title_setting">Título de recordatorios sin nombre</string>
+    <string name="unnamed_title_description">Elige el título que se muestra en la lista y los detalles cuando no hay nombre. Tus etiquetas y mensajes escritos siempre se muestran. Las fechas y horas se muestran incluso sin título.</string>
+    <string name="unnamed_creation_time">Hora de creación</string>
+    <string name="unnamed_reminder_type">Tipo de recordatorio</string>
+    <string name="unnamed_no_title">Sin título</string>
+    <string name="unnamed_voice_reminder">Recordatorio de voz</string>
+    <string name="unnamed_audio_reminder">Recordatorio de audio</string>
+    <string name="unnamed_generic_reminder">Recordatorio</string>
+</resources>

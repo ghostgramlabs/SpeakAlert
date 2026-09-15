@@ -267,6 +267,8 @@ fun SettingsScreen(
                     checked = use24HourTime,
                     onCheckedChange = viewModel::setUse24HourTime
                 )
+                Spacer(Modifier.height(16.dp))
+                UnnamedReminderTitleSetting()
             }
 
             CollapsibleSettingsSection(

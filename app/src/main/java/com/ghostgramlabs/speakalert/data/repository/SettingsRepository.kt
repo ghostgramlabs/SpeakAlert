@@ -6,18 +6,28 @@ import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.emitAll
+import com.ghostgramlabs.speakalert.util.UnnamedReminderTitle
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
+private fun isExistingInstallation(context: Context): Boolean = runCatching {
+    val info = context.packageManager.getPackageInfo(context.packageName, 0)
+    info.firstInstallTime != info.lastUpdateTime
+}.getOrDefault(true)
+
 class SettingsRepository internal constructor(
     private val dataStore: DataStore<Preferences>,
-    private val cacheClockOverride: (Boolean?) -> Unit = {}
+    private val cacheClockOverride: (Boolean?) -> Unit = {},
+    private val existingInstallation: Boolean = true
 ) {
     constructor(context: Context) : this(context.dataStore, {
         com.ghostgramlabs.speakalert.util.ClockPreferences.write(context, it)
-    })
+    }, existingInstallation = isExistingInstallation(context))
 
     companion object {
+        val UNNAMED_REMINDER_TITLE = stringPreferencesKey("unnamed_reminder_title")
         val AUTO_PLAY_ENABLED = booleanPreferencesKey("auto_play_enabled")
         val AUTO_PLAY_ON_UNLOCK_ONLY = booleanPreferencesKey("auto_play_on_unlock_only")
         val SPEAK_TEXT_IF_NO_VOICE = booleanPreferencesKey("speak_text_if_no_voice")
@@ -69,6 +79,23 @@ class SettingsRepository internal constructor(
     }
 
     val autoPlayEnabled: Flow<Boolean> = dataStore.data.map { it[AUTO_PLAY_ENABLED] ?: true }
+    val unnamedReminderTitle: Flow<UnnamedReminderTitle> = flow {
+        // Persist the default once, before onboarding can change the version marker.
+        // Restored preferences also retain the existing-user appearance.
+        dataStore.edit { prefs ->
+            if (prefs[UNNAMED_REMINDER_TITLE] == null) {
+                val existing = existingInstallation || prefs[LAST_WHATS_NEW_VERSION_SHOWN] != null
+                prefs[UNNAMED_REMINDER_TITLE] = if (existing) {
+                    UnnamedReminderTitle.CREATION_TIME.value
+                } else UnnamedReminderTitle.REMINDER_TYPE.value
+            }
+        }
+        emitAll(dataStore.data.map { UnnamedReminderTitle.fromValue(it[UNNAMED_REMINDER_TITLE]) })
+    }
+
+    suspend fun setUnnamedReminderTitle(style: UnnamedReminderTitle) {
+        dataStore.edit { it[UNNAMED_REMINDER_TITLE] = style.value }
+    }
     val autoPlayOnUnlockOnly: Flow<Boolean> = dataStore.data.map { it[AUTO_PLAY_ON_UNLOCK_ONLY] ?: false }
     val speakTextIfNoVoice: Flow<Boolean> = dataStore.data.map { it[SPEAK_TEXT_IF_NO_VOICE] ?: true }
     val privatePlaybackEnabled: Flow<Boolean> = dataStore.data.map { it[PRIVATE_PLAYBACK_ENABLED] ?: false }

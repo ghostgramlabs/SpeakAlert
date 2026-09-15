@@ -109,3 +109,13 @@ reproduction and the remaining device checklist above are not confirmed by that 
 - Start recorded playback, then a spoken-text reminder: recorded playback stops. Start another
   reminder before the old speech completion/error callback arrives: the newer playback continues.
 - These changes retain version 2.0.35 (55). Rebuilt artifacts replace the earlier local artifacts.
+
+## Unnamed reminder title preference
+
+- Settings > Appearance > Unnamed reminder title offers Creation time, Reminder type, and No title.
+- Upgrade an existing installation: Creation time preserves the previous Home/Details fallback.
+- Fresh install: Reminder type is selected; finishing Quick Start and later upgrades retain it.
+- Choose No title: an audio-only reminder has no generated title line in Home, Details, or its
+  actions sheet. Its time, schedule, playback controls, and user-entered labels/messages remain.
+- Switch choices and restart: the selected option persists. Check English, Spanish, Hindi,
+  Arabic, and large text. This preference does not modify stored reminder data or alarm behavior.

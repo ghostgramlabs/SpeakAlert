@@ -1,0 +1,10 @@
+<resources>
+    <string name="unnamed_title_setting">Unnamed reminder title</string>
+    <string name="unnamed_title_description">Choose the fallback title in your reminder list and details. Your labels and typed messages always stay visible. Dates and times are shown even with no title.</string>
+    <string name="unnamed_creation_time">Creation time</string>
+    <string name="unnamed_reminder_type">Reminder type</string>
+    <string name="unnamed_no_title">No title</string>
+    <string name="unnamed_voice_reminder">Voice reminder</string>
+    <string name="unnamed_audio_reminder">Audio reminder</string>
+    <string name="unnamed_generic_reminder">Reminder</string>
+</resources>

@@ -88,6 +88,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val unnamedTitleStyle = com.ghostgramlabs.speakalert.ui.settings.rememberUnnamedReminderTitleStyle()
     var selectedFilter by remember { mutableStateOf(FilterType.TODAY) }
     var currentPlayingId by remember { mutableStateOf<Long>(-1L) }
     val snackbarHostState = remember { SnackbarHostState() }
@@ -808,22 +809,7 @@ fun HomeScreen(
                             }
                             // Smart fallback label
                             val timeOnly = DateUtils.formatTimeOnly(reminder.nextTriggerAt)
-                            val createdTime = DateUtils.formatTimeOnly(reminder.createdAt)
-                            
-                            // Check if title is a legacy auto-generated one
-                            val isLegacyTitle = reminder.title?.matches(Regex("Reminder at \\d{1,2}:\\d{2} [AP]M")) == true
-                                    || reminder.title.equals("Voice reminder", ignoreCase = true)
-                                    || reminder.title.isDefaultAppDisplayName()
-                            val hasUserTitle = !reminder.title.isNullOrBlank() && !isLegacyTitle
-                            
-                            val displayTitle = when {
-                                hasUserTitle -> reminder.title!!
-                                !reminder.reminderText.isNullOrBlank() -> {
-                                    val words = reminder.reminderText.trim().split(Regex("\\s+"))
-                                    if (words.size > 10) words.take(10).joinToString(" ") + "..." else reminder.reminderText
-                                }
-                                else -> stringResource(R.string.home_created_at, createdTime)
-                            }
+                            val displayTitle = com.ghostgramlabs.speakalert.ui.settings.reminderTitle(reminder, unnamedTitleStyle)
                             
                             // Context-aware Date Label: Hide "Today" if in Today tab
                             val isTodayTab = selectedFilter == FilterType.TODAY
