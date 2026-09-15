@@ -1,12 +1,13 @@
-package com.ghostgramlabs.speakalert.audio
+﻿package com.ghostgramlabs.speakalert.audio
 
 import android.content.Context
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
+import android.widget.Toast
 import androidx.core.net.toUri
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.delay
 import java.io.File
 
 interface AudioPlayer {
@@ -23,126 +24,112 @@ interface AudioPlayer {
     var onCompletion: (() -> Unit)?
 }
 
-class AndroidAudioPlayer(
-    private val context: Context
-): AudioPlayer {
+/** Preview player. Commands and MediaPlayer callbacks run on the main looper. */
+class AndroidAudioPlayer internal constructor(
+    private val context: Context,
+    private val createPlayer: () -> MediaPlayer,
+    private val showMessage: (String) -> Unit
+) : AudioPlayer {
+    constructor(context: Context) : this(context.applicationContext, { MediaPlayer() }, { message ->
+        Handler(Looper.getMainLooper()).post {
+            Toast.makeText(context.applicationContext, message, Toast.LENGTH_SHORT).show()
+        }
+    })
 
     private var player: MediaPlayer? = null
+    private var prepared = false
+    private var playWhenReady = false
+    private var pendingSeek: Int? = null
+    private var currentVolume = 1.0f
     override var onCompletion: (() -> Unit)? = null
-    private var currentVolume: Float = 1.0f
 
-    private fun logToFile(message: String) {
-        try {
-            // Use app-specific external storage which doesn't require dangerous permissions on Android 10+
-            // Path: /storage/emulated/0/Android/data/com.ghostgramlabs.speakalert/files/Download/SpeakAlert_DebugLog.txt
-            val logDir = context.getExternalFilesDir(android.os.Environment.DIRECTORY_DOWNLOADS)
-            val logFile = File(logDir, "SpeakAlert_DebugLog.txt")
-            val timestamp = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.US).format(java.util.Date())
-            logFile.appendText("$timestamp: $message\n")
-        } catch (e: Exception) {
-            android.util.Log.e("AudioPlayer", "Failed to write log to file: ${e.message}")
-        }
-    }
-
-    private fun showToast(message: String) {
-        android.os.Handler(android.os.Looper.getMainLooper()).post {
-            android.widget.Toast.makeText(context, message, android.widget.Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    override fun playFile(file: File) {
-        val msg1 = "Attempting to play file: ${file.absolutePath}, exists=${file.exists()}"
-        android.util.Log.d("AudioPlayer", msg1)
-        logToFile(msg1)
-
-        if (!file.exists()) {
-             val msgError = "File does not exist: ${file.absolutePath}"
-             android.util.Log.e("AudioPlayer", msgError)
-             logToFile("ERROR: $msgError")
-             showToast("Error: File not found")
-             return
-        }
-
-        playUri(file.toUri())
-    }
+    override fun playFile(file: File) = playUri(file.toUri())
 
     override fun playUri(uri: Uri) {
-        // Stop previous if exists
         stop()
-
+        playWhenReady = true
         try {
-            MediaPlayer.create(context, uri).apply {
-                if (this == null) {
-                    val msgNull = "MediaPlayer.create returned null for $uri"
-                    android.util.Log.e("AudioPlayer", msgNull)
-                    logToFile("ERROR: $msgNull")
-                    showToast("Error: Media player failed")
-                    return
+            val next = createPlayer()
+            player = next
+            next.setOnPreparedListener { ready ->
+                // A stopped or replaced request must never start from a late callback.
+                if (player === ready) {
+                    try {
+                        prepared = true
+                        ready.setVolume(currentVolume, currentVolume)
+                        pendingSeek?.let { ready.seekTo(it) }
+                        pendingSeek = null
+                        if (playWhenReady) ready.start()
+                    } catch (error: Exception) {
+                        fail(ready, error)
+                    }
                 }
-                player = this
-                setVolume(currentVolume, currentVolume)
-                start()
-                setOnCompletionListener { 
-                    android.util.Log.d("AudioPlayer", "Playback completed")
-                    logToFile("Playback completed")
+            }
+            next.setOnCompletionListener { completed ->
+                if (player === completed) {
+                    stop()
                     onCompletion?.invoke()
                 }
-                android.util.Log.d("AudioPlayer", "Playback started successfully")
-                logToFile("Playback started successfully")
-                showToast("Playing audio...")
             }
-        } catch (e: Exception) {
-            val msgEx = "Error playing media uri=$uri: ${e.message}"
-            android.util.Log.e("AudioPlayer", msgEx, e)
-            logToFile("EXCEPTION: $msgEx")
-            showToast("Error: ${e.message}")
+            next.setOnErrorListener { failed, what, extra ->
+                fail(failed, IllegalStateException("MediaPlayer error $what/$extra"))
+                true
+            }
+            next.setDataSource(context, uri)
+            // create() calls prepare() synchronously and caused the production preview ANR.
+            // Wait via the callback so the UI remains responsive during preparation.
+            next.prepareAsync()
+        } catch (error: Exception) {
+            fail(player, error)
         }
     }
 
-    override fun setVolume(volume: Float) {
-        currentVolume = volume.coerceIn(0f, 1f)
-        player?.setVolume(currentVolume, currentVolume)
+    private fun fail(failed: MediaPlayer?, error: Exception) {
+        if (player !== failed) return
+        stop()
+        Log.e("AudioPlayer", "Unable to play preview", error)
+        showMessage("Unable to play audio")
+        // Reset the caller's preview state on asynchronous failure as well as completion.
+        onCompletion?.invoke()
     }
 
     override fun stop() {
-        player?.stop()
-        player?.release()
+        val previous = player
         player = null
+        prepared = false
+        playWhenReady = false
+        pendingSeek = null
+        // release() is valid during preparation; stop() is not.
+        runCatching { previous?.release() }
+            .onFailure { Log.w("AudioPlayer", "Unable to release preview", it) }
+    }
+
+    override fun setVolume(volume: Float) {
+        currentVolume = if (volume.isFinite()) volume.coerceIn(0f, 1f) else 1f
+        if (prepared) player?.setVolume(currentVolume, currentVolume)
     }
 
     override fun pause() {
-        player?.pause()
+        playWhenReady = false
+        if (prepared) player?.pause()
     }
 
     override fun resume() {
-        player?.start()
+        playWhenReady = true
+        if (prepared) player?.start()
     }
 
     override fun seekTo(position: Int) {
-        player?.seekTo(position)
+        if (prepared) player?.seekTo(position.coerceAtLeast(0))
+        else pendingSeek = position.coerceAtLeast(0)
     }
 
-    override fun isPlaying(): Boolean {
-        return try {
-            player?.isPlaying ?: false
-        } catch (e: Exception) {
-            false
-        }
-    }
+    override fun isPlaying(): Boolean =
+        prepared && runCatching { player?.isPlaying ?: false }.getOrDefault(false)
 
-    override fun getDuration(): Int {
-        return try {
-            player?.duration ?: 0
-        } catch (e: Exception) {
-            0
-        }
-    }
+    override fun getDuration(): Int =
+        if (prepared) runCatching { player?.duration ?: 0 }.getOrDefault(0) else 0
 
-    override fun getCurrentPosition(): Int {
-        return try {
-            player?.currentPosition ?: 0
-        } catch (e: Exception) {
-            0
-        }
-    }
+    override fun getCurrentPosition(): Int =
+        if (prepared) runCatching { player?.currentPosition ?: 0 }.getOrDefault(0) else 0
 }

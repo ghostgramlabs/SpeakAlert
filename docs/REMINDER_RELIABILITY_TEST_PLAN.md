@@ -119,3 +119,18 @@ reproduction and the remaining device checklist above are not confirmed by that 
   actions sheet. Its time, schedule, playback controls, and user-entered labels/messages remain.
 - Switch choices and restart: the selected option persists. Check English, Spanish, Hindi,
   Arabic, and large text. This preference does not modify stored reminder data or alarm behavior.
+
+## Recording preview ANR (production 2.0.34 / 54)
+
+- Play Console trace: AddEditViewModel.playRecording -> AndroidAudioPlayer.playUri ->
+  MediaPlayer.create -> prepare -> native pthread_cond_wait on the main input thread.
+- Preview now uses prepareAsync and starts in onPrepared. Stop/replacement invalidates late
+  callbacks; errors release the player and reset preview UI. Controls wait for preparation.
+- Replaced unconditional preview file logging with logcat error reporting to avoid additional
+  synchronous log-file writes in the input handler.
+- Regression tests cover delayed readiness, stop/replacement, queued controls, and source/errors.
+- Device verification still required: record then preview repeatedly, stop immediately after
+  Play, leave the editor during preparation, and try an unavailable or corrupt imported file.
+  Confirm responsive navigation and no delayed playback after stopping or leaving the screen.
+- This addresses the supplied synchronous-prepare stack; production ANR resolution must be
+  confirmed after rollout. Version remains 2.0.35 (55).
