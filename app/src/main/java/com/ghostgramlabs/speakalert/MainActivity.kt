@@ -46,6 +46,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.compose.ui.res.stringResource
 import com.ghostgramlabs.speakalert.R
+import com.ghostgramlabs.speakalert.data.repository.AlertNotification
+import com.ghostgramlabs.speakalert.data.repository.hasActiveAlert
+import com.ghostgramlabs.speakalert.data.repository.hasRecentMiss
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.BatteryOptimizationSupport
 import com.ghostgramlabs.speakalert.util.FullScreenIntentSupport
@@ -181,9 +184,23 @@ class MainActivity : ComponentActivity() {
                 try {
                     if (fullScreenAlertEnabled && !fullScreenAccessGranted) return@LaunchedEffect
                     if (!androidx.core.app.NotificationManagerCompat.from(this@MainActivity).areNotificationsEnabled()) return@LaunchedEffect
-                    if (app.container.missedReminderRepository.allMissedReminders.first().isNotEmpty()) return@LaunchedEffect
+                    val checkedAt = System.currentTimeMillis()
+                    // Only a recent miss suggests the user is currently let down; stale entries in
+                    // the Missed tab would otherwise disqualify them forever.
+                    val missedDetectedAt = app.container.missedReminderRepository
+                        .allMissedReminders.first().map { it.detectedTime }
+                    if (hasRecentMiss(missedDetectedAt, checkedAt)) return@LaunchedEffect
                     val notifications = getSystemService(android.app.NotificationManager::class.java)
-                    if (notifications.activeNotifications.isNotEmpty()) return@LaunchedEffect
+                    // Reminder alerts stay posted until acted on, so an un-swiped one from
+                    // yesterday is normal. Only something still sounding, pinned, or just posted
+                    // means the user is mid-alert.
+                    val alerts = notifications.activeNotifications.map {
+                        AlertNotification(
+                            postedAt = it.postTime,
+                            ongoing = it.isOngoing
+                        )
+                    }
+                    if (hasActiveAlert(alerts, checkedAt)) return@LaunchedEffect
                     if (!window.decorView.hasWindowFocus()) return@LaunchedEffect
                     // Latch only after the transient checks pass, so one unfocused evaluation
                     // does not suppress the prompt for the whole session.
@@ -413,7 +430,11 @@ class MainActivity : ComponentActivity() {
                                     onClick = {
                                         showRatingPrompt = false
                                         coroutineScope.launch {
-                                            settingsRepository.setRatingPromptDecided(true)
+                                            // Opening the listing is an intention, not a posted
+                                            // review: pause for months instead of forever.
+                                            settingsRepository.setRatingPromptRated(
+                                                System.currentTimeMillis()
+                                            )
                                         }
                                         openPlayStoreListing(
                                             this@MainActivity,

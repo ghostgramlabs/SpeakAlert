@@ -73,6 +73,7 @@ class SettingsRepository internal constructor(
         private val REVIEW_LAST_DELIVERY_AT = longPreferencesKey("review_last_delivery_at")
         private val REVIEW_DELIVERY_DAYS = intPreferencesKey("review_delivery_days")
         private val REVIEW_LAST_PROMPT_AT = longPreferencesKey("review_last_prompt_at")
+        private val REVIEW_RATED_AT = longPreferencesKey("review_rated_at")
 
         // Android 15 FGS Boot Guard
         val LAST_BOOT_TIMESTAMP = longPreferencesKey("last_boot_timestamp")
@@ -294,8 +295,14 @@ class SettingsRepository internal constructor(
         lastDeliveryAt = prefs[REVIEW_LAST_DELIVERY_AT] ?: 0,
         deliveryDays = prefs[REVIEW_DELIVERY_DAYS] ?: 0,
         lastPromptAt = prefs[REVIEW_LAST_PROMPT_AT] ?: 0,
+        ratedAt = prefs[REVIEW_RATED_AT] ?: 0,
         decided = prefs[RATING_PROMPT_DECIDED] ?: false
     )
+
+    /** Records that the store listing was opened; pauses the prompt without ending it for good. */
+    suspend fun setRatingPromptRated(now: Long) {
+        dataStore.edit { it[REVIEW_RATED_AT] = now }
+    }
 
     suspend fun recordReminderDelivery(now: Long) {
         dataStore.edit { prefs ->
