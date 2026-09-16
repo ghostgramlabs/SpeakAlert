@@ -10,6 +10,7 @@ import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
 import com.ghostgramlabs.speakalert.domain.models.MissedPolicy
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import com.ghostgramlabs.speakalert.util.FileLogger
+import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import java.io.File
 import java.io.InputStreamReader
 import java.util.zip.ZipEntry
@@ -51,7 +52,12 @@ object ReminderBackupManager {
         val recurrenceJson: String?,
         val missedPolicy: String,
         val loopPlayback: Boolean,
-        val followUpCheckMinutes: Int
+        val followUpCheckMinutes: Int,
+        /**
+         * The chosen file's content URI, kept only when its bytes could not be copied into the
+         * backup. Absent in older backups.
+         */
+        val audioUri: String? = null
     )
 
     private data class BackupFile(
@@ -68,48 +74,73 @@ object ReminderBackupManager {
 
     /** Writes [reminders] to [uri]; returns how many were written. */
     fun export(context: Context, uri: Uri, reminders: List<ReminderEntity>): Int {
-        val entries = reminders.mapIndexed { index, reminder ->
-            val audioFile = reminder.audioPath
-                ?.takeIf { it.isNotBlank() }
-                ?.let(::File)
-                ?.takeIf { it.isFile && it.canRead() }
-            reminder to BackupReminder(
-                title = reminder.title,
-                reminderText = reminder.reminderText,
-                transcript = reminder.transcript,
-                audioEntry = audioFile?.let { "$AUDIO_DIR_ENTRY${index}_${it.name}" },
-                createdAt = reminder.createdAt,
-                nextTriggerAt = reminder.nextTriggerAt,
-                recurrenceType = reminder.recurrenceType.name,
-                recurrenceJson = reminder.recurrenceJson,
-                missedPolicy = reminder.missedPolicy.name,
-                loopPlayback = reminder.loopPlayback,
-                followUpCheckMinutes = reminder.followUpCheckMinutes
-            )
-        }
         val output = context.contentResolver.openOutputStream(uri, "wt")
             ?: throw IllegalStateException("Cannot open backup destination")
         ZipOutputStream(output.buffered()).use { zip ->
+            // Audio is written before backup.json: whether a chosen file is still readable is only
+            // known once it is opened, and the JSON must list exactly the entries that exist.
+            // Import handles entries in any order.
+            val entries = reminders.mapIndexed { index, reminder ->
+                val source = reminder.audioPath?.takeIf { it.isNotBlank() }
+                val audioEntry = source?.let { writeAudioEntry(context, zip, index, it) }
+                BackupReminder(
+                    title = reminder.title,
+                    reminderText = reminder.reminderText,
+                    transcript = reminder.transcript,
+                    audioEntry = audioEntry,
+                    createdAt = reminder.createdAt,
+                    nextTriggerAt = reminder.nextTriggerAt,
+                    recurrenceType = reminder.recurrenceType.name,
+                    recurrenceJson = reminder.recurrenceJson,
+                    missedPolicy = reminder.missedPolicy.name,
+                    loopPlayback = reminder.loopPlayback,
+                    followUpCheckMinutes = reminder.followUpCheckMinutes,
+                    // An unreadable chosen file keeps its reference, so the restored reminder
+                    // reports its audio as unavailable just like the original instead of
+                    // silently turning into a text-only reminder.
+                    audioUri = source?.takeIf { audioEntry == null && isContentUri(it) }
+                )
+            }
             zip.putNextEntry(ZipEntry(JSON_ENTRY))
             zip.write(
                 gson.toJson(
                     BackupFile(
                         format = FORMAT_VERSION,
                         exportedAt = System.currentTimeMillis(),
-                        reminders = entries.map { it.second }
+                        reminders = entries
                     )
                 ).toByteArray(Charsets.UTF_8)
             )
             zip.closeEntry()
-            entries.forEach { (reminder, backup) ->
-                val entryName = backup.audioEntry ?: return@forEach
-                zip.putNextEntry(ZipEntry(entryName))
-                File(reminder.audioPath!!).inputStream().use { it.copyTo(zip) }
-                zip.closeEntry()
-            }
         }
-        return entries.size
+        return reminders.size
     }
+
+    /**
+     * Copies a recording file or a chosen content URI into [zip]. Returns the entry name, or null
+     * when the source can no longer be read (deleted, or picker access revoked).
+     */
+    private fun writeAudioEntry(context: Context, zip: ZipOutputStream, index: Int, source: String): String? {
+        val name: String
+        val input = if (isContentUri(source)) {
+            name = ReminderAudioSource.resolveDisplayName(context, source)?.takeIf { it.isNotBlank() } ?: "audio"
+            runCatching { context.contentResolver.openInputStream(Uri.parse(source)) }.getOrNull()
+                ?: return null
+        } else {
+            val file = File(source).takeIf { it.isFile && it.canRead() } ?: return null
+            name = file.name
+            file.inputStream()
+        }
+        val entryName = "$AUDIO_DIR_ENTRY${index}_${name.replace('/', '_').replace('\\', '_')}"
+        input.use {
+            zip.putNextEntry(ZipEntry(entryName))
+            it.copyTo(zip)
+            zip.closeEntry()
+        }
+        return entryName
+    }
+
+    private fun isContentUri(source: String): Boolean = source.startsWith("content://")
 
     /**
      * Reads a backup from [uri], inserts the reminders through [repository], and schedules each
@@ -161,11 +192,14 @@ object ReminderBackupManager {
             val missedPolicy = runCatching { MissedPolicy.valueOf(item.missedPolicy) }
                 .getOrDefault(MissedPolicy.SKIP_TO_NEXT)
 
+            // Only files extracted by this import may be cleaned up; a kept URI is never a file.
+            val extractedFile = item.audioEntry?.let { extractedAudio[it] }
             var candidate = ReminderEntity(
                 title = item.title,
                 reminderText = item.reminderText,
                 transcript = item.transcript,
-                audioPath = item.audioEntry?.let { extractedAudio[it]?.absolutePath },
+                audioPath = extractedFile?.absolutePath
+                    ?: item.audioUri?.takeIf { isContentUri(it) },
                 createdAt = item.createdAt,
                 nextTriggerAt = item.nextTriggerAt,
                 recurrenceType = recurrenceType,
@@ -183,7 +217,7 @@ object ReminderBackupManager {
                 }
                 if (nextTrigger == null) {
                     skippedExpired++
-                    candidate.audioPath?.let { File(it).delete() }
+                    extractedFile?.delete()
                     continue
                 }
                 candidate = candidate.copy(nextTriggerAt = nextTrigger)
@@ -198,7 +232,7 @@ object ReminderBackupManager {
             }
             if (isDuplicate) {
                 skippedDuplicates++
-                candidate.audioPath?.let { File(it).delete() }
+                extractedFile?.delete()
                 continue
             }
 
