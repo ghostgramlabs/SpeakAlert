@@ -556,4 +556,158 @@
     <string name="wn_reliability_desc">रिमाइंडर प्लेबैक अब सुरक्षित रूप से और तुरंत फ़ोरग्राउंड में शुरू होता है, जिससे कुछ Android 12 और Android 16 डिवाइस पर देखा गया स्टार्टअप टाइमआउट नहीं होता।</string>
     <string name="settings_24_hour_time">24-घंटे का समय प्रारूप</string>
     <string name="settings_24_hour_time_desc">सभी समय 5:30 PM के बजाय 17:30 के रूप में दिखाएँ।</string>
+
+    <!-- रिमाइंडर कार्ड और क्रियाएँ -->
+    <string name="card_recur_onetime">एक बार का रिमाइंडर</string>
+    <string name="card_recur_daily">रोज़ दोहराता है</string>
+    <string name="card_recur_last_day">हर महीने का आखिरी दिन</string>
+    <string name="card_recur_yearly">हर वर्ष दोहराता है</string>
+    <string name="card_chip_recurring">आवर्ती</string>
+    <string name="card_days_of_month">महीने के दिन</string>
+    <string name="card_cd_duplicate">रिमाइंडर कॉपी करें</string>
+    <string name="card_cd_more">अधिक विकल्प</string>
+    <string name="card_cd_looping">लूप में</string>
+    <string name="card_cd_followup">%1$d मिनट में फ़ॉलो-अप</string>
+    <string name="card_cd_ends_after">%1$d %2$s के बाद समाप्त</string>
+    <string name="sheet_reminder_actions">रिमाइंडर क्रियाएँ</string>
+    <string name="sheet_stop_playback">प्लेबैक रोकें</string>
+
+    <!-- कस्टम फ़ॉलो-अप संवाद -->
+    <string name="fu_custom_title">कस्टम फ़ॉलो-अप</string>
+    <string name="fu_custom_desc">यदि रिमाइंडर पूर्ण चिह्नित नहीं किया गया, तो इतने मिनट बाद फिर से पूछें।</string>
+    <string name="fu_allowed_range">अनुमत: 1-%1$d मिनट</string>
+
+    <!-- वॉइस रिकॉर्डर -->
+    <string name="vr_playing_audio">ऑडियो चल रहा है</string>
+    <string name="vr_voice_recorded">आवाज़ रिकॉर्ड हुई</string>
+    <string name="vr_text_optional">टेक्स्ट वैकल्पिक है</string>
+    <string name="vr_tap_to_stop">रोकने के लिए टैप करें</string>
+    <string name="vr_cd_level">रीयल-टाइम ध्वनि स्तर का दृश्य</string>
+    <string name="vr_cd_stop">रिकॉर्डिंग रोकें</string>
+    <string name="vr_cd_double_tap_stop">रिकॉर्डिंग रोकने के लिए दो बार टैप करें</string>
+    <string name="vr_cd_preview_progress">वॉइस पूर्वावलोकन प्रगति</string>
+    <string name="vr_cd_start">वॉइस रिकॉर्डिंग शुरू करें</string>
+    <string name="vr_cd_restart">फिर से रिकॉर्ड करें</string>
+
+    <!-- दिनांक और समय चयनकर्ता -->
+    <string name="dtp_title">दिनांक और समय चुनें</string>
+    <string name="dtp_subtitle">त्वरित विकल्पों का उपयोग करें या सटीक दिनांक और समय चुनें।</string>
+    <string name="dtp_quick_date">त्वरित दिनांक</string>
+    <string name="dtp_quick_time">त्वरित समय</string>
+    <string name="dtp_pick_date">सटीक दिनांक चुनें</string>
+    <string name="dtp_pick_time">सटीक समय चुनें</string>
+    <string name="dtp_next_week">अगला सप्ताह</string>
+    <string name="dtp_plus_10">+10 मिनट</string>
+    <string name="dtp_plus_30">+30 मिनट</string>
+    <string name="dtp_plus_60">+1 घंटा</string>
+    <string name="dtp_err_future">समय भविष्य में होना चाहिए</string>
+    <string name="dtp_err_date_future">दिनांक आज या उसके बाद का होना चाहिए</string>
+
+    <!-- आवर्ती रिमाइंडर संवाद -->
+    <string name="rcd_title">यह एक आवर्ती रिमाइंडर है</string>
+    <string name="rcd_desc">चुनें कि केवल यह घटना हटानी है, दोहराव कार्यक्रम संपादित करना है, या इसे पूरी तरह रोकना है।</string>
+    <string name="rcd_mark_occurrence">इस घटना को पूर्ण चिह्नित करें</string>
+    <string name="rcd_edit_schedule">कार्यक्रम संपादित करें</string>
+    <string name="rcd_stop_recurring">दोहराव रोकें</string>
+
+    <!-- रिमाइंडर पुनर्स्थापित संवाद -->
+    <string name="rrd_title">रिमाइंडर पुनर्स्थापित करें</string>
+    <string name="rrd_desc">यह रिमाइंडर पहले पूरा हो चुका था। चुनें कि आप इसे कैसे पुनर्स्थापित करना चाहते हैं।</string>
+    <string name="rrd_reschedule">रिमाइंडर पुनर्निर्धारित करें</string>
+    <string name="rrd_move_missed">छूटे में ले जाएँ</string>
+    <string name="rrd_play">रिमाइंडर चलाएँ</string>
+    <string name="rrd_keep_done">पूर्ण के रूप में रखें</string>
+
+    <!-- छूटे रिमाइंडर -->
+    <string name="pua_title">रिमाइंडर छूट गया</string>
+    <string name="pua_scheduled_for">%1$s के लिए निर्धारित</string>
+    <string name="pua_set_new_time">नया समय चुनें</string>
+    <string name="pua_just_play">बस रिमाइंडर चलाएँ</string>
+    <string name="mrr_desc">नवीनतम छूटा रिमाइंडर अभी चलाएँ, या सब कुछ छूटे टैब में रखें और बाद में देखें।</string>
+    <string name="mrr_play_latest">नवीनतम छूटा रिमाइंडर चलाएँ</string>
+    <string name="mrr_keep">छूटे टैब में रखें</string>
+
+    <!-- बैटरी ऑप्टिमाइज़ेशन गाइड -->
+    <string name="bog_title">बैटरी ऑप्टिमाइज़ेशन गाइड</string>
+    <string name="bog_header">रिमाइंडर को विश्वसनीय रखें</string>
+    <string name="bog_header_sub">कुछ फ़ोन बैकग्राउंड अलार्म रोक देते हैं, जब तक %1$s को बैटरी प्रतिबंधों से छूट न मिले।</string>
+    <string name="bog_intro">कुछ डिवाइस बैटरी बचाने के लिए बैकग्राउंड अलार्म रोक देते हैं। इससे रिमाइंडर सक्रिय नहीं हो पाते।</string>
+    <string name="bog_menu_vary">मेन्यू के नाम MIUI, HyperOS, EMUI, Android संस्करण और फ़ोन मॉडल के अनुसार भिन्न हो सकते हैं।</string>
+    <string name="bog_allow_app">%1$s को अनुमति दें</string>
+    <string name="bog_back_settings">सेटिंग्स पर वापस जाएँ</string>
+    <string name="bog_brand_xiaomi">Xiaomi / POCO / Redmi (MIUI / HyperOS)</string>
+    <string name="bog_brand_huawei">Huawei (EMUI)</string>
+    <string name="bog_step">चरण %1$d</string>
+    <string name="bog_optional">वैकल्पिक</string>
+    <string name="bog_open_settings">सेटिंग्स खोलें</string>
+    <string name="bog_find_app">%1$s ढूँढें</string>
+    <string name="bog_xiaomi_battery">बैटरी पर टैप करें</string>
+    <string name="bog_xiaomi_optimization">बैटरी ऑप्टिमाइज़ेशन पर टैप करें</string>
+    <string name="bog_xiaomi_no_restrictions">कोई प्रतिबंध नहीं चुनें</string>
+    <string name="bog_xiaomi_opt">ऐप को हाल के ऐप्स स्क्रीन में लॉक करें।</string>
+    <string name="bog_huawei_apps">ऐप्स या ऐप लॉन्च खोलें</string>
+    <string name="bog_huawei_manage_off">स्वचालित प्रबंधन बंद करें</string>
+    <string name="bog_huawei_allow">ऑटो-लॉन्च, सेकेंडरी लॉन्च और बैकग्राउंड में चलने की अनुमति दें</string>
+    <string name="bog_huawei_opt">बैटरी ऑप्टिमाइज़ेशन भी देखें और %1$s को अनुमति न दें पर सेट करें।</string>
+    <string name="bog_status_enabled">%1$s के लिए बैटरी ऑप्टिमाइज़ेशन अभी भी चालू है।</string>
+    <string name="bog_status_exempt">%1$s को बिना बैटरी ऑप्टिमाइज़ेशन के चलने की अनुमति पहले से है।</string>
+    <string name="bog_no_battery_settings">इस डिवाइस पर बैटरी सेटिंग्स उपलब्ध नहीं हैं।</string>
+    <string name="bog_why_title">यह क्यों मायने रखता है</string>
+    <string name="bog_why_body">Xiaomi, POCO, Redmi, Huawei और इसी तरह के ब्रांड के फ़ोन बैकग्राउंड ऐप्स को आक्रामक रूप से रोक सकते हैं। निर्माता और सॉफ़्टवेयर संस्करण को मार्गदर्शक मानें; सटीक रास्ते मॉडल के अनुसार भिन्न हो सकते हैं।</string>
+
+    <!-- कार्ड की सुगम्यता विवरण -->
+    <string name="a11y_card_reminder">रिमाइंडर: %1$s</string>
+    <string name="a11y_card_at">%1$s बजे</string>
+    <string name="a11y_card_has_audio_file">ऑडियो फ़ाइल है</string>
+    <string name="a11y_card_has_voice">वॉइस नोट है</string>
+    <string name="a11y_card_recurring">आवर्ती %1$s</string>
+    <string name="a11y_card_completed">पूर्ण</string>
+    <string name="a11y_card_playing">अभी चल रहा है</string>
+    <string name="a11y_card_open_hint">विवरण खोलने के लिए दो बार टैप करें।</string>
+
+    <!-- सुगम्यता स्थितियाँ -->
+    <string name="state_completed">पूर्ण</string>
+    <string name="state_playing">चल रहा है</string>
+    <string name="a11y_percent">%1$d प्रतिशत</string>
+    <string name="a11y_destructive">विनाशकारी क्रिया</string>
+    <string name="a11y_recording_in_progress">रिकॉर्डिंग जारी है</string>
+    <string name="a11y_playing_preview">ऑडियो पूर्वावलोकन चल रहा है</string>
+    <string name="a11y_voice_recorded">वॉइस नोट रिकॉर्ड हुआ</string>
+    <string name="a11y_no_voice_recorded">कोई वॉइस नोट रिकॉर्ड नहीं हुआ</string>
+    <plurals name="card_occurrences">
+        <item quantity="one">%1$d बार</item>
+        <item quantity="other">%1$d बार</item>
+    </plurals>
+
+    <!-- परीक्षण रिमाइंडर -->
+    <string name="set_test_reminder_title">परीक्षण रिमाइंडर</string>
+    <string name="set_test_reminder_text">यह प्लेबैक जाँचने के लिए एक परीक्षण रिमाइंडर है। यह बनाने के 10 सेकंड बाद सक्रिय होता है।</string>
+    <string name="widget_quick_subtitle">त्वरित जोड़ें</string>
+    <string name="widget_upcoming_subtitle">आगामी और छूटे रिमाइंडर</string>
+    <string name="widget_upcoming_empty">कोई आगामी या छूटा रिमाइंडर नहीं</string>
+    <string name="card_type_audio_file">ऑडियो फ़ाइल</string>
+    <string name="card_type_voice">आवाज़</string>
+    <string name="card_type_text">टेक्स्ट</string>
+    <string name="card_voice_recording">वॉइस रिकॉर्डिंग</string>
+    <string name="card_custom_audio_file">चुनी गई ऑडियो फ़ाइल</string>
+    <string name="card_text_note">टेक्स्ट नोट</string>
+    <string name="sheet_mark_this_done">इसे पूर्ण चिह्नित करें</string>
+    <string name="sheet_delete_reminder">रिमाइंडर हटाएँ</string>
+    <string name="vr_recording_ellipsis">रिकॉर्ड हो रहा है…</string>
+    <string name="vr_play_recording">रिकॉर्डिंग चलाएँ</string>
+    <string name="rcd_sub_keep_next">अगली घटना निर्धारित रखें</string>
+    <string name="rcd_sub_change_rules">दोहराव नियम या समय बदलें</string>
+    <string name="rcd_sub_delete_future">यह रिमाइंडर और भविष्य की घटनाएँ हटाएँ</string>
+    <string name="rrd_sub_pick_new">नई दिनांक और समय चुनें</string>
+    <string name="rrd_sub_keep_missed">बाद के लिए छूटे टैब में रखें</string>
+    <string name="rrd_sub_hear_now">पुनर्स्थापित किए बिना अभी सुनें</string>
+    <string name="rrd_sub_leave_done">रिमाइंडर को पूर्ण ही रहने दें</string>
+    <string name="mrr_sub_start_now">तुरंत चलाना शुरू करें</string>
+    <string name="set_tab_form">फ़ॉर्म</string>
+    <string name="set_tab_play">ध्वनि</string>
+    <string name="set_tab_time">समय</string>
+    <string name="set_tab_safe">सुरक्षा</string>
+    <string name="set_tab_backup">बैकअप</string>
+    <string name="set_tab_wear">घड़ी</string>
+    <string name="set_tab_help">सहायता</string>
 </resources>

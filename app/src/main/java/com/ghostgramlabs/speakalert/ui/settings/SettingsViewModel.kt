@@ -323,14 +323,14 @@ class SettingsViewModel(
         android.widget.Toast.makeText(context, message, android.widget.Toast.LENGTH_LONG).show()
     }
 
-    fun scheduleTestReminder() {
+    fun scheduleTestReminder(context: android.content.Context) {
         viewModelScope.launch {
             val now = System.currentTimeMillis()
             val triggerTime = now + 10_000 // 10 seconds from now
             
             val reminder = com.ghostgramlabs.speakalert.data.model.ReminderEntity(
-                title = "Test Reminder",
-                reminderText = "This is a test reminder to verify playback. It triggers 10 seconds after creation.",
+                title = context.getString(com.ghostgramlabs.speakalert.R.string.set_test_reminder_title),
+                reminderText = context.getString(com.ghostgramlabs.speakalert.R.string.set_test_reminder_text),
                 nextTriggerAt = triggerTime,
                 recurrenceType = com.ghostgramlabs.speakalert.domain.models.RecurrenceType.NONE,
                 createdAt = now,

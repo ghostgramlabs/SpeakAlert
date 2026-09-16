@@ -152,8 +152,14 @@ class SettingsViewModelTest {
     @Test
     fun `scheduleTestReminder inserts and schedules one-time reminder`() = runTest {
         whenever(reminderRepository.insertReminder(org.mockito.kotlin.any())).thenReturn(123L)
+        // The title and body are string resources now, so the call needs a context.
+        val context = org.mockito.kotlin.mock<android.content.Context>()
+        whenever(context.getString(com.ghostgramlabs.speakalert.R.string.set_test_reminder_title))
+            .thenReturn("Test Reminder")
+        whenever(context.getString(com.ghostgramlabs.speakalert.R.string.set_test_reminder_text))
+            .thenReturn("This is a test reminder to verify playback.")
 
-        viewModel.scheduleTestReminder()
+        viewModel.scheduleTestReminder(context)
         advanceUntilIdle()
 
         val insertCaptor = argumentCaptor<com.ghostgramlabs.speakalert.data.model.ReminderEntity>()

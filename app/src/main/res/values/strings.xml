@@ -574,4 +574,158 @@
     <string name="wn_reliability_desc">Reminder playback now starts safely and immediately in the foreground, preventing startup timeouts seen on some Android 12 and Android 16 devices.</string>
     <string name="settings_24_hour_time">Use 24-hour time</string>
     <string name="settings_24_hour_time_desc">Show every time as 17:30 instead of 5:30 PM.</string>
+
+    <!-- Reminder card and actions sheet -->
+    <string name="card_recur_onetime">One-time reminder</string>
+    <string name="card_recur_daily">Repeats daily</string>
+    <string name="card_recur_last_day">Last day of each month</string>
+    <string name="card_recur_yearly">Repeats yearly</string>
+    <string name="card_chip_recurring">Recurring</string>
+    <string name="card_days_of_month">Days of month</string>
+    <string name="card_cd_duplicate">Duplicate reminder</string>
+    <string name="card_cd_more">More options</string>
+    <string name="card_cd_looping">Looping</string>
+    <string name="card_cd_followup">Follow-up in %1$d minutes</string>
+    <string name="card_cd_ends_after">Ends after %1$d %2$s</string>
+    <string name="sheet_reminder_actions">Reminder actions</string>
+    <string name="sheet_stop_playback">Stop playback</string>
+
+    <!-- Custom follow-up dialog -->
+    <string name="fu_custom_title">Custom Follow-Up</string>
+    <string name="fu_custom_desc">Ask again after this many minutes if the reminder is not marked done.</string>
+    <string name="fu_allowed_range">Allowed: 1-%1$d min</string>
+
+    <!-- Voice recorder -->
+    <string name="vr_playing_audio">Playing Audio</string>
+    <string name="vr_voice_recorded">Voice recorded</string>
+    <string name="vr_text_optional">Text is optional</string>
+    <string name="vr_tap_to_stop">Tap to Stop</string>
+    <string name="vr_cd_level">Real-time sound level visualization</string>
+    <string name="vr_cd_stop">Stop Recording</string>
+    <string name="vr_cd_double_tap_stop">Double tap to stop the recording</string>
+    <string name="vr_cd_preview_progress">Voice preview progress</string>
+    <string name="vr_cd_start">Start Voice Recording</string>
+    <string name="vr_cd_restart">Restart Recording</string>
+
+    <!-- Date and time picker -->
+    <string name="dtp_title">Choose date and time</string>
+    <string name="dtp_subtitle">Use the quick options or pick the exact date and time.</string>
+    <string name="dtp_quick_date">Quick date</string>
+    <string name="dtp_quick_time">Quick time</string>
+    <string name="dtp_pick_date">Pick exact date</string>
+    <string name="dtp_pick_time">Pick exact time</string>
+    <string name="dtp_next_week">Next week</string>
+    <string name="dtp_plus_10">+10 min</string>
+    <string name="dtp_plus_30">+30 min</string>
+    <string name="dtp_plus_60">+1 hour</string>
+    <string name="dtp_err_future">Time must be in the future</string>
+    <string name="dtp_err_date_future">Date must be today or in the future</string>
+
+    <!-- Recurring completion dialog -->
+    <string name="rcd_title">This is a recurring reminder</string>
+    <string name="rcd_desc">Choose whether to clear only this occurrence, edit the repeat schedule, or stop it completely.</string>
+    <string name="rcd_mark_occurrence">Mark this occurrence done</string>
+    <string name="rcd_edit_schedule">Edit schedule</string>
+    <string name="rcd_stop_recurring">Stop recurring</string>
+
+    <!-- Restore reminder dialog -->
+    <string name="rrd_title">Restore reminder</string>
+    <string name="rrd_desc">This reminder was completed earlier. Choose how you want to restore it.</string>
+    <string name="rrd_reschedule">Reschedule reminder</string>
+    <string name="rrd_move_missed">Move to Missed</string>
+    <string name="rrd_play">Play reminder</string>
+    <string name="rrd_keep_done">Keep as Done</string>
+
+    <!-- Missed reminder sheets -->
+    <string name="pua_title">Reminder missed</string>
+    <string name="pua_scheduled_for">Scheduled for %1$s</string>
+    <string name="pua_set_new_time">Set a new time</string>
+    <string name="pua_just_play">Just play the reminder</string>
+    <string name="mrr_desc">Play the latest missed reminder now, or keep everything in the Missed tab and review later.</string>
+    <string name="mrr_play_latest">Play latest missed reminder</string>
+    <string name="mrr_keep">Keep in Missed tab</string>
+
+    <!-- Battery optimization guide -->
+    <string name="bog_title">Battery Optimization Guide</string>
+    <string name="bog_header">Keep reminders reliable</string>
+    <string name="bog_header_sub">Some phones pause or stop background alarms unless %1$s is exempt from battery restrictions.</string>
+    <string name="bog_intro">Some devices stop background alarms to save battery. This can prevent reminders from triggering.</string>
+    <string name="bog_menu_vary">Menu names can vary by MIUI, HyperOS, EMUI, Android version, and phone model.</string>
+    <string name="bog_allow_app">Allow %1$s</string>
+    <string name="bog_back_settings">Back to Settings</string>
+    <string name="bog_brand_xiaomi">Xiaomi / POCO / Redmi (MIUI / HyperOS)</string>
+    <string name="bog_brand_huawei">Huawei (EMUI)</string>
+    <string name="bog_step">Step %1$d</string>
+    <string name="bog_optional">Optional</string>
+    <string name="bog_open_settings">Open Settings</string>
+    <string name="bog_find_app">Find %1$s</string>
+    <string name="bog_xiaomi_battery">Tap Battery</string>
+    <string name="bog_xiaomi_optimization">Tap Battery Optimization</string>
+    <string name="bog_xiaomi_no_restrictions">Select No Restrictions</string>
+    <string name="bog_xiaomi_opt">Lock the app in the recent apps screen.</string>
+    <string name="bog_huawei_apps">Open Apps or App launch</string>
+    <string name="bog_huawei_manage_off">Turn off Manage automatically</string>
+    <string name="bog_huawei_allow">Allow auto-launch, secondary launch, and run in background</string>
+    <string name="bog_huawei_opt">Also check Battery optimization and set %1$s to Don\'t allow.</string>
+    <string name="bog_status_enabled">Battery optimization is still enabled for %1$s.</string>
+    <string name="bog_status_exempt">%1$s is already allowed to run without battery optimization.</string>
+    <string name="bog_no_battery_settings">Battery settings are not available on this device.</string>
+    <string name="bog_why_title">Why this matters</string>
+    <string name="bog_why_body">Phones from Xiaomi, POCO, Redmi, Huawei, and similar brands can aggressively stop apps in the background. Use the manufacturer family and software version as a guide; exact paths can differ by device model.</string>
+
+    <!-- Reminder card accessibility description -->
+    <string name="a11y_card_reminder">Reminder: %1$s</string>
+    <string name="a11y_card_at">at %1$s</string>
+    <string name="a11y_card_has_audio_file">has audio file</string>
+    <string name="a11y_card_has_voice">has voice note</string>
+    <string name="a11y_card_recurring">recurring %1$s</string>
+    <string name="a11y_card_completed">completed</string>
+    <string name="a11y_card_playing">currently playing</string>
+    <string name="a11y_card_open_hint">Double tap to open details.</string>
+
+    <!-- Accessibility states -->
+    <string name="state_completed">Completed</string>
+    <string name="state_playing">Playing</string>
+    <string name="a11y_percent">%1$d percent</string>
+    <string name="a11y_destructive">Destructive action</string>
+    <string name="a11y_recording_in_progress">Recording in progress</string>
+    <string name="a11y_playing_preview">Playing audio preview</string>
+    <string name="a11y_voice_recorded">Voice note recorded</string>
+    <string name="a11y_no_voice_recorded">No voice note recorded</string>
+    <plurals name="card_occurrences">
+        <item quantity="one">%1$d occurrence</item>
+        <item quantity="other">%1$d occurrences</item>
+    </plurals>
+
+    <!-- Test reminder -->
+    <string name="set_test_reminder_title">Test Reminder</string>
+    <string name="set_test_reminder_text">This is a test reminder to verify playback. It triggers 10 seconds after creation.</string>
+    <string name="widget_quick_subtitle">Quick add</string>
+    <string name="widget_upcoming_subtitle">Upcoming and missed reminders</string>
+    <string name="widget_upcoming_empty">No upcoming or missed reminders</string>
+    <string name="card_type_audio_file">Audio File</string>
+    <string name="card_type_voice">Voice</string>
+    <string name="card_type_text">Text</string>
+    <string name="card_voice_recording">Voice recording</string>
+    <string name="card_custom_audio_file">Custom audio file</string>
+    <string name="card_text_note">Text note</string>
+    <string name="sheet_mark_this_done">Mark this done</string>
+    <string name="sheet_delete_reminder">Delete reminder</string>
+    <string name="vr_recording_ellipsis">Recording…</string>
+    <string name="vr_play_recording">Play Recording</string>
+    <string name="rcd_sub_keep_next">Keep the next occurrence scheduled</string>
+    <string name="rcd_sub_change_rules">Change repeat rules or timing</string>
+    <string name="rcd_sub_delete_future">Delete this reminder and future occurrences</string>
+    <string name="rrd_sub_pick_new">Pick a new date and time</string>
+    <string name="rrd_sub_keep_missed">Keep it in the Missed tab for later</string>
+    <string name="rrd_sub_hear_now">Hear it right now without restoring</string>
+    <string name="rrd_sub_leave_done">Leave the reminder completed</string>
+    <string name="mrr_sub_start_now">Start playback right away</string>
+    <string name="set_tab_form">Form</string>
+    <string name="set_tab_play">Play</string>
+    <string name="set_tab_time">Time</string>
+    <string name="set_tab_safe">Safe</string>
+    <string name="set_tab_backup">Backup</string>
+    <string name="set_tab_wear">Wear</string>
+    <string name="set_tab_help">Help</string>
 </resources>

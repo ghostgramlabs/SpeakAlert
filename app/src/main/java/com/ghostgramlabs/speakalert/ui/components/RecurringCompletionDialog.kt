@@ -21,6 +21,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.ghostgramlabs.speakalert.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,34 +49,34 @@ fun RecurringCompletionDialog(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                text = "This is a recurring reminder",
+                text = stringResource(R.string.rcd_title),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.SemiBold
             )
             Text(
-                text = "Choose whether to clear only this occurrence, edit the repeat schedule, or stop it completely.",
+                text = stringResource(R.string.rcd_desc),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             ActionSheetRow(
                 icon = Icons.Filled.Done,
-                label = "Mark this occurrence done",
-                subLabel = "Keep the next occurrence scheduled",
+                label = stringResource(R.string.rcd_mark_occurrence),
+                subLabel = stringResource(R.string.rcd_sub_keep_next),
                 onClick = onMarkTodayAsDone,
                 emphasize = true
             )
             ActionSheetRow(
                 icon = Icons.Filled.Edit,
-                label = "Edit schedule",
-                subLabel = "Change repeat rules or timing",
+                label = stringResource(R.string.rcd_edit_schedule),
+                subLabel = stringResource(R.string.rcd_sub_change_rules),
                 onClick = onEditSchedule
             )
             ActionSheetRow(
                 icon = Icons.Filled.Stop,
-                label = "Stop recurring",
-                subLabel = "Delete this reminder and future occurrences",
+                label = stringResource(R.string.rcd_stop_recurring),
+                subLabel = stringResource(R.string.rcd_sub_delete_future),
                 onClick = onStopCompletely,
                 isDestructive = true
             )
@@ -84,7 +86,7 @@ fun RecurringCompletionDialog(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(18.dp)
             ) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         }
     }

@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import com.ghostgramlabs.speakalert.data.model.MissedReminderEntity
 import com.ghostgramlabs.speakalert.ui.components.ActionSheetRow
 import com.ghostgramlabs.speakalert.util.isDefaultAppDisplayName
+import androidx.compose.ui.res.stringResource
+import com.ghostgramlabs.speakalert.R
 
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
@@ -59,7 +61,7 @@ fun MissedReminderRecoveryDialog(
                 fontWeight = FontWeight.SemiBold
             )
             Text(
-                text = "Play the latest missed reminder now, or keep everything in the Missed tab and review later.",
+                text = stringResource(R.string.mrr_desc),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -96,8 +98,8 @@ fun MissedReminderRecoveryDialog(
 
             ActionSheetRow(
                 icon = Icons.Filled.PlayArrow,
-                label = "Play latest missed reminder",
-                subLabel = "Start playback right away",
+                label = stringResource(R.string.mrr_play_latest),
+                subLabel = stringResource(R.string.mrr_sub_start_now),
                 onClick = onPlayNow,
                 emphasize = true
             )
@@ -107,13 +109,14 @@ fun MissedReminderRecoveryDialog(
                 modifier = Modifier.fillMaxWidth(),
                 shape = androidx.compose.foundation.shape.RoundedCornerShape(18.dp)
             ) {
-                Text("Keep in Missed tab")
+                Text(stringResource(R.string.mrr_keep))
             }
         }
     }
 }
 
 // Keep missed reminder labels user-friendly for untitled/legacy reminders.
+@androidx.compose.runtime.Composable
 private fun buildMissedDisplayTitle(missed: MissedReminderEntity): String {
     val userTitle = missed.title
         .trim()
@@ -127,5 +130,5 @@ private fun buildMissedDisplayTitle(missed: MissedReminderEntity): String {
             val words = text.split(Regex("\\s+"))
             if (words.size > 8) words.take(8).joinToString(" ") else text
         }
-    return textFallback ?: "Reminder"
+    return textFallback ?: stringResource(R.string.fallback_reminder_title)
 }
