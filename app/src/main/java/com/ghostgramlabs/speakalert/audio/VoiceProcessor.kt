@@ -34,7 +34,13 @@ class VoiceProcessor(private val sampleRate: Int) {
     data class Analysis(
         val noiseMagnitudes: FloatArray?,
         val peak: Float,
-        val frameCount: Int
+        val frameCount: Int,
+        /**
+         * What the room alone measures, in the same units as [peak]: the peak of the quietest
+         * frame in each window, averaged over the windows. Zero when the recording was too short
+         * to contain a stretch that is plausibly background rather than speech.
+         */
+        val noiseFloor: Float = 0f
     ) {
         val canDenoise: Boolean get() = noiseMagnitudes != null
     }
@@ -66,6 +72,11 @@ class VoiceProcessor(private val sampleRate: Int) {
     private var framesInWindow = 0
     private var peak = 0f
     private var frames = 0
+    // The level counterpart of the spectral estimate above, measured the same way: the quietest
+    // frame in each window, averaged across windows. Tracked in the time domain because the gain
+    // it caps is applied to samples, not to bins.
+    private var framePeakMinimum = Float.MAX_VALUE
+    private var noiseFloorTotal = 0f
 
     // Second pass.
     private var noise: FloatArray? = null
@@ -94,6 +105,14 @@ class VoiceProcessor(private val sampleRate: Int) {
                     // where only the room is audible. That is the noise.
                     if (magnitude[bin] < windowMinimum[bin]) windowMinimum[bin] = magnitude[bin]
                 }
+                // Same reasoning, in level rather than spectrum: the quietest frame of the
+                // window is a moment with no voice in it, so its peak is what the room measures.
+                var framePeak = 0f
+                for (i in 0 until FRAME_SIZE) {
+                    val level = abs(pending[i])
+                    if (level > framePeak) framePeak = level
+                }
+                if (framePeak < framePeakMinimum) framePeakMinimum = framePeak
                 frames++
                 if (++framesInWindow >= NOISE_WINDOW_FRAMES) closeNoiseWindow()
                 consume()
@@ -124,7 +143,8 @@ class VoiceProcessor(private val sampleRate: Int) {
         } else {
             null
         }
-        return Analysis(estimate, peak, frames)
+        val floor = if (usable) noiseFloorTotal / noiseWindows else 0f
+        return Analysis(estimate, peak, frames, floor)
     }
 
     // ---------------------------------------------------------------- render pass
@@ -213,11 +233,34 @@ class VoiceProcessor(private val sampleRate: Int) {
     }
 
     /** How much to lift the recording, or null when it is already at a good level. */
-    fun normalizationGain(peak: Float): Float? {
+    fun normalizationGain(peak: Float): Float? = normalizationGain(peak, noiseFloor = 0f)
+
+    /**
+     * How much to lift the recording, held back so the lift never makes the room audible.
+     *
+     * Normalisation multiplies everything, background included, so a quiet take recorded in a
+     * noisy room is exactly the case where a large gain turns a barely-there hiss into an
+     * obvious one. The lift is therefore capped at what keeps the residual room under
+     * [NOISE_CEILING] rather than at what would make the voice loudest.
+     *
+     * This only ever declines to amplify. Nothing is attenuated and no frequency is removed, so
+     * a take that is already clean still normalises exactly as before, and a take that is not
+     * comes back no quieter than it was recorded.
+     */
+    fun normalizationGain(peak: Float, noiseFloor: Float): Float? {
         if (peak <= 0f) return null
         val desired = TARGET_PEAK / peak
         if (desired <= MIN_WORTHWHILE_GAIN) return null
-        return min(desired, MAX_GAIN)
+        val ceiling = if (noiseFloor > 0f) {
+            max(1f, NOISE_CEILING / noiseFloor)
+        } else {
+            MAX_GAIN
+        }
+        val allowed = min(min(desired, MAX_GAIN), ceiling)
+        // Below this the lift is not worth a re-encode; the caller leaves the take alone unless
+        // it still has denoising to do.
+        if (allowed <= MIN_WORTHWHILE_GAIN) return null
+        return allowed
     }
 
     // ---------------------------------------------------------------- internals
@@ -229,6 +272,8 @@ class VoiceProcessor(private val sampleRate: Int) {
             if (value != Float.MAX_VALUE) noiseTotals[bin] += value
             windowMinimum[bin] = Float.MAX_VALUE
         }
+        if (framePeakMinimum != Float.MAX_VALUE) noiseFloorTotal += framePeakMinimum
+        framePeakMinimum = Float.MAX_VALUE
         noiseWindows++
         framesInWindow = 0
     }
@@ -288,7 +333,7 @@ class VoiceProcessor(private val sampleRate: Int) {
             val target = if (level <= 1e-6f) {
                 SPECTRAL_FLOOR
             } else {
-                val clean = level - SUBTRACTION_STRENGTH * noiseEstimate[bin]
+                val clean = level - subtractionStrength(level, noiseEstimate[bin]) * noiseEstimate[bin]
                 max(clean / level, SPECTRAL_FLOOR)
             }
             // Ease each bin's gain toward its new value instead of snapping. Abrupt per-frame
@@ -305,6 +350,27 @@ class VoiceProcessor(private val sampleRate: Int) {
                 imaginary[mirror] *= smoothed
             }
         }
+    }
+
+    /**
+     * How hard to subtract from one bin, decided by how much of that bin is voice.
+     *
+     * A single strength for the whole spectrum has to choose between leaving the room in and
+     * chewing the voice up, because the bins carrying a vowel and the bins carrying only a fan
+     * get the same treatment. Grading it by signal-to-noise splits that decision: a bin well
+     * above the noise estimate is speech and gets only its measured noise taken out, while a bin
+     * sitting at the estimate is the room and gets pushed well under it.
+     *
+     * The effect on what the user hears is that the steady background goes further down than a
+     * flat strength could manage, and the voice is handled more gently than it was before.
+     */
+    private fun subtractionStrength(level: Float, noiseLevel: Float): Float {
+        if (noiseLevel <= 1e-6f) return SUBTRACTION_GENTLE
+        val snr = level / noiseLevel
+        if (snr <= SNR_ALL_NOISE) return SUBTRACTION_AGGRESSIVE
+        if (snr >= SNR_ALL_VOICE) return SUBTRACTION_GENTLE
+        val across = (snr - SNR_ALL_NOISE) / (SNR_ALL_VOICE - SNR_ALL_NOISE)
+        return SUBTRACTION_AGGRESSIVE - across * (SUBTRACTION_AGGRESSIVE - SUBTRACTION_GENTLE)
     }
 
     private fun overlapAdd(onOutput: (FloatArray, Int) -> Unit) {
@@ -485,13 +551,31 @@ class VoiceProcessor(private val sampleRate: Int) {
          * background disappears but speech starts to sound thin and watery.
          */
         private const val NOISE_OVERESTIMATE = 1.5f
-        private const val SUBTRACTION_STRENGTH = 1.5f
+        /**
+         * Subtraction multipliers, picked per bin by [subtractionStrength]. The gentle end is
+         * below the old flat 1.5 so speech keeps more of itself than it used to; the aggressive
+         * end is above it so the room loses more than it used to.
+         */
+        private const val SUBTRACTION_GENTLE = 1.0f
+        private const val SUBTRACTION_AGGRESSIVE = 2.5f
+
+        /** A bin at or under the noise estimate is room; four times over it is voice. */
+        private const val SNR_ALL_NOISE = 1.0f
+        private const val SNR_ALL_VOICE = 4.0f
         /** Leave ~26 dB of the original noise rather than a silence full of artefacts. */
         private const val SPECTRAL_FLOOR = 0.05f
         private const val GAIN_SMOOTHING = 0.5f
 
         /** About -1 dBFS: loud and consistent, with headroom left for the encoder. */
         const val TARGET_PEAK = 29_000f
+
+        /**
+         * The loudest the room is allowed to end up after normalisation, on the same 0..32767
+         * scale as the samples. Around -38 dBFS: audible if you hunt for it on headphones in a
+         * silent room, nowhere near audible from a phone speaker across a kitchen, which is
+         * where these reminders actually play.
+         */
+        const val NOISE_CEILING = 400f
         /** Not worth a re-encode for less than roughly 1 dB of change. */
         private const val MIN_WORTHWHILE_GAIN = 1.12f
         /** ~18 dB. Beyond this a near-silent take just gets a louder noise floor. */

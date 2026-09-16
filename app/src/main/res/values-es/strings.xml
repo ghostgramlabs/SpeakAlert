@@ -550,7 +550,7 @@
     <string name="wn_form_title">Tu formulario, a tu manera</string>
     <string name="wn_form_desc">En Ajustes &gt; Formulario del recordatorio, muestra u oculta de forma independiente Grabación de voz, Elegir archivo de audio, Recordatorio escrito y Etiqueta corta.</string>
     <string name="wn_recording_title">Mejora de voz experimental opcional</string>
-    <string name="wn_recording_desc">Un nuevo ajuste permite mantener la grabación original sin procesar (opción predeterminada) o activar nuevas protecciones, avisos de silencio, limpieza de ruido y normalización de voz. Las grabaciones silenciosas siempre se conservan.</string>
+    <string name="wn_recording_desc">Un nuevo ajuste permite mantener la grabación original sin procesar (opción predeterminada) o activar nuevas protecciones, avisos de silencio y limpieza de ruido de fondo que sube las grabaciones bajas a un nivel cómodo sin subir con ellas el ruido de la sala. Las grabaciones silenciosas siempre se conservan.</string>
     <string name="wn_reliability_title">Más fiable en Android reciente</string>
     <string name="wn_reliability_desc">La reproducción del recordatorio ahora se inicia de forma segura e inmediata en primer plano, evitando tiempos de espera observados en algunos dispositivos con Android 12 y Android 16.</string>
     <string name="settings_24_hour_time">Usar formato de 24 horas</string>

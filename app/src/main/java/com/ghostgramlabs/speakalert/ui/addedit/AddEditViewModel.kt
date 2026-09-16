@@ -517,6 +517,12 @@ class AddEditViewModel(
      * On validation error: sets showError=true, stays on screen
      */
     fun saveReminder() {
+        // Saving during a take means "I am done speaking", not "discard this". Finish the
+        // recording first so the take becomes the reminder's audio; otherwise the in-progress
+        // recording has no path yet and the save fails the audio-or-text check, which reads as
+        // being asked for a message while visibly recording one.
+        if (_uiState.value.isRecording) stopRecording()
+
         val state = _uiState.value
 
         // The screen stays up briefly after a successful save, so a save in flight or already

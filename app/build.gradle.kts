@@ -12,7 +12,7 @@ android {
         applicationId = "com.ghostgramlabs.speakalert"
         minSdk = 26
         targetSdk = 36
-        versionCode = 55
+        versionCode = 56
         versionName = "2.0.35"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

@@ -8,6 +8,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import kotlin.math.PI
 import kotlin.math.abs
+import kotlin.math.max
 import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.random.Random
@@ -159,6 +160,80 @@ class VoiceProcessorTest {
     }
 
     @Test
+    fun `a quiet take in a noisy room is not lifted into audible hiss`() {
+        // The case behind the complaint: not much voice, plenty of room. The old gain took the
+        // peak to target and carried the room up with it.
+        val speech = speechLike(amplitude = 3_000f, samples = SAMPLE_COUNT)
+        val room = whiteNoise(amplitude = 600f, samples = SAMPLE_COUNT, seed = 11)
+
+        val processor = VoiceProcessor(sampleRate)
+        val noisy = mix(speech, room)
+        processor.analyze(noisy, noisy.size)
+        val analysis = processor.finishAnalysis()
+
+        assertTrue("The room should register as a floor", analysis.noiseFloor > 0f)
+        val uncapped = processor.normalizationGain(analysis.peak)
+        val capped = processor.normalizationGain(analysis.peak, analysis.noiseFloor)
+
+        assertNotNull("This take is quiet enough that it used to be lifted", uncapped)
+        assertTrue(
+            "Gain ${capped ?: 1f} should be held below the uncapped ${uncapped!!}",
+            (capped ?: 1f) < uncapped
+        )
+        // Never attenuated: the voice comes back no quieter than it was recorded.
+        assertTrue("Gain must not duck the take", (capped ?: 1f) >= 1f)
+        // And the room comes back no louder than it went in.
+        val liftedFloor = analysis.noiseFloor * (capped ?: 1f)
+        assertTrue(
+            "Room went from ${analysis.noiseFloor} to $liftedFloor",
+            liftedFloor <= max(VoiceProcessor.NOISE_CEILING, analysis.noiseFloor) + 1f
+        )
+    }
+
+    @Test
+    fun `a quiet take in a quiet room is still brought up to level`() {
+        // The cap must not cost a clean recording its normalisation.
+        val speech = speechLike(amplitude = 3_000f, samples = SAMPLE_COUNT)
+        val quietRoom = whiteNoise(amplitude = 30f, samples = SAMPLE_COUNT, seed = 5)
+
+        val processor = VoiceProcessor(sampleRate)
+        val take = mix(speech, quietRoom)
+        processor.analyze(take, take.size)
+        val analysis = processor.finishAnalysis()
+
+        val uncapped = processor.normalizationGain(analysis.peak)
+        val capped = processor.normalizationGain(analysis.peak, analysis.noiseFloor)
+
+        assertNotNull(uncapped)
+        assertEquals(
+            "A clean take should normalise exactly as it did before",
+            uncapped!!,
+            capped!!,
+            0.001f
+        )
+    }
+
+    @Test
+    fun `degenerate takes are processed rather than throwing`() {
+        // Whatever an unusual microphone hands back, the cleanup has to come out the other side.
+        // Mp4AudioEnhancer keeps the original take when this throws, but a device that always
+        // throws is a device that never gets cleanup, so the arithmetic is checked directly.
+        val takes = linkedMapOf(
+            "nothing at all" to ShortArray(0),
+            "a single sample" to shortArrayOf(1_234),
+            "under one frame" to tone(400f, 5_000f, VoiceProcessor.FRAME_SIZE - 1),
+            "pinned to full scale" to ShortArray(SAMPLE_COUNT) { if (it % 2 == 0) 32_767 else -32_768 },
+            "a stuck dc offset" to ShortArray(SAMPLE_COUNT) { 20_000 },
+            "digital silence" to ShortArray(SAMPLE_COUNT)
+        )
+
+        for ((description, take) in takes) {
+            val output = process(take)
+            assertEquals("A take of $description must not change length", take.size, output.size)
+        }
+    }
+
+    @Test
     fun `every input sample is accounted for in the output`() {
         val input = tone(frequency = 400f, amplitude = 5_000f, samples = SAMPLE_COUNT)
 
@@ -184,7 +259,7 @@ class VoiceProcessorTest {
         val processor = VoiceProcessor(sampleRate)
         processor.analyze(input, input.size)
         val analysis = processor.finishAnalysis()
-        val gain = processor.normalizationGain(analysis.peak) ?: 1f
+        val gain = processor.normalizationGain(analysis.peak, analysis.noiseFloor) ?: 1f
 
         processor.beginRender(analysis, gain)
         val collected = ArrayList<Short>(input.size)
