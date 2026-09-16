@@ -674,4 +674,101 @@ class AddEditViewModelTest {
         assertFalse(viewModel.uiState.value.showTypedReminderSection)
         assertFalse(viewModel.uiState.value.showShortLabelSection)
     }
+
+    @Test
+    fun `audit repeated save during success navigation inserts only once`() = runTest {
+        viewModel.updateReminderText("One reminder only")
+        whenever(repository.insertReminder(any())).thenReturn(10L)
+        viewModel.saveReminder()
+        advanceUntilIdle()
+        // The editor stays visible for its 800 ms success animation.
+        viewModel.saveReminder()
+        advanceUntilIdle()
+        verify(repository, times(1)).insertReminder(any())
+    }
+
+    @Test
+    fun `audit clearing editor while recording releases microphone`() = runTest {
+        viewModel.startRecording()
+        val store = androidx.lifecycle.ViewModelStore()
+        store.put("editor", viewModel)
+        store.clear()
+        verify(recorder).stop()
+    }
+
+    @Test
+    fun `audit retry after database failure retains recorded audio`() = runTest {
+        experimentalVoiceEnhancementEnabled.value = false
+        advanceUntilIdle()
+        viewModel.startRecording()
+        val fileCaptor = argumentCaptor<File>()
+        verify(recorder).start(fileCaptor.capture(), org.mockito.kotlin.eq(false))
+        fileCaptor.firstValue.writeBytes(byteArrayOf(1, 2, 3, 4))
+        viewModel.stopRecording()
+        whenever(repository.insertReminder(any()))
+            .thenThrow(IllegalStateException("Simulated database failure"))
+            .thenReturn(11L)
+        viewModel.saveReminder()
+        advanceUntilIdle()
+        assertFalse(viewModel.uiState.value.saveCompleted)
+        viewModel.saveReminder()
+        advanceUntilIdle()
+        val saved = argumentCaptor<ReminderEntity>()
+        verify(repository, times(2)).insertReminder(saved.capture())
+        assertTrue("Retried reminder must reference an existing audio file",
+            File(saved.lastValue.audioPath!!).isFile)
+    }
+
+    private fun recordBaselineTake(): File {
+        experimentalVoiceEnhancementEnabled.value = false
+        viewModel.startRecording()
+        val fileCaptor = argumentCaptor<File>()
+        verify(recorder).start(fileCaptor.capture(), org.mockito.kotlin.eq(false))
+        fileCaptor.firstValue.writeBytes(byteArrayOf(1, 2, 3, 4))
+        viewModel.stopRecording()
+        return fileCaptor.firstValue
+    }
+
+    @Test
+    fun `failed database write keeps temp take and removes its unreferenced copy`() = runTest {
+        advanceUntilIdle()
+        val take = recordBaselineTake()
+        whenever(repository.insertReminder(any()))
+            .thenThrow(IllegalStateException("Simulated database failure"))
+
+        viewModel.saveReminder()
+        advanceUntilIdle()
+
+        val state = viewModel.uiState.value
+        assertFalse(state.saveCompleted)
+        assertFalse(state.isSaving)
+        assertTrue(take.isFile)
+        assertEquals(take.absolutePath, state.recordedAudioPath)
+        assertEquals(0, File(context.filesDir, "reminders").listFiles()!!.size)
+    }
+
+    @Test
+    fun `schedule failure after insert retries as an update with the saved audio`() = runTest {
+        advanceUntilIdle()
+        val take = recordBaselineTake()
+        whenever(repository.insertReminder(any())).thenReturn(21L)
+        org.mockito.kotlin.doThrow(IllegalStateException("Simulated alarm failure"))
+            .doNothing()
+            .whenever(scheduler).schedule(any(), any())
+
+        viewModel.saveReminder()
+        advanceUntilIdle()
+        assertFalse(viewModel.uiState.value.saveCompleted)
+        assertFalse(take.exists())
+
+        viewModel.saveReminder()
+        advanceUntilIdle()
+
+        assertTrue(viewModel.uiState.value.saveCompleted)
+        verify(repository, times(1)).insertReminder(any())
+        val updated = argumentCaptor<ReminderEntity>()
+        verify(repository).updateReminder(updated.capture())
+        assertEquals(21L, updated.firstValue.id)
+        assertTrue(File(updated.firstValue.audioPath!!).isFile)
+    }
 }

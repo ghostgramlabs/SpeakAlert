@@ -17,6 +17,7 @@ import com.ghostgramlabs.speakalert.domain.models.MissedPolicy
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceModel
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import com.ghostgramlabs.speakalert.domain.models.EndRuleType
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -516,51 +517,56 @@ class AddEditViewModel(
      * On validation error: sets showError=true, stays on screen
      */
     fun saveReminder() {
-        viewModelScope.launch {
-            val state = _uiState.value
-            
-            // VALIDATION: Must have Audio OR Text
-            val hasAudio = !state.recordedAudioPath.isNullOrBlank()
-            val hasText = state.reminderText.isNotBlank()
-            
-            if (!hasAudio && !hasText) {
-                _uiState.value = _uiState.value.copy(showError = true)
-                return@launch
-            }
-            
-            // Start saving - clear errors first
-            _uiState.value = _uiState.value.copy(showError = false, showPastTimeError = false)
+        val state = _uiState.value
 
-            // VALIDATION: Time must be in future for non-recurring
-            if (state.recurrenceType == RecurrenceType.NONE && state.triggerTime < System.currentTimeMillis()) {
-                _uiState.value = _uiState.value.copy(showPastTimeError = true)
-                return@launch
-            }
-            
-            _uiState.value = _uiState.value.copy(isSaving = true)
-            
+        // The screen stays up briefly after a successful save, so a save in flight or already
+        // completed must not write the reminder again. Checked and marked synchronously so two
+        // quick taps cannot both get past it.
+        if (state.isSaving || state.saveCompleted) return
+
+        // VALIDATION: Must have Audio OR Text
+        val hasAudio = !state.recordedAudioPath.isNullOrBlank()
+        val hasText = state.reminderText.isNotBlank()
+
+        if (!hasAudio && !hasText) {
+            _uiState.value = _uiState.value.copy(showError = true)
+            return
+        }
+
+        // Start saving - clear errors first
+        _uiState.value = _uiState.value.copy(showError = false, showPastTimeError = false)
+
+        // VALIDATION: Time must be in future for non-recurring
+        if (state.recurrenceType == RecurrenceType.NONE && state.triggerTime < System.currentTimeMillis()) {
+            _uiState.value = _uiState.value.copy(showPastTimeError = true)
+            return
+        }
+
+        _uiState.value = _uiState.value.copy(isSaving = true)
+
+        viewModelScope.launch {
+            // Final copy of a new take that no stored reminder references yet.
+            var unreferencedAudioFile: File? = null
+            // Set once the reminder row is written, so a retry updates it instead of inserting.
+            var savedId: Long? = null
+            var finalAudioPath = state.recordedAudioPath
             try {
                 // Enhancement runs after Stop so recording controls and Preview are immediate.
                 // If Save is tapped at once, wait here so the saved file is never a partial or
                 // unprocessed copy racing the codec pipeline.
                 enhancementJob?.join()
 
-                // Move temp file to final location on IO thread
+                // Copy the temp take to its final location. The temp file is kept until the
+                // database write succeeds, so a failed save can be retried with the same audio.
                 val sourceAudioFile = tempAudioFile
-                val finalAudioPath = if (sourceAudioFile != null) {
-                    withContext(ioDispatcher) {
-                        val finalFileName = "${UUID.randomUUID()}.m4a"
-                        val finalFile = File(audioDir, finalFileName)
-                        sourceAudioFile.copyTo(finalFile, overwrite = true)
-                        sourceAudioFile.delete()
-                        finalFile.absolutePath
-                    }
-                } else {
-                    state.recordedAudioPath
-                }
                 if (sourceAudioFile != null) {
-                    tempAudioFile = null
-                    enhancementJob = null
+                    val finalFile = withContext(ioDispatcher) {
+                        File(audioDir, "${UUID.randomUUID()}.m4a").also {
+                            sourceAudioFile.copyTo(it, overwrite = true)
+                        }
+                    }
+                    unreferencedAudioFile = finalFile
+                    finalAudioPath = finalFile.absolutePath
                 }
 
                 // Auto-align recurring reminders to their rule
@@ -613,15 +619,26 @@ class AddEditViewModel(
                     followUpCheckMinutes = state.followUpCheckMinutes
                 )
                 
-                if (state.initialReminderId != -1L) {
+                val id = if (state.initialReminderId != -1L) {
                     repository.updateReminder(reminder)
-                    scheduler.schedule(reminder)
+                    reminder.id
                 } else {
-                    val id = repository.insertReminder(reminder)
-                    val savedReminder = reminder.copy(id = id)
-                    scheduler.schedule(savedReminder)
+                    repository.insertReminder(reminder)
                 }
-                
+                savedId = id
+
+                // The stored reminder now references the final copy; the temp take can go.
+                unreferencedAudioFile = null
+                if (sourceAudioFile != null) {
+                    withContext(ioDispatcher) { sourceAudioFile.delete() }
+                    if (tempAudioFile == sourceAudioFile) {
+                        tempAudioFile = null
+                        enhancementJob = null
+                    }
+                }
+
+                scheduler.schedule(reminder.copy(id = id))
+
                 // Signal success - screen should now navigate back
                 val savedState = state.copy(
                     recordedAudioPath = finalAudioPath,
@@ -629,16 +646,31 @@ class AddEditViewModel(
                     saveCompleted = true
                 )
                 setSavedDraft(savedState)
-                
+
+            } catch (e: CancellationException) {
+                // The editor was cleared mid-save. A cancelled database call may still have
+                // committed, so never delete the final copy here.
+                throw e
             } catch (e: Exception) {
                 e.printStackTrace()
-                _uiState.value = _uiState.value.copy(isSaving = false, showError = true)
+                unreferencedAudioFile?.delete()
+                val failed = _uiState.value.copy(isSaving = false, showError = true)
+                // Written but not scheduled: point the retry at the stored row and its audio.
+                _uiState.value = savedId?.let {
+                    failed.copy(initialReminderId = it, recordedAudioPath = finalAudioPath)
+                } ?: failed
             }
         }
     }
-    
+
     override fun onCleared() {
         super.onCleared()
+        // Leaving the editor mid-take (e.g. its navigation entry is removed) must release the
+        // microphone; otherwise the recorder keeps capturing into a file deleted below.
+        recordingTimerJob?.cancel()
+        if (_uiState.value.isRecording) {
+            runCatching { recorder.stop() }
+        }
         player.stop()
         playbackJob?.cancel()
         // Clean up temp file if not saved
