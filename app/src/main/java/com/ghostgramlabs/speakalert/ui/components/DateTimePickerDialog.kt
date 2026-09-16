@@ -46,6 +46,8 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import androidx.compose.ui.res.stringResource
+import com.ghostgramlabs.speakalert.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -75,13 +77,13 @@ fun DateTimePickerDialog(
                 .padding(horizontal = 20.dp, vertical = 8.dp)
         ) {
             Text(
-                text = "Choose date and time",
+                text = stringResource(R.string.dtp_title),
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold),
                 color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
-                text = "Use the quick options or pick the exact date and time.",
+                text = stringResource(R.string.dtp_subtitle),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -128,18 +130,23 @@ fun DateTimePickerDialog(
 
             Spacer(modifier = Modifier.height(20.dp))
             Text(
-                text = "Quick date",
+                text = stringResource(R.string.dtp_quick_date),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.height(8.dp))
+            // Index-based so the labels can be translated without changing behavior.
             QuickActionRow(
-                labels = listOf("Today", "Tomorrow", "Next week"),
-                onClick = { label ->
+                labels = listOf(
+                    stringResource(R.string.date_today),
+                    stringResource(R.string.date_tomorrow),
+                    stringResource(R.string.dtp_next_week)
+                ),
+                onClick = { index ->
                     validationError = null
-                    draftTime = when (label) {
-                        "Today" -> ensureFuture(setDateKeepingTime(draftTime, dayOffset = 0))
-                        "Tomorrow" -> setDateKeepingTime(draftTime, dayOffset = 1)
+                    draftTime = when (index) {
+                        0 -> ensureFuture(setDateKeepingTime(draftTime, dayOffset = 0))
+                        1 -> setDateKeepingTime(draftTime, dayOffset = 1)
                         else -> setDateKeepingTime(draftTime, weekOffset = 1)
                     }
                 }
@@ -147,18 +154,22 @@ fun DateTimePickerDialog(
 
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Quick time",
+                text = stringResource(R.string.dtp_quick_time),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.height(8.dp))
             QuickActionRow(
-                labels = listOf("+10 min", "+30 min", "+1 hour"),
-                onClick = { label ->
+                labels = listOf(
+                    stringResource(R.string.dtp_plus_10),
+                    stringResource(R.string.dtp_plus_30),
+                    stringResource(R.string.dtp_plus_60)
+                ),
+                onClick = { index ->
                     validationError = null
-                    draftTime = when (label) {
-                        "+10 min" -> DateUtils.normalizeToMinute(System.currentTimeMillis() + 10 * 60 * 1000L)
-                        "+30 min" -> DateUtils.normalizeToMinute(System.currentTimeMillis() + 30 * 60 * 1000L)
+                    draftTime = when (index) {
+                        0 -> DateUtils.normalizeToMinute(System.currentTimeMillis() + 10 * 60 * 1000L)
+                        1 -> DateUtils.normalizeToMinute(System.currentTimeMillis() + 30 * 60 * 1000L)
                         else -> DateUtils.normalizeToMinute(System.currentTimeMillis() + 60 * 60 * 1000L)
                     }
                 }
@@ -167,14 +178,14 @@ fun DateTimePickerDialog(
             Spacer(modifier = Modifier.height(18.dp))
             PickerActionCard(
                 icon = Icons.Outlined.CalendarMonth,
-                title = "Pick exact date",
+                title = stringResource(R.string.dtp_pick_date),
                 value = dateFormatter.format(Date(draftTime)),
                 onClick = { showDateDialog = true }
             )
             Spacer(modifier = Modifier.height(10.dp))
             PickerActionCard(
                 icon = Icons.Outlined.Schedule,
-                title = "Pick exact time",
+                title = stringResource(R.string.dtp_pick_time),
                 value = timeFormatter.format(Date(draftTime)),
                 onClick = { showTimeDialog = true }
             )
@@ -198,12 +209,13 @@ fun DateTimePickerDialog(
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(14.dp)
                 ) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.action_cancel))
                 }
+                val futureError = stringResource(R.string.dtp_err_future)
                 Button(
                     onClick = {
                         if (draftTime < System.currentTimeMillis()) {
-                            validationError = "Time must be in the future"
+                            validationError = futureError
                         } else {
                             onConfirm(draftTime)
                         }
@@ -214,7 +226,7 @@ fun DateTimePickerDialog(
                         containerColor = MaterialTheme.colorScheme.primary
                     )
                 ) {
-                    Text("Apply")
+                    Text(stringResource(R.string.action_apply))
                 }
             }
             Spacer(modifier = Modifier.height(12.dp))
@@ -222,10 +234,11 @@ fun DateTimePickerDialog(
     }
 
     if (showDateDialog) {
+        val dateError = stringResource(R.string.dtp_err_date_future)
         val applyPickedDate: (Long) -> Unit = { pickedDate ->
             val candidate = mergeDate(draftTime, pickedDate)
             if (startOfDay(candidate) < startOfDay(System.currentTimeMillis())) {
-                validationError = "Date must be today or in the future"
+                validationError = dateError
             } else {
                 draftTime = candidate
                 validationError = null
@@ -254,12 +267,12 @@ fun DateTimePickerDialog(
                         },
                         enabled = datePickerState.selectedDateMillis != null
                     ) {
-                        Text("Apply")
+                        Text(stringResource(R.string.action_apply))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { showDateDialog = false }) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.action_cancel))
                     }
                 },
                 shape = RoundedCornerShape(24.dp)
@@ -297,7 +310,7 @@ fun DateTimePickerDialog(
                 shape = RoundedCornerShape(24.dp),
                 title = {
                     Text(
-                        text = "Pick exact time",
+                        text = stringResource(R.string.dtp_pick_time),
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
                     )
                 },
@@ -311,12 +324,12 @@ fun DateTimePickerDialog(
                         },
                         shape = RoundedCornerShape(12.dp)
                     ) {
-                        Text("Apply")
+                        Text(stringResource(R.string.action_apply))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { showTimeDialog = false }) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.action_cancel))
                     }
                 }
             )
@@ -327,7 +340,7 @@ fun DateTimePickerDialog(
 @Composable
 private fun QuickActionRow(
     labels: List<String>,
-    onClick: (String) -> Unit
+    onClick: (Int) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -335,9 +348,9 @@ private fun QuickActionRow(
             .horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        labels.forEach { label ->
+        labels.forEachIndexed { index, label ->
             OutlinedButton(
-                onClick = { onClick(label) },
+                onClick = { onClick(index) },
                 shape = RoundedCornerShape(14.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
                     containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f),
@@ -393,7 +406,7 @@ private fun PickerActionCard(
                 }
             }
             Text(
-                text = "Edit",
+                text = stringResource(R.string.action_edit),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.primary
             )

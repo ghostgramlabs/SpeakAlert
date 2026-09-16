@@ -169,7 +169,7 @@ fun SettingsScreen(
                 title = { Text(stringResource(R.string.home_cd_settings)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateUp) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.action_back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -626,7 +626,7 @@ fun SettingsScreen(
                 // Test Reminder Button
                 OutlinedButton(
                     onClick = {
-                        viewModel.scheduleTestReminder()
+                        viewModel.scheduleTestReminder(context)
                         Toast.makeText(context, context.getString(R.string.set_toast_test), Toast.LENGTH_SHORT).show()
                     },
                     modifier = Modifier.fillMaxWidth()

@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:text="Quick add"
+                android:text="@string/widget_quick_subtitle"
                 android:textColor="@color/widget_text_secondary"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -67,7 +67,7 @@
         android:drawablePadding="8dp"
         android:gravity="center"
         android:minHeight="46dp"
-        android:text="Add Reminder"
+        android:text="@string/home_cd_add"
         android:textColor="@color/widget_button_text"
         android:textSize="15sp"
         android:textStyle="bold" />

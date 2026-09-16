@@ -46,12 +46,15 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ghostgramlabs.speakalert.R
 import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
 import com.ghostgramlabs.speakalert.domain.models.EndRuleType
 import com.ghostgramlabs.speakalert.domain.models.MonthlyVariant
@@ -72,7 +75,7 @@ fun MonthlyDayGrid(
 ) {
     Column(modifier = modifier) {
         Text(
-            text = "Days of month",
+            text = stringResource(R.string.card_days_of_month),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 6.dp)
@@ -217,10 +220,10 @@ fun RecurrenceDetailsRow(
 ) {
     when (recurrenceType) {
         RecurrenceType.NONE -> {
-            RecurrenceInfoCard(text = "One-time reminder", modifier = modifier)
+            RecurrenceInfoCard(text = stringResource(R.string.card_recur_onetime), modifier = modifier)
         }
         RecurrenceType.DAILY -> {
-            RecurrenceInfoCard(text = "Repeats daily", modifier = modifier)
+            RecurrenceInfoCard(text = stringResource(R.string.card_recur_daily), modifier = modifier)
         }
         RecurrenceType.WEEKLY -> {
             val model = RecurrenceUtils.fromJson(recurrenceType, recurrenceJson)
@@ -228,7 +231,7 @@ fun RecurrenceDetailsRow(
                 WeekdayChips(selectedDays = model.daysOfWeek, modifier = modifier)
             } else {
                 Text(
-                    text = "Weekly",
+                    text = stringResource(R.string.rec_weekly),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = modifier
@@ -239,7 +242,7 @@ fun RecurrenceDetailsRow(
             val model = RecurrenceUtils.fromJson(recurrenceType, recurrenceJson)
             if (model is RecurrenceModel.Monthly) {
                 if (model.variant == MonthlyVariant.LAST_DAY) {
-                    RecurrenceInfoCard(text = "Last day of each month", modifier = modifier)
+                    RecurrenceInfoCard(text = stringResource(R.string.card_recur_last_day), modifier = modifier)
                 } else {
                     MonthlyDayGrid(
                         selectedDays = model.daysOfMonth,
@@ -248,7 +251,7 @@ fun RecurrenceDetailsRow(
                 }
             } else {
                 Text(
-                    text = "Monthly",
+                    text = stringResource(R.string.rec_monthly),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = modifier
@@ -259,21 +262,27 @@ fun RecurrenceDetailsRow(
             val model = RecurrenceUtils.fromJson(recurrenceType, recurrenceJson)
             val summaryText = if (model is RecurrenceModel.Custom) {
                 val unitStr = when (model.unit) {
-                    com.ghostgramlabs.speakalert.domain.models.TimeUnit.MINUTES -> if (model.interval == 1) "minute" else "minutes"
-                    com.ghostgramlabs.speakalert.domain.models.TimeUnit.HOURS -> if (model.interval == 1) "hour" else "hours"
-                    com.ghostgramlabs.speakalert.domain.models.TimeUnit.DAYS -> if (model.interval == 1) "day" else "days"
-                    com.ghostgramlabs.speakalert.domain.models.TimeUnit.WEEKS -> if (model.interval == 1) "week" else "weeks"
-                    com.ghostgramlabs.speakalert.domain.models.TimeUnit.MONTHS -> if (model.interval == 1) "month" else "months"
-                    com.ghostgramlabs.speakalert.domain.models.TimeUnit.YEARS -> if (model.interval == 1) "year" else "years"
-                }
-                "Every ${model.interval} $unitStr"
+                    com.ghostgramlabs.speakalert.domain.models.TimeUnit.MINUTES ->
+                        pluralStringResource(R.plurals.unit_minutes, model.interval)
+                    com.ghostgramlabs.speakalert.domain.models.TimeUnit.HOURS ->
+                        pluralStringResource(R.plurals.unit_hours, model.interval)
+                    com.ghostgramlabs.speakalert.domain.models.TimeUnit.DAYS ->
+                        pluralStringResource(R.plurals.unit_days, model.interval)
+                    com.ghostgramlabs.speakalert.domain.models.TimeUnit.WEEKS ->
+                        pluralStringResource(R.plurals.unit_weeks, model.interval)
+                    com.ghostgramlabs.speakalert.domain.models.TimeUnit.MONTHS ->
+                        pluralStringResource(R.plurals.unit_months, model.interval)
+                    com.ghostgramlabs.speakalert.domain.models.TimeUnit.YEARS ->
+                        pluralStringResource(R.plurals.unit_years, model.interval)
+                }.lowercase(Locale.getDefault())
+                stringResource(R.string.rec_every, model.interval, unitStr)
             } else {
-                "Custom interval"
+                stringResource(R.string.rs_custom_interval)
             }
             RecurrenceInfoCard(text = summaryText, modifier = modifier)
         }
         RecurrenceType.YEARLY -> {
-            RecurrenceInfoCard(text = "Repeats yearly", modifier = modifier)
+            RecurrenceInfoCard(text = stringResource(R.string.card_recur_yearly), modifier = modifier)
         }
     }
 }
@@ -314,11 +323,14 @@ private fun RecurrenceEndRuleChip(
     }
 }
 
+@Composable
 private fun buildRecurrenceEndRuleText(
     recurrenceType: RecurrenceType,
     recurrenceJson: String?
 ): RecurrenceEndRuleDisplay? {
-    val model = RecurrenceUtils.fromJson(recurrenceType, recurrenceJson) ?: return null
+    val model = remember(recurrenceType, recurrenceJson) {
+        RecurrenceUtils.fromJson(recurrenceType, recurrenceJson)
+    } ?: return null
     return when (model.endRule.type) {
         EndRuleType.NEVER -> null
         EndRuleType.UNTIL_DATE -> {
@@ -327,15 +339,14 @@ private fun buildRecurrenceEndRuleText(
             val fullFormatter = SimpleDateFormat("MMM d, yyyy 'at' ${com.ghostgramlabs.speakalert.util.TimeFormat.timePattern}", Locale.getDefault())
             RecurrenceEndRuleDisplay(
                 text = compactFormatter.format(Date(endDate)),
-                contentDescription = "Ends by ${fullFormatter.format(Date(endDate))}"
+                contentDescription = stringResource(R.string.det_ends_by, fullFormatter.format(Date(endDate)))
             )
         }
         EndRuleType.AFTER_OCCURRENCES -> {
             val count = model.endRule.count ?: 0
-            val unit = if (count == 1) "occurrence" else "occurrences"
             RecurrenceEndRuleDisplay(
-                text = "$count $unit",
-                contentDescription = "Ends after $count $unit"
+                text = pluralStringResource(R.plurals.card_occurrences, count, count),
+                contentDescription = pluralStringResource(R.plurals.det_ends_after, count, count)
             )
         }
     }
@@ -398,21 +409,37 @@ fun ReminderCard(
 
     // Build a concise subtitle: "Today • Monthly" or "Upcoming • Daily"
     val recurrenceLabel = when (recurrenceType) {
-        RecurrenceType.NONE -> "One-time"
-        RecurrenceType.DAILY -> "Daily"
-        RecurrenceType.WEEKLY -> "Weekly"
-        RecurrenceType.MONTHLY -> "Monthly"
-        RecurrenceType.YEARLY -> "Yearly"
-        RecurrenceType.CUSTOM -> "Custom"
+        RecurrenceType.NONE -> stringResource(R.string.rec_onetime)
+        RecurrenceType.DAILY -> stringResource(R.string.rec_daily)
+        RecurrenceType.WEEKLY -> stringResource(R.string.rec_weekly)
+        RecurrenceType.MONTHLY -> stringResource(R.string.rec_monthly)
+        RecurrenceType.YEARLY -> stringResource(R.string.rec_yearly)
+        RecurrenceType.CUSTOM -> stringResource(R.string.rec_custom)
     }
     val subtitleLine = listOfNotNull(
         dateLabel.takeIf { it.isNotEmpty() },
         recurrenceLabel
     ).joinToString(" • ")
-    val recurrenceEndRuleText = remember(recurrenceType, recurrenceJson) {
-        buildRecurrenceEndRuleText(recurrenceType, recurrenceJson)
+    val recurrenceEndRuleText = buildRecurrenceEndRuleText(recurrenceType, recurrenceJson)
+
+    // Resolved up front: the semantics lambda below is not composable.
+    val stateCompleted = stringResource(R.string.state_completed)
+    val statePlaying = stringResource(R.string.state_playing)
+    val stateActive = stringResource(R.string.state_active)
+    val cdReminder = stringResource(R.string.a11y_card_reminder, title)
+    val cdAt = stringResource(R.string.a11y_card_at, badgeTime)
+    val cdAudioFile = stringResource(R.string.a11y_card_has_audio_file)
+    val cdVoiceNote = stringResource(R.string.a11y_card_has_voice)
+    val cdRecurring = recurrenceSummary?.let { stringResource(R.string.a11y_card_recurring, it) }
+    val cdFollowUp = if (followUpCheckMinutes > 0) {
+        stringResource(R.string.card_cd_followup, followUpCheckMinutes)
+    } else {
+        null
     }
-    
+    val cdCompleted = stringResource(R.string.a11y_card_completed)
+    val cdPlaying = stringResource(R.string.a11y_card_playing)
+    val cdOpenHint = stringResource(R.string.a11y_card_open_hint)
+
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -420,24 +447,20 @@ fun ReminderCard(
             .semantics { 
                 role = Role.Button
                 stateDescription = when {
-                    isCompleted -> "Completed"
-                    isPlaying -> "Playing"
-                    else -> "Active"
+                    isCompleted -> stateCompleted
+                    isPlaying -> statePlaying
+                    else -> stateActive
                 }
-                contentDescription = buildString {
-                    append("Reminder: $title")
-                    if (dateLabel.isNotEmpty()) append(", $dateLabel")
-                    append(", at $badgeTime")
-                    if (hasAudio) {
-                        if (hasCustomAudioFile) append(", has audio file")
-                        else append(", has voice note")
-                    }
-                    if (recurrenceSummary != null) append(", recurring $recurrenceSummary")
-                    if (followUpCheckMinutes > 0) append(", follow-up in $followUpCheckMinutes minutes")
-                    if (isCompleted) append(", completed")
-                    if (isPlaying) append(", currently playing")
-                    append(". Double tap to open details.")
-                }
+                contentDescription = buildList {
+                    add(cdReminder)
+                    if (dateLabel.isNotEmpty()) add(dateLabel)
+                    add(cdAt)
+                    if (hasAudio) add(if (hasCustomAudioFile) cdAudioFile else cdVoiceNote)
+                    cdRecurring?.let { add(it) }
+                    cdFollowUp?.let { add(it) }
+                    if (isCompleted) add(cdCompleted)
+                    if (isPlaying) add(cdPlaying)
+                }.joinToString(", ") + ". " + cdOpenHint
             },
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(
@@ -534,7 +557,7 @@ fun ReminderCard(
                         ) {
                             Icon(
                                 Icons.Filled.ContentCopy,
-                                contentDescription = "Duplicate reminder",
+                                contentDescription = stringResource(R.string.card_cd_duplicate),
                                 tint = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier.size(19.dp)
                             )
@@ -546,7 +569,7 @@ fun ReminderCard(
                     ) {
                         Icon(
                             Icons.Filled.MoreVert,
-                            contentDescription = "More options",
+                            contentDescription = stringResource(R.string.card_cd_more),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.size(20.dp)
                         )
@@ -596,7 +619,7 @@ fun ReminderCard(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(if (isPlaying) "Stop playback" else "Play reminder")
+                    Text(stringResource(if (isPlaying) R.string.sheet_stop_playback else R.string.rrd_play))
                 }
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -616,9 +639,14 @@ fun ReminderCard(
                         else -> null
                     },
                     text = when {
-                        hasCustomAudioFile -> "Audio File"
-                        hasAudio -> "Voice"
-                        else -> "Text"
+                        hasCustomAudioFile -> stringResource(R.string.card_type_audio_file)
+                        hasAudio -> stringResource(R.string.card_type_voice)
+                        else -> stringResource(R.string.card_type_text)
+                    },
+                    iconContentDescription = when {
+                        hasCustomAudioFile -> stringResource(R.string.card_custom_audio_file)
+                        hasAudio -> stringResource(R.string.card_voice_recording)
+                        else -> stringResource(R.string.card_text_note)
                     },
                     color = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
                     onColor = MaterialTheme.colorScheme.onSurfaceVariant
@@ -645,7 +673,7 @@ fun ReminderCard(
                     if (recurrenceType != RecurrenceType.NONE) {
                         MetadataChip(
                             icon = Icons.Filled.Repeat,
-                            text = "Recurring",
+                            text = stringResource(R.string.card_chip_recurring),
                             color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f),
                             onColor = MaterialTheme.colorScheme.onPrimaryContainer
                         )
@@ -656,7 +684,7 @@ fun ReminderCard(
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.Schedule,
-                                contentDescription = "One-time reminder",
+                                contentDescription = stringResource(R.string.card_recur_onetime),
                                 modifier = Modifier.padding(6.dp).size(14.dp),
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -671,7 +699,7 @@ fun ReminderCard(
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.AllInclusive,
-                                contentDescription = "Looping",
+                                contentDescription = stringResource(R.string.card_cd_looping),
                                 modifier = Modifier.padding(6.dp).size(14.dp),
                                 tint = MaterialTheme.colorScheme.onTertiaryContainer
                             )
@@ -688,7 +716,7 @@ fun ReminderCard(
                                 modifier = Modifier
                                     .padding(horizontal = 8.dp, vertical = 4.dp)
                                     .semantics {
-                                        contentDescription = "Follow-up in $followUpCheckMinutes minutes"
+                                        contentDescription = cdFollowUp.orEmpty()
                                     },
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
@@ -728,7 +756,7 @@ fun ReminderCard(
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Text(
-                    text = "Reminder actions",
+                    text = stringResource(R.string.sheet_reminder_actions),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -744,7 +772,7 @@ fun ReminderCard(
 
                 ActionSheetRow(
                     icon = Icons.Filled.Edit,
-                    label = "Edit reminder",
+                    label = stringResource(R.string.ae_header_edit),
                     onClick = {
                         showMenu = false
                         onEditClick()
@@ -755,7 +783,7 @@ fun ReminderCard(
                 if (isPlaying && (hasAudio || (hasText && isTextToSpeechEnabled))) {
                     ActionSheetRow(
                         icon = Icons.Filled.Stop,
-                        label = "Stop playback",
+                        label = stringResource(R.string.sheet_stop_playback),
                         onClick = {
                             showMenu = false
                             onStopClick()
@@ -766,7 +794,7 @@ fun ReminderCard(
                 if (!isCompleted) {
                     ActionSheetRow(
                         icon = Icons.Filled.Check,
-                        label = if (recurrenceSummary != null) "Mark this done" else "Mark as done",
+                        label = stringResource(if (recurrenceSummary != null) R.string.sheet_mark_this_done else R.string.det_mark_done),
                         onClick = {
                             showMenu = false
                             onCompleteClick()
@@ -776,7 +804,7 @@ fun ReminderCard(
 
                 ActionSheetRow(
                     icon = Icons.Filled.Delete,
-                    label = if (recurrenceSummary != null) "Stop recurring" else "Delete reminder",
+                    label = stringResource(if (recurrenceSummary != null) R.string.rcd_stop_recurring else R.string.sheet_delete_reminder),
                     onClick = {
                         showMenu = false
                         onDeleteClick()
@@ -793,7 +821,9 @@ fun MetadataChip(
     icon: ImageVector?,
     text: String,
     color: Color,
-    onColor: Color
+    onColor: Color,
+    // Passed in explicitly: deriving it by comparing translated text would break per language.
+    iconContentDescription: String? = null
 ) {
     Surface(
         shape = CircleShape,
@@ -806,11 +836,7 @@ fun MetadataChip(
             if (icon != null) {
                 Icon(
                     imageVector = icon,
-                    contentDescription = when (text) {
-                        "Voice" -> "Voice recording"
-                        "Audio File" -> "Custom audio file"
-                        else -> "Text note"
-                    },
+                    contentDescription = iconContentDescription,
                     modifier = Modifier.size(13.dp),
                     tint = onColor
                 )
@@ -924,6 +950,7 @@ fun ActionSheetRow(
         emphasize -> MaterialTheme.colorScheme.onPrimaryContainer
         else -> MaterialTheme.colorScheme.onSurface
     }
+    val destructiveState = stringResource(R.string.a11y_destructive)
 
     Surface(
         onClick = onClick,
@@ -937,7 +964,7 @@ fun ActionSheetRow(
                     "$label. $subLabel"
                 }
                 if (isDestructive) {
-                    stateDescription = "Destructive action"
+                    stateDescription = destructiveState
                 }
             },
         shape = RoundedCornerShape(20.dp),
@@ -1043,7 +1070,7 @@ fun FollowUpDurationPicker(
             onClick = { showCustomDialog = true },
             label = {
                 Text(
-                    text = if (isCustom) "${currentMinutes}m" else "Custom",
+                    text = if (isCustom) "${currentMinutes}m" else stringResource(R.string.rec_custom),
                     maxLines = 1,
                     softWrap = false,
                     overflow = TextOverflow.Ellipsis
@@ -1102,13 +1129,13 @@ fun CustomFollowUpDurationDialog(
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             Text(
-                text = "Custom Follow-Up",
+                text = stringResource(R.string.fu_custom_title),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.SemiBold
             )
             Text(
-                text = "Ask again after this many minutes if the reminder is not marked done.",
+                text = stringResource(R.string.fu_custom_desc),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -1120,8 +1147,8 @@ fun CustomFollowUpDurationDialog(
                         value = normalized
                     }
                 },
-                label = { Text("Minutes") },
-                supportingText = { Text("Allowed: 1-$maxMinutes min") },
+                label = { Text(stringResource(R.string.set_minutes)) },
+                supportingText = { Text(stringResource(R.string.fu_allowed_range, maxMinutes)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
                 isError = value.isNotEmpty() && !isValid,
@@ -1135,14 +1162,14 @@ fun CustomFollowUpDurationDialog(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(18.dp)
             ) {
-                Text("Save")
+                Text(stringResource(R.string.action_save))
             }
             OutlinedButton(
                 onClick = onDismiss,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(18.dp)
             ) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         }
     }
@@ -1183,6 +1210,20 @@ fun VoiceRecorderCard(
         label = "pulseScale"
     )
 
+    // Resolved up front: the semantics lambdas below are not composable.
+    val stateRecording = stringResource(R.string.a11y_recording_in_progress)
+    val statePlayingPreview = stringResource(R.string.a11y_playing_preview)
+    val stateVoiceRecorded = stringResource(R.string.a11y_voice_recorded)
+    val stateNoVoice = stringResource(R.string.a11y_no_voice_recorded)
+    val cdDoubleTapStop = stringResource(R.string.vr_cd_double_tap_stop)
+    val cdLevel = stringResource(R.string.vr_cd_level)
+    val cdStartRecording = stringResource(R.string.vr_cd_start)
+    val cdPreviewProgress = stringResource(R.string.vr_cd_preview_progress)
+    val cdPreviewPercent = stringResource(
+        R.string.a11y_percent,
+        (safePlaybackProgress * 100).toInt()
+    )
+
     Card(
         shape = RoundedCornerShape(30.dp),
         colors = CardDefaults.cardColors(
@@ -1206,10 +1247,10 @@ fun VoiceRecorderCard(
             .animateContentSize()
             .semantics {
                 stateDescription = when {
-                    isRecording -> "Recording in progress"
-                    isPlaying -> "Playing audio preview"
-                    hasRecording -> "Voice note recorded"
-                    else -> "No voice note recorded"
+                    isRecording -> stateRecording
+                    isPlaying -> statePlayingPreview
+                    hasRecording -> stateVoiceRecorded
+                    else -> stateNoVoice
                 }
             }
     ) {
@@ -1228,7 +1269,7 @@ fun VoiceRecorderCard(
                  val remainingSecs = remainingSeconds % 60
                  
                  Text(
-                     "Recording...", 
+                     stringResource(R.string.vr_recording_ellipsis), 
                      style = MaterialTheme.typography.titleLarge, 
                      color = MaterialTheme.colorScheme.onErrorContainer
                  )
@@ -1261,7 +1302,7 @@ fun VoiceRecorderCard(
                          .fillMaxWidth()
                          .padding(horizontal = 32.dp)
                          .semantics {
-                             contentDescription = "Real-time sound level visualization"
+                             contentDescription = cdLevel
                          }
                  )
                  
@@ -1293,7 +1334,7 @@ fun VoiceRecorderCard(
                      ) {
                          Icon(
                              Icons.Filled.Stop, 
-                             contentDescription = "Stop Recording", 
+                             contentDescription = stringResource(R.string.vr_cd_stop),
                              tint = Color.White, 
                              modifier = Modifier.size(32.dp)
                          )
@@ -1301,15 +1342,15 @@ fun VoiceRecorderCard(
                  }
                  Spacer(modifier = Modifier.height(16.dp))
                  Text(
-                     text = "Tap to Stop", 
-                     style = MaterialTheme.typography.bodySmall, 
+                     text = stringResource(R.string.vr_tap_to_stop),
+                     style = MaterialTheme.typography.bodySmall,
                      color = MaterialTheme.colorScheme.onErrorContainer,
-                     modifier = Modifier.semantics { contentDescription = "Double tap to stop the recording" }
+                     modifier = Modifier.semantics { contentDescription = cdDoubleTapStop }
                  )
-                 
+
              } else if (isPlaying) {
                  // Playing state
-                 Text("Playing Audio", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                 Text(stringResource(R.string.vr_playing_audio), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                  Spacer(modifier = Modifier.height(16.dp))
                  
                  Row(
@@ -1320,7 +1361,7 @@ fun VoiceRecorderCard(
                          onClick = onStopPlaybackClick,
                          modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer, CircleShape)
                      ) {
-                         Icon(Icons.Filled.Stop, "Stop Playback", tint = MaterialTheme.colorScheme.onPrimaryContainer)
+                         Icon(Icons.Filled.Stop, stringResource(R.string.sheet_stop_playback), tint = MaterialTheme.colorScheme.onPrimaryContainer)
                      }
                      
                      Slider(
@@ -1330,8 +1371,8 @@ fun VoiceRecorderCard(
                              .weight(1f)
                              .padding(horizontal = 16.dp)
                              .semantics {
-                                 contentDescription = "Voice preview progress"
-                                 stateDescription = "${(safePlaybackProgress * 100).toInt()} percent"
+                                 contentDescription = cdPreviewProgress
+                                 stateDescription = cdPreviewPercent
                              }
                      )
                  }
@@ -1345,8 +1386,8 @@ fun VoiceRecorderCard(
                          horizontalArrangement = Arrangement.SpaceBetween
                      ) {
                          Column {
-                            Text("Voice recorded", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
-                            Text("Text is optional", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text(stringResource(R.string.vr_voice_recorded), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
+                            Text(stringResource(R.string.vr_text_optional), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                          }
                          
                          Row {
@@ -1354,14 +1395,14 @@ fun VoiceRecorderCard(
                                  onClick = onPlayClick,
                                  colors = IconButtonDefaults.filledIconButtonColors(containerColor = MaterialTheme.colorScheme.primary)
                              ) {
-                                 Icon(Icons.Filled.PlayArrow, "Play Recording")
+                                 Icon(Icons.Filled.PlayArrow, stringResource(R.string.vr_play_recording))
                              }
                              Spacer(modifier = Modifier.width(8.dp))
                              OutlinedIconButton(
                                  onClick = onRecordClick,
                                  border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
                              ) {
-                                  Icon(Icons.Filled.Mic, "Restart Recording", tint = MaterialTheme.colorScheme.primary)
+                                  Icon(Icons.Filled.Mic, stringResource(R.string.vr_cd_restart), tint = MaterialTheme.colorScheme.primary)
                              }
                          }
                      }
@@ -1376,7 +1417,7 @@ fun VoiceRecorderCard(
                                  .background(MaterialTheme.colorScheme.primaryContainer, CircleShape)
                                  .semantics { 
                                      role = androidx.compose.ui.semantics.Role.Button
-                                     contentDescription = "Start Voice Recording"
+                                     contentDescription = cdStartRecording
                                  }
                          ) {
                              Icon(

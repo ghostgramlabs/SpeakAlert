@@ -45,6 +45,8 @@ import com.ghostgramlabs.speakalert.ui.components.PremiumHeaderCard
 import com.ghostgramlabs.speakalert.ui.components.PremiumScreenBackground
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.BatteryOptimizationSupport
+import androidx.compose.ui.res.stringResource
+import com.ghostgramlabs.speakalert.R
 
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
@@ -69,14 +71,16 @@ fun BatteryOptimizationGuideScreen(
         }
     }
 
+    val noBatterySettings = stringResource(R.string.bog_no_battery_settings)
+
     Scaffold(
         containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
-                title = { Text("Battery Optimization Guide") },
+                title = { Text(stringResource(R.string.bog_title)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateUp) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.action_back))
                     }
                 },
                 colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(
@@ -99,9 +103,9 @@ fun BatteryOptimizationGuideScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
             PremiumHeaderCard(
-                title = "Keep reminders reliable",
-                subtitle = "Some phones pause or stop background alarms unless $APP_DISPLAY_NAME is exempt from battery restrictions.",
-                eyebrow = "Battery Optimization Guide"
+                title = stringResource(R.string.bog_header),
+                subtitle = stringResource(R.string.bog_header_sub, APP_DISPLAY_NAME),
+                eyebrow = stringResource(R.string.bog_title)
             )
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -124,20 +128,20 @@ fun BatteryOptimizationGuideScreen(
                         }
                     )
                     Text(
-                        text = "Some devices stop background alarms to save battery. This can prevent reminders from triggering.",
+                        text = stringResource(R.string.bog_intro),
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
-                        text = "Menu names can vary by MIUI, HyperOS, EMUI, Android version, and phone model.",
+                        text = stringResource(R.string.bog_menu_vary),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
                         text = if (optimizationEnabled) {
-                            "Battery optimization is still enabled for $APP_DISPLAY_NAME."
+                            stringResource(R.string.bog_status_enabled, APP_DISPLAY_NAME)
                         } else {
-                            "$APP_DISPLAY_NAME is already allowed to run without battery optimization."
+                            stringResource(R.string.bog_status_exempt, APP_DISPLAY_NAME)
                         },
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -149,7 +153,7 @@ fun BatteryOptimizationGuideScreen(
                                 if (!opened) {
                                     Toast.makeText(
                                         context,
-                                        "Battery settings are not available on this device.",
+                                        noBatterySettings,
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
@@ -157,37 +161,37 @@ fun BatteryOptimizationGuideScreen(
                             },
                             shape = RoundedCornerShape(14.dp)
                         ) {
-                            Text("Allow $APP_DISPLAY_NAME")
+                            Text(stringResource(R.string.bog_allow_app, APP_DISPLAY_NAME))
                         }
                     }
                 }
             }
 
             Text(
-                text = "Xiaomi / POCO / Redmi (MIUI / HyperOS)",
+                text = stringResource(R.string.bog_brand_xiaomi),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.SemiBold
             )
 
-            BatteryGuideStep(number = "Step 1", text = "Open Settings")
-            BatteryGuideStep(number = "Step 2", text = "Tap Battery")
-            BatteryGuideStep(number = "Step 3", text = "Tap Battery Optimization")
-            BatteryGuideStep(number = "Step 4", text = "Find $APP_DISPLAY_NAME")
-            BatteryGuideStep(number = "Step 5", text = "Select No Restrictions")
-            BatteryGuideStep(number = "Optional", text = "Lock the app in the recent apps screen.")
+            BatteryGuideStep(number = stringResource(R.string.bog_step, 1), text = stringResource(R.string.bog_open_settings))
+            BatteryGuideStep(number = stringResource(R.string.bog_step, 2), text = stringResource(R.string.bog_xiaomi_battery))
+            BatteryGuideStep(number = stringResource(R.string.bog_step, 3), text = stringResource(R.string.bog_xiaomi_optimization))
+            BatteryGuideStep(number = stringResource(R.string.bog_step, 4), text = stringResource(R.string.bog_find_app, APP_DISPLAY_NAME))
+            BatteryGuideStep(number = stringResource(R.string.bog_step, 5), text = stringResource(R.string.bog_xiaomi_no_restrictions))
+            BatteryGuideStep(number = stringResource(R.string.bog_optional), text = stringResource(R.string.bog_xiaomi_opt))
 
             Text(
-                text = "Huawei (EMUI)",
+                text = stringResource(R.string.bog_brand_huawei),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.SemiBold
             )
 
-            BatteryGuideStep(number = "Step 1", text = "Open Settings")
-            BatteryGuideStep(number = "Step 2", text = "Open Apps or App launch")
-            BatteryGuideStep(number = "Step 3", text = "Find $APP_DISPLAY_NAME")
-            BatteryGuideStep(number = "Step 4", text = "Turn off Manage automatically")
-            BatteryGuideStep(number = "Step 5", text = "Allow auto-launch, secondary launch, and run in background")
-            BatteryGuideStep(number = "Optional", text = "Also check Battery optimization and set $APP_DISPLAY_NAME to Don't allow.")
+            BatteryGuideStep(number = stringResource(R.string.bog_step, 1), text = stringResource(R.string.bog_open_settings))
+            BatteryGuideStep(number = stringResource(R.string.bog_step, 2), text = stringResource(R.string.bog_huawei_apps))
+            BatteryGuideStep(number = stringResource(R.string.bog_step, 3), text = stringResource(R.string.bog_find_app, APP_DISPLAY_NAME))
+            BatteryGuideStep(number = stringResource(R.string.bog_step, 4), text = stringResource(R.string.bog_huawei_manage_off))
+            BatteryGuideStep(number = stringResource(R.string.bog_step, 5), text = stringResource(R.string.bog_huawei_allow))
+            BatteryGuideStep(number = stringResource(R.string.bog_optional), text = stringResource(R.string.bog_huawei_opt, APP_DISPLAY_NAME))
 
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -201,12 +205,12 @@ fun BatteryOptimizationGuideScreen(
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     Text(
-                        text = "Why this matters",
+                        text = stringResource(R.string.bog_why_title),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold
                     )
                     Text(
-                        text = "Phones from Xiaomi, POCO, Redmi, Huawei, and similar brands can aggressively stop apps in the background. Use the manufacturer family and software version as a guide; exact paths can differ by device model.",
+                        text = stringResource(R.string.bog_why_body),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -218,7 +222,7 @@ fun BatteryOptimizationGuideScreen(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(14.dp)
             ) {
-                Text("Back to Settings")
+                Text(stringResource(R.string.bog_back_settings))
             }
 
             Spacer(modifier = Modifier.height(24.dp))

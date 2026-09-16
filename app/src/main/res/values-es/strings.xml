@@ -555,4 +555,158 @@
     <string name="wn_reliability_desc">La reproducción del recordatorio ahora se inicia de forma segura e inmediata en primer plano, evitando tiempos de espera observados en algunos dispositivos con Android 12 y Android 16.</string>
     <string name="settings_24_hour_time">Usar formato de 24 horas</string>
     <string name="settings_24_hour_time_desc">Muestra todas las horas como 17:30 en lugar de 5:30 p. m.</string>
+
+    <!-- Tarjeta de recordatorio y acciones -->
+    <string name="card_recur_onetime">Recordatorio único</string>
+    <string name="card_recur_daily">Se repite a diario</string>
+    <string name="card_recur_last_day">Último día de cada mes</string>
+    <string name="card_recur_yearly">Se repite cada año</string>
+    <string name="card_chip_recurring">Recurrente</string>
+    <string name="card_days_of_month">Días del mes</string>
+    <string name="card_cd_duplicate">Duplicar recordatorio</string>
+    <string name="card_cd_more">Más opciones</string>
+    <string name="card_cd_looping">En bucle</string>
+    <string name="card_cd_followup">Seguimiento en %1$d minutos</string>
+    <string name="card_cd_ends_after">Termina después de %1$d %2$s</string>
+    <string name="sheet_reminder_actions">Acciones del recordatorio</string>
+    <string name="sheet_stop_playback">Detener reproducción</string>
+
+    <!-- Diálogo de seguimiento personalizado -->
+    <string name="fu_custom_title">Seguimiento personalizado</string>
+    <string name="fu_custom_desc">Te vuelve a avisar después de estos minutos si no marcas el recordatorio como hecho.</string>
+    <string name="fu_allowed_range">Permitido: 1-%1$d min</string>
+
+    <!-- Grabadora de voz -->
+    <string name="vr_playing_audio">Reproduciendo audio</string>
+    <string name="vr_voice_recorded">Voz grabada</string>
+    <string name="vr_text_optional">El texto es opcional</string>
+    <string name="vr_tap_to_stop">Toca para detener</string>
+    <string name="vr_cd_level">Visualización del nivel de sonido en tiempo real</string>
+    <string name="vr_cd_stop">Detener grabación</string>
+    <string name="vr_cd_double_tap_stop">Toca dos veces para detener la grabación</string>
+    <string name="vr_cd_preview_progress">Progreso de la vista previa de voz</string>
+    <string name="vr_cd_start">Iniciar grabación de voz</string>
+    <string name="vr_cd_restart">Volver a grabar</string>
+
+    <!-- Selector de fecha y hora -->
+    <string name="dtp_title">Elige fecha y hora</string>
+    <string name="dtp_subtitle">Usa las opciones rápidas o elige la fecha y la hora exactas.</string>
+    <string name="dtp_quick_date">Fecha rápida</string>
+    <string name="dtp_quick_time">Hora rápida</string>
+    <string name="dtp_pick_date">Elegir fecha exacta</string>
+    <string name="dtp_pick_time">Elegir hora exacta</string>
+    <string name="dtp_next_week">Próxima semana</string>
+    <string name="dtp_plus_10">+10 min</string>
+    <string name="dtp_plus_30">+30 min</string>
+    <string name="dtp_plus_60">+1 hora</string>
+    <string name="dtp_err_future">La hora debe estar en el futuro</string>
+    <string name="dtp_err_date_future">La fecha debe ser hoy o posterior</string>
+
+    <!-- Diálogo de recordatorio recurrente -->
+    <string name="rcd_title">Este es un recordatorio recurrente</string>
+    <string name="rcd_desc">Elige si quieres borrar solo esta repetición, editar la programación o detenerla por completo.</string>
+    <string name="rcd_mark_occurrence">Marcar esta repetición como hecha</string>
+    <string name="rcd_edit_schedule">Editar programación</string>
+    <string name="rcd_stop_recurring">Detener repetición</string>
+
+    <!-- Diálogo de restaurar recordatorio -->
+    <string name="rrd_title">Restaurar recordatorio</string>
+    <string name="rrd_desc">Este recordatorio se completó antes. Elige cómo quieres restaurarlo.</string>
+    <string name="rrd_reschedule">Reprogramar recordatorio</string>
+    <string name="rrd_move_missed">Mover a Perdidos</string>
+    <string name="rrd_play">Reproducir recordatorio</string>
+    <string name="rrd_keep_done">Mantener como hecho</string>
+
+    <!-- Recordatorios perdidos -->
+    <string name="pua_title">Recordatorio perdido</string>
+    <string name="pua_scheduled_for">Programado para %1$s</string>
+    <string name="pua_set_new_time">Elegir una nueva hora</string>
+    <string name="pua_just_play">Solo reproducir el recordatorio</string>
+    <string name="mrr_desc">Reproduce ahora el último recordatorio perdido o mantén todo en la pestaña Perdidos para revisarlo más tarde.</string>
+    <string name="mrr_play_latest">Reproducir el último recordatorio perdido</string>
+    <string name="mrr_keep">Mantener en la pestaña Perdidos</string>
+
+    <!-- Guía de optimización de batería -->
+    <string name="bog_title">Guía de optimización de batería</string>
+    <string name="bog_header">Mantén los recordatorios fiables</string>
+    <string name="bog_header_sub">Algunos teléfonos pausan o detienen las alarmas en segundo plano a menos que %1$s esté exento de las restricciones de batería.</string>
+    <string name="bog_intro">Algunos dispositivos detienen las alarmas en segundo plano para ahorrar batería. Esto puede impedir que los recordatorios se activen.</string>
+    <string name="bog_menu_vary">Los nombres de los menús pueden variar según MIUI, HyperOS, EMUI, la versión de Android y el modelo del teléfono.</string>
+    <string name="bog_allow_app">Permitir %1$s</string>
+    <string name="bog_back_settings">Volver a Ajustes</string>
+    <string name="bog_brand_xiaomi">Xiaomi / POCO / Redmi (MIUI / HyperOS)</string>
+    <string name="bog_brand_huawei">Huawei (EMUI)</string>
+    <string name="bog_step">Paso %1$d</string>
+    <string name="bog_optional">Opcional</string>
+    <string name="bog_open_settings">Abre Ajustes</string>
+    <string name="bog_find_app">Busca %1$s</string>
+    <string name="bog_xiaomi_battery">Toca Batería</string>
+    <string name="bog_xiaomi_optimization">Toca Optimización de batería</string>
+    <string name="bog_xiaomi_no_restrictions">Selecciona Sin restricciones</string>
+    <string name="bog_xiaomi_opt">Bloquea la app en la pantalla de aplicaciones recientes.</string>
+    <string name="bog_huawei_apps">Abre Aplicaciones o Inicio de aplicaciones</string>
+    <string name="bog_huawei_manage_off">Desactiva Gestionar automáticamente</string>
+    <string name="bog_huawei_allow">Permite el inicio automático, el inicio secundario y la ejecución en segundo plano</string>
+    <string name="bog_huawei_opt">Revisa también Optimización de batería y configura %1$s como No permitir.</string>
+    <string name="bog_status_enabled">La optimización de batería sigue activada para %1$s.</string>
+    <string name="bog_status_exempt">%1$s ya puede ejecutarse sin optimización de batería.</string>
+    <string name="bog_no_battery_settings">Los ajustes de batería no están disponibles en este dispositivo.</string>
+    <string name="bog_why_title">Por qué es importante</string>
+    <string name="bog_why_body">Los teléfonos de Xiaomi, POCO, Redmi, Huawei y marcas similares pueden detener agresivamente las apps en segundo plano. Usa la familia del fabricante y la versión del software como guía; las rutas exactas pueden variar según el modelo.</string>
+
+    <!-- Descripción accesible de la tarjeta -->
+    <string name="a11y_card_reminder">Recordatorio: %1$s</string>
+    <string name="a11y_card_at">a las %1$s</string>
+    <string name="a11y_card_has_audio_file">tiene archivo de audio</string>
+    <string name="a11y_card_has_voice">tiene nota de voz</string>
+    <string name="a11y_card_recurring">recurrente %1$s</string>
+    <string name="a11y_card_completed">completado</string>
+    <string name="a11y_card_playing">reproduciéndose ahora</string>
+    <string name="a11y_card_open_hint">Toca dos veces para abrir los detalles.</string>
+
+    <!-- Estados de accesibilidad -->
+    <string name="state_completed">Completado</string>
+    <string name="state_playing">Reproduciendo</string>
+    <string name="a11y_percent">%1$d por ciento</string>
+    <string name="a11y_destructive">Acción destructiva</string>
+    <string name="a11y_recording_in_progress">Grabación en curso</string>
+    <string name="a11y_playing_preview">Reproduciendo vista previa de audio</string>
+    <string name="a11y_voice_recorded">Nota de voz grabada</string>
+    <string name="a11y_no_voice_recorded">No hay nota de voz grabada</string>
+    <plurals name="card_occurrences">
+        <item quantity="one">%1$d repetición</item>
+        <item quantity="other">%1$d repeticiones</item>
+    </plurals>
+
+    <!-- Recordatorio de prueba -->
+    <string name="set_test_reminder_title">Recordatorio de prueba</string>
+    <string name="set_test_reminder_text">Este es un recordatorio de prueba para verificar la reproducción. Se activa 10 segundos después de crearlo.</string>
+    <string name="widget_quick_subtitle">Añadir rápido</string>
+    <string name="widget_upcoming_subtitle">Recordatorios próximos y perdidos</string>
+    <string name="widget_upcoming_empty">No hay recordatorios próximos ni perdidos</string>
+    <string name="card_type_audio_file">Archivo de audio</string>
+    <string name="card_type_voice">Voz</string>
+    <string name="card_type_text">Texto</string>
+    <string name="card_voice_recording">Grabación de voz</string>
+    <string name="card_custom_audio_file">Archivo de audio propio</string>
+    <string name="card_text_note">Nota de texto</string>
+    <string name="sheet_mark_this_done">Marcar esto como hecho</string>
+    <string name="sheet_delete_reminder">Eliminar recordatorio</string>
+    <string name="vr_recording_ellipsis">Grabando…</string>
+    <string name="vr_play_recording">Reproducir grabación</string>
+    <string name="rcd_sub_keep_next">Mantener programada la próxima repetición</string>
+    <string name="rcd_sub_change_rules">Cambiar las reglas o el horario de repetición</string>
+    <string name="rcd_sub_delete_future">Eliminar este recordatorio y las repeticiones futuras</string>
+    <string name="rrd_sub_pick_new">Elegir una nueva fecha y hora</string>
+    <string name="rrd_sub_keep_missed">Mantenerlo en la pestaña Perdidos para después</string>
+    <string name="rrd_sub_hear_now">Escucharlo ahora sin restaurarlo</string>
+    <string name="rrd_sub_leave_done">Dejar el recordatorio como completado</string>
+    <string name="mrr_sub_start_now">Iniciar la reproducción de inmediato</string>
+    <string name="set_tab_form">Formulario</string>
+    <string name="set_tab_play">Sonido</string>
+    <string name="set_tab_time">Hora</string>
+    <string name="set_tab_safe">Seguridad</string>
+    <string name="set_tab_backup">Copia</string>
+    <string name="set_tab_wear">Reloj</string>
+    <string name="set_tab_help">Ayuda</string>
 </resources>

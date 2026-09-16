@@ -91,7 +91,7 @@ class HomeViewModel(
             if (reminder != null) {
                 val audioPath = reminder.audioPath
                 val reminderText = reminder.reminderText
-                val title = reminder.title ?: "Voice reminder"
+                val title = reminder.title ?: context.getString(com.ghostgramlabs.speakalert.R.string.alert_voice_reminder)
                 val privatePlayback = settingsRepository.privatePlaybackEnabled.first()
                 ToneAlertPlayer.stop()
                 

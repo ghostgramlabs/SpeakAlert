@@ -222,7 +222,7 @@ fun AddEditReminderScreen(
                 actions = {
                     TextButton(
                         onClick = { viewModel.saveReminder() },
-                        enabled = !uiState.isSaving
+                        enabled = !uiState.isSaving && !uiState.saveCompleted
                     ) {
                         if (uiState.isSaving) {
                             CircularProgressIndicator(
@@ -338,6 +338,10 @@ fun AddEditReminderScreen(
                                 val previewStopCd = stringResource(R.string.ae_cd_stop_preview)
                                 val previewPlayCd = stringResource(R.string.ae_cd_play_preview)
                                 val previewProgressCd = stringResource(R.string.ae_cd_audio_progress)
+                                val previewPercent = stringResource(
+                                    R.string.a11y_percent,
+                                    (uiState.playbackProgress.sanitizeUnitFloat() * 100).toInt()
+                                )
                                 Text(
                                     text = uiState.customAudioFileName ?: stringResource(R.string.ae_selected_audio),
                                     style = MaterialTheme.typography.bodyMedium,
@@ -376,7 +380,7 @@ fun AddEditReminderScreen(
                                             .padding(start = 8.dp)
                                             .semantics {
                                                 contentDescription = previewProgressCd
-                                                stateDescription = "${(uiState.playbackProgress.sanitizeUnitFloat() * 100).toInt()} percent"
+                                                stateDescription = previewPercent
                                             }
                                     )
                                 }
@@ -508,12 +512,23 @@ fun AddEditReminderScreen(
                         label = { Text(stringResource(R.string.ae_section_label)) },
                         placeholder = { Text(stringResource(R.string.ae_label_placeholder)) },
                         supportingText = {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Text(stringResource(R.string.ae_label_hint))
-                                Text(stringResource(R.string.ae_char_count, uiState.title.length, 40))
+                            // Stacked, not side by side: a longer translation of the hint would
+                            // otherwise squeeze the counter into a one-character column and wrap
+                            // it vertically. Matches the reminder message field above.
+                            Column {
+                                Text(
+                                    text = stringResource(R.string.ae_label_hint),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                                Text(
+                                    text = stringResource(R.string.ae_char_count, uiState.title.length, 40),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(top = 2.dp),
+                                    textAlign = TextAlign.End
+                                )
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),
@@ -876,7 +891,7 @@ fun AddEditReminderScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
-                enabled = !uiState.isSaving,
+                enabled = !uiState.isSaving && !uiState.saveCompleted,
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary

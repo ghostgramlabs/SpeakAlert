@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:text="Upcoming and missed reminders"
+                android:text="@string/widget_upcoming_subtitle"
                 android:textColor="@color/widget_text_secondary"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -67,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="No upcoming or missed reminders"
+            android:text="@string/widget_upcoming_empty"
             android:textColor="@color/widget_text_secondary"
             android:textSize="13sp" />
     </FrameLayout>

@@ -575,4 +575,162 @@
     <string name="wn_reliability_desc">يبدأ تشغيل التذكير الآن بأمان وفورًا في الواجهة الأمامية، مما يمنع مهلة البدء التي ظهرت على بعض أجهزة Android 12 وAndroid 16.</string>
     <string name="settings_24_hour_time">استخدام نظام 24 ساعة</string>
     <string name="settings_24_hour_time_desc">عرض جميع الأوقات بصيغة 17:30 بدلاً من 5:30 م.</string>
+
+    <!-- بطاقة التذكير والإجراءات -->
+    <string name="card_recur_onetime">تذكير لمرة واحدة</string>
+    <string name="card_recur_daily">يتكرر يوميًا</string>
+    <string name="card_recur_last_day">آخر يوم من كل شهر</string>
+    <string name="card_recur_yearly">يتكرر سنويًا</string>
+    <string name="card_chip_recurring">متكرر</string>
+    <string name="card_days_of_month">أيام الشهر</string>
+    <string name="card_cd_duplicate">نسخ التذكير</string>
+    <string name="card_cd_more">المزيد من الخيارات</string>
+    <string name="card_cd_looping">تكرار مستمر</string>
+    <string name="card_cd_followup">متابعة بعد %1$d دقيقة</string>
+    <string name="card_cd_ends_after">ينتهي بعد %1$d %2$s</string>
+    <string name="sheet_reminder_actions">إجراءات التذكير</string>
+    <string name="sheet_stop_playback">إيقاف التشغيل</string>
+
+    <!-- مربع حوار المتابعة المخصصة -->
+    <string name="fu_custom_title">متابعة مخصصة</string>
+    <string name="fu_custom_desc">السؤال مرة أخرى بعد هذا العدد من الدقائق إذا لم يتم وضع علامة منجز على التذكير.</string>
+    <string name="fu_allowed_range">المسموح: 1-%1$d دقيقة</string>
+
+    <!-- مسجل الصوت -->
+    <string name="vr_playing_audio">جارٍ تشغيل الصوت</string>
+    <string name="vr_voice_recorded">تم تسجيل الصوت</string>
+    <string name="vr_text_optional">النص اختياري</string>
+    <string name="vr_tap_to_stop">اضغط للإيقاف</string>
+    <string name="vr_cd_level">عرض مستوى الصوت في الوقت الفعلي</string>
+    <string name="vr_cd_stop">إيقاف التسجيل</string>
+    <string name="vr_cd_double_tap_stop">اضغط مرتين لإيقاف التسجيل</string>
+    <string name="vr_cd_preview_progress">تقدم معاينة الصوت</string>
+    <string name="vr_cd_start">بدء تسجيل الصوت</string>
+    <string name="vr_cd_restart">إعادة التسجيل</string>
+
+    <!-- منتقي التاريخ والوقت -->
+    <string name="dtp_title">اختر التاريخ والوقت</string>
+    <string name="dtp_subtitle">استخدم الخيارات السريعة أو اختر التاريخ والوقت بدقة.</string>
+    <string name="dtp_quick_date">تاريخ سريع</string>
+    <string name="dtp_quick_time">وقت سريع</string>
+    <string name="dtp_pick_date">اختيار تاريخ محدد</string>
+    <string name="dtp_pick_time">اختيار وقت محدد</string>
+    <string name="dtp_next_week">الأسبوع القادم</string>
+    <string name="dtp_plus_10">+10 دقائق</string>
+    <string name="dtp_plus_30">+30 دقيقة</string>
+    <string name="dtp_plus_60">+ساعة واحدة</string>
+    <string name="dtp_err_future">يجب أن يكون الوقت في المستقبل</string>
+    <string name="dtp_err_date_future">يجب أن يكون التاريخ اليوم أو بعده</string>
+
+    <!-- مربع حوار التذكير المتكرر -->
+    <string name="rcd_title">هذا تذكير متكرر</string>
+    <string name="rcd_desc">اختر ما إذا كنت تريد مسح هذه المرة فقط، أو تعديل جدول التكرار، أو إيقافه تمامًا.</string>
+    <string name="rcd_mark_occurrence">وضع علامة منجز على هذه المرة</string>
+    <string name="rcd_edit_schedule">تعديل الجدول</string>
+    <string name="rcd_stop_recurring">إيقاف التكرار</string>
+
+    <!-- مربع حوار استعادة التذكير -->
+    <string name="rrd_title">استعادة التذكير</string>
+    <string name="rrd_desc">تم إنجاز هذا التذكير سابقًا. اختر طريقة استعادته.</string>
+    <string name="rrd_reschedule">إعادة جدولة التذكير</string>
+    <string name="rrd_move_missed">النقل إلى الفائتة</string>
+    <string name="rrd_play">تشغيل التذكير</string>
+    <string name="rrd_keep_done">الإبقاء كمنجز</string>
+
+    <!-- التذكيرات الفائتة -->
+    <string name="pua_title">تذكير فائت</string>
+    <string name="pua_scheduled_for">مجدول في %1$s</string>
+    <string name="pua_set_new_time">تحديد وقت جديد</string>
+    <string name="pua_just_play">تشغيل التذكير فقط</string>
+    <string name="mrr_desc">شغّل آخر تذكير فائت الآن، أو أبقِ كل شيء في تبويب الفائتة لمراجعته لاحقًا.</string>
+    <string name="mrr_play_latest">تشغيل آخر تذكير فائت</string>
+    <string name="mrr_keep">الإبقاء في تبويب الفائتة</string>
+
+    <!-- دليل تحسين البطارية -->
+    <string name="bog_title">دليل تحسين البطارية</string>
+    <string name="bog_header">حافظ على موثوقية التذكيرات</string>
+    <string name="bog_header_sub">توقف بعض الهواتف المنبهات في الخلفية ما لم يكن %1$s مستثنى من قيود البطارية.</string>
+    <string name="bog_intro">توقف بعض الأجهزة المنبهات في الخلفية لتوفير البطارية. قد يمنع ذلك تشغيل التذكيرات.</string>
+    <string name="bog_menu_vary">قد تختلف أسماء القوائم حسب MIUI وHyperOS وEMUI وإصدار Android وطراز الهاتف.</string>
+    <string name="bog_allow_app">السماح لـ %1$s</string>
+    <string name="bog_back_settings">العودة إلى الإعدادات</string>
+    <string name="bog_brand_xiaomi">Xiaomi / POCO / Redmi (MIUI / HyperOS)</string>
+    <string name="bog_brand_huawei">Huawei (EMUI)</string>
+    <string name="bog_step">الخطوة %1$d</string>
+    <string name="bog_optional">اختياري</string>
+    <string name="bog_open_settings">افتح الإعدادات</string>
+    <string name="bog_find_app">ابحث عن %1$s</string>
+    <string name="bog_xiaomi_battery">اضغط على البطارية</string>
+    <string name="bog_xiaomi_optimization">اضغط على تحسين البطارية</string>
+    <string name="bog_xiaomi_no_restrictions">اختر بلا قيود</string>
+    <string name="bog_xiaomi_opt">ثبّت التطبيق في شاشة التطبيقات الحديثة.</string>
+    <string name="bog_huawei_apps">افتح التطبيقات أو تشغيل التطبيقات</string>
+    <string name="bog_huawei_manage_off">أوقف الإدارة التلقائية</string>
+    <string name="bog_huawei_allow">اسمح بالتشغيل التلقائي والتشغيل الثانوي والعمل في الخلفية</string>
+    <string name="bog_huawei_opt">راجع أيضًا تحسين البطارية واضبط %1$s على عدم السماح.</string>
+    <string name="bog_status_enabled">لا يزال تحسين البطارية مفعّلاً لـ %1$s.</string>
+    <string name="bog_status_exempt">%1$s مسموح له بالفعل بالعمل دون تحسين البطارية.</string>
+    <string name="bog_no_battery_settings">إعدادات البطارية غير متوفرة على هذا الجهاز.</string>
+    <string name="bog_why_title">لماذا هذا مهم</string>
+    <string name="bog_why_body">قد توقف هواتف Xiaomi وPOCO وRedmi وHuawei والعلامات المشابهة التطبيقات في الخلفية بشكل صارم. استرشد بعائلة الشركة المصنّعة وإصدار البرنامج؛ فقد تختلف المسارات الدقيقة حسب الطراز.</string>
+
+    <!-- وصف بطاقة التذكير لإمكانية الوصول -->
+    <string name="a11y_card_reminder">تذكير: %1$s</string>
+    <string name="a11y_card_at">في %1$s</string>
+    <string name="a11y_card_has_audio_file">يحتوي على ملف صوتي</string>
+    <string name="a11y_card_has_voice">يحتوي على ملاحظة صوتية</string>
+    <string name="a11y_card_recurring">متكرر %1$s</string>
+    <string name="a11y_card_completed">منجز</string>
+    <string name="a11y_card_playing">قيد التشغيل الآن</string>
+    <string name="a11y_card_open_hint">اضغط مرتين لفتح التفاصيل.</string>
+
+    <!-- حالات إمكانية الوصول -->
+    <string name="state_completed">منجز</string>
+    <string name="state_playing">قيد التشغيل</string>
+    <string name="a11y_percent">%1$d بالمئة</string>
+    <string name="a11y_destructive">إجراء تدميري</string>
+    <string name="a11y_recording_in_progress">التسجيل جارٍ</string>
+    <string name="a11y_playing_preview">تشغيل معاينة الصوت</string>
+    <string name="a11y_voice_recorded">تم تسجيل ملاحظة صوتية</string>
+    <string name="a11y_no_voice_recorded">لا توجد ملاحظة صوتية مسجلة</string>
+    <plurals name="card_occurrences">
+        <item quantity="zero">%1$d مرة</item>
+        <item quantity="one">مرة واحدة</item>
+        <item quantity="two">مرتان</item>
+        <item quantity="few">%1$d مرات</item>
+        <item quantity="many">%1$d مرة</item>
+        <item quantity="other">%1$d مرة</item>
+    </plurals>
+
+    <!-- تذكير تجريبي -->
+    <string name="set_test_reminder_title">تذكير تجريبي</string>
+    <string name="set_test_reminder_text">هذا تذكير تجريبي للتحقق من التشغيل. يبدأ بعد 10 ثوانٍ من إنشائه.</string>
+    <string name="widget_quick_subtitle">إضافة سريعة</string>
+    <string name="widget_upcoming_subtitle">التذكيرات القادمة والفائتة</string>
+    <string name="widget_upcoming_empty">لا توجد تذكيرات قادمة أو فائتة</string>
+    <string name="card_type_audio_file">ملف صوتي</string>
+    <string name="card_type_voice">صوت</string>
+    <string name="card_type_text">نص</string>
+    <string name="card_voice_recording">تسجيل صوتي</string>
+    <string name="card_custom_audio_file">ملف صوتي مختار</string>
+    <string name="card_text_note">ملاحظة نصية</string>
+    <string name="sheet_mark_this_done">وضع علامة منجز على هذا</string>
+    <string name="sheet_delete_reminder">حذف التذكير</string>
+    <string name="vr_recording_ellipsis">جارٍ التسجيل…</string>
+    <string name="vr_play_recording">تشغيل التسجيل</string>
+    <string name="rcd_sub_keep_next">إبقاء الموعد التالي مجدولًا</string>
+    <string name="rcd_sub_change_rules">تغيير قواعد التكرار أو توقيته</string>
+    <string name="rcd_sub_delete_future">حذف هذا التذكير والمواعيد القادمة</string>
+    <string name="rrd_sub_pick_new">اختيار تاريخ ووقت جديدين</string>
+    <string name="rrd_sub_keep_missed">إبقاؤه في تبويب الفائتة لوقت لاحق</string>
+    <string name="rrd_sub_hear_now">الاستماع إليه الآن دون استعادته</string>
+    <string name="rrd_sub_leave_done">إبقاء التذكير منجزًا</string>
+    <string name="mrr_sub_start_now">بدء التشغيل فورًا</string>
+    <string name="set_tab_form">النموذج</string>
+    <string name="set_tab_play">الصوت</string>
+    <string name="set_tab_time">الوقت</string>
+    <string name="set_tab_safe">الأمان</string>
+    <string name="set_tab_backup">النسخ</string>
+    <string name="set_tab_wear">الساعة</string>
+    <string name="set_tab_help">المساعدة</string>
 </resources>

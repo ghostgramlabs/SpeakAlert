@@ -136,7 +136,7 @@ private class UpcomingRemindersRemoteViewsFactory(
             ?.trim()
             ?.takeIf { it.isNotEmpty() }
             ?.let(::truncateTextTitle)
-        return textFallback ?: "Reminder"
+        return textFallback ?: context.getString(com.ghostgramlabs.speakalert.R.string.fallback_reminder_title)
     }
 
     private fun buildDisplayTitle(missed: MissedReminderEntity): String {
@@ -149,7 +149,7 @@ private class UpcomingRemindersRemoteViewsFactory(
             ?.trim()
             ?.takeIf { it.isNotEmpty() }
             ?.let(::truncateTextTitle)
-        return textFallback ?: "Reminder"
+        return textFallback ?: context.getString(com.ghostgramlabs.speakalert.R.string.fallback_reminder_title)
     }
 
     private fun truncateTextTitle(text: String): String {
