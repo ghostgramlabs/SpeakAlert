@@ -45,7 +45,7 @@ class Mp4AudioEnhancer : AudioEnhancer {
             decode(source) { samples, count -> processor.analyze(samples, count) }
             val analysis = processor.finishAnalysis()
 
-            val gain = processor.normalizationGain(analysis.peak)
+            val gain = processor.normalizationGain(analysis.peak, analysis.noiseFloor)
             if (gain == null && !analysis.canDenoise) {
                 Log.i(TAG, "Recording is already clean and at level; leaving it untouched")
                 return false

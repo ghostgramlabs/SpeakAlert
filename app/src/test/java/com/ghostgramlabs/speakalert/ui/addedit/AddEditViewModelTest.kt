@@ -719,6 +719,50 @@ class AddEditViewModelTest {
             File(saved.lastValue.audioPath!!).isFile)
     }
 
+    @Test
+    fun `saving during a take finishes the recording and saves it`() = runTest {
+        experimentalVoiceEnhancementEnabled.value = false
+        advanceUntilIdle()
+        viewModel.startRecording()
+        val fileCaptor = argumentCaptor<File>()
+        verify(recorder).start(fileCaptor.capture(), org.mockito.kotlin.eq(false))
+        fileCaptor.firstValue.writeBytes(byteArrayOf(1, 2, 3, 4))
+        assertTrue(viewModel.uiState.value.isRecording)
+        whenever(repository.insertReminder(any())).thenReturn(12L)
+
+        // Save without stopping first: the user has finished speaking and reached for Save.
+        viewModel.saveReminder()
+        advanceUntilIdle()
+
+        assertFalse(
+            "Saving must not ask for a message while a take is running",
+            viewModel.uiState.value.showError
+        )
+        assertTrue(viewModel.uiState.value.saveCompleted)
+        verify(recorder).stop()
+        val saved = argumentCaptor<ReminderEntity>()
+        verify(repository).insertReminder(saved.capture())
+        assertTrue(
+            "The in-progress take must become the reminder's audio",
+            File(saved.firstValue.audioPath!!).isFile
+        )
+    }
+
+    @Test
+    fun `saving during a take that captured nothing still reports the problem`() = runTest {
+        // Finishing the take for the user must not paper over a take with nothing in it.
+        whenever(recorder.stop()).thenReturn(RecordingOutcome.NOTHING)
+        viewModel.startRecording()
+        advanceTimeBy(100)
+
+        viewModel.saveReminder()
+        advanceUntilIdle()
+
+        assertTrue(viewModel.uiState.value.showError)
+        assertFalse(viewModel.uiState.value.saveCompleted)
+        verify(repository, Mockito.never()).insertReminder(any())
+    }
+
     private fun recordBaselineTake(): File {
         experimentalVoiceEnhancementEnabled.value = false
         viewModel.startRecording()

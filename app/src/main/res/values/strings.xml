@@ -569,7 +569,7 @@
     <string name="wn_form_title">Your reminder form, your way</string>
     <string name="wn_form_desc">In Settings &gt; Reminder form, independently show or hide Voice recording, Choose audio file, Typed reminder, and Short label.</string>
     <string name="wn_recording_title">Optional experimental voice enhancement</string>
-    <string name="wn_recording_desc">A new setting lets you choose: keep the original raw recording behavior (the default), or opt in to newer recorder safeguards, silence notices, noise cleanup, and voice-level normalization. Silent takes are always kept.</string>
+    <string name="wn_recording_desc">A new setting lets you choose: keep the original raw recording behavior (the default), or opt in to newer recorder safeguards, silence notices, and background-noise cleanup that lifts quiet recordings to a comfortable level without bringing the room up with them. Silent takes are always kept.</string>
     <string name="wn_reliability_title">More reliable on newer Android phones</string>
     <string name="wn_reliability_desc">Reminder playback now starts safely and immediately in the foreground, preventing startup timeouts seen on some Android 12 and Android 16 devices.</string>
     <string name="settings_24_hour_time">Use 24-hour time</string>
