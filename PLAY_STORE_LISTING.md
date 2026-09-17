@@ -78,6 +78,20 @@ Most reminder apps rely on silent notifications. SpeakAlert is a talking reminde
 
 ## "What's new" (release notes, max 500 chars)
 
+### 2.0.35 (build 56) — current
+
+```
+• Cleaner voice recordings — less background noise, and quiet takes are levelled up without the room coming up too
+• Save now finishes a recording in progress instead of asking for a message
+• Fixed: restoring a backup failed on installed builds. Audio picked from Files is now included
+• New: 24-hour time across the app
+• New: choose the title used for unnamed reminders
+• Spanish, Hindi & Arabic now fully translated
+• Faster widgets, fewer freezes while recording
+```
+
+### 2.0.32 — previous
+
 ```
 • App now in English, Spanish, Hindi & Arabic with RTL support
 • Reminders spoken in their own language automatically

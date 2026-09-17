@@ -66,6 +66,10 @@
     <string name="channel_dnd_bypass_desc">Reminder alarms that can alert during Do Not Disturb when Android access is granted</string>
     <string name="channel_tone_only_bypass_name">%1$s Tone-Only Alerts (DND bypass)</string>
     <string name="channel_tone_only_bypass_desc">Tone-only reminders that can alert during Do Not Disturb when Android access is granted</string>
+    <string name="channel_silent_name">%1$s Full-Screen Alerts</string>
+    <string name="channel_silent_desc">Full-screen reminders from %1$s while the reminder is already being spoken aloud</string>
+    <string name="channel_silent_bypass_name">%1$s Full-Screen Alerts (DND bypass)</string>
+    <string name="channel_silent_bypass_desc">Full-screen reminders that can alert during Do Not Disturb when Android access is granted</string>
 
     <!-- Alarm alert screen -->
     <string name="alert_mark_done">Mark Done</string>

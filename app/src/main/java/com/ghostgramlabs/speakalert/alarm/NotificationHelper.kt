@@ -25,6 +25,11 @@ class NotificationHelper(private val context: Context) {
         const val DND_BYPASS_CHANNEL_ID = "voice_reminder_dnd_bypass_channel_v2"
         const val TONE_ONLY_CHANNEL_ID = "voice_reminder_tone_only_channel"
         const val TONE_ONLY_DND_BYPASS_CHANNEL_ID = "voice_reminder_tone_only_dnd_bypass_channel_v2"
+        // Silent variants of the two voice channels, for the one case that cannot be served by
+        // either: a full-screen alert whose sound is already coming from the playback service.
+        // See [applySilence] for why silencing the notification itself is not an option there.
+        const val SILENT_CHANNEL_ID = "voice_reminder_silent_channel"
+        const val SILENT_DND_BYPASS_CHANNEL_ID = "voice_reminder_silent_dnd_bypass_channel"
         private const val TAG = "NotificationHelper"
         
         /**
@@ -72,8 +77,19 @@ class NotificationHelper(private val context: Context) {
             setSound(null, null)
             setBypassDnd(false)
         }
+        val silentChannel = NotificationChannel(
+            SILENT_CHANNEL_ID,
+            strings.getString(R.string.channel_silent_name, APP_DISPLAY_NAME),
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            description = strings.getString(R.string.channel_silent_desc, APP_DISPLAY_NAME)
+            enableVibration(false)
+            setSound(null, null)
+            setBypassDnd(false)
+        }
         notificationManager.createNotificationChannel(normalChannel)
         notificationManager.createNotificationChannel(toneOnlyChannel)
+        notificationManager.createNotificationChannel(silentChannel)
         if (canBypassDnd) {
             val bypassChannel = NotificationChannel(
                 DND_BYPASS_CHANNEL_ID,
@@ -94,8 +110,19 @@ class NotificationHelper(private val context: Context) {
                 setSound(null, null)
                 setBypassDnd(true)
             }
+            val silentBypassChannel = NotificationChannel(
+                SILENT_DND_BYPASS_CHANNEL_ID,
+                strings.getString(R.string.channel_silent_bypass_name, APP_DISPLAY_NAME),
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = strings.getString(R.string.channel_silent_bypass_desc)
+                enableVibration(false)
+                setSound(null, null)
+                setBypassDnd(true)
+            }
             notificationManager.createNotificationChannel(bypassChannel)
             notificationManager.createNotificationChannel(toneOnlyBypassChannel)
+            notificationManager.createNotificationChannel(silentBypassChannel)
         }
         Log.d(TAG, "Notification channels created: $CHANNEL_ID, $DND_BYPASS_CHANNEL_ID, $TONE_ONLY_CHANNEL_ID, $TONE_ONLY_DND_BYPASS_CHANNEL_ID")
     }
@@ -127,9 +154,16 @@ class NotificationHelper(private val context: Context) {
         val canBypassDnd = dndBypassEnabled &&
             (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
                 .isNotificationPolicyAccessGranted
+        // Decided here rather than at the call site because it also picks the channel: a
+        // full-screen alert that must stay quiet needs a channel that is silent in its own right.
+        val wantsFullScreen = useFullScreenAlert && FullScreenIntentSupport.canUseFullScreenIntent(context)
+        val silentViaChannel = silentAlert && wantsFullScreen && !toneOnlyMode
+
         val channelId = when {
             toneOnlyMode && canBypassDnd -> TONE_ONLY_DND_BYPASS_CHANNEL_ID
             toneOnlyMode -> TONE_ONLY_CHANNEL_ID
+            silentViaChannel && canBypassDnd -> SILENT_DND_BYPASS_CHANNEL_ID
+            silentViaChannel -> SILENT_CHANNEL_ID
             canBypassDnd -> DND_BYPASS_CHANNEL_ID
             else -> CHANNEL_ID
         }
@@ -159,7 +193,7 @@ class NotificationHelper(private val context: Context) {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        val fullScreenPendingIntent = if (useFullScreenAlert && FullScreenIntentSupport.canUseFullScreenIntent(context)) {
+        val fullScreenPendingIntent = if (wantsFullScreen) {
             val fullScreenIntent = Intent(context, ReminderAlertActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                 putExtra("reminderId", reminderId)
@@ -273,7 +307,19 @@ class NotificationHelper(private val context: Context) {
             })
 
         if (silentAlert) {
-            builder.setSilent(true)
+            if (silentViaChannel || toneOnlyMode) {
+                // setSilent() cannot be used alongside a full-screen intent. From API 26 sound
+                // belongs to the channel, so NotificationCompat implements per-notification
+                // silence the only way left to it: it makes the notification a group child with
+                // GROUP_ALERT_SUMMARY, which hands alerting to a summary that never exists. A
+                // child that may not alert may not launch its full-screen intent either, so the
+                // alert was being posted correctly and then discarded by the framework.
+                // The channel is silent instead, and this states the alerting behaviour outright
+                // so that the system's auto-grouping cannot take it away again.
+                builder.setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_ALL)
+            } else {
+                builder.setSilent(true)
+            }
         }
 
         if (fullScreenPendingIntent != null) {

@@ -10,6 +10,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.AudioManager
 import android.os.Build
+import android.os.PowerManager
 import android.telecom.TelecomManager
 import android.util.Log
 import androidx.core.content.ContextCompat
@@ -23,6 +24,7 @@ import com.ghostgramlabs.speakalert.domain.models.TimeUnit
 import com.ghostgramlabs.speakalert.service.ReminderPlaybackService
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.FileLogger
+import com.ghostgramlabs.speakalert.util.FullScreenIntentSupport
 import com.ghostgramlabs.speakalert.util.PrivateAudioRoute
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import com.ghostgramlabs.speakalert.util.isDefaultAppDisplayName
@@ -306,6 +308,13 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 
                 val keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
                 val isLocked = keyguardManager.isKeyguardLocked
+                // A keyguard is not the same thing as a screen the user cannot see. It reports
+                // unlocked on a device with no PIN or pattern, and on one that Smart Lock has
+                // opened for a trusted place or watch - yet the screen is still dark and the
+                // reminder still needs to take it over. Ask whether the screen is on instead of
+                // inferring it from the lock.
+                val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+                val screenOff = !powerManager.isInteractive
                 
                 val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
                 val telecomInCall = isTelecomInCall(context)
@@ -313,7 +322,17 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 val inCall = telecomInCall || audioManager.mode == AudioManager.MODE_IN_CALL
 
                 FileLogger.log("ALARM: State - locked=$isLocked, inCall=$inCall, telecomInCall=$telecomInCall, audioMode=${audioManager.mode}, hasAudioConfigured=$hasAudioConfigured, hasAudio=$hasAudio, hasText=$hasText")
-                val useLockScreenFullScreen = fullScreenAlertEnabled && isLocked
+                val useLockScreenFullScreen = fullScreenAlertEnabled && (isLocked || screenOff)
+                // Everything here has to hold for the alert to take over the screen, and when it
+                // does not the notification quietly degrades to a normal one. Record which part
+                // failed: on Android 14+ the system revokes full-screen access by default, so
+                // "enabled in the app" and "allowed by the system" are different answers.
+                FileLogger.log(
+                    "ALARM: Full-screen - setting=$fullScreenAlertEnabled, locked=$isLocked, " +
+                        "screenOff=$screenOff, " +
+                        "systemAllows=${FullScreenIntentSupport.canUseFullScreenIntent(context)}, " +
+                        "using=$useLockScreenFullScreen"
+                )
                 
                 val alertPayload = buildReminderAlertPayload(
                     reminder = reminder,
