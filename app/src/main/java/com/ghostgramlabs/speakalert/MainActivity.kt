@@ -397,17 +397,22 @@ class MainActivity : ComponentActivity() {
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
+                                    // Ordered by what the reader most needs to know: the thing
+                                    // that was broken and is now fixed, then what is new.
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_form_title),
-                                        description = stringResource(R.string.wn_form_desc)
+                                        title = stringResource(R.string.wn_fullscreen_title),
+                                        description = stringResource(R.string.wn_fullscreen_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_recording_title),
-                                        description = stringResource(R.string.wn_recording_desc)
+                                        title = stringResource(R.string.wn_pause_title),
+                                        description = stringResource(R.string.wn_pause_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_reliability_title),
-                                        description = stringResource(R.string.wn_reliability_desc)
+                                        title = stringResource(R.string.wn_notices_title),
+                                        description = stringResource(
+                                            R.string.wn_notices_desc,
+                                            APP_DISPLAY_NAME
+                                        )
                                     )
                                 }
                                 Button(
