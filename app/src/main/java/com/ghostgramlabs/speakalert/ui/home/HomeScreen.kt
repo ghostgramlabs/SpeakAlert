@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.BatteryAlert
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
@@ -48,6 +49,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -1394,7 +1396,7 @@ private fun BatteryRestrictedBanner(
                 )
             }
             Icon(
-                imageVector = Icons.Filled.ChevronRight,
+                imageVector = forwardChevron(),
                 contentDescription = null,
                 modifier = Modifier.size(20.dp)
             )
@@ -1439,7 +1441,7 @@ private fun QuietHoursBanner(
                 modifier = Modifier.weight(1f)
             )
             Icon(
-                imageVector = Icons.Filled.ChevronRight,
+                imageVector = forwardChevron(),
                 contentDescription = null,
                 modifier = Modifier.size(18.dp)
             )
@@ -1609,3 +1611,17 @@ private fun PauseChoice(label: String, onClick: () -> Unit) {
         Text(label, style = MaterialTheme.typography.titleSmall)
     }
 }
+
+/**
+ * The chevron that means "forward", pointing the way the language reads.
+ *
+ * Compose does not mirror ChevronRight on its own at this version, so in Arabic a right-pointing
+ * chevron aims away from the text it belongs to and the row reads as though it leads nowhere.
+ */
+@Composable
+private fun forwardChevron(): androidx.compose.ui.graphics.vector.ImageVector =
+    if (LocalLayoutDirection.current == androidx.compose.ui.unit.LayoutDirection.Rtl) {
+        Icons.Filled.ChevronLeft
+    } else {
+        Icons.Filled.ChevronRight
+    }
