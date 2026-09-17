@@ -21,7 +21,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.BatteryAlert
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
@@ -49,7 +48,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -74,6 +72,7 @@ import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import com.ghostgramlabs.speakalert.util.isDefaultAppDisplayName
 import com.ghostgramlabs.speakalert.ui.components.ActionSheetRow
 import com.ghostgramlabs.speakalert.ui.components.PremiumHeaderCard
+import com.ghostgramlabs.speakalert.ui.components.mirrorInRtl
 import com.ghostgramlabs.speakalert.ui.components.PremiumScreenBackground
 import com.ghostgramlabs.speakalert.ui.components.ReminderCard
 import com.ghostgramlabs.speakalert.ui.components.RecurringCompletionDialog
@@ -1396,9 +1395,9 @@ private fun BatteryRestrictedBanner(
                 )
             }
             Icon(
-                imageVector = forwardChevron(),
+                imageVector = Icons.Filled.ChevronRight,
                 contentDescription = null,
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(20.dp).mirrorInRtl()
             )
         }
     }
@@ -1441,9 +1440,9 @@ private fun QuietHoursBanner(
                 modifier = Modifier.weight(1f)
             )
             Icon(
-                imageVector = forwardChevron(),
+                imageVector = Icons.Filled.ChevronRight,
                 contentDescription = null,
-                modifier = Modifier.size(18.dp)
+                modifier = Modifier.size(18.dp).mirrorInRtl()
             )
         }
     }
@@ -1611,17 +1610,3 @@ private fun PauseChoice(label: String, onClick: () -> Unit) {
         Text(label, style = MaterialTheme.typography.titleSmall)
     }
 }
-
-/**
- * The chevron that means "forward", pointing the way the language reads.
- *
- * Compose does not mirror ChevronRight on its own at this version, so in Arabic a right-pointing
- * chevron aims away from the text it belongs to and the row reads as though it leads nowhere.
- */
-@Composable
-private fun forwardChevron(): androidx.compose.ui.graphics.vector.ImageVector =
-    if (LocalLayoutDirection.current == androidx.compose.ui.unit.LayoutDirection.Rtl) {
-        Icons.Filled.ChevronLeft
-    } else {
-        Icons.Filled.ChevronRight
-    }

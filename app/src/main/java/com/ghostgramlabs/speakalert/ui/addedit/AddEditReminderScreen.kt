@@ -50,6 +50,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ghostgramlabs.speakalert.R
+import com.ghostgramlabs.speakalert.ui.components.mirrorInRtl
 import com.ghostgramlabs.speakalert.ui.AppViewModelProvider
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import com.ghostgramlabs.speakalert.ui.components.PremiumHeaderCard
@@ -216,7 +217,11 @@ fun AddEditReminderScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = requestExit) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = stringResource(R.string.action_back))
+                        Icon(
+                            Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.action_back),
+                            modifier = Modifier.mirrorInRtl()
+                        )
                     }
                 },
                 actions = {
@@ -966,7 +971,7 @@ private fun ScheduleRow(
             imageVector = Icons.Filled.ChevronRight,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
-            modifier = Modifier.size(20.dp)
+            modifier = Modifier.size(20.dp).mirrorInRtl()
         )
     }
 }

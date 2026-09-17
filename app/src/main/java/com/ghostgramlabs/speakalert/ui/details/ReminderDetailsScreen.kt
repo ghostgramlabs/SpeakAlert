@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import com.ghostgramlabs.speakalert.R
+import com.ghostgramlabs.speakalert.ui.components.mirrorInRtl
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
@@ -244,7 +245,11 @@ fun ReminderDetailsScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = navigateBack) {
-                        Icon(Icons.Default.ArrowBack, stringResource(R.string.action_back))
+                        Icon(
+                            Icons.Default.ArrowBack,
+                            stringResource(R.string.action_back),
+                            modifier = Modifier.mirrorInRtl()
+                        )
                     }
                 },
                 actions = {
