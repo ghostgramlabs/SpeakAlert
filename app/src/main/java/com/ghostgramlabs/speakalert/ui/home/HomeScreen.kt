@@ -99,16 +99,18 @@ fun HomeScreen(
     val uiState by viewModel.uiState.collectAsState()
     val quietHours by viewModel.quietHours.collectAsState()
     val pausedUntil by viewModel.pausedUntil.collectAsState()
-    // Recomputed as the clock passes the end instant, so the banner clears itself without the
-    // user having to do anything.
+    // Cleared the moment the pause actually ends rather than on a polling tick, so the banner
+    // never outlives the state it describes. Sleeping exactly as long as the pause has left also
+    // means no timer runs while nothing is pending.
     var clockTick by remember { mutableStateOf(System.currentTimeMillis()) }
     val isPaused = pausedUntil > clockTick
     LaunchedEffect(pausedUntil) {
-        while (pausedUntil > System.currentTimeMillis()) {
-            clockTick = System.currentTimeMillis()
-            delay(30_000)
-        }
         clockTick = System.currentTimeMillis()
+        val remaining = pausedUntil - clockTick
+        if (remaining > 0) {
+            delay(remaining)
+            clockTick = System.currentTimeMillis()
+        }
     }
     var showPauseSheet by remember { mutableStateOf(false) }
     val unnamedTitleStyle = com.ghostgramlabs.speakalert.ui.settings.rememberUnnamedReminderTitleStyle()
