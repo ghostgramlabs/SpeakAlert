@@ -50,6 +50,8 @@ class SettingsRepository internal constructor(
         val QUIET_TIME_START_MINUTE = intPreferencesKey("quiet_time_start_minute")
         val QUIET_TIME_END_HOUR = intPreferencesKey("quiet_time_end_hour")
         val QUIET_TIME_END_MINUTE = intPreferencesKey("quiet_time_end_minute")
+        /** Wall-clock instant the pause ends; 0 or past means reminders are running. */
+        val PAUSE_REMINDERS_UNTIL = longPreferencesKey("pause_reminders_until")
         
         val TTS_LANGUAGE_MODE = intPreferencesKey("tts_language_mode") // 0 = Auto-detect, 1 = Device language, 2 = English
         val PERSIST_UNTIL_DONE = booleanPreferencesKey("persist_until_done")
@@ -114,6 +116,14 @@ class SettingsRepository internal constructor(
     val loopTimeoutMinutes: Flow<Int> = dataStore.data.map { it[LOOP_TIMEOUT_MINUTES] ?: 10 } // Default 10 min, 0 = never
     
     // Quiet Time Flows (Default: 10 PM to 7 AM)
+    /**
+     * When reminders are paused until, as an absolute instant.
+     *
+     * Absolute rather than a duration so the pause keeps ending at the moment the user chose even
+     * if the app is killed, and expires on its own rather than needing anything to clear it.
+     */
+    val pauseRemindersUntil: Flow<Long> = dataStore.data.map { it[PAUSE_REMINDERS_UNTIL] ?: 0L }
+
     val quietTimeEnabled: Flow<Boolean> = dataStore.data.map { it[QUIET_TIME_ENABLED] ?: false }
     val quietTimeStartHour: Flow<Int> = dataStore.data.map { it[QUIET_TIME_START_HOUR] ?: 22 }
     val quietTimeStartMinute: Flow<Int> = dataStore.data.map { it[QUIET_TIME_START_MINUTE] ?: 0 }
@@ -210,6 +220,10 @@ class SettingsRepository internal constructor(
         dataStore.edit { it[LOOP_TIMEOUT_MINUTES] = minutes }
     }
     
+    suspend fun setPauseRemindersUntil(until: Long) {
+        dataStore.edit { it[PAUSE_REMINDERS_UNTIL] = until.coerceAtLeast(0L) }
+    }
+
     suspend fun setQuietTimeEnabled(enabled: Boolean) {
         dataStore.edit { it[QUIET_TIME_ENABLED] = enabled }
     }

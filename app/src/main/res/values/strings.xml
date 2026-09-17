@@ -561,6 +561,19 @@
     <string name="batt_prompt_title">Allow %1$s to run in background</string>
     <string name="batt_prompt_message">Some phones, especially Xiaomi and POCO models, stop apps from running in the background to save battery. This can prevent reminders from triggering. Allow %1$s to ignore battery optimization for more reliable reminders.</string>
     <string name="batt_toast_unavailable">Battery settings are not available on this device.</string>
+    <string name="home_batt_banner_title">Reminders may not arrive</string>
+    <string name="home_batt_banner_body">This phone is allowed to stop %1$s in the background. Tap to allow unrestricted battery use.</string>
+    <string name="home_quiet_banner">Quiet hours %1$s – %2$s. Reminders go to Missed.</string>
+    <string name="home_pause_banner">Reminders paused until %1$s</string>
+    <string name="home_pause_resume">Resume</string>
+    <string name="home_pause_title">Pause reminders</string>
+    <string name="home_pause_body">Reminders will not alert until the pause ends. They still go to the Missed tab.</string>
+    <string name="home_pause_1h">For 1 hour</string>
+    <string name="home_pause_4h">For 4 hours</string>
+    <string name="home_pause_today">For the rest of today</string>
+    <string name="home_pause_pick">Pick an end time…</string>
+    <string name="home_pause_cd">Pause reminders</string>
+    <string name="home_pause_also_quiet">Quiet hours are also on, %1$s – %2$s.</string>
     <string name="fsr_title">Allow full-screen alerts again</string>
     <string name="fsr_message">Lock-screen reminder alerts are still turned on in %1$s, but Android full-screen access is off. This can happen after reinstall or restore.</string>
     <!-- Version 2.0.34 help and startup highlights -->

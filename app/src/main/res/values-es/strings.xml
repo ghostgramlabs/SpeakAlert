@@ -542,6 +542,19 @@
     <string name="batt_prompt_title">Permite que %1$s se ejecute en segundo plano</string>
     <string name="batt_prompt_message">Algunos teléfonos, especialmente los modelos Xiaomi y POCO, impiden que las apps se ejecuten en segundo plano para ahorrar batería. Esto puede evitar que se activen los recordatorios. Permite que %1$s ignore la optimización de batería para recordatorios más fiables.</string>
     <string name="batt_toast_unavailable">Los ajustes de batería no están disponibles en este dispositivo.</string>
+    <string name="home_batt_banner_title">Puede que los recordatorios no lleguen</string>
+    <string name="home_batt_banner_body">Este teléfono puede detener %1$s en segundo plano. Toca para permitir el uso de batería sin restricciones.</string>
+    <string name="home_quiet_banner">Horas de silencio %1$s – %2$s. Los recordatorios van a Perdidos.</string>
+    <string name="home_pause_banner">Recordatorios en pausa hasta las %1$s</string>
+    <string name="home_pause_resume">Reanudar</string>
+    <string name="home_pause_title">Pausar recordatorios</string>
+    <string name="home_pause_body">Los recordatorios no sonarán hasta que termine la pausa. Igualmente van a la pestaña Perdidos.</string>
+    <string name="home_pause_1h">Durante 1 hora</string>
+    <string name="home_pause_4h">Durante 4 horas</string>
+    <string name="home_pause_today">El resto de hoy</string>
+    <string name="home_pause_pick">Elegir hora de fin…</string>
+    <string name="home_pause_cd">Pausar recordatorios</string>
+    <string name="home_pause_also_quiet">Las horas de silencio también están activas, %1$s – %2$s.</string>
     <string name="fsr_title">Permitir de nuevo las alertas de pantalla completa</string>
     <string name="fsr_message">Las alertas de recordatorio en la pantalla de bloqueo siguen activadas en %1$s, pero el acceso a pantalla completa de Android está desactivado. Esto puede ocurrir tras reinstalar o restaurar.</string>
     <!-- Ayuda y novedades de la versión 2.0.34 -->

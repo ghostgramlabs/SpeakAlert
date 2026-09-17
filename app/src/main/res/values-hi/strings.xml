@@ -543,6 +543,19 @@
     <string name="batt_prompt_title">%1$s को बैकग्राउंड में चलने दें</string>
     <string name="batt_prompt_message">कुछ फ़ोन, खासकर Xiaomi और POCO मॉडल, बैटरी बचाने के लिए ऐप्स को बैकग्राउंड में चलने से रोकते हैं। इससे रिमाइंडर नहीं बज पाते। अधिक विश्वसनीय रिमाइंडर के लिए %1$s को बैटरी ऑप्टिमाइज़ेशन अनदेखा करने की अनुमति दें।</string>
     <string name="batt_toast_unavailable">इस डिवाइस पर बैटरी सेटिंग्स उपलब्ध नहीं हैं।</string>
+    <string name="home_batt_banner_title">रिमाइंडर शायद न आएँ</string>
+    <string name="home_batt_banner_body">यह फ़ोन %1$s को बैकग्राउंड में रोक सकता है। बिना रोक-टोक बैटरी उपयोग की अनुमति देने के लिए टैप करें।</string>
+    <string name="home_quiet_banner">शांत घंटे %1$s – %2$s. रिमाइंडर छूटे हुए में जाएँगे।</string>
+    <string name="home_pause_banner">रिमाइंडर %1$s तक रोके गए</string>
+    <string name="home_pause_resume">फिर शुरू करें</string>
+    <string name="home_pause_title">रिमाइंडर रोकें</string>
+    <string name="home_pause_body">रोक खत्म होने तक रिमाइंडर अलर्ट नहीं करेंगे। वे फिर भी छूटे हुए टैब में जाएँगे।</string>
+    <string name="home_pause_1h">1 घंटे के लिए</string>
+    <string name="home_pause_4h">4 घंटे के लिए</string>
+    <string name="home_pause_today">आज बाकी समय के लिए</string>
+    <string name="home_pause_pick">समाप्ति समय चुनें…</string>
+    <string name="home_pause_cd">रिमाइंडर रोकें</string>
+    <string name="home_pause_also_quiet">शांत घंटे भी चालू हैं, %1$s – %2$s.</string>
     <string name="fsr_title">फ़ुल-स्क्रीन अलर्ट फिर से अनुमति दें</string>
     <string name="fsr_message">%1$s में लॉक-स्क्रीन रिमाइंडर अलर्ट अभी भी चालू हैं, लेकिन Android फ़ुल-स्क्रीन एक्सेस बंद है। यह पुनः इंस्टॉल या रीस्टोर के बाद हो सकता है।</string>
     <!-- संस्करण 2.0.34 सहायता और नया क्या है -->

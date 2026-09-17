@@ -37,6 +37,40 @@ class HomeViewModel(
     private val settingsRepository: com.ghostgramlabs.speakalert.data.repository.SettingsRepository
 ) : ViewModel() {
 
+    /** Instant the current pause ends, or 0 when reminders are running. */
+    val pausedUntil: StateFlow<Long> = settingsRepository.pauseRemindersUntil.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = 0L
+    )
+
+    /** Hold reminders until [until]; pass 0 to resume immediately. */
+    fun setPausedUntil(until: Long) {
+        viewModelScope.launch { settingsRepository.setPauseRemindersUntil(until) }
+    }
+
+    /**
+     * The quiet-hours window, or null when it is off.
+     *
+     * Quiet hours silently divert reminders to the Missed tab, which from the user's side is
+     * indistinguishable from the app failing to fire them. Home states the window so a quiet
+     * evening is visibly a choice they made rather than a fault.
+     */
+    val quietHours: StateFlow<QuietHoursWindow?> = combine(
+        settingsRepository.quietTimeEnabled,
+        settingsRepository.quietTimeStartHour,
+        settingsRepository.quietTimeStartMinute,
+        settingsRepository.quietTimeEndHour,
+        settingsRepository.quietTimeEndMinute
+    ) { enabled, startHour, startMinute, endHour, endMinute ->
+        if (!enabled) null
+        else QuietHoursWindow(startHour, startMinute, endHour, endMinute)
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = null
+    )
+
     private var lastDeletedReminder: ReminderEntity? = null
 
 
@@ -443,3 +477,11 @@ class HomeViewModel(
         return textFallback ?: "Reminder"
     }
 }
+
+/** A daily quiet-hours window, expressed in local wall-clock terms. */
+data class QuietHoursWindow(
+    val startHour: Int,
+    val startMinute: Int,
+    val endHour: Int,
+    val endMinute: Int
+)
