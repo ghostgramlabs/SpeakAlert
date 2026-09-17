@@ -27,6 +27,9 @@ class MissedReminderRepositoryImpl(
             missedReminder.scheduledTime
         )
         missedReminderDao.insert(missedReminder)
+        // Trimmed here rather than on a schedule: this is the only place the table grows, so the
+        // cap cannot be outrun, and the delete is a no-op once the list is already short enough.
+        missedReminderDao.trimToMostRecent(MAX_MISSED_ENTRIES)
         SpeakAlertWidgetUpdater.requestUpdate(context)
     }
 
@@ -43,5 +46,16 @@ class MissedReminderRepositoryImpl(
     override suspend fun deleteMissedReminderByReminderId(reminderId: Long) {
         missedReminderDao.deleteByReminderId(reminderId)
         SpeakAlertWidgetUpdater.requestUpdate(context)
+    }
+
+    companion object {
+        /**
+         * How many missed entries to keep.
+         *
+         * Generous enough that nobody loses a miss they were actually going to act on - a month
+         * of several a day - while still bounding a table that four different readers load in
+         * full.
+         */
+        const val MAX_MISSED_ENTRIES = 100
     }
 }

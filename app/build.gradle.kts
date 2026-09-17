@@ -60,6 +60,14 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    testOptions {
+        unitTests {
+            // Unit tests run against a stub android.jar whose methods throw by default, so a
+            // stray android.util.Log call fails a test that has nothing to do with logging.
+            // Returning defaults makes those calls the no-ops they are on the JVM.
+            isReturnDefaultValues = true
+        }
+    }
 }
 
 dependencies {

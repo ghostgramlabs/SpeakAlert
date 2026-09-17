@@ -64,16 +64,13 @@ class VoiceReminderApp : Application() {
             }
             notificationManager.createNotificationChannel(playbackChannel)
             
-            // Reminder alerts channel (already created in NotificationHelper, but ensure it exists)
-            val alertChannel = NotificationChannel(
-                "voice_reminder_channel",
-                strings.getString(R.string.channel_reminders_name, APP_DISPLAY_NAME),
-                NotificationManager.IMPORTANCE_HIGH
-            ).apply {
-                description = strings.getString(R.string.channel_reminders_desc, APP_DISPLAY_NAME)
-                enableVibration(true)
-            }
-            notificationManager.createNotificationChannel(alertChannel)
+            // The reminder channels belong to NotificationHelper, which also owns the tone-only,
+            // silent and DND-bypass variants and their exact settings. Building one here as well
+            // meant two definitions of the same channel: whichever ran first won, because Android
+            // ignores importance and sound changes once a channel exists, so editing the settings
+            // in one place would have silently done nothing. Constructing the helper creates them
+            // all, which Settings needs before its deep link to the channel can resolve.
+            com.ghostgramlabs.speakalert.alarm.NotificationHelper(this)
         }
     }
 }
