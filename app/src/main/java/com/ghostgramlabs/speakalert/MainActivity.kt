@@ -104,6 +104,10 @@ class MainActivity : ComponentActivity() {
             val coroutineScope = rememberCoroutineScope()
             val lifecycleOwner = LocalLifecycleOwner.current
             var showBatteryOptimizationDialog by rememberSaveable { mutableStateOf(false) }
+            // Latched once the battery prompt has had its one chance this launch, so returning to
+            // Home later in the session cannot raise it again. Saveable so a rotation does not
+            // count as a fresh launch.
+            var batteryPromptEvaluated by rememberSaveable { mutableStateOf(false) }
             var showWhatsNewSheet by rememberSaveable { mutableStateOf(false) }
             var showFullScreenRecoveryDialog by rememberSaveable { mutableStateOf(false) }
             var showRatingPrompt by rememberSaveable { mutableStateOf(false) }
@@ -163,12 +167,35 @@ class MainActivity : ComponentActivity() {
                 showWhatsNewSheet = true
             }
 
-            LaunchedEffect(startupPromptsLoaded, batteryOptimizationPromptShown, needsWhatsNew, showWhatsNewSheet, shouldOfferWhatsNew, isHomeDestination) {
+            // This is a startup prompt, so it may only interrupt a launch. Its inputs all change
+            // during ordinary use - isHomeDestination flips every time the user comes back from
+            // the editor or Settings - and without a latch the effect re-ran on each of those and
+            // put the dialog up in the middle of whatever the user was doing. Evaluated once per
+            // launch, and only with the window actually in front of the user, so it arrives in
+            // its place in the sequence (release notes, then this, then anything else) or not at
+            // all until the next launch.
+            LaunchedEffect(
+                startupPromptsLoaded,
+                batteryOptimizationPromptShown,
+                needsWhatsNew,
+                showWhatsNewSheet,
+                shouldOfferWhatsNew,
+                isHomeDestination,
+                activityResumed
+            ) {
+                if (batteryPromptEvaluated) return@LaunchedEffect
                 if (!startupPromptsLoaded) return@LaunchedEffect
-                if (!isHomeDestination) return@LaunchedEffect
+                if (!isHomeDestination || !activityResumed) return@LaunchedEffect
                 if (!shouldOfferWhatsNew) return@LaunchedEffect
+                // Wait for the release notes rather than latching past them: they are shown first
+                // and this evaluates again once they close.
                 if (needsWhatsNew || showWhatsNewSheet) return@LaunchedEffect
-                if (batteryOptimizationPromptShown) return@LaunchedEffect
+                if (batteryOptimizationPromptShown) {
+                    batteryPromptEvaluated = true
+                    return@LaunchedEffect
+                }
+                if (!window.decorView.hasWindowFocus()) return@LaunchedEffect
+                batteryPromptEvaluated = true
                 if (!BatteryOptimizationSupport.isBatteryOptimizationEnabled(this@MainActivity)) {
                     settingsRepository.setBatteryOptimizationPromptShown(true)
                     return@LaunchedEffect

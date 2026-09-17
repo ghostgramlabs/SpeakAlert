@@ -58,6 +58,10 @@
     <string name="channel_dnd_bypass_desc">منبهات التذكير التي يمكنها التنبيه أثناء وضع عدم الإزعاج عند منح الإذن في Android</string>
     <string name="channel_tone_only_bypass_name">تنبيهات النغمة فقط من %1$s (تجاوز عدم الإزعاج)</string>
     <string name="channel_tone_only_bypass_desc">تذكيرات النغمة فقط التي يمكنها التنبيه أثناء وضع عدم الإزعاج عند منح الإذن في Android</string>
+    <string name="channel_silent_name">تنبيهات %1$s بملء الشاشة</string>
+    <string name="channel_silent_desc">تذكيرات %1$s بملء الشاشة أثناء قراءة التذكير بصوت عالٍ بالفعل</string>
+    <string name="channel_silent_bypass_name">تنبيهات %1$s بملء الشاشة (تجاوز عدم الإزعاج)</string>
+    <string name="channel_silent_bypass_desc">تذكيرات بملء الشاشة يمكنها التنبيه أثناء وضع عدم الإزعاج عند منح إذن Android</string>
 
     <string name="alert_mark_done">وضع علامة تم</string>
     <string name="alert_silence">كتم</string>

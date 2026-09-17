@@ -58,6 +58,10 @@
     <string name="channel_dnd_bypass_desc">Alarmas de recordatorio que pueden sonar durante No molestar cuando se concede el acceso en Android</string>
     <string name="channel_tone_only_bypass_name">Alertas de solo tono de %1$s (omitir No molestar)</string>
     <string name="channel_tone_only_bypass_desc">Recordatorios de solo tono que pueden sonar durante No molestar cuando se concede el acceso en Android</string>
+    <string name="channel_silent_name">Alertas a pantalla completa de %1$s</string>
+    <string name="channel_silent_desc">Recordatorios a pantalla completa de %1$s mientras el recordatorio ya se está leyendo en voz alta</string>
+    <string name="channel_silent_bypass_name">Alertas a pantalla completa de %1$s (omite No molestar)</string>
+    <string name="channel_silent_bypass_desc">Recordatorios a pantalla completa que pueden sonar durante No molestar si Android lo permite</string>
 
     <string name="alert_mark_done">Marcar como hecho</string>
     <string name="alert_silence">Silenciar</string>

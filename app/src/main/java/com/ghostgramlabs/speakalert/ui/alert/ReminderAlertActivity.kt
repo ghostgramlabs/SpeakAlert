@@ -10,15 +10,22 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.StartOffset
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -29,6 +36,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -296,332 +305,332 @@ private fun ReminderAlertContent(
         !playbackText.isNullOrBlank() -> stringResource(R.string.alert_text_reminder)
         else -> stringResource(R.string.alert_generic)
     }
-    val statusLabel = when {
-        isPlaying -> stringResource(R.string.alert_playing_now)
-        isFollowUp -> stringResource(R.string.alert_needs_response)
-        else -> stringResource(R.string.alert_awaiting_action)
+    // This screen is read at arm's length, in the dark, by someone who was doing something else a
+    // second ago. It is built like an alarm rather than a page: the reminder's own words carry
+    // it, and every piece of motion is tied to something real - the arrival of the alert, and
+    // whether sound is currently coming out of the phone. Nothing loops for decoration.
+
+    // The alert does not fade up like a page load; it arrives. One staggered entrance, then it
+    // settles and stays still so it can be read.
+    val entrance = remember { Animatable(0f) }
+    LaunchedEffect(Unit) {
+        entrance.animateTo(
+            targetValue = 1f,
+            animationSpec = spring(
+                dampingRatio = Spring.DampingRatioLowBouncy,
+                stiffness = Spring.StiffnessLow
+            )
+        )
     }
-    val pulse = rememberInfiniteTransition(label = "alert_pulse")
-    val outerScale by pulse.animateFloat(
-        initialValue = 0.97f,
-        targetValue = 1.03f,
+    // A slow breath behind the bell. It is the one ambient loop, and it earns its place: it is
+    // what makes a waiting alert look live rather than like a screenshot.
+    val ambient = rememberInfiniteTransition(label = "ambient")
+    val glow by ambient.animateFloat(
+        initialValue = 0.10f,
+        targetValue = 0.26f,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 2200, easing = FastOutSlowInEasing),
+            animation = tween(durationMillis = 2600, easing = FastOutSlowInEasing),
             repeatMode = RepeatMode.Reverse
         ),
-        label = "outer_scale"
+        label = "glow"
     )
-    val outerAlpha by pulse.animateFloat(
-        initialValue = 0.05f,
-        targetValue = 0.12f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 2200, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "outer_alpha"
-    )
-    val rippleOneProgress by pulse.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 2500, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "ripple_one_progress"
-    )
-    val rippleTwoProgress by pulse.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 2500, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart,
-            initialStartOffset = StartOffset(1250)
-        ),
-        label = "ripple_two_progress"
-    )
-    val cardLift by pulse.animateFloat(
-        initialValue = -3f,
-        targetValue = 7f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 2400, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "card_lift"
-    )
+
+    fun Modifier.entering(order: Int): Modifier = this.graphicsLayer {
+        val shifted = ((entrance.value * 1.35f) - (order * 0.12f)).coerceIn(0f, 1f)
+        alpha = shifted
+        translationY = (1f - shifted) * 42f
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Depth, from the accent colour rather than from a grey. Strongest behind the
+            // headline and gone by the time it reaches the buttons, so the eye starts high.
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.verticalGradient(
+                            0f to MaterialTheme.colorScheme.primary.copy(alpha = 0.10f),
+                            0.45f to MaterialTheme.colorScheme.primary.copy(alpha = 0.03f),
+                            1f to MaterialTheme.colorScheme.background
+                        )
+                    )
+            )
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+                .imePadding()
+        ) {
+            // The alarm face. It takes whatever height the words and buttons do not, so the
+            // screen is never a block of content stranded above an empty half - on a tall phone
+            // the rings simply breathe wider.
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(horizontal = 28.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                AlertRings(modifier = Modifier.entering(0))
+                AlertBell(
+                    glow = glow,
+                    isFollowUp = isFollowUp,
+                    modifier = Modifier.entering(0)
+                )
+            }
+
+            Column(
+                modifier = Modifier
+                    .weight(1f, fill = false)
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 28.dp)
+                    .padding(bottom = 24.dp),
+                verticalArrangement = Arrangement.Bottom
+            ) {
+                // Who and when, in that order, both quiet. The reminder is the headline; this is
+                // the dateline above it.
+                Text(
+                    text = if (isFollowUp) {
+                        stringResource(R.string.alert_followup_check)
+                    } else {
+                        sourceLabel
+                    },
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.entering(1)
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = scheduledText,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.entering(1)
+                )
+
+                Spacer(modifier = Modifier.height(18.dp))
+
+                // Left-aligned and large. Centring is what makes a wall of text hard to read, and
+                // a reminder can be a full sentence.
+                Text(
+                    text = headline,
+                    style = MaterialTheme.typography.displaySmall,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    lineHeight = MaterialTheme.typography.displaySmall.fontSize * 1.15f,
+                    modifier = Modifier.entering(2)
+                )
+
+                if (!bodyText.equals(headline, ignoreCase = true)) {
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        text = bodyText,
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Normal,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        lineHeight = MaterialTheme.typography.headlineSmall.fontSize * 1.35f,
+                        modifier = Modifier.entering(3)
+                    )
+                }
+
+                // Real information, kept: how insistent this reminder is going to be.
+                if (reminder.followUpCheckMinutes > 0) {
+                    Spacer(modifier = Modifier.height(14.dp))
+                    Text(
+                        text = pluralStringResource(
+                            R.plurals.alert_followup_repeats,
+                            reminder.followUpCheckMinutes,
+                            reminder.followUpCheckMinutes
+                        ),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.entering(3)
+                    )
+                }
+
+                // A readout rather than decoration: on exactly while sound is coming out.
+                if (isPlaying) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    SpeakingIndicator()
+                }
+            }
+
+            AlertActionDock(
+                canPlayAgain = canPlayAgain,
+                isPlaying = isPlaying,
+                onDone = onDone,
+                onStopPlayback = {
+                    isPlaying = false
+                    onStopPlayback()
+                },
+                onPlayAgain = onPlayAgain,
+                onSnoozeFive = onSnoozeFive,
+                onSnoozeTen = onSnoozeTen,
+                modifier = Modifier.entering(4)
+            )
+        }
+        }
+    }
+}
+
+/**
+ * Rings travelling outward from the bell, the way an alarm or an incoming call announces itself.
+ *
+ * They run for as long as the reminder is unanswered, which is the point: a reminder waiting for
+ * you should not look like a screenshot. Each ring fades as it widens, so the motion reads as
+ * sound leaving the phone rather than as a spinner.
+ */
+@Composable
+private fun AlertRings(modifier: Modifier = Modifier) {
+    val transition = rememberInfiniteTransition(label = "rings")
+    val waves = listOf(0, 1200, 2400).map { delayMs ->
+        transition.animateFloat(
+            initialValue = 0f,
+            targetValue = 1f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(durationMillis = 3600, easing = LinearEasing),
+                repeatMode = RepeatMode.Restart,
+                initialStartOffset = StartOffset(delayMs)
+            ),
+            label = "wave_$delayMs"
+        )
+    }
+
+    Box(modifier = modifier.size(300.dp), contentAlignment = Alignment.Center) {
+        waves.forEach { wave ->
+            val progress = wave.value.sanitizeUnitFloat()
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .graphicsLayer {
+                        val scale = 0.28f + (progress * 0.72f)
+                        scaleX = scale
+                        scaleY = scale
+                        alpha = (1f - progress).coerceIn(0f, 1f) * 0.55f
+                    }
+                    .border(
+                        width = 1.5.dp,
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = CircleShape
+                    )
+            )
+        }
+    }
+}
+
+/**
+ * The mark at the top of the alert: a bell that rings once as the screen arrives, sitting in a
+ * halo that breathes for as long as the reminder is unanswered.
+ *
+ * The ring is a single gesture, not a loop - a bell that never stops shaking reads as an
+ * ornament, while one that strikes and settles reads as something that just happened.
+ */
+@Composable
+private fun AlertBell(
+    glow: Float,
+    isFollowUp: Boolean,
+    modifier: Modifier = Modifier
+) {
+    val swing = remember { Animatable(0f) }
+    LaunchedEffect(Unit) {
+        swing.animateTo(
+            targetValue = 0f,
+            animationSpec = keyframes {
+                durationMillis = 900
+                0f at 0
+                -14f at 120
+                12f at 260
+                -8f at 400
+                5f at 540
+                -2f at 680
+                0f at 900
+            }
+        )
+    }
+
+    Box(
+        modifier = modifier.size(132.dp),
+        contentAlignment = Alignment.Center
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            MaterialTheme.colorScheme.background,
-                            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.86f),
-                            MaterialTheme.colorScheme.background
-                        )
-                    )
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = glow * 0.45f),
+                    shape = CircleShape
                 )
+        )
+        Surface(
+            modifier = Modifier.size(96.dp),
+            shape = CircleShape,
+            color = MaterialTheme.colorScheme.primaryContainer,
+            shadowElevation = 6.dp
         ) {
-            Box(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .offset(x = 96.dp, y = (-48).dp)
-                    .size(220.dp)
-                    .background(
-                        brush = Brush.radialGradient(
-                            colors = listOf(
-                                MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
-                                Color.Transparent
-                            )
-                        ),
-                        shape = CircleShape
-                    )
-            )
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .offset(x = (-74).dp, y = 74.dp)
-                    .size(190.dp)
-                    .background(
-                        brush = Brush.radialGradient(
-                            colors = listOf(
-                                MaterialTheme.colorScheme.tertiary.copy(alpha = 0.08f),
-                                Color.Transparent
-                            )
-                        ),
-                        shape = CircleShape
-                    )
-            )
-
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .statusBarsPadding()
-                    .imePadding()
-            ) {
-                Column(
+            Box(contentAlignment = Alignment.Center) {
+                Icon(
+                    imageVector = Icons.Filled.NotificationsActive,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier
-                        .weight(1f)
-                        .verticalScroll(rememberScrollState())
-                        .padding(horizontal = 24.dp, vertical = 22.dp),
-                    verticalArrangement = Arrangement.spacedBy(18.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Surface(
-                        shape = RoundedCornerShape(100.dp),
-                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.72f),
-                        border = BorderStroke(
-                            width = 1.dp,
-                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.32f)
-                        )
-                    ) {
-                        Text(
-                            text = if (isFollowUp) stringResource(R.string.alert_followup_reminder) else APP_DISPLAY_NAME,
-                            style = MaterialTheme.typography.labelLarge,
-                            color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp)
-                        )
-                    }
-
-                    Text(
-                        text = if (isFollowUp) stringResource(R.string.alert_followup_on_this) else stringResource(R.string.alert_reminder_on_screen),
-                        style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.primary,
-                        textAlign = TextAlign.Center
-                    )
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .offset(y = cardLift.dp),
-                        shape = RoundedCornerShape(32.dp),
-                        border = BorderStroke(
-                            width = 1.dp,
-                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.38f)
-                        ),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.92f)
-                        ),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 22.dp, vertical = 22.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(16.dp)
-                        ) {
-                            Box(
-                                contentAlignment = Alignment.Center,
-                                modifier = Modifier.size(120.dp)
-                            ) {
-                                AlertPulseRing(
-                                    progress = rippleOneProgress,
-                                    modifier = Modifier.size(108.dp)
-                                )
-                                AlertPulseRing(
-                                    progress = rippleTwoProgress,
-                                    modifier = Modifier.size(108.dp)
-                                )
-                                Box(
-                                    modifier = Modifier
-                                        .size(88.dp)
-                                        .graphicsLayer {
-                                            scaleX = outerScale
-                                            scaleY = outerScale
-                                        }
-                                        .background(
-                                            color = MaterialTheme.colorScheme.primary.copy(alpha = outerAlpha),
-                                            shape = CircleShape
-                                        )
-                                )
-                                Surface(
-                                    modifier = Modifier.size(64.dp),
-                                    shape = CircleShape,
-                                    color = MaterialTheme.colorScheme.surface,
-                                    border = BorderStroke(
-                                        width = 1.dp,
-                                        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.28f)
-                                    )
-                                ) {
-                                    Box(contentAlignment = Alignment.Center) {
-                                        Icon(
-                                            imageVector = Icons.Filled.NotificationsActive,
-                                            contentDescription = null,
-                                            tint = MaterialTheme.colorScheme.primary,
-                                            modifier = Modifier.size(26.dp)
-                                        )
-                                    }
-                                }
-                            }
-
-                            Text(
-                                text = headline,
-                                style = MaterialTheme.typography.headlineSmall,
-                                fontWeight = FontWeight.SemiBold,
-                                textAlign = TextAlign.Center,
-                                maxLines = 3,
-                                overflow = TextOverflow.Ellipsis
-                            )
-
-                            if (!bodyText.equals(headline, ignoreCase = true)) {
-                                Text(
-                                    text = bodyText,
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    textAlign = TextAlign.Center
-                                )
-                            }
-
-                            FlowRow(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-                                verticalArrangement = Arrangement.spacedBy(8.dp),
-                            ) {
-                                AlertTag(text = sourceLabel)
-                                AlertTag(text = statusLabel, highlighted = isPlaying)
-                                if (isFollowUp) {
-                                    AlertTag(text = stringResource(R.string.alert_followup_label), highlighted = true)
-                                }
-                            }
-
-                            Surface(
-                                modifier = Modifier.fillMaxWidth(),
-                                shape = RoundedCornerShape(22.dp),
-                                color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.30f),
-                                border = BorderStroke(
-                                    1.dp,
-                                    MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.24f)
-                                )
-                            ) {
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = 16.dp, vertical = 14.dp),
-                                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                                ) {
-                                    AlertMetaRow(
-                                        icon = Icons.Filled.Schedule,
-                                        label = stringResource(R.string.alert_scheduled_for),
-                                        value = scheduledText
-                                    )
-                                    AlertMetaRow(
-                                        icon = if (isPlaying) Icons.Filled.Stop else Icons.Filled.NotificationsActive,
-                                        label = stringResource(R.string.alert_status),
-                                        value = if (isPlaying) {
-                                            stringResource(R.string.alert_audio_playing)
-                                        } else {
-                                            stringResource(R.string.alert_waiting_done_snooze)
-                                        }
-                                    )
-                                    if (reminder.followUpCheckMinutes > 0) {
-                                        AlertMetaRow(
-                                            icon = Icons.Filled.NotificationsActive,
-                                            label = stringResource(R.string.alert_followup_label),
-                                            value = pluralStringResource(
-                                                R.plurals.alert_followup_repeats,
-                                                reminder.followUpCheckMinutes,
-                                                reminder.followUpCheckMinutes
-                                            )
-                                        )
-                                    }
-                                }
-                            }
-
-                            Text(
-                                text = if (canPlayAgain) {
-                                    stringResource(R.string.alert_hint_with_play)
-                                } else {
-                                    stringResource(R.string.alert_hint_no_play)
-                                },
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                textAlign = TextAlign.Center
-                            )
-                        }
-                    }
-                }
-
-                AlertActionDock(
-                    canPlayAgain = canPlayAgain,
-                    isPlaying = isPlaying,
-                    onDone = onDone,
-                    onStopPlayback = {
-                        isPlaying = false
-                        onStopPlayback()
-                    },
-                    onPlayAgain = onPlayAgain,
-                    onSnoozeFive = onSnoozeFive,
-                    onSnoozeTen = onSnoozeTen
+                        .size(48.dp)
+                        .graphicsLayer { rotationZ = swing.value }
                 )
             }
         }
     }
 }
 
+/**
+ * Three bars keeping time with the audio. Shown only while something is actually playing, so its
+ * presence is the status - there is no label to read and nothing moves once the phone is quiet.
+ */
 @Composable
-private fun AlertPulseRing(
-    progress: Float,
-    modifier: Modifier = Modifier
-) {
-    val clampedProgress = progress.sanitizeUnitFloat()
-    Box(
-        modifier = modifier
-            .graphicsLayer {
-                val scale = 0.84f + (clampedProgress * 0.92f)
-                scaleX = scale
-                scaleY = scale
+private fun SpeakingIndicator() {
+    val transition = rememberInfiniteTransition(label = "speaking")
+    val heights = listOf(0, 180, 360).map { delayMs ->
+        transition.animateFloat(
+            initialValue = 0.35f,
+            targetValue = 1f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(durationMillis = 620, easing = FastOutSlowInEasing),
+                repeatMode = RepeatMode.Reverse,
+                initialStartOffset = StartOffset(delayMs)
+            ),
+            label = "bar_$delayMs"
+        )
+    }
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.Bottom,
+            horizontalArrangement = Arrangement.spacedBy(3.dp),
+            modifier = Modifier.height(18.dp)
+        ) {
+            heights.forEach { bar ->
+                Box(
+                    modifier = Modifier
+                        .width(3.dp)
+                        .fillMaxHeight(bar.value)
+                        .background(
+                            color = MaterialTheme.colorScheme.primary,
+                            shape = RoundedCornerShape(2.dp)
+                        )
+                )
             }
-            .border(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.primary.copy(alpha = (1f - clampedProgress) * 0.26f),
-                shape = CircleShape
-            )
-    )
+        }
+        Text(
+            text = stringResource(R.string.alert_playing_now),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.primary
+        )
+    }
 }
 
 @Composable
@@ -632,238 +641,114 @@ private fun AlertActionDock(
     onStopPlayback: () -> Unit,
     onPlayAgain: () -> Unit,
     onSnoozeFive: () -> Unit,
-    onSnoozeTen: () -> Unit
+    onSnoozeTen: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
-        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
-        shadowElevation = 8.dp,
-        border = BorderStroke(
-            1.dp,
-            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
-        )
+    // Done is the only thing that ends the alert, so it is the only filled button and the
+    // tallest target on the screen. Silence appears only while there is sound to silence.
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .navigationBarsPadding()
+            .padding(horizontal = 28.dp)
+            .padding(top = 8.dp, bottom = 28.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .navigationBarsPadding()
-                .padding(horizontal = 20.dp, vertical = 18.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Button(
-                onClick = onDone,
+        if (isPlaying) {
+            OutlinedButton(
+                onClick = onStopPlayback,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
-                shape = RoundedCornerShape(18.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary
-                )
+                shape = RoundedCornerShape(16.dp),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                ),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
             ) {
-                Icon(
-                    imageVector = Icons.Filled.Done,
-                    contentDescription = null
-                )
-                Spacer(modifier = Modifier.width(8.dp))
+                Icon(imageVector = Icons.Filled.Stop, contentDescription = null)
+                Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    text = stringResource(R.string.alert_mark_done),
+                    text = stringResource(R.string.alert_silence_now),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
-
-            if (canPlayAgain) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    OutlinedButton(
-                        onClick = onStopPlayback,
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(52.dp),
-                        shape = RoundedCornerShape(16.dp),
-                        colors = ButtonDefaults.outlinedButtonColors(
-                            contentColor = MaterialTheme.colorScheme.onSurface
-                        ),
-                        border = BorderStroke(
-                            1.dp,
-                            if (isPlaying) {
-                                MaterialTheme.colorScheme.primary.copy(alpha = 0.42f)
-                            } else {
-                                MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.72f)
-                            }
-                        )
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Stop,
-                            contentDescription = null
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = if (isPlaying) stringResource(R.string.alert_silence_now) else stringResource(R.string.alert_silence),
-                            style = MaterialTheme.typography.titleSmall
-                        )
-                    }
-                    FilledTonalButton(
-                        onClick = onPlayAgain,
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(52.dp),
-                        shape = RoundedCornerShape(16.dp),
-                        colors = ButtonDefaults.filledTonalButtonColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.PlayArrow,
-                            contentDescription = null
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = stringResource(R.string.alert_play_again),
-                            style = MaterialTheme.typography.titleSmall
-                        )
-                    }
-                }
-            } else {
-                OutlinedButton(
-                    onClick = onStopPlayback,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        contentColor = MaterialTheme.colorScheme.onSurface
-                    ),
-                    border = BorderStroke(
-                        1.dp,
-                        if (isPlaying) {
-                            MaterialTheme.colorScheme.primary.copy(alpha = 0.42f)
-                        } else {
-                            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.72f)
-                        }
-                    )
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Stop,
-                        contentDescription = null
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = if (isPlaying) "Silence now" else "Silence",
-                        style = MaterialTheme.typography.titleSmall
-                    )
-                }
-            }
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                SnoozeActionButton(
-                    label = stringResource(R.string.alert_snooze_minutes, 5),
-                    onClick = onSnoozeFive,
-                    modifier = Modifier.weight(1f)
-                )
-                SnoozeActionButton(
-                    label = stringResource(R.string.alert_snooze_minutes, 10),
-                    onClick = onSnoozeTen,
-                    modifier = Modifier.weight(1f)
-                )
-            }
-
-            Text(
-                text = stringResource(R.string.alert_dock_hint),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
         }
-    }
-}
 
-@Composable
-private fun AlertTag(
-    text: String,
-    highlighted: Boolean = false
-) {
-    Surface(
-        shape = RoundedCornerShape(100.dp),
-        color = if (highlighted) {
-            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.92f)
-        } else {
-            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.56f)
-        },
-        border = BorderStroke(
-            width = 1.dp,
-            color = if (highlighted) {
-                MaterialTheme.colorScheme.primary.copy(alpha = 0.24f)
-            } else {
-                MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.26f)
-            }
-        )
-    ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.labelMedium,
-            color = if (highlighted) {
-                MaterialTheme.colorScheme.onPrimaryContainer
-            } else {
-                MaterialTheme.colorScheme.onSurfaceVariant
-            },
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
-        )
-    }
-}
-
-@Composable
-private fun AlertMetaRow(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
-    label: String,
-    value: String
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.Top,
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        Surface(
-            shape = CircleShape,
-            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
-            border = BorderStroke(
-                1.dp,
-                MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
-            )
-        ) {
-            Box(
-                modifier = Modifier.size(32.dp),
-                contentAlignment = Alignment.Center
+        // Replay gets its own row rather than a third of one: three buttons across wraps
+        // "Snooze 5m" onto two lines on an ordinary phone.
+        if (canPlayAgain && !isPlaying) {
+            OutlinedButton(
+                onClick = onPlayAgain,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                ),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
             ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(16.dp)
+                Icon(imageVector = Icons.Filled.PlayArrow, contentDescription = null)
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(
+                    text = stringResource(R.string.alert_play_again),
+                    style = MaterialTheme.typography.titleMedium
                 )
             }
         }
-        Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(2.dp)
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Text(
-                text = label,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary
+            SnoozeActionButton(
+                label = stringResource(R.string.alert_snooze_minutes, 5),
+                onClick = onSnoozeFive,
+                modifier = Modifier.weight(1f)
             )
+            SnoozeActionButton(
+                label = stringResource(R.string.alert_snooze_minutes, 10),
+                onClick = onSnoozeTen,
+                modifier = Modifier.weight(1f)
+            )
+        }
+
+        val donePressed = remember { MutableInteractionSource() }
+        val isDonePressed by donePressed.collectIsPressedAsState()
+        val doneScale by animateFloatAsState(
+            targetValue = if (isDonePressed) 0.97f else 1f,
+            animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+            label = "done_scale"
+        )
+        Button(
+            onClick = onDone,
+            interactionSource = donePressed,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(68.dp)
+                .graphicsLayer {
+                    scaleX = doneScale
+                    scaleY = doneScale
+                },
+            shape = RoundedCornerShape(20.dp),
+            elevation = ButtonDefaults.buttonElevation(
+                defaultElevation = 3.dp,
+                pressedElevation = 0.dp
+            ),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary
+            )
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Done,
+                contentDescription = null,
+                modifier = Modifier.size(24.dp)
+            )
+            Spacer(modifier = Modifier.width(10.dp))
             Text(
-                text = value,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-                textAlign = TextAlign.Start
+                text = stringResource(R.string.alert_mark_done),
+                style = MaterialTheme.typography.titleLarge
             )
         }
     }
