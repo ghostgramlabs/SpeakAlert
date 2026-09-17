@@ -194,7 +194,11 @@ class MainActivity : ComponentActivity() {
                     batteryPromptEvaluated = true
                     return@LaunchedEffect
                 }
-                if (!window.decorView.hasWindowFocus()) return@LaunchedEffect
+                // Deliberately no window-focus check. One here returned without latching, and
+                // focus is not one of this effect's keys, so a cold launch that evaluated before
+                // the window was focused skipped the prompt and never came back to it - which on
+                // a second launch, with no release notes in the way to delay things, was every
+                // time. Being resumed on Home with no sheet up is already the right moment.
                 batteryPromptEvaluated = true
                 if (!BatteryOptimizationSupport.isBatteryOptimizationEnabled(this@MainActivity)) {
                     settingsRepository.setBatteryOptimizationPromptShown(true)
