@@ -562,6 +562,19 @@
     <string name="batt_prompt_title">اسمح لـ %1$s بالعمل في الخلفية</string>
     <string name="batt_prompt_message">تمنع بعض الهواتف، خاصةً طُرز Xiaomi وPOCO، التطبيقات من العمل في الخلفية لتوفير البطارية. قد يمنع هذا انطلاق التذكيرات. اسمح لـ %1$s بتجاهل تحسين البطارية للحصول على تذكيرات أكثر موثوقية.</string>
     <string name="batt_toast_unavailable">إعدادات البطارية غير متوفرة على هذا الجهاز.</string>
+    <string name="home_batt_banner_title">قد لا تصل التذكيرات</string>
+    <string name="home_batt_banner_body">قد يوقف هذا الهاتف %1$s في الخلفية. اضغط للسماح باستخدام البطارية دون قيود.</string>
+    <string name="home_quiet_banner">ساعات الهدوء %1$s – %2$s. تنتقل التذكيرات إلى الفائتة.</string>
+    <string name="home_pause_banner">التذكيرات متوقفة حتى %1$s</string>
+    <string name="home_pause_resume">استئناف</string>
+    <string name="home_pause_title">إيقاف التذكيرات مؤقتًا</string>
+    <string name="home_pause_body">لن تنبّه التذكيرات حتى ينتهي الإيقاف المؤقت. وستظل تنتقل إلى علامة الفائتة.</string>
+    <string name="home_pause_1h">لمدة ساعة</string>
+    <string name="home_pause_4h">لمدة 4 ساعات</string>
+    <string name="home_pause_today">لبقية اليوم</string>
+    <string name="home_pause_pick">اختر وقت الانتهاء…</string>
+    <string name="home_pause_cd">إيقاف التذكيرات مؤقتًا</string>
+    <string name="home_pause_also_quiet">ساعات الهدوء مفعّلة أيضًا، %1$s – %2$s.</string>
     <string name="fsr_title">اسمح بتنبيهات ملء الشاشة مجددًا</string>
     <string name="fsr_message">لا تزال تنبيهات التذكير على شاشة القفل مفعّلة في %1$s، لكن وصول ملء الشاشة في Android متوقّف. قد يحدث ذلك بعد إعادة التثبيت أو الاستعادة.</string>
     <!-- مساعدة ومستجدات الإصدار 2.0.34 -->

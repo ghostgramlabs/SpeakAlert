@@ -160,14 +160,29 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     }
                 }
                 
+                // An explicit, time-boxed "not until X" the user set minutes ago. It outranks the
+                // DND bypass, which is a standing preference about loudness rather than about
+                // whether the reminder should happen at all. Suppression reuses the quiet-hours
+                // path below, so a paused reminder lands in Missed and each reminder's own
+                // MissedPolicy still decides whether it catches up afterwards.
+                val pauseUntil = settingsRepository.pauseRemindersUntil.first()
+                val isPaused = pauseUntil > now
+                if (isPaused) {
+                    FileLogger.log("ALARM: Paused by user until $pauseUntil (now=$now)")
+                }
+
                 if (silenceForDnd) {
                     FileLogger.log("ALARM: Silenced by DND because DND bypass setting is off")
                 } else if (isDndActive) {
                     FileLogger.log("ALARM: DND is active; DND bypass setting is on, trying reminder alert")
                 }
-                
-                if (isQuietTime || silenceForDnd) {
-                    val silenceReason = if (silenceForDnd) "DND" else "Quiet Time"
+
+                if (isPaused || isQuietTime || silenceForDnd) {
+                    val silenceReason = when {
+                        isPaused -> "Pause"
+                        silenceForDnd -> "DND"
+                        else -> "Quiet Time"
+                    }
                     FileLogger.log("ALARM: Silenced by $silenceReason ($now)")
                     
                     // Add to Missed Inbox

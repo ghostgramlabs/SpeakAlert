@@ -274,7 +274,7 @@ fun SettingsScreen(
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_reminder_form),
                 icon = "Form",
-                initiallyExpanded = false
+                initiallyExpanded = true
             ) {
                 Text(
                     text = stringResource(R.string.set_reminder_form_desc),
@@ -643,7 +643,7 @@ fun SettingsScreen(
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_section_timing),
                 icon = "Time",
-                initiallyExpanded = false
+                initiallyExpanded = true
             ) {
                 // Snooze Duration
                 Text(stringResource(R.string.set_default_snooze), style = MaterialTheme.typography.bodyMedium)
@@ -877,7 +877,7 @@ fun SettingsScreen(
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_reliability),
                 icon = "Safe",
-                initiallyExpanded = false
+                initiallyExpanded = true
             ) {
                 val persistUntilDone by viewModel.persistUntilDone.collectAsState()
                 SwitchRow(
@@ -983,7 +983,7 @@ fun SettingsScreen(
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_wear),
                 icon = "Wear",
-                initiallyExpanded = false
+                initiallyExpanded = true
             ) {
                 val notificationsReady =
                     appNotificationStatus.appNotificationsEnabled && appNotificationStatus.reminderChannelEnabled
@@ -1119,7 +1119,7 @@ fun SettingsScreen(
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_section_about),
                 icon = "Help",
-                initiallyExpanded = false
+                initiallyExpanded = true
             ) {
                 var showHelpDialog by remember { mutableStateOf(false) }
 
@@ -1199,44 +1199,12 @@ fun SettingsScreen(
                     Icon(Icons.Default.ChevronRight, contentDescription = null)
                 }
 
-                Divider()
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            if (!openAppRating(context)) {
-                                Toast.makeText(
-                                    context,
-                                    context.getString(R.string.set_toast_no_rating),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                        .padding(vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Star,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(24.dp)
-                    )
-                    Spacer(Modifier.width(16.dp))
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            stringResource(R.string.set_rate, APP_DISPLAY_NAME),
-                            style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.Medium
-                        )
-                        Text(
-                            stringResource(R.string.set_rate_desc),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                    Icon(Icons.Default.ChevronRight, contentDescription = null)
-                }
+                // The "Rate SpeakAlert" row is deliberately absent. Rating is now only ever
+                // offered by the automatic prompt, which waits for a week of delivered reminders
+                // and steps aside when one was just missed - so the people it reaches have
+                // actually had the app work for them. A permanent entry point in Settings has no
+                // such timing: it is equally available to someone who came to Settings because
+                // something was wrong.
 
                 Divider()
 
@@ -1288,7 +1256,7 @@ fun SettingsScreen(
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_section_backup),
                 icon = "Backup",
-                initiallyExpanded = false
+                initiallyExpanded = true
             ) {
                 Row(
                     modifier = Modifier
@@ -1358,7 +1326,7 @@ fun SettingsScreen(
                 CollapsibleSettingsSection(
                     title = stringResource(R.string.set_developer),
                     icon = "Dev",
-                    initiallyExpanded = false
+                    initiallyExpanded = true
                 ) {
                     SwitchRow(
                         text = stringResource(R.string.set_debug_logging),
@@ -1579,35 +1547,6 @@ private fun MoreAppRow(
             )
         }
         Icon(Icons.Default.ChevronRight, contentDescription = null)
-    }
-}
-
-private fun openAppRating(context: android.content.Context): Boolean {
-    val packageName = context.packageName
-    val marketIntent = Intent(
-        Intent.ACTION_VIEW,
-        Uri.parse("market://details?id=$packageName")
-    ).apply {
-        setPackage("com.android.vending")
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    }
-    val webIntent = Intent(
-        Intent.ACTION_VIEW,
-        Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
-    ).apply {
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    }
-
-    return when {
-        marketIntent.resolveActivity(context.packageManager) != null -> {
-            context.startActivity(marketIntent)
-            true
-        }
-        webIntent.resolveActivity(context.packageManager) != null -> {
-            context.startActivity(webIntent)
-            true
-        }
-        else -> false
     }
 }
 

@@ -18,13 +18,17 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.BatteryAlert
+import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.HelpOutline
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.NotificationsOff
+import androidx.compose.material.icons.filled.PauseCircleOutline
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.Schedule
@@ -44,11 +48,14 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.saveable.rememberSaveable
 import kotlinx.coroutines.launch
@@ -59,6 +66,7 @@ import com.ghostgramlabs.speakalert.R
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.ui.AppViewModelProvider
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
+import com.ghostgramlabs.speakalert.util.BatteryOptimizationSupport
 import com.ghostgramlabs.speakalert.util.DateUtils
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import com.ghostgramlabs.speakalert.util.isDefaultAppDisplayName
@@ -88,6 +96,20 @@ fun HomeScreen(
     viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val quietHours by viewModel.quietHours.collectAsState()
+    val pausedUntil by viewModel.pausedUntil.collectAsState()
+    // Recomputed as the clock passes the end instant, so the banner clears itself without the
+    // user having to do anything.
+    var clockTick by remember { mutableStateOf(System.currentTimeMillis()) }
+    val isPaused = pausedUntil > clockTick
+    LaunchedEffect(pausedUntil) {
+        while (pausedUntil > System.currentTimeMillis()) {
+            clockTick = System.currentTimeMillis()
+            delay(30_000)
+        }
+        clockTick = System.currentTimeMillis()
+    }
+    var showPauseSheet by remember { mutableStateOf(false) }
     val unnamedTitleStyle = com.ghostgramlabs.speakalert.ui.settings.rememberUnnamedReminderTitleStyle()
     var selectedFilter by remember { mutableStateOf(FilterType.TODAY) }
     var currentPlayingId by remember { mutableStateOf<Long>(-1L) }
@@ -161,6 +183,22 @@ fun HomeScreen(
         }
     }
     
+    // Re-read on every resume: the user grants this out in system Settings, so the banner has to
+    // be gone the moment they come back rather than waiting for a restart.
+    var batteryRestricted by remember {
+        mutableStateOf(BatteryOptimizationSupport.isBatteryOptimizationEnabled(context))
+    }
+    val homeLifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(homeLifecycleOwner, context) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                batteryRestricted = BatteryOptimizationSupport.isBatteryOptimizationEnabled(context)
+            }
+        }
+        homeLifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { homeLifecycleOwner.lifecycle.removeObserver(observer) }
+    }
+
     // Restore Reminder Dialog State
     var showRestoreDialog by remember { mutableStateOf(false) }
     var reminderToRestore by remember { mutableStateOf<ReminderEntity?>(null) }
@@ -527,6 +565,17 @@ fun HomeScreen(
         HelpDialog(onDismiss = { showHelpDialog = false }, onOpenSettings = navigateToSettings)
     }
 
+    if (showPauseSheet) {
+        PauseRemindersSheet(
+            quietHours = quietHours,
+            onDismiss = { showPauseSheet = false },
+            onPause = { until ->
+                showPauseSheet = false
+                viewModel.setPausedUntil(until)
+            }
+        )
+    }
+
     val filters = listOf(
         FilterType.UPCOMING to stringResource(R.string.home_filter_upcoming),
         FilterType.TODAY to stringResource(R.string.home_filter_today),
@@ -578,6 +627,17 @@ fun HomeScreen(
                                     )
                                 }
                             }
+                        }
+                    }
+                    // Only offered while reminders are running: once paused, the banner below
+                    // owns the state and carries Resume, so there is one place to look.
+                    if (!isPaused) {
+                        IconButton(onClick = { showPauseSheet = true }) {
+                            Icon(
+                                Icons.Filled.PauseCircleOutline,
+                                contentDescription = stringResource(R.string.home_pause_cd),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                         }
                     }
                     IconButton(onClick = { showHelpDialog = true }) {
@@ -646,7 +706,53 @@ fun HomeScreen(
                         .padding(top = 8.dp, bottom = 14.dp)
                         .semantics(mergeDescendants = true) {}
                 )
-            
+
+                // A startup sheet asked once and was gone, so the setting that decides whether
+                // reminders arrive at all could be lost to a single stray tap. This states the
+                // problem where it cannot be missed and removes itself the moment the phone
+                // stops restricting the app - so it is never a nag, only an unresolved fault.
+                if (batteryRestricted) {
+                    BatteryRestrictedBanner(
+                        onClick = {
+                            if (!BatteryOptimizationSupport.requestIgnoreBatteryOptimizations(context)) {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.batt_toast_unavailable),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        },
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .padding(bottom = 14.dp)
+                    )
+                }
+
+                // Quiet hours divert reminders to Missed without a sound, which is exactly what a
+                // broken reminder app looks like from the outside. Saying so here, and naming the
+                // window, turns a silent evening back into something the user recognises as their
+                // own setting. Tapping goes to the setting that controls it.
+                if (isPaused) {
+                    PausedBanner(
+                        until = pausedUntil,
+                        onResume = { viewModel.setPausedUntil(0L) },
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .padding(bottom = 14.dp)
+                    )
+                }
+
+                quietHours?.let { window ->
+                    QuietHoursBanner(
+                        window = window,
+                        onClick = navigateToSettings,
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .padding(bottom = 14.dp)
+                    )
+                }
+
+
                 LazyRow(
                     contentPadding = PaddingValues(horizontal = 16.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -1243,5 +1349,263 @@ private fun isPlaybackNotificationActive(context: Context): Boolean {
     val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     return notificationManager.activeNotifications.any {
         it.id == com.ghostgramlabs.speakalert.service.ReminderPlaybackService.NOTIFICATION_ID
+    }
+}
+
+/**
+ * Standing notice that this phone is allowed to stop the app in the background.
+ *
+ * Deliberately not dismissible: it is not an announcement but a report of a fault that stops
+ * reminders arriving, and it disappears on its own the moment the fault is fixed. Styled as a
+ * warning rather than as a promotion so it reads as something to resolve, not something to sell.
+ */
+@Composable
+private fun BatteryRestrictedBanner(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Surface(
+        onClick = onClick,
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.errorContainer,
+        contentColor = MaterialTheme.colorScheme.onErrorContainer
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Filled.BatteryAlert,
+                contentDescription = null,
+                modifier = Modifier.size(24.dp)
+            )
+            Spacer(modifier = Modifier.width(14.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(R.string.home_batt_banner_title),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Spacer(modifier = Modifier.height(2.dp))
+                Text(
+                    text = stringResource(R.string.home_batt_banner_body, APP_DISPLAY_NAME),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+            Icon(
+                imageVector = Icons.Filled.ChevronRight,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp)
+            )
+        }
+    }
+}
+
+/**
+ * Standing note that a quiet-hours window is in force.
+ *
+ * Informational rather than alarming - this is a setting working as asked, not a fault - so it
+ * uses the neutral surface rather than the error colour the battery warning claims.
+ */
+@Composable
+private fun QuietHoursBanner(
+    window: QuietHoursWindow,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val start = remember(window) { formatWallClock(window.startHour, window.startMinute) }
+    val end = remember(window) { formatWallClock(window.endHour, window.endMinute) }
+    Surface(
+        onClick = onClick,
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f),
+        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Bedtime,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+            Text(
+                text = stringResource(R.string.home_quiet_banner, start, end),
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.weight(1f)
+            )
+            Icon(
+                imageVector = Icons.Filled.ChevronRight,
+                contentDescription = null,
+                modifier = Modifier.size(18.dp)
+            )
+        }
+    }
+}
+
+/** Renders an hour/minute in the user's chosen 12- or 24-hour form. */
+private fun formatWallClock(hour: Int, minute: Int): String {
+    val calendar = java.util.Calendar.getInstance().apply {
+        set(java.util.Calendar.HOUR_OF_DAY, hour)
+        set(java.util.Calendar.MINUTE, minute)
+    }
+    val pattern = com.ghostgramlabs.speakalert.util.TimeFormat.timePattern
+    return java.text.SimpleDateFormat(pattern, java.util.Locale.getDefault()).format(calendar.time)
+}
+
+/**
+ * Standing note that the user has put reminders on hold, with the way out beside it.
+ *
+ * Carries the accent colour rather than the error red of the battery warning or the grey of quiet
+ * hours: this is neither a fault nor a background schedule, it is a deliberate choice that is
+ * still in force, and the end time is stated so it is never a mystery why nothing is firing.
+ */
+@Composable
+private fun PausedBanner(
+    until: Long,
+    onResume: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val endLabel = remember(until) { DateUtils.formatSmartDate(until) }
+    Surface(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.primaryContainer,
+        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+    ) {
+        Row(
+            modifier = Modifier.padding(start = 16.dp, end = 8.dp, top = 10.dp, bottom = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Filled.PauseCircleOutline,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+            Text(
+                text = stringResource(R.string.home_pause_banner, endLabel),
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.weight(1f)
+            )
+            TextButton(onClick = onResume) {
+                Text(stringResource(R.string.home_pause_resume))
+            }
+        }
+    }
+}
+
+/**
+ * How long to hold reminders for.
+ *
+ * Presets rather than two pickers: the cases people actually have are "this meeting" and "the rest
+ * of today". Every option carries an end, because a pause with no end is just a way to turn the
+ * app off and forget you did.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun PauseRemindersSheet(
+    quietHours: QuietHoursWindow?,
+    onDismiss: () -> Unit,
+    onPause: (Long) -> Unit
+) {
+    var showEndTimePicker by remember { mutableStateOf(false) }
+
+    if (showEndTimePicker) {
+        val now = remember { java.util.Calendar.getInstance() }
+        SystemTimePickerDialog(
+            initialHour = now.get(java.util.Calendar.HOUR_OF_DAY),
+            initialMinute = now.get(java.util.Calendar.MINUTE),
+            is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour,
+            onDismiss = { showEndTimePicker = false },
+            onConfirm = { hour, minute ->
+                showEndTimePicker = false
+                val end = java.util.Calendar.getInstance().apply {
+                    set(java.util.Calendar.HOUR_OF_DAY, hour)
+                    set(java.util.Calendar.MINUTE, minute)
+                    set(java.util.Calendar.SECOND, 0)
+                    set(java.util.Calendar.MILLISECOND, 0)
+                    // A time that has already passed today means tomorrow.
+                    if (timeInMillis <= System.currentTimeMillis()) add(java.util.Calendar.DAY_OF_YEAR, 1)
+                }
+                onPause(end.timeInMillis)
+            }
+        )
+        return
+    }
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        containerColor = MaterialTheme.colorScheme.surface
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .navigationBarsPadding()
+                .padding(bottom = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.home_pause_title),
+                style = MaterialTheme.typography.titleLarge
+            )
+            Text(
+                text = stringResource(R.string.home_pause_body),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            // Said here rather than discovered at 10pm, when a second silence would otherwise
+            // look like the pause failing to end.
+            quietHours?.let { window ->
+                Text(
+                    text = stringResource(
+                        R.string.home_pause_also_quiet,
+                        formatWallClock(window.startHour, window.startMinute),
+                        formatWallClock(window.endHour, window.endMinute)
+                    ),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            PauseChoice(stringResource(R.string.home_pause_1h)) {
+                onPause(System.currentTimeMillis() + 60 * 60_000L)
+            }
+            PauseChoice(stringResource(R.string.home_pause_4h)) {
+                onPause(System.currentTimeMillis() + 4 * 60 * 60_000L)
+            }
+            PauseChoice(stringResource(R.string.home_pause_today)) {
+                val endOfDay = java.util.Calendar.getInstance().apply {
+                    add(java.util.Calendar.DAY_OF_YEAR, 1)
+                    set(java.util.Calendar.HOUR_OF_DAY, 0)
+                    set(java.util.Calendar.MINUTE, 0)
+                    set(java.util.Calendar.SECOND, 0)
+                    set(java.util.Calendar.MILLISECOND, 0)
+                }
+                onPause(endOfDay.timeInMillis)
+            }
+            PauseChoice(stringResource(R.string.home_pause_pick)) { showEndTimePicker = true }
+        }
+    }
+}
+
+@Composable
+private fun PauseChoice(label: String, onClick: () -> Unit) {
+    OutlinedButton(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(52.dp),
+        shape = RoundedCornerShape(14.dp)
+    ) {
+        Text(label, style = MaterialTheme.typography.titleSmall)
     }
 }
