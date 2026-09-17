@@ -558,7 +558,7 @@
     <string name="home_batt_banner_title">Puede que los recordatorios no lleguen</string>
     <string name="home_batt_banner_body">Este teléfono puede detener %1$s en segundo plano. Toca para permitir el uso de batería sin restricciones.</string>
     <string name="home_quiet_banner">Horas de silencio %1$s – %2$s. Los recordatorios van a Perdidos.</string>
-    <string name="home_pause_banner">Recordatorios en pausa hasta las %1$s</string>
+    <string name="home_pause_banner">Recordatorios en pausa hasta %1$s</string>
     <string name="home_pause_resume">Reanudar</string>
     <string name="home_pause_title">Pausar recordatorios</string>
     <string name="home_pause_body">Los recordatorios no sonarán hasta que termine la pausa. Igualmente van a la pestaña Perdidos.</string>
