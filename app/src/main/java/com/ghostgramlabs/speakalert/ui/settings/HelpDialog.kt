@@ -103,6 +103,12 @@ fun HelpDialog(
                     title = stringResource(R.string.help_s4_title),
                     content = stringResource(R.string.help_s4_content)
                 )
+                // Sits right after the Home section: both describe the main screen, and someone
+                // whose reminders went quiet looks here before anywhere else.
+                HelpSection(
+                    title = stringResource(R.string.help_s18_title),
+                    content = stringResource(R.string.help_s18_content, APP_DISPLAY_NAME)
+                )
                 HelpSection(
                     title = stringResource(R.string.help_s5_title),
                     content = stringResource(R.string.help_s5_content)

@@ -516,6 +516,8 @@
     <string name="help_s3_content">- Add Reminder lets you preview recorded voice and selected audio before saving.\n- Reminder details lets you play, stop, and seek through voice notes and audio files.\n- Text-only reminders can still be spoken manually from the app or notification.\n- Tone-only mode uses the reminder tone instead of spoken playback.\n- You can choose a tone-only alert sound in Settings, and %1$s falls back to the default alarm tone if that sound becomes unavailable.</string>
     <string name="help_s4_title">Home and quick actions</string>
     <string name="help_s4_content">- Today, Upcoming, Missed, and Done tabs group reminders by state.\n- Tap a card to open full reminder details.\n- Use the copy button to duplicate an existing reminder.\n- Card actions include Play reminder, Done, and the three-dot sheet for Edit, Mark done, Stop recurring, or Delete.</string>
+    <string name="help_s18_title">Pausing reminders and Home notices</string>
+    <string name="help_s18_content">- Tap the pause button on the Home screen to hold all reminders for an hour, four hours, the rest of today, or until a time you choose.\n- Every pause has an end time. Home shows it, with Resume to end it early.\n- A paused reminder does not alert, but it still appears in the Missed tab.\n- A pause also overrides Alert even during DND, because it means you do not want the reminder at all right now.\n- Home warns you when this phone is allowed to stop %1$s in the background, and shows your quiet hours window while it is on.</string>
     <string name="help_s5_title">Repeating reminders</string>
     <string name="help_s5_content">- Repeat modes: Daily, Weekly, Monthly, Yearly, or Custom.\n- The selected date and time become the first occurrence.\n- Repeats can end forever, by exact date and time, or after a number of occurrences.\n- Marking done on a repeating reminder clears only the current occurrence.</string>
     <string name="help_s6_title">Notifications and full-screen alerts</string>
@@ -540,7 +542,13 @@
     <!-- What's new sheet -->
     <string name="action_continue">Continue</string>
     <string name="wn_title">What\'s new in %1$s</string>
-    <string name="wn_intro">Customize a simpler reminder form, capture cleaner voice notes, and get more reliable playback across newer Android phones.</string>
+    <string name="wn_intro">The lock-screen alert now works, you can pause reminders when you need quiet, and Home tells you when something would stop a reminder arriving.</string>
+    <string name="wn_fullscreen_title">Lock-screen alert now works</string>
+    <string name="wn_fullscreen_desc">The full-screen alert never actually appeared when a reminder fired, however the setting was configured. It now wakes the screen and shows the reminder, on a rebuilt alert screen with larger text and clearer actions.</string>
+    <string name="wn_pause_title">Pause reminders</string>
+    <string name="wn_pause_desc">Going into a meeting? Pause from the Home screen for an hour, for the rest of the day, or until a time you pick. Every pause has an end, and paused reminders still appear in the Missed tab.</string>
+    <string name="wn_notices_title">Home says why a reminder was silent</string>
+    <string name="wn_notices_desc">If this phone is allowed to stop %1$s in the background, or your quiet hours are on, Home now says so, instead of reminders quietly not arriving.</string>
     <string name="wn_lang_title">Now in your language</string>
     <string name="wn_lang_desc">The whole app is available in English, Spanish, Hindi, and Arabic, with right-to-left support. Choose it in Settings &gt; Appearance &gt; Language.</string>
     <string name="wn_buttons_title">Clearer alarm buttons</string>
