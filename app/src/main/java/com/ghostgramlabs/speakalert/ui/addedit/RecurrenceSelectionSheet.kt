@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import com.ghostgramlabs.speakalert.R
+import com.ghostgramlabs.speakalert.ui.components.mirrorInRtl
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.selected
@@ -190,7 +191,12 @@ fun RecurrenceOptionItem(
                 modifier = Modifier.weight(1f)
             )
             if (hasSubMenu) {
-                Icon(Icons.Filled.ChevronRight, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                Icon(
+                    Icons.Filled.ChevronRight,
+                    null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.mirrorInRtl()
+                )
             } else if (selected) {
                 Icon(Icons.Filled.Check, null, tint = MaterialTheme.colorScheme.primary)
             }
@@ -636,6 +642,7 @@ fun CustomConfigSheet(
                             trailingIcon = {
                                 Icon(
                                     imageVector = Icons.Filled.ChevronRight,
+                                    modifier = Modifier.mirrorInRtl(),
                                     contentDescription = null
                                 )
                             },

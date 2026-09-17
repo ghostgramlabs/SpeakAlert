@@ -34,6 +34,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.ghostgramlabs.speakalert.R
+import com.ghostgramlabs.speakalert.ui.components.mirrorInRtl
 import com.ghostgramlabs.speakalert.openPlayStoreListing
 import com.ghostgramlabs.speakalert.util.openSupportEmail
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -169,7 +170,11 @@ fun SettingsScreen(
                 title = { Text(stringResource(R.string.home_cd_settings)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateUp) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.action_back))
+                        Icon(
+                            Icons.Default.ArrowBack,
+                            contentDescription = stringResource(R.string.action_back),
+                            modifier = Modifier.mirrorInRtl()
+                        )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -972,7 +977,11 @@ fun SettingsScreen(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
-                        Icon(Icons.Default.ChevronRight, contentDescription = null)
+                        Icon(
+                        Icons.Default.ChevronRight,
+                        contentDescription = null,
+                        modifier = Modifier.mirrorInRtl()
+                    )
                     }
                 }
             }
@@ -1144,7 +1153,11 @@ fun SettingsScreen(
                             fontWeight = FontWeight.Medium
                         )
                     }
-                    Icon(Icons.Default.ChevronRight, contentDescription = null)
+                    Icon(
+                        Icons.Default.ChevronRight,
+                        contentDescription = null,
+                        modifier = Modifier.mirrorInRtl()
+                    )
                 }
 
                 if (showHelpDialog) {
@@ -1196,7 +1209,11 @@ fun SettingsScreen(
                             )
                         }
                     }
-                    Icon(Icons.Default.ChevronRight, contentDescription = null)
+                    Icon(
+                        Icons.Default.ChevronRight,
+                        contentDescription = null,
+                        modifier = Modifier.mirrorInRtl()
+                    )
                 }
 
                 // The "Rate SpeakAlert" row is deliberately absent. Rating is now only ever
@@ -1284,7 +1301,11 @@ fun SettingsScreen(
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
-                    Icon(Icons.Default.ChevronRight, contentDescription = null)
+                    Icon(
+                        Icons.Default.ChevronRight,
+                        contentDescription = null,
+                        modifier = Modifier.mirrorInRtl()
+                    )
                 }
                 Divider()
                 Row(
@@ -1317,7 +1338,11 @@ fun SettingsScreen(
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
-                    Icon(Icons.Default.ChevronRight, contentDescription = null)
+                    Icon(
+                        Icons.Default.ChevronRight,
+                        contentDescription = null,
+                        modifier = Modifier.mirrorInRtl()
+                    )
                 }
             }
 
@@ -1340,7 +1365,11 @@ fun SettingsScreen(
                             onClick = { viewModel.sendLogs(context) },
                             modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
                         ) {
-                            Icon(Icons.Default.Send, contentDescription = null, modifier = Modifier.size(18.dp))
+                            Icon(
+                                Icons.Default.Send,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp).mirrorInRtl()
+                            )
                             Spacer(Modifier.width(8.dp))
                             Text(stringResource(R.string.set_send_logs))
                         }
@@ -1546,7 +1575,11 @@ private fun MoreAppRow(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-        Icon(Icons.Default.ChevronRight, contentDescription = null)
+        Icon(
+                        Icons.Default.ChevronRight,
+                        contentDescription = null,
+                        modifier = Modifier.mirrorInRtl()
+                    )
     }
 }
 
