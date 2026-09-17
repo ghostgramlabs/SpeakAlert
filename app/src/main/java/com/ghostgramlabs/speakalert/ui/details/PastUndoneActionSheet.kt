@@ -50,7 +50,7 @@ fun PastUndoneActionSheet(
             ActionSheetRow(
                 icon = Icons.Filled.AccessTime,
                 label = stringResource(R.string.pua_set_new_time),
-                subLabel = "Reschedule this reminder",
+                subLabel = stringResource(R.string.pua_sub_reschedule),
                 onClick = onReschedule,
                 emphasize = true
             )
@@ -58,7 +58,7 @@ fun PastUndoneActionSheet(
             ActionSheetRow(
                 icon = Icons.Filled.PlayArrow,
                 label = stringResource(R.string.pua_just_play),
-                subLabel = "Listen now without rescheduling",
+                subLabel = stringResource(R.string.pua_sub_play_now),
                 onClick = onPlayNow,
                 emphasize = false
             )
@@ -66,7 +66,7 @@ fun PastUndoneActionSheet(
             ActionSheetRow(
                 icon = Icons.Filled.Close,
                 label = stringResource(R.string.action_cancel),
-                subLabel = "Keep as done",
+                subLabel = stringResource(R.string.pua_sub_keep_done),
                 onClick = onCancel,
                 isDestructive = true
             )

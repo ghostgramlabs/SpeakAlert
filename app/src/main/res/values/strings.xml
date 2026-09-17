@@ -66,6 +66,11 @@
     <string name="channel_dnd_bypass_desc">Reminder alarms that can alert during Do Not Disturb when Android access is granted</string>
     <string name="channel_tone_only_bypass_name">%1$s Tone-Only Alerts (DND bypass)</string>
     <string name="channel_tone_only_bypass_desc">Tone-only reminders that can alert during Do Not Disturb when Android access is granted</string>
+    <string name="pua_sub_reschedule">Reschedule this reminder</string>
+    <string name="pua_sub_play_now">Listen now without rescheduling</string>
+    <string name="pua_sub_keep_done">Keep as done</string>
+    <string name="channel_playback_name">Reminder Playback</string>
+    <string name="channel_playback_desc">Shows controls while playing reminders</string>
     <string name="channel_silent_name">%1$s Full-Screen Alerts</string>
     <string name="channel_silent_desc">Full-screen reminders from %1$s while the reminder is already being spoken aloud</string>
     <string name="channel_silent_bypass_name">%1$s Full-Screen Alerts (DND bypass)</string>
@@ -667,6 +672,10 @@
     <string name="pua_set_new_time">Set a new time</string>
     <string name="pua_just_play">Just play the reminder</string>
     <string name="mrr_desc">Play the latest missed reminder now, or keep everything in the Missed tab and review later.</string>
+    <plurals name="mrr_title">
+        <item quantity="one">You missed %1$d reminder</item>
+        <item quantity="other">You missed %1$d reminders</item>
+    </plurals>
     <string name="mrr_play_latest">Play latest missed reminder</string>
     <string name="mrr_keep">Keep in Missed tab</string>
 

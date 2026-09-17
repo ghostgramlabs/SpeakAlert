@@ -9,6 +9,7 @@ import com.ghostgramlabs.speakalert.data.AppContainer
 import com.ghostgramlabs.speakalert.data.AppContainerImpl
 
 import kotlinx.coroutines.launch
+import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 
 class VoiceReminderApp : Application() {
 
@@ -18,6 +19,7 @@ class VoiceReminderApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        com.ghostgramlabs.speakalert.util.DateUtils.init(this)
         // Keep cold process startup short. A foreground service's promotion deadline includes
         // application startup on some devices, so create its channel before any disk work.
         createNotificationChannels()
@@ -47,13 +49,17 @@ class VoiceReminderApp : Application() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             
+            // Channel names and descriptions appear in the system's own settings, so they
+            // follow the app's chosen language rather than the process default.
+            val strings = com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(this)
+
             // Playback channel for foreground service
             val playbackChannel = NotificationChannel(
                 "playback_channel",
-                "Reminder Playback",
+                strings.getString(R.string.channel_playback_name),
                 NotificationManager.IMPORTANCE_LOW
             ).apply {
-                description = "Shows controls while playing reminders"
+                description = strings.getString(R.string.channel_playback_desc)
                 setSound(null, null) // No sound for playback notification
             }
             notificationManager.createNotificationChannel(playbackChannel)
@@ -61,10 +67,10 @@ class VoiceReminderApp : Application() {
             // Reminder alerts channel (already created in NotificationHelper, but ensure it exists)
             val alertChannel = NotificationChannel(
                 "voice_reminder_channel",
-                "Reminder Alerts",
+                strings.getString(R.string.channel_reminders_name, APP_DISPLAY_NAME),
                 NotificationManager.IMPORTANCE_HIGH
             ).apply {
-                description = "Notifications for scheduled reminders"
+                description = strings.getString(R.string.channel_reminders_desc, APP_DISPLAY_NAME)
                 enableVibration(true)
             }
             notificationManager.createNotificationChannel(alertChannel)

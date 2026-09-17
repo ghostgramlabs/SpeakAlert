@@ -5,6 +5,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
+import com.ghostgramlabs.speakalert.R
 
 object DateUtils {
 
@@ -43,9 +44,9 @@ object DateUtils {
         val timeStr = timeFormat.format(Date(timestamp))
         
         return when (dayDifference(System.currentTimeMillis(), timestamp)) {
-            0 -> "Today, $timeStr"
-            1 -> "Tomorrow, $timeStr"
-            -1 -> "Yesterday, $timeStr"
+            0 -> "${relativeDay(R.string.date_today)}, $timeStr"
+            1 -> "${relativeDay(R.string.date_tomorrow)}, $timeStr"
+            -1 -> "${relativeDay(R.string.date_yesterday)}, $timeStr"
             else -> formatDateTime(timestamp)
         }
     }
@@ -67,9 +68,9 @@ object DateUtils {
         val dayDiff = dayDifference(now, timestamp)
         
         return when (dayDiff) {
-            0 -> "Today • $timeStr"
-            1 -> "Tomorrow • $timeStr"
-            -1 -> "Yesterday • $timeStr"
+            0 -> "${relativeDay(R.string.date_today)} • $timeStr"
+            1 -> "${relativeDay(R.string.date_tomorrow)} • $timeStr"
+            -1 -> "${relativeDay(R.string.date_yesterday)} • $timeStr"
             else -> {
                 if (dayDiff in 2..6) {
                     // Within next 7 days — show day name
@@ -111,9 +112,9 @@ object DateUtils {
         val targetYear = Calendar.getInstance().apply { timeInMillis = timestamp }.get(Calendar.YEAR)
         
         return when (dayDifference(System.currentTimeMillis(), timestamp)) {
-            0 -> "Today"
-            1 -> "Tomorrow"
-            -1 -> "Yesterday"
+            0 -> relativeDay(R.string.date_today)
+            1 -> relativeDay(R.string.date_tomorrow)
+            -1 -> relativeDay(R.string.date_yesterday)
             else -> {
                 if (nowYear != targetYear) {
                     SimpleDateFormat("MMM d, yyyy", Locale.getDefault()).format(Date(timestamp))
@@ -138,5 +139,29 @@ object DateUtils {
             set(Calendar.MILLISECOND, 0)
         }
         return cal.timeInMillis
+    }
+
+    /**
+     * Application context for the three relative day names.
+     *
+     * These are rendered from reminder cards, the alert screen, notifications and the pause
+     * banner, so threading a Context through every caller would touch far more than it is worth.
+     * They were plain English literals before, which left "Today" sitting inside otherwise
+     * translated sentences. Resolved per call so a per-app language change takes effect at once,
+     * and falling back to English rather than crashing if init has not run yet.
+     */
+    private var appContext: android.content.Context? = null
+
+    fun init(context: android.content.Context) {
+        appContext = context.applicationContext
+    }
+
+    private fun relativeDay(resId: Int): String {
+        val context = appContext ?: return when (resId) {
+            R.string.date_tomorrow -> "Tomorrow"
+            R.string.date_yesterday -> "Yesterday"
+            else -> "Today"
+        }
+        return AppLocale.localizedContext(context).getString(resId)
     }
 }
