@@ -58,6 +58,11 @@
     <string name="channel_dnd_bypass_desc">Alarmas de recordatorio que pueden sonar durante No molestar cuando se concede el acceso en Android</string>
     <string name="channel_tone_only_bypass_name">Alertas de solo tono de %1$s (omitir No molestar)</string>
     <string name="channel_tone_only_bypass_desc">Recordatorios de solo tono que pueden sonar durante No molestar cuando se concede el acceso en Android</string>
+    <string name="pua_sub_reschedule">Reprogramar este recordatorio</string>
+    <string name="pua_sub_play_now">Escuchar ahora sin reprogramar</string>
+    <string name="pua_sub_keep_done">Mantener como hecho</string>
+    <string name="channel_playback_name">Reproducción de recordatorios</string>
+    <string name="channel_playback_desc">Muestra los controles mientras se reproducen los recordatorios</string>
     <string name="channel_silent_name">Alertas a pantalla completa de %1$s</string>
     <string name="channel_silent_desc">Recordatorios a pantalla completa de %1$s mientras el recordatorio ya se está leyendo en voz alta</string>
     <string name="channel_silent_bypass_name">Alertas a pantalla completa de %1$s (omite No molestar)</string>
@@ -648,6 +653,10 @@
     <string name="pua_set_new_time">Elegir una nueva hora</string>
     <string name="pua_just_play">Solo reproducir el recordatorio</string>
     <string name="mrr_desc">Reproduce ahora el último recordatorio perdido o mantén todo en la pestaña Perdidos para revisarlo más tarde.</string>
+    <plurals name="mrr_title">
+        <item quantity="one">Perdiste %1$d recordatorio</item>
+        <item quantity="other">Perdiste %1$d recordatorios</item>
+    </plurals>
     <string name="mrr_play_latest">Reproducir el último recordatorio perdido</string>
     <string name="mrr_keep">Mantener en la pestaña Perdidos</string>
 

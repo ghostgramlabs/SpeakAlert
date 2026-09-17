@@ -58,6 +58,11 @@
     <string name="channel_dnd_bypass_desc">रिमाइंडर अलार्म जो Android में अनुमति मिलने पर परेशान न करें के दौरान भी अलर्ट कर सकते हैं</string>
     <string name="channel_tone_only_bypass_name">%1$s केवल-टोन अलर्ट (परेशान न करें बायपास)</string>
     <string name="channel_tone_only_bypass_desc">केवल-टोन रिमाइंडर जो Android में अनुमति मिलने पर परेशान न करें के दौरान भी अलर्ट कर सकते हैं</string>
+    <string name="pua_sub_reschedule">इस रिमाइंडर को फिर से शेड्यूल करें</string>
+    <string name="pua_sub_play_now">बिना शेड्यूल किए अभी सुनें</string>
+    <string name="pua_sub_keep_done">पूरा हुआ ही रखें</string>
+    <string name="channel_playback_name">रिमाइंडर प्लेबैक</string>
+    <string name="channel_playback_desc">रिमाइंडर चलते समय नियंत्रण दिखाता है</string>
     <string name="channel_silent_name">%1$s फ़ुल-स्क्रीन अलर्ट</string>
     <string name="channel_silent_desc">जब रिमाइंडर पहले से बोलकर सुनाया जा रहा हो, तब %1$s के फ़ुल-स्क्रीन रिमाइंडर</string>
     <string name="channel_silent_bypass_name">%1$s फ़ुल-स्क्रीन अलर्ट (DND बायपास)</string>
@@ -649,6 +654,10 @@
     <string name="pua_set_new_time">नया समय चुनें</string>
     <string name="pua_just_play">बस रिमाइंडर चलाएँ</string>
     <string name="mrr_desc">नवीनतम छूटा रिमाइंडर अभी चलाएँ, या सब कुछ छूटे टैब में रखें और बाद में देखें।</string>
+    <plurals name="mrr_title">
+        <item quantity="one">आपने %1$d रिमाइंडर मिस किया</item>
+        <item quantity="other">आपने %1$d रिमाइंडर मिस किए</item>
+    </plurals>
     <string name="mrr_play_latest">नवीनतम छूटा रिमाइंडर चलाएँ</string>
     <string name="mrr_keep">छूटे टैब में रखें</string>
 

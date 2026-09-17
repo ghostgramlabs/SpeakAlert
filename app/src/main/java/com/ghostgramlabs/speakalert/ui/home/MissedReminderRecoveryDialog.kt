@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.ghostgramlabs.speakalert.data.model.MissedReminderEntity
 import com.ghostgramlabs.speakalert.ui.components.ActionSheetRow
 import com.ghostgramlabs.speakalert.util.isDefaultAppDisplayName
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import com.ghostgramlabs.speakalert.R
 
@@ -51,11 +52,14 @@ fun MissedReminderRecoveryDialog(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                text = if (missedReminders.size == 1) {
-                    "You missed 1 reminder"
-                } else {
-                    "You missed ${missedReminders.size} reminders"
-                },
+                // A plural resource rather than a hand-built branch: languages do not all split
+                // counts into one and many, and a Kotlin literal here stayed English in every
+                // locale no matter what the translations said.
+                text = pluralStringResource(
+                    R.plurals.mrr_title,
+                    missedReminders.size,
+                    missedReminders.size
+                ),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.SemiBold

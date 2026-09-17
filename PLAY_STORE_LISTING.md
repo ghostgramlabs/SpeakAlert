@@ -78,15 +78,15 @@ Most reminder apps rely on silent notifications. SpeakAlert is a talking reminde
 
 ## "What's new" (release notes, max 500 chars)
 
-### 2.0.36 (build 57) — current
+### 2.0.37 (build 58) — current
 
 ```
-• Fixed: the lock-screen full-screen alert never appeared. It now wakes the screen, and the alert screen is redesigned
+• Pause reminders from Home — for an hour, the rest of the day, or until a time you pick
+• Home now tells you why a reminder was silent: quiet hours, a pause, or battery restrictions
+• Fixed: the lock-screen alert never appeared. It now wakes the screen, and is redesigned
+• Fixed: restoring a backup failed. Your existing backup files will import correctly
 • Cleaner voice recordings — less background noise, and quiet takes no longer boost the room
-• Save now finishes a recording in progress instead of asking for a message
-• New: 24-hour time, and a choice of title for unnamed reminders
-• Fixed: backup restore, widget speed, and freezes while recording
-• Spanish, Hindi & Arabic now fully translated
+• Save now finishes a recording in progress
 ```
 
 ### 2.0.32 — previous

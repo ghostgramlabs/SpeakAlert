@@ -58,6 +58,11 @@
     <string name="channel_dnd_bypass_desc">منبهات التذكير التي يمكنها التنبيه أثناء وضع عدم الإزعاج عند منح الإذن في Android</string>
     <string name="channel_tone_only_bypass_name">تنبيهات النغمة فقط من %1$s (تجاوز عدم الإزعاج)</string>
     <string name="channel_tone_only_bypass_desc">تذكيرات النغمة فقط التي يمكنها التنبيه أثناء وضع عدم الإزعاج عند منح الإذن في Android</string>
+    <string name="pua_sub_reschedule">إعادة جدولة هذا التذكير</string>
+    <string name="pua_sub_play_now">الاستماع الآن دون إعادة جدولة</string>
+    <string name="pua_sub_keep_done">الإبقاء عليه كمنجز</string>
+    <string name="channel_playback_name">تشغيل التذكيرات</string>
+    <string name="channel_playback_desc">يعرض عناصر التحكم أثناء تشغيل التذكيرات</string>
     <string name="channel_silent_name">تنبيهات %1$s بملء الشاشة</string>
     <string name="channel_silent_desc">تذكيرات %1$s بملء الشاشة أثناء قراءة التذكير بصوت عالٍ بالفعل</string>
     <string name="channel_silent_bypass_name">تنبيهات %1$s بملء الشاشة (تجاوز عدم الإزعاج)</string>
@@ -668,6 +673,14 @@
     <string name="pua_set_new_time">تحديد وقت جديد</string>
     <string name="pua_just_play">تشغيل التذكير فقط</string>
     <string name="mrr_desc">شغّل آخر تذكير فائت الآن، أو أبقِ كل شيء في تبويب الفائتة لمراجعته لاحقًا.</string>
+    <plurals name="mrr_title">
+        <item quantity="zero">لم تفتك أي تذكيرات</item>
+        <item quantity="one">فاتك تذكير واحد</item>
+        <item quantity="two">فاتك تذكيران</item>
+        <item quantity="few">فاتتك %1$d تذكيرات</item>
+        <item quantity="many">فاتك %1$d تذكيرًا</item>
+        <item quantity="other">فاتك %1$d تذكير</item>
+    </plurals>
     <string name="mrr_play_latest">تشغيل آخر تذكير فائت</string>
     <string name="mrr_keep">الإبقاء في تبويب الفائتة</string>
 
