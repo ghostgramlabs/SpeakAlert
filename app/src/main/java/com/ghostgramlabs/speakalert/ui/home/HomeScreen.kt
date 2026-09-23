@@ -63,6 +63,7 @@ import kotlinx.coroutines.delay
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import com.ghostgramlabs.speakalert.R
+import com.ghostgramlabs.speakalert.ui.components.AppTimePickerDialog
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.ui.AppViewModelProvider
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
@@ -364,29 +365,13 @@ fun HomeScreen(
                 onConfirm = applyPickedTime,
             )
         } else {
-            val timeState = rememberTimePickerState(
+            AppTimePickerDialog(
                 initialHour = current.get(java.util.Calendar.HOUR_OF_DAY),
                 initialMinute = current.get(java.util.Calendar.MINUTE),
-                is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour
-            )
-            AlertDialog(
-                onDismissRequest = cancelTimeFlow,
-                title = { Text(stringResource(R.string.time_picker_title)) },
-                text = { TimePicker(state = timeState) },
-                confirmButton = {
-                    Button(
-                        onClick = {
-                            applyPickedTime(timeState.hour, timeState.minute)
-                        }
-                    ) {
-                        Text(stringResource(R.string.action_apply))
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = cancelTimeFlow) {
-                        Text(stringResource(R.string.action_cancel))
-                    }
-                }
+                is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour,
+                title = stringResource(R.string.time_picker_title),
+                onDismiss = cancelTimeFlow,
+                onConfirm = { pickedHour, pickedMinute -> applyPickedTime(pickedHour, pickedMinute) }
             )
         }
     }

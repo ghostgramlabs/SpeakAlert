@@ -48,6 +48,7 @@ import java.util.Date
 import java.util.Locale
 import androidx.compose.ui.res.stringResource
 import com.ghostgramlabs.speakalert.R
+import com.ghostgramlabs.speakalert.ui.components.AppTimePickerDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -300,38 +301,13 @@ fun DateTimePickerDialog(
                 onConfirm = applyPickedTime,
             )
         } else {
-            val timePickerState = rememberTimePickerState(
+            AppTimePickerDialog(
                 initialHour = current.get(Calendar.HOUR_OF_DAY),
                 initialMinute = current.get(Calendar.MINUTE),
-                is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour
-            )
-            AlertDialog(
-                onDismissRequest = { showTimeDialog = false },
-                shape = RoundedCornerShape(24.dp),
-                title = {
-                    Text(
-                        text = stringResource(R.string.dtp_pick_time),
-                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
-                    )
-                },
-                text = {
-                    TimePicker(state = timePickerState)
-                },
-                confirmButton = {
-                    Button(
-                        onClick = {
-                            applyPickedTime(timePickerState.hour, timePickerState.minute)
-                        },
-                        shape = RoundedCornerShape(12.dp)
-                    ) {
-                        Text(stringResource(R.string.action_apply))
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = { showTimeDialog = false }) {
-                        Text(stringResource(R.string.action_cancel))
-                    }
-                }
+                is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour,
+                title = stringResource(R.string.dtp_pick_time),
+                onDismiss = { showTimeDialog = false },
+                onConfirm = { pickedHour, pickedMinute -> applyPickedTime(pickedHour, pickedMinute) }
             )
         }
     }

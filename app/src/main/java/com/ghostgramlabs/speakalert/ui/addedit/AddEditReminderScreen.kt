@@ -50,6 +50,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ghostgramlabs.speakalert.R
+import com.ghostgramlabs.speakalert.ui.components.AppTimePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.mirrorInRtl
 import com.ghostgramlabs.speakalert.ui.AppViewModelProvider
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
@@ -861,29 +862,13 @@ fun AddEditReminderScreen(
                         onConfirm = applyPickedTime,
                     )
                 } else {
-                    val timeState = rememberTimePickerState(
+                    AppTimePickerDialog(
                         initialHour = cal.get(java.util.Calendar.HOUR_OF_DAY),
                         initialMinute = cal.get(java.util.Calendar.MINUTE),
-                        is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour
-                    )
-                    AlertDialog(
-                        onDismissRequest = { showTimePickerDialog = false },
-                        title = { Text(stringResource(R.string.time_picker_title)) },
-                        text = { TimePicker(state = timeState) },
-                        confirmButton = {
-                            Button(
-                                onClick = {
-                                    applyPickedTime(timeState.hour, timeState.minute)
-                                }
-                            ) {
-                                Text(stringResource(R.string.action_apply))
-                            }
-                        },
-                        dismissButton = {
-                            TextButton(onClick = { showTimePickerDialog = false }) {
-                                Text(stringResource(R.string.action_cancel))
-                            }
-                        }
+                        is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour,
+                        title = stringResource(R.string.time_picker_title),
+                        onDismiss = { showTimePickerDialog = false },
+                        onConfirm = { pickedHour, pickedMinute -> applyPickedTime(pickedHour, pickedMinute) }
                     )
                 }
             }

@@ -78,7 +78,7 @@ Most reminder apps rely on silent notifications. SpeakAlert is a talking reminde
 
 ## "What's new" (release notes, max 500 chars)
 
-### 2.0.37 (build 58) — current
+### 2.0.38 (build 59) — current
 
 ```
 • Pause reminders from Home — for an hour, the rest of the day, or until a time you pick
