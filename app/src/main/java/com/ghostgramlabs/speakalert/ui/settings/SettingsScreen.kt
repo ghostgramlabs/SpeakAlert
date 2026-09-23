@@ -34,6 +34,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.ghostgramlabs.speakalert.R
+import com.ghostgramlabs.speakalert.ui.components.AppTimePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.mirrorInRtl
 import com.ghostgramlabs.speakalert.openPlayStoreListing
 import com.ghostgramlabs.speakalert.util.openSupportEmail
@@ -1759,30 +1760,14 @@ private fun TimePickerButton(
                 },
             )
         } else {
-            val timeState = rememberTimePickerState(
+            AppTimePickerDialog(
                 initialHour = hour,
                 initialMinute = minute,
-                is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour
-            )
-            AlertDialog(
-                onDismissRequest = { showPicker = false },
-                title = { Text(stringResource(R.string.set_select_label_time, label)) },
-                text = { TimePicker(state = timeState) },
-                confirmButton = {
-                    Button(
-                        onClick = {
-                            onTimeSelected(timeState.hour, timeState.minute)
-                            showPicker = false
-                        }
-                    ) {
-                        Text(stringResource(R.string.action_apply))
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = { showPicker = false }) {
-                        Text(stringResource(R.string.action_cancel))
-                    }
-                }
+                is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour,
+                title = stringResource(R.string.set_select_label_time, label),
+                onDismiss = { showPicker = false },
+                onConfirm = { pickedHour, pickedMinute -> onTimeSelected(pickedHour, pickedMinute)
+                            showPicker = false }
             )
         }
     }

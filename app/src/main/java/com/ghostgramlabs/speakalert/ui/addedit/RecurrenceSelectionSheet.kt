@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import com.ghostgramlabs.speakalert.R
+import com.ghostgramlabs.speakalert.ui.components.AppTimePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.mirrorInRtl
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
@@ -972,24 +973,13 @@ private fun EndRuleControls(
                 onConfirm = applyPickedTime,
             )
         } else {
-            val timeState = rememberTimePickerState(
+            AppTimePickerDialog(
                 initialHour = initial.get(Calendar.HOUR_OF_DAY),
-                initialMinute = initial.get(Calendar.MINUTE)
-            )
-            AlertDialog(
-                onDismissRequest = { showTimePicker = false },
-                title = { Text(stringResource(R.string.rs_select_end_time)) },
-                text = { TimePicker(state = timeState) },
-                confirmButton = {
-                    TextButton(
-                        onClick = {
-                            applyPickedTime(timeState.hour, timeState.minute)
-                        }
-                    ) { Text(stringResource(R.string.action_apply)) }
-                },
-                dismissButton = {
-                    TextButton(onClick = { showTimePicker = false }) { Text(stringResource(R.string.action_cancel)) }
-                }
+                initialMinute = initial.get(Calendar.MINUTE),
+                is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour,
+                title = stringResource(R.string.rs_select_end_time),
+                onDismiss = { showTimePicker = false },
+                onConfirm = { pickedHour, pickedMinute -> applyPickedTime(pickedHour, pickedMinute) }
             )
         }
     }
