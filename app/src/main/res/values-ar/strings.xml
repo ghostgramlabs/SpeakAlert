@@ -274,7 +274,6 @@
     <string name="det_missed_handling">معالجة التذكيرات الفائتة</string>
     <string name="det_missed_fire">تنبيه عند إعادة تشغيل الجهاز</string>
     <string name="det_missed_skip">التذكير فقط في الوقت الدقيق التالي</string>
-    <string name="det_tap_edit_schedule">اضغط لتحرير الجدولة</string>
     <string name="det_mark_undone">وضع علامة غير منجز</string>
     <string name="det_mark_done">وضع علامة منجز</string>
     <string name="det_scheduled_for">مجدول لـ: %1$s</string>

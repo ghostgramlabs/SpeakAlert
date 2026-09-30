@@ -257,6 +257,23 @@ class ReminderDetailsViewModel(
         }
     }
 
+    /**
+     * A date or time picked straight on the details screen. Repeating reminders are aligned to
+     * their rule from the picked moment, the same way the editor aligns them on save.
+     */
+    fun updateTriggerTime(timestamp: Long) {
+        val current = _reminder.value ?: return
+        val aligned = if (current.recurrenceType != com.ghostgramlabs.speakalert.domain.models.RecurrenceType.NONE) {
+            com.ghostgramlabs.speakalert.domain.RecurrenceUtils.computeNextTrigger(
+                current.copy(nextTriggerAt = timestamp),
+                timestamp - 1L
+            )
+        } else {
+            null
+        }
+        reschedule(aligned ?: timestamp)
+    }
+
     fun reschedule(timestamp: Long) {
         viewModelScope.launch {
             val current = _reminder.value ?: return@launch
