@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.widget.Toast
+import com.ghostgramlabs.speakalert.util.launchOrToast
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -402,7 +403,8 @@ fun AddEditReminderScreen(
                                     }
                                     TextButton(
                                         onClick = {
-                                            audioPickerLauncher.launch(
+                                            audioPickerLauncher.launchOrToast(
+                                                context,
                                                 arrayOf(
                                                     "audio/mpeg",
                                                     "audio/mp3",
@@ -412,7 +414,8 @@ fun AddEditReminderScreen(
                                                     "audio/m4a",
                                                     "audio/ogg",
                                                     "audio/*"
-                                                )
+                                                ),
+                                                R.string.file_picker_unavailable
                                             )
                                         },
                                         enabled = !uiState.isRecording
@@ -423,7 +426,8 @@ fun AddEditReminderScreen(
                             } else {
                                 OutlinedButton(
                                     onClick = {
-                                        audioPickerLauncher.launch(
+                                        audioPickerLauncher.launchOrToast(
+                                            context,
                                             arrayOf(
                                                 "audio/mpeg",
                                                 "audio/mp3",
@@ -433,7 +437,8 @@ fun AddEditReminderScreen(
                                                 "audio/m4a",
                                                 "audio/ogg",
                                                 "audio/*"
-                                            )
+                                            ),
+                                            R.string.file_picker_unavailable
                                         )
                                     },
                                     enabled = !uiState.isRecording

@@ -385,6 +385,8 @@
     <string name="set_infinite">غير محدود</string>
     <string name="set_minutes_short">%1$d د</string>
     <string name="set_select_tone">اختر نغمة</string>
+    <string name="file_picker_unavailable">لا يوجد تطبيق على هذا الجهاز يمكنه فتح الملفات. ثبّت مدير ملفات وحاول مرة أخرى.</string>
+    <string name="tone_picker_unavailable">لا يوجد تطبيق على هذا الجهاز يمكنه اختيار نغمة.</string>
     <string name="set_toast_default_tone">استخدام نغمة الإنذار الافتراضية</string>
     <string name="set_toast_tone_updated">تم تحديث النغمة</string>
     <string name="set_fullscreen">تنبيه ملء الشاشة على القفل</string>
