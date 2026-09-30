@@ -21,7 +21,6 @@ fun RestoreReminderDialog(
 ) {
     ModalBottomSheet(
         onDismissRequest = onDismiss,
-        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
         dragHandle = { BottomSheetDefaults.DragHandle() }
     ) {
         Column(

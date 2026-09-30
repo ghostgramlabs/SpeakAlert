@@ -407,7 +407,6 @@ fun HomeScreen(
     if (reminderToStop != null) {
         ModalBottomSheet(
             onDismissRequest = { reminderToStop = null },
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
             dragHandle = { BottomSheetDefaults.DragHandle() }
         ) {
             Column(
@@ -453,7 +452,6 @@ fun HomeScreen(
     if (reminderToMarkOccurrence != null) {
         ModalBottomSheet(
             onDismissRequest = { reminderToMarkOccurrence = null },
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
             dragHandle = { BottomSheetDefaults.DragHandle() }
         ) {
             Column(
@@ -502,7 +500,6 @@ fun HomeScreen(
                 showMarkDoneDialog = false
                 reminderToMarkDone = null
             },
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
             dragHandle = { BottomSheetDefaults.DragHandle() }
         ) {
             Column(

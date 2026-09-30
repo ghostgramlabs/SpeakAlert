@@ -54,7 +54,6 @@ fun HelpDialog(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
         dragHandle = { BottomSheetDefaults.DragHandle() }
     ) {
         Column(
