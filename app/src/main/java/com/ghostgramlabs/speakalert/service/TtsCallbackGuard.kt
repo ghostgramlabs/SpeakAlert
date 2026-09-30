@@ -14,6 +14,7 @@ internal class TtsCallbackGuard(
 
     fun begin(): String = "REMINDER_TTS_${++sequence}".also { activeId = it }
     fun invalidate() { activeId = null }
+    fun isActive(id: String): Boolean = id == activeId
 
     fun complete(id: String?, failed: Boolean = false) {
         scope.launch {
