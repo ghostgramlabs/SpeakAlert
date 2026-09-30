@@ -288,7 +288,6 @@ class MainActivity : ComponentActivity() {
                             // explicit "Later" below counts as having been asked.
                             onDismissRequest = { showBatteryOptimizationDialog = false },
                             sheetState = sheetState,
-                            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
                             dragHandle = { BottomSheetDefaults.DragHandle() }
                         ) {
                             Column(
@@ -373,7 +372,6 @@ class MainActivity : ComponentActivity() {
                                 }
                             },
                             sheetState = sheetState,
-                            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
                             dragHandle = { BottomSheetDefaults.DragHandle() }
                         ) {
                             val whatsNewScrollState = rememberScrollState()
@@ -440,7 +438,6 @@ class MainActivity : ComponentActivity() {
                         ModalBottomSheet(
                             onDismissRequest = { showRatingPrompt = false },
                             sheetState = sheetState,
-                            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
                             dragHandle = { BottomSheetDefaults.DragHandle() }
                         ) {
                             Column(

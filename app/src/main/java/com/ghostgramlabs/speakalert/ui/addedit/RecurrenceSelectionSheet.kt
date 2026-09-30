@@ -62,7 +62,6 @@ fun RecurrenceSelectionSheet(
         ModalBottomSheet(
             onDismissRequest = onDismiss,
             sheetState = mainSheetState,
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
             tonalElevation = 0.dp,
             dragHandle = { BottomSheetDefaults.DragHandle() }
         ) {
@@ -257,7 +256,6 @@ fun MonthlyConfigSheet(
     ModalBottomSheet(
         onDismissRequest = onCancel,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
         tonalElevation = 0.dp,
         dragHandle = { BottomSheetDefaults.DragHandle() }
     ) {
@@ -451,7 +449,6 @@ fun WeeklyConfigSheet(
     ModalBottomSheet(
         onDismissRequest = onCancel,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
         tonalElevation = 0.dp,
         dragHandle = { BottomSheetDefaults.DragHandle() }
     ) {
@@ -581,7 +578,6 @@ fun CustomConfigSheet(
     ModalBottomSheet(
         onDismissRequest = onCancel,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
         tonalElevation = 0.dp,
         dragHandle = { BottomSheetDefaults.DragHandle() }
     ) {
