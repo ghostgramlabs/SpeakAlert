@@ -112,6 +112,10 @@ class MainActivity : ComponentActivity() {
             var showFullScreenRecoveryDialog by rememberSaveable { mutableStateOf(false) }
             var showRatingPrompt by rememberSaveable { mutableStateOf(false) }
             var ratingEvaluated by rememberSaveable { mutableStateOf(false) }
+            // Set while the system battery-exemption request is on screen. Closing the battery sheet
+            // unblocks the notification permission prompt, and launching that in the same moment
+            // replaced the battery request before the user ever saw it; it waits for our return.
+            var awaitingBatteryRequest by rememberSaveable { mutableStateOf(false) }
             var activityResumed by androidx.compose.runtime.remember {
                 mutableStateOf(lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED))
             }
@@ -151,6 +155,7 @@ class MainActivity : ComponentActivity() {
                 val observer = LifecycleEventObserver { _, event ->
                     activityResumed = lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
                     if (event == Lifecycle.Event.ON_RESUME) {
+                        awaitingBatteryRequest = false
                         fullScreenAccessGranted =
                             FullScreenIntentSupport.canUseFullScreenIntent(this@MainActivity)
                     }
@@ -275,6 +280,7 @@ class MainActivity : ComponentActivity() {
                         // Direct widget launches skip introductions, but still need notification access.
                         allowNotificationPrompt = startupPromptsLoaded && !needsWhatsNew &&
                             !showWhatsNewSheet && !showBatteryOptimizationDialog &&
+                            !awaitingBatteryRequest &&
                             (batteryOptimizationPromptShown || !shouldOfferWhatsNew)
                     )
 
@@ -315,6 +321,7 @@ class MainActivity : ComponentActivity() {
                                             settingsRepository.setBatteryOptimizationPromptShown(true)
                                         }
                                         val opened = BatteryOptimizationSupport.requestIgnoreBatteryOptimizations(this@MainActivity)
+                                        awaitingBatteryRequest = opened
                                         if (!opened) {
                                             Toast.makeText(
                                                 this@MainActivity,
