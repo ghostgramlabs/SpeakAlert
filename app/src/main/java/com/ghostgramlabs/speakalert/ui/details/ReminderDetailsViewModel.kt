@@ -20,7 +20,9 @@ class ReminderDetailsViewModel(
     private val scheduler: AlarmScheduler,
     private val settingsRepository: com.ghostgramlabs.speakalert.data.repository.SettingsRepository,
     context: Context,
-    private val player: com.ghostgramlabs.speakalert.audio.AudioPlayer = com.ghostgramlabs.speakalert.audio.AndroidAudioPlayer(context) 
+    private val player: com.ghostgramlabs.speakalert.audio.AudioPlayer = com.ghostgramlabs.speakalert.audio.AndroidAudioPlayer(context),
+    private val alertNotifications: com.ghostgramlabs.speakalert.alarm.ReminderAlertNotifications =
+        com.ghostgramlabs.speakalert.alarm.ReminderAlertNotifications.None
 ) : ViewModel() {
 
     private val _reminder = MutableStateFlow<ReminderEntity?>(null)
@@ -42,6 +44,8 @@ class ReminderDetailsViewModel(
     fun loadReminder(id: Long) {
         viewModelScope.launch {
             _reminder.value = repository.getReminder(id)
+            // Opening the reminder (from its notification or the list) counts as having seen it.
+            if (_reminder.value != null) alertNotifications.onSeen(id)
         }
     }
     
@@ -50,6 +54,7 @@ class ReminderDetailsViewModel(
             _reminder.value?.let {
                 stopAudio()
                 scheduler.cancel(it)
+                alertNotifications.onResolved(it.id)
                 repository.deleteReminder(it)
             }
         }
@@ -67,6 +72,7 @@ class ReminderDetailsViewModel(
             
             if (newCompleted) {
                 scheduler.cancel(current)
+                alertNotifications.onResolved(current.id)
             } else {
                 // When un-completing a recurring reminder with a past trigger,
                 // advance to the next future occurrence to avoid instant overdue alarm

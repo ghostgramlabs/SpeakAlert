@@ -17,7 +17,8 @@ object AppViewModelProvider {
                 voiceReminderApplication().container.reminderRepository,
                 voiceReminderApplication().container.missedReminderRepository,
                 voiceReminderApplication().container.alarmScheduler,
-                voiceReminderApplication().container.settingsRepository
+                voiceReminderApplication().container.settingsRepository,
+                alertNotifications()
             )
         }
         initializer {
@@ -35,7 +36,8 @@ object AppViewModelProvider {
                 voiceReminderApplication().container.reminderRepository,
                 voiceReminderApplication().container.alarmScheduler,
                 voiceReminderApplication().container.settingsRepository,
-                voiceReminderApplication().applicationContext
+                voiceReminderApplication().applicationContext,
+                alertNotifications = alertNotifications()
             )
 
         }
@@ -51,3 +53,9 @@ object AppViewModelProvider {
 
 fun CreationExtras.voiceReminderApplication(): VoiceReminderApp =
     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as VoiceReminderApp)
+
+private fun CreationExtras.alertNotifications() =
+    com.ghostgramlabs.speakalert.alarm.SystemReminderAlertNotifications(
+        voiceReminderApplication().applicationContext,
+        voiceReminderApplication().container.settingsRepository
+    )
