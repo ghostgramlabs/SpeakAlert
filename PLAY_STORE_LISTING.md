@@ -78,7 +78,19 @@ Most reminder apps rely on silent notifications. SpeakAlert is a talking reminde
 
 ## "What's new" (release notes, max 500 chars)
 
-### 2.0.38 (build 59) — current
+### 2.0.39 (build 60) — current
+
+```
+• Change a reminder's date and time right on its screen
+• Notifications clear once you open, play, complete or delete a reminder
+• Voice reminders save instantly with voice enhancement on
+• Fixed: freezes when the phone's speech engine was slow to start
+• Fixed: a crash on phones without a file picker
+• Fixed: Back now closes panels on Android 16
+• Fixed: the battery prompt on first launch, and Done not clearing a pinned reminder
+```
+
+### 2.0.38 (build 59) — previous
 
 ```
 • Pause reminders from Home — for an hour, the rest of the day, or until a time you pick
@@ -89,7 +101,7 @@ Most reminder apps rely on silent notifications. SpeakAlert is a talking reminde
 • Save now finishes a recording in progress
 ```
 
-### 2.0.32 — previous
+### 2.0.32
 
 ```
 • App now in English, Spanish, Hindi & Arabic with RTL support
