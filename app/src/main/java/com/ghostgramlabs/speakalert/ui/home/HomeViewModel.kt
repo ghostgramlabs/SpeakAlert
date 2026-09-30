@@ -34,7 +34,9 @@ class HomeViewModel(
     private val repository: ReminderRepository,
     private val missedRepository: MissedReminderRepository,
     private val alarmScheduler: AlarmScheduler,
-    private val settingsRepository: com.ghostgramlabs.speakalert.data.repository.SettingsRepository
+    private val settingsRepository: com.ghostgramlabs.speakalert.data.repository.SettingsRepository,
+    private val alertNotifications: com.ghostgramlabs.speakalert.alarm.ReminderAlertNotifications =
+        com.ghostgramlabs.speakalert.alarm.ReminderAlertNotifications.None
 ) : ViewModel() {
 
     /** Instant the current pause ends, or 0 when reminders are running. */
@@ -129,6 +131,8 @@ class HomeViewModel(
                 val privatePlayback = settingsRepository.privatePlaybackEnabled.first()
                 ToneAlertPlayer.stop()
                 
+                alertNotifications.onSeen(reminder.id)
+
                 // Start playback for audio OR text
                 if (ReminderAudioSource.isPlayable(context, audioPath)) {
                     ReminderPlaybackService.start(context, reminder.id, title, audioPath, null, privatePlayback = privatePlayback)
@@ -178,6 +182,7 @@ class HomeViewModel(
                         pendingFollowUpAt = null
                     )
                     alarmScheduler.cancel(reminder)
+                    alertNotifications.onResolved(reminder.id)
                     repository.updateReminder(updated)
                 } else if (reminder.nextTriggerAt <= now) {
                     var updated = reminder.copy(
@@ -197,6 +202,7 @@ class HomeViewModel(
                     }
                     repository.updateReminder(updated)
                     alarmScheduler.cancel(reminder)
+                    alertNotifications.onResolved(reminder.id)
                     if (nextTrigger != null) alarmScheduler.schedule(updated)
                 } else {
                     val updated = reminder.copy(
@@ -260,6 +266,7 @@ class HomeViewModel(
             )
             missedRepository.deleteMissedReminderByReminderId(reminder.id)
             alarmScheduler.cancel(reminder)
+            alertNotifications.onResolved(reminder.id)
             repository.updateReminder(updated)
         }
     }
@@ -290,6 +297,7 @@ class HomeViewModel(
             // End the skipped occurrence's snooze/follow-up cycle before scheduling the next.
             // Clearing pendingFollowUpAt alone does not cancel the Android alarm.
             alarmScheduler.cancel(reminder)
+            alertNotifications.onResolved(reminder.id)
             missedRepository.deleteMissedReminderByReminderId(reminder.id)
             if (nextTrigger != null) {
                 alarmScheduler.schedule(updated)
@@ -303,6 +311,7 @@ class HomeViewModel(
             lastDeletedReminder = reminder
             // Cancel any scheduled alarm first
             alarmScheduler.cancel(reminder)
+            alertNotifications.onResolved(reminder.id)
             // Then delete from database
             repository.deleteReminder(reminder)
         }
@@ -407,6 +416,7 @@ class HomeViewModel(
             val title = reminder.title ?: "Voice reminder"
             val privatePlayback = settingsRepository.privatePlaybackEnabled.first()
             ToneAlertPlayer.stop()
+            alertNotifications.onSeen(reminder.id)
             // Start playback for audio OR text
             if (ReminderAudioSource.isPlayable(context, reminder.audioPath)) {
                 ReminderPlaybackService.start(context, reminder.id, title, reminder.audioPath, null, privatePlayback = privatePlayback)
