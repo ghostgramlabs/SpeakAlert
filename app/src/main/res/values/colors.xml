@@ -8,7 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     
-    <color name="ic_launcher_background">#1A4ED8</color>
 
     <!-- Window backgrounds shown before Compose draws; must match Theme.kt Background colors. -->
     <color name="window_background_light">#F7F8FC</color>
