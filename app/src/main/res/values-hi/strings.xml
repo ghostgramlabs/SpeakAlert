@@ -258,7 +258,6 @@
     <string name="det_missed_handling">छूटे रिमाइंडर प्रबंधन</string>
     <string name="det_missed_fire">डिवाइस फिर से चालू होने पर सूचित करें</string>
     <string name="det_missed_skip">केवल अगले सटीक समय पर याद दिलाएं</string>
-    <string name="det_tap_edit_schedule">शेड्यूल संपादित करने के लिए टैप करें</string>
     <string name="det_mark_undone">अपूर्ण चिह्नित करें</string>
     <string name="det_mark_done">पूर्ण चिह्नित करें</string>
     <string name="det_scheduled_for">इसके लिए निर्धारित: %1$s</string>

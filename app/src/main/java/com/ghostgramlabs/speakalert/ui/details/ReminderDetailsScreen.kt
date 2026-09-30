@@ -14,6 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
@@ -31,6 +32,7 @@ import com.ghostgramlabs.speakalert.R
 import com.ghostgramlabs.speakalert.ui.components.AppTimePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.mirrorInRtl
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.stateDescription
@@ -473,22 +475,33 @@ fun ReminderDetailsScreen(
                 // SCHEDULE Section (tappable, replaces "Settings")
                 var showRecurrenceSheet by remember { mutableStateOf(false) }
             
+                // Each part of the schedule is edited right where it is shown: Repeat opens the
+                // repeat options, Date and Time open their pickers and apply straight away. The
+                // end rule and missed handling belong to the repeat options, so they are shown
+                // here but edited through Repeat.
+                var showInlineDatePicker by remember { mutableStateOf(false) }
+                var showInlineTimePicker by remember { mutableStateOf(false) }
+                val openRecurrence = { showRecurrenceSheet = true }
+
                 SectionCard(title = stringResource(R.string.ae_section_schedule)) {
-                    val doubleTapEdit = stringResource(R.string.det_double_tap_edit)
                     Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { showRecurrenceSheet = true }
-                            .semantics(mergeDescendants = true) {
-                                role = Role.Button
-                                stateDescription = doubleTapEdit
-                            },
-                        verticalArrangement = Arrangement.spacedBy(14.dp)
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         DetailInfoRow(
                             icon = Icons.Default.Refresh,
                             label = stringResource(R.string.ae_repeat),
-                            value = recurrenceSummary
+                            value = recurrenceSummary,
+                            onClick = openRecurrence
+                        )
+                        DetailInfoRow(
+                            icon = Icons.Default.DateRange,
+                            label = stringResource(R.string.ae_date),
+                            value = java.text.SimpleDateFormat(
+                                "EEE, MMM d, yyyy",
+                                java.util.Locale.getDefault()
+                            ).format(java.util.Date(item.nextTriggerAt)),
+                            onClick = { showInlineDatePicker = true }
                         )
                         DetailInfoRow(
                             icon = Icons.Default.NotificationsActive,
@@ -496,7 +509,8 @@ fun ReminderDetailsScreen(
                             value = java.text.SimpleDateFormat(
                                 com.ghostgramlabs.speakalert.util.TimeFormat.timePattern,
                                 java.util.Locale.getDefault()
-                            ).format(java.util.Date(item.nextTriggerAt))
+                            ).format(java.util.Date(item.nextTriggerAt)),
+                            onClick = { showInlineTimePicker = true }
                         )
                         if (recurrenceModel.endRule.type != EndRuleType.NEVER) {
                             val endRuleText = when (recurrenceModel.endRule.type) {
@@ -528,31 +542,65 @@ fun ReminderDetailsScreen(
                                 MissedPolicy.SKIP_TO_NEXT -> stringResource(R.string.det_missed_skip)
                             }
                         )
-                        Surface(
-                            shape = RoundedCornerShape(14.dp),
-                            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.72f)
-                        ) {
-                            Row(
-                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Filled.Edit,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                                    modifier = Modifier.size(16.dp)
-                                )
-                                Text(
-                                    text = stringResource(R.string.det_tap_edit_schedule),
-                                    style = MaterialTheme.typography.labelLarge,
-                                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                                )
-                            }
-                        }
                     }
                 }
-            
+
+                if (showInlineDatePicker) {
+                    DetailsDatePicker(
+                        initialMillis = item.nextTriggerAt,
+                        onDismiss = { showInlineDatePicker = false },
+                        onPicked = { selectedDate ->
+                            val picked = detailsMergeDateWithCurrentTime(item.nextTriggerAt, selectedDate)
+                            when {
+                                !detailsIsDateTodayOrFuture(selectedDate) -> Toast.makeText(
+                                    context, context.getString(R.string.err_date_future), Toast.LENGTH_SHORT
+                                ).show()
+                                // Today, but the reminder's time of day has already gone by.
+                                picked <= System.currentTimeMillis() -> Toast.makeText(
+                                    context, context.getString(R.string.err_time_future), Toast.LENGTH_SHORT
+                                ).show()
+                                else -> {
+                                    viewModel.updateTriggerTime(picked)
+                                    showInlineDatePicker = false
+                                }
+                            }
+                        }
+                    )
+                }
+
+                if (showInlineTimePicker) {
+                    val cal = remember(item.nextTriggerAt) {
+                        java.util.Calendar.getInstance().apply { timeInMillis = item.nextTriggerAt }
+                    }
+                    val applyTime: (Int, Int) -> Unit = { hour, minute ->
+                        val picked = detailsMergeTimeWithCurrentDate(item.nextTriggerAt, hour, minute)
+                        if (picked <= System.currentTimeMillis()) {
+                            Toast.makeText(context, context.getString(R.string.err_time_future), Toast.LENGTH_SHORT).show()
+                        } else {
+                            viewModel.updateTriggerTime(picked)
+                            showInlineTimePicker = false
+                        }
+                    }
+                    if (shouldUseSystemDateTimePickers()) {
+                        SystemTimePickerDialog(
+                            initialHour = cal.get(java.util.Calendar.HOUR_OF_DAY),
+                            initialMinute = cal.get(java.util.Calendar.MINUTE),
+                            is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour,
+                            onDismiss = { showInlineTimePicker = false },
+                            onConfirm = applyTime,
+                        )
+                    } else {
+                        AppTimePickerDialog(
+                            initialHour = cal.get(java.util.Calendar.HOUR_OF_DAY),
+                            initialMinute = cal.get(java.util.Calendar.MINUTE),
+                            is24Hour = com.ghostgramlabs.speakalert.util.TimeFormat.use24Hour,
+                            title = stringResource(R.string.time_picker_title),
+                            onDismiss = { showInlineTimePicker = false },
+                            onConfirm = { pickedHour, pickedMinute -> applyTime(pickedHour, pickedMinute) }
+                        )
+                    }
+                }
+
                 if (showRecurrenceSheet) {
                     com.ghostgramlabs.speakalert.ui.addedit.RecurrenceSelectionSheet(
                         initialType = item.recurrenceType,
@@ -852,9 +900,22 @@ fun ReminderDetailsScreen(
 private fun DetailInfoRow(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     label: String,
-    value: String
+    value: String,
+    onClick: (() -> Unit)? = null
 ) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
+    val editLabel = stringResource(R.string.det_double_tap_edit)
+    Row(
+        modifier = if (onClick != null) {
+            Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(14.dp))
+                .clickable(onClickLabel = editLabel, role = Role.Button, onClick = onClick)
+                .padding(vertical = 6.dp)
+        } else {
+            Modifier
+        },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         Surface(
             shape = CircleShape,
             color = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
@@ -883,6 +944,53 @@ private fun DetailInfoRow(
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface
             )
+        }
+        if (onClick != null) {
+            Icon(
+                imageVector = Icons.Filled.Edit,
+                contentDescription = null,
+                modifier = Modifier.size(18.dp),
+                tint = MaterialTheme.colorScheme.primary
+            )
+        }
+    }
+}
+
+/** Date picker for the details screen, in whichever style the device is set to use. */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DetailsDatePicker(
+    initialMillis: Long,
+    onDismiss: () -> Unit,
+    onPicked: (selectedDateUtcMillis: Long) -> Unit
+) {
+    if (shouldUseSystemDateTimePickers()) {
+        SystemDatePickerDialog(
+            initialSelectedDateMillisUtc = detailsUtcStartOfTodayMillis(initialMillis),
+            onDismiss = onDismiss,
+            onConfirm = onPicked,
+        )
+    } else {
+        val dateState = rememberDatePickerState(
+            initialSelectedDateMillis = detailsUtcStartOfTodayMillis(initialMillis)
+        )
+        DatePickerDialog(
+            onDismissRequest = onDismiss,
+            confirmButton = {
+                TextButton(
+                    onClick = { dateState.selectedDateMillis?.let(onPicked) },
+                    enabled = dateState.selectedDateMillis != null
+                ) {
+                    Text(stringResource(R.string.action_apply))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = onDismiss) {
+                    Text(stringResource(R.string.action_cancel))
+                }
+            }
+        ) {
+            DatePicker(state = dateState)
         }
     }
 }

@@ -281,4 +281,44 @@ class ReminderDetailsViewModelTest {
         assertFalse(updated.isCompleted)
         verify(scheduler).schedule(any(), any())
     }
+
+    @Test
+    fun `updateTriggerTime moves a one-time reminder to exactly the picked moment`() = runTest {
+        val picked = System.currentTimeMillis() + 3 * 86_400_000L
+        val reminder = ReminderEntity(id = 8, nextTriggerAt = picked - 86_400_000L)
+        whenever(repository.getReminder(8)).thenReturn(reminder)
+        viewModel.loadReminder(8)
+        advanceUntilIdle()
+
+        viewModel.updateTriggerTime(picked)
+        advanceUntilIdle()
+
+        val captor = argumentCaptor<ReminderEntity>()
+        verify(repository).updateReminder(captor.capture())
+        assertEquals(picked, captor.firstValue.nextTriggerAt)
+        verify(scheduler).schedule(any(), any())
+    }
+
+    @Test
+    fun `updateTriggerTime keeps the picked time for a daily reminder`() = runTest {
+        // A whole minute two days out, so a daily rule has an occurrence exactly there.
+        val picked = (System.currentTimeMillis() / 60_000L + 2 * 1_440L) * 60_000L
+        val reminder = ReminderEntity(
+            id = 9,
+            nextTriggerAt = picked - 86_400_000L,
+            recurrenceType = RecurrenceType.DAILY,
+            recurrenceJson = com.ghostgramlabs.speakalert.domain.RecurrenceUtils.toJson(RecurrenceModel.Daily())
+        )
+        whenever(repository.getReminder(9)).thenReturn(reminder)
+        viewModel.loadReminder(9)
+        advanceUntilIdle()
+
+        viewModel.updateTriggerTime(picked)
+        advanceUntilIdle()
+
+        val captor = argumentCaptor<ReminderEntity>()
+        verify(repository).updateReminder(captor.capture())
+        assertEquals(picked, captor.firstValue.nextTriggerAt)
+        assertEquals(RecurrenceType.DAILY, captor.firstValue.recurrenceType)
+    }
 }

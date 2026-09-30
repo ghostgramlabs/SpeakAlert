@@ -258,7 +258,6 @@
     <string name="det_missed_handling">Gestión de recordatorios perdidos</string>
     <string name="det_missed_fire">Avisar cuando el dispositivo se encienda de nuevo</string>
     <string name="det_missed_skip">Recordar solo a la próxima hora exacta</string>
-    <string name="det_tap_edit_schedule">Toca para editar la programación</string>
     <string name="det_mark_undone">Marcar como no hecho</string>
     <string name="det_mark_done">Marcar como hecho</string>
     <string name="det_scheduled_for">Programado para: %1$s</string>

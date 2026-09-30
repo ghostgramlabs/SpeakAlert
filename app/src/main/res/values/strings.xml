@@ -273,7 +273,6 @@
     <string name="det_missed_handling">Missed reminder handling</string>
     <string name="det_missed_fire">Alert when device turns back on</string>
     <string name="det_missed_skip">Remind only at the next exact time</string>
-    <string name="det_tap_edit_schedule">Tap to edit schedule</string>
     <string name="det_mark_undone">Mark as Undone</string>
     <string name="det_mark_done">Mark as Done</string>
     <string name="det_scheduled_for">Scheduled for: %1$s</string>
