@@ -48,6 +48,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.util.Locale
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import java.util.concurrent.RejectedExecutionException
 
 @androidx.annotation.OptIn(UnstableApi::class)
 class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEventListener {
@@ -63,6 +66,31 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     private var isTtsInitialized = false
     private var ttsInitializationFailed = false
     private var isTtsMode = false
+    // Every TextToSpeech call takes the engine's internal lock and most make a synchronous binder
+    // call into the engine process, which can stall for seconds on a slow or cold engine (and
+    // before onInit the setup task holds that lock the whole time). Doing any of that on the main
+    // thread ANRs, so all engine calls go through this single thread, which also keeps them in
+    // the order they were issued.
+    private val ttsExecutor: ExecutorService =
+        Executors.newSingleThreadExecutor { Thread(it, "tts-engine") }
+    // Only touch the engine once it's ready — onInit applies the current audio attributes itself.
+    private val readyTts: TextToSpeech?
+        get() = if (isTtsInitialized) tts else null
+
+    private fun onTtsThread(label: String, block: (TextToSpeech) -> Unit) {
+        val engine = readyTts ?: return
+        try {
+            ttsExecutor.execute {
+                try {
+                    block(engine)
+                } catch (e: Exception) {
+                    FileLogger.logError("SERVICE", "TTS $label failed", e)
+                }
+            }
+        } catch (_: RejectedExecutionException) {
+            // Service already destroyed.
+        }
+    }
     // Spoken-language preference: 0 = Auto-detect, 1 = Device language, 2 = English.
     @Volatile
     private var ttsLanguageMode = 0
@@ -509,7 +537,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             ttsCallbacks.invalidate()
             pendingTtsText = null
             pendingSpeakAfterFocusGain = null
-            tts?.stop()
+            onTtsThread("stop") { it.stop() }
             player.setAudioAttributes(buildPlayerAudioAttributes(), false)
 
             if (!ReminderAudioSource.isPlayable(this, path)) {
@@ -559,7 +587,8 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             stopProgressUpdates()
             if (::player.isInitialized) player.stop()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                tts?.setAudioAttributes(buildPlatformAudioAttributes())
+                val attributes = buildPlatformAudioAttributes()
+                onTtsThread("setAudioAttributes") { it.setAudioAttributes(attributes) }
             }
             // Show TTS Notification
             FileLogger.log("SERVICE: Creating TTS notification")
@@ -632,10 +661,11 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     }
 
     private fun speakNow(text: String) {
-        // Pick the voice that matches the reminder's own language (with fallback) right before
-        // speaking, so e.g. a Hindi reminder is read correctly even on an English phone.
-        applyTtsLanguageForText(text)
-
+        if (readyTts == null) {
+            FileLogger.log("SERVICE: TTS not ready in speakNow")
+            stopSelf()
+            return
+        }
         val params = android.os.Bundle()
         params.putInt(
             TextToSpeech.Engine.KEY_PARAM_STREAM,
@@ -649,12 +679,21 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         
         val utteranceId = ttsCallbacks.begin()
         
-        FileLogger.log("SERVICE: Calling tts.speak()")
-        val speakResult = tts?.speak(text, TextToSpeech.QUEUE_FLUSH, params, utteranceId) ?: TextToSpeech.ERROR
-        FileLogger.log("SERVICE: tts.speak() called, result=$speakResult")
-        if (speakResult == TextToSpeech.ERROR) {
-            FileLogger.log("SERVICE: tts.speak() failed with ERROR")
-            stopSelf()
+        onTtsThread("speak") { engine ->
+            // Pick the voice that matches the reminder's own language (with fallback) right before
+            // speaking, so e.g. a Hindi reminder is read correctly even on an English phone.
+            applyTtsLanguageForText(engine, text)
+            FileLogger.log("SERVICE: Calling tts.speak()")
+            val speakResult = engine.speak(text, TextToSpeech.QUEUE_FLUSH, params, utteranceId)
+            FileLogger.log("SERVICE: tts.speak() called, result=$speakResult")
+            if (speakResult == TextToSpeech.ERROR) {
+                scope.launch {
+                    // A newer request may have replaced this utterance while it was queued.
+                    if (!ttsCallbacks.isActive(utteranceId)) return@launch
+                    FileLogger.log("SERVICE: tts.speak() failed with ERROR")
+                    stopSelf()
+                }
+            }
         }
     }
 
@@ -663,8 +702,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
      * the device default, then English. If none has voice data installed, the engine keeps its own
      * default and a one-time hint is shown (no longer fails silently).
      */
-    private fun applyTtsLanguageForText(text: String) {
-        val engine = tts ?: return
+    private fun applyTtsLanguageForText(engine: TextToSpeech, text: String) {
         // Honor the user's "Spoken language" preference; Auto-detect also keeps device/English as
         // graceful fallbacks.
         val detected = if (ttsLanguageMode == 0) TtsLanguageSupport.detectLocale(text) else null
@@ -726,7 +764,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
                         }
                         AudioManager.AUDIOFOCUS_LOSS -> {
                             FileLogger.log("SERVICE: Audio focus lost")
-                            tts?.stop()
+                            onTtsThread("stop") { it.stop() }
                             stopSelf()
                         }
                     }
@@ -939,9 +977,8 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             }
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            runCatching {
-                tts?.setAudioAttributes(buildPlatformAudioAttributes())
-            }
+            val attributes = buildPlatformAudioAttributes()
+            onTtsThread("setAudioAttributes") { it.setAudioAttributes(attributes) }
         }
     }
     
@@ -986,14 +1023,17 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         FileLogger.log("SERVICE: TTS onInit called with status=$status")
         if (status == TextToSpeech.SUCCESS) {
             ttsInitializationFailed = false
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                tts?.setAudioAttributes(buildPlatformAudioAttributes())
-            }
-            // Best-effort initial language. The actual TTS voice is chosen per reminder text at
-            // speak time (with a fallback chain), so an unavailable device-default language must
-            // NOT abort playback here — that was the old "fails silently" behaviour.
-            tts?.setLanguage(Locale.getDefault())
             isTtsInitialized = true
+            val attributes = buildPlatformAudioAttributes()
+            onTtsThread("init") { engine ->
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    engine.setAudioAttributes(attributes)
+                }
+                // Best-effort initial language. The actual TTS voice is chosen per reminder text at
+                // speak time (with a fallback chain), so an unavailable device-default language must
+                // NOT abort playback here — that was the old "fails silently" behaviour.
+                engine.setLanguage(Locale.getDefault())
+            }
             FileLogger.log("SERVICE: TTS initialized successfully")
             tts?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
                 override fun onStart(utteranceId: String?) {
@@ -1047,8 +1087,24 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             playerNotificationManager.setPlayer(null)
             player.release()
             
-            tts?.stop()
-            tts?.shutdown()
+            pendingTtsText = null
+            val engine = tts
+            val engineReady = isTtsInitialized
+            tts = null
+            isTtsInitialized = false
+            if (engine != null) {
+                // Off the main thread: both calls wait on the engine (and, while it is still
+                // connecting, on the setup task's lock). Queued after any pending engine work.
+                runCatching {
+                    ttsExecutor.execute {
+                        runCatching {
+                            if (engineReady) engine.stop()
+                            engine.shutdown()
+                        }
+                    }
+                }
+            }
+            ttsExecutor.shutdown()
             abandonAudioFocus()
             restoreAudioRoute()
         } catch (e: Exception) {
