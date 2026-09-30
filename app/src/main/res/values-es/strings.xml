@@ -721,6 +721,7 @@
     <string name="widget_upcoming_subtitle">Recordatorios próximos y perdidos</string>
     <string name="widget_upcoming_empty">No hay recordatorios próximos ni perdidos</string>
     <string name="card_type_audio_file">Archivo de audio</string>
+    <string name="card_type_voice_improving">Voz · mejorando…</string>
     <string name="card_type_voice">Voz</string>
     <string name="card_type_text">Texto</string>
     <string name="card_voice_recording">Grabación de voz</string>

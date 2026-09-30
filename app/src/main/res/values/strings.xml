@@ -740,6 +740,7 @@
     <string name="widget_upcoming_subtitle">Upcoming and missed reminders</string>
     <string name="widget_upcoming_empty">No upcoming or missed reminders</string>
     <string name="card_type_audio_file">Audio File</string>
+    <string name="card_type_voice_improving">Voice · improving…</string>
     <string name="card_type_voice">Voice</string>
     <string name="card_type_text">Text</string>
     <string name="card_voice_recording">Voice recording</string>

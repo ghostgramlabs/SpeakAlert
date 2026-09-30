@@ -29,7 +29,15 @@ interface AudioEnhancer {
  */
 class Mp4AudioEnhancer : AudioEnhancer {
 
-    override fun enhance(source: File): Boolean {
+    // One cleanup at a time across the whole app. A just-saved recording is cleaned up in the
+    // background, so the user can already be recording or saving the next one; running two at
+    // once only makes both slower, and some phones cannot open two audio encoders together.
+    // The file checks below happen after the wait, so a take discarded meanwhile is skipped.
+    override fun enhance(source: File): Boolean = synchronized(ONE_AT_A_TIME) {
+        enhanceNow(source)
+    }
+
+    private fun enhanceNow(source: File): Boolean {
         if (!source.exists() || source.length() <= 0L) return false
         val working = File(source.parentFile, source.name + ENHANCED_SUFFIX)
 
@@ -67,6 +75,10 @@ class Mp4AudioEnhancer : AudioEnhancer {
                 working.delete()
                 false
             }
+        } catch (_: RecordingGoneException) {
+            Log.i(TAG, "Recording was removed during enhancement; stopped early")
+            working.delete()
+            false
         } catch (failure: Exception) {
             Log.w(TAG, "Could not enhance recording; keeping the original", failure)
             working.delete()
@@ -267,8 +279,15 @@ class Mp4AudioEnhancer : AudioEnhancer {
             var sawOutputEnd = false
             var scratch = ShortArray(0)
             var idlePolls = 0
+            var loops = 0
 
             while (!sawOutputEnd) {
+                // The take may be discarded or replaced mid-way (Save deletes the editor's temp
+                // copy, Retake or Delete drop it). Stop then rather than finish work nobody
+                // wants, which would also hold up the next cleanup waiting its turn.
+                if (++loops % ABANDON_CHECK_INTERVAL == 0 && !source.exists()) {
+                    throw RecordingGoneException()
+                }
                 var madeProgress = false
                 if (!sawInputEnd) {
                     val inputIndex = codec.dequeueInputBuffer(DEQUEUE_TIMEOUT_US)
@@ -327,7 +346,12 @@ class Mp4AudioEnhancer : AudioEnhancer {
 
     private data class SourceFormat(val sampleRate: Int, val channels: Int)
 
+    /** The recording was deleted while being processed; the catch in [enhance] keeps it quiet. */
+    private class RecordingGoneException : Exception()
+
     private companion object {
+        val ONE_AT_A_TIME = Any()
+        const val ABANDON_CHECK_INTERVAL = 64
         const val TAG = "Mp4AudioEnhancer"
         val MIME_AAC: String = MediaFormat.MIMETYPE_AUDIO_AAC
         const val ENHANCED_SUFFIX = ".enhanced"

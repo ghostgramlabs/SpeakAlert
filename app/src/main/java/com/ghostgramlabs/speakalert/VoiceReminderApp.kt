@@ -15,7 +15,8 @@ class VoiceReminderApp : Application() {
 
     // instance for manual Dependency Injection
     lateinit var container: AppContainer
-    private val applicationScope = kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO + kotlinx.coroutines.SupervisorJob())
+    // Also used for work that must outlive a screen, such as cleaning up a just-saved recording.
+    val applicationScope = kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO + kotlinx.coroutines.SupervisorJob())
 
     override fun onCreate() {
         super.onCreate()

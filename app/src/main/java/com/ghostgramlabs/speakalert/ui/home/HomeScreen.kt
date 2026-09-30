@@ -187,6 +187,8 @@ fun HomeScreen(
         }
     }
     
+    val audioBeingImproved by com.ghostgramlabs.speakalert.audio.AudioCleanupTracker.inProgress.collectAsState()
+
     // Re-read on every resume: the user grants this out in system Settings, so the banner has to
     // be gone the moment they come back rather than waiting for a restart.
     var batteryRestricted by remember {
@@ -919,6 +921,7 @@ fun HomeScreen(
                                 hasText = !reminder.reminderText.isNullOrBlank(),
                                 isTextToSpeechEnabled = uiState.isTextToSpeechEnabled,
                                 hasCustomAudioFile = ReminderAudioSource.isContentUri(reminder.audioPath),
+                                isImprovingAudio = reminder.audioPath in audioBeingImproved,
                                 isPlaying = currentPlayingId == reminder.id,
                                 isCompleted = reminder.isCompleted,
                                 loopEnabled = reminder.loopPlayback,

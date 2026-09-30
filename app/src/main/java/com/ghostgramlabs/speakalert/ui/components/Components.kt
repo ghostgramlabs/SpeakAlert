@@ -371,6 +371,8 @@ fun ReminderCard(
     hasText: Boolean,
     isTextToSpeechEnabled: Boolean,
     hasCustomAudioFile: Boolean = false,
+    // The recording was saved before its voice cleanup finished; it plays fine meanwhile.
+    isImprovingAudio: Boolean = false,
     isPlaying: Boolean,
     isCompleted: Boolean = false,
     loopEnabled: Boolean = false,
@@ -640,6 +642,7 @@ fun ReminderCard(
                     },
                     text = when {
                         hasCustomAudioFile -> stringResource(R.string.card_type_audio_file)
+                        hasAudio && isImprovingAudio -> stringResource(R.string.card_type_voice_improving)
                         hasAudio -> stringResource(R.string.card_type_voice)
                         else -> stringResource(R.string.card_type_text)
                     },
