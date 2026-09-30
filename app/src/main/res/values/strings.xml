@@ -548,7 +548,13 @@
     <!-- What's new sheet -->
     <string name="action_continue">Continue</string>
     <string name="wn_title">What\'s new in %1$s</string>
-    <string name="wn_intro">The lock-screen alert now works, you can pause reminders when you need quiet, and Home tells you when something would stop a reminder arriving.</string>
+    <string name="wn_intro">Reminders are easier to manage: change the date and time right on a reminder, notifications tidy themselves up, and voice reminders save instantly.</string>
+    <string name="wn_edit_title">Change the date and time in place</string>
+    <string name="wn_edit_desc">Open a reminder and tap Date or Time to change it directly. No need to open the editor first.</string>
+    <string name="wn_clear_title">Notifications tidy themselves up</string>
+    <string name="wn_clear_desc">Once you open, play, complete, or delete a reminder in the app, its notification clears from the notification panel. With Keep reminder on screen until done turned on, it still stays until you mark it Done.</string>
+    <string name="wn_save_title">Voice reminders save instantly</string>
+    <string name="wn_save_desc">With experimental voice enhancement on, saving no longer waits for the cleanup. It finishes in the background, and the reminder shows Voice · improving… meanwhile.</string>
     <string name="wn_fullscreen_title">Lock-screen alert now works</string>
     <string name="wn_fullscreen_desc">The full-screen alert never actually appeared when a reminder fired, however the setting was configured. It now wakes the screen and shows the reminder, on a rebuilt alert screen with larger text and clearer actions.</string>
     <string name="wn_pause_title">Pause reminders</string>

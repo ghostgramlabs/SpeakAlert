@@ -528,7 +528,13 @@
 
     <string name="action_continue">Continuar</string>
     <string name="wn_title">Novedades en %1$s</string>
-    <string name="wn_intro">La alerta a pantalla completa ya funciona, puedes pausar los recordatorios cuando necesites silencio, y la pantalla de inicio te avisa si algo impediría que llegue un recordatorio.</string>
+    <string name="wn_intro">Los recordatorios son más fáciles de gestionar: cambia la fecha y la hora directamente en un recordatorio, las notificaciones se ordenan solas y los recordatorios de voz se guardan al instante.</string>
+    <string name="wn_edit_title">Cambia la fecha y la hora ahí mismo</string>
+    <string name="wn_edit_desc">Abre un recordatorio y toca Fecha u Hora para cambiarla directamente. Ya no hace falta abrir el editor.</string>
+    <string name="wn_clear_title">Las notificaciones se ordenan solas</string>
+    <string name="wn_clear_desc">Cuando abres, reproduces, completas o eliminas un recordatorio en la app, su notificación desaparece del panel de notificaciones. Si tienes activado Mantener el recordatorio en pantalla hasta completarlo, seguirá ahí hasta que lo marques como hecho.</string>
+    <string name="wn_save_title">Los recordatorios de voz se guardan al instante</string>
+    <string name="wn_save_desc">Con la mejora de voz experimental activada, guardar ya no espera a la limpieza. Termina en segundo plano y, mientras tanto, el recordatorio muestra Voz · mejorando…</string>
     <string name="wn_fullscreen_title">La alerta a pantalla completa ya funciona</string>
     <string name="wn_fullscreen_desc">La alerta a pantalla completa nunca aparecía al sonar un recordatorio, sin importar la configuración. Ahora enciende la pantalla y muestra el recordatorio, con una pantalla de alerta rediseñada, texto más grande y acciones más claras.</string>
     <string name="wn_pause_title">Pausar recordatorios</string>

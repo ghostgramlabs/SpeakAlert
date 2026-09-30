@@ -406,22 +406,18 @@ class MainActivity : ComponentActivity() {
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
-                                    // Ordered by what the reader most needs to know: the thing
-                                    // that was broken and is now fixed, then what is new.
+                                    // Ordered by how often the reader will meet it.
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_fullscreen_title),
-                                        description = stringResource(R.string.wn_fullscreen_desc)
+                                        title = stringResource(R.string.wn_edit_title),
+                                        description = stringResource(R.string.wn_edit_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_pause_title),
-                                        description = stringResource(R.string.wn_pause_desc)
+                                        title = stringResource(R.string.wn_clear_title),
+                                        description = stringResource(R.string.wn_clear_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_notices_title),
-                                        description = stringResource(
-                                            R.string.wn_notices_desc,
-                                            APP_DISPLAY_NAME
-                                        )
+                                        title = stringResource(R.string.wn_save_title),
+                                        description = stringResource(R.string.wn_save_desc)
                                     )
                                 }
                                 Button(
