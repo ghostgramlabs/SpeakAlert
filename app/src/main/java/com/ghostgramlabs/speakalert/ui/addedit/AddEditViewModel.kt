@@ -87,7 +87,9 @@ class AddEditViewModel(
     private val recorder: AudioRecorder,
     private val player: AudioPlayer,
     private val enhancer: AudioEnhancer = Mp4AudioEnhancer(),
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    // Outlives the editor. Null in tests, where the view model's own scope is enough.
+    private val backgroundScope: kotlinx.coroutines.CoroutineScope? = null
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AddEditUiState())
@@ -354,6 +356,23 @@ class AddEditViewModel(
     }
 
     /**
+     * Cleans up a recording that was saved before its enhancement finished. Runs outside the
+     * editor, which closes straight after saving. If the reminder is deleted or its audio
+     * replaced first, the enhancer finds the file gone and discards its work.
+     */
+    private fun enhanceSavedRecording(file: File) {
+        val path = file.absolutePath
+        com.ghostgramlabs.speakalert.audio.AudioCleanupTracker.started(path)
+        (backgroundScope ?: viewModelScope).launch(ioDispatcher) {
+            try {
+                runCatching { enhancer.enhance(file) }
+            } finally {
+                com.ghostgramlabs.speakalert.audio.AudioCleanupTracker.finished(path)
+            }
+        }
+    }
+
+    /**
      * Detach the current temporary take immediately, then delete it after any codec work that
      * already owns it has returned. This keeps Cancel/Retake responsive without leaving an
      * enhancer able to recreate an abandoned file.
@@ -557,10 +576,13 @@ class AddEditViewModel(
             var savedId: Long? = null
             var finalAudioPath = state.recordedAudioPath
             try {
-                // Enhancement runs after Stop so recording controls and Preview are immediate.
-                // If Save is tapped at once, wait here so the saved file is never a partial or
-                // unprocessed copy racing the codec pipeline.
-                enhancementJob?.join()
+                // Enhancement decodes and re-encodes the whole take, so it takes longer the longer
+                // the recording, and Save used to wait for it. Now Save stores the take as it is
+                // and, if the cleanup had not finished, runs it again on the saved copy in the
+                // background. The enhancer swaps files atomically, so the copy below reads either
+                // the raw or the finished take, never a partial one, and a reminder that fires
+                // before the cleanup finishes simply plays the raw take.
+                val enhancementPending = enhancementJob?.isActive == true
 
                 // Copy the temp take to its final location. The temp file is kept until the
                 // database write succeeds, so a failed save can be retried with the same audio.
@@ -644,6 +666,10 @@ class AddEditViewModel(
                 }
 
                 scheduler.schedule(reminder.copy(id = id))
+
+                if (enhancementPending && sourceAudioFile != null) {
+                    finalAudioPath?.let { enhanceSavedRecording(File(it)) }
+                }
 
                 // Signal success - screen should now navigate back
                 val savedState = state.copy(

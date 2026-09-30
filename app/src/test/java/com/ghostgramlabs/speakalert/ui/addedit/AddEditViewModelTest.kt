@@ -749,6 +749,49 @@ class AddEditViewModelTest {
     }
 
     @Test
+    fun `save does not wait for enhancement and cleans up the saved copy instead`() = runTest {
+        // Queued rather than run inline, so the take's enhancement is still pending at Save.
+        val io = StandardTestDispatcher(testScheduler)
+        viewModel = AddEditViewModel(
+            repository, scheduler, settingsRepository, context, recorder, player, enhancer, io
+        )
+        experimentalVoiceEnhancementEnabled.value = true
+        advanceUntilIdle()
+        viewModel.startRecording()
+        val fileCaptor = argumentCaptor<File>()
+        verify(recorder).start(fileCaptor.capture(), org.mockito.kotlin.eq(true))
+        val take = fileCaptor.firstValue.apply { writeBytes(byteArrayOf(1, 2, 3, 4)) }
+        whenever(recorder.stop()).thenReturn(
+            RecordingOutcome(file = take, peakAmplitude = 12_000, sizeBytes = 4L)
+        )
+        advanceTimeBy(1_100)
+        viewModel.stopRecording()
+        whenever(repository.insertReminder(any())).thenReturn(21L)
+        // Record what the reminder list would show while each cleanup runs.
+        val shownDuringCleanup = mutableListOf<Set<String>>()
+        whenever(enhancer.enhance(any())).thenAnswer {
+            shownDuringCleanup += com.ghostgramlabs.speakalert.audio.AudioCleanupTracker.inProgress.value
+            true
+        }
+
+        viewModel.saveReminder()
+        advanceUntilIdle()
+
+        assertTrue(viewModel.uiState.value.saveCompleted)
+        val saved = argumentCaptor<ReminderEntity>()
+        verify(repository).insertReminder(saved.capture())
+        val savedAudio = File(saved.firstValue.audioPath!!)
+        assertTrue(savedAudio.isFile)
+        // The pending cleanup is redone on the stored copy, not waited for.
+        verify(enhancer).enhance(savedAudio)
+        // The list says "improving" while the stored copy is cleaned up, and stops afterwards.
+        assertTrue(shownDuringCleanup.any { savedAudio.absolutePath in it })
+        assertFalse(
+            savedAudio.absolutePath in com.ghostgramlabs.speakalert.audio.AudioCleanupTracker.inProgress.value
+        )
+    }
+
+    @Test
     fun `saving during a take that captured nothing still reports the problem`() = runTest {
         // Finishing the take for the user must not paper over a take with nothing in it.
         whenever(recorder.stop()).thenReturn(RecordingOutcome.NOTHING)
