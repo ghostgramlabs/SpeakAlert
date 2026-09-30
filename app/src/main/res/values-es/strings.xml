@@ -365,6 +365,8 @@
     <string name="set_infinite">Infinito</string>
     <string name="set_minutes_short">%1$dm</string>
     <string name="set_select_tone">Seleccionar tono</string>
+    <string name="file_picker_unavailable">Ninguna app de este dispositivo puede abrir archivos. Instala un gestor de archivos e inténtalo de nuevo.</string>
+    <string name="tone_picker_unavailable">Ninguna app de este dispositivo puede elegir un tono.</string>
     <string name="set_toast_default_tone">Usando el tono de alarma predeterminado</string>
     <string name="set_toast_tone_updated">Tono actualizado</string>
     <string name="set_fullscreen">Alerta a pantalla completa en bloqueo</string>

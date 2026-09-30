@@ -366,6 +366,8 @@
     <string name="set_infinite">असीमित</string>
     <string name="set_minutes_short">%1$dमि</string>
     <string name="set_select_tone">टोन चुनें</string>
+    <string name="file_picker_unavailable">इस डिवाइस पर कोई ऐप फ़ाइलें नहीं खोल सकता। कोई फ़ाइल मैनेजर इंस्टॉल करके फिर से कोशिश करें।</string>
+    <string name="tone_picker_unavailable">इस डिवाइस पर कोई ऐप टोन नहीं चुन सकता।</string>
     <string name="set_toast_default_tone">डिफ़ॉल्ट अलार्म टोन का उपयोग</string>
     <string name="set_toast_tone_updated">टोन अपडेट किया गया</string>
     <string name="set_fullscreen">लॉक-स्क्रीन फ़ुल-स्क्रीन अलर्ट</string>

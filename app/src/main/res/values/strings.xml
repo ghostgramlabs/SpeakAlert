@@ -382,6 +382,8 @@
     <string name="set_infinite">Infinite</string>
     <string name="set_minutes_short">%1$dm</string>
     <string name="set_select_tone">Select tone</string>
+    <string name="file_picker_unavailable">No app on this device can open files. Install a file manager and try again.</string>
+    <string name="tone_picker_unavailable">No app on this device can pick a tone.</string>
     <string name="set_toast_default_tone">Using default alarm tone</string>
     <string name="set_toast_tone_updated">Tone updated</string>
     <string name="set_fullscreen">Lock-screen full-screen alert</string>

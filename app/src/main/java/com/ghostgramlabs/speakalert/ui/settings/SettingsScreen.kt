@@ -9,6 +9,7 @@ import android.os.Build
 import android.media.RingtoneManager
 import android.provider.Settings
 import android.widget.Toast
+import com.ghostgramlabs.speakalert.util.launchOrToast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.*
@@ -455,7 +456,8 @@ fun SettingsScreen(
                             ?.takeIf { it.isNotBlank() }
                             ?.let(Uri::parse)
                             ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
-                        tonePickerLauncher.launch(
+                        tonePickerLauncher.launchOrToast(
+                            context,
                             Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
                                 putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM)
                                 putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
@@ -463,7 +465,8 @@ fun SettingsScreen(
                                 putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
                                 putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, existingUri)
                                 putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, context.getString(R.string.set_select_tone))
-                            }
+                            },
+                            R.string.tone_picker_unavailable
                         )
                     },
                     onUseDefault = { viewModel.setToneOnlyAlertToneUri(null) }
@@ -1279,7 +1282,7 @@ fun SettingsScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { exportBackupLauncher.launch(backupManager.suggestedFileName()) }
+                        .clickable { exportBackupLauncher.launchOrToast(context, backupManager.suggestedFileName(), R.string.file_picker_unavailable) }
                         .padding(vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -1313,8 +1316,10 @@ fun SettingsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            importBackupLauncher.launch(
-                                arrayOf(backupManager.MIME_TYPE, "application/octet-stream")
+                            importBackupLauncher.launchOrToast(
+                                context,
+                                arrayOf(backupManager.MIME_TYPE, "application/octet-stream"),
+                                R.string.file_picker_unavailable
                             )
                         }
                         .padding(vertical = 8.dp),
