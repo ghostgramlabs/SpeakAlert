@@ -396,8 +396,21 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .setCategory(NotificationCompat.CATEGORY_SERVICE)
             .setOngoing(true)
+            .setDeleteIntent(stopPendingIntent())
             .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
             .build()
+    }
+
+    /**
+     * Stops playback when the user swipes the playback notification away. From Android 14 a
+     * foreground service's notification can be dismissed despite setOngoing, and without this the
+     * reminder kept speaking with nothing left on screen to stop it.
+     */
+    private fun stopPendingIntent(): PendingIntent {
+        val stopIntent = Intent(this, ReminderPlaybackService::class.java).apply {
+            action = ACTION_STOP
+        }
+        return PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_IMMUTABLE)
     }
 
     private fun promoteToForeground(notification: Notification): Boolean {
@@ -985,11 +998,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     private fun createTtsNotification(title: String, text: String, id: Long): Notification {
         FileLogger.log("SERVICE: Creating TTS notification")
         
-        // Stop action
-        val stopIntent = Intent(this, ReminderPlaybackService::class.java).apply {
-            action = ACTION_STOP
-        }
-        val stopPendingIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_IMMUTABLE)
+        val stopPendingIntent = stopPendingIntent()
 
         // Replay action
         val replayIntent = Intent(this, ReminderPlaybackService::class.java).apply {
@@ -1016,6 +1025,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             .addAction(android.R.drawable.ic_media_pause, strings.getString(R.string.notif_action_stop), stopPendingIntent)
             .addAction(android.R.drawable.ic_lock_idle_alarm, strings.getString(R.string.notif_action_snooze), snoozePendingIntent)
             .setOngoing(true)
+            .setDeleteIntent(stopPendingIntent)
             .build()
     }
 

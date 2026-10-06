@@ -29,7 +29,8 @@ object AppViewModelProvider {
                 voiceReminderApplication().applicationContext,
                 com.ghostgramlabs.speakalert.audio.AndroidAudioRecorder(voiceReminderApplication().applicationContext),
                 com.ghostgramlabs.speakalert.audio.AndroidAudioPlayer(voiceReminderApplication().applicationContext),
-                backgroundScope = voiceReminderApplication().applicationScope
+                backgroundScope = voiceReminderApplication().applicationScope,
+                missedRepository = voiceReminderApplication().container.missedReminderRepository
             )
         }
         initializer {
@@ -38,7 +39,8 @@ object AppViewModelProvider {
                 voiceReminderApplication().container.alarmScheduler,
                 voiceReminderApplication().container.settingsRepository,
                 voiceReminderApplication().applicationContext,
-                alertNotifications = alertNotifications()
+                alertNotifications = alertNotifications(),
+                missedRepository = voiceReminderApplication().container.missedReminderRepository
             )
 
         }

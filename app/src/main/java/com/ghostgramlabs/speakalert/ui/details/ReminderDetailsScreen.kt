@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -85,7 +86,9 @@ fun ReminderDetailsScreen(
 
     val reminder by viewModel.reminder.collectAsState()
     var isPlaying by remember { mutableStateOf(false) }
-    var hasAutoPlayed by remember { mutableStateOf(false) }
+    // The notification's autoplay request is settled once, when the reminder first loads. Saveable
+    // so it is not asked again on return from the editor or after the activity is recreated.
+    var autoplayHandled by rememberSaveable { mutableStateOf(false) }
     var playbackPositionMs by remember { mutableStateOf(0L) }
     var playbackDurationMs by remember { mutableStateOf(0L) }
     var playbackSliderValue by remember { mutableStateOf(0f) }
@@ -166,8 +169,12 @@ fun ReminderDetailsScreen(
             item.snoozeUntil == null &&
             item.nextTriggerAt < now
 
-        if (autoplay && item != null && !isMissedOnlyState && !hasAutoPlayed) {
-            hasAutoPlayed = true
+        if (autoplay && item != null && !autoplayHandled) {
+            autoplayHandled = true
+            // A reminder opened after its time has passed stays quiet. Settling the request even
+            // then matters: otherwise moving its date or time into the future re-ran this effect
+            // and played the reminder the moment the user saved.
+            if (isMissedOnlyState) return@LaunchedEffect
             viewModel.startAutoplay(context)
             isPlaying = true
             isSeekingPlayback = false

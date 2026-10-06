@@ -89,7 +89,8 @@ class AddEditViewModel(
     private val enhancer: AudioEnhancer = Mp4AudioEnhancer(),
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
     // Outlives the editor. Null in tests, where the view model's own scope is enough.
-    private val backgroundScope: kotlinx.coroutines.CoroutineScope? = null
+    private val backgroundScope: kotlinx.coroutines.CoroutineScope? = null,
+    private val missedRepository: com.ghostgramlabs.speakalert.data.repository.MissedReminderRepository? = null
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AddEditUiState())
@@ -666,6 +667,9 @@ class AddEditViewModel(
                 }
 
                 scheduler.schedule(reminder.copy(id = id))
+                // Saving gives the reminder a fresh schedule, so any missed occurrence it had is
+                // settled; left behind, it would keep a one-time reminder hidden under Missed.
+                missedRepository?.deleteMissedReminderByReminderId(id)
 
                 if (enhancementPending && sourceAudioFile != null) {
                     finalAudioPath?.let { enhanceSavedRecording(File(it)) }

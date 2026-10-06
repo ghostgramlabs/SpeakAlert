@@ -101,6 +101,10 @@ fun AddEditReminderScreen(
     
     // Load reminder if editing, otherwise seed user-level defaults for new reminders.
     LaunchedEffect(reminderId) {
+        // Whatever was playing (the alarm, or Play on the details screen) must not carry on
+        // into the editor, where it would talk over a preview or end up in a new recording.
+        com.ghostgramlabs.speakalert.service.ReminderPlaybackService.stop(context)
+        com.ghostgramlabs.speakalert.alarm.ToneAlertPlayer.stop()
         if (reminderId != -1L) {
             viewModel.loadReminder(reminderId)
         } else {

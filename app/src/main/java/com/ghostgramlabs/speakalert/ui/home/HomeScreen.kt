@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.HelpOutline
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Notifications
@@ -849,7 +850,8 @@ fun HomeScreen(
                                 currentPlayingId = -1L
                                 com.ghostgramlabs.speakalert.service.ReminderPlaybackService.stop(context)
                             },
-                            onDismissClick = { viewModel.dismissMissedReminder(it) }
+                            onDismissClick = { viewModel.dismissMissedReminder(it) },
+                            onEditClick = { navigateToItemUpdate(it.reminderId) }
                         )
                     }
                 } else {
@@ -1022,7 +1024,8 @@ fun MissedReminderList(
     currentPlayingId: Long,
     onFireClick: (com.ghostgramlabs.speakalert.data.model.MissedReminderEntity) -> Unit,
     onStopClick: () -> Unit,
-    onDismissClick: (com.ghostgramlabs.speakalert.data.model.MissedReminderEntity) -> Unit
+    onDismissClick: (com.ghostgramlabs.speakalert.data.model.MissedReminderEntity) -> Unit,
+    onEditClick: (com.ghostgramlabs.speakalert.data.model.MissedReminderEntity) -> Unit
 ) {
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
@@ -1034,7 +1037,8 @@ fun MissedReminderList(
                 isPlaying = currentPlayingId == missed.reminderId,
                 onFireClick = { onFireClick(missed) },
                 onStopClick = onStopClick,
-                onDismissClick = { onDismissClick(missed) }
+                onDismissClick = { onDismissClick(missed) },
+                onEditClick = { onEditClick(missed) }
             )
         }
     }
@@ -1046,7 +1050,8 @@ fun MissedReminderItem(
     isPlaying: Boolean,
     onFireClick: () -> Unit,
     onStopClick: () -> Unit,
-    onDismissClick: () -> Unit
+    onDismissClick: () -> Unit,
+    onEditClick: () -> Unit
 ) {
     val reminderFallback = stringResource(R.string.common_reminder)
     val displayTitle = remember(missed.title, missed.reminderText, reminderFallback) {
@@ -1168,6 +1173,14 @@ fun MissedReminderItem(
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.error,
                         modifier = Modifier.padding(top = 8.dp)
+                    )
+                }
+                // A missed reminder is often one the user still wants, just at another time.
+                IconButton(onClick = onEditClick) {
+                    Icon(
+                        Icons.Filled.Edit,
+                        contentDescription = stringResource(R.string.ae_header_edit),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }

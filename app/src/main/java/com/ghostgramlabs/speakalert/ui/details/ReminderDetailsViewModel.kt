@@ -22,7 +22,8 @@ class ReminderDetailsViewModel(
     context: Context,
     private val player: com.ghostgramlabs.speakalert.audio.AudioPlayer = com.ghostgramlabs.speakalert.audio.AndroidAudioPlayer(context),
     private val alertNotifications: com.ghostgramlabs.speakalert.alarm.ReminderAlertNotifications =
-        com.ghostgramlabs.speakalert.alarm.ReminderAlertNotifications.None
+        com.ghostgramlabs.speakalert.alarm.ReminderAlertNotifications.None,
+    private val missedRepository: com.ghostgramlabs.speakalert.data.repository.MissedReminderRepository? = null
 ) : ViewModel() {
 
     private val _reminder = MutableStateFlow<ReminderEntity?>(null)
@@ -297,6 +298,8 @@ class ReminderDetailsViewModel(
             
             repository.updateReminder(updated)
             scheduler.schedule(updated)
+            // A new time settles the missed occurrence, so the reminder leaves the Missed tab.
+            missedRepository?.deleteMissedReminderByReminderId(current.id)
             _reminder.value = updated
         }
     }
