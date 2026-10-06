@@ -1,0 +1,779 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_tagline">Lembretes de voz offline</string>
+    <string name="widget_quick_caption">Abra Adicionar lembrete na hora</string>
+    <string name="widget_quick_description">Abra o formulário de lembrete direto da tela inicial</string>
+    <string name="widget_upcoming_description">Mostra seus próximos lembretes agendados</string>
+
+    <!-- Settings -->
+    <string name="settings_language">Idioma do app</string>
+    <string name="settings_language_system">Usar o idioma do dispositivo</string>
+    <string name="settings_language_description">Idiomas disponíveis no app: inglês, espanhol, hindi, árabe, português (Brasil), russo, vietnamita, bengali, telugo, tâmil, grego e malaiala.\nUsar o idioma do dispositivo escolhe um idioma compatível do celular; caso contrário, o app usa inglês.\nOs lembretes falados dependem das vozes instaladas no celular. Configure-as separadamente em Reprodução &gt; Idioma falado.</string>
+
+    <!-- Notification actions -->
+    <string name="notif_action_done">Concluído</string>
+    <string name="notif_action_silence">Silenciar</string>
+    <string name="notif_action_snooze">Adiar</string>
+    <string name="notif_action_play">Reproduzir</string>
+    <string name="notif_action_speak">Falar</string>
+    <string name="notif_default_title">Lembrete de voz</string>
+    <string name="notif_default_text">Toque para reproduzir seu lembrete</string>
+    <string name="notif_action_replay">Repetir</string>
+    <string name="notif_action_stop">Parar</string>
+    <string name="notif_playback_processing">Processando…</string>
+    <string name="notif_playback_speaking">Falando: \"%1$s\"</string>
+    <string name="notif_reminder_missing">Não foi possível encontrar este lembrete.</string>
+    <string name="notif_missed_title">Perdido: %1$s</string>
+    <string name="notif_missed_scheduled_tap">Agendado para %1$s - toque para abrir</string>
+    <string name="notif_missed_scheduled_audio_unavailable">Agendado para %1$s. O arquivo de áudio selecionado não está disponível.</string>
+    <string name="notif_missed_scheduled">Agendado: %1$s</string>
+    <string name="fallback_reminder_title">Lembrete</string>
+    <string name="toast_audio_unavailable">O arquivo de áudio selecionado não está disponível.</string>
+    <string name="tts_voice_hint">Nenhuma voz instalada para %1$s. Adicione-a nas configurações de Conversão de texto em voz do celular para ouvir lembretes falados.</string>
+    <string name="tts_voice_hint_this_language">este idioma</string>
+
+    <!-- Alert payload (notification / spoken follow-up text) -->
+    <string name="alert_followup_fallback_title">Verificação de acompanhamento</string>
+    <string name="alert_followup_question">Você concluiu %1$s?</string>
+    <string name="alert_followup_this_reminder">este lembrete</string>
+    <string name="alert_audio_unavailable_full">O arquivo de áudio selecionado não está disponível. Toque para escolher outro arquivo.</string>
+    <string name="alert_tap_to_view">Toque para ver</string>
+
+    <!-- Section titles -->
+    <string name="set_section_timing">Adiamento e acompanhamento</string>
+    <string name="set_section_backup">Backup e restauração</string>
+    <string name="set_section_about">Ajuda e sobre</string>
+
+    <!-- Backup & restore -->
+    <string name="set_backup_export">Fazer backup dos lembretes</string>
+    <string name="set_backup_export_desc">Salve seus próximos lembretes, incluindo gravações, em um arquivo</string>
+    <string name="set_backup_import">Importar lembretes</string>
+    <string name="set_backup_import_desc">Restaure lembretes de um arquivo de backup</string>
+    <string name="backup_export_none">Nenhum lembrete futuro para fazer backup.</string>
+    <string name="backup_export_success">Backup de %1$d lembretes concluído.</string>
+    <string name="backup_export_failed">Falha no backup.</string>
+    <string name="backup_import_success">%1$d lembretes importados.</string>
+    <string name="backup_import_skipped">%1$d lembretes importados (%2$d duplicados e %3$d expirados ignorados).</string>
+    <string name="backup_import_failed">Falha na importação. Escolha um arquivo de backup do SpeakAlert.</string>
+
+    <!-- Notification channels (visible in system Settings) -->
+    <string name="channel_reminders_name">Lembretes do %1$s</string>
+    <string name="channel_reminders_desc">Notificações dos lembretes do %1$s</string>
+    <string name="channel_tone_only_name">Alertas só com toque do %1$s</string>
+    <string name="channel_tone_only_desc">Notificações só com toque, apenas com vibração; o toque de reprodução é gerenciado pelo %1$s</string>
+    <string name="channel_dnd_bypass_name">Lembretes do %1$s (ignorar Não perturbe)</string>
+    <string name="channel_dnd_bypass_desc">Alarmes de lembrete que podem alertar durante o Não perturbe quando o acesso do Android é concedido</string>
+    <string name="channel_tone_only_bypass_name">Alertas só com toque do %1$s (ignorar Não perturbe)</string>
+    <string name="channel_tone_only_bypass_desc">Lembretes só com toque que podem alertar durante o Não perturbe quando o acesso do Android é concedido</string>
+    <string name="pua_sub_reschedule">Reagendar este lembrete</string>
+    <string name="pua_sub_play_now">Ouvir agora sem reagendar</string>
+    <string name="pua_sub_keep_done">Manter como concluído</string>
+    <string name="channel_playback_name">Reprodução de lembretes</string>
+    <string name="channel_playback_desc">Mostra os controles durante a reprodução de lembretes</string>
+    <string name="channel_silent_name">Alertas em tela cheia do %1$s</string>
+    <string name="channel_silent_desc">Lembretes em tela cheia do %1$s enquanto o lembrete já está sendo falado em voz alta</string>
+    <string name="channel_silent_bypass_name">Alertas em tela cheia do %1$s (ignorar Não perturbe)</string>
+    <string name="channel_silent_bypass_desc">Lembretes em tela cheia que podem alertar durante o Não perturbe quando o acesso do Android é concedido</string>
+
+    <!-- Alarm alert screen -->
+    <string name="alert_mark_done">Marcar como concluído</string>
+    <string name="alert_silence">Silenciar</string>
+    <string name="alert_silence_now">Silenciar agora</string>
+    <string name="alert_play_again">Reproduzir de novo</string>
+    <string name="alert_snooze_minutes">Adiar %1$d min</string>
+    <string name="alert_followup_reminder">Lembrete de acompanhamento</string>
+    <string name="alert_reminder_on_screen">Lembrete na tela</string>
+    <string name="alert_followup_on_this">Acompanhe este lembrete</string>
+    <string name="alert_did_you_complete">Você concluiu este lembrete?</string>
+    <string name="alert_reminder_active">O lembrete está ativo</string>
+    <string name="alert_voice_reminder">Lembrete de voz</string>
+    <string name="alert_text_reminder">Lembrete de texto</string>
+    <string name="alert_followup_check">Verificação de acompanhamento</string>
+    <string name="alert_generic">Alerta</string>
+    <string name="alert_playing_now">Reproduzindo agora</string>
+    <string name="alert_needs_response">Precisa de resposta</string>
+    <string name="alert_awaiting_action">Aguardando ação</string>
+    <string name="alert_scheduled_for">Agendado para</string>
+    <string name="alert_status">Status do alerta</string>
+    <string name="alert_audio_playing">O áudio está tocando. Use Silenciar para pará-lo.</string>
+    <string name="alert_waiting_done_snooze">Aguardando Concluído ou Adiar.</string>
+    <string name="alert_followup_label">Acompanhamento</string>
+    <string name="alert_hint_with_play">Mantenha o lembrete visível, pare o áudio ou reproduza de novo antes de agir.</string>
+    <string name="alert_hint_no_play">Mantenha o lembrete visível ou escolha Concluído ou Adiar quando estiver pronto.</string>
+    <string name="alert_dock_hint">Silenciar para o áudio. Concluído ou Adiar remove o alerta da tela de bloqueio.</string>
+    <plurals name="alert_followup_repeats">
+        <item quantity="one">Repete a cada %1$d minuto até ser concluído.</item>
+        <item quantity="many">Repete a cada %1$d minutos até ser concluído.</item>
+        <item quantity="other">Repete a cada %1$d minutos até ser concluído.</item>
+    </plurals>
+
+    <!-- Home -->
+    <string name="home_greeting_morning">Bom dia</string>
+    <string name="home_greeting_afternoon">Boa tarde</string>
+    <string name="home_greeting_evening">Boa noite</string>
+    <string name="home_all_caught_up">Tudo em dia!</string>
+    <plurals name="home_active_reminders">
+        <item quantity="one">Você tem %1$d lembrete ativo</item>
+        <item quantity="many">Você tem %1$d lembretes ativos</item>
+        <item quantity="other">Você tem %1$d lembretes ativos</item>
+    </plurals>
+    <string name="home_filter_upcoming">Próximos</string>
+    <string name="home_filter_today">Hoje</string>
+    <string name="home_filter_missed">Perdidos</string>
+    <string name="home_filter_done">Concluídos</string>
+    <string name="home_cd_settings">Configurações</string>
+    <string name="home_cd_help">Ajuda e instruções</string>
+    <string name="home_cd_add">Adicionar lembrete</string>
+    <string name="home_cd_missed">Lembretes perdidos</string>
+    <string name="home_dismiss_all">Dispensar todos</string>
+    <string name="home_empty_all_caught_up">Tudo em dia!</string>
+    <string name="home_empty_no_missed">Nenhum lembrete perdido</string>
+    <string name="home_empty_nothing_done">Nada concluído ainda</string>
+    <string name="home_empty_no_upcoming">Nenhum lembrete futuro</string>
+    <string name="home_empty_no_reminders">Nenhum lembrete ainda</string>
+    <string name="home_empty_done_sub">Os lembretes concluídos aparecerão aqui.</string>
+    <string name="home_empty_upcoming_sub">Os lembretes agendados para depois aparecerão aqui.</string>
+    <string name="home_empty_default_sub">Crie um lembrete usando voz ou texto.</string>
+
+    <!-- Common actions -->
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_close">Fechar</string>
+    <string name="action_play_now">Reproduzir agora</string>
+    <string name="action_stop">Parar</string>
+    <string name="action_dismiss">Dispensar</string>
+    <string name="action_apply">Aplicar</string>
+    <string name="action_undo">Desfazer</string>
+    <string name="action_open">Abrir</string>
+    <string name="common_reminder">Lembrete</string>
+    <string name="time_picker_title">Selecionar horário</string>
+    <string name="err_date_future">A data deve ser hoje ou posterior</string>
+    <string name="err_time_future">Selecione um horário futuro</string>
+
+    <!-- Home dialogs -->
+    <string name="home_stop_recurring_title">Parar o lembrete recorrente?</string>
+    <string name="home_stop_recurring_msg">Isso excluirá este lembrete e todas as ocorrências futuras. Não é possível desfazer.</string>
+    <string name="home_stop_recurring_action">Parar recorrência</string>
+    <string name="home_stop_recurring_sub">Excluir este lembrete e todas as ocorrências futuras</string>
+    <string name="home_keep_reminder">Manter lembrete</string>
+    <string name="home_mark_occurrence_title">Marcar ocorrência como concluída?</string>
+    <string name="home_mark_occurrence_msg">Isso remove apenas a ocorrência de hoje. O lembrete continuará se repetindo no próximo horário agendado.</string>
+    <string name="home_mark_occurrence_action">Marcar esta ocorrência como concluída</string>
+    <string name="home_mark_occurrence_sub">Manter as ocorrências futuras agendadas</string>
+    <string name="home_mark_done_title">Marcar como concluído?</string>
+    <string name="home_mark_done_msg">Isso moverá o lembrete para a aba Concluídos.</string>
+    <string name="home_move_to_done">Mover para Concluídos</string>
+    <string name="home_move_to_done_sub">Manter este lembrete no seu histórico de concluídos</string>
+    <string name="home_created_at">Criado em %1$s</string>
+    <string name="home_snackbar_deleted">Lembrete excluído</string>
+    <string name="home_snackbar_duplicated">Lembrete duplicado</string>
+    <string name="home_badge_missed">Perdido</string>
+
+    <!-- Add / Edit reminder -->
+    <string name="ae_saved">Lembrete salvo!</string>
+    <string name="ae_cannot_past">Não é possível criar lembretes no passado</string>
+    <string name="ae_record_too_short">A gravação ficou muito curta — mantenha pressionado enquanto fala</string>
+    <string name="ae_record_failed">Não foi possível começar a gravar. Outro app pode estar usando o microfone.</string>
+    <string name="ae_record_silent">Nenhum som foi gravado. Confira a permissão do microfone para o SpeakAlert.</string>
+    <string name="ae_unsaved_title">Salvar lembrete?</string>
+    <string name="ae_unsaved_msg">Há alterações no lembrete que não foram salvas.</string>
+    <string name="action_save">Salvar</string>
+    <string name="ae_keep_editing">Continuar editando</string>
+    <string name="action_discard">Descartar</string>
+    <string name="action_remove">Remover</string>
+    <string name="action_change">Alterar</string>
+    <string name="ae_title_edit">Editar lembrete</string>
+    <string name="ae_title_new">Novo lembrete</string>
+    <string name="action_back">Voltar</string>
+    <string name="ae_header_edit">Editar lembrete</string>
+    <string name="ae_header_create">Criar lembrete</string>
+    <string name="ae_section_content">Conteúdo do lembrete</string>
+    <string name="ae_content_desc">Grave sua voz, adicione um arquivo de áudio ou escreva a mensagem do lembrete.</string>
+    <string name="ae_tap_to_record">Toque para gravar um lembrete de voz</string>
+    <string name="ae_or_choose_audio">Ou escolha um arquivo de áudio</string>
+    <string name="ae_selected_audio">Arquivo de áudio selecionado</string>
+    <string name="ae_cd_stop_preview">Parar a prévia do áudio</string>
+    <string name="ae_cd_play_preview">Reproduzir a prévia do áudio</string>
+    <string name="ae_cd_audio_progress">Progresso da prévia do áudio</string>
+    <string name="ae_choose_audio_file">Escolher arquivo de áudio</string>
+    <string name="ae_or_type">Ou digite uma mensagem de lembrete</string>
+    <string name="ae_msg_label">Mensagem do lembrete</string>
+    <string name="ae_msg_placeholder">ex.: Tomar o remédio depois do café da manhã</string>
+    <string name="ae_label_placeholder">ex.: Remédio da manhã</string>
+    <string name="ae_msg_help">A mensagem aparece no app e nas notificações. Só é lida em voz alta se você não adicionar uma gravação ou um arquivo de áudio.</string>
+    <string name="ae_char_count">%1$d/%2$d</string>
+    <string name="ae_need_content">Adicione uma nota de voz, um arquivo de áudio ou uma mensagem de lembrete.</string>
+    <string name="ae_section_label">Rótulo curto (opcional)</string>
+    <string name="ae_label_desc">Se quiser, dê um nome curto para reconhecer o lembrete com facilidade na lista.</string>
+    <string name="ae_label_hint">Mostrado como nome curto nas listas e nos detalhes</string>
+    <string name="ae_section_schedule">Agendamento</string>
+    <string name="ae_when_fire">Quando este lembrete deve tocar?</string>
+    <string name="ae_datetime_at">%1$s às %2$s</string>
+    <string name="ae_date">Data</string>
+    <string name="ae_time">Horário</string>
+    <string name="ae_time_future">O horário deve estar no futuro</string>
+    <string name="ae_repeat_never">Nunca</string>
+    <string name="ae_repeat">Repetir</string>
+    <string name="state_on">Ativado</string>
+    <string name="state_off">Desativado</string>
+    <string name="state_active">Ativo</string>
+    <string name="ae_loop">Reprodução em loop</string>
+    <string name="ae_loop_desc">Continua tocando até você dispensar o lembrete.</string>
+    <string name="ae_followup">Verificação de acompanhamento</string>
+    <string name="ae_followup_desc">Pergunta de novo após um intervalo se o lembrete não for marcado como concluído.</string>
+    <string name="ae_cd_saving">Salvando lembrete</string>
+    <string name="ae_save_reminder">Salvar lembrete</string>
+    <plurals name="ae_followup_active">
+        <item quantity="one">Ativo: pergunta a cada %1$d minuto até ser marcado como concluído.</item>
+        <item quantity="many">Ativo: pergunta a cada %1$d minutos até ser marcado como concluído.</item>
+        <item quantity="other">Ativo: pergunta a cada %1$d minutos até ser marcado como concluído.</item>
+    </plurals>
+
+    <!-- Recurrence type names (shared) -->
+    <string name="rec_every">A cada %1$d %2$s</string>
+    <string name="rec_ends_never">Termina: Nunca</string>
+    <string name="rec_if_off_fire">Se o aparelho estiver desligado: Alertar ao ligar</string>
+    <string name="rec_if_off_skip">Se o aparelho estiver desligado: Lembrar só no horário exato</string>
+    <string name="date_today">Hoje</string>
+    <string name="date_tomorrow">Amanhã</string>
+    <string name="date_yesterday">Ontem</string>
+    <plurals name="rec_ends_times">
+        <item quantity="one">Termina após %1$d vez</item>
+        <item quantity="many">Termina após %1$d vezes</item>
+        <item quantity="other">Termina após %1$d vezes</item>
+    </plurals>
+    <string name="rec_onetime">Uma vez</string>
+    <string name="rec_daily">Diariamente</string>
+    <string name="rec_weekly">Semanalmente</string>
+    <string name="rec_monthly">Mensalmente</string>
+    <string name="rec_yearly">Anualmente</string>
+    <string name="rec_custom">Personalizado</string>
+    <string name="day_mon">Seg</string>
+    <string name="day_tue">Ter</string>
+    <string name="day_wed">Qua</string>
+    <string name="day_thu">Qui</string>
+    <string name="day_fri">Sex</string>
+    <string name="day_sat">Sáb</string>
+    <string name="day_sun">Dom</string>
+
+    <!-- Reminder details -->
+    <string name="det_title">Detalhes do lembrete</string>
+    <string name="action_edit">Editar</string>
+    <string name="action_delete">Excluir</string>
+    <string name="action_confirm">Confirmar</string>
+    <string name="det_audio_file">Arquivo de áudio</string>
+    <string name="det_voice_note">Nota de voz</string>
+    <string name="det_loop_enabled">Loop ativado</string>
+    <string name="det_followup_pill">Acompanhamento %1$d min</string>
+    <string name="det_cd_stop_audio">Parar áudio</string>
+    <string name="det_cd_play_audio">Reproduzir áudio</string>
+    <string name="det_ready_preview">Pronto para ouvir</string>
+    <string name="det_ready_play">Pronto para reproduzir</string>
+    <string name="det_voice_recording">Gravação de voz</string>
+    <string name="det_tap_preview">Toque em reproduzir para ouvir o lembrete gravado.</string>
+    <string name="det_cd_audio_progress">Progresso do áudio do lembrete</string>
+    <string name="det_double_tap_edit">Toque duas vezes para editar</string>
+    <string name="det_ends_by">Termina em %1$s</string>
+    <string name="det_end_rule">Regra de término</string>
+    <string name="det_missed_handling">Tratamento de lembretes perdidos</string>
+    <string name="det_missed_fire">Alertar quando o aparelho for ligado de novo</string>
+    <string name="det_missed_skip">Lembrar só no próximo horário exato</string>
+    <string name="det_mark_undone">Marcar como não concluído</string>
+    <string name="det_mark_done">Marcar como concluído</string>
+    <string name="det_scheduled_for">Agendado para: %1$s</string>
+    <string name="det_delete_title">Excluir lembrete?</string>
+    <string name="det_delete_recurring">Isso interromperá todas as ocorrências futuras. Não é possível desfazer.</string>
+    <string name="det_delete_onetime">Não é possível desfazer.</string>
+    <string name="det_reschedule_title">Reagendar lembrete?</string>
+    <string name="det_reschedule_to">Reagendar para %1$s?</string>
+    <plurals name="det_ends_after">
+        <item quantity="one">Termina após %1$d ocorrência</item>
+        <item quantity="many">Termina após %1$d ocorrências</item>
+        <item quantity="other">Termina após %1$d ocorrências</item>
+    </plurals>
+
+    <!-- Recurrence selection sheet -->
+    <string name="rs_subtitle">Escolha como este lembrete deve se repetir.</string>
+    <string name="rs_none">Não se repete</string>
+    <string name="rs_monthly_settings">Configurações mensais</string>
+    <string name="rs_monthly_subtitle">Escolha os dias ou a regra de término.</string>
+    <string name="rs_repeat_on">Repetir em</string>
+    <string name="rs_days_of_month">Dia(s) do mês</string>
+    <string name="rs_last_day">Último dia</string>
+    <string name="rs_select_days_toggle">Selecione os dias (toque para alternar)</string>
+    <string name="rs_selected">Selecionados: %1$s</string>
+    <string name="rs_weekly_settings">Configurações semanais</string>
+    <string name="rs_weekly_subtitle">Escolha os dias da semana em que repetir.</string>
+    <string name="rs_select_days">Selecionar dias</string>
+    <string name="rs_custom_interval">Intervalo personalizado</string>
+    <string name="rs_custom_subtitle">Defina quanto tempo deve passar entre uma repetição e a próxima.</string>
+    <string name="rs_repeat_every">Repetir a cada</string>
+    <string name="rs_number">Número</string>
+    <string name="rs_unit">Unidade</string>
+    <string name="rs_repeats_every">Repete a cada %1$d %2$s.</string>
+    <string name="rs_interval_min">O intervalo deve ser de pelo menos 1</string>
+    <string name="rs_ends">Termina</string>
+    <string name="rs_forever">Nunca</string>
+    <string name="rs_until_date">Até data/horário</string>
+    <string name="rs_after_count">Após um número de vezes</string>
+    <string name="rs_must_be_after">Deve ser em ou após %1$s</string>
+    <string name="rs_date_label">Data: %1$s</string>
+    <string name="rs_time_label">Horário: %1$s</string>
+    <string name="rs_num_occurrences">Número de ocorrências</string>
+    <string name="rs_allowed_range">Permitido: 1-999</string>
+    <string name="rs_end_before_error">O horário de término não pode ser anterior ao horário do lembrete</string>
+    <string name="rs_select_end_time">Selecionar horário de término</string>
+    <plurals name="unit_minutes" tools:ignore="ImpliedQuantity"><item quantity="one">Minuto</item><item quantity="many">Minutos</item><item quantity="other">Minutos</item></plurals>
+    <plurals name="unit_hours" tools:ignore="ImpliedQuantity"><item quantity="one">Hora</item><item quantity="many">Horas</item><item quantity="other">Horas</item></plurals>
+    <plurals name="unit_days" tools:ignore="ImpliedQuantity"><item quantity="one">Dia</item><item quantity="many">Dias</item><item quantity="other">Dias</item></plurals>
+    <plurals name="unit_weeks" tools:ignore="ImpliedQuantity"><item quantity="one">Semana</item><item quantity="many">Semanas</item><item quantity="other">Semanas</item></plurals>
+    <plurals name="unit_months" tools:ignore="ImpliedQuantity"><item quantity="one">Mês</item><item quantity="many">Meses</item><item quantity="other">Meses</item></plurals>
+    <plurals name="unit_years" tools:ignore="ImpliedQuantity"><item quantity="one">Ano</item><item quantity="many">Anos</item><item quantity="other">Anos</item></plurals>
+
+    <!-- Settings -->
+    <string name="set_appearance">Aparência</string>
+    <string name="set_reminder_form">Formulário do lembrete</string>
+    <string name="set_reminder_form_desc">Escolha quais seções aparecem ao criar um lembrete. Se ocultar todas as formas de adicionar conteúdo, será preciso ativar pelo menos uma para criar outro.</string>
+    <string name="ae_no_content_sections">Nenhuma seção de entrada de lembrete está ativada. Ative Gravação de voz, Escolher arquivo de áudio ou Lembrete digitado em Configurações &gt; Formulário do lembrete.</string>
+    <string name="set_show_voice_recording">Gravação de voz</string>
+    <string name="set_show_voice_recording_desc">Mostrar a seção de gravação pelo microfone.</string>
+    <string name="set_experimental_voice_enhancement">Melhoria de voz experimental</string>
+    <string name="set_experimental_voice_enhancement_desc">Desativado: mantém a gravação sem tratamento. Ativado: inclui proteções durante a gravação, avisa quando nenhum som é captado e melhora a clareza da voz.</string>
+    <string name="set_experimental_voice_enhancement_note">Este recurso é experimental. O resultado e o tempo de processamento variam conforme o celular. Desative se a voz ficar distorcida ou se demorar mais para salvar.</string>
+    <string name="set_show_audio_file">Escolher arquivo de áudio</string>
+    <string name="set_show_audio_file_desc">Mostrar a opção de selecionar um arquivo de áudio existente.</string>
+    <string name="set_show_typed_reminder">Lembrete digitado</string>
+    <string name="set_show_typed_reminder_desc">Mostrar o campo de mensagem do lembrete.</string>
+    <string name="set_show_short_label">Rótulo curto</string>
+    <string name="set_show_short_label_desc">Mostrar o campo opcional de rótulo curto.</string>
+    <string name="set_app_theme">Tema do app</string>
+    <string name="theme_system">Sistema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Escuro</string>
+    <string name="set_toast_theme_light">Modo claro definido</string>
+    <string name="set_toast_theme_dark">Modo escuro definido</string>
+    <string name="set_toast_theme_system">Seguindo o tema do sistema</string>
+    <string name="set_playback">Reprodução</string>
+    <string name="set_autoplay">Reproduzir áudio do lembrete automaticamente</string>
+    <string name="set_autoplay_desc">Reproduz automaticamente notas de voz e arquivos de áudio quando um lembrete toca</string>
+    <string name="set_disabled_tone">Desativado enquanto o modo só toque estiver ativado</string>
+    <string name="set_toast_autoplay_on">Reprodução automática ativada</string>
+    <string name="set_toast_autoplay_off">Reprodução automática desativada</string>
+    <string name="set_unlock_only">Só quando o celular estiver desbloqueado</string>
+    <string name="set_unlock_only_desc">Impede a reprodução na tela de bloqueio</string>
+    <string name="set_toast_lock_off">Reprodução na tela de bloqueio desativada</string>
+    <string name="set_toast_lock_on">Reprodução na tela de bloqueio ativada</string>
+    <string name="set_speak_text">Falar lembretes digitados automaticamente</string>
+    <string name="set_speak_text_desc">Só para lembretes apenas de texto, sem nota de voz nem arquivo de áudio</string>
+    <string name="set_toast_speak_on">Texto falado automático ativado</string>
+    <string name="set_toast_speak_off">Texto falado automático desativado</string>
+    <string name="set_spoken_language">Idioma falado</string>
+    <string name="set_spoken_language_desc">Idioma usado para ler os lembretes. A detecção automática escolhe o idioma da mensagem. A voz desse idioma precisa estar instalada nas configurações de conversão de texto em voz do celular.</string>
+    <string name="tts_auto">Detectar automaticamente</string>
+    <string name="tts_device">Dispositivo</string>
+    <string name="tts_english">Inglês</string>
+    <string name="set_toast_tts_device">Idioma falado: idioma do dispositivo</string>
+    <string name="set_toast_tts_english">Idioma falado: inglês</string>
+    <string name="set_toast_tts_auto">Idioma falado: detecção automática</string>
+    <string name="set_private">Reprodução privada</string>
+    <string name="set_private_desc">Usa primeiro os aparelhos auditivos, dispositivos Bluetooth ou fones com fio que estiverem conectados. Se não houver nenhum, o áudio sai pelo alto-falante de chamadas do celular, em vez do alto-falante externo.</string>
+    <string name="set_toast_private_on">Reprodução privada ativada</string>
+    <string name="set_toast_private_off">Reprodução privada desativada</string>
+    <string name="set_private_bt">Reprodução privada ativada. O roteamento por Bluetooth precisa da permissão de dispositivos por perto.</string>
+    <string name="set_tone_only">Modo só toque</string>
+    <string name="set_tone_only_desc">Toca um som de alarme simples em vez de voz/TTS para máxima confiabilidade. Parada automática: %1$s. Adiar: %2$d min.</string>
+    <string name="set_toast_tone_on">Modo só toque ativado</string>
+    <string name="set_toast_tone_off">Modo só toque desativado</string>
+    <string name="set_infinite">Infinito</string>
+    <string name="set_minutes_short">%1$d min</string>
+    <string name="set_select_tone">Selecionar toque</string>
+    <string name="file_picker_unavailable">Nenhum app deste aparelho consegue abrir arquivos. Instale um gerenciador de arquivos e tente de novo.</string>
+    <string name="tone_picker_unavailable">Nenhum app deste aparelho consegue escolher um toque.</string>
+    <string name="set_toast_default_tone">Usando o toque de alarme padrão</string>
+    <string name="set_toast_tone_updated">Toque atualizado</string>
+    <string name="set_fullscreen">Alerta em tela cheia na tela de bloqueio</string>
+    <string name="set_fullscreen_desc_granted">Mostra as ações do lembrete sobre a tela de bloqueio quando um lembrete toca</string>
+    <string name="set_fullscreen_desc_denied">Precisa do acesso a alertas em tela cheia do Android para aparecer sobre a tela de bloqueio</string>
+    <string name="set_allow_fullscreen">Permitir alertas em tela cheia nas configurações do sistema</string>
+    <string name="set_toast_fs_on">Alerta em tela cheia na tela de bloqueio ativado</string>
+    <string name="set_toast_fs_off">Alerta em tela cheia na tela de bloqueio desativado</string>
+    <string name="set_fs_off_title">O acesso à tela cheia ainda está desativado</string>
+    <string name="set_fs_off_msg">O Android 14+ exige uma permissão de sistema separada para alertas de lembrete em tela cheia.</string>
+    <string name="set_open_perm">Abrir configurações de permissão</string>
+    <string name="set_fs_note">Você ainda pode tocar em Reproduzir lembrete ou Falar lembrete na notificação.</string>
+    <string name="set_tone_volume_note">No modo só toque, o volume é controlado pelo volume de alarme/notificação do aparelho.</string>
+    <string name="set_loop_duration">Duração do loop</string>
+    <string name="set_loop_duration_desc">Defina por quanto tempo o loop do lembrete continua</string>
+    <string name="set_toast_loop">Duração do loop: %1$d min</string>
+    <string name="set_toast_loop_infinite">Duração do loop: Infinita</string>
+    <string name="set_custom">Personalizado</string>
+    <string name="set_custom_snooze">Adiamento personalizado</string>
+    <string name="set_snooze_desc">Defina por quanto tempo o lembrete é adiado</string>
+    <string name="set_toast_snooze">Adiar: %1$d min</string>
+    <string name="set_toast_followup_off">Acompanhamento padrão desativado</string>
+    <string name="set_toast_followup">Acompanhamento padrão: %1$d min</string>
+    <string name="set_quiet">Horário de silêncio</string>
+    <string name="set_quiet_desc">Silencia os lembretes durante o horário definido</string>
+    <string name="set_toast_quiet_on">Horário de silêncio ativado</string>
+    <string name="set_toast_quiet_off">Horário de silêncio desativado</string>
+    <string name="set_start">Início</string>
+    <string name="set_end">Fim</string>
+    <string name="set_toast_quiet_start">O silêncio começa às %1$s</string>
+    <string name="set_toast_quiet_end">O silêncio termina às %1$s</string>
+    <string name="set_toast_test">Lembrete de teste em 10 segundos</string>
+    <string name="set_test_reminder">Lembrete de teste</string>
+    <string name="set_cd_granted">Permissão concedida</string>
+    <string name="set_cd_action_required">Ação necessária</string>
+    <string name="set_notifications">Notificações</string>
+    <string name="set_exact_alarms">Alarmes exatos</string>
+    <string name="set_microphone">Microfone</string>
+    <string name="set_dnd">Alertar mesmo no Não perturbe</string>
+    <string name="set_dnd_desc_off">Segue o modo de som do celular. O Não perturbe ou rotinas podem silenciar os lembretes.</string>
+    <string name="set_dnd_desc_active">Ativo: os lembretes usam som com prioridade de alarme e ignoram o Não perturbe.</string>
+    <string name="set_dnd_unavailable">As configurações de acesso ao Não perturbe do Android não estão disponíveis neste aparelho.</string>
+    <string name="set_grant_dnd">Conceder acesso ao Não perturbe do Android</string>
+    <string name="set_dnd_note">Esta opção não liga nem desliga o modo Não perturbe do celular. Ela permite que o %1$s peça autorização para tocar lembretes importantes mesmo com esse modo ativado.</string>
+    <string name="set_battery_guide">Guia de otimização de bateria</string>
+    <string name="set_battery_desc">Alguns celulares atrasam ou bloqueiam lembretes para economizar bateria.</string>
+    <string name="set_wear">Wear OS</string>
+    <string name="set_wear_checking">Verificando a conexão com o Wear OS…</string>
+    <string name="set_wear_connected">Relógio Wear OS conectado</string>
+    <string name="set_wear_supported">Os lembretes do %1$s no relógio só são compatíveis com relógios Wear OS.</string>
+    <string name="set_wear_notif_off">As notificações do app no celular estão desativadas. Ative-as para que os lembretes sincronizem com o relógio.</string>
+    <string name="set_open_notif">Abrir configurações de notificação</string>
+    <string name="set_open_channel">Abrir canal de lembretes</string>
+    <string name="set_wear_enabled">As notificações do celular estão ativadas. Se não chegarem ao relógio, ative a sincronização no app que conecta seu relógio Wear OS.</string>
+    <string name="set_refresh">Atualizar status</string>
+    <string name="set_app_guide">Guia do app</string>
+    <string name="set_toast_no_email">Nenhum app de e-mail disponível. Você pode enviar um e-mail para ghostgramlabs@gmail.com ou copiar o endereço exibido.</string>
+    <string name="set_contact_support">Sugestões e suporte</string>
+    <string name="set_contact_support_desc">Tem uma ideia ou precisa de ajuda? Envie um e-mail para nós.</string>
+    <string name="support_email_subject">%1$s — Sugestão ou suporte</string>
+    <string name="feature_request_email_subject">%1$s — Sugestão de recurso</string>
+    <string name="suggest_feature">Sugerir um recurso</string>
+    <string name="set_toast_no_rating">Não foi possível abrir a página de avaliação neste aparelho.</string>
+    <string name="set_rate">Avaliar o %1$s</string>
+    <string name="set_developer">Desenvolvedor</string>
+    <string name="set_debug_logging">Registro de depuração</string>
+    <string name="set_debug_desc">Gravar registros detalhados</string>
+    <string name="set_send_logs">Enviar registros</string>
+    <string name="set_fix">Corrigir</string>
+    <string name="set_cd_collapse">Recolher</string>
+    <string name="set_cd_expand">Expandir</string>
+    <string name="set_tone_sound">Som do alerta só com toque</string>
+    <string name="set_tone_sound_hint">Ative o modo só toque para escolher um som. Até lá, o SpeakAlert usará o toque de alarme padrão.</string>
+    <string name="set_choose_tone">Escolher toque</string>
+    <string name="set_use_default">Usar padrão</string>
+    <string name="set_default_alarm_tone">Toque de alarme padrão</string>
+    <string name="set_tone_unavailable">O toque selecionado não está disponível; usando o toque de alarme padrão</string>
+    <string name="set_select_label_time">Selecionar horário de %1$s</string>
+    <string name="set_minutes">Minutos</string>
+    <string name="set_max_allowed">Máximo permitido: %1$d min</string>
+    <string name="set_desc_max">%1$s (máx. %2$d min)</string>
+    <string name="set_label_time">%1$s: %2$s</string>
+    <string name="set_volume">Volume</string>
+    <string name="set_cd_volume">Volume do app: %1$d%%</string>
+    <string name="set_loop_inline_desc">Por quanto tempo o som se repete antes de parar automaticamente</string>
+    <string name="set_default_snooze">Adiamento padrão</string>
+    <string name="set_snooze_inline_desc">Quanto tempo esperar para avisar de novo depois de tocar em “Adiar”</string>
+    <string name="set_default_followup">Verificação de acompanhamento padrão</string>
+    <string name="set_followup_off_desc">Desativado: os novos lembretes não terão acompanhamento. Você pode ativar em cada lembrete separadamente.</string>
+    <string name="set_followup_on_desc">Os novos lembretes terão um aviso após %1$d minutos se não forem marcados como concluídos. Os lembretes existentes não mudam.</string>
+    <string name="set_followup_repeat">Limite de repetições do acompanhamento</string>
+    <string name="set_followup_repeat_desc">Na opção padrão (∞), os avisos de acompanhamento continuam até você marcar o lembrete como concluído. Escolha um limite para parar após esse número de avisos. O horário de silêncio também interrompe o acompanhamento.</string>
+    <string name="set_toast_followup_repeat_until_done">O acompanhamento se repete até ser concluído</string>
+    <string name="set_toast_followup_repeat">Limite de repetições do acompanhamento: %1$d×</string>
+    <string name="set_reliability">Confiabilidade</string>
+    <string name="set_persist">Manter o lembrete na tela até concluir</string>
+    <string name="set_persist_desc">A notificação fica na tela até você tocar em “Concluído” ou “Adiar”. Ative também o acompanhamento se quiser receber novos avisos.</string>
+    <string name="set_toast_persist_on">Os lembretes ficam até serem concluídos</string>
+    <string name="set_toast_persist_off">Os lembretes podem ser deslizados para fora</string>
+    <string name="set_all_granted">Todas as permissões concedidas</string>
+    <string name="set_some_needed">Algumas permissões são necessárias</string>
+    <string name="set_dnd_desc_needed">Ativado, mas o acesso ao Não perturbe do Android é necessário para ignorá-lo.</string>
+    <string name="set_toast_dnd_on">Ignorar Não perturbe ativado</string>
+    <string name="set_toast_dnd_off">Ignorar Não perturbe desativado</string>
+    <string name="set_battery_desc_ok">O %1$s já tem permissão para rodar em segundo plano.</string>
+    <string name="set_wear_watches">%1$d relógios Wear OS conectados</string>
+    <string name="set_wear_none">Nenhum relógio Wear OS conectado</string>
+    <string name="set_wear_channel_muted">O canal de lembretes do %1$s está silenciado. Ative-o para enviar lembretes ao relógio.</string>
+    <string name="set_rate_desc">Compartilhe sua experiência no Google Play.</string>
+    <string name="set_tone_sound_active">%1$s. Se ficar indisponível, o SpeakAlert volta para o toque de alarme padrão.</string>
+
+    <!-- More apps from the developer -->
+    <string name="set_more_apps_title">Mais apps da GhostgramLabs</string>
+    <string name="set_more_apps_desc">Apps gratuitos dos criadores do %1$s</string>
+    <string name="set_app_free_tag">Grátis no Google Play</string>
+    <string name="app_pettibox_name">PettiBox: Gerenciador de favoritos</string>
+    <string name="app_pettibox_desc">Grátis • Salve para depois, com privacidade, links, notas, arquivos e capturas de tela, com busca offline</string>
+    <string name="app_directserve_name">DirectServe: Transferência de arquivos</string>
+    <string name="app_directserve_desc">Grátis • Compartilhe e transmita arquivos para qualquer aparelho ou TV — sem nuvem, sem cabos</string>
+    <string name="set_toast_no_store">Não foi possível abrir o Google Play neste aparelho.</string>
+
+    <!-- In-app rating prompt -->
+    <string name="rate_prompt_title">O %1$s é gratuito. Seu apoio faz diferença.</string>
+    <string name="rate_prompt_message">Sua avaliação ajuda mais pessoas a descobrir o %1$s e nos incentiva a continuar melhorando. Reserve um momento para compartilhar sua experiência no Google Play.</string>
+    <string name="rate_prompt_positive">Avaliar agora</string>
+    <string name="rate_prompt_later">Talvez depois</string>
+    <string name="rate_prompt_never">Não, obrigado</string>
+
+    <!-- Help guide -->
+    <string name="help_intro">Tudo o que importa sobre criar, reproduzir, repetir e recuperar lembretes no %1$s.</string>
+    <string name="help_s1_title">Quando um lembrete alerta</string>
+    <string name="help_s1_content">Na tela bloqueada e na notificação, você encontra estes botões:\n- Concluído: Conclui a tarefa desta vez. Se o lembrete se repete, mantém os próximos avisos.\n- Silenciar: Para só o som. O lembrete continua na tela para você decidir depois.\n- Adiar: Avisa de novo daqui a pouco. No alerta em tela cheia, você pode escolher 5 ou 10 minutos.\n- Reproduzir / Falar: Aparece quando não há nada tocando. Você pode ouvir novamente a gravação ou a mensagem escrita.\nSó “Concluído” encerra a tarefa. Parar o som deixa a tarefa pendente.</string>
+    <string name="help_s2_title">Criar lembretes</string>
+    <string name="help_s2_content">- Voz primeiro: toque no microfone para gravar um lembrete falado rápido.\n- Arquivo de áudio: escolha um arquivo de áudio que já está no aparelho.\n- Mensagem do lembrete: mostrada no app e nas notificações.\n- Notas de voz e arquivos de áudio têm prioridade sobre o texto digitado falado.\n- Lembretes digitados só são falados automaticamente quando são apenas de texto e o texto falado automático está ativado.\n- Rótulo curto: nome opcional para facilitar a leitura nas listas.\n- Agendamento: escolha data, horário, repetição e verificação de acompanhamento, e salve.</string>
+    <string name="help_s3_title">Reprodução e prévia</string>
+    <string name="help_s3_content">- Adicionar lembrete permite ouvir a voz gravada e o áudio selecionado antes de salvar.\n- Detalhes do lembrete permite reproduzir, parar e avançar ou voltar em notas de voz e arquivos de áudio.\n- Lembretes só de texto ainda podem ser falados manualmente pelo app ou pela notificação.\n- O modo só toque usa o toque do lembrete em vez da reprodução falada.\n- Você pode escolher o som do alerta só com toque em Configurações, e o %1$s volta para o toque de alarme padrão se esse som ficar indisponível.</string>
+    <string name="help_s4_title">Início e ações rápidas</string>
+    <string name="help_s4_content">- As abas Hoje, Próximos, Perdidos e Concluídos agrupam os lembretes por estado.\n- Toque em um cartão para abrir todos os detalhes do lembrete.\n- Use o botão de copiar para duplicar um lembrete existente.\n- As ações do cartão incluem Reproduzir lembrete, Concluído e o menu de três pontos com Editar, Marcar como concluído, Parar recorrência ou Excluir.</string>
+    <string name="help_s18_title">Pausar lembretes e avisos no Início</string>
+    <string name="help_s18_content">- Toque no botão de pausa na tela Início para segurar todos os lembretes por uma hora, quatro horas, o resto do dia ou até um horário que você escolher.\n- Toda pausa tem um horário de término. O Início o mostra, com Retomar para encerrá-la antes.\n- Um lembrete pausado não alerta, mas ainda aparece na aba Perdidos.\n- A pausa também tem prioridade sobre Alertar mesmo no Não perturbe, porque significa que você não quer o lembrete agora.\n- O Início avisa quando este celular pode interromper o %1$s em segundo plano e mostra o seu horário de silêncio enquanto ele estiver ativo.</string>
+    <string name="help_s5_title">Lembretes repetidos</string>
+    <string name="help_s5_content">- Modos de repetição: Diariamente, Semanalmente, Mensalmente, Anualmente ou Personalizado.\n- A data e o horário selecionados se tornam a primeira ocorrência.\n- As repetições podem nunca terminar, terminar em uma data e horário exatos ou após um número de ocorrências.\n- Marcar como concluído um lembrete repetido conclui só a ocorrência atual.</string>
+    <string name="help_s6_title">Notificações e alertas em tela cheia</string>
+    <string name="help_s6_content">- A notificação do lembrete mostra três botões rápidos: Concluído, Adiar e Silenciar (enquanto toca) ou Reproduzir/Falar (para ouvir de novo).\n- Concluído marca o lembrete como feito; Silenciar só para o som e mantém o lembrete para você agir depois.\n- Deslizar a notificação para fora também marca a ocorrência atual como concluída.\n- Quando ativado em Configurações, um alerta em tela cheia pode aparecer na tela de bloqueio com as mesmas ações Concluído, Silenciar, Adiar e Reproduzir de novo.</string>
+    <string name="help_s7_title">Lembretes perdidos e restaurados</string>
+    <string name="help_s7_content">- Os lembretes perdidos ficam na aba Perdidos até você revisá-los.\n- Ao abrir o app, uma tela de recuperação pode oferecer a reprodução rápida do último lembrete perdido.\n- Lembretes passados podem ser restaurados, reagendados ou reproduzidos de novo pelo menu de ações.</string>
+    <string name="help_s8_title">Configurações de reprodução</string>
+    <string name="help_s8_content">- Com a reprodução automática ativada, a gravação ou o arquivo de áudio toca no horário do lembrete.\n- A leitura automática só funciona em lembretes sem gravação nem arquivo de áudio, quando a opção de ler automaticamente está ativada.\n- Idioma usado para ler os lembretes. A detecção automática escolhe o idioma da mensagem. A voz desse idioma precisa estar instalada nas configurações de conversão de texto em voz do celular. Você também pode escolher o idioma do celular ou o inglês. Com a detecção automática, uma mensagem em hindi é lida em hindi.\n- Mesmo com a leitura automática desativada, você pode tocar no botão para ouvir a mensagem.\n- Usa primeiro os aparelhos auditivos, dispositivos Bluetooth ou fones com fio que estiverem conectados. Se não houver nenhum, o áudio sai pelo alto-falante de chamadas do celular, em vez do alto-falante externo.\n- A reprodução em loop repete o áudio até você parar ou até atingir o tempo limite.\n- O acompanhamento pergunta de novo até você marcar a tarefa como concluída.\n- O horário de silêncio pode impedir que os lembretes toquem nos períodos que você escolher.</string>
+    <string name="help_s9_title">Modo só toque e confiabilidade</string>
+    <string name="help_s9_content">- O modo só toque usa um toque de alarme claro em vez de voz ou TTS.\n- Você pode escolher um som personalizado para o alerta só com toque ou manter o toque de alarme padrão.\n- Alertar mesmo no Não perturbe permite que o %1$s tente tocar lembretes importantes com o Não perturbe ativo.\n- Quando Alertar mesmo no Não perturbe está desativado, os lembretes bloqueados pelo Não perturbe vão para Perdidos em vez de tocar.\n- Essa configuração não liga nem desliga o Não perturbe do celular. O acesso ao Não perturbe do Android é necessário antes que a notificação possa ignorá-lo.\n- Quando ativado, os lembretes usam áudio com prioridade de alarme. Algumas rotinas do celular ainda podem bloquear alarmes se o modo do sistema silenciar o áudio de alarme.\n- Se o som selecionado sumir depois, o %1$s volta automaticamente para o toque de alarme padrão.\n- Use o modo só toque se o seu celular atrasar, suprimir ou interromper a reprodução falada.\n- Configurações &gt; Confiabilidade inclui o Guia de otimização de bateria para celulares com restrições agressivas em segundo plano.\n- Mantenha notificações, alarmes exatos e configurações de bateria ativados para a melhor confiabilidade dos lembretes.</string>
+    <string name="help_s10_title">Widgets e Wear OS</string>
+    <string name="help_s10_content">- O widget Lembrete rápido abre Adicionar lembrete diretamente.\n- O widget Próximos mostra os próximos lembretes e os lembretes perdidos.\n- O suporte ao Wear OS depende das notificações do celular e da sincronização com o relógio estarem ativadas.</string>
+    <string name="help_s11_title">Depois de reiniciar o aparelho</string>
+    <string name="help_s11_content">- Os lembretes futuros são reagendados automaticamente após reiniciar.\n- Lembretes que já passaram do horário seguem o fluxo de lembretes perdidos em vez de tocar inesperadamente na inicialização.</string>
+    <string name="help_s13_title">Verificações de acompanhamento</string>
+    <string name="help_s13_content">- Uma verificação de acompanhamento pergunta \"Você concluiu …?\" alguns minutos depois que um lembrete toca.\n- Por padrão, ela continua se repetindo até você marcar o lembrete como concluído. Você pode definir um limite de repetições em Configurações &gt; Confiabilidade se quiser que ela pare sozinha.\n- Concluído e Adiar encerram o ciclo de acompanhamento atual; o Horário de silêncio também interrompe os acompanhamentos.\n- As verificações de acompanhamento continuam após reiniciar o aparelho até serem concluídas ou o limite ser atingido.</string>
+    <string name="help_s14_title">Backup e importação</string>
+    <string name="help_s14_content">- Fazer backup dos lembretes, em Configurações, salva todos os próximos lembretes, incluindo gravações de voz, em um único arquivo que você escolhe.\n- Importar lembretes os restaura neste ou em outro aparelho.\n- A importação ignora duplicatas exatas e lembretes únicos expirados; lembretes recorrentes continuam a partir da próxima ocorrência.\n- Os lembretes importados são agendados imediatamente.</string>
+    <string name="help_s12_title">Manter lembretes na tela até concluir</string>
+    <string name="help_s12_content">- Ative Configurações &gt; Confiabilidade &gt; Manter o lembrete na tela até concluir para fixar a notificação do lembrete e evitar que ela seja deslizada para fora por engano.\n- Com isso ativado, deslizar só silencia o som e mantém o lembrete pendente — ele fica até você tocar em Concluído ou Adiar.\n- Marcar como Concluído sempre funciona pela notificação, pelo alerta em tela cheia ou pelo cartão do lembrete, e interrompe qualquer novo alerta de acompanhamento.\n- Combine com uma verificação de acompanhamento para que o lembrete também alerte de novo periodicamente até ser concluído.</string>
+
+    <!-- What's new sheet -->
+    <string name="action_continue">Continuar</string>
+    <string name="wn_title">Novidades do %1$s</string>
+    <string name="wn_intro">Ficou mais fácil gerenciar lembretes: mude a data e o horário direto no lembrete, as notificações se organizam sozinhas e os lembretes de voz são salvos na hora.</string>
+    <string name="wn_edit_title">Mude a data e o horário no próprio lembrete</string>
+    <string name="wn_edit_desc">Abra um lembrete e toque em Data ou Horário para alterar diretamente. Não é preciso abrir o editor antes.</string>
+    <string name="wn_clear_title">As notificações se organizam sozinhas</string>
+    <string name="wn_clear_desc">Quando você abre, reproduz, conclui ou exclui um lembrete no app, a notificação dele some da barra de notificações. Com Manter o lembrete na tela até concluir ativado, ela continua lá até você marcá-lo como Concluído.</string>
+    <string name="wn_save_title">Lembretes de voz salvos na hora</string>
+    <string name="wn_save_desc">Com a melhoria de voz experimental ativada, salvar não espera mais a limpeza. Ela termina em segundo plano, e o lembrete mostra Voz · melhorando… enquanto isso.</string>
+    <string name="wn_fullscreen_title">O alerta na tela de bloqueio agora funciona</string>
+    <string name="wn_fullscreen_desc">O alerta em tela cheia nunca aparecia de fato quando um lembrete tocava, independentemente da configuração. Agora ele acende a tela e mostra o lembrete, em uma tela de alerta refeita com texto maior e ações mais claras.</string>
+    <string name="wn_pause_title">Pausar lembretes</string>
+    <string name="wn_pause_desc">Vai entrar em uma reunião? Pause pela tela Início por uma hora, pelo resto do dia ou até um horário que você escolher. Toda pausa tem fim, e os lembretes pausados ainda aparecem na aba Perdidos.</string>
+    <string name="wn_notices_title">O Início explica por que um lembrete ficou em silêncio</string>
+    <string name="wn_notices_desc">Se este celular puder interromper o %1$s em segundo plano, ou se o seu horário de silêncio estiver ativo, o Início agora avisa, em vez de os lembretes simplesmente não chegarem.</string>
+    <string name="wn_lang_title">Agora no seu idioma</string>
+    <string name="wn_lang_desc">O app inteiro está disponível em inglês, espanhol, hindi, árabe, português (Brasil), russo, vietnamita, bengali, telugo, tâmil, grego e malaiala, com suporte a escrita da direita para a esquerda. Escolha em Configurações &gt; Aparência &gt; Idioma.</string>
+    <string name="wn_buttons_title">Botões de alarme mais claros</string>
+    <string name="wn_buttons_desc">Os alertas e as notificações de lembrete agora mostram Concluído, Silenciar e Adiar. Concluído finaliza a tarefa; Silenciar só para o som e mantém o lembrete.</string>
+    <string name="wn_spoken_title">Lembretes na voz certa</string>
+    <string name="wn_spoken_desc">Os lembretes falados são lidos automaticamente no próprio idioma — um lembrete em hindi é lido em hindi mesmo com o app em português. Ajuste em Configurações &gt; Reprodução &gt; Idioma falado.</string>
+    <string name="wn_persist_title">Mantenha os lembretes até concluir</string>
+    <string name="wn_persist_desc">Ative Configurações &gt; Confiabilidade &gt; Manter o lembrete na tela até concluir para que o lembrete fique fixado e só some quando você marcar Concluído ou Adiar.</string>
+    <string name="wn_backup_title">Faça backup e leve seus lembretes</string>
+    <string name="wn_backup_desc">Salve todos os próximos lembretes — gravações incluídas — em um arquivo e restaure quando quiser, até em um celular novo. Fica em Configurações.</string>
+    <string name="wn_followup_title">Verificações de acompanhamento do seu jeito</string>
+    <string name="wn_followup_desc">As verificações de acompanhamento continuam alertando até você marcar o lembrete como concluído, como antes. Novidade: defina um limite de repetições em Configurações &gt; Confiabilidade se quiser que elas parem sozinhas.</string>
+
+    <!-- Startup dialogs -->
+    <string name="action_allow">Permitir</string>
+    <string name="action_later">Depois</string>
+    <string name="action_open_settings">Abrir configurações</string>
+    <string name="batt_prompt_title">Permitir que o %1$s rode em segundo plano</string>
+    <string name="batt_prompt_message">Alguns celulares, especialmente modelos Xiaomi e POCO, impedem que apps rodem em segundo plano para economizar bateria. Isso pode impedir que os lembretes toquem. Permita que o %1$s ignore a otimização de bateria para lembretes mais confiáveis.</string>
+    <string name="batt_toast_unavailable">As configurações de bateria não estão disponíveis neste aparelho.</string>
+    <string name="home_batt_banner_title">Os lembretes podem não chegar</string>
+    <string name="home_batt_banner_body">Este celular pode interromper o %1$s em segundo plano. Toque para permitir uso de bateria sem restrições.</string>
+    <string name="home_quiet_banner">Horário de silêncio %1$s – %2$s. Os lembretes vão para Perdidos.</string>
+    <string name="home_pause_banner">Lembretes pausados até %1$s</string>
+    <string name="home_pause_resume">Retomar</string>
+    <string name="home_pause_title">Pausar lembretes</string>
+    <string name="home_pause_body">Os lembretes não vão alertar até o fim da pausa. Eles ainda vão para a aba Perdidos.</string>
+    <string name="home_pause_1h">Por 1 hora</string>
+    <string name="home_pause_4h">Por 4 horas</string>
+    <string name="home_pause_today">Pelo resto do dia</string>
+    <string name="home_pause_pick">Escolher um horário de término…</string>
+    <string name="home_pause_cd">Pausar lembretes</string>
+    <string name="home_pause_also_quiet">O horário de silêncio também está ativo, %1$s – %2$s.</string>
+    <string name="fsr_title">Permita de novo os alertas em tela cheia</string>
+    <string name="fsr_message">Os alertas de lembrete na tela de bloqueio continuam ativados no %1$s, mas o acesso à tela cheia do Android está desativado. Isso pode acontecer após reinstalar ou restaurar o app.</string>
+    <!-- Version 2.0.34 help and startup highlights -->
+    <string name="help_s15_title">Personalize o formulário do lembrete</string>
+    <string name="help_s15_content">- Abra Configurações &gt; Formulário do lembrete para mostrar ou ocultar Gravação de voz, Escolher arquivo de áudio, Lembrete digitado e Rótulo curto.\n- Cada chave funciona de forma independente. Se os três métodos de entrada estiverem ocultos, Adicionar lembrete informa qual configuração ativar de novo.\n- Ao editar, uma seção oculta aparece automaticamente se o lembrete já tiver esse conteúdo.</string>
+    <string name="help_s16_title">Escolha o modo de gravação de voz</string>
+    <string name="help_s16_content">- Abra Configurações &gt; Formulário do lembrete &gt; Melhoria de voz experimental.\n- Desativado (o padrão) mantém o comportamento original de gravação bruta MIC/AAC, sem pós-processamento.\n- Ativado habilita as novas proteções do gravador, o aviso de silêncio, a limpeza de ruído de fundo e a normalização do nível da voz. Os resultados e o tempo de processamento podem variar conforme o aparelho.\n- Gravações silenciosas continuam disponíveis para ouvir e salvar.</string>
+    <string name="help_s17_title">Reprodução de lembretes mais confiável</string>
+    <string name="help_s17_content">- A notificação exigida pelo Android aparece assim que a reprodução começa, inclusive nas versões mais novas do Android e em celulares que demoram para iniciar tarefas em segundo plano.\n- Isso evita que o sistema interrompa o lembrete por tempo de espera esgotado antes mesmo de o áudio começar.\n- Para funcionar bem, permita notificações e alarmes exatos e mantenha as configurações de bateria recomendadas.</string>
+    <string name="wn_form_title">Seu formulário de lembrete, do seu jeito</string>
+    <string name="wn_form_desc">Em Configurações &gt; Formulário do lembrete, mostre ou oculte de forma independente Gravação de voz, Escolher arquivo de áudio, Lembrete digitado e Rótulo curto.</string>
+    <string name="wn_recording_title">Melhoria de voz experimental opcional</string>
+    <string name="wn_recording_desc">Agora você pode escolher como gravar. Por padrão, a gravação fica sem tratamento. Se preferir, ative as verificações extras, o aviso quando nenhum som é captado e a redução de ruído de fundo. Gravações com volume baixo ficam mais fáceis de ouvir, sem aumentar o barulho do ambiente. Gravações sem som também são salvas.</string>
+    <string name="wn_reliability_title">Mais confiável nos celulares Android mais novos</string>
+    <string name="wn_reliability_desc">A reprodução de lembretes agora começa com segurança e imediatamente em primeiro plano, evitando os tempos limite de inicialização vistos em alguns aparelhos com Android 12 e Android 16.</string>
+    <string name="settings_24_hour_time">Usar formato de 24 horas</string>
+    <string name="settings_24_hour_time_desc">Mostrar todos os horários como 17:30 em vez de 5:30 PM.</string>
+
+    <!-- Reminder card and actions sheet -->
+    <string name="card_recur_onetime">Lembrete único</string>
+    <string name="card_recur_daily">Repete diariamente</string>
+    <string name="card_recur_last_day">Último dia de cada mês</string>
+    <string name="card_recur_yearly">Repete anualmente</string>
+    <string name="card_chip_recurring">Recorrente</string>
+    <string name="card_days_of_month">Dias do mês</string>
+    <string name="card_cd_duplicate">Duplicar lembrete</string>
+    <string name="card_cd_more">Mais opções</string>
+    <string name="card_cd_looping">Em loop</string>
+    <string name="card_cd_followup">Acompanhamento em %1$d minutos</string>
+    <string name="card_cd_ends_after">Termina após %1$d %2$s</string>
+    <string name="sheet_reminder_actions">Ações do lembrete</string>
+    <string name="sheet_stop_playback">Parar reprodução</string>
+
+    <!-- Custom follow-up dialog -->
+    <string name="fu_custom_title">Acompanhamento personalizado</string>
+    <string name="fu_custom_desc">Perguntar de novo após este número de minutos se o lembrete não for marcado como concluído.</string>
+    <string name="fu_allowed_range">Permitido: 1-%1$d min</string>
+
+    <!-- Voice recorder -->
+    <string name="vr_playing_audio">Reproduzindo áudio</string>
+    <string name="vr_voice_recorded">Voz gravada</string>
+    <string name="vr_text_optional">O texto é opcional</string>
+    <string name="vr_tap_to_stop">Toque para parar</string>
+    <string name="vr_cd_level">Visualização do nível de som em tempo real</string>
+    <string name="vr_cd_stop">Parar gravação</string>
+    <string name="vr_cd_double_tap_stop">Toque duas vezes para parar a gravação</string>
+    <string name="vr_cd_preview_progress">Progresso da prévia da voz</string>
+    <string name="vr_cd_start">Iniciar gravação de voz</string>
+    <string name="vr_cd_restart">Reiniciar gravação</string>
+
+    <!-- Date and time picker -->
+    <string name="dtp_title">Escolha a data e o horário</string>
+    <string name="dtp_subtitle">Use as opções rápidas ou escolha a data e o horário exatos.</string>
+    <string name="dtp_quick_date">Data rápida</string>
+    <string name="dtp_quick_time">Horário rápido</string>
+    <string name="dtp_pick_date">Escolher data exata</string>
+    <string name="dtp_pick_time">Escolher horário exato</string>
+    <string name="dtp_next_week">Próxima semana</string>
+    <string name="dtp_plus_10">+10 min</string>
+    <string name="dtp_plus_30">+30 min</string>
+    <string name="dtp_plus_60">+1 hora</string>
+    <string name="dtp_err_future">O horário deve estar no futuro</string>
+    <string name="dtp_err_date_future">A data deve ser hoje ou no futuro</string>
+
+    <!-- Recurring completion dialog -->
+    <string name="rcd_title">Este é um lembrete recorrente</string>
+    <string name="rcd_desc">Conclua só esta vez, mude os horários de repetição ou pare o lembrete de vez.</string>
+    <string name="rcd_mark_occurrence">Marcar esta ocorrência como concluída</string>
+    <string name="rcd_edit_schedule">Editar programação</string>
+    <string name="rcd_stop_recurring">Parar recorrência</string>
+
+    <!-- Restore reminder dialog -->
+    <string name="rrd_title">Restaurar lembrete</string>
+    <string name="rrd_desc">Você já concluiu este lembrete. Escolha como quer usá-lo novamente.</string>
+    <string name="rrd_reschedule">Reagendar lembrete</string>
+    <string name="rrd_move_missed">Mover para Perdidos</string>
+    <string name="rrd_play">Reproduzir lembrete</string>
+    <string name="rrd_keep_done">Manter como Concluído</string>
+
+    <!-- Missed reminder sheets -->
+    <string name="pua_title">Lembrete perdido</string>
+    <string name="pua_scheduled_for">Agendado para %1$s</string>
+    <string name="pua_set_new_time">Definir um novo horário</string>
+    <string name="pua_just_play">Só reproduzir o lembrete</string>
+    <string name="mrr_desc">Ouça agora o lembrete perdido mais recente ou deixe todos em “Perdidos” para conferir depois.</string>
+    <plurals name="mrr_title">
+        <item quantity="one">Você perdeu %1$d lembrete</item>
+        <item quantity="many">Você perdeu %1$d lembretes</item>
+        <item quantity="other">Você perdeu %1$d lembretes</item>
+    </plurals>
+    <string name="mrr_play_latest">Reproduzir o último lembrete perdido</string>
+    <string name="mrr_keep">Manter na aba Perdidos</string>
+
+    <!-- Battery optimization guide -->
+    <string name="bog_title">Guia de otimização de bateria</string>
+    <string name="bog_header">Mantenha os lembretes confiáveis</string>
+    <string name="bog_header_sub">Alguns celulares pausam ou interrompem alarmes em segundo plano, a menos que o %1$s esteja isento das restrições de bateria.</string>
+    <string name="bog_intro">Alguns aparelhos interrompem alarmes em segundo plano para economizar bateria. Isso pode impedir que os lembretes toquem.</string>
+    <string name="bog_menu_vary">Os nomes dos menus podem variar conforme o MIUI, HyperOS, EMUI, a versão do Android e o modelo do celular.</string>
+    <string name="bog_allow_app">Permitir o %1$s</string>
+    <string name="bog_back_settings">Voltar para Configurações</string>
+    <string name="bog_brand_xiaomi">Xiaomi / POCO / Redmi (MIUI / HyperOS)</string>
+    <string name="bog_brand_huawei">Huawei (EMUI)</string>
+    <string name="bog_step">Etapa %1$d</string>
+    <string name="bog_optional">Opcional</string>
+    <string name="bog_open_settings">Abrir Configurações</string>
+    <string name="bog_find_app">Encontre o %1$s</string>
+    <string name="bog_xiaomi_battery">Toque em Bateria</string>
+    <string name="bog_xiaomi_optimization">Toque em Otimização de bateria</string>
+    <string name="bog_xiaomi_no_restrictions">Selecione Sem restrições</string>
+    <string name="bog_xiaomi_opt">Bloqueie o app na tela de apps recentes.</string>
+    <string name="bog_huawei_apps">Abra Apps ou Inicialização de apps</string>
+    <string name="bog_huawei_manage_off">Desative Gerenciar automaticamente</string>
+    <string name="bog_huawei_allow">Permita inicialização automática, inicialização secundária e execução em segundo plano</string>
+    <string name="bog_huawei_opt">Confira também a Otimização de bateria e defina o %1$s como Não permitir.</string>
+    <string name="bog_status_enabled">A otimização de bateria ainda está ativada para o %1$s.</string>
+    <string name="bog_status_exempt">O %1$s já tem permissão para rodar sem otimização de bateria.</string>
+    <string name="bog_no_battery_settings">As configurações de bateria não estão disponíveis neste aparelho.</string>
+    <string name="bog_why_title">Por que isso importa</string>
+    <string name="bog_why_body">Celulares da Xiaomi, POCO, Redmi, Huawei e marcas parecidas podem interromper apps em segundo plano de forma agressiva. Use a família do fabricante e a versão do software como guia; os caminhos exatos podem variar conforme o modelo do aparelho.</string>
+
+    <!-- Reminder card accessibility description -->
+    <string name="a11y_card_reminder">Lembrete: %1$s</string>
+    <string name="a11y_card_at">às %1$s</string>
+    <string name="a11y_card_has_audio_file">tem arquivo de áudio</string>
+    <string name="a11y_card_has_voice">tem nota de voz</string>
+    <string name="a11y_card_recurring">recorrente %1$s</string>
+    <string name="a11y_card_completed">concluído</string>
+    <string name="a11y_card_playing">reproduzindo agora</string>
+    <string name="a11y_card_open_hint">Toque duas vezes para abrir os detalhes.</string>
+
+    <!-- Accessibility states -->
+    <string name="state_completed">Concluído</string>
+    <string name="state_playing">Reproduzindo</string>
+    <string name="a11y_percent">%1$d por cento</string>
+    <string name="a11y_destructive">Ação destrutiva</string>
+    <string name="a11y_recording_in_progress">Gravação em andamento</string>
+    <string name="a11y_playing_preview">Reproduzindo prévia do áudio</string>
+    <string name="a11y_voice_recorded">Nota de voz gravada</string>
+    <string name="a11y_no_voice_recorded">Nenhuma nota de voz gravada</string>
+    <plurals name="card_occurrences">
+        <item quantity="one">%1$d ocorrência</item>
+        <item quantity="many">%1$d ocorrências</item>
+        <item quantity="other">%1$d ocorrências</item>
+    </plurals>
+
+    <!-- Test reminder -->
+    <string name="set_test_reminder_title">Lembrete de teste</string>
+    <string name="set_test_reminder_text">Este é um lembrete de teste para verificar a reprodução. Ele toca 10 segundos após ser criado.</string>
+    <string name="widget_quick_subtitle">Adição rápida</string>
+    <string name="widget_upcoming_subtitle">Próximos lembretes e perdidos</string>
+    <string name="widget_upcoming_empty">Nenhum lembrete futuro ou perdido</string>
+    <string name="card_type_audio_file">Arquivo de áudio</string>
+    <string name="card_type_voice_improving">Voz · melhorando…</string>
+    <string name="card_type_voice">Voz</string>
+    <string name="card_type_text">Texto</string>
+    <string name="card_voice_recording">Gravação de voz</string>
+    <string name="card_custom_audio_file">Arquivo de áudio personalizado</string>
+    <string name="card_text_note">Nota de texto</string>
+    <string name="sheet_mark_this_done">Marcar como concluído</string>
+    <string name="sheet_delete_reminder">Excluir lembrete</string>
+    <string name="vr_recording_ellipsis">Gravando…</string>
+    <string name="vr_play_recording">Reproduzir gravação</string>
+    <string name="rcd_sub_keep_next">Manter a próxima ocorrência agendada</string>
+    <string name="rcd_sub_change_rules">Alterar regras de repetição ou horário</string>
+    <string name="rcd_sub_delete_future">Excluir este lembrete e as ocorrências futuras</string>
+    <string name="rrd_sub_pick_new">Escolher nova data e horário</string>
+    <string name="rrd_sub_keep_missed">Manter na aba Perdidos para depois</string>
+    <string name="rrd_sub_hear_now">Ouvir agora sem restaurar</string>
+    <string name="rrd_sub_leave_done">Deixar o lembrete concluído</string>
+    <string name="mrr_sub_start_now">Começar a reprodução agora</string>
+    <string name="set_tab_form">Form.</string>
+    <string name="set_tab_play">Som</string>
+    <string name="set_tab_time">Tempo</string>
+    <string name="set_tab_safe">Seguro</string>
+    <string name="set_tab_backup">Backup</string>
+    <string name="set_tab_wear">Wear</string>
+    <string name="set_tab_help">Ajuda</string>
+</resources>

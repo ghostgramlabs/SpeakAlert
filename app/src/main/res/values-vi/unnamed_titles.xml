@@ -1,0 +1,10 @@
+<resources>
+    <string name="unnamed_title_setting">Tiêu đề lời nhắc chưa đặt tên</string>
+    <string name="unnamed_title_description">Chọn nội dung hiển thị trong danh sách và trang chi tiết khi lời nhắc chưa có tên. Tên và nội dung bạn đã nhập luôn được giữ lại. Ngày giờ vẫn hiện ngay cả khi không có tiêu đề.</string>
+    <string name="unnamed_creation_time">Thời gian tạo</string>
+    <string name="unnamed_reminder_type">Loại lời nhắc</string>
+    <string name="unnamed_no_title">Không có tiêu đề</string>
+    <string name="unnamed_voice_reminder">Lời nhắc bằng giọng nói</string>
+    <string name="unnamed_audio_reminder">Lời nhắc âm thanh</string>
+    <string name="unnamed_generic_reminder">Lời nhắc</string>
+</resources>

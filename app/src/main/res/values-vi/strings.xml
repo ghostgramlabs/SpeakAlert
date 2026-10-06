@@ -1,0 +1,765 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_tagline">Nhắc nhở bằng giọng nói ngoại tuyến</string>
+    <string name="widget_quick_caption">Thêm lời nhắc ngay</string>
+    <string name="widget_quick_description">Mở biểu mẫu lời nhắc trực tiếp từ màn hình chính</string>
+    <string name="widget_upcoming_description">Hiển thị các lời nhắc đã lên lịch sắp tới</string>
+
+    <!-- Settings -->
+    <string name="settings_language">Ngôn ngữ ứng dụng</string>
+    <string name="settings_language_system">Theo ngôn ngữ thiết bị</string>
+    <string name="settings_language_description">Ngôn ngữ ứng dụng được hỗ trợ: tiếng Anh, tiếng Tây Ban Nha, tiếng Hindi, tiếng Ả Rập, tiếng Bồ Đào Nha (Brazil), tiếng Nga, tiếng Việt, tiếng Bengal, tiếng Telugu, tiếng Tamil, tiếng Hy Lạp và tiếng Malayalam.\nTheo ngôn ngữ thiết bị sẽ chọn một ngôn ngữ được hỗ trợ của điện thoại; nếu không có, ứng dụng dùng tiếng Anh.\nLời nhắc được đọc phụ thuộc vào giọng nói đã cài trên điện thoại. Đặt riêng trong Phát &gt; Ngôn ngữ đọc.</string>
+
+    <!-- Notification actions -->
+    <string name="notif_action_done">Xong</string>
+    <string name="notif_action_silence">Tắt tiếng</string>
+    <string name="notif_action_snooze">Báo lại</string>
+    <string name="notif_action_play">Phát</string>
+    <string name="notif_action_speak">Đọc</string>
+    <string name="notif_default_title">Lời nhắc bằng giọng nói</string>
+    <string name="notif_default_text">Nhấn để phát lời nhắc</string>
+    <string name="notif_action_replay">Phát lại</string>
+    <string name="notif_action_stop">Dừng</string>
+    <string name="notif_playback_processing">Đang xử lý…</string>
+    <string name="notif_playback_speaking">Đang đọc: \"%1$s\"</string>
+    <string name="notif_reminder_missing">Không tìm thấy lời nhắc này.</string>
+    <string name="notif_missed_title">Bỏ lỡ: %1$s</string>
+    <string name="notif_missed_scheduled_tap">Đã lên lịch lúc %1$s - nhấn để mở</string>
+    <string name="notif_missed_scheduled_audio_unavailable">Đã lên lịch lúc %1$s. Tệp âm thanh đã chọn không khả dụng.</string>
+    <string name="notif_missed_scheduled">Đã lên lịch: %1$s</string>
+    <string name="fallback_reminder_title">Lời nhắc</string>
+    <string name="toast_audio_unavailable">Tệp âm thanh đã chọn không khả dụng.</string>
+    <string name="tts_voice_hint">Chưa cài giọng %1$s. Hãy thêm trong cài đặt Chuyển văn bản thành giọng nói của điện thoại để nghe lời nhắc được đọc.</string>
+    <string name="tts_voice_hint_this_language">ngôn ngữ này</string>
+
+    <!-- Alert payload (notification / spoken follow-up text) -->
+    <string name="alert_followup_fallback_title">Kiểm tra nhắc lại</string>
+    <string name="alert_followup_question">Bạn đã hoàn thành %1$s chưa?</string>
+    <string name="alert_followup_this_reminder">lời nhắc này</string>
+    <string name="alert_audio_unavailable_full">Tệp âm thanh đã chọn không khả dụng. Nhấn để chọn tệp khác.</string>
+    <string name="alert_tap_to_view">Nhấn để xem</string>
+
+    <!-- Section titles -->
+    <string name="set_section_timing">Báo lại và nhắc lại</string>
+    <string name="set_section_backup">Sao lưu và khôi phục</string>
+    <string name="set_section_about">Trợ giúp và giới thiệu</string>
+
+    <!-- Backup & restore -->
+    <string name="set_backup_export">Sao lưu lời nhắc</string>
+    <string name="set_backup_export_desc">Lưu các lời nhắc sắp tới, kèm bản ghi âm, vào một tệp</string>
+    <string name="set_backup_import">Nhập lời nhắc</string>
+    <string name="set_backup_import_desc">Khôi phục lời nhắc từ tệp sao lưu</string>
+    <string name="backup_export_none">Không có lời nhắc sắp tới nào để sao lưu.</string>
+    <string name="backup_export_success">Đã sao lưu %1$d lời nhắc.</string>
+    <string name="backup_export_failed">Sao lưu không thành công.</string>
+    <string name="backup_import_success">Đã nhập %1$d lời nhắc.</string>
+    <string name="backup_import_skipped">Đã nhập %1$d lời nhắc (bỏ qua %2$d trùng lặp, %3$d đã hết hạn).</string>
+    <string name="backup_import_failed">Nhập không thành công. Hãy chọn tệp sao lưu SpeakAlert.</string>
+
+    <!-- Notification channels (visible in system Settings) -->
+    <string name="channel_reminders_name">Lời nhắc %1$s</string>
+    <string name="channel_reminders_desc">Thông báo cho lời nhắc %1$s</string>
+    <string name="channel_tone_only_name">Cảnh báo chỉ chuông %1$s</string>
+    <string name="channel_tone_only_desc">Thông báo chỉ chuông, chỉ rung; âm chuông phát do %1$s xử lý</string>
+    <string name="channel_dnd_bypass_name">Lời nhắc %1$s (bỏ qua Không làm phiền)</string>
+    <string name="channel_dnd_bypass_desc">Báo thức lời nhắc có thể cảnh báo khi đang Không làm phiền nếu Android đã cấp quyền</string>
+    <string name="channel_tone_only_bypass_name">Cảnh báo chỉ chuông %1$s (bỏ qua Không làm phiền)</string>
+    <string name="channel_tone_only_bypass_desc">Lời nhắc chỉ chuông có thể cảnh báo khi đang Không làm phiền nếu Android đã cấp quyền</string>
+    <string name="pua_sub_reschedule">Đặt lại lịch cho lời nhắc này</string>
+    <string name="pua_sub_play_now">Nghe ngay mà không đặt lại lịch</string>
+    <string name="pua_sub_keep_done">Giữ là đã xong</string>
+    <string name="channel_playback_name">Phát lời nhắc</string>
+    <string name="channel_playback_desc">Hiển thị nút điều khiển khi đang phát lời nhắc</string>
+    <string name="channel_silent_name">Cảnh báo toàn màn hình %1$s</string>
+    <string name="channel_silent_desc">Lời nhắc toàn màn hình từ %1$s khi lời nhắc đang được đọc to</string>
+    <string name="channel_silent_bypass_name">Cảnh báo toàn màn hình %1$s (bỏ qua Không làm phiền)</string>
+    <string name="channel_silent_bypass_desc">Lời nhắc toàn màn hình có thể cảnh báo khi đang Không làm phiền nếu Android đã cấp quyền</string>
+
+    <!-- Alarm alert screen -->
+    <string name="alert_mark_done">Đánh dấu xong</string>
+    <string name="alert_silence">Tắt tiếng</string>
+    <string name="alert_silence_now">Tắt tiếng ngay</string>
+    <string name="alert_play_again">Phát lại</string>
+    <string name="alert_snooze_minutes">Báo lại %1$d phút</string>
+    <string name="alert_followup_reminder">Lời nhắc lại</string>
+    <string name="alert_reminder_on_screen">Lời nhắc trên màn hình</string>
+    <string name="alert_followup_on_this">Nhắc lại lời nhắc này</string>
+    <string name="alert_did_you_complete">Bạn đã hoàn thành lời nhắc này chưa?</string>
+    <string name="alert_reminder_active">Lời nhắc đang hoạt động</string>
+    <string name="alert_voice_reminder">Lời nhắc bằng giọng nói</string>
+    <string name="alert_text_reminder">Lời nhắc văn bản</string>
+    <string name="alert_followup_check">Kiểm tra nhắc lại</string>
+    <string name="alert_generic">Cảnh báo</string>
+    <string name="alert_playing_now">Đang phát</string>
+    <string name="alert_needs_response">Cần phản hồi</string>
+    <string name="alert_awaiting_action">Đang chờ thao tác</string>
+    <string name="alert_scheduled_for">Đã lên lịch lúc</string>
+    <string name="alert_status">Trạng thái cảnh báo</string>
+    <string name="alert_audio_playing">Âm thanh đang phát. Dùng Tắt tiếng để dừng.</string>
+    <string name="alert_waiting_done_snooze">Đang chờ Xong hoặc Báo lại.</string>
+    <string name="alert_followup_label">Nhắc lại</string>
+    <string name="alert_hint_with_play">Giữ lời nhắc hiển thị, dừng âm thanh hoặc phát lại trước khi thao tác.</string>
+    <string name="alert_hint_no_play">Giữ lời nhắc hiển thị, hoặc chọn Xong hay Báo lại khi bạn sẵn sàng.</string>
+    <string name="alert_dock_hint">Tắt tiếng dừng âm thanh. Xong hoặc Báo lại sẽ xóa cảnh báo trên màn hình khóa.</string>
+    <plurals name="alert_followup_repeats">
+        <item quantity="other">Lặp lại mỗi %1$d phút cho đến khi xong.</item>
+    </plurals>
+
+    <!-- Home -->
+    <string name="home_greeting_morning">Chào buổi sáng</string>
+    <string name="home_greeting_afternoon">Chào buổi chiều</string>
+    <string name="home_greeting_evening">Chào buổi tối</string>
+    <string name="home_all_caught_up">Bạn đã hoàn thành hết!</string>
+    <plurals name="home_active_reminders">
+        <item quantity="other">Bạn có %1$d lời nhắc đang hoạt động</item>
+    </plurals>
+    <string name="home_filter_upcoming">Sắp tới</string>
+    <string name="home_filter_today">Hôm nay</string>
+    <string name="home_filter_missed">Bỏ lỡ</string>
+    <string name="home_filter_done">Đã xong</string>
+    <string name="home_cd_settings">Cài đặt</string>
+    <string name="home_cd_help">Trợ giúp và hướng dẫn</string>
+    <string name="home_cd_add">Thêm lời nhắc</string>
+    <string name="home_cd_missed">Lời nhắc bị bỏ lỡ</string>
+    <string name="home_dismiss_all">Bỏ qua tất cả</string>
+    <string name="home_empty_all_caught_up">Đã hoàn thành hết!</string>
+    <string name="home_empty_no_missed">Không có lời nhắc bị bỏ lỡ</string>
+    <string name="home_empty_nothing_done">Chưa hoàn thành mục nào</string>
+    <string name="home_empty_no_upcoming">Không có lời nhắc sắp tới</string>
+    <string name="home_empty_no_reminders">Chưa có lời nhắc nào</string>
+    <string name="home_empty_done_sub">Các lời nhắc đã hoàn thành sẽ xuất hiện ở đây.</string>
+    <string name="home_empty_upcoming_sub">Các lời nhắc đã lên lịch cho sau này sẽ xuất hiện ở đây.</string>
+    <string name="home_empty_default_sub">Tạo lời nhắc bằng giọng nói hoặc văn bản.</string>
+
+    <!-- Common actions -->
+    <string name="action_cancel">Hủy</string>
+    <string name="action_close">Đóng</string>
+    <string name="action_play_now">Phát ngay</string>
+    <string name="action_stop">Dừng</string>
+    <string name="action_dismiss">Bỏ qua</string>
+    <string name="action_apply">Áp dụng</string>
+    <string name="action_undo">Hoàn tác</string>
+    <string name="action_open">Mở</string>
+    <string name="common_reminder">Lời nhắc</string>
+    <string name="time_picker_title">Chọn giờ</string>
+    <string name="err_date_future">Ngày phải là hôm nay hoặc sau đó</string>
+    <string name="err_time_future">Vui lòng chọn thời gian trong tương lai</string>
+
+    <!-- Home dialogs -->
+    <string name="home_stop_recurring_title">Dừng lời nhắc lặp lại?</string>
+    <string name="home_stop_recurring_msg">Thao tác này sẽ xóa lời nhắc này và mọi lần lặp trong tương lai. Không thể hoàn tác.</string>
+    <string name="home_stop_recurring_action">Dừng lặp lại</string>
+    <string name="home_stop_recurring_sub">Xóa lời nhắc này và mọi lần lặp trong tương lai</string>
+    <string name="home_keep_reminder">Giữ lời nhắc</string>
+    <string name="home_mark_occurrence_title">Đánh dấu lần này là xong?</string>
+    <string name="home_mark_occurrence_msg">Thao tác này chỉ hoàn tất lần của hôm nay. Lời nhắc vẫn lặp lại vào thời gian đã lên lịch tiếp theo.</string>
+    <string name="home_mark_occurrence_action">Đánh dấu lần này là xong</string>
+    <string name="home_mark_occurrence_sub">Giữ các lần lặp trong tương lai</string>
+    <string name="home_mark_done_title">Đánh dấu là xong?</string>
+    <string name="home_mark_done_msg">Lời nhắc sẽ được chuyển sang thẻ Đã xong.</string>
+    <string name="home_move_to_done">Chuyển sang Đã xong</string>
+    <string name="home_move_to_done_sub">Giữ lời nhắc này trong lịch sử đã hoàn thành</string>
+    <string name="home_created_at">Tạo lúc %1$s</string>
+    <string name="home_snackbar_deleted">Đã xóa lời nhắc</string>
+    <string name="home_snackbar_duplicated">Đã nhân bản lời nhắc</string>
+    <string name="home_badge_missed">Bỏ lỡ</string>
+
+    <!-- Add / Edit reminder -->
+    <string name="ae_saved">Đã lưu lời nhắc!</string>
+    <string name="ae_cannot_past">Không thể đặt lời nhắc trong quá khứ</string>
+    <string name="ae_record_too_short">Bản ghi quá ngắn — hãy giữ nút trong lúc nói</string>
+    <string name="ae_record_failed">Không thể bắt đầu ghi âm. Có thể ứng dụng khác đang dùng micrô.</string>
+    <string name="ae_record_silent">Không thu được tiếng. Hãy kiểm tra quyền micrô của SpeakAlert.</string>
+    <string name="ae_unsaved_title">Lưu lời nhắc?</string>
+    <string name="ae_unsaved_msg">Bạn có thay đổi chưa lưu trong lời nhắc.</string>
+    <string name="action_save">Lưu</string>
+    <string name="ae_keep_editing">Tiếp tục chỉnh sửa</string>
+    <string name="action_discard">Hủy bỏ</string>
+    <string name="action_remove">Xóa</string>
+    <string name="action_change">Thay đổi</string>
+    <string name="ae_title_edit">Sửa lời nhắc</string>
+    <string name="ae_title_new">Lời nhắc mới</string>
+    <string name="action_back">Quay lại</string>
+    <string name="ae_header_edit">Sửa lời nhắc</string>
+    <string name="ae_header_create">Tạo lời nhắc</string>
+    <string name="ae_section_content">Nội dung lời nhắc</string>
+    <string name="ae_content_desc">Ghi âm, thêm tệp âm thanh hoặc viết nội dung lời nhắc.</string>
+    <string name="ae_tap_to_record">Nhấn để ghi lời nhắc bằng giọng nói</string>
+    <string name="ae_or_choose_audio">Hoặc chọn tệp âm thanh</string>
+    <string name="ae_selected_audio">Tệp âm thanh đã chọn</string>
+    <string name="ae_cd_stop_preview">Dừng nghe thử âm thanh</string>
+    <string name="ae_cd_play_preview">Nghe thử âm thanh</string>
+    <string name="ae_cd_audio_progress">Tiến trình nghe thử âm thanh</string>
+    <string name="ae_choose_audio_file">Chọn tệp âm thanh</string>
+    <string name="ae_or_type">Hoặc nhập tin nhắn nhắc nhở</string>
+    <string name="ae_msg_label">Tin nhắn nhắc nhở</string>
+    <string name="ae_msg_placeholder">vd: Uống thuốc sau bữa sáng</string>
+    <string name="ae_label_placeholder">vd: Thuốc buổi sáng</string>
+    <string name="ae_msg_help">Nội dung hiện trong ứng dụng và thông báo. Ứng dụng chỉ đọc lên khi bạn không thêm bản ghi giọng nói hoặc tệp âm thanh.</string>
+    <string name="ae_char_count">%1$d/%2$d</string>
+    <string name="ae_need_content">Thêm ghi chú giọng nói, tệp âm thanh hoặc tin nhắn nhắc nhở.</string>
+    <string name="ae_section_label">Nhãn ngắn (không bắt buộc)</string>
+    <string name="ae_label_desc">Bạn có thể đặt tên ngắn để dễ nhận ra lời nhắc trong danh sách.</string>
+    <string name="ae_label_hint">Hiển thị dưới dạng tên ngắn trong danh sách và chi tiết</string>
+    <string name="ae_section_schedule">Lịch</string>
+    <string name="ae_when_fire">Khi nào lời nhắc này sẽ báo?</string>
+    <string name="ae_datetime_at">%1$s lúc %2$s</string>
+    <string name="ae_date">Ngày</string>
+    <string name="ae_time">Giờ</string>
+    <string name="ae_time_future">Thời gian phải ở tương lai</string>
+    <string name="ae_repeat_never">Không bao giờ</string>
+    <string name="ae_repeat">Lặp lại</string>
+    <string name="state_on">Bật</string>
+    <string name="state_off">Tắt</string>
+    <string name="state_active">Đang hoạt động</string>
+    <string name="ae_loop">Phát lặp lại</string>
+    <string name="ae_loop_desc">Tiếp tục phát cho đến khi bạn bỏ qua lời nhắc.</string>
+    <string name="ae_followup">Kiểm tra nhắc lại</string>
+    <string name="ae_followup_desc">Hỏi lại sau một khoảng thời gian nếu lời nhắc chưa được đánh dấu xong.</string>
+    <string name="ae_cd_saving">Đang lưu lời nhắc</string>
+    <string name="ae_save_reminder">Lưu lời nhắc</string>
+    <plurals name="ae_followup_active">
+        <item quantity="other">Đang bật: hỏi lại mỗi %1$d phút cho đến khi được đánh dấu xong.</item>
+    </plurals>
+
+    <!-- Recurrence type names (shared) -->
+    <string name="rec_every">Mỗi %1$d %2$s</string>
+    <string name="rec_ends_never">Kết thúc: Không bao giờ</string>
+    <string name="rec_if_off_fire">Nếu thiết bị tắt: Cảnh báo khi bật lại</string>
+    <string name="rec_if_off_skip">Nếu thiết bị tắt: Chỉ nhắc đúng giờ</string>
+    <string name="date_today">Hôm nay</string>
+    <string name="date_tomorrow">Ngày mai</string>
+    <string name="date_yesterday">Hôm qua</string>
+    <plurals name="rec_ends_times">
+        <item quantity="other">Kết thúc sau %1$d lần</item>
+    </plurals>
+    <string name="rec_onetime">Một lần</string>
+    <string name="rec_daily">Hằng ngày</string>
+    <string name="rec_weekly">Hằng tuần</string>
+    <string name="rec_monthly">Hằng tháng</string>
+    <string name="rec_yearly">Hằng năm</string>
+    <string name="rec_custom">Tùy chỉnh</string>
+    <string name="day_mon">T2</string>
+    <string name="day_tue">T3</string>
+    <string name="day_wed">T4</string>
+    <string name="day_thu">T5</string>
+    <string name="day_fri">T6</string>
+    <string name="day_sat">T7</string>
+    <string name="day_sun">CN</string>
+
+    <!-- Reminder details -->
+    <string name="det_title">Chi tiết lời nhắc</string>
+    <string name="action_edit">Sửa</string>
+    <string name="action_delete">Xóa</string>
+    <string name="action_confirm">Xác nhận</string>
+    <string name="det_audio_file">Tệp âm thanh</string>
+    <string name="det_voice_note">Ghi chú giọng nói</string>
+    <string name="det_loop_enabled">Đã bật lặp lại</string>
+    <string name="det_followup_pill">Nhắc lại %1$d phút</string>
+    <string name="det_cd_stop_audio">Dừng âm thanh</string>
+    <string name="det_cd_play_audio">Phát âm thanh</string>
+    <string name="det_ready_preview">Sẵn sàng nghe thử</string>
+    <string name="det_ready_play">Sẵn sàng phát</string>
+    <string name="det_voice_recording">Bản ghi giọng nói</string>
+    <string name="det_tap_preview">Nhấn phát để nghe thử lời nhắc đã ghi.</string>
+    <string name="det_cd_audio_progress">Tiến trình âm thanh lời nhắc</string>
+    <string name="det_double_tap_edit">Nhấn đúp để sửa</string>
+    <string name="det_ends_by">Kết thúc vào %1$s</string>
+    <string name="det_end_rule">Quy tắc kết thúc</string>
+    <string name="det_missed_handling">Xử lý lời nhắc bị bỏ lỡ</string>
+    <string name="det_missed_fire">Cảnh báo khi thiết bị bật lại</string>
+    <string name="det_missed_skip">Chỉ nhắc vào đúng giờ tiếp theo</string>
+    <string name="det_mark_undone">Đánh dấu chưa xong</string>
+    <string name="det_mark_done">Đánh dấu xong</string>
+    <string name="det_scheduled_for">Đã lên lịch: %1$s</string>
+    <string name="det_delete_title">Xóa lời nhắc?</string>
+    <string name="det_delete_recurring">Thao tác này sẽ dừng mọi lần lặp trong tương lai. Không thể hoàn tác.</string>
+    <string name="det_delete_onetime">Không thể hoàn tác.</string>
+    <string name="det_reschedule_title">Đặt lại lịch lời nhắc?</string>
+    <string name="det_reschedule_to">Đặt lại lịch vào %1$s?</string>
+    <plurals name="det_ends_after">
+        <item quantity="other">Kết thúc sau %1$d lần lặp</item>
+    </plurals>
+
+    <!-- Recurrence selection sheet -->
+    <string name="rs_subtitle">Chọn cách lặp lại lời nhắc này.</string>
+    <string name="rs_none">Không lặp lại</string>
+    <string name="rs_monthly_settings">Cài đặt hằng tháng</string>
+    <string name="rs_monthly_subtitle">Chọn ngày hoặc quy tắc kết thúc.</string>
+    <string name="rs_repeat_on">Lặp lại vào</string>
+    <string name="rs_days_of_month">Ngày trong tháng</string>
+    <string name="rs_last_day">Ngày cuối</string>
+    <string name="rs_select_days_toggle">Chọn ngày (nhấn để bật/tắt)</string>
+    <string name="rs_selected">Đã chọn: %1$s</string>
+    <string name="rs_weekly_settings">Cài đặt hằng tuần</string>
+    <string name="rs_weekly_subtitle">Chọn các ngày trong tuần để lặp lại.</string>
+    <string name="rs_select_days">Chọn ngày</string>
+    <string name="rs_custom_interval">Khoảng thời gian tùy chỉnh</string>
+    <string name="rs_custom_subtitle">Chọn khoảng thời gian giữa hai lần nhắc.</string>
+    <string name="rs_repeat_every">Lặp lại mỗi</string>
+    <string name="rs_number">Số</string>
+    <string name="rs_unit">Đơn vị</string>
+    <string name="rs_repeats_every">Lặp lại mỗi %1$d %2$s.</string>
+    <string name="rs_interval_min">Khoảng thời gian phải ít nhất là 1</string>
+    <string name="rs_ends">Kết thúc</string>
+    <string name="rs_forever">Mãi mãi</string>
+    <string name="rs_until_date">Đến ngày/giờ</string>
+    <string name="rs_after_count">Sau số lần</string>
+    <string name="rs_must_be_after">Phải vào hoặc sau %1$s</string>
+    <string name="rs_date_label">Ngày: %1$s</string>
+    <string name="rs_time_label">Giờ: %1$s</string>
+    <string name="rs_num_occurrences">Số lần lặp</string>
+    <string name="rs_allowed_range">Cho phép: 1-999</string>
+    <string name="rs_end_before_error">Thời gian kết thúc không thể trước thời gian lời nhắc</string>
+    <string name="rs_select_end_time">Chọn thời gian kết thúc</string>
+    <plurals name="unit_minutes"><item quantity="other">Phút</item></plurals>
+    <plurals name="unit_hours"><item quantity="other">Giờ</item></plurals>
+    <plurals name="unit_days"><item quantity="other">Ngày</item></plurals>
+    <plurals name="unit_weeks"><item quantity="other">Tuần</item></plurals>
+    <plurals name="unit_months"><item quantity="other">Tháng</item></plurals>
+    <plurals name="unit_years"><item quantity="other">Năm</item></plurals>
+
+    <!-- Settings -->
+    <string name="set_appearance">Giao diện</string>
+    <string name="set_reminder_form">Biểu mẫu lời nhắc</string>
+    <string name="set_reminder_form_desc">Chọn các mục sẽ hiện khi tạo lời nhắc. Nếu ẩn hết các cách nhập nội dung, bạn cần bật lại ít nhất một mục trước khi tạo lời nhắc mới.</string>
+    <string name="ae_no_content_sections">Chưa bật mục nhập lời nhắc nào. Hãy bật Ghi âm giọng nói, Chọn tệp âm thanh hoặc Lời nhắc văn bản trong Cài đặt &gt; Biểu mẫu lời nhắc.</string>
+    <string name="set_show_voice_recording">Ghi âm giọng nói</string>
+    <string name="set_show_voice_recording_desc">Hiển thị mục ghi âm bằng micrô.</string>
+    <string name="set_experimental_voice_enhancement">Cải thiện giọng nói thử nghiệm</string>
+    <string name="set_experimental_voice_enhancement_desc">Tắt: giữ nguyên bản ghi, không xử lý âm thanh. Bật: thêm các biện pháp bảo vệ khi ghi âm, cảnh báo khi không thu được tiếng và làm rõ giọng nói.</string>
+    <string name="set_experimental_voice_enhancement_note">Tính năng đang được thử nghiệm. Kết quả và thời gian xử lý tùy vào điện thoại. Hãy tắt nếu giọng bị méo hoặc lưu bản ghi mất nhiều thời gian hơn.</string>
+    <string name="set_show_audio_file">Chọn tệp âm thanh</string>
+    <string name="set_show_audio_file_desc">Hiển thị tùy chọn chọn tệp âm thanh có sẵn.</string>
+    <string name="set_show_typed_reminder">Lời nhắc văn bản</string>
+    <string name="set_show_typed_reminder_desc">Hiển thị ô tin nhắn nhắc nhở.</string>
+    <string name="set_show_short_label">Nhãn ngắn</string>
+    <string name="set_show_short_label_desc">Hiển thị ô nhãn ngắn tùy chọn.</string>
+    <string name="set_app_theme">Chủ đề ứng dụng</string>
+    <string name="theme_system">Hệ thống</string>
+    <string name="theme_light">Sáng</string>
+    <string name="theme_dark">Tối</string>
+    <string name="set_toast_theme_light">Đã đặt chế độ sáng</string>
+    <string name="set_toast_theme_dark">Đã đặt chế độ tối</string>
+    <string name="set_toast_theme_system">Theo chủ đề hệ thống</string>
+    <string name="set_playback">Phát</string>
+    <string name="set_autoplay">Tự động phát âm thanh lời nhắc</string>
+    <string name="set_autoplay_desc">Tự động phát ghi chú giọng nói và tệp âm thanh khi lời nhắc báo</string>
+    <string name="set_disabled_tone">Bị tắt khi đang bật chế độ chỉ chuông</string>
+    <string name="set_toast_autoplay_on">Đã bật tự động phát</string>
+    <string name="set_toast_autoplay_off">Đã tắt tự động phát</string>
+    <string name="set_unlock_only">Chỉ khi điện thoại đã mở khóa</string>
+    <string name="set_unlock_only_desc">Không phát trên màn hình khóa</string>
+    <string name="set_toast_lock_off">Đã tắt phát trên màn hình khóa</string>
+    <string name="set_toast_lock_on">Đã bật phát trên màn hình khóa</string>
+    <string name="set_speak_text">Tự động đọc lời nhắc văn bản</string>
+    <string name="set_speak_text_desc">Chỉ áp dụng cho lời nhắc chỉ có văn bản, không có ghi chú giọng nói hay tệp âm thanh</string>
+    <string name="set_toast_speak_on">Đã bật tự động đọc văn bản</string>
+    <string name="set_toast_speak_off">Đã tắt tự động đọc văn bản</string>
+    <string name="set_spoken_language">Ngôn ngữ đọc</string>
+    <string name="set_spoken_language_desc">Ngôn ngữ dùng để đọc lời nhắc. Tự động phát hiện sẽ chọn ngôn ngữ của nội dung bạn viết. Bạn cần cài giọng đọc cho ngôn ngữ đó trong phần chuyển văn bản thành giọng nói của điện thoại.</string>
+    <string name="tts_auto">Tự động phát hiện</string>
+    <string name="tts_device">Thiết bị</string>
+    <string name="tts_english">Tiếng Anh</string>
+    <string name="set_toast_tts_device">Ngôn ngữ đọc: ngôn ngữ thiết bị</string>
+    <string name="set_toast_tts_english">Ngôn ngữ đọc: tiếng Anh</string>
+    <string name="set_toast_tts_auto">Ngôn ngữ đọc: tự động phát hiện</string>
+    <string name="set_private">Phát riêng tư</string>
+    <string name="set_private_desc">Ưu tiên phát qua máy trợ thính, thiết bị Bluetooth hoặc tai nghe có dây đang kết nối. Nếu không có, âm thanh sẽ phát qua loa thoại thay vì loa ngoài.</string>
+    <string name="set_toast_private_on">Đã bật phát riêng tư</string>
+    <string name="set_toast_private_off">Đã tắt phát riêng tư</string>
+    <string name="set_private_bt">Đã bật phát riêng tư. Định tuyến Bluetooth cần quyền thiết bị ở gần.</string>
+    <string name="set_tone_only">Chế độ chỉ chuông</string>
+    <string name="set_tone_only_desc">Phát chuông báo thức đơn giản thay cho giọng nói/TTS để có độ tin cậy cao nhất. Tự dừng: %1$s. Báo lại: %2$d phút.</string>
+    <string name="set_toast_tone_on">Đã bật chế độ chỉ chuông</string>
+    <string name="set_toast_tone_off">Đã tắt chế độ chỉ chuông</string>
+    <string name="set_infinite">Vô hạn</string>
+    <string name="set_minutes_short">%1$d phút</string>
+    <string name="set_select_tone">Chọn chuông</string>
+    <string name="file_picker_unavailable">Không có ứng dụng nào trên thiết bị này mở được tệp. Hãy cài trình quản lý tệp rồi thử lại.</string>
+    <string name="tone_picker_unavailable">Không có ứng dụng nào trên thiết bị này chọn được chuông.</string>
+    <string name="set_toast_default_tone">Đang dùng chuông báo thức mặc định</string>
+    <string name="set_toast_tone_updated">Đã cập nhật chuông</string>
+    <string name="set_fullscreen">Cảnh báo toàn màn hình trên màn hình khóa</string>
+    <string name="set_fullscreen_desc_granted">Hiển thị thao tác lời nhắc trên màn hình khóa khi lời nhắc báo</string>
+    <string name="set_fullscreen_desc_denied">Cần quyền cảnh báo toàn màn hình của Android để hiện trên màn hình khóa</string>
+    <string name="set_allow_fullscreen">Cho phép cảnh báo toàn màn hình trong cài đặt hệ thống</string>
+    <string name="set_toast_fs_on">Đã bật cảnh báo toàn màn hình</string>
+    <string name="set_toast_fs_off">Đã tắt cảnh báo toàn màn hình</string>
+    <string name="set_fs_off_title">Quyền toàn màn hình vẫn đang tắt</string>
+    <string name="set_fs_off_msg">Android 14 trở lên yêu cầu quyền hệ thống riêng cho cảnh báo lời nhắc toàn màn hình.</string>
+    <string name="set_open_perm">Mở cài đặt quyền</string>
+    <string name="set_fs_note">Bạn vẫn có thể nhấn Phát lời nhắc hoặc Đọc lời nhắc từ thông báo.</string>
+    <string name="set_tone_volume_note">Ở chế độ chỉ chuông, âm lượng do âm lượng báo thức/thông báo của thiết bị điều khiển.</string>
+    <string name="set_loop_duration">Thời lượng lặp</string>
+    <string name="set_loop_duration_desc">Đặt thời gian lặp lại của lời nhắc</string>
+    <string name="set_toast_loop">Thời lượng lặp: %1$d phút</string>
+    <string name="set_toast_loop_infinite">Thời lượng lặp: Vô hạn</string>
+    <string name="set_custom">Tùy chỉnh</string>
+    <string name="set_custom_snooze">Báo lại tùy chỉnh</string>
+    <string name="set_snooze_desc">Đặt thời gian hoãn lời nhắc</string>
+    <string name="set_toast_snooze">Báo lại: %1$d phút</string>
+    <string name="set_toast_followup_off">Đã tắt nhắc lại mặc định</string>
+    <string name="set_toast_followup">Nhắc lại mặc định: %1$d phút</string>
+    <string name="set_quiet">Giờ yên lặng</string>
+    <string name="set_quiet_desc">Tắt tiếng lời nhắc trong khung giờ đã đặt</string>
+    <string name="set_toast_quiet_on">Đã bật giờ yên lặng</string>
+    <string name="set_toast_quiet_off">Đã tắt giờ yên lặng</string>
+    <string name="set_start">Bắt đầu</string>
+    <string name="set_end">Kết thúc</string>
+    <string name="set_toast_quiet_start">Giờ yên lặng bắt đầu lúc %1$s</string>
+    <string name="set_toast_quiet_end">Giờ yên lặng kết thúc lúc %1$s</string>
+    <string name="set_toast_test">Lời nhắc thử sau 10 giây</string>
+    <string name="set_test_reminder">Lời nhắc thử</string>
+    <string name="set_cd_granted">Đã cấp quyền</string>
+    <string name="set_cd_action_required">Cần thao tác</string>
+    <string name="set_notifications">Thông báo</string>
+    <string name="set_exact_alarms">Báo thức chính xác</string>
+    <string name="set_microphone">Micrô</string>
+    <string name="set_dnd">Cảnh báo cả khi Không làm phiền</string>
+    <string name="set_dnd_desc_off">Theo chế độ âm thanh của điện thoại. Không làm phiền hoặc quy trình tự động có thể tắt tiếng lời nhắc.</string>
+    <string name="set_dnd_desc_active">Đang bật: lời nhắc dùng âm thanh ưu tiên báo thức và bỏ qua Không làm phiền.</string>
+    <string name="set_dnd_unavailable">Cài đặt quyền Không làm phiền của Android không có trên thiết bị này.</string>
+    <string name="set_grant_dnd">Cấp quyền Không làm phiền của Android</string>
+    <string name="set_dnd_note">Cài đặt này không bật hoặc tắt chế độ Không làm phiền. Nó cho phép %1$s xin quyền phát những lời nhắc quan trọng ngay cả khi chế độ đó đang bật.</string>
+    <string name="set_battery_guide">Hướng dẫn tối ưu hóa pin</string>
+    <string name="set_battery_desc">Một số điện thoại làm trễ hoặc chặn lời nhắc để tiết kiệm pin.</string>
+    <string name="set_wear">Wear OS</string>
+    <string name="set_wear_checking">Đang kiểm tra kết nối Wear OS…</string>
+    <string name="set_wear_connected">Đã kết nối đồng hồ Wear OS</string>
+    <string name="set_wear_supported">Lời nhắc %1$s trên đồng hồ chỉ hỗ trợ đồng hồ Wear OS.</string>
+    <string name="set_wear_notif_off">Thông báo của ứng dụng trên điện thoại đang tắt. Hãy bật để lời nhắc đồng bộ với đồng hồ.</string>
+    <string name="set_open_notif">Mở cài đặt thông báo</string>
+    <string name="set_open_channel">Mở kênh lời nhắc</string>
+    <string name="set_wear_enabled">Điện thoại đã bật thông báo. Nếu đồng hồ vẫn không nhận được lời nhắc, hãy bật đồng bộ thông báo trong ứng dụng kết nối đồng hồ Wear OS.</string>
+    <string name="set_refresh">Làm mới trạng thái</string>
+    <string name="set_app_guide">Hướng dẫn ứng dụng</string>
+    <string name="set_toast_no_email">Không có ứng dụng email. Bạn có thể gửi email đến ghostgramlabs@gmail.com hoặc sao chép địa chỉ hiển thị.</string>
+    <string name="set_contact_support">Góp ý tính năng và hỗ trợ</string>
+    <string name="set_contact_support_desc">Có ý tưởng hoặc cần trợ giúp? Hãy gửi email cho chúng tôi.</string>
+    <string name="support_email_subject">%1$s — Góp ý tính năng hoặc hỗ trợ</string>
+    <string name="feature_request_email_subject">%1$s — Góp ý tính năng</string>
+    <string name="suggest_feature">Đề xuất tính năng</string>
+    <string name="set_toast_no_rating">Không thể mở trang đánh giá trên thiết bị này.</string>
+    <string name="set_rate">Đánh giá %1$s</string>
+    <string name="set_developer">Nhà phát triển</string>
+    <string name="set_debug_logging">Ghi nhật ký gỡ lỗi</string>
+    <string name="set_debug_desc">Ghi nhật ký chi tiết</string>
+    <string name="set_send_logs">Gửi nhật ký</string>
+    <string name="set_fix">Sửa</string>
+    <string name="set_cd_collapse">Thu gọn</string>
+    <string name="set_cd_expand">Mở rộng</string>
+    <string name="set_tone_sound">Âm cảnh báo chỉ chuông</string>
+    <string name="set_tone_sound_hint">Bật chế độ chỉ chuông để chọn âm. Trước đó, SpeakAlert sẽ dùng chuông báo thức mặc định.</string>
+    <string name="set_choose_tone">Chọn chuông</string>
+    <string name="set_use_default">Dùng mặc định</string>
+    <string name="set_default_alarm_tone">Chuông báo thức mặc định</string>
+    <string name="set_tone_unavailable">Chuông đã chọn không khả dụng, đang dùng chuông báo thức mặc định</string>
+    <string name="set_select_label_time">Chọn giờ %1$s</string>
+    <string name="set_minutes">Phút</string>
+    <string name="set_max_allowed">Tối đa cho phép: %1$d phút</string>
+    <string name="set_desc_max">%1$s (Tối đa %2$d phút)</string>
+    <string name="set_label_time">%1$s: %2$s</string>
+    <string name="set_volume">Âm lượng</string>
+    <string name="set_cd_volume">Âm lượng ứng dụng: %1$d%%</string>
+    <string name="set_loop_inline_desc">Âm thanh lặp trong bao lâu trước khi tự dừng</string>
+    <string name="set_default_snooze">Báo lại mặc định</string>
+    <string name="set_snooze_inline_desc">Chờ bao lâu trước khi nhắc tiếp sau khi bạn nhấn “Báo lại”</string>
+    <string name="set_default_followup">Kiểm tra nhắc lại mặc định</string>
+    <string name="set_followup_off_desc">Đang tắt: lời nhắc mới sẽ không có kiểm tra nhắc lại. Bạn vẫn có thể bật riêng cho từng lời nhắc.</string>
+    <string name="set_followup_on_desc">Lời nhắc mới sẽ nhắc tiếp sau %1$d phút nếu bạn chưa đánh dấu xong. Các lời nhắc đã có không thay đổi.</string>
+    <string name="set_followup_repeat">Giới hạn số lần nhắc lại</string>
+    <string name="set_followup_repeat_desc">Mặc định (∞), ứng dụng tiếp tục nhắc đến khi bạn đánh dấu xong. Chọn giới hạn để tự dừng sau số lần nhắc đó. Việc kiểm tra nhắc lại cũng dừng trong giờ yên lặng.</string>
+    <string name="set_toast_followup_repeat_until_done">Nhắc lại cho đến khi đánh dấu xong</string>
+    <string name="set_toast_followup_repeat">Giới hạn nhắc lại: %1$d×</string>
+    <string name="set_reliability">Độ tin cậy</string>
+    <string name="set_persist">Giữ lời nhắc trên màn hình đến khi xong</string>
+    <string name="set_persist_desc">Thông báo luôn hiển thị đến khi bạn nhấn “Xong” hoặc “Báo lại”. Bật thêm kiểm tra nhắc lại nếu muốn được nhắc tiếp.</string>
+    <string name="set_toast_persist_on">Lời nhắc giữ lại đến khi xong</string>
+    <string name="set_toast_persist_off">Có thể vuốt bỏ lời nhắc</string>
+    <string name="set_all_granted">Đã cấp mọi quyền</string>
+    <string name="set_some_needed">Cần một số quyền</string>
+    <string name="set_dnd_desc_needed">Đã bật, nhưng cần quyền Không làm phiền của Android để bỏ qua.</string>
+    <string name="set_toast_dnd_on">Đã bật bỏ qua Không làm phiền</string>
+    <string name="set_toast_dnd_off">Đã tắt bỏ qua Không làm phiền</string>
+    <string name="set_battery_desc_ok">%1$s đã được phép chạy nền.</string>
+    <string name="set_wear_watches">Đã kết nối %1$d đồng hồ Wear OS</string>
+    <string name="set_wear_none">Chưa kết nối đồng hồ Wear OS</string>
+    <string name="set_wear_channel_muted">Kênh lời nhắc %1$s đang bị tắt tiếng. Hãy bật để gửi lời nhắc đến đồng hồ.</string>
+    <string name="set_rate_desc">Chia sẻ trải nghiệm của bạn trên Google Play.</string>
+    <string name="set_tone_sound_active">%1$s. Nếu không còn khả dụng, SpeakAlert sẽ dùng chuông báo thức mặc định.</string>
+
+    <!-- More apps from the developer -->
+    <string name="set_more_apps_title">Ứng dụng khác của GhostgramLabs</string>
+    <string name="set_more_apps_desc">Ứng dụng miễn phí từ nhà phát triển %1$s</string>
+    <string name="set_app_free_tag">Miễn phí trên Google Play</string>
+    <string name="app_pettibox_name">PettiBox: Quản lý dấu trang</string>
+    <string name="app_pettibox_desc">Miễn phí • Lưu riêng tư liên kết, ghi chú, tệp và ảnh chụp màn hình để xem sau, có tìm kiếm ngoại tuyến</string>
+    <string name="app_directserve_name">DirectServe: Truyền tệp</string>
+    <string name="app_directserve_desc">Miễn phí • Chia sẻ và phát tệp tới mọi thiết bị hoặc TV — không cần đám mây, không cần cáp</string>
+    <string name="set_toast_no_store">Không thể mở Google Play trên thiết bị này.</string>
+
+    <!-- In-app rating prompt -->
+    <string name="rate_prompt_title">%1$s miễn phí. Sự ủng hộ của bạn rất quan trọng.</string>
+    <string name="rate_prompt_message">Đánh giá của bạn giúp nhiều người biết đến %1$s hơn và khích lệ chúng tôi tiếp tục cải thiện. Hãy dành chút thời gian chia sẻ trải nghiệm trên Google Play.</string>
+    <string name="rate_prompt_positive">Đánh giá ngay</string>
+    <string name="rate_prompt_later">Để sau</string>
+    <string name="rate_prompt_never">Không, cảm ơn</string>
+
+    <!-- Help guide -->
+    <string name="help_intro">Mọi điều quan trọng về tạo, phát, lặp lại và khôi phục lời nhắc trong %1$s.</string>
+    <string name="help_s1_title">Khi lời nhắc báo</string>
+    <string name="help_s1_content">Trên màn hình khóa và trong thông báo có các nút sau:\n- Xong: Hoàn tất việc của lần này. Nếu lời nhắc có lịch lặp, những lần sau vẫn giữ nguyên.\n- Tắt tiếng: Chỉ dừng âm thanh. Lời nhắc vẫn ở trên màn hình để bạn quyết định sau.\n- Báo lại: Nhắc tiếp sau một lúc. Trên cảnh báo toàn màn hình, bạn có thể chọn 5 hoặc 10 phút.\n- Phát / Đọc: Hiện khi không có âm thanh đang phát. Bạn có thể nghe lại bản ghi hoặc nội dung đã viết.\nChỉ nút “Xong” mới đánh dấu việc đã hoàn thành. Dừng âm thanh vẫn để việc ở trạng thái chưa xong.</string>
+    <string name="help_s2_title">Tạo lời nhắc</string>
+    <string name="help_s2_content">- Giọng nói trước: Nhấn Micrô để ghi nhanh lời nhắc bằng giọng nói.\n- Tệp âm thanh: Chọn tệp âm thanh có sẵn trên thiết bị.\n- Tin nhắn nhắc nhở: Hiển thị trong ứng dụng và thông báo.\n- Ghi chú giọng nói và tệp âm thanh được ưu tiên hơn văn bản được đọc.\n- Lời nhắc văn bản chỉ tự động được đọc khi là lời nhắc chỉ có văn bản và đã bật tự động đọc văn bản.\n- Nhãn ngắn: Tên tùy chọn để dễ tìm trong danh sách.\n- Lịch: Chọn ngày, giờ, lặp lại, kiểm tra nhắc lại rồi lưu.</string>
+    <string name="help_s3_title">Phát và nghe thử</string>
+    <string name="help_s3_content">- Thêm lời nhắc cho phép nghe thử giọng đã ghi và âm thanh đã chọn trước khi lưu.\n- Chi tiết lời nhắc cho phép phát, dừng và tua ghi chú giọng nói cũng như tệp âm thanh.\n- Lời nhắc chỉ có văn bản vẫn có thể được đọc thủ công từ ứng dụng hoặc thông báo.\n- Chế độ chỉ chuông dùng chuông lời nhắc thay cho giọng đọc.\n- Bạn có thể chọn âm cảnh báo chỉ chuông trong Cài đặt, và %1$s sẽ dùng chuông báo thức mặc định nếu âm đó không còn khả dụng.</string>
+    <string name="help_s4_title">Màn hình chính và thao tác nhanh</string>
+    <string name="help_s4_content">- Các thẻ Hôm nay, Sắp tới, Bỏ lỡ và Đã xong nhóm lời nhắc theo trạng thái.\n- Nhấn vào thẻ lời nhắc để mở toàn bộ chi tiết.\n- Dùng nút sao chép để nhân bản lời nhắc có sẵn.\n- Thao tác trên thẻ gồm Phát lời nhắc, Xong và menu ba chấm để Sửa, Đánh dấu xong, Dừng lặp lại hoặc Xóa.</string>
+    <string name="help_s18_title">Tạm dừng lời nhắc và thông báo trên màn hình chính</string>
+    <string name="help_s18_content">- Nhấn nút tạm dừng trên màn hình chính để hoãn mọi lời nhắc trong một giờ, bốn giờ, hết hôm nay hoặc đến thời điểm bạn chọn.\n- Mỗi lần tạm dừng đều có thời điểm kết thúc. Màn hình chính hiển thị thời điểm đó, kèm nút Tiếp tục để kết thúc sớm.\n- Lời nhắc bị tạm dừng sẽ không cảnh báo, nhưng vẫn xuất hiện trong thẻ Bỏ lỡ.\n- Tạm dừng cũng được ưu tiên hơn Cảnh báo cả khi Không làm phiền, vì nó có nghĩa là bạn không muốn lời nhắc lúc này.\n- Màn hình chính cảnh báo khi điện thoại này được phép dừng %1$s chạy nền, và hiển thị khung giờ yên lặng khi đang bật.</string>
+    <string name="help_s5_title">Lời nhắc lặp lại</string>
+    <string name="help_s5_content">- Chế độ lặp: Hằng ngày, Hằng tuần, Hằng tháng, Hằng năm hoặc Tùy chỉnh.\n- Ngày và giờ đã chọn sẽ là lần đầu tiên.\n- Việc lặp có thể kéo dài mãi mãi, kết thúc vào ngày giờ cụ thể hoặc sau một số lần.\n- Đánh dấu xong lời nhắc lặp lại chỉ hoàn tất lần hiện tại.</string>
+    <string name="help_s6_title">Thông báo và cảnh báo toàn màn hình</string>
+    <string name="help_s6_content">- Thông báo lời nhắc có ba nút nhanh: Xong, Báo lại và Tắt tiếng (khi đang phát) hoặc Phát/Đọc (để nghe lại).\n- Xong đánh dấu lời nhắc đã hoàn thành; Tắt tiếng chỉ dừng âm thanh và giữ lời nhắc để bạn xử lý sau.\n- Vuốt bỏ thông báo cũng đánh dấu lần hiện tại là xong.\n- Khi bật trong Cài đặt, cảnh báo toàn màn hình trên màn hình khóa có thể xuất hiện với các thao tác Xong, Tắt tiếng, Báo lại và Phát lại.</string>
+    <string name="help_s7_title">Lời nhắc bị bỏ lỡ và được khôi phục</string>
+    <string name="help_s7_content">- Lời nhắc bị bỏ lỡ ở lại trong thẻ Bỏ lỡ cho đến khi bạn xem lại.\n- Khi mở ứng dụng, một bảng khôi phục có thể đề nghị phát nhanh lời nhắc bị bỏ lỡ gần nhất.\n- Lời nhắc đã qua có thể được khôi phục, đặt lại lịch hoặc phát lại từ menu thao tác.</string>
+    <string name="help_s8_title">Cài đặt phát</string>
+    <string name="help_s8_content">- Khi bật tự động phát, bản ghi hoặc tệp âm thanh sẽ phát vào giờ của lời nhắc.\n- Nội dung chỉ được đọc tự động khi lời nhắc không có bản ghi hay tệp âm thanh và bạn đã bật tự động đọc.\n- Ngôn ngữ dùng để đọc lời nhắc. Tự động phát hiện sẽ chọn ngôn ngữ của nội dung bạn viết. Bạn cần cài giọng đọc cho ngôn ngữ đó trong phần chuyển văn bản thành giọng nói của điện thoại. Bạn cũng có thể chọn ngôn ngữ điện thoại hoặc tiếng Anh. Với tự động phát hiện, nội dung tiếng Hindi sẽ được đọc bằng tiếng Hindi.\n- Dù tắt tự động đọc, bạn vẫn có thể nhấn nút để nghe nội dung.\n- Ưu tiên phát qua máy trợ thính, thiết bị Bluetooth hoặc tai nghe có dây đang kết nối. Nếu không có, âm thanh sẽ phát qua loa thoại thay vì loa ngoài.\n- Phát lặp sẽ lặp lại âm thanh đến khi bạn dừng hoặc hết thời gian đã đặt.\n- Kiểm tra nhắc lại tiếp tục hỏi đến khi bạn đánh dấu việc đã xong.\n- Giờ yên lặng có thể tắt tiếng lời nhắc trong khoảng thời gian bạn chọn.</string>
+    <string name="help_s9_title">Chế độ chỉ chuông và độ tin cậy</string>
+    <string name="help_s9_content">- Chế độ chỉ chuông dùng chuông báo thức rõ ràng thay cho giọng nói hoặc TTS.\n- Bạn có thể chọn âm cảnh báo chỉ chuông tùy chỉnh, hoặc giữ chuông báo thức mặc định.\n- Cảnh báo cả khi Không làm phiền cho phép %1$s cố gắng phát lời nhắc quan trọng khi Không làm phiền đang bật.\n- Khi tắt Cảnh báo cả khi Không làm phiền, lời nhắc bị Không làm phiền chặn sẽ vào Bỏ lỡ thay vì phát.\n- Cài đặt này không bật hay tắt chế độ Không làm phiền của điện thoại. Cần quyền Không làm phiền của Android trước khi thông báo có thể bỏ qua chế độ này.\n- Khi bật, lời nhắc dùng âm thanh ưu tiên báo thức. Một số quy trình tự động của điện thoại vẫn có thể chặn báo thức nếu hệ thống tắt âm báo thức.\n- Nếu âm đã chọn bị mất sau này, %1$s sẽ tự động dùng chuông báo thức mặc định.\n- Dùng chế độ chỉ chuông nếu điện thoại làm trễ, chặn hoặc dừng giọng đọc.\n- Cài đặt &gt; Độ tin cậy có Hướng dẫn tối ưu hóa pin cho điện thoại hạn chế chạy nền mạnh.\n- Hãy bật thông báo, báo thức chính xác và cài đặt pin để lời nhắc đáng tin cậy nhất.</string>
+    <string name="help_s10_title">Tiện ích và Wear OS</string>
+    <string name="help_s10_content">- Tiện ích Lời nhắc nhanh mở trực tiếp Thêm lời nhắc.\n- Tiện ích Sắp tới hiển thị lời nhắc sắp tới và lời nhắc bị bỏ lỡ.\n- Hỗ trợ Wear OS cần bật thông báo trên điện thoại và đồng bộ đồng hồ.</string>
+    <string name="help_s11_title">Sau khi khởi động lại thiết bị</string>
+    <string name="help_s11_content">- Lời nhắc trong tương lai được tự động đặt lại lịch sau khi khởi động lại.\n- Lời nhắc đã quá hạn sẽ đi theo luồng lời nhắc bị bỏ lỡ thay vì báo bất ngờ khi khởi động.</string>
+    <string name="help_s13_title">Kiểm tra nhắc lại</string>
+    <string name="help_s13_content">- Kiểm tra nhắc lại sẽ hỏi \"Bạn đã hoàn thành …?\" vài phút sau khi lời nhắc báo.\n- Mặc định, nó lặp lại cho đến khi bạn đánh dấu lời nhắc là xong. Bạn có thể đặt giới hạn trong Cài đặt &gt; Độ tin cậy nếu muốn nó tự dừng.\n- Xong và Báo lại kết thúc chu kỳ nhắc lại hiện tại; Giờ yên lặng cũng dừng nhắc lại.\n- Kiểm tra nhắc lại tiếp tục sau khi khởi động lại thiết bị cho đến khi xong hoặc đạt giới hạn.</string>
+    <string name="help_s14_title">Sao lưu và nhập</string>
+    <string name="help_s14_content">- Sao lưu lời nhắc trong Cài đặt sẽ lưu mọi lời nhắc sắp tới, kèm bản ghi giọng nói, vào một tệp do bạn chọn.\n- Nhập lời nhắc sẽ khôi phục chúng trên thiết bị này hoặc thiết bị khác.\n- Khi nhập sẽ bỏ qua bản trùng lặp hoàn toàn và lời nhắc một lần đã hết hạn; lời nhắc lặp lại tiếp tục từ lần kế tiếp.\n- Lời nhắc đã nhập được lên lịch ngay.</string>
+    <string name="help_s12_title">Giữ lời nhắc trên màn hình đến khi xong</string>
+    <string name="help_s12_content">- Bật Cài đặt &gt; Độ tin cậy &gt; Giữ lời nhắc trên màn hình đến khi xong để ghim thông báo lời nhắc, tránh vô tình vuốt bỏ.\n- Khi bật, thao tác vuốt chỉ tắt tiếng và giữ lời nhắc ở trạng thái chờ — nó ở lại đến khi bạn nhấn Xong hoặc Báo lại.\n- Đánh dấu Xong luôn hoạt động từ thông báo, cảnh báo toàn màn hình hoặc thẻ lời nhắc, và dừng mọi cảnh báo nhắc lại.\n- Kết hợp với kiểm tra nhắc lại để lời nhắc cũng cảnh báo lại theo hẹn giờ cho đến khi hoàn thành.</string>
+
+    <!-- What's new sheet -->
+    <string name="action_continue">Tiếp tục</string>
+    <string name="wn_title">Có gì mới trong %1$s</string>
+    <string name="wn_intro">Quản lý lời nhắc dễ hơn: đổi ngày giờ ngay trên lời nhắc, thông báo tự dọn dẹp và lời nhắc giọng nói được lưu tức thì.</string>
+    <string name="wn_edit_title">Đổi ngày giờ ngay tại chỗ</string>
+    <string name="wn_edit_desc">Mở lời nhắc và nhấn Ngày hoặc Giờ để đổi trực tiếp. Không cần mở trình chỉnh sửa trước.</string>
+    <string name="wn_clear_title">Thông báo tự dọn dẹp</string>
+    <string name="wn_clear_desc">Khi bạn mở, phát, hoàn thành hoặc xóa lời nhắc trong ứng dụng, thông báo của nó sẽ biến mất khỏi bảng thông báo. Khi bật Giữ lời nhắc trên màn hình đến khi xong, nó vẫn ở lại cho đến khi bạn đánh dấu Xong.</string>
+    <string name="wn_save_title">Lời nhắc giọng nói lưu tức thì</string>
+    <string name="wn_save_desc">Khi bật cải thiện giọng nói thử nghiệm, việc lưu không còn chờ làm sạch. Quá trình này hoàn tất ở chế độ nền còn lời nhắc hiển thị Giọng nói · đang cải thiện… cho đến khi xong.</string>
+    <string name="wn_fullscreen_title">Cảnh báo trên màn hình khóa đã hoạt động</string>
+    <string name="wn_fullscreen_desc">Trước đây cảnh báo toàn màn hình thực tế không xuất hiện khi lời nhắc báo, dù cài đặt thế nào. Giờ đây nó bật sáng màn hình và hiển thị lời nhắc trên màn hình cảnh báo mới với chữ lớn hơn và thao tác rõ ràng hơn.</string>
+    <string name="wn_pause_title">Tạm dừng lời nhắc</string>
+    <string name="wn_pause_desc">Sắp vào cuộc họp? Tạm dừng từ màn hình chính trong một giờ, hết hôm nay hoặc đến thời điểm bạn chọn. Mỗi lần tạm dừng đều có điểm kết thúc, và lời nhắc bị tạm dừng vẫn xuất hiện trong thẻ Bỏ lỡ.</string>
+    <string name="wn_notices_title">Màn hình chính cho biết vì sao lời nhắc bị im lặng</string>
+    <string name="wn_notices_desc">Nếu điện thoại này được phép dừng %1$s chạy nền, hoặc giờ yên lặng đang bật, màn hình chính giờ sẽ báo cho bạn, thay vì lời nhắc lặng lẽ không đến.</string>
+    <string name="wn_lang_title">Giờ đã có ngôn ngữ của bạn</string>
+    <string name="wn_lang_desc">Toàn bộ ứng dụng có sẵn bằng tiếng Anh, tiếng Tây Ban Nha, tiếng Hindi, tiếng Ả Rập, tiếng Bồ Đào Nha (Brazil), tiếng Nga, tiếng Việt, tiếng Bengal, tiếng Telugu, tiếng Tamil, tiếng Hy Lạp và tiếng Malayalam, có hỗ trợ viết từ phải sang trái. Chọn trong Cài đặt &gt; Giao diện &gt; Ngôn ngữ.</string>
+    <string name="wn_buttons_title">Nút báo thức rõ ràng hơn</string>
+    <string name="wn_buttons_desc">Cảnh báo và thông báo lời nhắc giờ hiển thị Xong, Tắt tiếng và Báo lại. Xong hoàn thành việc; Tắt tiếng chỉ dừng âm thanh và giữ lời nhắc.</string>
+    <string name="wn_spoken_title">Lời nhắc đúng giọng</string>
+    <string name="wn_spoken_desc">Lời nhắc được tự động đọc bằng ngôn ngữ của chính nó — lời nhắc tiếng Hindi được đọc bằng tiếng Hindi kể cả khi ứng dụng đang dùng tiếng Việt. Điều chỉnh trong Cài đặt &gt; Phát &gt; Ngôn ngữ đọc.</string>
+    <string name="wn_persist_title">Giữ lời nhắc đến khi xong</string>
+    <string name="wn_persist_desc">Bật Cài đặt &gt; Độ tin cậy &gt; Giữ lời nhắc trên màn hình đến khi xong để lời nhắc được ghim và chỉ mất khi bạn đánh dấu Xong hoặc Báo lại.</string>
+    <string name="wn_backup_title">Sao lưu và chuyển lời nhắc</string>
+    <string name="wn_backup_desc">Lưu mọi lời nhắc sắp tới — kèm bản ghi âm — vào một tệp và khôi phục bất cứ lúc nào, kể cả trên điện thoại mới. Có trong Cài đặt.</string>
+    <string name="wn_followup_title">Kiểm tra nhắc lại theo cách của bạn</string>
+    <string name="wn_followup_desc">Kiểm tra nhắc lại vẫn cảnh báo lại cho đến khi bạn đánh dấu xong, như trước. Mới: đặt giới hạn trong Cài đặt &gt; Độ tin cậy nếu muốn chúng tự dừng.</string>
+
+    <!-- Startup dialogs -->
+    <string name="action_allow">Cho phép</string>
+    <string name="action_later">Để sau</string>
+    <string name="action_open_settings">Mở cài đặt</string>
+    <string name="batt_prompt_title">Cho phép %1$s chạy nền</string>
+    <string name="batt_prompt_message">Một số điện thoại, đặc biệt là Xiaomi và POCO, ngăn ứng dụng chạy nền để tiết kiệm pin. Điều này có thể khiến lời nhắc không báo. Hãy cho phép %1$s bỏ qua tối ưu hóa pin để lời nhắc đáng tin cậy hơn.</string>
+    <string name="batt_toast_unavailable">Cài đặt pin không có trên thiết bị này.</string>
+    <string name="home_batt_banner_title">Lời nhắc có thể không đến</string>
+    <string name="home_batt_banner_body">Điện thoại này được phép dừng %1$s chạy nền. Nhấn để cho phép dùng pin không hạn chế.</string>
+    <string name="home_quiet_banner">Giờ yên lặng %1$s – %2$s. Lời nhắc chuyển vào Bỏ lỡ.</string>
+    <string name="home_pause_banner">Lời nhắc tạm dừng đến %1$s</string>
+    <string name="home_pause_resume">Tiếp tục</string>
+    <string name="home_pause_title">Tạm dừng lời nhắc</string>
+    <string name="home_pause_body">Lời nhắc sẽ không cảnh báo cho đến khi hết tạm dừng. Chúng vẫn vào thẻ Bỏ lỡ.</string>
+    <string name="home_pause_1h">Trong 1 giờ</string>
+    <string name="home_pause_4h">Trong 4 giờ</string>
+    <string name="home_pause_today">Hết hôm nay</string>
+    <string name="home_pause_pick">Chọn thời điểm kết thúc…</string>
+    <string name="home_pause_cd">Tạm dừng lời nhắc</string>
+    <string name="home_pause_also_quiet">Giờ yên lặng cũng đang bật, %1$s – %2$s.</string>
+    <string name="fsr_title">Cho phép lại cảnh báo toàn màn hình</string>
+    <string name="fsr_message">Cảnh báo lời nhắc trên màn hình khóa vẫn đang bật trong %1$s, nhưng quyền toàn màn hình của Android đang tắt. Điều này có thể xảy ra sau khi cài lại hoặc khôi phục.</string>
+    <!-- Version 2.0.34 help and startup highlights -->
+    <string name="help_s15_title">Tùy chỉnh biểu mẫu lời nhắc</string>
+    <string name="help_s15_content">- Mở Cài đặt &gt; Biểu mẫu lời nhắc để hiện hoặc ẩn Ghi âm giọng nói, Chọn tệp âm thanh, Lời nhắc văn bản và Nhãn ngắn.\n- Mỗi công tắc hoạt động độc lập. Nếu ẩn cả ba cách nhập, Thêm lời nhắc sẽ cho biết cần bật lại cài đặt nào.\n- Khi chỉnh sửa, mục bị ẩn sẽ tự hiện nếu lời nhắc đó đã có nội dung tương ứng.</string>
+    <string name="help_s16_title">Chọn chế độ ghi âm giọng nói</string>
+    <string name="help_s16_content">- Mở Cài đặt &gt; Biểu mẫu lời nhắc &gt; Cải thiện giọng nói thử nghiệm.\n- Tắt (mặc định) giữ cách ghi âm thô MIC/AAC ban đầu, không xử lý sau.\n- Bật sẽ dùng các biện pháp bảo vệ ghi âm mới, cảnh báo bản ghi không có âm thanh, lọc tiếng ồn nền và chuẩn hóa mức giọng. Kết quả và thời gian xử lý có thể khác nhau tùy thiết bị.\n- Bản ghi im lặng vẫn có thể nghe thử và lưu.</string>
+    <string name="help_s17_title">Phát lời nhắc đáng tin cậy hơn</string>
+    <string name="help_s17_content">- Thông báo mà Android yêu cầu xuất hiện ngay khi bắt đầu phát lời nhắc, kể cả trên các phiên bản Android mới và điện thoại khởi động tác vụ nền chậm.\n- Nhờ vậy, hệ thống không dừng lời nhắc vì hết thời gian chờ trước khi âm thanh bắt đầu.\n- Để hoạt động ổn định, hãy cho phép thông báo, báo thức chính xác và dùng cài đặt pin được đề xuất.</string>
+    <string name="wn_form_title">Biểu mẫu lời nhắc theo cách của bạn</string>
+    <string name="wn_form_desc">Trong Cài đặt &gt; Biểu mẫu lời nhắc, hiện hoặc ẩn riêng Ghi âm giọng nói, Chọn tệp âm thanh, Lời nhắc văn bản và Nhãn ngắn.</string>
+    <string name="wn_recording_title">Tùy chọn cải thiện giọng nói thử nghiệm</string>
+    <string name="wn_recording_desc">Giờ bạn có thể chọn cách ghi âm. Mặc định, bản ghi được giữ nguyên, không xử lý. Nếu muốn, hãy bật kiểm tra bổ sung khi ghi, cảnh báo khi không thu được tiếng và giảm tiếng ồn nền. Bản ghi nhỏ tiếng được tăng lên mức dễ nghe mà không làm tiếng ồn trong phòng lớn thêm. Bản ghi không có tiếng vẫn được lưu.</string>
+    <string name="wn_reliability_title">Đáng tin cậy hơn trên điện thoại Android mới</string>
+    <string name="wn_reliability_desc">Việc phát lời nhắc giờ khởi động an toàn và ngay lập tức ở nền trước, ngăn lỗi hết thời gian khởi động trên một số thiết bị Android 12 và Android 16.</string>
+    <string name="settings_24_hour_time">Dùng định dạng 24 giờ</string>
+    <string name="settings_24_hour_time_desc">Hiển thị giờ dạng 17:30 thay vì 5:30 PM.</string>
+
+    <!-- Reminder card and actions sheet -->
+    <string name="card_recur_onetime">Lời nhắc một lần</string>
+    <string name="card_recur_daily">Lặp lại hằng ngày</string>
+    <string name="card_recur_last_day">Ngày cuối mỗi tháng</string>
+    <string name="card_recur_yearly">Lặp lại hằng năm</string>
+    <string name="card_chip_recurring">Lặp lại</string>
+    <string name="card_days_of_month">Ngày trong tháng</string>
+    <string name="card_cd_duplicate">Nhân bản lời nhắc</string>
+    <string name="card_cd_more">Tùy chọn khác</string>
+    <string name="card_cd_looping">Đang lặp</string>
+    <string name="card_cd_followup">Nhắc lại sau %1$d phút</string>
+    <string name="card_cd_ends_after">Kết thúc sau %1$d %2$s</string>
+    <string name="sheet_reminder_actions">Thao tác lời nhắc</string>
+    <string name="sheet_stop_playback">Dừng phát</string>
+
+    <!-- Custom follow-up dialog -->
+    <string name="fu_custom_title">Nhắc lại tùy chỉnh</string>
+    <string name="fu_custom_desc">Hỏi lại sau số phút này nếu lời nhắc chưa được đánh dấu xong.</string>
+    <string name="fu_allowed_range">Cho phép: 1-%1$d phút</string>
+
+    <!-- Voice recorder -->
+    <string name="vr_playing_audio">Đang phát âm thanh</string>
+    <string name="vr_voice_recorded">Đã ghi giọng nói</string>
+    <string name="vr_text_optional">Văn bản không bắt buộc</string>
+    <string name="vr_tap_to_stop">Nhấn để dừng</string>
+    <string name="vr_cd_level">Hiển thị mức âm thanh theo thời gian thực</string>
+    <string name="vr_cd_stop">Dừng ghi âm</string>
+    <string name="vr_cd_double_tap_stop">Nhấn đúp để dừng ghi âm</string>
+    <string name="vr_cd_preview_progress">Tiến trình nghe thử giọng nói</string>
+    <string name="vr_cd_start">Bắt đầu ghi âm giọng nói</string>
+    <string name="vr_cd_restart">Ghi âm lại</string>
+
+    <!-- Date and time picker -->
+    <string name="dtp_title">Chọn ngày và giờ</string>
+    <string name="dtp_subtitle">Dùng tùy chọn nhanh hoặc chọn chính xác ngày và giờ.</string>
+    <string name="dtp_quick_date">Ngày nhanh</string>
+    <string name="dtp_quick_time">Giờ nhanh</string>
+    <string name="dtp_pick_date">Chọn ngày chính xác</string>
+    <string name="dtp_pick_time">Chọn giờ chính xác</string>
+    <string name="dtp_next_week">Tuần sau</string>
+    <string name="dtp_plus_10">+10 phút</string>
+    <string name="dtp_plus_30">+30 phút</string>
+    <string name="dtp_plus_60">+1 giờ</string>
+    <string name="dtp_err_future">Thời gian phải ở tương lai</string>
+    <string name="dtp_err_date_future">Ngày phải là hôm nay hoặc trong tương lai</string>
+
+    <!-- Recurring completion dialog -->
+    <string name="rcd_title">Đây là lời nhắc lặp lại</string>
+    <string name="rcd_desc">Hoàn tất riêng lần này, đổi lịch lặp hoặc dừng tất cả các lần sau.</string>
+    <string name="rcd_mark_occurrence">Đánh dấu lần này là xong</string>
+    <string name="rcd_edit_schedule">Sửa lịch</string>
+    <string name="rcd_stop_recurring">Dừng lặp lại</string>
+
+    <!-- Restore reminder dialog -->
+    <string name="rrd_title">Khôi phục lời nhắc</string>
+    <string name="rrd_desc">Bạn đã đánh dấu lời nhắc này là xong. Chọn cách sử dụng lại.</string>
+    <string name="rrd_reschedule">Đặt lại lịch lời nhắc</string>
+    <string name="rrd_move_missed">Chuyển sang Bỏ lỡ</string>
+    <string name="rrd_play">Phát lời nhắc</string>
+    <string name="rrd_keep_done">Giữ là Đã xong</string>
+
+    <!-- Missed reminder sheets -->
+    <string name="pua_title">Đã bỏ lỡ lời nhắc</string>
+    <string name="pua_scheduled_for">Đã lên lịch lúc %1$s</string>
+    <string name="pua_set_new_time">Đặt thời gian mới</string>
+    <string name="pua_just_play">Chỉ phát lời nhắc</string>
+    <string name="mrr_desc">Nghe ngay lời nhắc bị bỏ lỡ gần nhất, hoặc để tất cả ở thẻ “Bỏ lỡ” và xem sau.</string>
+    <plurals name="mrr_title">
+        <item quantity="other">Bạn đã bỏ lỡ %1$d lời nhắc</item>
+    </plurals>
+    <string name="mrr_play_latest">Phát lời nhắc bị bỏ lỡ gần nhất</string>
+    <string name="mrr_keep">Giữ trong thẻ Bỏ lỡ</string>
+
+    <!-- Battery optimization guide -->
+    <string name="bog_title">Hướng dẫn tối ưu hóa pin</string>
+    <string name="bog_header">Giữ lời nhắc đáng tin cậy</string>
+    <string name="bog_header_sub">Một số điện thoại tạm dừng hoặc dừng báo thức nền trừ khi %1$s được miễn hạn chế pin.</string>
+    <string name="bog_intro">Một số thiết bị dừng báo thức nền để tiết kiệm pin. Điều này có thể khiến lời nhắc không báo.</string>
+    <string name="bog_menu_vary">Tên menu có thể khác nhau tùy MIUI, HyperOS, EMUI, phiên bản Android và mẫu điện thoại.</string>
+    <string name="bog_allow_app">Cho phép %1$s</string>
+    <string name="bog_back_settings">Quay lại Cài đặt</string>
+    <string name="bog_brand_xiaomi">Xiaomi / POCO / Redmi (MIUI / HyperOS)</string>
+    <string name="bog_brand_huawei">Huawei (EMUI)</string>
+    <string name="bog_step">Bước %1$d</string>
+    <string name="bog_optional">Không bắt buộc</string>
+    <string name="bog_open_settings">Mở Cài đặt</string>
+    <string name="bog_find_app">Tìm %1$s</string>
+    <string name="bog_xiaomi_battery">Nhấn Pin</string>
+    <string name="bog_xiaomi_optimization">Nhấn Tối ưu hóa pin</string>
+    <string name="bog_xiaomi_no_restrictions">Chọn Không hạn chế</string>
+    <string name="bog_xiaomi_opt">Khóa ứng dụng trên màn hình ứng dụng gần đây.</string>
+    <string name="bog_huawei_apps">Mở Ứng dụng hoặc Khởi chạy ứng dụng</string>
+    <string name="bog_huawei_manage_off">Tắt Quản lý tự động</string>
+    <string name="bog_huawei_allow">Cho phép tự khởi chạy, khởi chạy phụ và chạy nền</string>
+    <string name="bog_huawei_opt">Đồng thời kiểm tra Tối ưu hóa pin và đặt %1$s thành Không cho phép.</string>
+    <string name="bog_status_enabled">Tối ưu hóa pin vẫn đang bật cho %1$s.</string>
+    <string name="bog_status_exempt">%1$s đã được phép chạy không cần tối ưu hóa pin.</string>
+    <string name="bog_no_battery_settings">Cài đặt pin không có trên thiết bị này.</string>
+    <string name="bog_why_title">Vì sao điều này quan trọng</string>
+    <string name="bog_why_body">Điện thoại Xiaomi, POCO, Redmi, Huawei và các hãng tương tự có thể dừng ứng dụng chạy nền rất mạnh tay. Hãy dựa vào dòng sản phẩm và phiên bản phần mềm để tham khảo; đường dẫn chính xác có thể khác nhau tùy mẫu máy.</string>
+
+    <!-- Reminder card accessibility description -->
+    <string name="a11y_card_reminder">Lời nhắc: %1$s</string>
+    <string name="a11y_card_at">lúc %1$s</string>
+    <string name="a11y_card_has_audio_file">có tệp âm thanh</string>
+    <string name="a11y_card_has_voice">có ghi chú giọng nói</string>
+    <string name="a11y_card_recurring">lặp lại %1$s</string>
+    <string name="a11y_card_completed">đã hoàn thành</string>
+    <string name="a11y_card_playing">đang phát</string>
+    <string name="a11y_card_open_hint">Nhấn đúp để mở chi tiết.</string>
+
+    <!-- Accessibility states -->
+    <string name="state_completed">Đã hoàn thành</string>
+    <string name="state_playing">Đang phát</string>
+    <string name="a11y_percent">%1$d phần trăm</string>
+    <string name="a11y_destructive">Thao tác không thể hoàn tác</string>
+    <string name="a11y_recording_in_progress">Đang ghi âm</string>
+    <string name="a11y_playing_preview">Đang phát nghe thử</string>
+    <string name="a11y_voice_recorded">Đã ghi ghi chú giọng nói</string>
+    <string name="a11y_no_voice_recorded">Chưa ghi ghi chú giọng nói</string>
+    <plurals name="card_occurrences">
+        <item quantity="other">%1$d lần</item>
+    </plurals>
+
+    <!-- Test reminder -->
+    <string name="set_test_reminder_title">Lời nhắc thử</string>
+    <string name="set_test_reminder_text">Đây là lời nhắc thử để kiểm tra việc phát. Nó báo sau 10 giây kể từ khi tạo.</string>
+    <string name="widget_quick_subtitle">Thêm nhanh</string>
+    <string name="widget_upcoming_subtitle">Lời nhắc sắp tới và bị bỏ lỡ</string>
+    <string name="widget_upcoming_empty">Không có lời nhắc sắp tới hoặc bị bỏ lỡ</string>
+    <string name="card_type_audio_file">Tệp âm thanh</string>
+    <string name="card_type_voice_improving">Giọng nói · đang cải thiện…</string>
+    <string name="card_type_voice">Giọng nói</string>
+    <string name="card_type_text">Văn bản</string>
+    <string name="card_voice_recording">Bản ghi giọng nói</string>
+    <string name="card_custom_audio_file">Tệp âm thanh tùy chỉnh</string>
+    <string name="card_text_note">Ghi chú văn bản</string>
+    <string name="sheet_mark_this_done">Đánh dấu xong</string>
+    <string name="sheet_delete_reminder">Xóa lời nhắc</string>
+    <string name="vr_recording_ellipsis">Đang ghi âm…</string>
+    <string name="vr_play_recording">Phát bản ghi</string>
+    <string name="rcd_sub_keep_next">Giữ lịch cho lần tiếp theo</string>
+    <string name="rcd_sub_change_rules">Đổi quy tắc lặp lại hoặc thời gian</string>
+    <string name="rcd_sub_delete_future">Xóa lời nhắc này và các lần sau</string>
+    <string name="rrd_sub_pick_new">Chọn ngày giờ mới</string>
+    <string name="rrd_sub_keep_missed">Giữ trong thẻ Bỏ lỡ để xem sau</string>
+    <string name="rrd_sub_hear_now">Nghe ngay mà không khôi phục</string>
+    <string name="rrd_sub_leave_done">Giữ lời nhắc ở trạng thái đã xong</string>
+    <string name="mrr_sub_start_now">Bắt đầu phát ngay</string>
+    <string name="set_tab_form">Mẫu</string>
+    <string name="set_tab_play">Phát</string>
+    <string name="set_tab_time">Giờ</string>
+    <string name="set_tab_safe">An toàn</string>
+    <string name="set_tab_backup">Sao lưu</string>
+    <string name="set_tab_wear">Đồng hồ</string>
+    <string name="set_tab_help">Trợ giúp</string>
+</resources>

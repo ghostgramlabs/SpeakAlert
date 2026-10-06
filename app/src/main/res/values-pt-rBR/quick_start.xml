@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quick_title">Primeiros passos</string>
+    <string name="quick_progress">Etapa %1$d de %2$d</string>
+    <string name="quick_back">Voltar</string>
+    <string name="quick_next">Próximo</string>
+    <string name="quick_finish">Começar a usar o app</string>
+    <string name="quick_later">Fechar — você pode voltar pela Ajuda</string>
+    <string name="quick_create_title">Crie seu primeiro lembrete</string>
+    <string name="quick_create_body">Toque em + para criar um lembrete. Grave sua voz, escolha um arquivo de áudio ou escreva uma mensagem para o app ler em voz alta. A permissão do microfone só é necessária para gravar.\n\nEscolha uma data e um horário futuros. Se quiser repetir o lembrete, defina de quanto em quanto tempo. Ouça a gravação e toque em “Salvar”.\n\nOs lembretes de hoje ficam em “Hoje”. Os que vêm depois ficam em “Próximos”.</string>
+    <string name="quick_ready_title">Garanta que você vai ouvir</string>
+    <string name="quick_ready_body">Permita as notificações quando o celular pedir. Em Configurações, confira a permissão de alarmes exatos e as restrições de bateria em segundo plano para que o Android possa avisar na hora certa.\n\nPara ouvir a voz, ative a reprodução automática e desative o modo só toque. Se escrever a mensagem, ative também a leitura automática. Aumente o volume dos alarmes. A reprodução privada usa fones de ouvido ou o alto-falante de chamadas do celular.\n\nO horário de silêncio e as opções de reprodução com a tela bloqueada podem impedir o áudio em alguns momentos. Você pode conferir tudo em Configurações.</string>
+    <string name="quick_actions_title">Concluído, Adiar ou Silenciar?</string>
+    <string name="quick_actions_body">“Adiar” deixa o aviso atual para daqui a pouco, sem mudar as próximas repetições. “Silenciar” para o som, mas deixa a tarefa pendente.\n\nAo tocar em “Concluído” no aviso, você encerra aquela vez e os avisos de acompanhamento dela. Se o lembrete se repete, ele volta no próximo horário programado.\n\nEm “Próximos”, marcar uma repetição como concluída pula só aquela vez; as demais continuam. Um lembrete que não se repete vai para “Concluídos”, onde você pode marcar um novo horário.</string>
+    <string name="quick_try_title">Teste antes de depender dele</string>
+    <string name="quick_try_body">Crie um lembrete para daqui a dois minutos. Bloqueie o celular e espere a notificação e a voz. Depois experimente “Adiar” e “Concluído”.\n\nSe a notificação chegar sem áudio, toque em “Reproduzir” ou “Repetir”. Confira as opções de reprodução, o volume e os fones conectados. Em “Perdidos” ficam os lembretes que não chegaram como deveriam. Se um lembrete chegar atrasado, talvez seja preciso tocar em “Reproduzir” para ouvi-lo.\n\nPara voltar a estas instruções, abra a Ajuda na tela inicial ou o “Guia do app” em Configurações.</string>
+    <string name="quick_settings_title">Ajuste as Configurações para você</string>
+    <string name="quick_review_settings">Revisar Configurações</string>
+    <string name="quick_settings_body">Dê uma olhada nas configurações. Você pode manter as opções atuais e mudar depois.\n\nComece por “Reprodução”: escolha voz ou toque, volume, idioma falado e reprodução privada.\n\nConfira o tempo de adiamento e o horário de silêncio. Em “Confiabilidade”, ajuste o acompanhamento e a opção de manter o aviso na tela até concluir a tarefa. Confira também as permissões de notificações, alarmes exatos e bateria.\n\nEm “Aparência” e “Formulário do lembrete”, escolha o idioma, o tema e os campos que quer ver. O backup guarda seus lembretes e gravações.\n\nUse o lembrete de teste em “Reprodução” para conferir se está tudo funcionando.</string>
+</resources>

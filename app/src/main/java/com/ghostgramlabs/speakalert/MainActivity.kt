@@ -408,6 +408,10 @@ class MainActivity : ComponentActivity() {
                                     )
                                     // Ordered by how often the reader will meet it.
                                     WhatsNewFeatureCard(
+                                        title = stringResource(R.string.wn_lang_title),
+                                        description = stringResource(R.string.wn_lang_desc)
+                                    )
+                                    WhatsNewFeatureCard(
                                         title = stringResource(R.string.wn_edit_title),
                                         description = stringResource(R.string.wn_edit_desc)
                                     )

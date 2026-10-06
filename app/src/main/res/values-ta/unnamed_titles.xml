@@ -1,0 +1,10 @@
+<resources>
+    <string name="unnamed_title_setting">பெயரில்லா நினைவூட்டல் தலைப்பு</string>
+    <string name="unnamed_title_description">பெயர் கொடுக்காத நினைவூட்டலுக்கு, பட்டியலிலும் விவரங்களிலும் என்ன காட்ட வேண்டும் என்பதைத் தேர்ந்தெடுக்கவும். நீங்கள் கொடுத்த பெயரும் எழுதிய செய்தியும் எப்போதும் தெரியும். தலைப்பு இல்லாவிட்டாலும் தேதியும் நேரமும் இருக்கும்.</string>
+    <string name="unnamed_creation_time">உருவாக்கிய நேரம்</string>
+    <string name="unnamed_reminder_type">நினைவூட்டல் வகை</string>
+    <string name="unnamed_no_title">தலைப்பு இல்லை</string>
+    <string name="unnamed_voice_reminder">குரல் நினைவூட்டல்</string>
+    <string name="unnamed_audio_reminder">ஆடியோ நினைவூட்டல்</string>
+    <string name="unnamed_generic_reminder">நினைவூட்டல்</string>
+</resources>

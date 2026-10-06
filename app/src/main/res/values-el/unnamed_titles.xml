@@ -1,0 +1,10 @@
+<resources>
+    <string name="unnamed_title_setting">Τίτλος υπενθύμισης χωρίς όνομα</string>
+    <string name="unnamed_title_description">Επιλέξτε τι θα εμφανίζεται στη λίστα και στις λεπτομέρειες για υπενθυμίσεις χωρίς όνομα. Τα ονόματα και τα μηνύματα που γράψατε παραμένουν πάντα ορατά. Η ημερομηνία και η ώρα εμφανίζονται ακόμη και χωρίς τίτλο.</string>
+    <string name="unnamed_creation_time">Ώρα δημιουργίας</string>
+    <string name="unnamed_reminder_type">Τύπος υπενθύμισης</string>
+    <string name="unnamed_no_title">Χωρίς τίτλο</string>
+    <string name="unnamed_voice_reminder">Φωνητική υπενθύμιση</string>
+    <string name="unnamed_audio_reminder">Υπενθύμιση ήχου</string>
+    <string name="unnamed_generic_reminder">Υπενθύμιση</string>
+</resources>

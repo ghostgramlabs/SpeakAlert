@@ -1,0 +1,10 @@
+<resources>
+    <string name="unnamed_title_setting">പേരില്ലാത്ത റിമൈൻഡറിന്റെ ശീർഷകം</string>
+    <string name="unnamed_title_description">പേരില്ലാത്ത റിമൈൻഡറിന് പട്ടികയിലും വിശദാംശങ്ങളിലും എന്തു കാണണമെന്ന് തിരഞ്ഞെടുക്കുക. നിങ്ങൾ നൽകിയ പേരും എഴുതിയ സന്ദേശവും എപ്പോഴും കാണും. തലക്കെട്ട് ഇല്ലെങ്കിലും തീയതിയും സമയവും ഉണ്ടായിരിക്കും.</string>
+    <string name="unnamed_creation_time">സൃഷ്ടിച്ച സമയം</string>
+    <string name="unnamed_reminder_type">റിമൈൻഡർ തരം</string>
+    <string name="unnamed_no_title">ശീർഷകമില്ല</string>
+    <string name="unnamed_voice_reminder">വോയ്‌സ് റിമൈൻഡർ</string>
+    <string name="unnamed_audio_reminder">ഓഡിയോ റിമൈൻഡർ</string>
+    <string name="unnamed_generic_reminder">റിമൈൻഡർ</string>
+</resources>

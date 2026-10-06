@@ -1,0 +1,10 @@
+<resources>
+    <string name="unnamed_title_setting">নামহীন রিমাইন্ডারের শিরোনাম</string>
+    <string name="unnamed_title_description">নাম না দেওয়া রিমাইন্ডারের তালিকা ও বিবরণে কী দেখাবে তা বেছে নিন। আপনার দেওয়া নাম ও লেখা বার্তা সবসময় দেখা যাবে। শিরোনাম না দেখালেও তারিখ ও সময় থাকবে।</string>
+    <string name="unnamed_creation_time">তৈরির সময়</string>
+    <string name="unnamed_reminder_type">রিমাইন্ডারের ধরন</string>
+    <string name="unnamed_no_title">শিরোনাম নেই</string>
+    <string name="unnamed_voice_reminder">ভয়েস রিমাইন্ডার</string>
+    <string name="unnamed_audio_reminder">অডিও রিমাইন্ডার</string>
+    <string name="unnamed_generic_reminder">রিমাইন্ডার</string>
+</resources>

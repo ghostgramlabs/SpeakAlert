@@ -1,0 +1,10 @@
+<resources>
+    <string name="unnamed_title_setting">Название безымянного напоминания</string>
+    <string name="unnamed_title_description">Выберите, что показывать в списке и подробностях для напоминаний без названия. Ваши названия и введённые сообщения всегда остаются видны. Дата и время отображаются даже без заголовка.</string>
+    <string name="unnamed_creation_time">Время создания</string>
+    <string name="unnamed_reminder_type">Тип напоминания</string>
+    <string name="unnamed_no_title">Без названия</string>
+    <string name="unnamed_voice_reminder">Голосовое напоминание</string>
+    <string name="unnamed_audio_reminder">Аудионапоминание</string>
+    <string name="unnamed_generic_reminder">Напоминание</string>
+</resources>

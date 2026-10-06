@@ -1,0 +1,772 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_tagline">ഓഫ്‌ലൈൻ വോയ്‌സ് റിമൈൻഡറുകൾ</string>
+    <string name="widget_quick_caption">റിമൈൻഡർ വേഗത്തിൽ ചേർക്കുക</string>
+    <string name="widget_quick_description">ഹോം സ്ക്രീനിൽ നിന്ന് നേരിട്ട് റിമൈൻഡർ ഫോം തുറക്കുക</string>
+    <string name="widget_upcoming_description">നിങ്ങളുടെ അടുത്ത ഷെഡ്യൂൾ ചെയ്ത റിമൈൻഡറുകൾ കാണിക്കുന്നു</string>
+
+    <!-- Settings -->
+    <string name="settings_language">ആപ്പ് ഭാഷ</string>
+    <string name="settings_language_system">ഉപകരണ ഭാഷ പിന്തുടരുക</string>
+    <string name="settings_language_description">ആപ്പിൽ ലഭ്യമായ ഭാഷകൾ: ഇംഗ്ലീഷ്, സ്പാനിഷ്, ഹിന്ദി, അറബിക്, പോർച്ചുഗീസ് (ബ്രസീൽ), റഷ്യൻ, വിയറ്റ്നാമീസ്, ബംഗാളി, തെലുങ്ക്, തമിഴ്, ഗ്രീക്ക്, മലയാളം.\nഉപകരണ ഭാഷ പിന്തുടരുമ്പോൾ ഫോണിലെ പിന്തുണയുള്ള ഭാഷ തിരഞ്ഞെടുക്കും; ഇല്ലെങ്കിൽ ആപ്പ് ഇംഗ്ലീഷ് ഉപയോഗിക്കും.\nവായിക്കുന്ന റിമൈൻഡറുകൾ ഫോണിൽ ഇൻസ്റ്റാൾ ചെയ്ത ശബ്ദങ്ങളെ ആശ്രയിച്ചിരിക്കുന്നു. അവ പ്ലേബാക്ക് &gt; വായിച്ചുകേൾപ്പിക്കുന്ന ഭാഷയിൽ പ്രത്യേകം സജ്ജമാക്കുക.</string>
+
+    <!-- Notification actions -->
+    <string name="notif_action_done">പൂർത്തിയായി</string>
+    <string name="notif_action_silence">ശബ്ദം നിർത്തുക</string>
+    <string name="notif_action_snooze">സ്‌നൂസ്</string>
+    <string name="notif_action_play">പ്ലേ</string>
+    <string name="notif_action_speak">വായിക്കുക</string>
+    <string name="notif_default_title">വോയ്‌സ് റിമൈൻഡർ</string>
+    <string name="notif_default_text">റിമൈൻഡർ പ്ലേ ചെയ്യാൻ ടാപ്പ് ചെയ്യുക</string>
+    <string name="notif_action_replay">വീണ്ടും പ്ലേ</string>
+    <string name="notif_action_stop">നിർത്തുക</string>
+    <string name="notif_playback_processing">പ്രോസസ് ചെയ്യുന്നു…</string>
+    <string name="notif_playback_speaking">വായിക്കുന്നു: \"%1$s\"</string>
+    <string name="notif_reminder_missing">ഈ റിമൈൻഡർ കണ്ടെത്താനായില്ല.</string>
+    <string name="notif_missed_title">നഷ്‌ടമായി: %1$s</string>
+    <string name="notif_missed_scheduled_tap">%1$s-ന് ഷെഡ്യൂൾ ചെയ്തത് - തുറക്കാൻ ടാപ്പ് ചെയ്യുക</string>
+    <string name="notif_missed_scheduled_audio_unavailable">%1$s-ന് ഷെഡ്യൂൾ ചെയ്തത്. തിരഞ്ഞെടുത്ത ഓഡിയോ ഫയൽ ലഭ്യമല്ല.</string>
+    <string name="notif_missed_scheduled">ഷെഡ്യൂൾ: %1$s</string>
+    <string name="fallback_reminder_title">റിമൈൻഡർ</string>
+    <string name="toast_audio_unavailable">തിരഞ്ഞെടുത്ത ഓഡിയോ ഫയൽ ലഭ്യമല്ല.</string>
+    <string name="tts_voice_hint">%1$s ശബ്ദം ഇൻസ്റ്റാൾ ചെയ്തിട്ടില്ല. വായിക്കുന്ന റിമൈൻഡറുകൾ കേൾക്കാൻ ഫോണിന്റെ ടെക്സ്റ്റ്-ടു-സ്പീച്ച് ക്രമീകരണത്തിൽ അത് ചേർക്കുക.</string>
+    <string name="tts_voice_hint_this_language">ഈ ഭാഷയുടെ</string>
+
+    <!-- Alert payload (notification / spoken follow-up text) -->
+    <string name="alert_followup_fallback_title">ഫോളോ-അപ്പ് പരിശോധന</string>
+    <string name="alert_followup_question">നിങ്ങൾ %1$s പൂർത്തിയാക്കിയോ?</string>
+    <string name="alert_followup_this_reminder">ഈ റിമൈൻഡർ</string>
+    <string name="alert_audio_unavailable_full">തിരഞ്ഞെടുത്ത ഓഡിയോ ഫയൽ ലഭ്യമല്ല. മറ്റൊരു ഫയൽ തിരഞ്ഞെടുക്കാൻ ടാപ്പ് ചെയ്യുക.</string>
+    <string name="alert_tap_to_view">കാണാൻ ടാപ്പ് ചെയ്യുക</string>
+
+    <!-- Section titles -->
+    <string name="set_section_timing">സ്‌നൂസും ഫോളോ-അപ്പും</string>
+    <string name="set_section_backup">ബാക്കപ്പും പുനഃസ്ഥാപനവും</string>
+    <string name="set_section_about">സഹായവും വിവരങ്ങളും</string>
+
+    <!-- Backup & restore -->
+    <string name="set_backup_export">റിമൈൻഡറുകൾ ബാക്കപ്പ് ചെയ്യുക</string>
+    <string name="set_backup_export_desc">റെക്കോർഡിംഗുകൾ ഉൾപ്പെടെ വരാനിരിക്കുന്ന റിമൈൻഡറുകൾ ഒരു ഫയലിൽ സേവ് ചെയ്യുക</string>
+    <string name="set_backup_import">റിമൈൻഡറുകൾ ഇമ്പോർട്ട് ചെയ്യുക</string>
+    <string name="set_backup_import_desc">ബാക്കപ്പ് ഫയലിൽ നിന്ന് റിമൈൻഡറുകൾ പുനഃസ്ഥാപിക്കുക</string>
+    <string name="backup_export_none">ബാക്കപ്പ് ചെയ്യാൻ വരാനിരിക്കുന്ന റിമൈൻഡറുകളൊന്നുമില്ല.</string>
+    <string name="backup_export_success">%1$d റിമൈൻഡറുകൾ ബാക്കപ്പ് ചെയ്തു.</string>
+    <string name="backup_export_failed">ബാക്കപ്പ് പരാജയപ്പെട്ടു.</string>
+    <string name="backup_import_success">%1$d റിമൈൻഡറുകൾ ഇമ്പോർട്ട് ചെയ്തു.</string>
+    <string name="backup_import_skipped">%1$d റിമൈൻഡറുകൾ ഇമ്പോർട്ട് ചെയ്തു (%2$d തനിപ്പകർപ്പുകളും %3$d കാലഹരണപ്പെട്ടവയും ഒഴിവാക്കി).</string>
+    <string name="backup_import_failed">ഇമ്പോർട്ട് പരാജയപ്പെട്ടു. ഒരു SpeakAlert ബാക്കപ്പ് ഫയൽ തിരഞ്ഞെടുക്കുക.</string>
+
+    <!-- Notification channels (visible in system Settings) -->
+    <string name="channel_reminders_name">%1$s റിമൈൻഡറുകൾ</string>
+    <string name="channel_reminders_desc">%1$s റിമൈൻഡറുകൾക്കുള്ള അറിയിപ്പുകൾ</string>
+    <string name="channel_tone_only_name">%1$s ടോൺ മാത്രം അലേർട്ടുകൾ</string>
+    <string name="channel_tone_only_desc">വൈബ്രേഷൻ മാത്രമുള്ള ടോൺ മാത്രം അറിയിപ്പുകൾ; പ്ലേബാക്ക് ടോൺ %1$s കൈകാര്യം ചെയ്യുന്നു</string>
+    <string name="channel_dnd_bypass_name">%1$s റിമൈൻഡറുകൾ (ശല്യപ്പെടുത്തരുത് മറികടക്കൽ)</string>
+    <string name="channel_dnd_bypass_desc">Android അനുമതി നൽകിയാൽ ശല്യപ്പെടുത്തരുത് സമയത്തും അലേർട്ട് ചെയ്യാവുന്ന റിമൈൻഡർ അലാറങ്ങൾ</string>
+    <string name="channel_tone_only_bypass_name">%1$s ടോൺ മാത്രം അലേർട്ടുകൾ (ശല്യപ്പെടുത്തരുത് മറികടക്കൽ)</string>
+    <string name="channel_tone_only_bypass_desc">Android അനുമതി നൽകിയാൽ ശല്യപ്പെടുത്തരുത് സമയത്തും അലേർട്ട് ചെയ്യാവുന്ന ടോൺ മാത്രം റിമൈൻഡറുകൾ</string>
+    <string name="pua_sub_reschedule">ഈ റിമൈൻഡർ വീണ്ടും ഷെഡ്യൂൾ ചെയ്യുക</string>
+    <string name="pua_sub_play_now">വീണ്ടും ഷെഡ്യൂൾ ചെയ്യാതെ ഇപ്പോൾ കേൾക്കുക</string>
+    <string name="pua_sub_keep_done">പൂർത്തിയായതായി നിലനിർത്തുക</string>
+    <string name="channel_playback_name">റിമൈൻഡർ പ്ലേബാക്ക്</string>
+    <string name="channel_playback_desc">റിമൈൻഡറുകൾ പ്ലേ ചെയ്യുമ്പോൾ നിയന്ത്രണങ്ങൾ കാണിക്കുന്നു</string>
+    <string name="channel_silent_name">%1$s ഫുൾ സ്ക്രീൻ അലേർട്ടുകൾ</string>
+    <string name="channel_silent_desc">റിമൈൻഡർ ഉറക്കെ വായിച്ചുകൊണ്ടിരിക്കുമ്പോൾ %1$s-ൽ നിന്നുള്ള ഫുൾ സ്ക്രീൻ റിമൈൻഡറുകൾ</string>
+    <string name="channel_silent_bypass_name">%1$s ഫുൾ സ്ക്രീൻ അലേർട്ടുകൾ (ശല്യപ്പെടുത്തരുത് മറികടക്കൽ)</string>
+    <string name="channel_silent_bypass_desc">Android അനുമതി നൽകിയാൽ ശല്യപ്പെടുത്തരുത് സമയത്തും അലേർട്ട് ചെയ്യാവുന്ന ഫുൾ സ്ക്രീൻ റിമൈൻഡറുകൾ</string>
+
+    <!-- Alarm alert screen -->
+    <string name="alert_mark_done">പൂർത്തിയായി</string>
+    <string name="alert_silence">ശബ്ദം നിർത്തുക</string>
+    <string name="alert_silence_now">ഇപ്പോൾ ശബ്ദം നിർത്തുക</string>
+    <string name="alert_play_again">വീണ്ടും പ്ലേ ചെയ്യുക</string>
+    <string name="alert_snooze_minutes">സ്‌നൂസ് %1$d മി</string>
+    <string name="alert_followup_reminder">ഫോളോ-അപ്പ് റിമൈൻഡർ</string>
+    <string name="alert_reminder_on_screen">സ്ക്രീനിൽ റിമൈൻഡർ</string>
+    <string name="alert_followup_on_this">ഈ റിമൈൻഡറിന്റെ ഫോളോ-അപ്പ്</string>
+    <string name="alert_did_you_complete">നിങ്ങൾ ഈ റിമൈൻഡർ പൂർത്തിയാക്കിയോ?</string>
+    <string name="alert_reminder_active">റിമൈൻഡർ സജീവമാണ്</string>
+    <string name="alert_voice_reminder">വോയ്‌സ് റിമൈൻഡർ</string>
+    <string name="alert_text_reminder">ടെക്സ്റ്റ് റിമൈൻഡർ</string>
+    <string name="alert_followup_check">ഫോളോ-അപ്പ് പരിശോധന</string>
+    <string name="alert_generic">അലേർട്ട്</string>
+    <string name="alert_playing_now">ഇപ്പോൾ പ്ലേ ചെയ്യുന്നു</string>
+    <string name="alert_needs_response">പ്രതികരണം ആവശ്യമാണ്</string>
+    <string name="alert_awaiting_action">നടപടിക്കായി കാത്തിരിക്കുന്നു</string>
+    <string name="alert_scheduled_for">ഷെഡ്യൂൾ ചെയ്ത സമയം</string>
+    <string name="alert_status">അലേർട്ട് നില</string>
+    <string name="alert_audio_playing">ഓഡിയോ പ്ലേ ചെയ്യുന്നു. നിർത്താൻ “ശബ്ദം നിർത്തുക” ടാപ്പ് ചെയ്യുക.</string>
+    <string name="alert_waiting_done_snooze">പൂർത്തിയായി അല്ലെങ്കിൽ സ്‌നൂസിനായി കാത്തിരിക്കുന്നു.</string>
+    <string name="alert_followup_label">ഫോളോ-അപ്പ്</string>
+    <string name="alert_hint_with_play">നടപടിയെടുക്കുന്നതിനു മുൻപ് റിമൈൻഡർ കാണാവുന്ന വിധം നിലനിർത്തുക, ഓഡിയോ നിർത്തുക, അല്ലെങ്കിൽ വീണ്ടും പ്ലേ ചെയ്യുക.</string>
+    <string name="alert_hint_no_play">റിമൈൻഡർ കാണാവുന്ന വിധം നിലനിർത്തുക, അല്ലെങ്കിൽ തയ്യാറാകുമ്പോൾ പൂർത്തിയായി അല്ലെങ്കിൽ സ്‌നൂസ് തിരഞ്ഞെടുക്കുക.</string>
+    <string name="alert_dock_hint">“ശബ്ദം നിർത്തുക” ശബ്ദം മാത്രം നിർത്തും. “പൂർത്തിയായി” അല്ലെങ്കിൽ “സ്‌നൂസ്” ടാപ്പ് ചെയ്താൽ ലോക്ക് സ്ക്രീനിലെ അലേർട്ട് മാറും.</string>
+    <plurals name="alert_followup_repeats">
+        <item quantity="one">പൂർത്തിയാകുന്നതുവരെ ഓരോ മിനിറ്റിലും ആവർത്തിക്കും.</item>
+        <item quantity="other">പൂർത്തിയാകുന്നതുവരെ ഓരോ %1$d മിനിറ്റിലും ആവർത്തിക്കും.</item>
+    </plurals>
+
+    <!-- Home -->
+    <string name="home_greeting_morning">സുപ്രഭാതം</string>
+    <string name="home_greeting_afternoon">ശുഭ മധ്യാഹ്നം</string>
+    <string name="home_greeting_evening">ശുഭ സായാഹ്നം</string>
+    <string name="home_all_caught_up">എല്ലാം ചെയ്തുതീർത്തു!</string>
+    <plurals name="home_active_reminders">
+        <item quantity="one">നിങ്ങൾക്ക് %1$d സജീവ റിമൈൻഡർ ഉണ്ട്</item>
+        <item quantity="other">നിങ്ങൾക്ക് %1$d സജീവ റിമൈൻഡറുകൾ ഉണ്ട്</item>
+    </plurals>
+    <string name="home_filter_upcoming">വരാനിരിക്കുന്നവ</string>
+    <string name="home_filter_today">ഇന്ന്</string>
+    <string name="home_filter_missed">നഷ്‌ടമായവ</string>
+    <string name="home_filter_done">പൂർത്തിയായവ</string>
+    <string name="home_cd_settings">ക്രമീകരണം</string>
+    <string name="home_cd_help">സഹായവും നിർദ്ദേശങ്ങളും</string>
+    <string name="home_cd_add">റിമൈൻഡർ ചേർക്കുക</string>
+    <string name="home_cd_missed">നഷ്‌ടമായ റിമൈൻഡറുകൾ</string>
+    <string name="home_dismiss_all">എല്ലാം ഒഴിവാക്കുക</string>
+    <string name="home_empty_all_caught_up">എല്ലാം ചെയ്തുതീർത്തു!</string>
+    <string name="home_empty_no_missed">നഷ്‌ടമായ റിമൈൻഡറുകളൊന്നുമില്ല</string>
+    <string name="home_empty_nothing_done">ഇതുവരെ ഒന്നും പൂർത്തിയായിട്ടില്ല</string>
+    <string name="home_empty_no_upcoming">വരാനിരിക്കുന്ന റിമൈൻഡറുകളൊന്നുമില്ല</string>
+    <string name="home_empty_no_reminders">ഇതുവരെ റിമൈൻഡറുകളൊന്നുമില്ല</string>
+    <string name="home_empty_done_sub">പൂർത്തിയായ റിമൈൻഡറുകൾ ഇവിടെ കാണാം.</string>
+    <string name="home_empty_upcoming_sub">പിന്നീടത്തേക്ക് ഷെഡ്യൂൾ ചെയ്ത റിമൈൻഡറുകൾ ഇവിടെ കാണാം.</string>
+    <string name="home_empty_default_sub">ശബ്ദമോ ടെക്സ്റ്റോ ഉപയോഗിച്ച് റിമൈൻഡർ സൃഷ്ടിക്കുക.</string>
+
+    <!-- Common actions -->
+    <string name="action_cancel">റദ്ദാക്കുക</string>
+    <string name="action_close">അടയ്ക്കുക</string>
+    <string name="action_play_now">ഇപ്പോൾ പ്ലേ ചെയ്യുക</string>
+    <string name="action_stop">നിർത്തുക</string>
+    <string name="action_dismiss">ഒഴിവാക്കുക</string>
+    <string name="action_apply">പ്രയോഗിക്കുക</string>
+    <string name="action_undo">പഴയപടിയാക്കുക</string>
+    <string name="action_open">തുറക്കുക</string>
+    <string name="common_reminder">റിമൈൻഡർ</string>
+    <string name="time_picker_title">സമയം തിരഞ്ഞെടുക്കുക</string>
+    <string name="err_date_future">തീയതി ഇന്നോ പിന്നീടോ ആയിരിക്കണം</string>
+    <string name="err_time_future">ഭാവിയിലെ ഒരു സമയം തിരഞ്ഞെടുക്കുക</string>
+
+    <!-- Home dialogs -->
+    <string name="home_stop_recurring_title">ആവർത്തിക്കുന്ന റിമൈൻഡർ നിർത്തണോ?</string>
+    <string name="home_stop_recurring_msg">ഇത് ഈ റിമൈൻഡറും ഭാവിയിലെ എല്ലാ ആവർത്തനങ്ങളും ഇല്ലാതാക്കും. ഇത് പഴയപടിയാക്കാനാവില്ല.</string>
+    <string name="home_stop_recurring_action">ആവർത്തനം നിർത്തുക</string>
+    <string name="home_stop_recurring_sub">ഈ റിമൈൻഡറും ഭാവിയിലെ എല്ലാ ആവർത്തനങ്ങളും ഇല്ലാതാക്കുക</string>
+    <string name="home_keep_reminder">റിമൈൻഡർ നിലനിർത്തുക</string>
+    <string name="home_mark_occurrence_title">ഈ തവണ പൂർത്തിയായതായി അടയാളപ്പെടുത്തണോ?</string>
+    <string name="home_mark_occurrence_msg">ഇത് ഇന്നത്തെ തവണ മാത്രം പൂർത്തിയാക്കും. റിമൈൻഡർ അടുത്ത ഷെഡ്യൂൾ ചെയ്ത സമയത്ത് വീണ്ടും വരും.</string>
+    <string name="home_mark_occurrence_action">ഈ തവണ പൂർത്തിയായതായി അടയാളപ്പെടുത്തുക</string>
+    <string name="home_mark_occurrence_sub">ഭാവിയിലെ ആവർത്തനങ്ങൾ ഷെഡ്യൂളിൽ തുടരും</string>
+    <string name="home_mark_done_title">പൂർത്തിയായതായി അടയാളപ്പെടുത്തണോ?</string>
+    <string name="home_mark_done_msg">ഇത് റിമൈൻഡറിനെ പൂർത്തിയായവ ടാബിലേക്ക് മാറ്റും.</string>
+    <string name="home_move_to_done">പൂർത്തിയായവയിലേക്ക് മാറ്റുക</string>
+    <string name="home_move_to_done_sub">ഈ റിമൈൻഡർ പൂർത്തിയായവയുടെ ചരിത്രത്തിൽ സൂക്ഷിക്കുക</string>
+    <string name="home_created_at">സൃഷ്ടിച്ചത്: %1$s</string>
+    <string name="home_snackbar_deleted">റിമൈൻഡർ ഇല്ലാതാക്കി</string>
+    <string name="home_snackbar_duplicated">റിമൈൻഡർ പകർത്തി</string>
+    <string name="home_badge_missed">നഷ്‌ടമായി</string>
+
+    <!-- Add / Edit reminder -->
+    <string name="ae_saved">റിമൈൻഡർ സേവ് ചെയ്തു!</string>
+    <string name="ae_cannot_past">കഴിഞ്ഞ സമയത്തേക്ക് റിമൈൻഡർ സജ്ജമാക്കാനാവില്ല</string>
+    <string name="ae_record_too_short">റെക്കോർഡിംഗ് വളരെ ചെറുതാണ് — സംസാരിക്കുമ്പോൾ ബട്ടൺ അമർത്തിപ്പിടിക്കുക</string>
+    <string name="ae_record_failed">റെക്കോർഡിംഗ് തുടങ്ങാനായില്ല. മറ്റൊരു ആപ്പ് മൈക്രോഫോൺ ഉപയോഗിക്കുന്നുണ്ടാകാം.</string>
+    <string name="ae_record_silent">ശബ്ദമൊന്നും റെക്കോർഡ് ആയില്ല. SpeakAlert-ന് മൈക്രോഫോൺ അനുമതിയുണ്ടോ എന്ന് നോക്കുക.</string>
+    <string name="ae_unsaved_title">റിമൈൻഡർ സേവ് ചെയ്യണോ?</string>
+    <string name="ae_unsaved_msg">റിമൈൻഡറിൽ സേവ് ചെയ്യാത്ത മാറ്റങ്ങളുണ്ട്.</string>
+    <string name="action_save">സേവ് ചെയ്യുക</string>
+    <string name="ae_keep_editing">എഡിറ്റിംഗ് തുടരുക</string>
+    <string name="action_discard">ഉപേക്ഷിക്കുക</string>
+    <string name="action_remove">നീക്കം ചെയ്യുക</string>
+    <string name="action_change">മാറ്റുക</string>
+    <string name="ae_title_edit">റിമൈൻഡർ എഡിറ്റ്</string>
+    <string name="ae_title_new">പുതിയ റിമൈൻഡർ</string>
+    <string name="action_back">പിന്നോട്ട്</string>
+    <string name="ae_header_edit">റിമൈൻഡർ എഡിറ്റ് ചെയ്യുക</string>
+    <string name="ae_header_create">റിമൈൻഡർ സൃഷ്ടിക്കുക</string>
+    <string name="ae_section_content">റിമൈൻഡർ ഉള്ളടക്കം</string>
+    <string name="ae_content_desc">സ്വന്തം ശബ്ദം റെക്കോർഡ് ചെയ്യാം, ഓഡിയോ ഫയൽ ചേർക്കാം, അല്ലെങ്കിൽ റിമൈൻഡറിന്റെ സന്ദേശം എഴുതാം.</string>
+    <string name="ae_tap_to_record">വോയ്‌സ് റിമൈൻഡർ റെക്കോർഡ് ചെയ്യാൻ ടാപ്പ് ചെയ്യുക</string>
+    <string name="ae_or_choose_audio">അല്ലെങ്കിൽ ഓഡിയോ ഫയൽ തിരഞ്ഞെടുക്കുക</string>
+    <string name="ae_selected_audio">തിരഞ്ഞെടുത്ത ഓഡിയോ ഫയൽ</string>
+    <string name="ae_cd_stop_preview">ഓഡിയോ പ്രിവ്യൂ നിർത്തുക</string>
+    <string name="ae_cd_play_preview">ഓഡിയോ പ്രിവ്യൂ പ്ലേ ചെയ്യുക</string>
+    <string name="ae_cd_audio_progress">ഓഡിയോ പ്രിവ്യൂ പുരോഗതി</string>
+    <string name="ae_choose_audio_file">ഓഡിയോ ഫയൽ തിരഞ്ഞെടുക്കുക</string>
+    <string name="ae_or_type">അല്ലെങ്കിൽ റിമൈൻഡർ സന്ദേശം ടൈപ്പ് ചെയ്യുക</string>
+    <string name="ae_msg_label">റിമൈൻഡർ സന്ദേശം</string>
+    <string name="ae_msg_placeholder">ഉദാ., പ്രാതലിനു ശേഷം മരുന്ന് കഴിക്കുക</string>
+    <string name="ae_label_placeholder">ഉദാ., രാവിലത്തെ മരുന്ന്</string>
+    <string name="ae_msg_help">സന്ദേശം ആപ്പിലും അറിയിപ്പുകളിലും കാണും. ശബ്ദ റെക്കോർഡിംഗോ ഓഡിയോ ഫയലോ ചേർത്തിട്ടില്ലെങ്കിൽ മാത്രമേ ഇത് വായിച്ചുകേൾപ്പിക്കൂ.</string>
+    <string name="ae_char_count">%1$d/%2$d</string>
+    <string name="ae_need_content">ഒരു വോയ്‌സ് നോട്ട്, ഓഡിയോ ഫയൽ, അല്ലെങ്കിൽ റിമൈൻഡർ സന്ദേശം ചേർക്കുക.</string>
+    <string name="ae_section_label">ചെറിയ ലേബൽ (ഓപ്ഷണൽ)</string>
+    <string name="ae_label_desc">വേണമെങ്കിൽ ഒരു ചെറിയ പേര് നൽകാം. പട്ടികയിൽ റിമൈൻഡർ എളുപ്പം തിരിച്ചറിയാൻ സഹായിക്കും.</string>
+    <string name="ae_label_hint">ലിസ്റ്റുകളിലും വിശദാംശങ്ങളിലും ചെറിയ പേരായി കാണിക്കും</string>
+    <string name="ae_section_schedule">ഷെഡ്യൂൾ</string>
+    <string name="ae_when_fire">ഈ റിമൈൻഡർ എപ്പോൾ മുഴങ്ങണം?</string>
+    <string name="ae_datetime_at">%1$s, %2$s-ന്</string>
+    <string name="ae_date">തീയതി</string>
+    <string name="ae_time">സമയം</string>
+    <string name="ae_time_future">സമയം ഭാവിയിലായിരിക്കണം</string>
+    <string name="ae_repeat_never">ഒരിക്കലുമില്ല</string>
+    <string name="ae_repeat">ആവർത്തനം</string>
+    <string name="state_on">ഓൺ</string>
+    <string name="state_off">ഓഫ്</string>
+    <string name="state_active">സജീവം</string>
+    <string name="ae_loop">ലൂപ്പ് പ്ലേബാക്ക്</string>
+    <string name="ae_loop_desc">നിങ്ങൾ റിമൈൻഡർ ഒഴിവാക്കുന്നതുവരെ പ്ലേ ചെയ്തുകൊണ്ടിരിക്കും.</string>
+    <string name="ae_followup">ഫോളോ-അപ്പ് പരിശോധന</string>
+    <string name="ae_followup_desc">റിമൈൻഡർ പൂർത്തിയായതായി അടയാളപ്പെടുത്തിയില്ലെങ്കിൽ കുറച്ചു കഴിഞ്ഞ് വീണ്ടും ചോദിക്കും.</string>
+    <string name="ae_cd_saving">റിമൈൻഡർ സേവ് ചെയ്യുന്നു</string>
+    <string name="ae_save_reminder">റിമൈൻഡർ സേവ് ചെയ്യുക</string>
+    <plurals name="ae_followup_active">
+        <item quantity="one">സജീവം: പൂർത്തിയായതായി അടയാളപ്പെടുത്തുന്നതുവരെ ഓരോ മിനിറ്റിലും ചോദിക്കും.</item>
+        <item quantity="other">സജീവം: പൂർത്തിയായതായി അടയാളപ്പെടുത്തുന്നതുവരെ ഓരോ %1$d മിനിറ്റിലും ചോദിക്കും.</item>
+    </plurals>
+
+    <!-- Recurrence type names (shared) -->
+    <string name="rec_every">ഓരോ %1$d %2$s</string>
+    <string name="rec_ends_never">അവസാനം: ഒരിക്കലുമില്ല</string>
+    <string name="rec_if_off_fire">ഉപകരണം ഓഫാണെങ്കിൽ: വീണ്ടും ഓണാകുമ്പോൾ അലേർട്ട്</string>
+    <string name="rec_if_off_skip">ഉപകരണം ഓഫാണെങ്കിൽ: കൃത്യസമയത്ത് മാത്രം ഓർമ്മിപ്പിക്കുക</string>
+    <string name="date_today">ഇന്ന്</string>
+    <string name="date_tomorrow">നാളെ</string>
+    <string name="date_yesterday">ഇന്നലെ</string>
+    <plurals name="rec_ends_times">
+        <item quantity="one">%1$d തവണയ്ക്കു ശേഷം അവസാനിക്കും</item>
+        <item quantity="other">%1$d തവണയ്ക്കു ശേഷം അവസാനിക്കും</item>
+    </plurals>
+    <string name="rec_onetime">ഒറ്റത്തവണ</string>
+    <string name="rec_daily">ദിവസവും</string>
+    <string name="rec_weekly">ആഴ്‌ചതോറും</string>
+    <string name="rec_monthly">മാസംതോറും</string>
+    <string name="rec_yearly">വർഷംതോറും</string>
+    <string name="rec_custom">ഇഷ്‌ടാനുസൃതം</string>
+    <string name="day_mon">തിങ്കൾ</string>
+    <string name="day_tue">ചൊവ്വ</string>
+    <string name="day_wed">ബുധൻ</string>
+    <string name="day_thu">വ്യാഴം</string>
+    <string name="day_fri">വെള്ളി</string>
+    <string name="day_sat">ശനി</string>
+    <string name="day_sun">ഞായർ</string>
+
+    <!-- Reminder details -->
+    <string name="det_title">റിമൈൻഡർ വിശദാംശങ്ങൾ</string>
+    <string name="action_edit">എഡിറ്റ്</string>
+    <string name="action_delete">ഇല്ലാതാക്കുക</string>
+    <string name="action_confirm">സ്ഥിരീകരിക്കുക</string>
+    <string name="det_audio_file">ഓഡിയോ ഫയൽ</string>
+    <string name="det_voice_note">വോയ്‌സ് നോട്ട്</string>
+    <string name="det_loop_enabled">ലൂപ്പ് ഓണാണ്</string>
+    <string name="det_followup_pill">ഫോളോ-അപ്പ് %1$d മി</string>
+    <string name="det_cd_stop_audio">ഓഡിയോ നിർത്തുക</string>
+    <string name="det_cd_play_audio">ഓഡിയോ പ്ലേ ചെയ്യുക</string>
+    <string name="det_ready_preview">പ്രിവ്യൂവിന് തയ്യാർ</string>
+    <string name="det_ready_play">പ്ലേ ചെയ്യാൻ തയ്യാർ</string>
+    <string name="det_voice_recording">വോയ്‌സ് റെക്കോർഡിംഗ്</string>
+    <string name="det_tap_preview">റെക്കോർഡ് ചെയ്ത റിമൈൻഡർ കേൾക്കാൻ പ്ലേ ടാപ്പ് ചെയ്യുക.</string>
+    <string name="det_cd_audio_progress">റിമൈൻഡർ ഓഡിയോ പുരോഗതി</string>
+    <string name="det_double_tap_edit">എഡിറ്റ് ചെയ്യാൻ രണ്ടുതവണ ടാപ്പ് ചെയ്യുക</string>
+    <string name="det_ends_by">%1$s-ന് അവസാനിക്കും</string>
+    <string name="det_end_rule">അവസാനിക്കൽ നിയമം</string>
+    <string name="det_missed_handling">നഷ്‌ടമായ റിമൈൻഡർ കൈകാര്യം</string>
+    <string name="det_missed_fire">ഉപകരണം വീണ്ടും ഓണാകുമ്പോൾ അലേർട്ട് ചെയ്യുക</string>
+    <string name="det_missed_skip">അടുത്ത കൃത്യസമയത്ത് മാത്രം ഓർമ്മിപ്പിക്കുക</string>
+    <string name="det_mark_undone">പൂർത്തിയായിട്ടില്ല എന്ന് അടയാളപ്പെടുത്തുക</string>
+    <string name="det_mark_done">പൂർത്തിയായതായി അടയാളപ്പെടുത്തുക</string>
+    <string name="det_scheduled_for">ഷെഡ്യൂൾ: %1$s</string>
+    <string name="det_delete_title">റിമൈൻഡർ ഇല്ലാതാക്കണോ?</string>
+    <string name="det_delete_recurring">ഇത് ഭാവിയിലെ എല്ലാ ആവർത്തനങ്ങളും നിർത്തും. ഇത് പഴയപടിയാക്കാനാവില്ല.</string>
+    <string name="det_delete_onetime">ഇത് പഴയപടിയാക്കാനാവില്ല.</string>
+    <string name="det_reschedule_title">റിമൈൻഡർ വീണ്ടും ഷെഡ്യൂൾ ചെയ്യണോ?</string>
+    <string name="det_reschedule_to">%1$s-ലേക്ക് വീണ്ടും ഷെഡ്യൂൾ ചെയ്യണോ?</string>
+    <plurals name="det_ends_after">
+        <item quantity="one">%1$d ആവർത്തനത്തിനു ശേഷം അവസാനിക്കും</item>
+        <item quantity="other">%1$d ആവർത്തനങ്ങൾക്കു ശേഷം അവസാനിക്കും</item>
+    </plurals>
+
+    <!-- Recurrence selection sheet -->
+    <string name="rs_subtitle">ഈ റിമൈൻഡർ എങ്ങനെ ആവർത്തിക്കണമെന്ന് തിരഞ്ഞെടുക്കുക.</string>
+    <string name="rs_none">ആവർത്തിക്കില്ല</string>
+    <string name="rs_monthly_settings">പ്രതിമാസ ക്രമീകരണം</string>
+    <string name="rs_monthly_subtitle">ഏത് ദിവസങ്ങൾ അല്ലെങ്കിൽ അവസാനിക്കൽ നിയമം എന്ന് തിരഞ്ഞെടുക്കുക.</string>
+    <string name="rs_repeat_on">ആവർത്തിക്കേണ്ട ദിവസങ്ങൾ</string>
+    <string name="rs_days_of_month">മാസത്തിലെ ദിവസം/ദിവസങ്ങൾ</string>
+    <string name="rs_last_day">അവസാന ദിവസം</string>
+    <string name="rs_select_days_toggle">ദിവസങ്ങൾ തിരഞ്ഞെടുക്കുക (മാറ്റാൻ ടാപ്പ് ചെയ്യുക)</string>
+    <string name="rs_selected">തിരഞ്ഞെടുത്തവ: %1$s</string>
+    <string name="rs_weekly_settings">പ്രതിവാര ക്രമീകരണം</string>
+    <string name="rs_weekly_subtitle">ആവർത്തിക്കേണ്ട ആഴ്‌ചയിലെ ദിവസങ്ങൾ തിരഞ്ഞെടുക്കുക.</string>
+    <string name="rs_select_days">ദിവസങ്ങൾ തിരഞ്ഞെടുക്കുക</string>
+    <string name="rs_custom_interval">ഇഷ്‌ടാനുസൃത ഇടവേള</string>
+    <string name="rs_custom_subtitle">എത്ര ഇടവേളയിൽ റിമൈൻഡർ ആവർത്തിക്കണമെന്ന് തിരഞ്ഞെടുക്കുക.</string>
+    <string name="rs_repeat_every">ഓരോ</string>
+    <string name="rs_number">എണ്ണം</string>
+    <string name="rs_unit">യൂണിറ്റ്</string>
+    <string name="rs_repeats_every">ഓരോ %1$d %2$s കൂടുമ്പോഴും ആവർത്തിക്കും.</string>
+    <string name="rs_interval_min">ഇടവേള കുറഞ്ഞത് 1 ആയിരിക്കണം</string>
+    <string name="rs_ends">അവസാനം</string>
+    <string name="rs_forever">എന്നേക്കും</string>
+    <string name="rs_until_date">തീയതി/സമയം വരെ</string>
+    <string name="rs_after_count">നിശ്ചിത തവണയ്ക്കു ശേഷം</string>
+    <string name="rs_must_be_after">%1$s അല്ലെങ്കിൽ അതിനു ശേഷം ആയിരിക്കണം</string>
+    <string name="rs_date_label">തീയതി: %1$s</string>
+    <string name="rs_time_label">സമയം: %1$s</string>
+    <string name="rs_num_occurrences">ആവർത്തനങ്ങളുടെ എണ്ണം</string>
+    <string name="rs_allowed_range">അനുവദനീയം: 1-999</string>
+    <string name="rs_end_before_error">അവസാന സമയം റിമൈൻഡർ സമയത്തിനു മുൻപാകാൻ പാടില്ല</string>
+    <string name="rs_select_end_time">അവസാന സമയം തിരഞ്ഞെടുക്കുക</string>
+    <plurals name="unit_minutes"><item quantity="one">മിനിറ്റ്</item><item quantity="other">മിനിറ്റ്</item></plurals>
+    <plurals name="unit_hours"><item quantity="one">മണിക്കൂർ</item><item quantity="other">മണിക്കൂർ</item></plurals>
+    <plurals name="unit_days"><item quantity="one">ദിവസം</item><item quantity="other">ദിവസം</item></plurals>
+    <plurals name="unit_weeks"><item quantity="one">ആഴ്‌ച</item><item quantity="other">ആഴ്‌ച</item></plurals>
+    <plurals name="unit_months"><item quantity="one">മാസം</item><item quantity="other">മാസം</item></plurals>
+    <plurals name="unit_years"><item quantity="one">വർഷം</item><item quantity="other">വർഷം</item></plurals>
+
+    <!-- Settings -->
+    <string name="set_appearance">രൂപഭാവം</string>
+    <string name="set_reminder_form">റിമൈൻഡർ ഫോം</string>
+    <string name="set_reminder_form_desc">റിമൈൻഡർ ഉണ്ടാക്കുമ്പോൾ ഏതെല്ലാം ഭാഗങ്ങൾ കാണണമെന്ന് തിരഞ്ഞെടുക്കുക. എല്ലാ ഇൻപുട്ടുകളും മറച്ചാൽ പുതിയ റിമൈൻഡർ ഉണ്ടാക്കുന്നതിനുമുമ്പ് ഒന്നെങ്കിലും വീണ്ടും ഓണാക്കണം.</string>
+    <string name="ae_no_content_sections">റിമൈൻഡർ ഇൻപുട്ട് വിഭാഗങ്ങളൊന്നും ഓണല്ല. ക്രമീകരണം &gt; റിമൈൻഡർ ഫോമിൽ വോയ്‌സ് റെക്കോർഡിംഗ്, ഓഡിയോ ഫയൽ തിരഞ്ഞെടുക്കുക, അല്ലെങ്കിൽ ടൈപ്പ് ചെയ്ത റിമൈൻഡർ ഓണാക്കുക.</string>
+    <string name="set_show_voice_recording">വോയ്‌സ് റെക്കോർഡിംഗ്</string>
+    <string name="set_show_voice_recording_desc">മൈക്രോഫോൺ റെക്കോർഡിംഗ് വിഭാഗം കാണിക്കുക.</string>
+    <string name="set_experimental_voice_enhancement">പരീക്ഷണാത്മക ശബ്ദ മെച്ചപ്പെടുത്തൽ</string>
+    <string name="set_experimental_voice_enhancement_desc">ഓഫാക്കിയാൽ റെക്കോർഡിംഗ് മാറ്റങ്ങളൊന്നുമില്ലാതെ സൂക്ഷിക്കും. ഓണാക്കിയാൽ റെക്കോർഡിംഗിനുള്ള അധിക സുരക്ഷകൾ, ശബ്ദം പതിയാത്തപ്പോൾ അറിയിപ്പ്, ശബ്ദം വ്യക്തമാക്കുന്ന സൗകര്യം എന്നിവ ലഭിക്കും.</string>
+    <string name="set_experimental_voice_enhancement_note">ഈ സൗകര്യം പരീക്ഷണഘട്ടത്തിലാണ്. ഫോണിനനുസരിച്ച് ഫലവും വേണ്ടിവരുന്ന സമയവും മാറാം. ശബ്ദം വികലമായി കേട്ടാലോ സേവ് ചെയ്യാൻ കൂടുതൽ സമയമെടുത്താലോ ഓഫാക്കുക.</string>
+    <string name="set_show_audio_file">ഓഡിയോ ഫയൽ തിരഞ്ഞെടുക്കുക</string>
+    <string name="set_show_audio_file_desc">നിലവിലുള്ള ഓഡിയോ ഫയൽ തിരഞ്ഞെടുക്കാനുള്ള ഓപ്ഷൻ കാണിക്കുക.</string>
+    <string name="set_show_typed_reminder">ടൈപ്പ് ചെയ്ത റിമൈൻഡർ</string>
+    <string name="set_show_typed_reminder_desc">റിമൈൻഡർ സന്ദേശ ഫീൽഡ് കാണിക്കുക.</string>
+    <string name="set_show_short_label">ചെറിയ ലേബൽ</string>
+    <string name="set_show_short_label_desc">ഓപ്ഷണൽ ചെറിയ ലേബൽ ഫീൽഡ് കാണിക്കുക.</string>
+    <string name="set_app_theme">ആപ്പ് തീം</string>
+    <string name="theme_system">സിസ്റ്റം</string>
+    <string name="theme_light">ലൈറ്റ്</string>
+    <string name="theme_dark">ഡാർക്ക്</string>
+    <string name="set_toast_theme_light">ലൈറ്റ് മോഡ് സജ്ജമാക്കി</string>
+    <string name="set_toast_theme_dark">ഡാർക്ക് മോഡ് സജ്ജമാക്കി</string>
+    <string name="set_toast_theme_system">സിസ്റ്റം തീം പിന്തുടരുന്നു</string>
+    <string name="set_playback">പ്ലേബാക്ക്</string>
+    <string name="set_autoplay">റിമൈൻഡർ ഓഡിയോ സ്വയമേവ പ്ലേ ചെയ്യുക</string>
+    <string name="set_autoplay_desc">റിമൈൻഡർ മുഴങ്ങുമ്പോൾ വോയ്‌സ് നോട്ടുകളും ഓഡിയോ ഫയലുകളും സ്വയമേവ പ്ലേ ചെയ്യും</string>
+    <string name="set_disabled_tone">ടോൺ മാത്രം മോഡ് ഓണായിരിക്കുമ്പോൾ പ്രവർത്തനരഹിതം</string>
+    <string name="set_toast_autoplay_on">ഓട്ടോ-പ്ലേ ഓൺ</string>
+    <string name="set_toast_autoplay_off">ഓട്ടോ-പ്ലേ ഓഫ്</string>
+    <string name="set_unlock_only">ഫോൺ അൺലോക്ക് ചെയ്തിരിക്കുമ്പോൾ മാത്രം</string>
+    <string name="set_unlock_only_desc">ലോക്ക് സ്ക്രീനിൽ പ്ലേബാക്ക് തടയുക</string>
+    <string name="set_toast_lock_off">ലോക്ക് സ്ക്രീൻ പ്ലേബാക്ക് ഓഫ്</string>
+    <string name="set_toast_lock_on">ലോക്ക് സ്ക്രീൻ പ്ലേബാക്ക് ഓൺ</string>
+    <string name="set_speak_text">എഴുതിയ റിമൈൻഡറുകൾ തനിയെ വായിച്ചുകേൾപ്പിക്കുക</string>
+    <string name="set_speak_text_desc">വോയ്‌സ് നോട്ടോ ഓഡിയോ ഫയലോ ഇല്ലാത്ത ടെക്സ്റ്റ് മാത്രം റിമൈൻഡറുകൾക്ക് മാത്രം</string>
+    <string name="set_toast_speak_on">സ്വയമേവയുള്ള വായന ഓൺ</string>
+    <string name="set_toast_speak_off">സ്വയമേവയുള്ള വായന ഓഫ്</string>
+    <string name="set_spoken_language">വായിച്ചുകേൾപ്പിക്കുന്ന ഭാഷ</string>
+    <string name="set_spoken_language_desc">റിമൈൻഡർ വായിച്ചുകേൾപ്പിക്കേണ്ട ഭാഷ. സ്വയമേവ കണ്ടെത്തൽ സന്ദേശത്തിലെ ഭാഷ തിരഞ്ഞെടുക്കും. ആ ഭാഷയ്ക്കുള്ള ശബ്ദം ഫോണിന്റെ ടെക്സ്റ്റ്-ടു-സ്പീച്ച് ക്രമീകരണത്തിൽ ഇൻസ്റ്റാൾ ചെയ്തിരിക്കണം.</string>
+    <string name="tts_auto">സ്വയമേവ കണ്ടെത്തൽ</string>
+    <string name="tts_device">ഉപകരണം</string>
+    <string name="tts_english">ഇംഗ്ലീഷ്</string>
+    <string name="set_toast_tts_device">വായിച്ചുകേൾപ്പിക്കുന്ന ഭാഷ: ഉപകരണ ഭാഷ</string>
+    <string name="set_toast_tts_english">വായിച്ചുകേൾപ്പിക്കുന്ന ഭാഷ: ഇംഗ്ലീഷ്</string>
+    <string name="set_toast_tts_auto">വായിച്ചുകേൾപ്പിക്കുന്ന ഭാഷ: സ്വയമേവ കണ്ടെത്തൽ</string>
+    <string name="set_private">സ്വകാര്യ പ്ലേബാക്ക്</string>
+    <string name="set_private_desc">ബന്ധിപ്പിച്ച ശ്രവണസഹായി, ബ്ലൂടൂത്ത് ഉപകരണം, അല്ലെങ്കിൽ വയറുള്ള ഹെഡ്‌ഫോൺ വഴി ആദ്യം കേൾപ്പിക്കും. ഇവയൊന്നുമില്ലെങ്കിൽ സ്പീക്കറിനു പകരം ഫോണിന്റെ ഇയർപീസ് ഉപയോഗിക്കും.</string>
+    <string name="set_toast_private_on">സ്വകാര്യ പ്ലേബാക്ക് ഓൺ</string>
+    <string name="set_toast_private_off">സ്വകാര്യ പ്ലേബാക്ക് ഓഫ്</string>
+    <string name="set_private_bt">സ്വകാര്യ പ്ലേബാക്ക് ഓൺ. ബ്ലൂടൂത്ത് റൂട്ടിംഗിന് സമീപത്തുള്ള ഉപകരണങ്ങളുടെ അനുമതി വേണം.</string>
+    <string name="set_tone_only">ടോൺ മാത്രം മോഡ്</string>
+    <string name="set_tone_only_desc">പരമാവധി വിശ്വാസ്യതയ്ക്കായി ശബ്ദം/TTS-നു പകരം ലളിതമായ അലാറം ടോൺ പ്ലേ ചെയ്യും. സ്വയം നിർത്തൽ: %1$s. സ്‌നൂസ്: %2$d മി.</string>
+    <string name="set_toast_tone_on">ടോൺ മാത്രം മോഡ് ഓൺ</string>
+    <string name="set_toast_tone_off">ടോൺ മാത്രം മോഡ് ഓഫ്</string>
+    <string name="set_infinite">പരിധിയില്ല</string>
+    <string name="set_minutes_short">%1$d മി</string>
+    <string name="set_select_tone">ടോൺ തിരഞ്ഞെടുക്കുക</string>
+    <string name="file_picker_unavailable">ഈ ഉപകരണത്തിൽ ഫയലുകൾ തുറക്കാൻ കഴിയുന്ന ആപ്പില്ല. ഒരു ഫയൽ മാനേജർ ഇൻസ്റ്റാൾ ചെയ്ത് വീണ്ടും ശ്രമിക്കുക.</string>
+    <string name="tone_picker_unavailable">ഈ ഉപകരണത്തിൽ ടോൺ തിരഞ്ഞെടുക്കാൻ കഴിയുന്ന ആപ്പില്ല.</string>
+    <string name="set_toast_default_tone">ഡിഫോൾട്ട് അലാറം ടോൺ ഉപയോഗിക്കുന്നു</string>
+    <string name="set_toast_tone_updated">ടോൺ അപ്‌ഡേറ്റ് ചെയ്തു</string>
+    <string name="set_fullscreen">ലോക്ക് സ്ക്രീൻ ഫുൾ സ്ക്രീൻ അലേർട്ട്</string>
+    <string name="set_fullscreen_desc_granted">റിമൈൻഡർ മുഴങ്ങുമ്പോൾ ലോക്ക് സ്ക്രീനിനു മുകളിൽ റിമൈൻഡർ ഓപ്ഷനുകൾ കാണിക്കുക</string>
+    <string name="set_fullscreen_desc_denied">ലോക്ക് സ്ക്രീനിനു മുകളിൽ കാണിക്കാൻ Android ഫുൾ സ്ക്രീൻ അലേർട്ട് അനുമതി വേണം</string>
+    <string name="set_allow_fullscreen">സിസ്റ്റം ക്രമീകരണത്തിൽ ഫുൾ സ്ക്രീൻ അലേർട്ടുകൾ അനുവദിക്കുക</string>
+    <string name="set_toast_fs_on">ലോക്ക് സ്ക്രീൻ ഫുൾ സ്ക്രീൻ അലേർട്ട് ഓൺ</string>
+    <string name="set_toast_fs_off">ലോക്ക് സ്ക്രീൻ ഫുൾ സ്ക്രീൻ അലേർട്ട് ഓഫ്</string>
+    <string name="set_fs_off_title">ഫുൾ സ്ക്രീൻ അനുമതി ഇപ്പോഴും ഓഫാണ്</string>
+    <string name="set_fs_off_msg">ഫുൾ സ്ക്രീൻ റിമൈൻഡർ അലേർട്ടുകൾക്ക് Android 14+ പ്രത്യേക സിസ്റ്റം അനുമതി ആവശ്യപ്പെടുന്നു.</string>
+    <string name="set_open_perm">അനുമതി ക്രമീകരണം തുറക്കുക</string>
+    <string name="set_fs_note">അറിയിപ്പിൽ നിന്ന് റിമൈൻഡർ പ്ലേ ചെയ്യുക അല്ലെങ്കിൽ റിമൈൻഡർ വായിക്കുക ഇപ്പോഴും ടാപ്പ് ചെയ്യാം.</string>
+    <string name="set_tone_volume_note">ടോൺ മാത്രം മോഡിൽ വോളിയം ഉപകരണത്തിന്റെ അലാറം/അറിയിപ്പ് വോളിയം നിയന്ത്രിക്കും.</string>
+    <string name="set_loop_duration">ലൂപ്പ് ദൈർഘ്യം</string>
+    <string name="set_loop_duration_desc">റിമൈൻഡർ ലൂപ്പ് എത്രനേരം തുടരണമെന്ന് സജ്ജമാക്കുക</string>
+    <string name="set_toast_loop">ലൂപ്പ് ദൈർഘ്യം: %1$d മിനിറ്റ്</string>
+    <string name="set_toast_loop_infinite">ലൂപ്പ് ദൈർഘ്യം: പരിധിയില്ല</string>
+    <string name="set_custom">ഇഷ്‌ടാനുസൃതം</string>
+    <string name="set_custom_snooze">ഇഷ്‌ടാനുസൃത സ്‌നൂസ്</string>
+    <string name="set_snooze_desc">റിമൈൻഡർ എത്രനേരം മാറ്റിവയ്ക്കണമെന്ന് സജ്ജമാക്കുക</string>
+    <string name="set_toast_snooze">സ്‌നൂസ്: %1$d മിനിറ്റ്</string>
+    <string name="set_toast_followup_off">ഡിഫോൾട്ട് ഫോളോ-അപ്പ് ഓഫ്</string>
+    <string name="set_toast_followup">ഡിഫോൾട്ട് ഫോളോ-അപ്പ്: %1$d മി</string>
+    <string name="set_quiet">നിശബ്ദ സമയം</string>
+    <string name="set_quiet_desc">നിശ്ചിത മണിക്കൂറുകളിൽ റിമൈൻഡറുകൾ നിശബ്ദമാക്കുക</string>
+    <string name="set_toast_quiet_on">നിശബ്ദ സമയം ഓൺ</string>
+    <string name="set_toast_quiet_off">നിശബ്ദ സമയം ഓഫ്</string>
+    <string name="set_start">ആരംഭം</string>
+    <string name="set_end">അവസാനം</string>
+    <string name="set_toast_quiet_start">നിശബ്ദ സമയം %1$s-ന് ആരംഭിക്കും</string>
+    <string name="set_toast_quiet_end">നിശബ്ദ സമയം %1$s-ന് അവസാനിക്കും</string>
+    <string name="set_toast_test">10 സെക്കൻഡിനുള്ളിൽ ടെസ്റ്റ് റിമൈൻഡർ</string>
+    <string name="set_test_reminder">ടെസ്റ്റ് റിമൈൻഡർ</string>
+    <string name="set_cd_granted">അനുമതി നൽകി</string>
+    <string name="set_cd_action_required">നടപടി ആവശ്യമാണ്</string>
+    <string name="set_notifications">അറിയിപ്പുകൾ</string>
+    <string name="set_exact_alarms">കൃത്യമായ അലാറങ്ങൾ</string>
+    <string name="set_microphone">മൈക്രോഫോൺ</string>
+    <string name="set_dnd">ശല്യപ്പെടുത്തരുത് സമയത്തും അലേർട്ട്</string>
+    <string name="set_dnd_desc_off">ഫോണിന്റെ ശബ്ദ മോഡ് പിന്തുടരും. ശല്യപ്പെടുത്തരുത് അല്ലെങ്കിൽ റൂട്ടീനുകൾ റിമൈൻഡറുകൾ നിശബ്ദമാക്കിയേക്കാം.</string>
+    <string name="set_dnd_desc_active">സജീവം: റിമൈൻഡറുകൾ അലാറം മുൻഗണനാ ശബ്ദം ഉപയോഗിച്ച് ശല്യപ്പെടുത്തരുത് മറികടക്കും.</string>
+    <string name="set_dnd_unavailable">ഈ ഉപകരണത്തിൽ Android ശല്യപ്പെടുത്തരുത് അനുമതി ക്രമീകരണം ലഭ്യമല്ല.</string>
+    <string name="set_grant_dnd">Android ശല്യപ്പെടുത്തരുത് അനുമതി നൽകുക</string>
+    <string name="set_dnd_note">ഇത് ഫോണിലെ “ശല്യപ്പെടുത്തരുത്” മോഡ് ഓണാക്കുകയോ ഓഫാക്കുകയോ ചെയ്യില്ല. ആ മോഡിലും പ്രധാന റിമൈൻഡറുകൾ കേൾപ്പിക്കാൻ അനുമതി ചോദിക്കാൻ %1$s-നെ അനുവദിക്കും.</string>
+    <string name="set_battery_guide">ബാറ്ററി ഒപ്റ്റിമൈസേഷൻ ഗൈഡ്</string>
+    <string name="set_battery_desc">ബാറ്ററി ലാഭിക്കാൻ ചില ഫോണുകൾ റിമൈൻഡറുകൾ വൈകിപ്പിക്കുകയോ നിർത്തുകയോ ചെയ്യാം.</string>
+    <string name="set_wear">Wear OS</string>
+    <string name="set_wear_checking">Wear OS കണക്ഷൻ പരിശോധിക്കുന്നു…</string>
+    <string name="set_wear_connected">Wear OS വാച്ച് കണക്റ്റ് ചെയ്തു</string>
+    <string name="set_wear_supported">%1$s വാച്ച് റിമൈൻഡറുകൾ Wear OS വാച്ചുകളിൽ മാത്രമേ പ്രവർത്തിക്കൂ.</string>
+    <string name="set_wear_notif_off">ഫോണിൽ ആപ്പ് അറിയിപ്പുകൾ ഓഫാണ്. റിമൈൻഡറുകൾ വാച്ചുമായി സമന്വയിപ്പിക്കാൻ അവ ഓണാക്കുക.</string>
+    <string name="set_open_notif">അറിയിപ്പ് ക്രമീകരണം തുറക്കുക</string>
+    <string name="set_open_channel">റിമൈൻഡർ ചാനൽ തുറക്കുക</string>
+    <string name="set_wear_enabled">ഫോണിൽ അറിയിപ്പുകൾ ഓണാണ്. വാച്ചിൽ റിമൈൻഡറുകൾ കാണുന്നില്ലെങ്കിൽ, വാച്ചുമായി ബന്ധിപ്പിച്ച Wear OS ആപ്പിൽ അറിയിപ്പുകളുടെ സിങ്ക് ഓണാക്കുക.</string>
+    <string name="set_refresh">നില പുതുക്കുക</string>
+    <string name="set_app_guide">ആപ്പ് ഗൈഡ്</string>
+    <string name="set_toast_no_email">ഇമെയിൽ ആപ്പ് ലഭ്യമല്ല. ghostgramlabs@gmail.com-ലേക്ക് ഇമെയിൽ അയയ്ക്കുകയോ കാണിച്ച വിലാസം പകർത്തുകയോ ചെയ്യാം.</string>
+    <string name="set_contact_support">ഫീച്ചർ അഭ്യർത്ഥനകളും പിന്തുണയും</string>
+    <string name="set_contact_support_desc">ഒരു ആശയമുണ്ടോ അല്ലെങ്കിൽ സഹായം വേണോ? ഞങ്ങൾക്ക് ഇമെയിൽ അയയ്ക്കുക.</string>
+    <string name="support_email_subject">%1$s — ഫീച്ചർ അഭ്യർത്ഥന അല്ലെങ്കിൽ പിന്തുണ</string>
+    <string name="feature_request_email_subject">%1$s — ഫീച്ചർ അഭ്യർത്ഥന</string>
+    <string name="suggest_feature">ഒരു ഫീച്ചർ നിർദ്ദേശിക്കുക</string>
+    <string name="set_toast_no_rating">ഈ ഉപകരണത്തിൽ റേറ്റിംഗ് പേജ് തുറക്കാനായില്ല.</string>
+    <string name="set_rate">%1$s റേറ്റ് ചെയ്യുക</string>
+    <string name="set_developer">ഡെവലപ്പർ</string>
+    <string name="set_debug_logging">ഡീബഗ് ലോഗിംഗ്</string>
+    <string name="set_debug_desc">വിശദമായ ലോഗുകൾ രേഖപ്പെടുത്തുക</string>
+    <string name="set_send_logs">ലോഗുകൾ അയയ്ക്കുക</string>
+    <string name="set_fix">ശരിയാക്കുക</string>
+    <string name="set_cd_collapse">ചുരുക്കുക</string>
+    <string name="set_cd_expand">വികസിപ്പിക്കുക</string>
+    <string name="set_tone_sound">ടോൺ മാത്രം അലേർട്ട് ശബ്ദം</string>
+    <string name="set_tone_sound_hint">ശബ്ദം തിരഞ്ഞെടുക്കാൻ ടോൺ മാത്രം മോഡ് ഓണാക്കുക. അതുവരെ SpeakAlert ഡിഫോൾട്ട് അലാറം ടോൺ ഉപയോഗിക്കും.</string>
+    <string name="set_choose_tone">ടോൺ തിരഞ്ഞെടുക്കുക</string>
+    <string name="set_use_default">ഡിഫോൾട്ട് ഉപയോഗിക്കുക</string>
+    <string name="set_default_alarm_tone">ഡിഫോൾട്ട് അലാറം ടോൺ</string>
+    <string name="set_tone_unavailable">തിരഞ്ഞെടുത്ത ടോൺ ലഭ്യമല്ല, ഡിഫോൾട്ട് അലാറം ടോൺ ഉപയോഗിക്കുന്നു</string>
+    <string name="set_select_label_time">%1$s സമയം തിരഞ്ഞെടുക്കുക</string>
+    <string name="set_minutes">മിനിറ്റ്</string>
+    <string name="set_max_allowed">പരമാവധി അനുവദനീയം: %1$d മിനിറ്റ്</string>
+    <string name="set_desc_max">%1$s (പരമാവധി %2$d മി)</string>
+    <string name="set_label_time">%1$s: %2$s</string>
+    <string name="set_volume">വോളിയം</string>
+    <string name="set_cd_volume">ആപ്പ് വോളിയം: %1$d%%</string>
+    <string name="set_loop_inline_desc">തുടർച്ചയായി കേൾപ്പിക്കുന്ന റിമൈൻഡർ എത്രനേരത്തിനുശേഷം തനിയെ നിർത്തണം</string>
+    <string name="set_default_snooze">ഡിഫോൾട്ട് സ്‌നൂസ്</string>
+    <string name="set_snooze_inline_desc">“സ്‌നൂസ്” ടാപ്പ് ചെയ്ത് എത്രനേരത്തിനുശേഷം വീണ്ടും ഓർമ്മിപ്പിക്കണം</string>
+    <string name="set_default_followup">ഡിഫോൾട്ട് ഫോളോ-അപ്പ് പരിശോധന</string>
+    <string name="set_followup_off_desc">ഓഫാണ് — പുതിയ റിമൈൻഡറുകളിൽ ഫോളോ-അപ്പ് ഉണ്ടാകില്ല. വേണമെങ്കിൽ ഓരോ റിമൈൻഡറിലും പ്രത്യേകം ചേർക്കാം.</string>
+    <string name="set_followup_on_desc">പുതിയ റിമൈൻഡറുകളിൽ %1$d മിനിറ്റ് ഫോളോ-അപ്പ് ഉണ്ടാകും. പൂർത്തിയായതായി അടയാളപ്പെടുത്തിയില്ലെങ്കിൽ വീണ്ടും ഓർമ്മിപ്പിക്കും. നിലവിലുള്ള റിമൈൻഡറുകൾ മാറില്ല.</string>
+    <string name="set_followup_repeat">ഫോളോ-അപ്പ് ആവർത്തന പരിധി</string>
+    <string name="set_followup_repeat_desc">ഡിഫോൾട്ട് തിരഞ്ഞെടുപ്പിൽ (∞), റിമൈൻഡർ പൂർത്തിയായതായി അടയാളപ്പെടുത്തുന്നതുവരെ വീണ്ടും ഓർമ്മിപ്പിക്കും. നിശ്ചിത തവണയ്ക്കുശേഷം സ്വയം നിർത്തണമെങ്കിൽ പരിധി തിരഞ്ഞെടുക്കുക. നിശബ്ദ സമയം തുടങ്ങുമ്പോഴും ഫോളോ-അപ്പുകൾ നിൽക്കും.</string>
+    <string name="set_toast_followup_repeat_until_done">പൂർത്തിയായതായി അടയാളപ്പെടുത്തുന്നതുവരെ ഫോളോ-അപ്പ് ആവർത്തിക്കും</string>
+    <string name="set_toast_followup_repeat">ഫോളോ-അപ്പ് ആവർത്തന പരിധി: %1$d×</string>
+    <string name="set_reliability">വിശ്വാസ്യത</string>
+    <string name="set_persist">പൂർത്തിയാകുന്നതുവരെ റിമൈൻഡർ സ്ക്രീനിൽ നിലനിർത്തുക</string>
+    <string name="set_persist_desc">“പൂർത്തിയായി” അല്ലെങ്കിൽ “സ്‌നൂസ്” ടാപ്പ് ചെയ്യുന്നതുവരെ റിമൈൻഡർ അറിയിപ്പ് കാണും. ഫോളോ-അപ്പും ഓണാക്കിയാൽ വീണ്ടും ഓർമ്മിപ്പിക്കുകയും ചെയ്യും.</string>
+    <string name="set_toast_persist_on">പൂർത്തിയാകുന്നതുവരെ റിമൈൻഡറുകൾ നിലനിൽക്കും</string>
+    <string name="set_toast_persist_off">റിമൈൻഡറുകൾ സ്വൈപ്പ് ചെയ്ത് മാറ്റാം</string>
+    <string name="set_all_granted">എല്ലാ അനുമതികളും നൽകി</string>
+    <string name="set_some_needed">ചില അനുമതികൾ ആവശ്യമാണ്</string>
+    <string name="set_dnd_desc_needed">ഓണാണ്, പക്ഷേ മറികടക്കൽ പ്രവർത്തിക്കാൻ Android ശല്യപ്പെടുത്തരുത് അനുമതി വേണം.</string>
+    <string name="set_toast_dnd_on">ശല്യപ്പെടുത്തരുത് മറികടക്കൽ ഓൺ</string>
+    <string name="set_toast_dnd_off">ശല്യപ്പെടുത്തരുത് മറികടക്കൽ ഓഫ്</string>
+    <string name="set_battery_desc_ok">%1$s-ന് ഇതിനകം പശ്ചാത്തലത്തിൽ പ്രവർത്തിക്കാൻ അനുമതിയുണ്ട്.</string>
+    <string name="set_wear_watches">%1$d Wear OS വാച്ചുകൾ കണക്റ്റ് ചെയ്തു</string>
+    <string name="set_wear_none">Wear OS വാച്ചൊന്നും കണക്റ്റ് ചെയ്തിട്ടില്ല</string>
+    <string name="set_wear_channel_muted">%1$s റിമൈൻഡർ ചാനൽ മ്യൂട്ട് ചെയ്തിരിക്കുന്നു. വാച്ചിലേക്ക് റിമൈൻഡറുകൾ അയയ്ക്കാൻ അത് ഓണാക്കുക.</string>
+    <string name="set_rate_desc">Google Play-യിൽ നിങ്ങളുടെ അനുഭവം പങ്കിടുക.</string>
+    <string name="set_tone_sound_active">%1$s. ഇത് ലഭ്യമല്ലാതായാൽ SpeakAlert ഡിഫോൾട്ട് അലാറം ടോണിലേക്ക് മാറും.</string>
+
+    <!-- More apps from the developer -->
+    <string name="set_more_apps_title">GhostgramLabs-ന്റെ കൂടുതൽ ആപ്പുകൾ</string>
+    <string name="set_more_apps_desc">%1$s നിർമ്മാതാക്കളുടെ സൗജന്യ ആപ്പുകൾ</string>
+    <string name="set_app_free_tag">Google Play-യിൽ സൗജന്യം</string>
+    <string name="app_pettibox_name">PettiBox: ബുക്ക്‌മാർക്ക് മാനേജർ</string>
+    <string name="app_pettibox_desc">സൗജന്യം • ലിങ്കുകൾ, കുറിപ്പുകൾ, ഫയലുകൾ, സ്ക്രീൻഷോട്ടുകൾ എന്നിവ പിന്നീടത്തേക്ക് സ്വകാര്യമായി സൂക്ഷിക്കാം, ഓഫ്‌ലൈൻ തിരയലോടെ</string>
+    <string name="app_directserve_name">DirectServe: ഫയൽ കൈമാറ്റം</string>
+    <string name="app_directserve_desc">സൗജന്യം • ഏത് ഉപകരണത്തിലേക്കും ടിവിയിലേക്കും ഫയലുകൾ പങ്കിടുകയും സ്ട്രീം ചെയ്യുകയും ചെയ്യാം — ക്ലൗഡും കേബിളുകളുമില്ലാതെ</string>
+    <string name="set_toast_no_store">ഈ ഉപകരണത്തിൽ Google Play തുറക്കാനായില്ല.</string>
+
+    <!-- In-app rating prompt -->
+    <string name="rate_prompt_title">%1$s സൗജന്യമാണ്. നിങ്ങളുടെ പിന്തുണ പ്രധാനമാണ്.</string>
+    <string name="rate_prompt_message">നിങ്ങളുടെ റിവ്യൂ കൂടുതൽ ആളുകളെ %1$s കണ്ടെത്താൻ സഹായിക്കുകയും ഞങ്ങളെ മെച്ചപ്പെടുത്തൽ തുടരാൻ പ്രോത്സാഹിപ്പിക്കുകയും ചെയ്യുന്നു. Google Play-യിൽ നിങ്ങളുടെ അനുഭവം പങ്കിടാൻ അൽപ്പസമയം എടുക്കുക.</string>
+    <string name="rate_prompt_positive">ഇപ്പോൾ റേറ്റ് ചെയ്യുക</string>
+    <string name="rate_prompt_later">പിന്നീടാകാം</string>
+    <string name="rate_prompt_never">വേണ്ട, നന്ദി</string>
+
+    <!-- Help guide -->
+    <string name="help_intro">%1$s-ൽ റിമൈൻഡറുകൾ സൃഷ്ടിക്കുക, പ്ലേ ചെയ്യുക, ആവർത്തിക്കുക, വീണ്ടെടുക്കുക എന്നിവയെക്കുറിച്ചുള്ള പ്രധാനപ്പെട്ടതെല്ലാം.</string>
+    <string name="help_s1_title">റിമൈൻഡർ അലേർട്ട് ചെയ്യുമ്പോൾ</string>
+    <string name="help_s1_content">ലോക്ക് സ്ക്രീനിലും അറിയിപ്പിലും ഈ ബട്ടണുകൾ ഉപയോഗിക്കാം:\n- പൂർത്തിയായി: ഈ തവണത്തെ ജോലി പൂർത്തിയാക്കും. ആവർത്തിക്കുന്ന റിമൈൻഡർ പിന്നീട് നിശ്ചിത സമയങ്ങളിൽ തുടരും.\n- ശബ്ദം നിർത്തുക: ശബ്ദം മാത്രം നിർത്തും. പിന്നീട് തീരുമാനിക്കാൻ റിമൈൻഡർ സ്ക്രീനിൽത്തന്നെ ഉണ്ടാകും.\n- സ്‌നൂസ്: കുറച്ചുകഴിഞ്ഞ് വീണ്ടും ഓർമ്മിപ്പിക്കും. പൂർണ്ണസ്ക്രീൻ അലേർട്ടിൽ 5 അല്ലെങ്കിൽ 10 മിനിറ്റ് തിരഞ്ഞെടുക്കാം.\n- പ്ലേ / വായിക്കുക: ശബ്ദം പ്ലേ ചെയ്യാത്തപ്പോൾ കാണും. റെക്കോർഡിംഗോ എഴുതിയ സന്ദേശമോ വീണ്ടും കേൾക്കാം.\n“പൂർത്തിയായി” ടാപ്പ് ചെയ്താൽ മാത്രമേ ജോലി തീർന്നതായി കണക്കാക്കൂ. ശബ്ദം നിർത്തിയാലും ജോലി ബാക്കിയുണ്ടാകും.</string>
+    <string name="help_s2_title">റിമൈൻഡറുകൾ സൃഷ്ടിക്കൽ</string>
+    <string name="help_s2_content">- ശബ്ദം ആദ്യം: വേഗത്തിൽ ഒരു സംസാര റിമൈൻഡർ റെക്കോർഡ് ചെയ്യാൻ മൈക്ക് ടാപ്പ് ചെയ്യുക.\n- ഓഡിയോ ഫയൽ: ഉപകരണത്തിലുള്ള ഒരു ഓഡിയോ ഫയൽ തിരഞ്ഞെടുക്കുക.\n- റിമൈൻഡർ സന്ദേശം: ആപ്പിലും അറിയിപ്പുകളിലും കാണിക്കും.\n- വോയ്‌സ് നോട്ടുകൾക്കും ഓഡിയോ ഫയലുകൾക്കും വായിക്കുന്ന ടെക്സ്റ്റിനേക്കാൾ മുൻഗണനയുണ്ട്.\n- സ്വയമേവയുള്ള വായന ഓണായിരിക്കുമ്പോൾ ടെക്സ്റ്റ് മാത്രം റിമൈൻഡറുകൾ മാത്രമേ സ്വയമേവ വായിക്കൂ.\n- ചെറിയ ലേബൽ: ലിസ്റ്റുകളിൽ എളുപ്പം കണ്ടെത്താനുള്ള ഓപ്ഷണൽ പേര്.\n- ഷെഡ്യൂൾ: തീയതി, സമയം, ആവർത്തനം, ഫോളോ-അപ്പ് പരിശോധന എന്നിവ തിരഞ്ഞെടുത്ത് സേവ് ചെയ്യുക.</string>
+    <string name="help_s3_title">പ്ലേബാക്കും പ്രിവ്യൂവും</string>
+    <string name="help_s3_content">- റിമൈൻഡർ ചേർക്കുക സ്ക്രീനിൽ സേവ് ചെയ്യുന്നതിനു മുൻപ് റെക്കോർഡ് ചെയ്ത ശബ്ദവും തിരഞ്ഞെടുത്ത ഓഡിയോയും കേട്ടുനോക്കാം.\n- റിമൈൻഡർ വിശദാംശങ്ങളിൽ വോയ്‌സ് നോട്ടുകളും ഓഡിയോ ഫയലുകളും പ്ലേ ചെയ്യാനും നിർത്താനും മുന്നോട്ടും പിന്നോട്ടും നീക്കാനും കഴിയും.\n- ടെക്സ്റ്റ് മാത്രം റിമൈൻഡറുകൾ ആപ്പിൽ നിന്നോ അറിയിപ്പിൽ നിന്നോ നേരിട്ട് വായിപ്പിക്കാം.\n- ടോൺ മാത്രം മോഡ് വായനയ്ക്കു പകരം റിമൈൻഡർ ടോൺ ഉപയോഗിക്കും.\n- ക്രമീകരണത്തിൽ ടോൺ മാത്രം അലേർട്ട് ശബ്ദം തിരഞ്ഞെടുക്കാം; ആ ശബ്ദം ലഭ്യമല്ലാതായാൽ %1$s ഡിഫോൾട്ട് അലാറം ടോണിലേക്ക് മാറും.</string>
+    <string name="help_s4_title">ഹോമും ദ്രുത പ്രവർത്തനങ്ങളും</string>
+    <string name="help_s4_content">- ഇന്ന്, വരാനിരിക്കുന്നവ, നഷ്‌ടമായവ, പൂർത്തിയായവ ടാബുകൾ നിലയനുസരിച്ച് റിമൈൻഡറുകൾ തരംതിരിക്കും.\n- മുഴുവൻ റിമൈൻഡർ വിശദാംശങ്ങളും തുറക്കാൻ കാർഡ് ടാപ്പ് ചെയ്യുക.\n- നിലവിലുള്ള റിമൈൻഡർ പകർത്താൻ കോപ്പി ബട്ടൺ ഉപയോഗിക്കുക.\n- കാർഡ് ഓപ്ഷനുകളിൽ റിമൈൻഡർ പ്ലേ ചെയ്യുക, പൂർത്തിയായി, കൂടാതെ എഡിറ്റ്, പൂർത്തിയായതായി അടയാളപ്പെടുത്തുക, ആവർത്തനം നിർത്തുക, ഇല്ലാതാക്കുക എന്നിവയ്ക്കുള്ള മൂന്ന്-ഡോട്ട് മെനുവും ഉണ്ട്.</string>
+    <string name="help_s18_title">റിമൈൻഡറുകൾ താൽക്കാലികമായി നിർത്തലും ഹോം അറിയിപ്പുകളും</string>
+    <string name="help_s18_content">- എല്ലാ റിമൈൻഡറുകളും ഒരു മണിക്കൂർ, നാല് മണിക്കൂർ, ഇന്നത്തെ ബാക്കി സമയം, അല്ലെങ്കിൽ നിങ്ങൾ തിരഞ്ഞെടുക്കുന്ന സമയം വരെ നിർത്തിവയ്ക്കാൻ ഹോം സ്ക്രീനിലെ താൽക്കാലിക നിർത്തൽ ബട്ടൺ ടാപ്പ് ചെയ്യുക.\n- ഓരോ താൽക്കാലിക നിർത്തലിനും അവസാന സമയമുണ്ട്. ഹോം അത് കാണിക്കും, നേരത്തെ അവസാനിപ്പിക്കാൻ പുനരാരംഭിക്കുക ബട്ടണോടൊപ്പം.\n- താൽക്കാലികമായി നിർത്തിയ റിമൈൻഡർ അലേർട്ട് ചെയ്യില്ല, പക്ഷേ നഷ്‌ടമായവ ടാബിൽ കാണാം.\n- താൽക്കാലിക നിർത്തൽ ശല്യപ്പെടുത്തരുത് സമയത്തും അലേർട്ട് എന്ന ക്രമീകരണത്തെയും മറികടക്കും, കാരണം ഇപ്പോൾ നിങ്ങൾക്ക് റിമൈൻഡറേ വേണ്ട എന്നാണ് അതിന്റെ അർത്ഥം.\n- ഈ ഫോണിന് പശ്ചാത്തലത്തിൽ %1$s നിർത്താൻ അനുമതിയുണ്ടെങ്കിൽ ഹോം മുന്നറിയിപ്പ് നൽകും, നിശബ്ദ സമയം ഓണായിരിക്കുമ്പോൾ അതിന്റെ സമയപരിധി കാണിക്കും.</string>
+    <string name="help_s5_title">ആവർത്തിക്കുന്ന റിമൈൻഡറുകൾ</string>
+    <string name="help_s5_content">- ആവർത്തന മോഡുകൾ: ദിവസവും, ആഴ്‌ചതോറും, മാസംതോറും, വർഷംതോറും, അല്ലെങ്കിൽ ഇഷ്‌ടാനുസൃതം.\n- തിരഞ്ഞെടുത്ത തീയതിയും സമയവും ആദ്യ തവണയാകും.\n- ആവർത്തനങ്ങൾ എന്നേക്കും തുടരാം, കൃത്യമായ തീയതിയിലും സമയത്തും, അല്ലെങ്കിൽ നിശ്ചിത തവണയ്ക്കു ശേഷം അവസാനിക്കാം.\n- ആവർത്തിക്കുന്ന റിമൈൻഡർ പൂർത്തിയായതായി അടയാളപ്പെടുത്തിയാൽ നിലവിലെ തവണ മാത്രം പൂർത്തിയാകും.</string>
+    <string name="help_s6_title">അറിയിപ്പുകളും ഫുൾ സ്ക്രീൻ അലേർട്ടുകളും</string>
+    <string name="help_s6_content">- റിമൈൻഡർ അറിയിപ്പ് മൂന്ന് ദ്രുത ബട്ടണുകൾ കാണിക്കും: പൂർത്തിയായി, സ്‌നൂസ്, കൂടാതെ ശബ്ദം നിർത്തുക (പ്ലേ ചെയ്യുമ്പോൾ) അല്ലെങ്കിൽ പ്ലേ/വായിക്കുക (വീണ്ടും കേൾക്കാൻ).\n- പൂർത്തിയായി റിമൈൻഡർ പൂർത്തിയായതായി അടയാളപ്പെടുത്തും; ശബ്ദം നിർത്തുക ശബ്ദം മാത്രം നിർത്തി, പിന്നീട് നടപടിയെടുക്കാൻ റിമൈൻഡർ നിലനിർത്തും.\n- അറിയിപ്പ് സ്വൈപ്പ് ചെയ്ത് മാറ്റിയാലും നിലവിലെ തവണ പൂർത്തിയായതായി അടയാളപ്പെടുത്തും.\n- ക്രമീകരണത്തിൽ ഓണാക്കിയാൽ, അതേ പൂർത്തിയായി, ശബ്ദം നിർത്തുക, സ്‌നൂസ്, വീണ്ടും പ്ലേ ചെയ്യുക ഓപ്ഷനുകളോടെ ലോക്ക് സ്ക്രീൻ ഫുൾ സ്ക്രീൻ അലേർട്ട് കാണാം.</string>
+    <string name="help_s7_title">നഷ്‌ടമായതും വീണ്ടെടുത്തതുമായ റിമൈൻഡറുകൾ</string>
+    <string name="help_s7_content">- നഷ്‌ടമായ റിമൈൻഡറുകൾ നിങ്ങൾ പരിശോധിക്കുന്നതുവരെ നഷ്‌ടമായവ ടാബിൽ തുടരും.\n- ആപ്പ് തുറക്കുമ്പോൾ, ഏറ്റവും പുതിയ നഷ്‌ടമായ റിമൈൻഡർ വേഗത്തിൽ പ്ലേ ചെയ്യാനുള്ള വീണ്ടെടുക്കൽ ഷീറ്റ് കാണിച്ചേക്കാം.\n- കഴിഞ്ഞ റിമൈൻഡറുകൾ അവയുടെ ഓപ്ഷൻ ഷീറ്റിൽ നിന്ന് പുനഃസ്ഥാപിക്കാനും വീണ്ടും ഷെഡ്യൂൾ ചെയ്യാനും വീണ്ടും പ്ലേ ചെയ്യാനും കഴിയും.</string>
+    <string name="help_s8_title">പ്ലേബാക്ക് ക്രമീകരണം</string>
+    <string name="help_s8_content">- സ്വയമേവയുള്ള പ്ലേബാക്ക് ഓണാണെങ്കിൽ റിമൈൻഡറിന്റെ സമയമാകുമ്പോൾ ശബ്ദ റെക്കോർഡിംഗോ ഓഡിയോ ഫയലോ കേൾപ്പിക്കും.\n- ടെക്സ്റ്റ് മാത്രമുള്ള റിമൈൻഡറുകളാണ് തനിയെ വായിച്ചുകേൾപ്പിക്കുക. അതിന് സ്വയമേവ വായിക്കുന്ന സൗകര്യവും ഓണായിരിക്കണം.\n- റിമൈൻഡർ വായിച്ചുകേൾപ്പിക്കേണ്ട ഭാഷ. സ്വയമേവ കണ്ടെത്തൽ സന്ദേശത്തിലെ ഭാഷ തിരഞ്ഞെടുക്കും. ആ ഭാഷയ്ക്കുള്ള ശബ്ദം ഫോണിന്റെ ടെക്സ്റ്റ്-ടു-സ്പീച്ച് ക്രമീകരണത്തിൽ ഇൻസ്റ്റാൾ ചെയ്തിരിക്കണം. വേണമെങ്കിൽ ഫോണിന്റെ ഭാഷയോ ഇംഗ്ലീഷോ തിരഞ്ഞെടുക്കാം. സ്വയമേവ കണ്ടെത്തലിൽ ഹിന്ദിയിൽ എഴുതിയ റിമൈൻഡർ ഹിന്ദിയിൽ വായിക്കും.\n- സ്വയമേവ വായന ഓഫാണെങ്കിലും ബട്ടൺ ടാപ്പ് ചെയ്ത് സന്ദേശം കേൾക്കാം.\n- ബന്ധിപ്പിച്ച ശ്രവണസഹായി, ബ്ലൂടൂത്ത് ഉപകരണം, അല്ലെങ്കിൽ വയറുള്ള ഹെഡ്‌ഫോൺ വഴി ആദ്യം കേൾപ്പിക്കും. ഇവയൊന്നുമില്ലെങ്കിൽ സ്പീക്കറിനു പകരം ഫോണിന്റെ ഇയർപീസ് ഉപയോഗിക്കും.\n- ലൂപ്പ് പ്ലേബാക്കിൽ നിങ്ങൾ നിർത്തുന്നതുവരെ അല്ലെങ്കിൽ നിശ്ചിത സമയം തീരുന്നതുവരെ ശബ്ദം ആവർത്തിക്കും.\n- പൂർത്തിയായതായി അടയാളപ്പെടുത്തുന്നതുവരെ ഫോളോ-അപ്പ് വീണ്ടും ചോദിക്കും.\n- നിശബ്ദ സമയത്ത് തിരഞ്ഞെടുത്ത മണിക്കൂറുകളിൽ റിമൈൻഡറുകളുടെ ശബ്ദം കേൾക്കാതിരിക്കാം.</string>
+    <string name="help_s9_title">ടോൺ മാത്രം മോഡും വിശ്വാസ്യതയും</string>
+    <string name="help_s9_content">- ടോൺ മാത്രം മോഡ് ശബ്ദത്തിനോ TTS-നോ പകരം വ്യക്തമായ അലാറം ടോൺ ഉപയോഗിക്കും.\n- ഇഷ്‌ടാനുസൃത ടോൺ മാത്രം അലേർട്ട് ശബ്ദം തിരഞ്ഞെടുക്കാം, അല്ലെങ്കിൽ ഡിഫോൾട്ട് അലാറം ടോൺ നിലനിർത്താം.\n- ശല്യപ്പെടുത്തരുത് സമയത്തും അലേർട്ട്, ശല്യപ്പെടുത്തരുത് സജീവമായിരിക്കുമ്പോൾ പ്രധാന റിമൈൻഡറുകൾ പ്ലേ ചെയ്യാൻ %1$s-നെ ശ്രമിക്കാൻ അനുവദിക്കും.\n- ഇത് ഓഫായിരിക്കുമ്പോൾ, ശല്യപ്പെടുത്തരുത് തടഞ്ഞ റിമൈൻഡറുകൾ പ്ലേ ചെയ്യാതെ നഷ്‌ടമായവയിലേക്ക് പോകും.\n- ഈ ക്രമീകരണം ഫോണിന്റെ ശല്യപ്പെടുത്തരുത് മോഡ് ഓണാക്കുകയോ ഓഫാക്കുകയോ ചെയ്യില്ല. അറിയിപ്പ് മറികടക്കൽ സജീവമാകുന്നതിനു മുൻപ് Android ശല്യപ്പെടുത്തരുത് അനുമതി വേണം.\n- ഓണായിരിക്കുമ്പോൾ, റിമൈൻഡറുകൾ അലാറം മുൻഗണനാ ഓഡിയോ ഉപയോഗിക്കും. സിസ്റ്റം മോഡ് അലാറം ഓഡിയോ നിശബ്ദമാക്കിയാൽ ചില ഫോൺ റൂട്ടീനുകൾ ഇപ്പോഴും അലാറങ്ങൾ തടഞ്ഞേക്കാം.\n- തിരഞ്ഞെടുത്ത ശബ്ദം പിന്നീട് കാണാതായാൽ, %1$s സ്വയമേവ ഡിഫോൾട്ട് അലാറം ടോണിലേക്ക് മാറും.\n- നിങ്ങളുടെ ഫോൺ വായന വൈകിപ്പിക്കുകയോ തടയുകയോ നിർത്തുകയോ ചെയ്യുന്നുവെങ്കിൽ ടോൺ മാത്രം മോഡ് ഉപയോഗിക്കുക.\n- ക്രമീകരണം &gt; വിശ്വാസ്യതയിൽ കർശനമായ പശ്ചാത്തല നിയന്ത്രണങ്ങളുള്ള ഫോണുകൾക്കായി ബാറ്ററി ഒപ്റ്റിമൈസേഷൻ ഗൈഡ് ഉണ്ട്.\n- ഏറ്റവും മികച്ച വിശ്വാസ്യതയ്ക്ക് അറിയിപ്പുകൾ, കൃത്യമായ അലാറങ്ങൾ, ബാറ്ററി ക്രമീകരണം എന്നിവ ഓണാക്കി വയ്ക്കുക.</string>
+    <string name="help_s10_title">വിജറ്റുകളും Wear OS-ഉം</string>
+    <string name="help_s10_content">- ദ്രുത റിമൈൻഡർ വിജറ്റ് നേരിട്ട് റിമൈൻഡർ ചേർക്കുക തുറക്കും.\n- വരാനിരിക്കുന്നവ വിജറ്റ് വരാനിരിക്കുന്നതും നഷ്‌ടമായതുമായ റിമൈൻഡറുകൾ കാണിക്കും.\n- Wear OS പിന്തുണ ഫോൺ അറിയിപ്പുകളും വാച്ച് സമന്വയവും ഓണായിരിക്കുന്നതിനെ ആശ്രയിച്ചിരിക്കുന്നു.</string>
+    <string name="help_s11_title">ഉപകരണം റീസ്റ്റാർട്ട് ചെയ്തതിനു ശേഷം</string>
+    <string name="help_s11_content">- റീസ്റ്റാർട്ടിനു ശേഷം ഭാവിയിലെ റിമൈൻഡറുകൾ സ്വയമേവ വീണ്ടും ഷെഡ്യൂൾ ചെയ്യും.\n- സമയം കഴിഞ്ഞ റിമൈൻഡറുകൾ ബൂട്ട് ചെയ്യുമ്പോൾ അപ്രതീക്ഷിതമായി മുഴങ്ങുന്നതിനു പകരം നഷ്‌ടമായ റിമൈൻഡർ പ്രക്രിയയിലൂടെ പോകും.</string>
+    <string name="help_s13_title">ഫോളോ-അപ്പ് പരിശോധനകൾ</string>
+    <string name="help_s13_content">- റിമൈൻഡർ മുഴങ്ങി കുറച്ച് മിനിറ്റുകൾക്കു ശേഷം ഫോളോ-അപ്പ് പരിശോധന \"നിങ്ങൾ … പൂർത്തിയാക്കിയോ?\" എന്ന് ചോദിക്കും.\n- ഡിഫോൾട്ടായി നിങ്ങൾ റിമൈൻഡർ പൂർത്തിയായതായി അടയാളപ്പെടുത്തുന്നതുവരെ ഇത് ആവർത്തിക്കും. സ്വയം നിൽക്കണമെങ്കിൽ ക്രമീകരണം &gt; വിശ്വാസ്യതയിൽ ആവർത്തന പരിധി സജ്ജമാക്കാം.\n- ‘പൂർത്തിയായി’, ‘സ്‌നൂസ്’ എന്നിവ നിലവിലെ ഫോളോ-അപ്പ് ചക്രം അവസാനിപ്പിക്കും; നിശബ്ദ സമയവും ഫോളോ-അപ്പുകൾ നിർത്തും.\n- പൂർത്തിയാകുന്നതുവരെ അല്ലെങ്കിൽ പരിധി എത്തുന്നതുവരെ ഉപകരണം റീസ്റ്റാർട്ട് ചെയ്താലും ഫോളോ-അപ്പ് പരിശോധനകൾ തുടരും.</string>
+    <string name="help_s14_title">ബാക്കപ്പും ഇമ്പോർട്ടും</string>
+    <string name="help_s14_content">- ക്രമീകരണത്തിലെ റിമൈൻഡറുകൾ ബാക്കപ്പ് ചെയ്യുക, വോയ്‌സ് റെക്കോർഡിംഗുകൾ ഉൾപ്പെടെ വരാനിരിക്കുന്ന എല്ലാ റിമൈൻഡറുകളും നിങ്ങൾ തിരഞ്ഞെടുക്കുന്ന ഒരൊറ്റ ഫയലിൽ സേവ് ചെയ്യും.\n- റിമൈൻഡറുകൾ ഇമ്പോർട്ട് ചെയ്യുക അവയെ ഈ ഉപകരണത്തിലോ മറ്റൊന്നിലോ പുനഃസ്ഥാപിക്കും.\n- ഇമ്പോർട്ട് കൃത്യമായ തനിപ്പകർപ്പുകളും കാലഹരണപ്പെട്ട ഒറ്റത്തവണ റിമൈൻഡറുകളും ഒഴിവാക്കും; ആവർത്തിക്കുന്ന റിമൈൻഡറുകൾ അടുത്ത തവണ മുതൽ തുടരും.\n- ഇമ്പോർട്ട് ചെയ്ത റിമൈൻഡറുകൾ ഉടനടി ഷെഡ്യൂൾ ചെയ്യും.</string>
+    <string name="help_s12_title">പൂർത്തിയാകുന്നതുവരെ റിമൈൻഡറുകൾ സ്ക്രീനിൽ നിലനിർത്തുക</string>
+    <string name="help_s12_content">- അബദ്ധത്തിൽ സ്വൈപ്പ് ചെയ്ത് പോകാതിരിക്കാൻ റിമൈൻഡർ അറിയിപ്പ് പിൻ ചെയ്യാൻ ക്രമീകരണം &gt; വിശ്വാസ്യത &gt; പൂർത്തിയാകുന്നതുവരെ റിമൈൻഡർ സ്ക്രീനിൽ നിലനിർത്തുക ഓണാക്കുക.\n- ഇത് ഓണായിരിക്കുമ്പോൾ, സ്വൈപ്പ് ശബ്ദം മാത്രം നിശബ്ദമാക്കി റിമൈൻഡർ ബാക്കിനിർത്തും — നിങ്ങൾ പൂർത്തിയായി അല്ലെങ്കിൽ സ്‌നൂസ് ടാപ്പ് ചെയ്യുന്നതുവരെ അത് തുടരും.\n- അറിയിപ്പ്, ഫുൾ സ്ക്രീൻ അലേർട്ട്, അല്ലെങ്കിൽ റിമൈൻഡർ കാർഡ് എന്നിവയിൽ നിന്ന് പൂർത്തിയായതായി അടയാളപ്പെടുത്തുന്നത് എപ്പോഴും പ്രവർത്തിക്കും, അത് എല്ലാ ഫോളോ-അപ്പ് അലേർട്ടുകളും നിർത്തും.\n- പൂർത്തിയാകുന്നതുവരെ റിമൈൻഡർ ടൈമറിൽ വീണ്ടും അലേർട്ട് ചെയ്യാൻ ഫോളോ-അപ്പ് പരിശോധനയോടൊപ്പം ഉപയോഗിക്കുക.</string>
+
+    <!-- What's new sheet -->
+    <string name="action_continue">തുടരുക</string>
+    <string name="wn_title">%1$s-ൽ പുതിയതെന്ത്</string>
+    <string name="wn_intro">റിമൈൻഡറുകൾ കൈകാര്യം ചെയ്യാൻ എളുപ്പമായി: റിമൈൻഡറിൽ തന്നെ തീയതിയും സമയവും മാറ്റാം, അറിയിപ്പുകൾ സ്വയം മായും, വോയ്‌സ് റിമൈൻഡറുകൾ ഉടനടി സേവ് ആകും.</string>
+    <string name="wn_edit_title">അവിടെ വച്ചുതന്നെ തീയതിയും സമയവും മാറ്റുക</string>
+    <string name="wn_edit_desc">ഒരു റിമൈൻഡർ തുറന്ന് നേരിട്ട് മാറ്റാൻ തീയതി അല്ലെങ്കിൽ സമയം ടാപ്പ് ചെയ്യുക. ആദ്യം എഡിറ്റർ തുറക്കേണ്ടതില്ല.</string>
+    <string name="wn_clear_title">അറിയിപ്പുകൾ സ്വയം മായും</string>
+    <string name="wn_clear_desc">ആപ്പിൽ ഒരു റിമൈൻഡർ തുറക്കുകയോ പ്ലേ ചെയ്യുകയോ പൂർത്തിയാക്കുകയോ ഇല്ലാതാക്കുകയോ ചെയ്താൽ, അതിന്റെ അറിയിപ്പ് അറിയിപ്പ് പാനലിൽ നിന്ന് മായും. പൂർത്തിയാകുന്നതുവരെ റിമൈൻഡർ സ്ക്രീനിൽ നിലനിർത്തുക ഓണാണെങ്കിൽ, നിങ്ങൾ പൂർത്തിയായതായി അടയാളപ്പെടുത്തുന്നതുവരെ അത് തുടരും.</string>
+    <string name="wn_save_title">വോയ്‌സ് റിമൈൻഡറുകൾ ഉടനടി സേവ് ആകും</string>
+    <string name="wn_save_desc">പരീക്ഷണാത്മക ശബ്ദ മെച്ചപ്പെടുത്തൽ ഓണായിരിക്കുമ്പോൾ, സേവ് ചെയ്യൽ ഇനി ശുദ്ധീകരണത്തിനായി കാത്തിരിക്കില്ല. അത് പശ്ചാത്തലത്തിൽ പൂർത്തിയാകും, അതുവരെ റിമൈൻഡറിൽ വോയ്‌സ് · മെച്ചപ്പെടുത്തുന്നു… എന്ന് കാണിക്കും.</string>
+    <string name="wn_fullscreen_title">ലോക്ക് സ്ക്രീൻ അലേർട്ട് ഇപ്പോൾ പ്രവർത്തിക്കുന്നു</string>
+    <string name="wn_fullscreen_desc">ക്രമീകരണം എങ്ങനെയായിരുന്നാലും, റിമൈൻഡർ മുഴങ്ങുമ്പോൾ ഫുൾ സ്ക്രീൻ അലേർട്ട് യഥാർത്ഥത്തിൽ ഒരിക്കലും കാണിച്ചിരുന്നില്ല. ഇപ്പോൾ അത് സ്ക്രീൻ ഉണർത്തി, വലിയ അക്ഷരങ്ങളും വ്യക്തമായ ഓപ്ഷനുകളുമുള്ള പുതിയ അലേർട്ട് സ്ക്രീനിൽ റിമൈൻഡർ കാണിക്കും.</string>
+    <string name="wn_pause_title">റിമൈൻഡറുകൾ താൽക്കാലികമായി നിർത്തുക</string>
+    <string name="wn_pause_desc">മീറ്റിംഗിനു പോകുകയാണോ? ഹോം സ്ക്രീനിൽ നിന്ന് ഒരു മണിക്കൂർ, ഇന്നത്തെ ബാക്കി സമയം, അല്ലെങ്കിൽ നിങ്ങൾ തിരഞ്ഞെടുക്കുന്ന സമയം വരെ താൽക്കാലികമായി നിർത്തുക. ഓരോ താൽക്കാലിക നിർത്തലിനും അവസാനമുണ്ട്, നിർത്തിവച്ച റിമൈൻഡറുകൾ നഷ്‌ടമായവ ടാബിൽ കാണാം.</string>
+    <string name="wn_notices_title">റിമൈൻഡർ എന്തുകൊണ്ട് നിശബ്ദമായിരുന്നുവെന്ന് ഹോം പറയും</string>
+    <string name="wn_notices_desc">ഈ ഫോണിന് പശ്ചാത്തലത്തിൽ %1$s നിർത്താൻ അനുമതിയുണ്ടെങ്കിൽ, അല്ലെങ്കിൽ നിശബ്ദ സമയം ഓണാണെങ്കിൽ, റിമൈൻഡറുകൾ നിശബ്ദമായി വരാതിരിക്കുന്നതിനു പകരം ഹോം ഇപ്പോൾ അത് അറിയിക്കും.</string>
+    <string name="wn_lang_title">ഇപ്പോൾ നിങ്ങളുടെ ഭാഷയിൽ</string>
+    <string name="wn_lang_desc">മുഴുവൻ ആപ്പും ഇംഗ്ലീഷ്, സ്പാനിഷ്, ഹിന്ദി, അറബിക്, പോർച്ചുഗീസ് (ബ്രസീൽ), റഷ്യൻ, വിയറ്റ്നാമീസ്, ബംഗാളി, തെലുങ്ക്, തമിഴ്, ഗ്രീക്ക്, മലയാളം എന്നിവയിൽ ലഭ്യമാണ്, വലത്തുനിന്ന് ഇടത്തോട്ടുള്ള പിന്തുണയോടെ. ക്രമീകരണം &gt; രൂപഭാവം &gt; ഭാഷയിൽ തിരഞ്ഞെടുക്കുക.</string>
+    <string name="wn_buttons_title">കൂടുതൽ വ്യക്തമായ അലാറം ബട്ടണുകൾ</string>
+    <string name="wn_buttons_desc">റിമൈൻഡർ അലേർട്ടുകളും അറിയിപ്പുകളും ഇപ്പോൾ പൂർത്തിയായി, ശബ്ദം നിർത്തുക, സ്‌നൂസ് എന്നിവ കാണിക്കും. പൂർത്തിയായി ജോലി പൂർത്തിയാക്കും; ശബ്ദം നിർത്തുക ശബ്ദം മാത്രം നിർത്തി റിമൈൻഡർ നിലനിർത്തും.</string>
+    <string name="wn_spoken_title">ശരിയായ ശബ്ദത്തിൽ റിമൈൻഡറുകൾ</string>
+    <string name="wn_spoken_desc">വായിക്കുന്ന റിമൈൻഡറുകൾ സ്വയമേവ അവയുടെ സ്വന്തം ഭാഷയിൽ വായിക്കും — ആപ്പ് മലയാളത്തിലാണെങ്കിലും ഹിന്ദി റിമൈൻഡർ ഹിന്ദിയിൽ വായിക്കും. ക്രമീകരണം &gt; പ്ലേബാക്ക് &gt; വായിച്ചുകേൾപ്പിക്കുന്ന ഭാഷയിൽ മാറ്റുക.</string>
+    <string name="wn_persist_title">പൂർത്തിയാകുന്നതുവരെ റിമൈൻഡറുകൾ നിലനിർത്തുക</string>
+    <string name="wn_persist_desc">റിമൈൻഡർ പിൻ ചെയ്ത് നിൽക്കാനും പൂർത്തിയായി അല്ലെങ്കിൽ സ്‌നൂസ് ചെയ്യുമ്പോൾ മാത്രം മായാനും ക്രമീകരണം &gt; വിശ്വാസ്യത &gt; പൂർത്തിയാകുന്നതുവരെ റിമൈൻഡർ സ്ക്രീനിൽ നിലനിർത്തുക ഓണാക്കുക.</string>
+    <string name="wn_backup_title">റിമൈൻഡറുകൾ ബാക്കപ്പ് ചെയ്ത് മാറ്റുക</string>
+    <string name="wn_backup_desc">റെക്കോർഡിംഗുകൾ ഉൾപ്പെടെ വരാനിരിക്കുന്ന എല്ലാ റിമൈൻഡറുകളും ഒരു ഫയലിൽ സേവ് ചെയ്ത് എപ്പോൾ വേണമെങ്കിലും, പുതിയ ഫോണിലും, പുനഃസ്ഥാപിക്കുക. ക്രമീകരണത്തിൽ കാണാം.</string>
+    <string name="wn_followup_title">ഫോളോ-അപ്പ് പരിശോധനകൾ, നിങ്ങളുടെ രീതിയിൽ</string>
+    <string name="wn_followup_desc">മുൻപത്തെപ്പോലെ, നിങ്ങൾ റിമൈൻഡർ പൂർത്തിയായതായി അടയാളപ്പെടുത്തുന്നതുവരെ ഫോളോ-അപ്പ് പരിശോധനകൾ വീണ്ടും അലേർട്ട് ചെയ്യും. പുതിയത്: സ്വയം നിൽക്കണമെങ്കിൽ ക്രമീകരണം &gt; വിശ്വാസ്യതയിൽ ആവർത്തന പരിധി സജ്ജമാക്കുക.</string>
+
+    <!-- Startup dialogs -->
+    <string name="action_allow">അനുവദിക്കുക</string>
+    <string name="action_later">പിന്നീട്</string>
+    <string name="action_open_settings">ക്രമീകരണം തുറക്കുക</string>
+    <string name="batt_prompt_title">പശ്ചാത്തലത്തിൽ പ്രവർത്തിക്കാൻ %1$s-നെ അനുവദിക്കുക</string>
+    <string name="batt_prompt_message">ചില ഫോണുകൾ, പ്രത്യേകിച്ച് Xiaomi, POCO മോഡലുകൾ, ബാറ്ററി ലാഭിക്കാൻ ആപ്പുകളെ പശ്ചാത്തലത്തിൽ പ്രവർത്തിക്കാൻ അനുവദിക്കില്ല. ഇത് റിമൈൻഡറുകൾ മുഴങ്ങുന്നത് തടഞ്ഞേക്കാം. കൂടുതൽ വിശ്വസനീയമായ റിമൈൻഡറുകൾക്കായി ബാറ്ററി ഒപ്റ്റിമൈസേഷൻ അവഗണിക്കാൻ %1$s-നെ അനുവദിക്കുക.</string>
+    <string name="batt_toast_unavailable">ഈ ഉപകരണത്തിൽ ബാറ്ററി ക്രമീകരണം ലഭ്യമല്ല.</string>
+    <string name="home_batt_banner_title">റിമൈൻഡറുകൾ എത്തിയേക്കില്ല</string>
+    <string name="home_batt_banner_body">ഈ ഫോണിന് പശ്ചാത്തലത്തിൽ %1$s നിർത്താനാകും. പരിധിയില്ലാത്ത ബാറ്ററി ഉപയോഗം അനുവദിക്കാൻ ടാപ്പ് ചെയ്യുക.</string>
+    <string name="home_quiet_banner">നിശബ്ദ സമയം %1$s – %2$s. റിമൈൻഡറുകൾ നഷ്‌ടമായവയിലേക്ക് പോകും.</string>
+    <string name="home_pause_banner">%1$s വരെ റിമൈൻഡറുകൾ താൽക്കാലികമായി നിർത്തി</string>
+    <string name="home_pause_resume">പുനരാരംഭിക്കുക</string>
+    <string name="home_pause_title">റിമൈൻഡറുകൾ താൽക്കാലികമായി നിർത്തുക</string>
+    <string name="home_pause_body">താൽക്കാലിക നിർത്തൽ അവസാനിക്കുന്നതുവരെ റിമൈൻഡറുകൾ അലേർട്ട് ചെയ്യില്ല. അവ ഇപ്പോഴും നഷ്‌ടമായവ ടാബിലേക്ക് പോകും.</string>
+    <string name="home_pause_1h">1 മണിക്കൂറിന്</string>
+    <string name="home_pause_4h">4 മണിക്കൂറിന്</string>
+    <string name="home_pause_today">ഇന്നത്തെ ബാക്കി സമയത്തേക്ക്</string>
+    <string name="home_pause_pick">അവസാന സമയം തിരഞ്ഞെടുക്കുക…</string>
+    <string name="home_pause_cd">റിമൈൻഡറുകൾ താൽക്കാലികമായി നിർത്തുക</string>
+    <string name="home_pause_also_quiet">നിശബ്ദ സമയവും ഓണാണ്, %1$s – %2$s.</string>
+    <string name="fsr_title">ഫുൾ സ്ക്രീൻ അലേർട്ടുകൾ വീണ്ടും അനുവദിക്കുക</string>
+    <string name="fsr_message">%1$s-ൽ ലോക്ക് സ്ക്രീൻ റിമൈൻഡർ അലേർട്ടുകൾ ഇപ്പോഴും ഓണാണ്, പക്ഷേ Android ഫുൾ സ്ക്രീൻ അനുമതി ഓഫാണ്. വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്തതിനോ പുനഃസ്ഥാപിച്ചതിനോ ശേഷം ഇങ്ങനെ സംഭവിക്കാം.</string>
+    <!-- Version 2.0.34 help and startup highlights -->
+    <string name="help_s15_title">റിമൈൻഡർ ഫോം ഇഷ്‌ടാനുസൃതമാക്കുക</string>
+    <string name="help_s15_content">- വോയ്‌സ് റെക്കോർഡിംഗ്, ഓഡിയോ ഫയൽ തിരഞ്ഞെടുക്കുക, ടൈപ്പ് ചെയ്ത റിമൈൻഡർ, ചെറിയ ലേബൽ എന്നിവ കാണിക്കാനോ മറയ്ക്കാനോ ക്രമീകരണം &gt; റിമൈൻഡർ ഫോം തുറക്കുക.\n- ഓരോ സ്വിച്ചും സ്വതന്ത്രമായി പ്രവർത്തിക്കും. മൂന്ന് ഇൻപുട്ട് രീതികളും മറച്ചാൽ, ഏത് ക്രമീകരണം വീണ്ടും ഓണാക്കണമെന്ന് റിമൈൻഡർ ചേർക്കുക പറയും.\n- എഡിറ്റ് ചെയ്യുമ്പോൾ, ആ റിമൈൻഡറിൽ ഇതിനകം ആ ഉള്ളടക്കമുണ്ടെങ്കിൽ മറച്ച വിഭാഗം സ്വയമേവ കാണിക്കും.</string>
+    <string name="help_s16_title">വോയ്‌സ് റെക്കോർഡിംഗ് മോഡ് തിരഞ്ഞെടുക്കുക</string>
+    <string name="help_s16_content">- ക്രമീകരണം &gt; റിമൈൻഡർ ഫോം &gt; പരീക്ഷണാത്മക ശബ്ദ മെച്ചപ്പെടുത്തൽ തുറക്കുക.\n- ഓഫ് (ഡിഫോൾട്ട്) പോസ്റ്റ്-പ്രോസസിംഗ് ഇല്ലാതെ യഥാർത്ഥ റോ MIC/AAC റെക്കോർഡിംഗ് രീതി നിലനിർത്തും.\n- ഓൺ പുതിയ റെക്കോർഡർ സുരക്ഷകൾ, നിശബ്ദതാ അറിയിപ്പ്, പശ്ചാത്തല ശബ്ദ ശുദ്ധീകരണം, ശബ്ദനില സമീകരണം എന്നിവ സജീവമാക്കും. ഫലങ്ങളും പ്രോസസിംഗ് സമയവും ഉപകരണമനുസരിച്ച് വ്യത്യാസപ്പെടാം.\n- നിശബ്ദ റെക്കോർഡിംഗുകളും പ്രിവ്യൂ ചെയ്ത് സേവ് ചെയ്യാം.</string>
+    <string name="help_s17_title">കൂടുതൽ വിശ്വസനീയമായ റിമൈൻഡർ പ്ലേബാക്ക്</string>
+    <string name="help_s17_content">- റിമൈൻഡർ പ്ലേ ചെയ്യാൻ തുടങ്ങുമ്പോൾത്തന്നെ Android ആവശ്യപ്പെടുന്ന അറിയിപ്പ് കാണിക്കും. പുതിയ Android പതിപ്പുകളിലും പശ്ചാത്തലത്തിൽ തുടങ്ങാൻ സമയമെടുക്കുന്ന ഫോണുകളിലും ഇത് സഹായിക്കും.\n- ശബ്ദം തുടങ്ങുന്നതിനു മുമ്പേ കാത്തിരിപ്പുസമയം കഴിഞ്ഞെന്ന കാരണത്താൽ സിസ്റ്റം റിമൈൻഡർ നിർത്തുന്നത് ഒഴിവാക്കാൻ ഇത് സഹായിക്കും.\n- നന്നായി പ്രവർത്തിക്കാൻ അറിയിപ്പുകൾക്കും കൃത്യമായ അലാറങ്ങൾക്കും അനുമതി നൽകുക. ശുപാർശ ചെയ്ത ബാറ്ററി ക്രമീകരണവും നിലനിർത്തുക.</string>
+    <string name="wn_form_title">നിങ്ങളുടെ റിമൈൻഡർ ഫോം, നിങ്ങളുടെ രീതിയിൽ</string>
+    <string name="wn_form_desc">ക്രമീകരണം &gt; റിമൈൻഡർ ഫോമിൽ വോയ്‌സ് റെക്കോർഡിംഗ്, ഓഡിയോ ഫയൽ തിരഞ്ഞെടുക്കുക, ടൈപ്പ് ചെയ്ത റിമൈൻഡർ, ചെറിയ ലേബൽ എന്നിവ സ്വതന്ത്രമായി കാണിക്കുകയോ മറയ്ക്കുകയോ ചെയ്യാം.</string>
+    <string name="wn_recording_title">ഓപ്ഷണൽ പരീക്ഷണാത്മക ശബ്ദ മെച്ചപ്പെടുത്തൽ</string>
+    <string name="wn_recording_desc">ഇപ്പോൾ റെക്കോർഡിംഗ് രീതി തിരഞ്ഞെടുക്കാം. ഡിഫോൾട്ടായി റെക്കോർഡിംഗ് മാറ്റമില്ലാതെ സൂക്ഷിക്കും. വേണമെങ്കിൽ റെക്കോർഡിംഗിനുള്ള അധിക സുരക്ഷകൾ, ശബ്ദം പതിയാത്തപ്പോൾ അറിയിപ്പ്, പശ്ചാത്തല ശബ്ദം കുറയ്ക്കുന്ന സൗകര്യം എന്നിവ ഓണാക്കാം. മുറിയിലെ ശബ്ദം കൂട്ടാതെ, പതുക്കെയുള്ള റെക്കോർഡിംഗുകൾ വ്യക്തമായി കേൾക്കാവുന്ന നിലയിലേക്ക് ഉയർത്തും. ശബ്ദമില്ലാത്ത റെക്കോർഡിംഗുകളും സൂക്ഷിക്കും.</string>
+    <string name="wn_reliability_title">പുതിയ Android ഫോണുകളിൽ കൂടുതൽ വിശ്വസനീയം</string>
+    <string name="wn_reliability_desc">റിമൈൻഡർ പ്ലേബാക്ക് ഇപ്പോൾ സുരക്ഷിതമായും ഉടനടിയും ഫോർഗ്രൗണ്ടിൽ ആരംഭിക്കും, ചില Android 12, Android 16 ഉപകരണങ്ങളിൽ കണ്ട സ്റ്റാർട്ടപ്പ് ടൈംഔട്ടുകൾ തടയും.</string>
+    <string name="settings_24_hour_time">24 മണിക്കൂർ സമയം ഉപയോഗിക്കുക</string>
+    <string name="settings_24_hour_time_desc">എല്ലാ സമയവും 5:30 PM എന്നതിനു പകരം 17:30 എന്ന് കാണിക്കുക.</string>
+
+    <!-- Reminder card and actions sheet -->
+    <string name="card_recur_onetime">ഒറ്റത്തവണ റിമൈൻഡർ</string>
+    <string name="card_recur_daily">ദിവസവും ആവർത്തിക്കും</string>
+    <string name="card_recur_last_day">എല്ലാ മാസത്തിന്റെയും അവസാന ദിവസം</string>
+    <string name="card_recur_yearly">വർഷംതോറും ആവർത്തിക്കും</string>
+    <string name="card_chip_recurring">ആവർത്തിക്കുന്നത്</string>
+    <string name="card_days_of_month">മാസത്തിലെ ദിവസങ്ങൾ</string>
+    <string name="card_cd_duplicate">റിമൈൻഡർ പകർത്തുക</string>
+    <string name="card_cd_more">കൂടുതൽ ഓപ്ഷനുകൾ</string>
+    <string name="card_cd_looping">ലൂപ്പ് ചെയ്യുന്നു</string>
+    <string name="card_cd_followup">%1$d മിനിറ്റിൽ ഫോളോ-അപ്പ്</string>
+    <string name="card_cd_ends_after">%1$d %2$s കഴിഞ്ഞ് അവസാനിക്കും</string>
+    <string name="sheet_reminder_actions">റിമൈൻഡർ ഓപ്ഷനുകൾ</string>
+    <string name="sheet_stop_playback">പ്ലേബാക്ക് നിർത്തുക</string>
+
+    <!-- Custom follow-up dialog -->
+    <string name="fu_custom_title">ഇഷ്‌ടാനുസൃത ഫോളോ-അപ്പ്</string>
+    <string name="fu_custom_desc">റിമൈൻഡർ പൂർത്തിയായതായി അടയാളപ്പെടുത്തിയില്ലെങ്കിൽ ഇത്ര മിനിറ്റിനു ശേഷം വീണ്ടും ചോദിക്കുക.</string>
+    <string name="fu_allowed_range">അനുവദനീയം: 1-%1$d മിനിറ്റ്</string>
+
+    <!-- Voice recorder -->
+    <string name="vr_playing_audio">ഓഡിയോ പ്ലേ ചെയ്യുന്നു</string>
+    <string name="vr_voice_recorded">ശബ്ദം റെക്കോർഡ് ചെയ്തു</string>
+    <string name="vr_text_optional">ടെക്സ്റ്റ് ഓപ്ഷണലാണ്</string>
+    <string name="vr_tap_to_stop">നിർത്താൻ ടാപ്പ് ചെയ്യുക</string>
+    <string name="vr_cd_level">തത്സമയ ശബ്ദനില ദൃശ്യവൽക്കരണം</string>
+    <string name="vr_cd_stop">റെക്കോർഡിംഗ് നിർത്തുക</string>
+    <string name="vr_cd_double_tap_stop">റെക്കോർഡിംഗ് നിർത്താൻ രണ്ടുതവണ ടാപ്പ് ചെയ്യുക</string>
+    <string name="vr_cd_preview_progress">വോയ്‌സ് പ്രിവ്യൂ പുരോഗതി</string>
+    <string name="vr_cd_start">വോയ്‌സ് റെക്കോർഡിംഗ് ആരംഭിക്കുക</string>
+    <string name="vr_cd_restart">വീണ്ടും റെക്കോർഡ് ചെയ്യുക</string>
+
+    <!-- Date and time picker -->
+    <string name="dtp_title">തീയതിയും സമയവും തിരഞ്ഞെടുക്കുക</string>
+    <string name="dtp_subtitle">ദ്രുത ഓപ്ഷനുകൾ ഉപയോഗിക്കുക അല്ലെങ്കിൽ കൃത്യമായ തീയതിയും സമയവും തിരഞ്ഞെടുക്കുക.</string>
+    <string name="dtp_quick_date">ദ്രുത തീയതി</string>
+    <string name="dtp_quick_time">ദ്രുത സമയം</string>
+    <string name="dtp_pick_date">കൃത്യമായ തീയതി തിരഞ്ഞെടുക്കുക</string>
+    <string name="dtp_pick_time">കൃത്യമായ സമയം തിരഞ്ഞെടുക്കുക</string>
+    <string name="dtp_next_week">അടുത്ത ആഴ്‌ച</string>
+    <string name="dtp_plus_10">+10 മിനിറ്റ്</string>
+    <string name="dtp_plus_30">+30 മിനിറ്റ്</string>
+    <string name="dtp_plus_60">+1 മണിക്കൂർ</string>
+    <string name="dtp_err_future">സമയം ഭാവിയിലായിരിക്കണം</string>
+    <string name="dtp_err_date_future">തീയതി ഇന്നോ ഭാവിയിലോ ആയിരിക്കണം</string>
+
+    <!-- Recurring completion dialog -->
+    <string name="rcd_title">ഇത് ആവർത്തിക്കുന്ന റിമൈൻഡറാണ്</string>
+    <string name="rcd_desc">ഈ തവണ മാത്രം പൂർത്തിയാക്കാം, ആവർത്തിക്കുന്ന സമയം മാറ്റാം, അല്ലെങ്കിൽ ഇനി ആവർത്തിക്കാതെ പൂർണ്ണമായി നിർത്താം.</string>
+    <string name="rcd_mark_occurrence">ഈ തവണ പൂർത്തിയായതായി അടയാളപ്പെടുത്തുക</string>
+    <string name="rcd_edit_schedule">ഷെഡ്യൂൾ എഡിറ്റ് ചെയ്യുക</string>
+    <string name="rcd_stop_recurring">ആവർത്തനം നിർത്തുക</string>
+
+    <!-- Restore reminder dialog -->
+    <string name="rrd_title">റിമൈൻഡർ പുനഃസ്ഥാപിക്കുക</string>
+    <string name="rrd_desc">ഈ റിമൈൻഡർ മുമ്പ് പൂർത്തിയാക്കിയതാണ്. ഇനി എങ്ങനെ ഉപയോഗിക്കണമെന്ന് തിരഞ്ഞെടുക്കുക.</string>
+    <string name="rrd_reschedule">റിമൈൻഡർ വീണ്ടും ഷെഡ്യൂൾ ചെയ്യുക</string>
+    <string name="rrd_move_missed">നഷ്‌ടമായവയിലേക്ക് മാറ്റുക</string>
+    <string name="rrd_play">റിമൈൻഡർ പ്ലേ ചെയ്യുക</string>
+    <string name="rrd_keep_done">പൂർത്തിയായതായി നിലനിർത്തുക</string>
+
+    <!-- Missed reminder sheets -->
+    <string name="pua_title">റിമൈൻഡർ നഷ്‌ടമായി</string>
+    <string name="pua_scheduled_for">%1$s-ന് ഷെഡ്യൂൾ ചെയ്തത്</string>
+    <string name="pua_set_new_time">പുതിയ സമയം സജ്ജമാക്കുക</string>
+    <string name="pua_just_play">റിമൈൻഡർ പ്ലേ ചെയ്താൽ മതി</string>
+    <string name="mrr_desc">ഏറ്റവും ഒടുവിൽ നഷ്‌ടമായ റിമൈൻഡർ ഇപ്പോൾ കേൾക്കാം. അല്ലെങ്കിൽ എല്ലാം “നഷ്‌ടമായവ” ടാബിൽ സൂക്ഷിച്ച് പിന്നീട് നോക്കാം.</string>
+    <plurals name="mrr_title">
+        <item quantity="one">നിങ്ങൾക്ക് %1$d റിമൈൻഡർ നഷ്‌ടമായി</item>
+        <item quantity="other">നിങ്ങൾക്ക് %1$d റിമൈൻഡറുകൾ നഷ്‌ടമായി</item>
+    </plurals>
+    <string name="mrr_play_latest">ഏറ്റവും പുതിയ നഷ്‌ടമായ റിമൈൻഡർ പ്ലേ ചെയ്യുക</string>
+    <string name="mrr_keep">നഷ്‌ടമായവ ടാബിൽ സൂക്ഷിക്കുക</string>
+
+    <!-- Battery optimization guide -->
+    <string name="bog_title">ബാറ്ററി ഒപ്റ്റിമൈസേഷൻ ഗൈഡ്</string>
+    <string name="bog_header">റിമൈൻഡറുകൾ വിശ്വസനീയമാക്കുക</string>
+    <string name="bog_header_sub">%1$s ബാറ്ററി നിയന്ത്രണങ്ങളിൽ നിന്ന് ഒഴിവാക്കിയില്ലെങ്കിൽ ചില ഫോണുകൾ പശ്ചാത്തല അലാറങ്ങൾ താൽക്കാലികമായോ പൂർണ്ണമായോ നിർത്തും.</string>
+    <string name="bog_intro">ചില ഉപകരണങ്ങൾ ബാറ്ററി ലാഭിക്കാൻ പശ്ചാത്തല അലാറങ്ങൾ നിർത്തും. ഇത് റിമൈൻഡറുകൾ മുഴങ്ങുന്നത് തടഞ്ഞേക്കാം.</string>
+    <string name="bog_menu_vary">മെനു പേരുകൾ MIUI, HyperOS, EMUI, Android പതിപ്പ്, ഫോൺ മോഡൽ എന്നിവയനുസരിച്ച് വ്യത്യാസപ്പെടാം.</string>
+    <string name="bog_allow_app">%1$s അനുവദിക്കുക</string>
+    <string name="bog_back_settings">ക്രമീകരണത്തിലേക്ക് മടങ്ങുക</string>
+    <string name="bog_brand_xiaomi">Xiaomi / POCO / Redmi (MIUI / HyperOS)</string>
+    <string name="bog_brand_huawei">Huawei (EMUI)</string>
+    <string name="bog_step">ഘട്ടം %1$d</string>
+    <string name="bog_optional">ഓപ്ഷണൽ</string>
+    <string name="bog_open_settings">ക്രമീകരണം തുറക്കുക</string>
+    <string name="bog_find_app">%1$s കണ്ടെത്തുക</string>
+    <string name="bog_xiaomi_battery">ബാറ്ററി ടാപ്പ് ചെയ്യുക</string>
+    <string name="bog_xiaomi_optimization">ബാറ്ററി ഒപ്റ്റിമൈസേഷൻ ടാപ്പ് ചെയ്യുക</string>
+    <string name="bog_xiaomi_no_restrictions">നിയന്ത്രണങ്ങളില്ല തിരഞ്ഞെടുക്കുക</string>
+    <string name="bog_xiaomi_opt">സമീപകാല ആപ്പുകളുടെ സ്ക്രീനിൽ ആപ്പ് ലോക്ക് ചെയ്യുക.</string>
+    <string name="bog_huawei_apps">ആപ്പുകൾ അല്ലെങ്കിൽ ആപ്പ് ലോഞ്ച് തുറക്കുക</string>
+    <string name="bog_huawei_manage_off">സ്വയമേവ നിയന്ത്രിക്കുക ഓഫാക്കുക</string>
+    <string name="bog_huawei_allow">ഓട്ടോ-ലോഞ്ച്, സെക്കൻഡറി ലോഞ്ച്, പശ്ചാത്തലത്തിൽ പ്രവർത്തിക്കൽ എന്നിവ അനുവദിക്കുക</string>
+    <string name="bog_huawei_opt">ബാറ്ററി ഒപ്റ്റിമൈസേഷനും പരിശോധിച്ച് %1$s അനുവദിക്കരുത് എന്ന് സജ്ജമാക്കുക.</string>
+    <string name="bog_status_enabled">%1$s-ന് ബാറ്ററി ഒപ്റ്റിമൈസേഷൻ ഇപ്പോഴും ഓണാണ്.</string>
+    <string name="bog_status_exempt">%1$s-ന് ഇതിനകം ബാറ്ററി ഒപ്റ്റിമൈസേഷൻ ഇല്ലാതെ പ്രവർത്തിക്കാൻ അനുമതിയുണ്ട്.</string>
+    <string name="bog_no_battery_settings">ഈ ഉപകരണത്തിൽ ബാറ്ററി ക്രമീകരണം ലഭ്യമല്ല.</string>
+    <string name="bog_why_title">ഇത് എന്തുകൊണ്ട് പ്രധാനം</string>
+    <string name="bog_why_body">Xiaomi, POCO, Redmi, Huawei പോലുള്ള ബ്രാൻഡുകളുടെ ഫോണുകൾ പശ്ചാത്തലത്തിൽ ആപ്പുകളെ കർശനമായി നിർത്താം. നിർമ്മാതാവിനെയും സോഫ്റ്റ്‌വെയർ പതിപ്പിനെയും വഴികാട്ടിയായി എടുക്കുക; കൃത്യമായ വഴികൾ ഉപകരണ മോഡലനുസരിച്ച് വ്യത്യാസപ്പെടാം.</string>
+
+    <!-- Reminder card accessibility description -->
+    <string name="a11y_card_reminder">റിമൈൻഡർ: %1$s</string>
+    <string name="a11y_card_at">%1$s-ന്</string>
+    <string name="a11y_card_has_audio_file">ഓഡിയോ ഫയൽ ഉണ്ട്</string>
+    <string name="a11y_card_has_voice">വോയ്‌സ് നോട്ട് ഉണ്ട്</string>
+    <string name="a11y_card_recurring">ആവർത്തിക്കുന്നത് %1$s</string>
+    <string name="a11y_card_completed">പൂർത്തിയായി</string>
+    <string name="a11y_card_playing">ഇപ്പോൾ പ്ലേ ചെയ്യുന്നു</string>
+    <string name="a11y_card_open_hint">വിശദാംശങ്ങൾ തുറക്കാൻ രണ്ടുതവണ ടാപ്പ് ചെയ്യുക.</string>
+
+    <!-- Accessibility states -->
+    <string name="state_completed">പൂർത്തിയായി</string>
+    <string name="state_playing">പ്ലേ ചെയ്യുന്നു</string>
+    <string name="a11y_percent">%1$d ശതമാനം</string>
+    <string name="a11y_destructive">പഴയപടിയാക്കാനാകാത്ത പ്രവർത്തനം</string>
+    <string name="a11y_recording_in_progress">റെക്കോർഡിംഗ് നടക്കുന്നു</string>
+    <string name="a11y_playing_preview">ഓഡിയോ പ്രിവ്യൂ പ്ലേ ചെയ്യുന്നു</string>
+    <string name="a11y_voice_recorded">വോയ്‌സ് നോട്ട് റെക്കോർഡ് ചെയ്തു</string>
+    <string name="a11y_no_voice_recorded">വോയ്‌സ് നോട്ട് റെക്കോർഡ് ചെയ്തിട്ടില്ല</string>
+    <plurals name="card_occurrences">
+        <item quantity="one">%1$d തവണ</item>
+        <item quantity="other">%1$d തവണ</item>
+    </plurals>
+
+    <!-- Test reminder -->
+    <string name="set_test_reminder_title">ടെസ്റ്റ് റിമൈൻഡർ</string>
+    <string name="set_test_reminder_text">പ്ലേബാക്ക് പരിശോധിക്കാനുള്ള ടെസ്റ്റ് റിമൈൻഡറാണിത്. സൃഷ്ടിച്ച് 10 സെക്കൻഡിനു ശേഷം ഇത് മുഴങ്ങും.</string>
+    <string name="widget_quick_subtitle">ദ്രുതമായി ചേർക്കുക</string>
+    <string name="widget_upcoming_subtitle">വരാനിരിക്കുന്നതും നഷ്‌ടമായതുമായ റിമൈൻഡറുകൾ</string>
+    <string name="widget_upcoming_empty">വരാനിരിക്കുന്നതോ നഷ്‌ടമായതോ ആയ റിമൈൻഡറുകളില്ല</string>
+    <string name="card_type_audio_file">ഓഡിയോ ഫയൽ</string>
+    <string name="card_type_voice_improving">വോയ്‌സ് · മെച്ചപ്പെടുത്തുന്നു…</string>
+    <string name="card_type_voice">വോയ്‌സ്</string>
+    <string name="card_type_text">ടെക്സ്റ്റ്</string>
+    <string name="card_voice_recording">വോയ്‌സ് റെക്കോർഡിംഗ്</string>
+    <string name="card_custom_audio_file">ഇഷ്‌ടാനുസൃത ഓഡിയോ ഫയൽ</string>
+    <string name="card_text_note">ടെക്സ്റ്റ് കുറിപ്പ്</string>
+    <string name="sheet_mark_this_done">ഇത് പൂർത്തിയായതായി അടയാളപ്പെടുത്തുക</string>
+    <string name="sheet_delete_reminder">റിമൈൻഡർ ഇല്ലാതാക്കുക</string>
+    <string name="vr_recording_ellipsis">റെക്കോർഡ് ചെയ്യുന്നു…</string>
+    <string name="vr_play_recording">റെക്കോർഡിംഗ് പ്ലേ ചെയ്യുക</string>
+    <string name="rcd_sub_keep_next">അടുത്ത തവണ ഷെഡ്യൂളിൽ നിലനിർത്തുക</string>
+    <string name="rcd_sub_change_rules">ആവർത്തന നിയമങ്ങളോ സമയമോ മാറ്റുക</string>
+    <string name="rcd_sub_delete_future">ഈ റിമൈൻഡറും ഭാവിയിലെ ആവർത്തനങ്ങളും ഇല്ലാതാക്കുക</string>
+    <string name="rrd_sub_pick_new">പുതിയ തീയതിയും സമയവും തിരഞ്ഞെടുക്കുക</string>
+    <string name="rrd_sub_keep_missed">പിന്നീടത്തേക്ക് നഷ്‌ടമായവ ടാബിൽ സൂക്ഷിക്കുക</string>
+    <string name="rrd_sub_hear_now">പുനഃസ്ഥാപിക്കാതെ ഇപ്പോൾ കേൾക്കുക</string>
+    <string name="rrd_sub_leave_done">റിമൈൻഡർ പൂർത്തിയായതായിത്തന്നെ വിടുക</string>
+    <string name="mrr_sub_start_now">ഉടനടി പ്ലേബാക്ക് ആരംഭിക്കുക</string>
+    <string name="set_tab_form">ഫോം</string>
+    <string name="set_tab_play">പ്ലേ</string>
+    <string name="set_tab_time">സമയം</string>
+    <string name="set_tab_safe">സുരക്ഷ</string>
+    <string name="set_tab_backup">ബാക്കപ്പ്</string>
+    <string name="set_tab_wear">വാച്ച്</string>
+    <string name="set_tab_help">സഹായം</string>
+</resources>

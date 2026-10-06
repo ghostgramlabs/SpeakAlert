@@ -1,0 +1,10 @@
+<resources>
+    <string name="unnamed_title_setting">పేరులేని రిమైండర్ శీర్షిక</string>
+    <string name="unnamed_title_description">పేరు పెట్టని రిమైండర్‌కు జాబితాలో, వివరాల్లో ఏమి చూపాలో ఎంచుకోండి. మీరు పెట్టిన పేర్లు, రాసిన సందేశాలు ఎప్పుడూ కనిపిస్తాయి. శీర్షిక లేకపోయినా తేదీ, సమయం ఉంటాయి.</string>
+    <string name="unnamed_creation_time">సృష్టించిన సమయం</string>
+    <string name="unnamed_reminder_type">రిమైండర్ రకం</string>
+    <string name="unnamed_no_title">శీర్షిక లేదు</string>
+    <string name="unnamed_voice_reminder">వాయిస్ రిమైండర్</string>
+    <string name="unnamed_audio_reminder">ఆడియో రిమైండర్</string>
+    <string name="unnamed_generic_reminder">రిమైండర్</string>
+</resources>

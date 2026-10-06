@@ -1591,7 +1591,7 @@ private fun PauseChoice(label: String, onClick: () -> Unit) {
         onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
-            .height(52.dp),
+            .heightIn(min = 52.dp),
         shape = RoundedCornerShape(14.dp)
     ) {
         Text(label, style = MaterialTheme.typography.titleSmall)

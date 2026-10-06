@@ -7,7 +7,7 @@
 
     <string name="settings_language">Idioma de la app</string>
     <string name="settings_language_system">Usar el idioma del dispositivo</string>
-    <string name="settings_language_description">Idiomas disponibles en la app: inglés, español, hindi y árabe.\nUsar el idioma del dispositivo elige un idioma compatible del teléfono; si no hay ninguno, la app usa inglés.\nLos recordatorios hablados dependen de las voces instaladas en el teléfono. Configúralas por separado en Reproducción &gt; Idioma hablado.</string>
+    <string name="settings_language_description">Idiomas disponibles en la app: inglés, español, hindi, árabe, portugués (Brasil), ruso, vietnamita, bengalí, telugu, tamil, griego y malayalam.\nUsar el idioma del dispositivo elige un idioma compatible del teléfono; si no hay ninguno, la app usa inglés.\nLos recordatorios hablados dependen de las voces instaladas en el teléfono. Configúralas por separado en Reproducción &gt; Idioma hablado.</string>
 
     <string name="notif_action_done">Hecho</string>
     <string name="notif_action_silence">Silenciar</string>
@@ -95,6 +95,7 @@
     <string name="alert_dock_hint">Silenciar detiene el audio. Hecho o Posponer cierra la alerta de pantalla bloqueada.</string>
     <plurals name="alert_followup_repeats">
         <item quantity="one">Se repite cada minuto hasta completarse.</item>
+        <item quantity="many">Se repite cada %1$d minutos hasta completarse.</item>
         <item quantity="other">Se repite cada %1$d minutos hasta completarse.</item>
     </plurals>
 
@@ -104,6 +105,7 @@
     <string name="home_all_caught_up">¡Estás al día!</string>
     <plurals name="home_active_reminders">
         <item quantity="one">Tienes %1$d recordatorio activo</item>
+        <item quantity="many">Tienes %1$d recordatorios activos</item>
         <item quantity="other">Tienes %1$d recordatorios activos</item>
     </plurals>
     <string name="home_filter_upcoming">Próximos</string>
@@ -157,9 +159,9 @@
 
     <string name="ae_saved">¡Recordatorio guardado!</string>
     <string name="ae_cannot_past">No se pueden crear recordatorios en el pasado</string>
-    <string name="ae_record_too_short">Demasiado corto: mantén pulsado mientras hablas</string>
-    <string name="ae_record_failed">No se pudo iniciar la grabación. Puede que otra app esté usando el micrófono.</string>
-    <string name="ae_record_silent">No se escuchó nada. Comprueba el acceso al micrófono de SpeakAlert.</string>
+    <string name="ae_record_too_short">La grabación es demasiado corta — mantén pulsado mientras hablas</string>
+    <string name="ae_record_failed">No se pudo empezar a grabar. Puede que otra app esté usando el micrófono.</string>
+    <string name="ae_record_silent">No se ha grabado ningún sonido. Comprueba el permiso del micrófono para SpeakAlert.</string>
     <string name="ae_unsaved_title">¿Guardar recordatorio?</string>
     <string name="ae_unsaved_msg">Tienes cambios sin guardar en el recordatorio.</string>
     <string name="action_save">Guardar</string>
@@ -173,7 +175,8 @@
     <string name="ae_header_edit">Editar recordatorio</string>
     <string name="ae_header_create">Crear recordatorio</string>
     <string name="ae_section_content">Contenido del recordatorio</string>
-    <string name="ae_content_desc">Graba una nota de voz, añade un archivo de audio o escribe un mensaje de recordatorio.</string>
+    <string name="ae_content_desc">Graba tu voz, añade un archivo de audio o escribe el mensaje del recordatorio.</string>
+    <string name="ae_tap_to_record">Toca para grabar un recordatorio de voz</string>
     <string name="ae_or_choose_audio">O elige un archivo de audio</string>
     <string name="ae_selected_audio">Archivo de audio seleccionado</string>
     <string name="ae_cd_stop_preview">Detener vista previa del audio</string>
@@ -184,11 +187,11 @@
     <string name="ae_msg_label">Mensaje del recordatorio</string>
     <string name="ae_msg_placeholder">p. ej., Tomar medicina después del desayuno</string>
     <string name="ae_label_placeholder">p. ej., Medicina de la mañana</string>
-    <string name="ae_msg_help">Se muestra en la app y las notificaciones. Se lee solo si no hay voz ni audio seleccionados.</string>
+    <string name="ae_msg_help">El mensaje aparece en la app y en las notificaciones. Solo se lee en voz alta si no has añadido una grabación o un archivo de audio.</string>
     <string name="ae_char_count">%1$d/%2$d</string>
     <string name="ae_need_content">Añade una nota de voz, un archivo de audio o un mensaje de recordatorio.</string>
     <string name="ae_section_label">Etiqueta corta (opcional)</string>
-    <string name="ae_label_desc">Nombre corto opcional para localizar recordatorios más rápido.</string>
+    <string name="ae_label_desc">Puedes añadir un nombre corto para reconocer el recordatorio fácilmente en la lista.</string>
     <string name="ae_label_hint">Se muestra como nombre corto en listas y detalles</string>
     <string name="ae_section_schedule">Programación</string>
     <string name="ae_when_fire">¿Cuándo debe sonar este recordatorio?</string>
@@ -209,6 +212,7 @@
     <string name="ae_save_reminder">Guardar recordatorio</string>
     <plurals name="ae_followup_active">
         <item quantity="one">Activo: pregunta cada minuto hasta marcarse como hecho.</item>
+        <item quantity="many">Activo: pregunta cada %1$d minutos hasta marcarse como hecho.</item>
         <item quantity="other">Activo: pregunta cada %1$d minutos hasta marcarse como hecho.</item>
     </plurals>
 
@@ -221,6 +225,7 @@
     <string name="date_yesterday">Ayer</string>
     <plurals name="rec_ends_times">
         <item quantity="one">Termina tras %1$d vez</item>
+        <item quantity="many">Termina tras %1$d veces</item>
         <item quantity="other">Termina tras %1$d veces</item>
     </plurals>
     <string name="rec_onetime">Una vez</string>
@@ -268,6 +273,7 @@
     <string name="det_reschedule_to">¿Reprogramar para %1$s?</string>
     <plurals name="det_ends_after">
         <item quantity="one">Termina tras %1$d repetición</item>
+        <item quantity="many">Termina tras %1$d repeticiones</item>
         <item quantity="other">Termina tras %1$d repeticiones</item>
     </plurals>
 
@@ -284,7 +290,7 @@
     <string name="rs_weekly_subtitle">Elige los días de la semana para repetir.</string>
     <string name="rs_select_days">Seleccionar días</string>
     <string name="rs_custom_interval">Intervalo personalizado</string>
-    <string name="rs_custom_subtitle">Define el intervalo entre repeticiones.</string>
+    <string name="rs_custom_subtitle">Elige cuánto tiempo debe pasar entre una repetición y la siguiente.</string>
     <string name="rs_repeat_every">Repetir cada</string>
     <string name="rs_number">Número</string>
     <string name="rs_unit">Unidad</string>
@@ -301,22 +307,22 @@
     <string name="rs_allowed_range">Permitido: 1-999</string>
     <string name="rs_end_before_error">La hora de fin no puede ser anterior a la del recordatorio</string>
     <string name="rs_select_end_time">Seleccionar hora de fin</string>
-    <plurals name="unit_minutes"><item quantity="one">Minuto</item><item quantity="other">Minutos</item></plurals>
-    <plurals name="unit_hours"><item quantity="one">Hora</item><item quantity="other">Horas</item></plurals>
-    <plurals name="unit_days"><item quantity="one">Día</item><item quantity="other">Días</item></plurals>
-    <plurals name="unit_weeks"><item quantity="one">Semana</item><item quantity="other">Semanas</item></plurals>
-    <plurals name="unit_months"><item quantity="one">Mes</item><item quantity="other">Meses</item></plurals>
-    <plurals name="unit_years"><item quantity="one">Año</item><item quantity="other">Años</item></plurals>
+    <plurals name="unit_minutes"><item quantity="one">Minuto</item><item quantity="many">Minutos</item><item quantity="other">Minutos</item></plurals>
+    <plurals name="unit_hours"><item quantity="one">Hora</item><item quantity="many">Horas</item><item quantity="other">Horas</item></plurals>
+    <plurals name="unit_days"><item quantity="one">Día</item><item quantity="many">Días</item><item quantity="other">Días</item></plurals>
+    <plurals name="unit_weeks"><item quantity="one">Semana</item><item quantity="many">Semanas</item><item quantity="other">Semanas</item></plurals>
+    <plurals name="unit_months"><item quantity="one">Mes</item><item quantity="many">Meses</item><item quantity="other">Meses</item></plurals>
+    <plurals name="unit_years"><item quantity="one">Año</item><item quantity="many">Años</item><item quantity="other">Años</item></plurals>
 
     <string name="set_appearance">Apariencia</string>
     <string name="set_reminder_form">Formulario de recordatorio</string>
-    <string name="set_reminder_form_desc">Elige cada sección de forma independiente. Si ocultas todas las entradas, vuelve a activar una antes de crear un recordatorio.</string>
+    <string name="set_reminder_form_desc">Elige qué secciones aparecen al crear un recordatorio. Si ocultas todas las formas de añadir contenido, tendrás que volver a activar al menos una para crear otro.</string>
     <string name="ae_no_content_sections">No hay ninguna sección de entrada activada. Activa Grabación de voz, Elegir archivo de audio o Recordatorio escrito en Ajustes &gt; Formulario del recordatorio.</string>
     <string name="set_show_voice_recording">Grabación de voz</string>
     <string name="set_show_voice_recording_desc">Mostrar la sección para grabar con el micrófono.</string>
     <string name="set_experimental_voice_enhancement">Mejora de voz experimental</string>
-    <string name="set_experimental_voice_enhancement_desc">Desactivado usa la grabación original sin procesar. Activado habilita las nuevas protecciones, el aviso de silencio y la mejora de voz.</string>
-    <string name="set_experimental_voice_enhancement_note">Experimental: los resultados y el tiempo de procesamiento pueden variar según el dispositivo. Desactívala si las grabaciones suenan distorsionadas o tardan más en guardarse.</string>
+    <string name="set_experimental_voice_enhancement_desc">Desactivado: guarda la grabación sin procesarla. Activado: añade medidas de protección al grabar, avisa si no se ha captado sonido y mejora la claridad de la voz.</string>
+    <string name="set_experimental_voice_enhancement_note">Esta función es experimental. El resultado y el tiempo de procesamiento dependen del teléfono. Desactívala si la voz suena distorsionada o tarda más en guardarse.</string>
     <string name="set_show_audio_file">Elegir archivo de audio</string>
     <string name="set_show_audio_file_desc">Mostrar la opción para seleccionar un archivo de audio existente.</string>
     <string name="set_show_typed_reminder">Recordatorio escrito</string>
@@ -345,7 +351,7 @@
     <string name="set_toast_speak_on">Lectura automática activada</string>
     <string name="set_toast_speak_off">Lectura automática desactivada</string>
     <string name="set_spoken_language">Idioma hablado</string>
-    <string name="set_spoken_language_desc">Voz usada para los recordatorios hablados. Detección automática coincide con el idioma del recordatorio. La voz del idioma elegido debe estar instalada en los ajustes de texto a voz del teléfono.</string>
+    <string name="set_spoken_language_desc">Idioma en el que se leen los recordatorios. La detección automática elige el idioma del mensaje. Debes tener instalada una voz para ese idioma en los ajustes de texto a voz del teléfono.</string>
     <string name="tts_auto">Automático</string>
     <string name="tts_device">Dispositivo</string>
     <string name="tts_english">Inglés</string>
@@ -353,7 +359,7 @@
     <string name="set_toast_tts_english">Idioma hablado: inglés</string>
     <string name="set_toast_tts_auto">Idioma hablado: automático</string>
     <string name="set_private">Reproducción privada</string>
-    <string name="set_private_desc">Usa audífonos, Bluetooth o auriculares con cable primero. Si no hay ninguno conectado, usa el auricular del teléfono en lugar del altavoz.</string>
+    <string name="set_private_desc">Usa primero los dispositivos conectados: audífonos para la pérdida auditiva, dispositivos Bluetooth o auriculares con cable. Si no hay ninguno, el sonido sale por el auricular de llamadas del teléfono, en lugar del altavoz.</string>
     <string name="set_toast_private_on">Reproducción privada activada</string>
     <string name="set_toast_private_off">Reproducción privada desactivada</string>
     <string name="set_private_bt">Reproducción privada activada. El enrutamiento Bluetooth necesita permiso de dispositivos cercanos.</string>
@@ -409,9 +415,9 @@
     <string name="set_dnd_desc_active">Activo: los recordatorios usan sonido con prioridad de alarma y omiten No molestar.</string>
     <string name="set_dnd_unavailable">Los ajustes de acceso a No molestar de Android no están disponibles en este dispositivo.</string>
     <string name="set_grant_dnd">Conceder acceso a No molestar de Android</string>
-    <string name="set_dnd_note">Esto no controla el modo No molestar del teléfono. Solo permite que %1$s solicite permiso para reproducir recordatorios importantes a través de él.</string>
+    <string name="set_dnd_note">Esta opción no activa ni desactiva el modo No molestar del teléfono. Permite que %1$s solicite permiso para hacer sonar recordatorios importantes aunque ese modo esté activado.</string>
     <string name="set_battery_guide">Guía de optimización de batería</string>
-    <string name="set_battery_desc">La optimización de batería puede retrasar o detener recordatorios en algunos teléfonos.</string>
+    <string name="set_battery_desc">Algunos teléfonos retrasan o bloquean los recordatorios para ahorrar batería.</string>
     <string name="set_wear">Reloj inteligente (Wear OS)</string>
     <string name="set_wear_checking">Comprobando la conexión con Wear OS…</string>
     <string name="set_wear_connected">Reloj Wear OS conectado</string>
@@ -419,7 +425,7 @@
     <string name="set_wear_notif_off">Las notificaciones de la app están desactivadas. Actívalas para que los recordatorios se sincronicen con el reloj.</string>
     <string name="set_open_notif">Abrir ajustes de notificaciones</string>
     <string name="set_open_channel">Abrir canal de recordatorios</string>
-    <string name="set_wear_enabled">Las notificaciones del teléfono están activadas. Si aún faltan recordatorios en el reloj, activa la sincronización de notificaciones en tu app complementaria de Wear OS.</string>
+    <string name="set_wear_enabled">Las notificaciones del teléfono están activadas. Si no llegan al reloj, activa su sincronización en la app que conecta tu reloj Wear OS.</string>
     <string name="set_refresh">Actualizar estado</string>
     <string name="set_app_guide">Guía de la app</string>
     <string name="set_toast_no_email">No hay ninguna aplicación de correo disponible. Puedes escribir a ghostgramlabs@gmail.com o copiar la dirección que aparece.</string>
@@ -450,19 +456,19 @@
     <string name="set_label_time">%1$s: %2$s</string>
     <string name="set_volume">Volumen</string>
     <string name="set_cd_volume">Volumen de la app: %1$d%%</string>
-    <string name="set_loop_inline_desc">Cuánto se repite una notificación de recordatorio en bucle antes de detenerse</string>
+    <string name="set_loop_inline_desc">Cuánto tiempo se repite el sonido antes de detenerse automáticamente</string>
     <string name="set_default_snooze">Posposición predeterminada</string>
-    <string name="set_snooze_inline_desc">Cuánto se retrasa el recordatorio al tocar Posponer</string>
+    <string name="set_snooze_inline_desc">Cuánto tarda en volver a avisarte después de tocar «Posponer»</string>
     <string name="set_default_followup">Comprobación de seguimiento predeterminada</string>
-    <string name="set_followup_off_desc">Desactivado: los nuevos recordatorios se crean sin seguimiento. Aún puedes configurar uno por recordatorio.</string>
-    <string name="set_followup_on_desc">Los nuevos recordatorios empiezan con un seguimiento de %1$dm que vuelve a avisar si no se marca como hecho. Los recordatorios existentes no cambian.</string>
+    <string name="set_followup_off_desc">Desactivado: los recordatorios nuevos no tendrán seguimiento. Puedes activarlo en cada recordatorio por separado.</string>
+    <string name="set_followup_on_desc">Los recordatorios nuevos tendrán un aviso de seguimiento a los %1$d minutos si no los marcas como hechos. Los recordatorios existentes no cambian.</string>
     <string name="set_followup_repeat">Límite de repetición del seguimiento</string>
-    <string name="set_followup_repeat_desc">De forma predeterminada (∞), el seguimiento sigue avisando hasta que marcas el recordatorio como hecho. Elige un límite si quieres que se detenga solo tras ese número de avisos. El Tiempo de silencio también detiene los seguimientos.</string>
+    <string name="set_followup_repeat_desc">Con la opción predeterminada (∞), recibirás avisos de seguimiento hasta marcar el recordatorio como hecho. Elige un límite para que se detengan después de ese número de avisos. También se detienen durante las horas de silencio.</string>
     <string name="set_toast_followup_repeat_until_done">El seguimiento se repite hasta marcarlo como hecho</string>
     <string name="set_toast_followup_repeat">Límite de repetición del seguimiento: %1$d×</string>
     <string name="set_reliability">Fiabilidad</string>
     <string name="set_persist">Mantener el recordatorio en pantalla hasta completarlo</string>
-    <string name="set_persist_desc">La notificación del recordatorio permanece fija y solo se borra cuando tocas Hecho o Posponer. Funciona mejor con una comprobación de seguimiento.</string>
+    <string name="set_persist_desc">La notificación permanece visible hasta que tocas «Hecho» o «Posponer». Activa también el seguimiento si quieres que vuelva a avisarte.</string>
     <string name="set_toast_persist_on">Los recordatorios permanecen hasta completarse</string>
     <string name="set_toast_persist_off">Los recordatorios se pueden descartar deslizando</string>
     <string name="set_all_granted">Todos los permisos concedidos</string>
@@ -506,7 +512,7 @@
     <string name="help_s9_title">Modo Solo tono y fiabilidad</string>
     <string name="help_s10_title">Widgets y Wear OS</string>
     <string name="help_s11_title">Tras reiniciar el dispositivo</string>
-    <string name="help_s1_content">Cada alerta — en la pantalla de bloqueo y en la notificación — muestra botones claros:\n- Hecho: marca la tarea como completada. En un recordatorio repetido borra solo esta vez y mantiene las repeticiones futuras.\n- Silenciar: detiene el sonido de la alarma pero mantiene el recordatorio en pantalla, para que decidas después.\n- Posponer: te avisa de nuevo tras un breve retraso (5 o 10 minutos en la alerta a pantalla completa).\n- Reproducir / Leer: aparece cuando no hay nada reproduciéndose, para volver a oír un recordatorio de voz o texto.\nConsejo: Hecho es la única acción que completa una tarea. Silenciar solo baja el sonido.</string>
+    <string name="help_s1_content">En la pantalla bloqueada y en la notificación encontrarás estos botones:\n- Hecho: Completa la tarea esta vez. Si el recordatorio se repite, mantiene los siguientes avisos.\n- Silenciar: Detiene solo el sonido. El recordatorio sigue visible para que decidas después.\n- Posponer: Vuelve a avisarte al cabo de un rato. En el aviso a pantalla completa puedes elegir 5 o 10 minutos.\n- Reproducir / Leer: Aparece cuando no hay nada sonando. Permite escuchar de nuevo la grabación o el mensaje escrito.\nSolo «Hecho» completa la tarea. Detener el sonido la deja pendiente.</string>
     <string name="help_s2_content">- Voz primero: Toca el Micrófono para grabar un recordatorio hablado rápido.\n- Archivo de audio: Elige un archivo de audio de tu dispositivo.\n- Mensaje del recordatorio: Se muestra en la app y las notificaciones.\n- Las notas de voz y los archivos de audio tienen prioridad sobre el texto hablado.\n- Los recordatorios escritos se leen automáticamente solo para recordatorios de texto cuando el texto hablado automático está activado.\n- Etiqueta corta: Nombre opcional para localizarlos más rápido en listas.\n- Programación: Elige fecha, hora, repetición, comprobación de seguimiento y guarda.</string>
     <string name="help_s3_content">- Añadir recordatorio te permite previsualizar la voz grabada y el audio seleccionado antes de guardar.\n- Los detalles del recordatorio te permiten reproducir, detener y avanzar por notas de voz y archivos de audio.\n- Los recordatorios de solo texto aún se pueden leer manualmente desde la app o la notificación.\n- El modo Solo tono usa el tono del recordatorio en lugar de la reproducción hablada.\n- Puedes elegir un sonido de alerta de Solo tono en Ajustes, y %1$s usa el tono de alarma predeterminado si ese sonido deja de estar disponible.</string>
     <string name="help_s4_content">- Las pestañas Hoy, Próximos, Perdidos y Hechos agrupan los recordatorios por estado.\n- Toca una tarjeta para abrir los detalles completos del recordatorio.\n- Usa el botón de copiar para duplicar un recordatorio existente.\n- Las acciones de la tarjeta incluyen Reproducir, Hecho y el menú de tres puntos para Editar, Marcar hecho, Detener repetición o Eliminar.</string>
@@ -515,7 +521,7 @@
     <string name="help_s5_content">- Modos de repetición: Diario, Semanal, Mensual, Anual o Personalizado.\n- La fecha y hora seleccionadas se convierten en la primera repetición.\n- Las repeticiones pueden terminar nunca, en una fecha y hora exactas, o tras un número de repeticiones.\n- Marcar hecho en un recordatorio repetido borra solo la repetición actual.</string>
     <string name="help_s6_content">- La notificación del recordatorio muestra tres botones rápidos: Hecho, Posponer, y Silenciar (mientras suena) o Reproducir/Leer (para volver a oírlo).\n- Hecho marca el recordatorio como completado; Silenciar solo detiene el sonido y deja el recordatorio para que actúes después.\n- Deslizar la notificación también marca la repetición actual como hecha.\n- Cuando está activada en Ajustes, puede aparecer una alerta a pantalla completa en el bloqueo con las mismas acciones Hecho, Silenciar, Posponer y Reproducir de nuevo.</string>
     <string name="help_s7_content">- Los recordatorios perdidos permanecen en la pestaña Perdidos hasta que los revises.\n- Al abrir la app, una hoja de recuperación puede ofrecer la reproducción rápida del último recordatorio perdido.\n- Los recordatorios pasados se pueden restaurar, reprogramar o volver a reproducir desde sus hojas de acciones.</string>
-    <string name="help_s8_content">- Reproducir audio del recordatorio automáticamente inicia la reproducción de la nota de voz o el archivo de audio cuando suena un recordatorio.\n- Leer recordatorios escritos automáticamente controla el texto hablado solo para recordatorios de texto.\n- Idioma hablado establece la voz para los recordatorios hablados: Detección automática coincide con el idioma del recordatorio (así un recordatorio en hindi se lee en hindi), o puedes forzar el idioma del dispositivo o inglés. La voz del idioma elegido debe estar instalada en los ajustes de texto a voz del teléfono.\n- La reproducción manual sigue funcionando aunque el texto hablado automático esté desactivado.\n- La reproducción privada intenta primero audífonos, Bluetooth o auriculares con cable conectados. Si no hay ninguno, usa el auricular del teléfono en lugar del altavoz.\n- La reproducción en bucle mantiene el audio repitiéndose hasta que lo detienes o se alcanza el tiempo de espera del bucle.\n- La comprobación de seguimiento vuelve a preguntar hasta que el recordatorio se marca como hecho.\n- Las horas de silencio pueden silenciar la reproducción durante los horarios seleccionados.</string>
+    <string name="help_s8_content">- Con la reproducción automática activada, la grabación o el archivo de audio empieza a sonar a la hora del recordatorio.\n- Los mensajes se leen automáticamente solo si el recordatorio no tiene grabación ni archivo de audio y has activado la lectura automática.\n- Idioma en el que se leen los recordatorios. La detección automática elige el idioma del mensaje. Debes tener instalada una voz para ese idioma en los ajustes de texto a voz del teléfono. También puedes elegir el idioma del teléfono o el inglés. Con la detección automática, un mensaje escrito en hindi se lee en hindi.\n- Aunque desactives la lectura automática, puedes tocar el botón para escuchar el mensaje.\n- Usa primero los dispositivos conectados: audífonos para la pérdida auditiva, dispositivos Bluetooth o auriculares con cable. Si no hay ninguno, el sonido sale por el auricular de llamadas del teléfono, en lugar del altavoz.\n- La reproducción en bucle repite el audio hasta que lo detienes o se alcanza el tiempo límite.\n- El seguimiento vuelve a preguntar hasta que marcas la tarea como hecha.\n- Las horas de silencio pueden impedir que suenen los recordatorios durante el horario que elijas.</string>
     <string name="help_s9_content">- El modo Solo tono usa un tono de alarma claro en lugar de voz o TTS.\n- Puedes elegir un sonido de alerta de Solo tono personalizado, o mantener el tono de alarma predeterminado.\n- Avisar incluso durante No molestar permite que %1$s intente reproducir recordatorios importantes mientras No molestar está activo.\n- Cuando Avisar incluso durante No molestar está desactivado, los recordatorios bloqueados por No molestar van a Perdidos en lugar de reproducirse.\n- Este ajuste no activa ni desactiva el modo No molestar del teléfono. Se requiere acceso a No molestar de Android antes de que la omisión funcione.\n- Cuando está activado, los recordatorios usan audio con prioridad de alarma. Algunas rutinas del teléfono aún pueden bloquear alarmas si el modo del sistema silencia el audio de alarma.\n- Si el sonido seleccionado falta más tarde, %1$s usa automáticamente el tono de alarma predeterminado.\n- Usa el modo Solo tono si tu teléfono retrasa, suprime o detiene la reproducción hablada.\n- Ajustes &gt; Fiabilidad incluye la Guía de optimización de batería para teléfonos con restricciones de fondo agresivas.\n- Mantén activadas las notificaciones, las alarmas exactas y los ajustes de batería para la mejor fiabilidad.</string>
     <string name="help_s10_content">- El widget Recordatorio rápido abre Añadir recordatorio directamente.\n- El widget Próximos muestra los próximos recordatorios y los perdidos.\n- La compatibilidad con Wear OS depende de que las notificaciones del teléfono y la sincronización del reloj estén activadas.</string>
     <string name="help_s11_content">- Los recordatorios futuros se reprograman automáticamente tras reiniciar.\n- Los recordatorios vencidos pasan por el flujo de recordatorios perdidos en lugar de sonar inesperadamente al arrancar.</string>
@@ -542,7 +548,7 @@
     <string name="wn_notices_title">La pantalla de inicio explica el silencio</string>
     <string name="wn_notices_desc">Si este teléfono puede detener %1$s en segundo plano, o si tus horas de silencio están activas, la pantalla de inicio ahora lo indica, en lugar de que los recordatorios simplemente no lleguen.</string>
     <string name="wn_lang_title">Ahora en tu idioma</string>
-    <string name="wn_lang_desc">Toda la app está disponible en inglés, español, hindi y árabe, con soporte de derecha a izquierda. Elígelo en Ajustes &gt; Apariencia &gt; Idioma.</string>
+    <string name="wn_lang_desc">Toda la app está disponible en inglés, español, hindi, árabe, portugués (Brasil), ruso, vietnamita, bengalí, telugu, tamil, griego y malayalam, con soporte de derecha a izquierda. Elígelo en Ajustes &gt; Apariencia &gt; Idioma.</string>
     <string name="wn_buttons_title">Botones de alarma más claros</string>
     <string name="wn_buttons_desc">Las alertas y notificaciones ahora muestran Hecho, Silenciar y Posponer. Hecho completa la tarea; Silenciar solo detiene el sonido y mantiene el recordatorio.</string>
     <string name="wn_spoken_title">Recordatorios con la voz correcta</string>
@@ -583,11 +589,11 @@
     <string name="help_s16_title">Elige el modo de grabación de voz</string>
     <string name="help_s16_content">- Abre Ajustes &gt; Formulario del recordatorio &gt; Mejora de voz experimental.\n- Desactivada (opción predeterminada) mantiene la grabación MIC/AAC original sin procesamiento posterior.\n- Activada habilita las nuevas protecciones, el aviso de silencio, la limpieza del ruido de fondo y la normalización de la voz. Los resultados y el tiempo pueden variar según el dispositivo.\n- Las grabaciones silenciosas se pueden escuchar y guardar.</string>
     <string name="help_s17_title">Reproducción de recordatorios más fiable</string>
-    <string name="help_s17_content">- La reproducción inicia de inmediato la notificación en primer plano que exige Android, incluso en versiones nuevas y teléfonos con inicio en segundo plano más lento.\n- Esto evita que el tiempo de espera del sistema detenga un recordatorio antes de que comience el sonido o la voz.\n- Mantén activados el permiso de notificaciones, las alarmas exactas y los ajustes de batería recomendados.</string>
+    <string name="help_s17_content">- La notificación que exige Android aparece en cuanto empieza la reproducción, también en versiones recientes de Android y en teléfonos que tardan en iniciar tareas en segundo plano.\n- Así se evita que el sistema detenga el recordatorio por agotar el tiempo de espera antes de que empiece el sonido.\n- Para que funcione bien, permite las notificaciones y las alarmas exactas y usa los ajustes de batería recomendados.</string>
     <string name="wn_form_title">Tu formulario, a tu manera</string>
     <string name="wn_form_desc">En Ajustes &gt; Formulario del recordatorio, muestra u oculta de forma independiente Grabación de voz, Elegir archivo de audio, Recordatorio escrito y Etiqueta corta.</string>
     <string name="wn_recording_title">Mejora de voz experimental opcional</string>
-    <string name="wn_recording_desc">Un nuevo ajuste permite mantener la grabación original sin procesar (opción predeterminada) o activar nuevas protecciones, avisos de silencio y limpieza de ruido de fondo que sube las grabaciones bajas a un nivel cómodo sin subir con ellas el ruido de la sala. Las grabaciones silenciosas siempre se conservan.</string>
+    <string name="wn_recording_desc">Ahora puedes elegir cómo grabar. Por defecto, se conserva la grabación sin procesar. Si lo prefieres, activa las comprobaciones adicionales, el aviso cuando no se capta sonido y la reducción del ruido de fondo. Las grabaciones bajas de volumen se ajustan para escucharlas mejor, sin amplificar el ruido de la habitación. Las grabaciones sin sonido también se guardan.</string>
     <string name="wn_reliability_title">Más fiable en Android reciente</string>
     <string name="wn_reliability_desc">La reproducción del recordatorio ahora se inicia de forma segura e inmediata en primer plano, evitando tiempos de espera observados en algunos dispositivos con Android 12 y Android 16.</string>
     <string name="settings_24_hour_time">Usar formato de 24 horas</string>
@@ -641,14 +647,14 @@
 
     <!-- Diálogo de recordatorio recurrente -->
     <string name="rcd_title">Este es un recordatorio recurrente</string>
-    <string name="rcd_desc">Elige si quieres borrar solo esta repetición, editar la programación o detenerla por completo.</string>
+    <string name="rcd_desc">Completa solo esta vez, cambia los horarios de repetición o detén el recordatorio por completo.</string>
     <string name="rcd_mark_occurrence">Marcar esta repetición como hecha</string>
     <string name="rcd_edit_schedule">Editar programación</string>
     <string name="rcd_stop_recurring">Detener repetición</string>
 
     <!-- Diálogo de restaurar recordatorio -->
     <string name="rrd_title">Restaurar recordatorio</string>
-    <string name="rrd_desc">Este recordatorio se completó antes. Elige cómo quieres restaurarlo.</string>
+    <string name="rrd_desc">Ya habías completado este recordatorio. Elige cómo quieres recuperarlo.</string>
     <string name="rrd_reschedule">Reprogramar recordatorio</string>
     <string name="rrd_move_missed">Mover a Perdidos</string>
     <string name="rrd_play">Reproducir recordatorio</string>
@@ -659,9 +665,10 @@
     <string name="pua_scheduled_for">Programado para %1$s</string>
     <string name="pua_set_new_time">Elegir una nueva hora</string>
     <string name="pua_just_play">Solo reproducir el recordatorio</string>
-    <string name="mrr_desc">Reproduce ahora el último recordatorio perdido o mantén todo en la pestaña Perdidos para revisarlo más tarde.</string>
+    <string name="mrr_desc">Escucha ahora el recordatorio perdido más reciente o déjalos todos en «Perdidos» para revisarlos después.</string>
     <plurals name="mrr_title">
         <item quantity="one">Perdiste %1$d recordatorio</item>
+        <item quantity="many">Perdiste %1$d recordatorios</item>
         <item quantity="other">Perdiste %1$d recordatorios</item>
     </plurals>
     <string name="mrr_play_latest">Reproducir el último recordatorio perdido</string>
@@ -716,6 +723,7 @@
     <string name="a11y_no_voice_recorded">No hay nota de voz grabada</string>
     <plurals name="card_occurrences">
         <item quantity="one">%1$d repetición</item>
+        <item quantity="many">%1$d repeticiones</item>
         <item quantity="other">%1$d repeticiones</item>
     </plurals>
 

@@ -1,0 +1,787 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_tagline">Голосовые напоминания офлайн</string>
+    <string name="widget_quick_caption">Быстро открыть «Новое напоминание»</string>
+    <string name="widget_quick_description">Открывает форму напоминания прямо с главного экрана</string>
+    <string name="widget_upcoming_description">Показывает ближайшие запланированные напоминания</string>
+
+    <!-- Settings -->
+    <string name="settings_language">Язык приложения</string>
+    <string name="settings_language_system">Как на устройстве</string>
+    <string name="settings_language_description">Доступные языки приложения: английский, испанский, хинди, арабский, португальский (Бразилия), русский, вьетнамский, бенгальский, телугу, тамильский, греческий и малаялам.\n«Как на устройстве» выбирает поддерживаемый язык телефона; если такого нет, приложение использует английский.\nОзвучивание напоминаний зависит от голосов, установленных на телефоне. Настройте его отдельно в разделе Воспроизведение &gt; Язык озвучивания.</string>
+
+    <!-- Notification actions -->
+    <string name="notif_action_done">Готово</string>
+    <string name="notif_action_silence">Заглушить</string>
+    <string name="notif_action_snooze">Отложить</string>
+    <string name="notif_action_play">Воспроизвести</string>
+    <string name="notif_action_speak">Озвучить</string>
+    <string name="notif_default_title">Голосовое напоминание</string>
+    <string name="notif_default_text">Нажмите, чтобы воспроизвести напоминание</string>
+    <string name="notif_action_replay">Повторить</string>
+    <string name="notif_action_stop">Стоп</string>
+    <string name="notif_playback_processing">Обработка…</string>
+    <string name="notif_playback_speaking">Озвучивается: «%1$s»</string>
+    <string name="notif_reminder_missing">Не удалось найти это напоминание.</string>
+    <string name="notif_missed_title">Пропущено: %1$s</string>
+    <string name="notif_missed_scheduled_tap">Запланировано на %1$s — нажмите, чтобы открыть</string>
+    <string name="notif_missed_scheduled_audio_unavailable">Запланировано на %1$s. Выбранный аудиофайл недоступен.</string>
+    <string name="notif_missed_scheduled">Запланировано: %1$s</string>
+    <string name="fallback_reminder_title">Напоминание</string>
+    <string name="toast_audio_unavailable">Выбранный аудиофайл недоступен.</string>
+    <string name="tts_voice_hint">Голос для языка «%1$s» не установлен. Добавьте его в настройках синтеза речи телефона, чтобы слышать озвученные напоминания.</string>
+    <string name="tts_voice_hint_this_language">этот язык</string>
+
+    <!-- Alert payload (notification / spoken follow-up text) -->
+    <string name="alert_followup_fallback_title">Повторная проверка</string>
+    <string name="alert_followup_question">Вы выполнили: %1$s?</string>
+    <string name="alert_followup_this_reminder">это напоминание</string>
+    <string name="alert_audio_unavailable_full">Выбранный аудиофайл недоступен. Нажмите, чтобы выбрать другой файл.</string>
+    <string name="alert_tap_to_view">Нажмите, чтобы посмотреть</string>
+
+    <!-- Section titles -->
+    <string name="set_section_timing">Откладывание и проверки</string>
+    <string name="set_section_backup">Резервное копирование</string>
+    <string name="set_section_about">Справка и о приложении</string>
+
+    <!-- Backup & restore -->
+    <string name="set_backup_export">Создать резервную копию</string>
+    <string name="set_backup_export_desc">Сохраните предстоящие напоминания вместе с записями в файл</string>
+    <string name="set_backup_import">Импортировать напоминания</string>
+    <string name="set_backup_import_desc">Восстановите напоминания из файла резервной копии</string>
+    <string name="backup_export_none">Нет предстоящих напоминаний для резервной копии.</string>
+    <string name="backup_export_success">Сохранено напоминаний: %1$d.</string>
+    <string name="backup_export_failed">Не удалось создать резервную копию.</string>
+    <string name="backup_import_success">Импортировано напоминаний: %1$d.</string>
+    <string name="backup_import_skipped">Импортировано напоминаний: %1$d (пропущено дубликатов: %2$d, просроченных: %3$d).</string>
+    <string name="backup_import_failed">Ошибка импорта. Выберите файл резервной копии SpeakAlert.</string>
+
+    <!-- Notification channels (visible in system Settings) -->
+    <string name="channel_reminders_name">Напоминания %1$s</string>
+    <string name="channel_reminders_desc">Уведомления о напоминаниях %1$s</string>
+    <string name="channel_tone_only_name">Оповещения %1$s «Только сигнал»</string>
+    <string name="channel_tone_only_desc">Уведомления «Только сигнал» только с вибрацией; звук сигнала воспроизводит %1$s</string>
+    <string name="channel_dnd_bypass_name">Напоминания %1$s (в обход «Не беспокоить»)</string>
+    <string name="channel_dnd_bypass_desc">Будильники напоминаний, которые могут срабатывать в режиме «Не беспокоить», если Android предоставил доступ</string>
+    <string name="channel_tone_only_bypass_name">Оповещения %1$s «Только сигнал» (в обход «Не беспокоить»)</string>
+    <string name="channel_tone_only_bypass_desc">Напоминания «Только сигнал», которые могут срабатывать в режиме «Не беспокоить», если Android предоставил доступ</string>
+    <string name="pua_sub_reschedule">Перенести это напоминание</string>
+    <string name="pua_sub_play_now">Прослушать сейчас без переноса</string>
+    <string name="pua_sub_keep_done">Оставить выполненным</string>
+    <string name="channel_playback_name">Воспроизведение напоминаний</string>
+    <string name="channel_playback_desc">Показывает элементы управления во время воспроизведения напоминаний</string>
+    <string name="channel_silent_name">Полноэкранные оповещения %1$s</string>
+    <string name="channel_silent_desc">Полноэкранные напоминания %1$s, пока напоминание уже озвучивается</string>
+    <string name="channel_silent_bypass_name">Полноэкранные оповещения %1$s (в обход «Не беспокоить»)</string>
+    <string name="channel_silent_bypass_desc">Полноэкранные напоминания, которые могут срабатывать в режиме «Не беспокоить», если Android предоставил доступ</string>
+
+    <!-- Alarm alert screen -->
+    <string name="alert_mark_done">Отметить выполненным</string>
+    <string name="alert_silence">Заглушить</string>
+    <string name="alert_silence_now">Заглушить сейчас</string>
+    <string name="alert_play_again">Воспроизвести снова</string>
+    <string name="alert_snooze_minutes">Отложить на %1$d мин</string>
+    <string name="alert_followup_reminder">Повторное напоминание</string>
+    <string name="alert_reminder_on_screen">Напоминание на экране</string>
+    <string name="alert_followup_on_this">Проверка по этому напоминанию</string>
+    <string name="alert_did_you_complete">Вы выполнили это напоминание?</string>
+    <string name="alert_reminder_active">Напоминание активно</string>
+    <string name="alert_voice_reminder">Голосовое напоминание</string>
+    <string name="alert_text_reminder">Текстовое напоминание</string>
+    <string name="alert_followup_check">Повторная проверка</string>
+    <string name="alert_generic">Оповещение</string>
+    <string name="alert_playing_now">Сейчас воспроизводится</string>
+    <string name="alert_needs_response">Требуется ответ</string>
+    <string name="alert_awaiting_action">Ожидает действия</string>
+    <string name="alert_scheduled_for">Запланировано на</string>
+    <string name="alert_status">Статус оповещения</string>
+    <string name="alert_audio_playing">Звук воспроизводится. Нажмите «Заглушить», чтобы остановить.</string>
+    <string name="alert_waiting_done_snooze">Ожидается «Готово» или «Отложить».</string>
+    <string name="alert_followup_label">Проверка</string>
+    <string name="alert_hint_with_play">Оставьте напоминание на экране, остановите звук или воспроизведите его снова, прежде чем действовать.</string>
+    <string name="alert_hint_no_play">Оставьте напоминание на экране или выберите «Готово» либо «Отложить», когда будете готовы.</string>
+    <string name="alert_dock_hint">«Заглушить» останавливает звук. «Готово» или «Отложить» убирает оповещение с экрана блокировки.</string>
+    <plurals name="alert_followup_repeats">
+        <item quantity="one">Повторяется каждую %1$d минуту до выполнения.</item>
+        <item quantity="few">Повторяется каждые %1$d минуты до выполнения.</item>
+        <item quantity="many">Повторяется каждые %1$d минут до выполнения.</item>
+        <item quantity="other">Повторяется каждые %1$d минуты до выполнения.</item>
+    </plurals>
+
+    <!-- Home -->
+    <string name="home_greeting_morning">Доброе утро</string>
+    <string name="home_greeting_afternoon">Добрый день</string>
+    <string name="home_greeting_evening">Добрый вечер</string>
+    <string name="home_all_caught_up">Всё сделано!</string>
+    <plurals name="home_active_reminders">
+        <item quantity="one">У вас %1$d активное напоминание</item>
+        <item quantity="few">У вас %1$d активных напоминания</item>
+        <item quantity="many">У вас %1$d активных напоминаний</item>
+        <item quantity="other">У вас %1$d активного напоминания</item>
+    </plurals>
+    <string name="home_filter_upcoming">Предстоящие</string>
+    <string name="home_filter_today">Сегодня</string>
+    <string name="home_filter_missed">Пропущенные</string>
+    <string name="home_filter_done">Выполненные</string>
+    <string name="home_cd_settings">Настройки</string>
+    <string name="home_cd_help">Справка и инструкции</string>
+    <string name="home_cd_add">Добавить напоминание</string>
+    <string name="home_cd_missed">Пропущенные напоминания</string>
+    <string name="home_dismiss_all">Закрыть все</string>
+    <string name="home_empty_all_caught_up">Всё сделано!</string>
+    <string name="home_empty_no_missed">Нет пропущенных напоминаний</string>
+    <string name="home_empty_nothing_done">Пока ничего не выполнено</string>
+    <string name="home_empty_no_upcoming">Нет предстоящих напоминаний</string>
+    <string name="home_empty_no_reminders">Напоминаний пока нет</string>
+    <string name="home_empty_done_sub">Здесь появятся выполненные напоминания.</string>
+    <string name="home_empty_upcoming_sub">Здесь появятся напоминания, запланированные на потом.</string>
+    <string name="home_empty_default_sub">Создайте напоминание голосом или текстом.</string>
+
+    <!-- Common actions -->
+    <string name="action_cancel">Отмена</string>
+    <string name="action_close">Закрыть</string>
+    <string name="action_play_now">Воспроизвести сейчас</string>
+    <string name="action_stop">Стоп</string>
+    <string name="action_dismiss">Закрыть</string>
+    <string name="action_apply">Применить</string>
+    <string name="action_undo">Отменить</string>
+    <string name="action_open">Открыть</string>
+    <string name="common_reminder">Напоминание</string>
+    <string name="time_picker_title">Выберите время</string>
+    <string name="err_date_future">Дата должна быть сегодня или позже</string>
+    <string name="err_time_future">Выберите время в будущем</string>
+
+    <!-- Home dialogs -->
+    <string name="home_stop_recurring_title">Остановить повторяющееся напоминание?</string>
+    <string name="home_stop_recurring_msg">Это напоминание и все его будущие повторы будут удалены. Это действие нельзя отменить.</string>
+    <string name="home_stop_recurring_action">Остановить повторы</string>
+    <string name="home_stop_recurring_sub">Удалить это напоминание и все будущие повторы</string>
+    <string name="home_keep_reminder">Оставить напоминание</string>
+    <string name="home_mark_occurrence_title">Отметить повтор выполненным?</string>
+    <string name="home_mark_occurrence_msg">Будет закрыт только сегодняшний повтор. Напоминание снова сработает в следующее запланированное время.</string>
+    <string name="home_mark_occurrence_action">Отметить этот повтор выполненным</string>
+    <string name="home_mark_occurrence_sub">Будущие повторы останутся в расписании</string>
+    <string name="home_mark_done_title">Отметить выполненным?</string>
+    <string name="home_mark_done_msg">Напоминание будет перемещено во вкладку «Выполненные».</string>
+    <string name="home_move_to_done">Переместить в «Выполненные»</string>
+    <string name="home_move_to_done_sub">Сохранить это напоминание в истории выполненных</string>
+    <string name="home_created_at">Создано: %1$s</string>
+    <string name="home_snackbar_deleted">Напоминание удалено</string>
+    <string name="home_snackbar_duplicated">Напоминание скопировано</string>
+    <string name="home_badge_missed">Пропущено</string>
+
+    <!-- Add / Edit reminder -->
+    <string name="ae_saved">Напоминание сохранено!</string>
+    <string name="ae_cannot_past">Нельзя создать напоминание в прошлом</string>
+    <string name="ae_record_too_short">Запись слишком короткая — удерживайте кнопку, пока говорите</string>
+    <string name="ae_record_failed">Не удалось начать запись. Возможно, микрофон занят другим приложением.</string>
+    <string name="ae_record_silent">Звук не записался. Проверьте, разрешён ли SpeakAlert доступ к микрофону.</string>
+    <string name="ae_unsaved_title">Сохранить напоминание?</string>
+    <string name="ae_unsaved_msg">В напоминании есть несохранённые изменения.</string>
+    <string name="action_save">Сохранить</string>
+    <string name="ae_keep_editing">Продолжить редактирование</string>
+    <string name="action_discard">Отменить изменения</string>
+    <string name="action_remove">Удалить</string>
+    <string name="action_change">Изменить</string>
+    <string name="ae_title_edit">Изменить напоминание</string>
+    <string name="ae_title_new">Новое напоминание</string>
+    <string name="action_back">Назад</string>
+    <string name="ae_header_edit">Изменить напоминание</string>
+    <string name="ae_header_create">Создать напоминание</string>
+    <string name="ae_section_content">Содержание напоминания</string>
+    <string name="ae_content_desc">Запишите голос, добавьте аудиофайл или введите текст напоминания.</string>
+    <string name="ae_tap_to_record">Нажмите, чтобы записать голосовое напоминание</string>
+    <string name="ae_or_choose_audio">Или выберите аудиофайл</string>
+    <string name="ae_selected_audio">Выбранный аудиофайл</string>
+    <string name="ae_cd_stop_preview">Остановить прослушивание</string>
+    <string name="ae_cd_play_preview">Прослушать аудио</string>
+    <string name="ae_cd_audio_progress">Ход прослушивания аудио</string>
+    <string name="ae_choose_audio_file">Выбрать аудиофайл</string>
+    <string name="ae_or_type">Или введите текст напоминания</string>
+    <string name="ae_msg_label">Текст напоминания</string>
+    <string name="ae_msg_placeholder">напр., Принять лекарство после завтрака</string>
+    <string name="ae_label_placeholder">напр., Утреннее лекарство</string>
+    <string name="ae_msg_help">Текст виден в приложении и уведомлениях. Он читается вслух, только если вы не добавили голосовую запись или аудиофайл.</string>
+    <string name="ae_char_count">%1$d/%2$d</string>
+    <string name="ae_need_content">Добавьте голосовую заметку, аудиофайл или текст напоминания.</string>
+    <string name="ae_section_label">Краткая метка (необязательно)</string>
+    <string name="ae_label_desc">Можно дать короткое название, чтобы быстрее узнавать напоминание в списке.</string>
+    <string name="ae_label_hint">Показывается как краткое название в списках и подробностях</string>
+    <string name="ae_section_schedule">Расписание</string>
+    <string name="ae_when_fire">Когда должно сработать напоминание?</string>
+    <string name="ae_datetime_at">%1$s в %2$s</string>
+    <string name="ae_date">Дата</string>
+    <string name="ae_time">Время</string>
+    <string name="ae_time_future">Время должно быть в будущем</string>
+    <string name="ae_repeat_never">Никогда</string>
+    <string name="ae_repeat">Повтор</string>
+    <string name="state_on">Вкл.</string>
+    <string name="state_off">Выкл.</string>
+    <string name="state_active">Активно</string>
+    <string name="ae_loop">Воспроизводить по кругу</string>
+    <string name="ae_loop_desc">Звучит, пока вы не закроете напоминание.</string>
+    <string name="ae_followup">Повторная проверка</string>
+    <string name="ae_followup_desc">Спросить снова через некоторое время, если напоминание не отмечено выполненным.</string>
+    <string name="ae_cd_saving">Сохранение напоминания</string>
+    <string name="ae_save_reminder">Сохранить напоминание</string>
+    <plurals name="ae_followup_active">
+        <item quantity="one">Активно: спрашивает каждую %1$d минуту, пока не отмечено выполненным.</item>
+        <item quantity="few">Активно: спрашивает каждые %1$d минуты, пока не отмечено выполненным.</item>
+        <item quantity="many">Активно: спрашивает каждые %1$d минут, пока не отмечено выполненным.</item>
+        <item quantity="other">Активно: спрашивает каждые %1$d минуты, пока не отмечено выполненным.</item>
+    </plurals>
+
+    <!-- Recurrence type names (shared) -->
+    <string name="rec_every">Раз в %1$d %2$s</string>
+    <string name="rec_ends_never">Окончание: никогда</string>
+    <string name="rec_if_off_fire">Если устройство выключено: оповестить после включения</string>
+    <string name="rec_if_off_skip">Если устройство выключено: напоминать только в точное время</string>
+    <string name="date_today">Сегодня</string>
+    <string name="date_tomorrow">Завтра</string>
+    <string name="date_yesterday">Вчера</string>
+    <plurals name="rec_ends_times">
+        <item quantity="one">Окончание после %1$d раза</item>
+        <item quantity="few">Окончание после %1$d раз</item>
+        <item quantity="many">Окончание после %1$d раз</item>
+        <item quantity="other">Окончание после %1$d раза</item>
+    </plurals>
+    <string name="rec_onetime">Однократно</string>
+    <string name="rec_daily">Ежедневно</string>
+    <string name="rec_weekly">Еженедельно</string>
+    <string name="rec_monthly">Ежемесячно</string>
+    <string name="rec_yearly">Ежегодно</string>
+    <string name="rec_custom">Свой вариант</string>
+    <string name="day_mon">Пн</string>
+    <string name="day_tue">Вт</string>
+    <string name="day_wed">Ср</string>
+    <string name="day_thu">Чт</string>
+    <string name="day_fri">Пт</string>
+    <string name="day_sat">Сб</string>
+    <string name="day_sun">Вс</string>
+
+    <!-- Reminder details -->
+    <string name="det_title">Подробности напоминания</string>
+    <string name="action_edit">Изменить</string>
+    <string name="action_delete">Удалить</string>
+    <string name="action_confirm">Подтвердить</string>
+    <string name="det_audio_file">Аудиофайл</string>
+    <string name="det_voice_note">Голосовая заметка</string>
+    <string name="det_loop_enabled">По кругу</string>
+    <string name="det_followup_pill">Проверка %1$d мин</string>
+    <string name="det_cd_stop_audio">Остановить аудио</string>
+    <string name="det_cd_play_audio">Воспроизвести аудио</string>
+    <string name="det_ready_preview">Готово к прослушиванию</string>
+    <string name="det_ready_play">Готово к воспроизведению</string>
+    <string name="det_voice_recording">Голосовая запись</string>
+    <string name="det_tap_preview">Нажмите «Воспроизвести», чтобы прослушать записанное напоминание.</string>
+    <string name="det_cd_audio_progress">Ход воспроизведения напоминания</string>
+    <string name="det_double_tap_edit">Нажмите дважды, чтобы изменить</string>
+    <string name="det_ends_by">Окончание: %1$s</string>
+    <string name="det_end_rule">Условие окончания</string>
+    <string name="det_missed_handling">Обработка пропущенных напоминаний</string>
+    <string name="det_missed_fire">Оповестить, когда устройство снова включится</string>
+    <string name="det_missed_skip">Напомнить только в следующее точное время</string>
+    <string name="det_mark_undone">Отметить невыполненным</string>
+    <string name="det_mark_done">Отметить выполненным</string>
+    <string name="det_scheduled_for">Запланировано на: %1$s</string>
+    <string name="det_delete_title">Удалить напоминание?</string>
+    <string name="det_delete_recurring">Все будущие повторы будут остановлены. Это действие нельзя отменить.</string>
+    <string name="det_delete_onetime">Это действие нельзя отменить.</string>
+    <string name="det_reschedule_title">Перенести напоминание?</string>
+    <string name="det_reschedule_to">Перенести на %1$s?</string>
+    <plurals name="det_ends_after">
+        <item quantity="one">Окончание после %1$d повтора</item>
+        <item quantity="few">Окончание после %1$d повторов</item>
+        <item quantity="many">Окончание после %1$d повторов</item>
+        <item quantity="other">Окончание после %1$d повтора</item>
+    </plurals>
+
+    <!-- Recurrence selection sheet -->
+    <string name="rs_subtitle">Выберите, как будет повторяться это напоминание.</string>
+    <string name="rs_none">Не повторять</string>
+    <string name="rs_monthly_settings">Ежемесячные настройки</string>
+    <string name="rs_monthly_subtitle">Выберите дни или условие окончания.</string>
+    <string name="rs_repeat_on">Повторять</string>
+    <string name="rs_days_of_month">Дни месяца</string>
+    <string name="rs_last_day">Последний день</string>
+    <string name="rs_select_days_toggle">Выберите дни (нажмите, чтобы переключить)</string>
+    <string name="rs_selected">Выбрано: %1$s</string>
+    <string name="rs_weekly_settings">Еженедельные настройки</string>
+    <string name="rs_weekly_subtitle">Выберите дни недели для повтора.</string>
+    <string name="rs_select_days">Выберите дни</string>
+    <string name="rs_custom_interval">Свой интервал</string>
+    <string name="rs_custom_subtitle">Укажите, сколько времени должно проходить между повторами.</string>
+    <string name="rs_repeat_every">Повторять раз в</string>
+    <string name="rs_number">Число</string>
+    <string name="rs_unit">Единица</string>
+    <string name="rs_repeats_every">Повторяется раз в %1$d %2$s.</string>
+    <string name="rs_interval_min">Интервал должен быть не меньше 1</string>
+    <string name="rs_ends">Окончание</string>
+    <string name="rs_forever">Никогда</string>
+    <string name="rs_until_date">До даты и времени</string>
+    <string name="rs_after_count">После числа повторов</string>
+    <string name="rs_must_be_after">Не раньше %1$s</string>
+    <string name="rs_date_label">Дата: %1$s</string>
+    <string name="rs_time_label">Время: %1$s</string>
+    <string name="rs_num_occurrences">Количество повторов</string>
+    <string name="rs_allowed_range">Допустимо: 1–999</string>
+    <string name="rs_end_before_error">Время окончания не может быть раньше времени напоминания</string>
+    <string name="rs_select_end_time">Выберите время окончания</string>
+    <!-- Accusative forms: used after "раз в" / "через" (раз в 1 минуту, 2 минуты, 5 минут). -->
+    <plurals name="unit_minutes" tools:ignore="ImpliedQuantity"><item quantity="one">минуту</item><item quantity="few">минуты</item><item quantity="many">минут</item><item quantity="other">минуты</item></plurals>
+    <plurals name="unit_hours" tools:ignore="ImpliedQuantity"><item quantity="one">час</item><item quantity="few">часа</item><item quantity="many">часов</item><item quantity="other">часа</item></plurals>
+    <plurals name="unit_days" tools:ignore="ImpliedQuantity"><item quantity="one">день</item><item quantity="few">дня</item><item quantity="many">дней</item><item quantity="other">дня</item></plurals>
+    <plurals name="unit_weeks" tools:ignore="ImpliedQuantity"><item quantity="one">неделю</item><item quantity="few">недели</item><item quantity="many">недель</item><item quantity="other">недели</item></plurals>
+    <plurals name="unit_months" tools:ignore="ImpliedQuantity"><item quantity="one">месяц</item><item quantity="few">месяца</item><item quantity="many">месяцев</item><item quantity="other">месяца</item></plurals>
+    <plurals name="unit_years" tools:ignore="ImpliedQuantity"><item quantity="one">год</item><item quantity="few">года</item><item quantity="many">лет</item><item quantity="other">года</item></plurals>
+
+    <!-- Settings -->
+    <string name="set_appearance">Внешний вид</string>
+    <string name="set_reminder_form">Форма напоминания</string>
+    <string name="set_reminder_form_desc">Выберите, какие разделы показывать при создании напоминания. Если скрыть все способы ввода, перед созданием нового напоминания придётся включить хотя бы один.</string>
+    <string name="ae_no_content_sections">Не включён ни один раздел ввода. Включите «Голосовая запись», «Выбор аудиофайла» или «Текстовое напоминание» в разделе Настройки &gt; Форма напоминания.</string>
+    <string name="set_show_voice_recording">Голосовая запись</string>
+    <string name="set_show_voice_recording_desc">Показывать раздел записи с микрофона.</string>
+    <string name="set_experimental_voice_enhancement">Экспериментальное улучшение голоса</string>
+    <string name="set_experimental_voice_enhancement_desc">Выключено: запись сохраняется без обработки. Включено: добавляются проверки при записи, предупреждение об отсутствии звука и обработка для более чёткого звучания голоса.</string>
+    <string name="set_experimental_voice_enhancement_note">Функция экспериментальная. Результат и время обработки зависят от телефона. Выключите её, если голос искажается или сохранение занимает слишком много времени.</string>
+    <string name="set_show_audio_file">Выбор аудиофайла</string>
+    <string name="set_show_audio_file_desc">Показывать возможность выбрать существующий аудиофайл.</string>
+    <string name="set_show_typed_reminder">Текстовое напоминание</string>
+    <string name="set_show_typed_reminder_desc">Показывать поле текста напоминания.</string>
+    <string name="set_show_short_label">Краткая метка</string>
+    <string name="set_show_short_label_desc">Показывать необязательное поле краткой метки.</string>
+    <string name="set_app_theme">Тема приложения</string>
+    <string name="theme_system">Системная</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Тёмная</string>
+    <string name="set_toast_theme_light">Включена светлая тема</string>
+    <string name="set_toast_theme_dark">Включена тёмная тема</string>
+    <string name="set_toast_theme_system">Как в системе</string>
+    <string name="set_playback">Воспроизведение</string>
+    <string name="set_autoplay">Автовоспроизведение аудио</string>
+    <string name="set_autoplay_desc">Автоматически воспроизводит голосовые заметки и аудиофайлы, когда срабатывает напоминание</string>
+    <string name="set_disabled_tone">Недоступно, пока включён режим «Только сигнал»</string>
+    <string name="set_toast_autoplay_on">Автовоспроизведение включено</string>
+    <string name="set_toast_autoplay_off">Автовоспроизведение выключено</string>
+    <string name="set_unlock_only">Только когда телефон разблокирован</string>
+    <string name="set_unlock_only_desc">Не воспроизводить на экране блокировки</string>
+    <string name="set_toast_lock_off">Воспроизведение на экране блокировки выключено</string>
+    <string name="set_toast_lock_on">Воспроизведение на экране блокировки включено</string>
+    <string name="set_speak_text">Автоматически озвучивать текст</string>
+    <string name="set_speak_text_desc">Только для текстовых напоминаний без голосовой заметки и аудиофайла</string>
+    <string name="set_toast_speak_on">Автоозвучивание текста включено</string>
+    <string name="set_toast_speak_off">Автоозвучивание текста выключено</string>
+    <string name="set_spoken_language">Язык озвучивания</string>
+    <string name="set_spoken_language_desc">На каком языке читать напоминания. Автоопределение выбирает язык сообщения. Голос для этого языка должен быть установлен в настройках синтеза речи телефона.</string>
+    <string name="tts_auto">Автоопределение</string>
+    <string name="tts_device">Устройство</string>
+    <string name="tts_english">Английский</string>
+    <string name="set_toast_tts_device">Язык озвучивания: язык устройства</string>
+    <string name="set_toast_tts_english">Язык озвучивания: английский</string>
+    <string name="set_toast_tts_auto">Язык озвучивания: автоопределение</string>
+    <string name="set_private">Приватное воспроизведение</string>
+    <string name="set_private_desc">Сначала используются подключённые слуховые аппараты, Bluetooth-устройства или проводные наушники. Если их нет, звук идёт через разговорный динамик телефона, а не через громкоговоритель.</string>
+    <string name="set_toast_private_on">Приватное воспроизведение включено</string>
+    <string name="set_toast_private_off">Приватное воспроизведение выключено</string>
+    <string name="set_private_bt">Приватное воспроизведение включено. Для вывода через Bluetooth нужно разрешение «Устройства поблизости».</string>
+    <string name="set_tone_only">Режим «Только сигнал»</string>
+    <string name="set_tone_only_desc">Воспроизводит простой сигнал будильника вместо голоса/TTS для максимальной надёжности. Автоостановка: %1$s. Откладывание: %2$d мин.</string>
+    <string name="set_toast_tone_on">Режим «Только сигнал» включён</string>
+    <string name="set_toast_tone_off">Режим «Только сигнал» выключен</string>
+    <string name="set_infinite">Бесконечно</string>
+    <string name="set_minutes_short">%1$d мин</string>
+    <string name="set_select_tone">Выбрать сигнал</string>
+    <string name="file_picker_unavailable">На этом устройстве нет приложения для открытия файлов. Установите файловый менеджер и попробуйте снова.</string>
+    <string name="tone_picker_unavailable">На этом устройстве нет приложения для выбора сигнала.</string>
+    <string name="set_toast_default_tone">Используется сигнал будильника по умолчанию</string>
+    <string name="set_toast_tone_updated">Сигнал обновлён</string>
+    <string name="set_fullscreen">Полноэкранное оповещение на экране блокировки</string>
+    <string name="set_fullscreen_desc_granted">Показывать действия напоминания поверх экрана блокировки, когда оно срабатывает</string>
+    <string name="set_fullscreen_desc_denied">Чтобы появляться поверх экрана блокировки, нужен доступ Android к полноэкранным оповещениям</string>
+    <string name="set_allow_fullscreen">Разрешить полноэкранные оповещения в настройках системы</string>
+    <string name="set_toast_fs_on">Полноэкранное оповещение включено</string>
+    <string name="set_toast_fs_off">Полноэкранное оповещение выключено</string>
+    <string name="set_fs_off_title">Полноэкранный доступ всё ещё выключен</string>
+    <string name="set_fs_off_msg">В Android 14+ для полноэкранных оповещений нужно отдельное системное разрешение.</string>
+    <string name="set_open_perm">Открыть настройки разрешений</string>
+    <string name="set_fs_note">Вы по-прежнему можете нажать «Воспроизвести» или «Озвучить» в уведомлении.</string>
+    <string name="set_tone_volume_note">В режиме «Только сигнал» громкость задаётся громкостью будильника/уведомлений устройства.</string>
+    <string name="set_loop_duration">Длительность повтора по кругу</string>
+    <string name="set_loop_duration_desc">Задайте, как долго напоминание звучит по кругу</string>
+    <string name="set_toast_loop">Длительность повтора: %1$d мин</string>
+    <string name="set_toast_loop_infinite">Длительность повтора: бесконечно</string>
+    <string name="set_custom">Своё значение</string>
+    <string name="set_custom_snooze">Своё время откладывания</string>
+    <string name="set_snooze_desc">Задайте, на сколько откладывается напоминание</string>
+    <string name="set_toast_snooze">Отложить: %1$d мин</string>
+    <string name="set_toast_followup_off">Проверка по умолчанию выключена</string>
+    <string name="set_toast_followup">Проверка по умолчанию: %1$d мин</string>
+    <string name="set_quiet">Тихие часы</string>
+    <string name="set_quiet_desc">Отключать звук напоминаний в заданные часы</string>
+    <string name="set_toast_quiet_on">Тихие часы включены</string>
+    <string name="set_toast_quiet_off">Тихие часы выключены</string>
+    <string name="set_start">Начало</string>
+    <string name="set_end">Конец</string>
+    <string name="set_toast_quiet_start">Тихие часы начинаются в %1$s</string>
+    <string name="set_toast_quiet_end">Тихие часы заканчиваются в %1$s</string>
+    <string name="set_toast_test">Тестовое напоминание через 10 секунд</string>
+    <string name="set_test_reminder">Тестовое напоминание</string>
+    <string name="set_cd_granted">Разрешение предоставлено</string>
+    <string name="set_cd_action_required">Требуется действие</string>
+    <string name="set_notifications">Уведомления</string>
+    <string name="set_exact_alarms">Точные будильники</string>
+    <string name="set_microphone">Микрофон</string>
+    <string name="set_dnd">Оповещать даже в «Не беспокоить»</string>
+    <string name="set_dnd_desc_off">Следует режиму звука телефона. «Не беспокоить» или режимы могут заглушать напоминания.</string>
+    <string name="set_dnd_desc_active">Активно: напоминания используют звук с приоритетом будильника и обходят «Не беспокоить».</string>
+    <string name="set_dnd_unavailable">Настройки доступа к «Не беспокоить» недоступны на этом устройстве.</string>
+    <string name="set_grant_dnd">Предоставить доступ к «Не беспокоить»</string>
+    <string name="set_dnd_note">Эта настройка не включает и не выключает режим «Не беспокоить». Она позволяет %1$s запросить разрешение озвучивать важные напоминания, даже когда этот режим включён.</string>
+    <string name="set_battery_guide">Руководство по оптимизации батареи</string>
+    <string name="set_battery_desc">Некоторые телефоны задерживают или блокируют напоминания для экономии заряда.</string>
+    <string name="set_wear">Wear OS</string>
+    <string name="set_wear_checking">Проверка подключения Wear OS…</string>
+    <string name="set_wear_connected">Часы Wear OS подключены</string>
+    <string name="set_wear_supported">Напоминания %1$s на часах поддерживаются только на часах Wear OS.</string>
+    <string name="set_wear_notif_off">Уведомления приложения на телефоне выключены. Включите их, чтобы напоминания синхронизировались с часами.</string>
+    <string name="set_open_notif">Открыть настройки уведомлений</string>
+    <string name="set_open_channel">Открыть канал напоминаний</string>
+    <string name="set_wear_enabled">Уведомления на телефоне включены. Если они не приходят на часы, включите синхронизацию уведомлений в приложении для ваших часов Wear OS.</string>
+    <string name="set_refresh">Обновить статус</string>
+    <string name="set_app_guide">Руководство</string>
+    <string name="set_toast_no_email">Нет почтового приложения. Напишите на ghostgramlabs@gmail.com или скопируйте показанный адрес.</string>
+    <string name="set_contact_support">Предложения и поддержка</string>
+    <string name="set_contact_support_desc">Есть идея или нужна помощь? Напишите нам.</string>
+    <string name="support_email_subject">%1$s — предложение или поддержка</string>
+    <string name="feature_request_email_subject">%1$s — предложение функции</string>
+    <string name="suggest_feature">Предложить функцию</string>
+    <string name="set_toast_no_rating">Не удалось открыть страницу оценки на этом устройстве.</string>
+    <string name="set_rate">Оценить %1$s</string>
+    <string name="set_developer">Для разработчиков</string>
+    <string name="set_debug_logging">Журнал отладки</string>
+    <string name="set_debug_desc">Записывать подробные журналы</string>
+    <string name="set_send_logs">Отправить журналы</string>
+    <string name="set_fix">Исправить</string>
+    <string name="set_cd_collapse">Свернуть</string>
+    <string name="set_cd_expand">Развернуть</string>
+    <string name="set_tone_sound">Звук оповещения «Только сигнал»</string>
+    <string name="set_tone_sound_hint">Включите режим «Только сигнал», чтобы выбрать звук. До этого SpeakAlert использует сигнал будильника по умолчанию.</string>
+    <string name="set_choose_tone">Выбрать сигнал</string>
+    <string name="set_use_default">По умолчанию</string>
+    <string name="set_default_alarm_tone">Сигнал будильника по умолчанию</string>
+    <string name="set_tone_unavailable">Выбранный сигнал недоступен, используется сигнал по умолчанию</string>
+    <string name="set_select_label_time">Выберите время: %1$s</string>
+    <string name="set_minutes">Минуты</string>
+    <string name="set_max_allowed">Максимум: %1$d мин</string>
+    <string name="set_desc_max">%1$s (макс. %2$d мин)</string>
+    <string name="set_label_time">%1$s: %2$s</string>
+    <string name="set_volume">Громкость</string>
+    <string name="set_cd_volume">Громкость приложения: %1$d%%</string>
+    <string name="set_loop_inline_desc">Как долго повторять звук, прежде чем остановить его автоматически</string>
+    <string name="set_default_snooze">Откладывание по умолчанию</string>
+    <string name="set_snooze_inline_desc">Через сколько времени напомнить снова после нажатия «Отложить»</string>
+    <string name="set_default_followup">Повторная проверка по умолчанию</string>
+    <string name="set_followup_off_desc">Выключено: новые напоминания создаются без повторной проверки. При желании её можно включить в каждом напоминании отдельно.</string>
+    <string name="set_followup_on_desc">В новых напоминаниях будет повторная проверка через %1$d мин, если задача не отмечена выполненной. Существующие напоминания не изменятся.</string>
+    <string name="set_followup_repeat">Лимит повторных проверок</string>
+    <string name="set_followup_repeat_desc">По умолчанию (∞) приложение напоминает снова, пока вы не отметите задачу выполненной. Укажите число повторных оповещений, чтобы они прекращались автоматически. Во время тихих часов проверки тоже останавливаются.</string>
+    <string name="set_toast_followup_repeat_until_done">Проверка повторяется до выполнения</string>
+    <string name="set_toast_followup_repeat">Лимит повторных проверок: %1$d×</string>
+    <string name="set_reliability">Надёжность</string>
+    <string name="set_persist">Держать напоминание на экране до выполнения</string>
+    <string name="set_persist_desc">Уведомление остаётся на экране, пока вы не нажмёте «Готово» или «Отложить». Включите повторную проверку, если хотите, чтобы приложение напомнило ещё раз.</string>
+    <string name="set_toast_persist_on">Напоминания остаются до выполнения</string>
+    <string name="set_toast_persist_off">Напоминания можно смахнуть</string>
+    <string name="set_all_granted">Все разрешения предоставлены</string>
+    <string name="set_some_needed">Нужны некоторые разрешения</string>
+    <string name="set_dnd_desc_needed">Включено, но для обхода нужен доступ Android к «Не беспокоить».</string>
+    <string name="set_toast_dnd_on">Обход «Не беспокоить» включён</string>
+    <string name="set_toast_dnd_off">Обход «Не беспокоить» выключен</string>
+    <string name="set_battery_desc_ok">%1$s уже может работать в фоновом режиме.</string>
+    <string name="set_wear_watches">Подключено часов Wear OS: %1$d</string>
+    <string name="set_wear_none">Часы Wear OS не подключены</string>
+    <string name="set_wear_channel_muted">Канал напоминаний %1$s отключён. Включите его, чтобы отправлять напоминания на часы.</string>
+    <string name="set_rate_desc">Поделитесь впечатлениями в Google Play.</string>
+    <string name="set_tone_sound_active">%1$s. Если он станет недоступен, SpeakAlert вернётся к сигналу будильника по умолчанию.</string>
+
+    <!-- More apps from the developer -->
+    <string name="set_more_apps_title">Другие приложения GhostgramLabs</string>
+    <string name="set_more_apps_desc">Бесплатные приложения от создателей %1$s</string>
+    <string name="set_app_free_tag">Бесплатно в Google Play</string>
+    <string name="app_pettibox_name">PettiBox: менеджер закладок</string>
+    <string name="app_pettibox_desc">Бесплатно • Приватное хранилище ссылок, заметок, файлов и скриншотов на потом с офлайн-поиском</string>
+    <string name="app_directserve_name">DirectServe: передача файлов</string>
+    <string name="app_directserve_desc">Бесплатно • Отправляйте и транслируйте файлы на любое устройство или ТВ — без облака и проводов</string>
+    <string name="set_toast_no_store">Не удалось открыть Google Play на этом устройстве.</string>
+
+    <!-- In-app rating prompt -->
+    <string name="rate_prompt_title">%1$s бесплатно. Ваша поддержка важна.</string>
+    <string name="rate_prompt_message">Ваш отзыв помогает другим людям узнать о %1$s и вдохновляет нас развивать приложение. Уделите минуту, чтобы поделиться впечатлениями в Google Play.</string>
+    <string name="rate_prompt_positive">Оценить</string>
+    <string name="rate_prompt_later">Позже</string>
+    <string name="rate_prompt_never">Нет, спасибо</string>
+
+    <!-- Help guide -->
+    <string name="help_intro">Всё важное о создании, воспроизведении, повторе и восстановлении напоминаний в %1$s.</string>
+    <string name="help_s1_title">Когда срабатывает напоминание</string>
+    <string name="help_s1_content">На экране блокировки и в уведомлении есть такие кнопки:\n- Готово: Завершает задачу на этот раз. Если напоминание повторяется, следующие оповещения сохраняются.\n- Заглушить: Выключает только звук. Напоминание остаётся на экране, чтобы вы могли решить позже.\n- Отложить: Напоминает снова через некоторое время. В полноэкранном оповещении можно выбрать 5 или 10 минут.\n- Воспроизвести / Озвучить: Появляется, когда звук не играет. Позволяет снова прослушать запись или текст сообщения.\nТолько кнопка «Готово» завершает задачу. Выключение звука оставляет её невыполненной.</string>
+    <string name="help_s2_title">Создание напоминаний</string>
+    <string name="help_s2_content">- Сначала голос: нажмите на микрофон, чтобы быстро записать голосовое напоминание.\n- Аудиофайл: выберите существующий аудиофайл на устройстве.\n- Текст напоминания: показывается в приложении и уведомлениях.\n- Голосовые заметки и аудиофайлы имеют приоритет над озвучиванием текста.\n- Текст озвучивается автоматически только в текстовых напоминаниях, если включено автоозвучивание.\n- Краткая метка: необязательное название, чтобы легче ориентироваться в списках.\n- Расписание: выберите дату, время, повтор, повторную проверку и сохраните.</string>
+    <string name="help_s3_title">Воспроизведение и прослушивание</string>
+    <string name="help_s3_content">- В окне «Новое напоминание» можно прослушать записанный голос и выбранное аудио до сохранения.\n- В подробностях напоминания можно воспроизводить, останавливать и перематывать голосовые заметки и аудиофайлы.\n- Текстовые напоминания можно озвучить вручную из приложения или уведомления.\n- Режим «Только сигнал» использует сигнал напоминания вместо озвучивания.\n- Звук оповещения «Только сигнал» можно выбрать в Настройках; если он станет недоступен, %1$s вернётся к сигналу будильника по умолчанию.</string>
+    <string name="help_s4_title">Главный экран и быстрые действия</string>
+    <string name="help_s4_content">- Вкладки «Сегодня», «Предстоящие», «Пропущенные» и «Выполненные» группируют напоминания по состоянию.\n- Нажмите на карточку, чтобы открыть подробности напоминания.\n- Кнопка копирования создаёт копию существующего напоминания.\n- Действия карточки: «Воспроизвести», «Готово» и меню из трёх точек с пунктами «Изменить», «Отметить выполненным», «Остановить повторы» и «Удалить».</string>
+    <string name="help_s18_title">Пауза напоминаний и сообщения на главном экране</string>
+    <string name="help_s18_content">- Нажмите кнопку паузы на главном экране, чтобы приостановить все напоминания на час, четыре часа, до конца дня или до выбранного времени.\n- У каждой паузы есть время окончания. Оно показывается на главном экране вместе с кнопкой «Возобновить», чтобы закончить паузу раньше.\n- Приостановленное напоминание не оповещает, но появляется во вкладке «Пропущенные».\n- Пауза также важнее настройки «Оповещать даже в «Не беспокоить»», ведь она означает, что сейчас напоминания вам не нужны.\n- Главный экран предупреждает, если этот телефон может останавливать %1$s в фоне, и показывает интервал тихих часов, пока они включены.</string>
+    <string name="help_s5_title">Повторяющиеся напоминания</string>
+    <string name="help_s5_content">- Режимы повтора: ежедневно, еженедельно, ежемесячно, ежегодно или свой вариант.\n- Выбранные дата и время становятся первым повтором.\n- Повторы могут продолжаться всегда, до точной даты и времени или заданное число раз.\n- Отметка «Готово» у повторяющегося напоминания закрывает только текущий повтор.</string>
+    <string name="help_s6_title">Уведомления и полноэкранные оповещения</string>
+    <string name="help_s6_content">- Уведомление напоминания показывает три быстрые кнопки: «Готово», «Отложить» и либо «Заглушить» (пока звучит), либо «Воспроизвести/Озвучить» (чтобы прослушать снова).\n- «Готово» отмечает напоминание выполненным; «Заглушить» только выключает звук и оставляет напоминание, чтобы вы отреагировали позже.\n- Если смахнуть уведомление, текущий повтор тоже отмечается выполненным.\n- Если это включено в Настройках, на экране блокировки может появиться полноэкранное оповещение с теми же действиями: «Готово», «Заглушить», «Отложить» и «Воспроизвести снова».</string>
+    <string name="help_s7_title">Пропущенные и восстановленные напоминания</string>
+    <string name="help_s7_content">- Пропущенные напоминания остаются во вкладке «Пропущенные», пока вы их не просмотрите.\n- При открытии приложения может появиться окно восстановления с быстрым воспроизведением последнего пропущенного напоминания.\n- Прошедшие напоминания можно восстановить, перенести или воспроизвести снова из меню действий.</string>
+    <string name="help_s8_title">Настройки воспроизведения</string>
+    <string name="help_s8_content">- Если включено автовоспроизведение, голосовая запись или аудиофайл начнёт звучать в назначенное время.\n- Текст читается автоматически только в напоминаниях без записи и аудиофайла, если включено автоозвучивание.\n- На каком языке читать напоминания. Автоопределение выбирает язык сообщения. Голос для этого языка должен быть установлен в настройках синтеза речи телефона. Можно также выбрать язык телефона или английский. При автоопределении сообщение на хинди будет прочитано на хинди.\n- Даже если автоозвучивание выключено, сообщение можно прослушать, нажав кнопку.\n- Сначала используются подключённые слуховые аппараты, Bluetooth-устройства или проводные наушники. Если их нет, звук идёт через разговорный динамик телефона, а не через громкоговоритель.\n- Воспроизведение по кругу повторяет звук, пока вы его не остановите или не закончится заданное время.\n- Повторная проверка спрашивает снова, пока вы не отметите задачу выполненной.\n- Тихие часы могут отключать звук напоминаний в выбранное время.</string>
+    <string name="help_s9_title">Режим «Только сигнал» и надёжность</string>
+    <string name="help_s9_content">- Режим «Только сигнал» использует чёткий сигнал будильника вместо голоса или TTS.\n- Можно выбрать свой звук оповещения «Только сигнал» или оставить сигнал будильника по умолчанию.\n- «Оповещать даже в «Не беспокоить»» позволяет %1$s пытаться воспроизводить важные напоминания в режиме «Не беспокоить».\n- Если эта настройка выключена, заблокированные режимом «Не беспокоить» напоминания попадают в «Пропущенные» вместо воспроизведения.\n- Эта настройка не включает и не выключает режим «Не беспокоить» на телефоне. Чтобы уведомления могли его обходить, нужен доступ Android к «Не беспокоить».\n- Если настройка включена, напоминания используют звук с приоритетом будильника. Некоторые режимы телефона всё же могут блокировать будильники, если система отключает их звук.\n- Если выбранный звук позже пропадёт, %1$s автоматически вернётся к сигналу будильника по умолчанию.\n- Используйте режим «Только сигнал», если телефон задерживает, подавляет или прерывает озвучивание.\n- В разделе Настройки &gt; Надёжность есть руководство по оптимизации батареи для телефонов с жёсткими ограничениями фоновой работы.\n- Для максимальной надёжности держите включёнными уведомления, точные будильники и нужные настройки батареи.</string>
+    <string name="help_s10_title">Виджеты и Wear OS</string>
+    <string name="help_s10_content">- Виджет «Быстрое напоминание» сразу открывает окно нового напоминания.\n- Виджет «Предстоящие» показывает предстоящие и пропущенные напоминания.\n- Работа с Wear OS требует включённых уведомлений на телефоне и синхронизации с часами.</string>
+    <string name="help_s11_title">После перезагрузки устройства</string>
+    <string name="help_s11_content">- Будущие напоминания автоматически планируются заново после перезагрузки.\n- Просроченные напоминания обрабатываются как пропущенные, а не срабатывают неожиданно при загрузке.</string>
+    <string name="help_s13_title">Повторные проверки</string>
+    <string name="help_s13_content">- Повторная проверка спрашивает «Вы выполнили …?» через несколько минут после срабатывания напоминания.\n- По умолчанию она повторяется, пока вы не отметите напоминание выполненным. В разделе Настройки &gt; Надёжность можно задать лимит повторов, если хотите, чтобы она останавливалась сама.\n- «Готово» и «Отложить» завершают текущий цикл проверок; тихие часы также останавливают проверки.\n- Повторные проверки продолжаются после перезагрузки устройства до выполнения или достижения лимита.</string>
+    <string name="help_s14_title">Резервная копия и импорт</string>
+    <string name="help_s14_content">- «Создать резервную копию» в Настройках сохраняет все предстоящие напоминания, включая голосовые записи, в один выбранный вами файл.\n- «Импортировать напоминания» восстанавливает их на этом или другом устройстве.\n- При импорте пропускаются точные дубликаты и просроченные разовые напоминания; повторяющиеся продолжаются со следующего повтора.\n- Импортированные напоминания планируются сразу.</string>
+    <string name="help_s12_title">Держать напоминания на экране до выполнения</string>
+    <string name="help_s12_content">- Включите Настройки &gt; Надёжность &gt; Держать напоминание на экране до выполнения, чтобы закрепить уведомление и случайно его не смахнуть.\n- Пока настройка включена, смахивание только выключает звук, а напоминание остаётся активным — до нажатия «Готово» или «Отложить».\n- Отметить «Готово» всегда можно из уведомления, полноэкранного оповещения или карточки напоминания — это также останавливает повторные проверки.\n- Сочетайте с повторной проверкой, чтобы напоминание оповещало снова по таймеру до выполнения.</string>
+
+    <!-- What's new sheet -->
+    <string name="action_continue">Продолжить</string>
+    <string name="wn_title">Что нового в %1$s</string>
+    <string name="wn_intro">Управлять напоминаниями стало проще: меняйте дату и время прямо в напоминании, уведомления убираются сами, а голосовые напоминания сохраняются мгновенно.</string>
+    <string name="wn_edit_title">Дата и время меняются на месте</string>
+    <string name="wn_edit_desc">Откройте напоминание и нажмите «Дата» или «Время», чтобы изменить их сразу. Открывать редактор не нужно.</string>
+    <string name="wn_clear_title">Уведомления убираются сами</string>
+    <string name="wn_clear_desc">Когда вы открываете, воспроизводите, выполняете или удаляете напоминание в приложении, его уведомление исчезает из панели. Если включено «Держать напоминание на экране до выполнения», оно остаётся, пока вы не отметите «Готово».</string>
+    <string name="wn_save_title">Голосовые напоминания сохраняются мгновенно</string>
+    <string name="wn_save_desc">При включённом экспериментальном улучшении голоса сохранение больше не ждёт очистки. Она завершается в фоне, а напоминание тем временем показывает «Голос · улучшается…».</string>
+    <string name="wn_fullscreen_title">Оповещение на экране блокировки теперь работает</string>
+    <string name="wn_fullscreen_desc">Полноэкранное оповещение на самом деле не появлялось при срабатывании напоминания, как бы ни была настроена эта опция. Теперь оно включает экран и показывает напоминание на обновлённом экране с крупным текстом и понятными действиями.</string>
+    <string name="wn_pause_title">Пауза напоминаний</string>
+    <string name="wn_pause_desc">Идёте на встречу? Поставьте паузу с главного экрана на час, до конца дня или до выбранного времени. У каждой паузы есть окончание, а приостановленные напоминания появляются во вкладке «Пропущенные».</string>
+    <string name="wn_notices_title">Главный экран объясняет, почему напоминание было беззвучным</string>
+    <string name="wn_notices_desc">Если телефон может останавливать %1$s в фоне или включены тихие часы, на главном экране теперь появляется предупреждение. Так вы будете знать, почему напоминания могут не срабатывать.</string>
+    <string name="wn_lang_title">Теперь на вашем языке</string>
+    <string name="wn_lang_desc">Всё приложение доступно на английском, испанском, хинди, арабском, португальском (Бразилия), русском, вьетнамском, бенгальском, телугу, тамильском, греческом и малаялам языках с поддержкой письма справа налево. Выберите язык в разделе Настройки &gt; Внешний вид &gt; Язык.</string>
+    <string name="wn_buttons_title">Понятные кнопки будильника</string>
+    <string name="wn_buttons_desc">Оповещения и уведомления теперь показывают «Готово», «Заглушить» и «Отложить». «Готово» завершает задачу; «Заглушить» только выключает звук и сохраняет напоминание.</string>
+    <string name="wn_spoken_title">Напоминания правильным голосом</string>
+    <string name="wn_spoken_desc">Напоминания автоматически озвучиваются на их собственном языке — напоминание на хинди будет прочитано на хинди, даже если приложение на русском. Настройте это в разделе Настройки &gt; Воспроизведение &gt; Язык озвучивания.</string>
+    <string name="wn_persist_title">Напоминания остаются до выполнения</string>
+    <string name="wn_persist_desc">Включите Настройки &gt; Надёжность &gt; Держать напоминание на экране до выполнения, чтобы напоминание оставалось закреплённым и исчезало только после «Готово» или «Отложить».</string>
+    <string name="wn_backup_title">Резервная копия и перенос напоминаний</string>
+    <string name="wn_backup_desc">Сохраняйте все предстоящие напоминания — вместе с записями — в файл и восстанавливайте их когда угодно, даже на новом телефоне. Ищите в Настройках.</string>
+    <string name="wn_followup_title">Повторные проверки — как вам удобно</string>
+    <string name="wn_followup_desc">Повторные проверки, как и раньше, оповещают снова, пока вы не отметите напоминание выполненным. Новое: задайте лимит повторов в разделе Настройки &gt; Надёжность, если хотите, чтобы они останавливались сами.</string>
+
+    <!-- Startup dialogs -->
+    <string name="action_allow">Разрешить</string>
+    <string name="action_later">Позже</string>
+    <string name="action_open_settings">Открыть настройки</string>
+    <string name="batt_prompt_title">Разрешите %1$s работать в фоне</string>
+    <string name="batt_prompt_message">Некоторые телефоны, особенно Xiaomi и POCO, запрещают приложениям работать в фоне ради экономии батареи. Из-за этого напоминания могут не сработать. Разрешите %1$s игнорировать оптимизацию батареи, чтобы напоминания были надёжнее.</string>
+    <string name="batt_toast_unavailable">Настройки батареи недоступны на этом устройстве.</string>
+    <string name="home_batt_banner_title">Напоминания могут не прийти</string>
+    <string name="home_batt_banner_body">Этот телефон может останавливать %1$s в фоне. Нажмите, чтобы разрешить работу без ограничений батареи.</string>
+    <string name="home_quiet_banner">Тихие часы %1$s – %2$s. Напоминания попадают в «Пропущенные».</string>
+    <string name="home_pause_banner">Напоминания приостановлены до %1$s</string>
+    <string name="home_pause_resume">Возобновить</string>
+    <string name="home_pause_title">Пауза напоминаний</string>
+    <string name="home_pause_body">Напоминания не будут оповещать до окончания паузы. Они всё равно попадут во вкладку «Пропущенные».</string>
+    <string name="home_pause_1h">На 1 час</string>
+    <string name="home_pause_4h">На 4 часа</string>
+    <string name="home_pause_today">До конца дня</string>
+    <string name="home_pause_pick">Выбрать время окончания…</string>
+    <string name="home_pause_cd">Приостановить напоминания</string>
+    <string name="home_pause_also_quiet">Тихие часы тоже включены: %1$s – %2$s.</string>
+    <string name="fsr_title">Снова разрешите полноэкранные оповещения</string>
+    <string name="fsr_message">Оповещения на экране блокировки включены в %1$s, но полноэкранный доступ Android выключен. Так бывает после переустановки или восстановления.</string>
+    <!-- Version 2.0.34 help and startup highlights -->
+    <string name="help_s15_title">Настройка формы напоминания</string>
+    <string name="help_s15_content">- Откройте Настройки &gt; Форма напоминания, чтобы показать или скрыть «Голосовая запись», «Выбор аудиофайла», «Текстовое напоминание» и «Краткая метка».\n- Каждый переключатель работает независимо. Если скрыты все три способа ввода, окно нового напоминания подскажет, какую настройку включить.\n- При редактировании скрытый раздел появляется автоматически, если в напоминании уже есть такое содержимое.</string>
+    <string name="help_s16_title">Выбор режима голосовой записи</string>
+    <string name="help_s16_content">- Откройте Настройки &gt; Форма напоминания &gt; Экспериментальное улучшение голоса.\n- Выкл. (по умолчанию) — исходная запись MIC/AAC без последующей обработки.\n- Вкл. — новые защитные механизмы записи, уведомление о тишине, очистка фонового шума и выравнивание громкости голоса. Результат и время обработки зависят от устройства.\n- Беззвучные записи всё равно можно прослушать и сохранить.</string>
+    <string name="help_s17_title">Более надёжное воспроизведение</string>
+    <string name="help_s17_content">- Обязательное уведомление Android появляется сразу после начала воспроизведения, в том числе в новых версиях Android и на телефонах с медленным запуском фоновых задач.\n- Это помогает избежать остановки напоминания из-за истечения времени ожидания ещё до начала звука.\n- Для надёжной работы разрешите уведомления и точные будильники и используйте рекомендованные настройки батареи.</string>
+    <string name="wn_form_title">Форма напоминания под вас</string>
+    <string name="wn_form_desc">В разделе Настройки &gt; Форма напоминания можно отдельно показать или скрыть «Голосовая запись», «Выбор аудиофайла», «Текстовое напоминание» и «Краткая метка».</string>
+    <string name="wn_recording_title">Необязательное экспериментальное улучшение голоса</string>
+    <string name="wn_recording_desc">Теперь можно выбрать способ записи. По умолчанию она сохраняется без обработки. При желании включите дополнительные проверки, предупреждение об отсутствии звука и подавление фонового шума. Тихие записи станут лучше слышны, при этом шум в комнате не усилится. Записи без звука тоже сохраняются.</string>
+    <string name="wn_reliability_title">Надёжнее на новых телефонах Android</string>
+    <string name="wn_reliability_desc">Воспроизведение напоминаний теперь безопасно и сразу запускается на переднем плане, что предотвращает тайм-ауты запуска, замеченные на некоторых устройствах с Android 12 и Android 16.</string>
+    <string name="settings_24_hour_time">24-часовой формат</string>
+    <string name="settings_24_hour_time_desc">Показывать время как 17:30 вместо 5:30 PM.</string>
+
+    <!-- Reminder card and actions sheet -->
+    <string name="card_recur_onetime">Разовое напоминание</string>
+    <string name="card_recur_daily">Повторяется ежедневно</string>
+    <string name="card_recur_last_day">Последний день каждого месяца</string>
+    <string name="card_recur_yearly">Повторяется ежегодно</string>
+    <string name="card_chip_recurring">Повторяющееся</string>
+    <string name="card_days_of_month">Дни месяца</string>
+    <string name="card_cd_duplicate">Копировать напоминание</string>
+    <string name="card_cd_more">Другие действия</string>
+    <string name="card_cd_looping">По кругу</string>
+    <string name="card_cd_followup">Проверка через %1$d мин</string>
+    <string name="card_cd_ends_after">Окончание через %1$d %2$s</string>
+    <string name="sheet_reminder_actions">Действия с напоминанием</string>
+    <string name="sheet_stop_playback">Остановить воспроизведение</string>
+
+    <!-- Custom follow-up dialog -->
+    <string name="fu_custom_title">Своя повторная проверка</string>
+    <string name="fu_custom_desc">Спросить снова через указанное число минут, если напоминание не отмечено выполненным.</string>
+    <string name="fu_allowed_range">Допустимо: 1–%1$d мин</string>
+
+    <!-- Voice recorder -->
+    <string name="vr_playing_audio">Воспроизведение аудио</string>
+    <string name="vr_voice_recorded">Голос записан</string>
+    <string name="vr_text_optional">Текст необязателен</string>
+    <string name="vr_tap_to_stop">Нажмите, чтобы остановить</string>
+    <string name="vr_cd_level">Индикатор уровня звука в реальном времени</string>
+    <string name="vr_cd_stop">Остановить запись</string>
+    <string name="vr_cd_double_tap_stop">Нажмите дважды, чтобы остановить запись</string>
+    <string name="vr_cd_preview_progress">Ход прослушивания записи</string>
+    <string name="vr_cd_start">Начать голосовую запись</string>
+    <string name="vr_cd_restart">Записать заново</string>
+
+    <!-- Date and time picker -->
+    <string name="dtp_title">Выберите дату и время</string>
+    <string name="dtp_subtitle">Используйте быстрые варианты или выберите точные дату и время.</string>
+    <string name="dtp_quick_date">Быстрый выбор даты</string>
+    <string name="dtp_quick_time">Быстрый выбор времени</string>
+    <string name="dtp_pick_date">Выбрать точную дату</string>
+    <string name="dtp_pick_time">Выбрать точное время</string>
+    <string name="dtp_next_week">Через неделю</string>
+    <string name="dtp_plus_10">+10 мин</string>
+    <string name="dtp_plus_30">+30 мин</string>
+    <string name="dtp_plus_60">+1 час</string>
+    <string name="dtp_err_future">Время должно быть в будущем</string>
+    <string name="dtp_err_date_future">Дата должна быть сегодня или позже</string>
+
+    <!-- Recurring completion dialog -->
+    <string name="rcd_title">Это повторяющееся напоминание</string>
+    <string name="rcd_desc">Завершите задачу только на этот раз, измените расписание или остановите все дальнейшие повторы.</string>
+    <string name="rcd_mark_occurrence">Отметить этот повтор выполненным</string>
+    <string name="rcd_edit_schedule">Изменить расписание</string>
+    <string name="rcd_stop_recurring">Остановить повторы</string>
+
+    <!-- Restore reminder dialog -->
+    <string name="rrd_title">Восстановить напоминание</string>
+    <string name="rrd_desc">Вы уже отметили это напоминание выполненным. Выберите, что сделать с ним теперь.</string>
+    <string name="rrd_reschedule">Перенести напоминание</string>
+    <string name="rrd_move_missed">Переместить в «Пропущенные»</string>
+    <string name="rrd_play">Воспроизвести напоминание</string>
+    <string name="rrd_keep_done">Оставить выполненным</string>
+
+    <!-- Missed reminder sheets -->
+    <string name="pua_title">Напоминание пропущено</string>
+    <string name="pua_scheduled_for">Запланировано на %1$s</string>
+    <string name="pua_set_new_time">Выбрать новое время</string>
+    <string name="pua_just_play">Просто воспроизвести</string>
+    <string name="mrr_desc">Прослушайте последнее пропущенное напоминание сейчас или оставьте все во вкладке «Пропущенные», чтобы вернуться к ним позже.</string>
+    <plurals name="mrr_title">
+        <item quantity="one">Вы пропустили %1$d напоминание</item>
+        <item quantity="few">Вы пропустили %1$d напоминания</item>
+        <item quantity="many">Вы пропустили %1$d напоминаний</item>
+        <item quantity="other">Вы пропустили %1$d напоминания</item>
+    </plurals>
+    <string name="mrr_play_latest">Воспроизвести последнее пропущенное</string>
+    <string name="mrr_keep">Оставить в «Пропущенных»</string>
+
+    <!-- Battery optimization guide -->
+    <string name="bog_title">Руководство по оптимизации батареи</string>
+    <string name="bog_header">Надёжные напоминания</string>
+    <string name="bog_header_sub">Некоторые телефоны приостанавливают или останавливают фоновые будильники, если %1$s не исключено из ограничений батареи.</string>
+    <string name="bog_intro">Некоторые устройства останавливают фоновые будильники ради экономии батареи. Из-за этого напоминания могут не сработать.</string>
+    <string name="bog_menu_vary">Названия пунктов меню могут отличаться в зависимости от MIUI, HyperOS, EMUI, версии Android и модели телефона.</string>
+    <string name="bog_allow_app">Разрешить %1$s</string>
+    <string name="bog_back_settings">Назад к настройкам</string>
+    <string name="bog_brand_xiaomi">Xiaomi / POCO / Redmi (MIUI / HyperOS)</string>
+    <string name="bog_brand_huawei">Huawei (EMUI)</string>
+    <string name="bog_step">Шаг %1$d</string>
+    <string name="bog_optional">Необязательно</string>
+    <string name="bog_open_settings">Открыть настройки</string>
+    <string name="bog_find_app">Найдите %1$s</string>
+    <string name="bog_xiaomi_battery">Нажмите «Батарея»</string>
+    <string name="bog_xiaomi_optimization">Нажмите «Оптимизация батареи»</string>
+    <string name="bog_xiaomi_no_restrictions">Выберите «Нет ограничений»</string>
+    <string name="bog_xiaomi_opt">Закрепите приложение на экране недавних приложений.</string>
+    <string name="bog_huawei_apps">Откройте «Приложения» или «Запуск приложений»</string>
+    <string name="bog_huawei_manage_off">Выключите «Управлять автоматически»</string>
+    <string name="bog_huawei_allow">Разрешите автозапуск, косвенный запуск и работу в фоне</string>
+    <string name="bog_huawei_opt">Также проверьте «Оптимизацию батареи» и установите для %1$s «Не разрешать».</string>
+    <string name="bog_status_enabled">Оптимизация батареи для %1$s всё ещё включена.</string>
+    <string name="bog_status_exempt">%1$s уже может работать без оптимизации батареи.</string>
+    <string name="bog_no_battery_settings">Настройки батареи недоступны на этом устройстве.</string>
+    <string name="bog_why_title">Почему это важно</string>
+    <string name="bog_why_body">Телефоны Xiaomi, POCO, Redmi, Huawei и похожих брендов могут агрессивно останавливать приложения в фоне. Ориентируйтесь на производителя и версию прошивки; точный путь может отличаться в зависимости от модели.</string>
+
+    <!-- Reminder card accessibility description -->
+    <string name="a11y_card_reminder">Напоминание: %1$s</string>
+    <string name="a11y_card_at">в %1$s</string>
+    <string name="a11y_card_has_audio_file">есть аудиофайл</string>
+    <string name="a11y_card_has_voice">есть голосовая заметка</string>
+    <string name="a11y_card_recurring">повторяется: %1$s</string>
+    <string name="a11y_card_completed">выполнено</string>
+    <string name="a11y_card_playing">сейчас воспроизводится</string>
+    <string name="a11y_card_open_hint">Нажмите дважды, чтобы открыть подробности.</string>
+
+    <!-- Accessibility states -->
+    <string name="state_completed">Выполнено</string>
+    <string name="state_playing">Воспроизводится</string>
+    <string name="a11y_percent">%1$d процентов</string>
+    <string name="a11y_destructive">Необратимое действие</string>
+    <string name="a11y_recording_in_progress">Идёт запись</string>
+    <string name="a11y_playing_preview">Воспроизводится аудио</string>
+    <string name="a11y_voice_recorded">Голосовая заметка записана</string>
+    <string name="a11y_no_voice_recorded">Голосовая заметка не записана</string>
+    <plurals name="card_occurrences">
+        <item quantity="one">%1$d повтор</item>
+        <item quantity="few">%1$d повтора</item>
+        <item quantity="many">%1$d повторов</item>
+        <item quantity="other">%1$d повтора</item>
+    </plurals>
+
+    <!-- Test reminder -->
+    <string name="set_test_reminder_title">Тестовое напоминание</string>
+    <string name="set_test_reminder_text">Это тестовое напоминание для проверки воспроизведения. Оно срабатывает через 10 секунд после создания.</string>
+    <string name="widget_quick_subtitle">Быстрое добавление</string>
+    <string name="widget_upcoming_subtitle">Предстоящие и пропущенные напоминания</string>
+    <string name="widget_upcoming_empty">Нет предстоящих или пропущенных напоминаний</string>
+    <string name="card_type_audio_file">Аудиофайл</string>
+    <string name="card_type_voice_improving">Голос · улучшается…</string>
+    <string name="card_type_voice">Голос</string>
+    <string name="card_type_text">Текст</string>
+    <string name="card_voice_recording">Голосовая запись</string>
+    <string name="card_custom_audio_file">Свой аудиофайл</string>
+    <string name="card_text_note">Текстовая заметка</string>
+    <string name="sheet_mark_this_done">Отметить выполненным</string>
+    <string name="sheet_delete_reminder">Удалить напоминание</string>
+    <string name="vr_recording_ellipsis">Запись…</string>
+    <string name="vr_play_recording">Прослушать запись</string>
+    <string name="rcd_sub_keep_next">Следующий повтор останется в расписании</string>
+    <string name="rcd_sub_change_rules">Изменить правила повтора или время</string>
+    <string name="rcd_sub_delete_future">Удалить это напоминание и будущие повторы</string>
+    <string name="rrd_sub_pick_new">Выбрать новые дату и время</string>
+    <string name="rrd_sub_keep_missed">Оставить в «Пропущенных» на потом</string>
+    <string name="rrd_sub_hear_now">Прослушать сейчас без восстановления</string>
+    <string name="rrd_sub_leave_done">Оставить напоминание выполненным</string>
+    <string name="mrr_sub_start_now">Начать воспроизведение сразу</string>
+    <string name="set_tab_form">Форма</string>
+    <string name="set_tab_play">Звук</string>
+    <string name="set_tab_time">Время</string>
+    <string name="set_tab_safe">Защита</string>
+    <string name="set_tab_backup">Копия</string>
+    <string name="set_tab_wear">Часы</string>
+    <string name="set_tab_help">Справка</string>
+</resources>

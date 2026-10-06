@@ -731,7 +731,7 @@ fun ReminderCard(
                                 )
                                 Spacer(modifier = Modifier.width(4.dp))
                                 Text(
-                                    text = "${followUpCheckMinutes}m",
+                                    text = stringResource(R.string.set_minutes_short, followUpCheckMinutes),
                                     style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.onSecondaryContainer,
                                     maxLines = 1
@@ -897,7 +897,7 @@ fun PrimaryActionButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.height(58.dp),
+        modifier = modifier.heightIn(min = 58.dp),
         enabled = enabled,
         shape = RoundedCornerShape(18.dp),
         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
@@ -920,7 +920,7 @@ fun SecondaryActionButton(
 ) {
     OutlinedButton(
         onClick = onClick,
-        modifier = modifier.height(56.dp),
+        modifier = modifier.heightIn(min = 56.dp),
         enabled = enabled,
         shape = RoundedCornerShape(18.dp),
         border = androidx.compose.foundation.BorderStroke(
@@ -1053,7 +1053,7 @@ fun FollowUpDurationPicker(
                 onClick = { onChange(minutes) },
                 label = {
                     Text(
-                        text = if (minutes == 0) "Off" else "${minutes}m",
+                        text = if (minutes == 0) stringResource(R.string.state_off) else stringResource(R.string.set_minutes_short, minutes),
                         maxLines = 1,
                         softWrap = false,
                         overflow = TextOverflow.Clip
@@ -1072,7 +1072,7 @@ fun FollowUpDurationPicker(
             onClick = { showCustomDialog = true },
             label = {
                 Text(
-                    text = if (isCustom) "${currentMinutes}m" else stringResource(R.string.rec_custom),
+                    text = if (isCustom) stringResource(R.string.set_minutes_short, currentMinutes) else stringResource(R.string.rec_custom),
                     maxLines = 1,
                     softWrap = false,
                     overflow = TextOverflow.Ellipsis
@@ -1430,7 +1430,7 @@ fun VoiceRecorderCard(
                          }
                          Spacer(modifier = Modifier.height(12.dp))
                          Text(
-                             "Tap to record a voice reminder",
+                             stringResource(R.string.ae_tap_to_record),
                              style = MaterialTheme.typography.titleMedium,
                              color = MaterialTheme.colorScheme.onSurfaceVariant,
                              textAlign = androidx.compose.ui.text.style.TextAlign.Center

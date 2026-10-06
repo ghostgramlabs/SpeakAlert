@@ -1,0 +1,772 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_tagline">Φωνητικές υπενθυμίσεις εκτός σύνδεσης</string>
+    <string name="widget_quick_caption">Άμεσο άνοιγμα της Προσθήκης υπενθύμισης</string>
+    <string name="widget_quick_description">Ανοίξτε τη φόρμα υπενθύμισης απευθείας από την αρχική οθόνη</string>
+    <string name="widget_upcoming_description">Εμφανίζει τις επόμενες προγραμματισμένες υπενθυμίσεις σας</string>
+
+    <!-- Settings -->
+    <string name="settings_language">Γλώσσα εφαρμογής</string>
+    <string name="settings_language_system">Γλώσσα συσκευής</string>
+    <string name="settings_language_description">Υποστηριζόμενες γλώσσες: Αγγλικά, Ισπανικά, Χίντι, Αραβικά, Πορτογαλικά (Βραζιλίας), Ρωσικά, Βιετναμικά, Βεγγαλικά, Τελούγκου, Ταμίλ, Ελληνικά και Μαλαγιάλαμ.\nΗ επιλογή Γλώσσα συσκευής επιλέγει μια υποστηριζόμενη γλώσσα του τηλεφώνου· διαφορετικά η εφαρμογή χρησιμοποιεί Αγγλικά.\nΟι εκφωνούμενες υπενθυμίσεις εξαρτώνται από τις φωνές που είναι εγκατεστημένες στο τηλέφωνο. Ορίστε τις ξεχωριστά στο Αναπαραγωγή &gt; Γλώσσα εκφώνησης.</string>
+
+    <!-- Notification actions -->
+    <string name="notif_action_done">Ολοκληρώθηκε</string>
+    <string name="notif_action_silence">Σίγαση</string>
+    <string name="notif_action_snooze">Αναβολή</string>
+    <string name="notif_action_play">Αναπαραγωγή</string>
+    <string name="notif_action_speak">Εκφώνηση</string>
+    <string name="notif_default_title">Φωνητική υπενθύμιση</string>
+    <string name="notif_default_text">Πατήστε για αναπαραγωγή της υπενθύμισης</string>
+    <string name="notif_action_replay">Επανάληψη</string>
+    <string name="notif_action_stop">Διακοπή</string>
+    <string name="notif_playback_processing">Επεξεργασία…</string>
+    <string name="notif_playback_speaking">Εκφώνηση: «%1$s»</string>
+    <string name="notif_reminder_missing">Δεν βρέθηκε αυτή η υπενθύμιση.</string>
+    <string name="notif_missed_title">Χαμένη: %1$s</string>
+    <string name="notif_missed_scheduled_tap">Προγραμματισμένη για %1$s - πατήστε για άνοιγμα</string>
+    <string name="notif_missed_scheduled_audio_unavailable">Προγραμματισμένη για %1$s. Το επιλεγμένο αρχείο ήχου δεν είναι διαθέσιμο.</string>
+    <string name="notif_missed_scheduled">Προγραμματισμένη: %1$s</string>
+    <string name="fallback_reminder_title">Υπενθύμιση</string>
+    <string name="toast_audio_unavailable">Το επιλεγμένο αρχείο ήχου δεν είναι διαθέσιμο.</string>
+    <string name="tts_voice_hint">Δεν έχει εγκατασταθεί φωνή για %1$s. Προσθέστε τη στις ρυθμίσεις Μετατροπής κειμένου σε ομιλία του τηλεφώνου για να ακούτε τις υπενθυμίσεις.</string>
+    <string name="tts_voice_hint_this_language">αυτή τη γλώσσα</string>
+
+    <!-- Alert payload (notification / spoken follow-up text) -->
+    <string name="alert_followup_fallback_title">Επανέλεγχος</string>
+    <string name="alert_followup_question">Ολοκληρώσατε: %1$s;</string>
+    <string name="alert_followup_this_reminder">αυτή την υπενθύμιση</string>
+    <string name="alert_audio_unavailable_full">Το επιλεγμένο αρχείο ήχου δεν είναι διαθέσιμο. Πατήστε για να επιλέξετε άλλο αρχείο.</string>
+    <string name="alert_tap_to_view">Πατήστε για προβολή</string>
+
+    <!-- Section titles -->
+    <string name="set_section_timing">Αναβολή και επανέλεγχος</string>
+    <string name="set_section_backup">Αντίγραφα ασφαλείας</string>
+    <string name="set_section_about">Βοήθεια και πληροφορίες</string>
+
+    <!-- Backup & restore -->
+    <string name="set_backup_export">Αντίγραφο ασφαλείας υπενθυμίσεων</string>
+    <string name="set_backup_export_desc">Αποθηκεύστε τις επερχόμενες υπενθυμίσεις, μαζί με τις ηχογραφήσεις, σε ένα αρχείο</string>
+    <string name="set_backup_import">Εισαγωγή υπενθυμίσεων</string>
+    <string name="set_backup_import_desc">Επαναφέρετε υπενθυμίσεις από αρχείο αντιγράφου ασφαλείας</string>
+    <string name="backup_export_none">Δεν υπάρχουν επερχόμενες υπενθυμίσεις για αντίγραφο ασφαλείας.</string>
+    <string name="backup_export_success">Αποθηκεύτηκαν %1$d υπενθυμίσεις.</string>
+    <string name="backup_export_failed">Το αντίγραφο ασφαλείας απέτυχε.</string>
+    <string name="backup_import_success">Εισήχθησαν %1$d υπενθυμίσεις.</string>
+    <string name="backup_import_skipped">Εισήχθησαν %1$d υπενθυμίσεις (παραλείφθηκαν %2$d διπλότυπες και %3$d ληγμένες).</string>
+    <string name="backup_import_failed">Η εισαγωγή απέτυχε. Επιλέξτε ένα αρχείο αντιγράφου ασφαλείας του SpeakAlert.</string>
+
+    <!-- Notification channels (visible in system Settings) -->
+    <string name="channel_reminders_name">Υπενθυμίσεις %1$s</string>
+    <string name="channel_reminders_desc">Ειδοποιήσεις για τις υπενθυμίσεις του %1$s</string>
+    <string name="channel_tone_only_name">Ειδοποιήσεις μόνο ήχου %1$s</string>
+    <string name="channel_tone_only_desc">Ειδοποιήσεις μόνο ήχου με δόνηση μόνο· τον ήχο αναπαραγωγής χειρίζεται το %1$s</string>
+    <string name="channel_dnd_bypass_name">Υπενθυμίσεις %1$s (παράκαμψη Μην ενοχλείτε)</string>
+    <string name="channel_dnd_bypass_desc">Ξυπνητήρια υπενθυμίσεων που μπορούν να ειδοποιούν κατά τη λειτουργία Μην ενοχλείτε όταν το Android δώσει πρόσβαση</string>
+    <string name="channel_tone_only_bypass_name">Ειδοποιήσεις μόνο ήχου %1$s (παράκαμψη Μην ενοχλείτε)</string>
+    <string name="channel_tone_only_bypass_desc">Υπενθυμίσεις μόνο ήχου που μπορούν να ειδοποιούν κατά τη λειτουργία Μην ενοχλείτε όταν το Android δώσει πρόσβαση</string>
+    <string name="pua_sub_reschedule">Επαναπρογραμματισμός αυτής της υπενθύμισης</string>
+    <string name="pua_sub_play_now">Ακρόαση τώρα χωρίς επαναπρογραμματισμό</string>
+    <string name="pua_sub_keep_done">Να μείνει ολοκληρωμένη</string>
+    <string name="channel_playback_name">Αναπαραγωγή υπενθυμίσεων</string>
+    <string name="channel_playback_desc">Εμφανίζει χειριστήρια κατά την αναπαραγωγή υπενθυμίσεων</string>
+    <string name="channel_silent_name">Ειδοποιήσεις πλήρους οθόνης %1$s</string>
+    <string name="channel_silent_desc">Υπενθυμίσεις πλήρους οθόνης από το %1$s ενώ η υπενθύμιση ήδη εκφωνείται</string>
+    <string name="channel_silent_bypass_name">Ειδοποιήσεις πλήρους οθόνης %1$s (παράκαμψη Μην ενοχλείτε)</string>
+    <string name="channel_silent_bypass_desc">Υπενθυμίσεις πλήρους οθόνης που μπορούν να ειδοποιούν κατά τη λειτουργία Μην ενοχλείτε όταν το Android δώσει πρόσβαση</string>
+
+    <!-- Alarm alert screen -->
+    <string name="alert_mark_done">Ολοκληρώθηκε</string>
+    <string name="alert_silence">Σίγαση</string>
+    <string name="alert_silence_now">Σίγαση τώρα</string>
+    <string name="alert_play_again">Αναπαραγωγή ξανά</string>
+    <string name="alert_snooze_minutes">Αναβολή %1$d λ.</string>
+    <string name="alert_followup_reminder">Υπενθύμιση επανελέγχου</string>
+    <string name="alert_reminder_on_screen">Υπενθύμιση στην οθόνη</string>
+    <string name="alert_followup_on_this">Επανέλεγχος αυτής της υπενθύμισης</string>
+    <string name="alert_did_you_complete">Ολοκληρώσατε αυτή την υπενθύμιση;</string>
+    <string name="alert_reminder_active">Η υπενθύμιση είναι ενεργή</string>
+    <string name="alert_voice_reminder">Φωνητική υπενθύμιση</string>
+    <string name="alert_text_reminder">Υπενθύμιση κειμένου</string>
+    <string name="alert_followup_check">Επανέλεγχος</string>
+    <string name="alert_generic">Ειδοποίηση</string>
+    <string name="alert_playing_now">Αναπαράγεται τώρα</string>
+    <string name="alert_needs_response">Χρειάζεται απάντηση</string>
+    <string name="alert_awaiting_action">Αναμονή ενέργειας</string>
+    <string name="alert_scheduled_for">Προγραμματισμένη για</string>
+    <string name="alert_status">Κατάσταση ειδοποίησης</string>
+    <string name="alert_audio_playing">Ο ήχος αναπαράγεται. Πατήστε Σίγαση για να σταματήσει.</string>
+    <string name="alert_waiting_done_snooze">Αναμονή για Ολοκληρώθηκε ή Αναβολή.</string>
+    <string name="alert_followup_label">Επανέλεγχος</string>
+    <string name="alert_hint_with_play">Κρατήστε την υπενθύμιση ορατή, σταματήστε τον ήχο ή αναπαράγετέ τον ξανά πριν ενεργήσετε.</string>
+    <string name="alert_hint_no_play">Κρατήστε την υπενθύμιση ορατή ή επιλέξτε Ολοκληρώθηκε ή Αναβολή όταν είστε έτοιμοι.</string>
+    <string name="alert_dock_hint">Η Σίγαση σταματά τον ήχο. Το Ολοκληρώθηκε ή η Αναβολή καθαρίζει την ειδοποίηση της οθόνης κλειδώματος.</string>
+    <plurals name="alert_followup_repeats">
+        <item quantity="one">Επαναλαμβάνεται κάθε λεπτό μέχρι την ολοκλήρωση.</item>
+        <item quantity="other">Επαναλαμβάνεται κάθε %1$d λεπτά μέχρι την ολοκλήρωση.</item>
+    </plurals>
+
+    <!-- Home -->
+    <string name="home_greeting_morning">Καλημέρα</string>
+    <string name="home_greeting_afternoon">Καλό απόγευμα</string>
+    <string name="home_greeting_evening">Καλησπέρα</string>
+    <string name="home_all_caught_up">Όλα τακτοποιημένα!</string>
+    <plurals name="home_active_reminders">
+        <item quantity="one">Έχετε %1$d ενεργή υπενθύμιση</item>
+        <item quantity="other">Έχετε %1$d ενεργές υπενθυμίσεις</item>
+    </plurals>
+    <string name="home_filter_upcoming">Επερχόμενες</string>
+    <string name="home_filter_today">Σήμερα</string>
+    <string name="home_filter_missed">Χαμένες</string>
+    <string name="home_filter_done">Ολοκληρωμένες</string>
+    <string name="home_cd_settings">Ρυθμίσεις</string>
+    <string name="home_cd_help">Βοήθεια και οδηγίες</string>
+    <string name="home_cd_add">Προσθήκη υπενθύμισης</string>
+    <string name="home_cd_missed">Χαμένες υπενθυμίσεις</string>
+    <string name="home_dismiss_all">Παράβλεψη όλων</string>
+    <string name="home_empty_all_caught_up">Όλα τακτοποιημένα!</string>
+    <string name="home_empty_no_missed">Καμία χαμένη υπενθύμιση</string>
+    <string name="home_empty_nothing_done">Τίποτα δεν έχει ολοκληρωθεί ακόμη</string>
+    <string name="home_empty_no_upcoming">Καμία επερχόμενη υπενθύμιση</string>
+    <string name="home_empty_no_reminders">Δεν υπάρχουν υπενθυμίσεις ακόμη</string>
+    <string name="home_empty_done_sub">Οι ολοκληρωμένες υπενθυμίσεις θα εμφανίζονται εδώ.</string>
+    <string name="home_empty_upcoming_sub">Οι υπενθυμίσεις που έχουν προγραμματιστεί για αργότερα θα εμφανίζονται εδώ.</string>
+    <string name="home_empty_default_sub">Δημιουργήστε μια υπενθύμιση με φωνή ή κείμενο.</string>
+
+    <!-- Common actions -->
+    <string name="action_cancel">Ακύρωση</string>
+    <string name="action_close">Κλείσιμο</string>
+    <string name="action_play_now">Αναπαραγωγή τώρα</string>
+    <string name="action_stop">Διακοπή</string>
+    <string name="action_dismiss">Παράβλεψη</string>
+    <string name="action_apply">Εφαρμογή</string>
+    <string name="action_undo">Αναίρεση</string>
+    <string name="action_open">Άνοιγμα</string>
+    <string name="common_reminder">Υπενθύμιση</string>
+    <string name="time_picker_title">Επιλογή ώρας</string>
+    <string name="err_date_future">Η ημερομηνία πρέπει να είναι σήμερα ή αργότερα</string>
+    <string name="err_time_future">Επιλέξτε μια μελλοντική ώρα</string>
+
+    <!-- Home dialogs -->
+    <string name="home_stop_recurring_title">Διακοπή επαναλαμβανόμενης υπενθύμισης;</string>
+    <string name="home_stop_recurring_msg">Θα διαγραφούν αυτή η υπενθύμιση και όλες οι μελλοντικές επαναλήψεις. Δεν μπορεί να αναιρεθεί.</string>
+    <string name="home_stop_recurring_action">Διακοπή επανάληψης</string>
+    <string name="home_stop_recurring_sub">Διαγραφή αυτής της υπενθύμισης και όλων των μελλοντικών επαναλήψεων</string>
+    <string name="home_keep_reminder">Διατήρηση υπενθύμισης</string>
+    <string name="home_mark_occurrence_title">Σήμανση επανάληψης ως ολοκληρωμένης;</string>
+    <string name="home_mark_occurrence_msg">Ολοκληρώνεται μόνο η σημερινή επανάληψη. Η υπενθύμιση θα επαναληφθεί στην επόμενη προγραμματισμένη ώρα.</string>
+    <string name="home_mark_occurrence_action">Σήμανση αυτής της επανάληψης ως ολοκληρωμένης</string>
+    <string name="home_mark_occurrence_sub">Οι μελλοντικές επαναλήψεις παραμένουν προγραμματισμένες</string>
+    <string name="home_mark_done_title">Σήμανση ως ολοκληρωμένη;</string>
+    <string name="home_mark_done_msg">Η υπενθύμιση θα μεταφερθεί στην καρτέλα Ολοκληρωμένες.</string>
+    <string name="home_move_to_done">Μεταφορά στις Ολοκληρωμένες</string>
+    <string name="home_move_to_done_sub">Διατήρηση της υπενθύμισης στο ιστορικό ολοκληρωμένων</string>
+    <string name="home_created_at">Δημιουργήθηκε: %1$s</string>
+    <string name="home_snackbar_deleted">Η υπενθύμιση διαγράφηκε</string>
+    <string name="home_snackbar_duplicated">Η υπενθύμιση αντιγράφηκε</string>
+    <string name="home_badge_missed">Χαμένη</string>
+
+    <!-- Add / Edit reminder -->
+    <string name="ae_saved">Η υπενθύμιση αποθηκεύτηκε!</string>
+    <string name="ae_cannot_past">Δεν μπορείτε να ορίσετε υπενθυμίσεις στο παρελθόν</string>
+    <string name="ae_record_too_short">Η ηχογράφηση είναι πολύ σύντομη — κρατήστε πατημένο το κουμπί όσο μιλάτε</string>
+    <string name="ae_record_failed">Δεν ήταν δυνατή η έναρξη της ηχογράφησης. Ίσως κάποια άλλη εφαρμογή χρησιμοποιεί το μικρόφωνο.</string>
+    <string name="ae_record_silent">Δεν καταγράφηκε ήχος. Ελέγξτε αν το SpeakAlert έχει άδεια χρήσης μικροφώνου.</string>
+    <string name="ae_unsaved_title">Αποθήκευση υπενθύμισης;</string>
+    <string name="ae_unsaved_msg">Υπάρχουν μη αποθηκευμένες αλλαγές στην υπενθύμιση.</string>
+    <string name="action_save">Αποθήκευση</string>
+    <string name="ae_keep_editing">Συνέχεια επεξεργασίας</string>
+    <string name="action_discard">Απόρριψη</string>
+    <string name="action_remove">Κατάργηση</string>
+    <string name="action_change">Αλλαγή</string>
+    <string name="ae_title_edit">Επεξεργασία υπενθύμισης</string>
+    <string name="ae_title_new">Νέα υπενθύμιση</string>
+    <string name="action_back">Πίσω</string>
+    <string name="ae_header_edit">Επεξεργασία υπενθύμισης</string>
+    <string name="ae_header_create">Δημιουργία υπενθύμισης</string>
+    <string name="ae_section_content">Περιεχόμενο υπενθύμισης</string>
+    <string name="ae_content_desc">Ηχογραφήστε τη φωνή σας, προσθέστε αρχείο ήχου ή γράψτε το μήνυμα της υπενθύμισης.</string>
+    <string name="ae_tap_to_record">Πατήστε για να ηχογραφήσετε φωνητική υπενθύμιση</string>
+    <string name="ae_or_choose_audio">Ή επιλέξτε αρχείο ήχου</string>
+    <string name="ae_selected_audio">Επιλεγμένο αρχείο ήχου</string>
+    <string name="ae_cd_stop_preview">Διακοπή προεπισκόπησης ήχου</string>
+    <string name="ae_cd_play_preview">Αναπαραγωγή προεπισκόπησης ήχου</string>
+    <string name="ae_cd_audio_progress">Πρόοδος προεπισκόπησης ήχου</string>
+    <string name="ae_choose_audio_file">Επιλογή αρχείου ήχου</string>
+    <string name="ae_or_type">Ή πληκτρολογήστε μήνυμα υπενθύμισης</string>
+    <string name="ae_msg_label">Μήνυμα υπενθύμισης</string>
+    <string name="ae_msg_placeholder">π.χ. Πάρε το φάρμακο μετά το πρωινό</string>
+    <string name="ae_label_placeholder">π.χ. Πρωινό φάρμακο</string>
+    <string name="ae_msg_help">Το μήνυμα εμφανίζεται στην εφαρμογή και στις ειδοποιήσεις. Διαβάζεται δυνατά μόνο αν δεν έχετε προσθέσει ηχογράφηση ή αρχείο ήχου.</string>
+    <string name="ae_char_count">%1$d/%2$d</string>
+    <string name="ae_need_content">Προσθέστε φωνητική σημείωση, αρχείο ήχου ή μήνυμα υπενθύμισης.</string>
+    <string name="ae_section_label">Σύντομη ετικέτα (προαιρετικά)</string>
+    <string name="ae_label_desc">Μπορείτε να δώσετε ένα σύντομο όνομα για να αναγνωρίζετε εύκολα την υπενθύμιση στη λίστα.</string>
+    <string name="ae_label_hint">Εμφανίζεται ως σύντομο όνομα σε λίστες και λεπτομέρειες</string>
+    <string name="ae_section_schedule">Πρόγραμμα</string>
+    <string name="ae_when_fire">Πότε να ενεργοποιηθεί αυτή η υπενθύμιση;</string>
+    <string name="ae_datetime_at">%1$s στις %2$s</string>
+    <string name="ae_date">Ημερομηνία</string>
+    <string name="ae_time">Ώρα</string>
+    <string name="ae_time_future">Η ώρα πρέπει να είναι στο μέλλον</string>
+    <string name="ae_repeat_never">Ποτέ</string>
+    <string name="ae_repeat">Επανάληψη</string>
+    <string name="state_on">Ενεργό</string>
+    <string name="state_off">Ανενεργό</string>
+    <string name="state_active">Ενεργή</string>
+    <string name="ae_loop">Αναπαραγωγή σε επανάληψη</string>
+    <string name="ae_loop_desc">Συνεχίζει να παίζει μέχρι να παραβλέψετε την υπενθύμιση.</string>
+    <string name="ae_followup">Επανέλεγχος</string>
+    <string name="ae_followup_desc">Ρωτά ξανά μετά από λίγο αν η υπενθύμιση δεν έχει σημειωθεί ως ολοκληρωμένη.</string>
+    <string name="ae_cd_saving">Αποθήκευση υπενθύμισης</string>
+    <string name="ae_save_reminder">Αποθήκευση υπενθύμισης</string>
+    <plurals name="ae_followup_active">
+        <item quantity="one">Ενεργό: ρωτά κάθε λεπτό μέχρι να σημειωθεί ως ολοκληρωμένη.</item>
+        <item quantity="other">Ενεργό: ρωτά κάθε %1$d λεπτά μέχρι να σημειωθεί ως ολοκληρωμένη.</item>
+    </plurals>
+
+    <!-- Recurrence type names (shared) -->
+    <string name="rec_every">Κάθε %1$d %2$s</string>
+    <string name="rec_ends_never">Λήξη: Ποτέ</string>
+    <string name="rec_if_off_fire">Αν η συσκευή είναι κλειστή: Ειδοποίηση όταν ανοίξει</string>
+    <string name="rec_if_off_skip">Αν η συσκευή είναι κλειστή: Υπενθύμιση μόνο στην ακριβή ώρα</string>
+    <string name="date_today">Σήμερα</string>
+    <string name="date_tomorrow">Αύριο</string>
+    <string name="date_yesterday">Χθες</string>
+    <plurals name="rec_ends_times">
+        <item quantity="one">Λήγει μετά από %1$d φορά</item>
+        <item quantity="other">Λήγει μετά από %1$d φορές</item>
+    </plurals>
+    <string name="rec_onetime">Μία φορά</string>
+    <string name="rec_daily">Καθημερινά</string>
+    <string name="rec_weekly">Εβδομαδιαία</string>
+    <string name="rec_monthly">Μηνιαία</string>
+    <string name="rec_yearly">Ετήσια</string>
+    <string name="rec_custom">Προσαρμογή</string>
+    <string name="day_mon">Δευ</string>
+    <string name="day_tue">Τρί</string>
+    <string name="day_wed">Τετ</string>
+    <string name="day_thu">Πέμ</string>
+    <string name="day_fri">Παρ</string>
+    <string name="day_sat">Σάβ</string>
+    <string name="day_sun">Κυρ</string>
+
+    <!-- Reminder details -->
+    <string name="det_title">Λεπτομέρειες υπενθύμισης</string>
+    <string name="action_edit">Επεξεργασία</string>
+    <string name="action_delete">Διαγραφή</string>
+    <string name="action_confirm">Επιβεβαίωση</string>
+    <string name="det_audio_file">Αρχείο ήχου</string>
+    <string name="det_voice_note">Φωνητική σημείωση</string>
+    <string name="det_loop_enabled">Επανάληψη ενεργή</string>
+    <string name="det_followup_pill">Επανέλεγχος %1$d λ.</string>
+    <string name="det_cd_stop_audio">Διακοπή ήχου</string>
+    <string name="det_cd_play_audio">Αναπαραγωγή ήχου</string>
+    <string name="det_ready_preview">Έτοιμο για προεπισκόπηση</string>
+    <string name="det_ready_play">Έτοιμο για αναπαραγωγή</string>
+    <string name="det_voice_recording">Φωνητική ηχογράφηση</string>
+    <string name="det_tap_preview">Πατήστε αναπαραγωγή για να ακούσετε την ηχογραφημένη υπενθύμιση.</string>
+    <string name="det_cd_audio_progress">Πρόοδος ήχου υπενθύμισης</string>
+    <string name="det_double_tap_edit">Πατήστε δύο φορές για επεξεργασία</string>
+    <string name="det_ends_by">Λήγει στις %1$s</string>
+    <string name="det_end_rule">Κανόνας λήξης</string>
+    <string name="det_missed_handling">Χειρισμός χαμένων υπενθυμίσεων</string>
+    <string name="det_missed_fire">Ειδοποίηση όταν η συσκευή ανοίξει ξανά</string>
+    <string name="det_missed_skip">Υπενθύμιση μόνο στην επόμενη ακριβή ώρα</string>
+    <string name="det_mark_undone">Σήμανση ως μη ολοκληρωμένη</string>
+    <string name="det_mark_done">Σήμανση ως ολοκληρωμένη</string>
+    <string name="det_scheduled_for">Προγραμματισμένη για: %1$s</string>
+    <string name="det_delete_title">Διαγραφή υπενθύμισης;</string>
+    <string name="det_delete_recurring">Θα σταματήσουν όλες οι μελλοντικές επαναλήψεις. Δεν μπορεί να αναιρεθεί.</string>
+    <string name="det_delete_onetime">Δεν μπορεί να αναιρεθεί.</string>
+    <string name="det_reschedule_title">Επαναπρογραμματισμός υπενθύμισης;</string>
+    <string name="det_reschedule_to">Επαναπρογραμματισμός για %1$s;</string>
+    <plurals name="det_ends_after">
+        <item quantity="one">Λήγει μετά από %1$d επανάληψη</item>
+        <item quantity="other">Λήγει μετά από %1$d επαναλήψεις</item>
+    </plurals>
+
+    <!-- Recurrence selection sheet -->
+    <string name="rs_subtitle">Επιλέξτε πώς θα επαναλαμβάνεται αυτή η υπενθύμιση.</string>
+    <string name="rs_none">Χωρίς επανάληψη</string>
+    <string name="rs_monthly_settings">Μηνιαίες ρυθμίσεις</string>
+    <string name="rs_monthly_subtitle">Επιλέξτε ημέρες ή κανόνα λήξης.</string>
+    <string name="rs_repeat_on">Επανάληψη στις</string>
+    <string name="rs_days_of_month">Ημέρα(ες) του μήνα</string>
+    <string name="rs_last_day">Τελευταία ημέρα</string>
+    <string name="rs_select_days_toggle">Επιλέξτε ημέρες (πατήστε για εναλλαγή)</string>
+    <string name="rs_selected">Επιλεγμένες: %1$s</string>
+    <string name="rs_weekly_settings">Εβδομαδιαίες ρυθμίσεις</string>
+    <string name="rs_weekly_subtitle">Επιλέξτε τις ημέρες της εβδομάδας για επανάληψη.</string>
+    <string name="rs_select_days">Επιλογή ημερών</string>
+    <string name="rs_custom_interval">Προσαρμοσμένο διάστημα</string>
+    <string name="rs_custom_subtitle">Ορίστε πόσος χρόνος θα μεσολαβεί από τη μία επανάληψη στην επόμενη.</string>
+    <string name="rs_repeat_every">Επανάληψη κάθε</string>
+    <string name="rs_number">Αριθμός</string>
+    <string name="rs_unit">Μονάδα</string>
+    <string name="rs_repeats_every">Επαναλαμβάνεται κάθε %1$d %2$s.</string>
+    <string name="rs_interval_min">Το διάστημα πρέπει να είναι τουλάχιστον 1</string>
+    <string name="rs_ends">Λήξη</string>
+    <string name="rs_forever">Ποτέ</string>
+    <string name="rs_until_date">Έως ημερομηνία/ώρα</string>
+    <string name="rs_after_count">Μετά από αριθμό φορών</string>
+    <string name="rs_must_be_after">Πρέπει να είναι στις ή μετά τις %1$s</string>
+    <string name="rs_date_label">Ημερομηνία: %1$s</string>
+    <string name="rs_time_label">Ώρα: %1$s</string>
+    <string name="rs_num_occurrences">Αριθμός επαναλήψεων</string>
+    <string name="rs_allowed_range">Επιτρέπεται: 1-999</string>
+    <string name="rs_end_before_error">Η ώρα λήξης δεν μπορεί να είναι πριν από την ώρα της υπενθύμισης</string>
+    <string name="rs_select_end_time">Επιλογή ώρας λήξης</string>
+    <plurals name="unit_minutes"><item quantity="one">Λεπτό</item><item quantity="other">Λεπτά</item></plurals>
+    <plurals name="unit_hours"><item quantity="one">Ώρα</item><item quantity="other">Ώρες</item></plurals>
+    <plurals name="unit_days"><item quantity="one">Ημέρα</item><item quantity="other">Ημέρες</item></plurals>
+    <plurals name="unit_weeks"><item quantity="one">Εβδομάδα</item><item quantity="other">Εβδομάδες</item></plurals>
+    <plurals name="unit_months"><item quantity="one">Μήνα</item><item quantity="other">Μήνες</item></plurals>
+    <plurals name="unit_years"><item quantity="one">Χρόνο</item><item quantity="other">Χρόνια</item></plurals>
+
+    <!-- Settings -->
+    <string name="set_appearance">Εμφάνιση</string>
+    <string name="set_reminder_form">Φόρμα υπενθύμισης</string>
+    <string name="set_reminder_form_desc">Επιλέξτε ποιες ενότητες θα εμφανίζονται όταν δημιουργείτε υπενθύμιση. Αν κρύψετε όλους τους τρόπους εισαγωγής περιεχομένου, θα χρειαστεί να ενεργοποιήσετε ξανά τουλάχιστον έναν.</string>
+    <string name="ae_no_content_sections">Δεν είναι ενεργή καμία ενότητα εισαγωγής. Ενεργοποιήστε τη Φωνητική ηχογράφηση, την Επιλογή αρχείου ήχου ή την Υπενθύμιση κειμένου στις Ρυθμίσεις &gt; Φόρμα υπενθύμισης.</string>
+    <string name="set_show_voice_recording">Φωνητική ηχογράφηση</string>
+    <string name="set_show_voice_recording_desc">Εμφάνιση της ενότητας ηχογράφησης από το μικρόφωνο.</string>
+    <string name="set_experimental_voice_enhancement">Πειραματική βελτίωση φωνής</string>
+    <string name="set_experimental_voice_enhancement_desc">Ανενεργό: αποθηκεύει την ηχογράφηση χωρίς επεξεργασία. Ενεργό: προσθέτει ελέγχους κατά την εγγραφή, σας ειδοποιεί αν δεν καταγράφηκε ήχος και κάνει τη φωνή πιο καθαρή.</string>
+    <string name="set_experimental_voice_enhancement_note">Η λειτουργία είναι πειραματική. Το αποτέλεσμα και ο χρόνος επεξεργασίας εξαρτώνται από το τηλέφωνο. Απενεργοποιήστε τη αν ο ήχος παραμορφώνεται ή η αποθήκευση αργεί περισσότερο.</string>
+    <string name="set_show_audio_file">Επιλογή αρχείου ήχου</string>
+    <string name="set_show_audio_file_desc">Εμφάνιση της επιλογής για υπάρχον αρχείο ήχου.</string>
+    <string name="set_show_typed_reminder">Υπενθύμιση κειμένου</string>
+    <string name="set_show_typed_reminder_desc">Εμφάνιση του πεδίου μηνύματος υπενθύμισης.</string>
+    <string name="set_show_short_label">Σύντομη ετικέτα</string>
+    <string name="set_show_short_label_desc">Εμφάνιση του προαιρετικού πεδίου σύντομης ετικέτας.</string>
+    <string name="set_app_theme">Θέμα εφαρμογής</string>
+    <string name="theme_system">Σύστημα</string>
+    <string name="theme_light">Φωτεινό</string>
+    <string name="theme_dark">Σκούρο</string>
+    <string name="set_toast_theme_light">Ορίστηκε φωτεινό θέμα</string>
+    <string name="set_toast_theme_dark">Ορίστηκε σκούρο θέμα</string>
+    <string name="set_toast_theme_system">Ακολουθεί το θέμα του συστήματος</string>
+    <string name="set_playback">Αναπαραγωγή</string>
+    <string name="set_autoplay">Αυτόματη αναπαραγωγή ήχου υπενθύμισης</string>
+    <string name="set_autoplay_desc">Αναπαράγει αυτόματα φωνητικές σημειώσεις και αρχεία ήχου όταν ενεργοποιείται μια υπενθύμιση</string>
+    <string name="set_disabled_tone">Ανενεργό όσο είναι ενεργή η λειτουργία μόνο ήχου</string>
+    <string name="set_toast_autoplay_on">Αυτόματη αναπαραγωγή ενεργή</string>
+    <string name="set_toast_autoplay_off">Αυτόματη αναπαραγωγή ανενεργή</string>
+    <string name="set_unlock_only">Μόνο όταν το τηλέφωνο είναι ξεκλείδωτο</string>
+    <string name="set_unlock_only_desc">Αποτροπή αναπαραγωγής στην οθόνη κλειδώματος</string>
+    <string name="set_toast_lock_off">Αναπαραγωγή στην οθόνη κλειδώματος ανενεργή</string>
+    <string name="set_toast_lock_on">Αναπαραγωγή στην οθόνη κλειδώματος ενεργή</string>
+    <string name="set_speak_text">Αυτόματη εκφώνηση υπενθυμίσεων κειμένου</string>
+    <string name="set_speak_text_desc">Μόνο για υπενθυμίσεις κειμένου χωρίς φωνητική σημείωση ή αρχείο ήχου</string>
+    <string name="set_toast_speak_on">Αυτόματη εκφώνηση κειμένου ενεργή</string>
+    <string name="set_toast_speak_off">Αυτόματη εκφώνηση κειμένου ανενεργή</string>
+    <string name="set_spoken_language">Γλώσσα εκφώνησης</string>
+    <string name="set_spoken_language_desc">Η γλώσσα στην οποία διαβάζονται οι υπενθυμίσεις. Η αυτόματη ανίχνευση επιλέγει τη γλώσσα του μηνύματος. Πρέπει να έχετε εγκαταστήσει φωνή για αυτή τη γλώσσα στις ρυθμίσεις μετατροπής κειμένου σε ομιλία του τηλεφώνου.</string>
+    <string name="tts_auto">Αυτόματη ανίχνευση</string>
+    <string name="tts_device">Συσκευή</string>
+    <string name="tts_english">Αγγλικά</string>
+    <string name="set_toast_tts_device">Γλώσσα εκφώνησης: γλώσσα συσκευής</string>
+    <string name="set_toast_tts_english">Γλώσσα εκφώνησης: Αγγλικά</string>
+    <string name="set_toast_tts_auto">Γλώσσα εκφώνησης: αυτόματη ανίχνευση</string>
+    <string name="set_private">Ιδιωτική αναπαραγωγή</string>
+    <string name="set_private_desc">Χρησιμοποιεί πρώτα τα συνδεδεμένα ακουστικά βαρηκοΐας, τις συσκευές Bluetooth ή τα ενσύρματα ακουστικά. Αν δεν υπάρχει κανένα, ο ήχος ακούγεται από το ακουστικό κλήσεων αντί για το ηχείο.</string>
+    <string name="set_toast_private_on">Ιδιωτική αναπαραγωγή ενεργή</string>
+    <string name="set_toast_private_off">Ιδιωτική αναπαραγωγή ανενεργή</string>
+    <string name="set_private_bt">Ιδιωτική αναπαραγωγή ενεργή. Η δρομολόγηση μέσω Bluetooth χρειάζεται την άδεια Συσκευές σε κοντινή απόσταση.</string>
+    <string name="set_tone_only">Λειτουργία μόνο ήχου</string>
+    <string name="set_tone_only_desc">Παίζει έναν απλό ήχο ξυπνητηριού αντί για φωνή/TTS για μέγιστη αξιοπιστία. Αυτόματη διακοπή: %1$s. Αναβολή: %2$d λ.</string>
+    <string name="set_toast_tone_on">Λειτουργία μόνο ήχου ενεργή</string>
+    <string name="set_toast_tone_off">Λειτουργία μόνο ήχου ανενεργή</string>
+    <string name="set_infinite">Άπειρο</string>
+    <string name="set_minutes_short">%1$d λ.</string>
+    <string name="set_select_tone">Επιλογή ήχου</string>
+    <string name="file_picker_unavailable">Καμία εφαρμογή σε αυτή τη συσκευή δεν μπορεί να ανοίξει αρχεία. Εγκαταστήστε μια διαχείριση αρχείων και δοκιμάστε ξανά.</string>
+    <string name="tone_picker_unavailable">Καμία εφαρμογή σε αυτή τη συσκευή δεν μπορεί να επιλέξει ήχο.</string>
+    <string name="set_toast_default_tone">Χρήση του προεπιλεγμένου ήχου ξυπνητηριού</string>
+    <string name="set_toast_tone_updated">Ο ήχος ενημερώθηκε</string>
+    <string name="set_fullscreen">Ειδοποίηση πλήρους οθόνης στην οθόνη κλειδώματος</string>
+    <string name="set_fullscreen_desc_granted">Εμφάνιση ενεργειών υπενθύμισης πάνω από την οθόνη κλειδώματος όταν ενεργοποιείται μια υπενθύμιση</string>
+    <string name="set_fullscreen_desc_denied">Χρειάζεται πρόσβαση του Android σε ειδοποιήσεις πλήρους οθόνης για να εμφανίζεται πάνω από την οθόνη κλειδώματος</string>
+    <string name="set_allow_fullscreen">Να επιτρέπονται ειδοποιήσεις πλήρους οθόνης στις ρυθμίσεις συστήματος</string>
+    <string name="set_toast_fs_on">Ειδοποίηση πλήρους οθόνης ενεργή</string>
+    <string name="set_toast_fs_off">Ειδοποίηση πλήρους οθόνης ανενεργή</string>
+    <string name="set_fs_off_title">Η πρόσβαση πλήρους οθόνης είναι ακόμη ανενεργή</string>
+    <string name="set_fs_off_msg">Το Android 14+ απαιτεί ξεχωριστή άδεια συστήματος για ειδοποιήσεις υπενθύμισης πλήρους οθόνης.</string>
+    <string name="set_open_perm">Άνοιγμα ρυθμίσεων αδειών</string>
+    <string name="set_fs_note">Μπορείτε ακόμη να πατήσετε Αναπαραγωγή ή Εκφώνηση υπενθύμισης από την ειδοποίηση.</string>
+    <string name="set_tone_volume_note">Στη λειτουργία μόνο ήχου, η ένταση ελέγχεται από την ένταση ξυπνητηριού/ειδοποιήσεων της συσκευής.</string>
+    <string name="set_loop_duration">Διάρκεια επανάληψης</string>
+    <string name="set_loop_duration_desc">Ορίστε πόσο διαρκεί η επανάληψη της υπενθύμισης</string>
+    <string name="set_toast_loop">Διάρκεια επανάληψης: %1$d λεπτά</string>
+    <string name="set_toast_loop_infinite">Διάρκεια επανάληψης: Άπειρη</string>
+    <string name="set_custom">Προσαρμογή</string>
+    <string name="set_custom_snooze">Προσαρμοσμένη αναβολή</string>
+    <string name="set_snooze_desc">Ορίστε πόσο καθυστερεί η υπενθύμιση</string>
+    <string name="set_toast_snooze">Αναβολή: %1$d λεπτά</string>
+    <string name="set_toast_followup_off">Προεπιλεγμένος επανέλεγχος ανενεργός</string>
+    <string name="set_toast_followup">Προεπιλεγμένος επανέλεγχος: %1$d λ.</string>
+    <string name="set_quiet">Ώρες ησυχίας</string>
+    <string name="set_quiet_desc">Σίγαση υπενθυμίσεων σε ορισμένες ώρες</string>
+    <string name="set_toast_quiet_on">Ώρες ησυχίας ενεργές</string>
+    <string name="set_toast_quiet_off">Ώρες ησυχίας ανενεργές</string>
+    <string name="set_start">Έναρξη</string>
+    <string name="set_end">Λήξη</string>
+    <string name="set_toast_quiet_start">Η ησυχία ξεκινά στις %1$s</string>
+    <string name="set_toast_quiet_end">Η ησυχία λήγει στις %1$s</string>
+    <string name="set_toast_test">Δοκιμαστική υπενθύμιση σε 10 δευτερόλεπτα</string>
+    <string name="set_test_reminder">Δοκιμαστική υπενθύμιση</string>
+    <string name="set_cd_granted">Η άδεια δόθηκε</string>
+    <string name="set_cd_action_required">Απαιτείται ενέργεια</string>
+    <string name="set_notifications">Ειδοποιήσεις</string>
+    <string name="set_exact_alarms">Ακριβή ξυπνητήρια</string>
+    <string name="set_microphone">Μικρόφωνο</string>
+    <string name="set_dnd">Ειδοποίηση ακόμη και σε Μην ενοχλείτε</string>
+    <string name="set_dnd_desc_off">Ακολουθεί τη λειτουργία ήχου του τηλεφώνου. Η λειτουργία Μην ενοχλείτε ή οι ρουτίνες μπορεί να κάνουν σίγαση στις υπενθυμίσεις.</string>
+    <string name="set_dnd_desc_active">Ενεργό: οι υπενθυμίσεις χρησιμοποιούν ήχο προτεραιότητας ξυπνητηριού και παρακάμπτουν τη λειτουργία Μην ενοχλείτε.</string>
+    <string name="set_dnd_unavailable">Οι ρυθμίσεις πρόσβασης Μην ενοχλείτε του Android δεν είναι διαθέσιμες σε αυτή τη συσκευή.</string>
+    <string name="set_grant_dnd">Παραχώρηση πρόσβασης Μην ενοχλείτε</string>
+    <string name="set_dnd_note">Αυτή η ρύθμιση δεν ενεργοποιεί ούτε απενεργοποιεί τη λειτουργία «Μην ενοχλείτε». Επιτρέπει στο %1$s να ζητήσει άδεια για να ακούγονται σημαντικές υπενθυμίσεις ακόμη κι όταν η λειτουργία είναι ενεργή.</string>
+    <string name="set_battery_guide">Οδηγός βελτιστοποίησης μπαταρίας</string>
+    <string name="set_battery_desc">Ορισμένα τηλέφωνα καθυστερούν ή μπλοκάρουν υπενθυμίσεις για εξοικονόμηση μπαταρίας.</string>
+    <string name="set_wear">Wear OS</string>
+    <string name="set_wear_checking">Έλεγχος σύνδεσης Wear OS…</string>
+    <string name="set_wear_connected">Το ρολόι Wear OS συνδέθηκε</string>
+    <string name="set_wear_supported">Οι υπενθυμίσεις του %1$s στο ρολόι υποστηρίζονται μόνο σε ρολόγια Wear OS.</string>
+    <string name="set_wear_notif_off">Οι ειδοποιήσεις της εφαρμογής στο τηλέφωνο είναι ανενεργές. Ενεργοποιήστε τις για να συγχρονίζονται οι υπενθυμίσεις με το ρολόι.</string>
+    <string name="set_open_notif">Άνοιγμα ρυθμίσεων ειδοποιήσεων</string>
+    <string name="set_open_channel">Άνοιγμα καναλιού υπενθυμίσεων</string>
+    <string name="set_wear_enabled">Οι ειδοποιήσεις του τηλεφώνου είναι ενεργές. Αν δεν φτάνουν στο ρολόι, ενεργοποιήστε τον συγχρονισμό ειδοποιήσεων στην εφαρμογή σύνδεσης του ρολογιού Wear OS.</string>
+    <string name="set_refresh">Ανανέωση κατάστασης</string>
+    <string name="set_app_guide">Οδηγός εφαρμογής</string>
+    <string name="set_toast_no_email">Δεν υπάρχει εφαρμογή email. Μπορείτε να στείλετε email στο ghostgramlabs@gmail.com ή να αντιγράψετε τη διεύθυνση που εμφανίζεται.</string>
+    <string name="set_contact_support">Προτάσεις και υποστήριξη</string>
+    <string name="set_contact_support_desc">Έχετε μια ιδέα ή χρειάζεστε βοήθεια; Στείλτε μας email.</string>
+    <string name="support_email_subject">%1$s — Πρόταση λειτουργίας ή υποστήριξη</string>
+    <string name="feature_request_email_subject">%1$s — Πρόταση λειτουργίας</string>
+    <string name="suggest_feature">Προτείνετε μια λειτουργία</string>
+    <string name="set_toast_no_rating">Δεν ήταν δυνατό το άνοιγμα της σελίδας αξιολόγησης σε αυτή τη συσκευή.</string>
+    <string name="set_rate">Αξιολογήστε το %1$s</string>
+    <string name="set_developer">Προγραμματιστής</string>
+    <string name="set_debug_logging">Καταγραφή εντοπισμού σφαλμάτων</string>
+    <string name="set_debug_desc">Καταγραφή λεπτομερών αρχείων</string>
+    <string name="set_send_logs">Αποστολή αρχείων καταγραφής</string>
+    <string name="set_fix">Διόρθωση</string>
+    <string name="set_cd_collapse">Σύμπτυξη</string>
+    <string name="set_cd_expand">Ανάπτυξη</string>
+    <string name="set_tone_sound">Ήχος ειδοποίησης μόνο ήχου</string>
+    <string name="set_tone_sound_hint">Ενεργοποιήστε τη λειτουργία μόνο ήχου για να επιλέξετε ήχο. Μέχρι τότε, το SpeakAlert θα χρησιμοποιεί τον προεπιλεγμένο ήχο ξυπνητηριού.</string>
+    <string name="set_choose_tone">Επιλογή ήχου</string>
+    <string name="set_use_default">Χρήση προεπιλογής</string>
+    <string name="set_default_alarm_tone">Προεπιλεγμένος ήχος ξυπνητηριού</string>
+    <string name="set_tone_unavailable">Ο επιλεγμένος ήχος δεν είναι διαθέσιμος, χρησιμοποιείται ο προεπιλεγμένος ήχος ξυπνητηριού</string>
+    <string name="set_select_label_time">Επιλογή ώρας: %1$s</string>
+    <string name="set_minutes">Λεπτά</string>
+    <string name="set_max_allowed">Μέγιστο επιτρεπτό: %1$d λεπτά</string>
+    <string name="set_desc_max">%1$s (Μέγ. %2$d λ.)</string>
+    <string name="set_label_time">%1$s: %2$s</string>
+    <string name="set_volume">Ένταση</string>
+    <string name="set_cd_volume">Ένταση εφαρμογής: %1$d%%</string>
+    <string name="set_loop_inline_desc">Πόση ώρα θα επαναλαμβάνεται ο ήχος πριν σταματήσει αυτόματα</string>
+    <string name="set_default_snooze">Προεπιλεγμένη αναβολή</string>
+    <string name="set_snooze_inline_desc">Πόση ώρα μετά την «Αναβολή» θα ειδοποιηθείτε ξανά</string>
+    <string name="set_default_followup">Προεπιλεγμένος επανέλεγχος</string>
+    <string name="set_followup_off_desc">Ανενεργό: οι νέες υπενθυμίσεις δεν θα έχουν επανέλεγχο. Μπορείτε να τον ενεργοποιήσετε ξεχωριστά σε κάθε υπενθύμιση.</string>
+    <string name="set_followup_on_desc">Οι νέες υπενθυμίσεις θα σας ειδοποιούν ξανά μετά από %1$d λεπτά αν δεν έχουν ολοκληρωθεί. Οι υπάρχουσες υπενθυμίσεις δεν αλλάζουν.</string>
+    <string name="set_followup_repeat">Όριο επαναλήψεων επανελέγχου</string>
+    <string name="set_followup_repeat_desc">Με την προεπιλογή (∞), οι επανέλεγχοι συνεχίζονται μέχρι να σημειώσετε την υπενθύμιση ως ολοκληρωμένη. Ορίστε ένα όριο για να σταματούν μετά από συγκεκριμένο αριθμό ειδοποιήσεων. Σταματούν επίσης στις ώρες ησυχίας.</string>
+    <string name="set_toast_followup_repeat_until_done">Ο επανέλεγχος επαναλαμβάνεται μέχρι την ολοκλήρωση</string>
+    <string name="set_toast_followup_repeat">Όριο επαναλήψεων επανελέγχου: %1$d×</string>
+    <string name="set_reliability">Αξιοπιστία</string>
+    <string name="set_persist">Η υπενθύμιση μένει στην οθόνη μέχρι την ολοκλήρωση</string>
+    <string name="set_persist_desc">Η ειδοποίηση παραμένει στην οθόνη μέχρι να πατήσετε «Ολοκληρώθηκε» ή «Αναβολή». Ενεργοποιήστε και τον επανέλεγχο αν θέλετε να ειδοποιηθείτε ξανά.</string>
+    <string name="set_toast_persist_on">Οι υπενθυμίσεις μένουν μέχρι την ολοκλήρωση</string>
+    <string name="set_toast_persist_off">Οι υπενθυμίσεις μπορούν να σαρωθούν</string>
+    <string name="set_all_granted">Δόθηκαν όλες οι άδειες</string>
+    <string name="set_some_needed">Χρειάζονται ορισμένες άδειες</string>
+    <string name="set_dnd_desc_needed">Ενεργό, αλλά χρειάζεται πρόσβαση Μην ενοχλείτε του Android για να λειτουργήσει η παράκαμψη.</string>
+    <string name="set_toast_dnd_on">Παράκαμψη Μην ενοχλείτε ενεργή</string>
+    <string name="set_toast_dnd_off">Παράκαμψη Μην ενοχλείτε ανενεργή</string>
+    <string name="set_battery_desc_ok">Το %1$s έχει ήδη άδεια να εκτελείται στο παρασκήνιο.</string>
+    <string name="set_wear_watches">Συνδέθηκαν %1$d ρολόγια Wear OS</string>
+    <string name="set_wear_none">Δεν υπάρχει συνδεδεμένο ρολόι Wear OS</string>
+    <string name="set_wear_channel_muted">Το κανάλι υπενθυμίσεων του %1$s είναι σε σίγαση. Ενεργοποιήστε το για να στέλνονται υπενθυμίσεις στο ρολόι.</string>
+    <string name="set_rate_desc">Μοιραστείτε την εμπειρία σας στο Google Play.</string>
+    <string name="set_tone_sound_active">%1$s. Αν δεν είναι διαθέσιμος, το SpeakAlert επιστρέφει στον προεπιλεγμένο ήχο ξυπνητηριού.</string>
+
+    <!-- More apps from the developer -->
+    <string name="set_more_apps_title">Περισσότερες εφαρμογές της GhostgramLabs</string>
+    <string name="set_more_apps_desc">Δωρεάν εφαρμογές από τους δημιουργούς του %1$s</string>
+    <string name="set_app_free_tag">Δωρεάν στο Google Play</string>
+    <string name="app_pettibox_name">PettiBox: Διαχείριση σελιδοδεικτών</string>
+    <string name="app_pettibox_desc">Δωρεάν • Ιδιωτική αποθήκευση για αργότερα συνδέσμων, σημειώσεων, αρχείων και στιγμιότυπων οθόνης, με αναζήτηση εκτός σύνδεσης</string>
+    <string name="app_directserve_name">DirectServe: Μεταφορά αρχείων</string>
+    <string name="app_directserve_desc">Δωρεάν • Μοιραστείτε και μεταδώστε αρχεία σε οποιαδήποτε συσκευή ή τηλεόραση — χωρίς cloud, χωρίς καλώδια</string>
+    <string name="set_toast_no_store">Δεν ήταν δυνατό το άνοιγμα του Google Play σε αυτή τη συσκευή.</string>
+
+    <!-- In-app rating prompt -->
+    <string name="rate_prompt_title">Το %1$s είναι δωρεάν. Η υποστήριξή σας μετράει.</string>
+    <string name="rate_prompt_message">Η κριτική σας βοηθά περισσότερους ανθρώπους να ανακαλύψουν το %1$s και μας ενθαρρύνει να συνεχίσουμε να το βελτιώνουμε. Αφιερώστε λίγο χρόνο για να μοιραστείτε την εμπειρία σας στο Google Play.</string>
+    <string name="rate_prompt_positive">Αξιολόγηση τώρα</string>
+    <string name="rate_prompt_later">Ίσως αργότερα</string>
+    <string name="rate_prompt_never">Όχι, ευχαριστώ</string>
+
+    <!-- Help guide -->
+    <string name="help_intro">Όλα τα σημαντικά για τη δημιουργία, την αναπαραγωγή, την επανάληψη και την ανάκτηση υπενθυμίσεων στο %1$s.</string>
+    <string name="help_s1_title">Όταν ειδοποιεί μια υπενθύμιση</string>
+    <string name="help_s1_content">Στην οθόνη κλειδώματος και στην ειδοποίηση θα βρείτε τα εξής κουμπιά:\n- Ολοκληρώθηκε: Ολοκληρώνει την εργασία για αυτή τη φορά. Αν η υπενθύμιση επαναλαμβάνεται, οι επόμενες ειδοποιήσεις παραμένουν.\n- Σίγαση: Σταματά μόνο τον ήχο. Η υπενθύμιση μένει στην οθόνη για να αποφασίσετε αργότερα.\n- Αναβολή: Σας ειδοποιεί ξανά σε λίγο. Στην ειδοποίηση πλήρους οθόνης μπορείτε να επιλέξετε 5 ή 10 λεπτά.\n- Αναπαραγωγή / Εκφώνηση: Εμφανίζεται όταν δεν ακούγεται κάτι. Σας επιτρέπει να ακούσετε ξανά την ηχογράφηση ή το γραπτό μήνυμα.\nΜόνο το «Ολοκληρώθηκε» ολοκληρώνει την εργασία. Η διακοπή του ήχου την αφήνει σε εκκρεμότητα.</string>
+    <string name="help_s2_title">Δημιουργία υπενθυμίσεων</string>
+    <string name="help_s2_content">- Πρώτα η φωνή: πατήστε το μικρόφωνο για να ηχογραφήσετε γρήγορα μια υπενθύμιση.\n- Αρχείο ήχου: επιλέξτε ένα υπάρχον αρχείο ήχου από τη συσκευή.\n- Μήνυμα υπενθύμισης: εμφανίζεται στην εφαρμογή και στις ειδοποιήσεις.\n- Οι φωνητικές σημειώσεις και τα αρχεία ήχου έχουν προτεραιότητα έναντι του εκφωνούμενου κειμένου.\n- Οι υπενθυμίσεις κειμένου εκφωνούνται αυτόματα μόνο όταν περιέχουν μόνο κείμενο και είναι ενεργή η αυτόματη εκφώνηση κειμένου.\n- Σύντομη ετικέτα: προαιρετικό όνομα για ευκολότερη αναζήτηση στις λίστες.\n- Πρόγραμμα: επιλέξτε ημερομηνία, ώρα, επανάληψη, επανέλεγχο και αποθηκεύστε.</string>
+    <string name="help_s3_title">Αναπαραγωγή και προεπισκόπηση</string>
+    <string name="help_s3_content">- Στην Προσθήκη υπενθύμισης μπορείτε να ακούσετε τη φωνή που ηχογραφήσατε και τον επιλεγμένο ήχο πριν από την αποθήκευση.\n- Στις λεπτομέρειες της υπενθύμισης μπορείτε να αναπαράγετε, να σταματήσετε και να μετακινηθείτε σε φωνητικές σημειώσεις και αρχεία ήχου.\n- Οι υπενθυμίσεις μόνο κειμένου μπορούν να εκφωνηθούν χειροκίνητα από την εφαρμογή ή την ειδοποίηση.\n- Η λειτουργία μόνο ήχου χρησιμοποιεί τον ήχο υπενθύμισης αντί για εκφώνηση.\n- Μπορείτε να επιλέξετε ήχο ειδοποίησης μόνο ήχου στις Ρυθμίσεις, και το %1$s επιστρέφει στον προεπιλεγμένο ήχο ξυπνητηριού αν αυτός ο ήχος δεν είναι πια διαθέσιμος.</string>
+    <string name="help_s4_title">Αρχική και γρήγορες ενέργειες</string>
+    <string name="help_s4_content">- Οι καρτέλες Σήμερα, Επερχόμενες, Χαμένες και Ολοκληρωμένες ομαδοποιούν τις υπενθυμίσεις ανά κατάσταση.\n- Πατήστε μια κάρτα για να ανοίξετε όλες τις λεπτομέρειες της υπενθύμισης.\n- Χρησιμοποιήστε το κουμπί αντιγραφής για να αντιγράψετε μια υπάρχουσα υπενθύμιση.\n- Οι ενέργειες της κάρτας περιλαμβάνουν Αναπαραγωγή, Ολοκληρώθηκε και το μενού τριών τελειών για Επεξεργασία, Σήμανση ως ολοκληρωμένη, Διακοπή επανάληψης ή Διαγραφή.</string>
+    <string name="help_s18_title">Παύση υπενθυμίσεων και μηνύματα στην αρχική</string>
+    <string name="help_s18_content">- Πατήστε το κουμπί παύσης στην αρχική οθόνη για να σταματήσετε όλες τις υπενθυμίσεις για μία ώρα, τέσσερις ώρες, το υπόλοιπο της ημέρας ή μέχρι μια ώρα που επιλέγετε.\n- Κάθε παύση έχει ώρα λήξης. Η αρχική την εμφανίζει, μαζί με το Συνέχιση για να τη λήξετε νωρίτερα.\n- Μια υπενθύμιση σε παύση δεν ειδοποιεί, αλλά εμφανίζεται στην καρτέλα Χαμένες.\n- Η παύση υπερισχύει επίσης της ρύθμισης Ειδοποίηση ακόμη και σε Μην ενοχλείτε, γιατί σημαίνει ότι δεν θέλετε καθόλου υπενθυμίσεις αυτή τη στιγμή.\n- Η αρχική σας προειδοποιεί όταν αυτό το τηλέφωνο μπορεί να σταματήσει το %1$s στο παρασκήνιο και δείχνει το διάστημα των ωρών ησυχίας όσο είναι ενεργές.</string>
+    <string name="help_s5_title">Επαναλαμβανόμενες υπενθυμίσεις</string>
+    <string name="help_s5_content">- Τρόποι επανάληψης: Καθημερινά, Εβδομαδιαία, Μηνιαία, Ετήσια ή Προσαρμογή.\n- Η επιλεγμένη ημερομηνία και ώρα γίνονται η πρώτη επανάληψη.\n- Οι επαναλήψεις μπορούν να συνεχίζονται για πάντα, να λήγουν σε συγκεκριμένη ημερομηνία και ώρα ή μετά από αριθμό επαναλήψεων.\n- Η σήμανση μιας επαναλαμβανόμενης υπενθύμισης ως ολοκληρωμένης ολοκληρώνει μόνο την τρέχουσα επανάληψη.</string>
+    <string name="help_s6_title">Ειδοποιήσεις και ειδοποιήσεις πλήρους οθόνης</string>
+    <string name="help_s6_content">- Η ειδοποίηση της υπενθύμισης εμφανίζει τρία γρήγορα κουμπιά: Ολοκληρώθηκε, Αναβολή και είτε Σίγαση (όσο παίζει) είτε Αναπαραγωγή/Εκφώνηση (για να την ακούσετε ξανά).\n- Το Ολοκληρώθηκε σημειώνει την υπενθύμιση ως ολοκληρωμένη· η Σίγαση σταματά μόνο τον ήχο και κρατά την υπενθύμιση για να ενεργήσετε αργότερα.\n- Η σάρωση της ειδοποίησης σημειώνει επίσης την τρέχουσα επανάληψη ως ολοκληρωμένη.\n- Όταν είναι ενεργή στις Ρυθμίσεις, μπορεί να εμφανιστεί ειδοποίηση πλήρους οθόνης στην οθόνη κλειδώματος με τις ίδιες ενέργειες Ολοκληρώθηκε, Σίγαση, Αναβολή και Αναπαραγωγή ξανά.</string>
+    <string name="help_s7_title">Χαμένες και ανακτημένες υπενθυμίσεις</string>
+    <string name="help_s7_content">- Οι χαμένες υπενθυμίσεις μένουν στην καρτέλα Χαμένες μέχρι να τις ελέγξετε.\n- Όταν ανοίγετε την εφαρμογή, ένα φύλλο ανάκτησης μπορεί να προσφέρει γρήγορη αναπαραγωγή της πιο πρόσφατης χαμένης υπενθύμισης.\n- Οι παλιές υπενθυμίσεις μπορούν να επαναφερθούν, να επαναπρογραμματιστούν ή να αναπαραχθούν ξανά από το φύλλο ενεργειών τους.</string>
+    <string name="help_s8_title">Ρυθμίσεις αναπαραγωγής</string>
+    <string name="help_s8_content">- Με ενεργή την αυτόματη αναπαραγωγή, η ηχογράφηση ή το αρχείο ήχου ακούγεται στην ώρα της υπενθύμισης.\n- Το κείμενο διαβάζεται αυτόματα μόνο αν δεν υπάρχει ηχογράφηση ή αρχείο ήχου και έχετε ενεργοποιήσει την αυτόματη εκφώνηση.\n- Η γλώσσα στην οποία διαβάζονται οι υπενθυμίσεις. Η αυτόματη ανίχνευση επιλέγει τη γλώσσα του μηνύματος. Πρέπει να έχετε εγκαταστήσει φωνή για αυτή τη γλώσσα στις ρυθμίσεις μετατροπής κειμένου σε ομιλία του τηλεφώνου. Μπορείτε επίσης να επιλέξετε τη γλώσσα του τηλεφώνου ή τα Αγγλικά. Με την αυτόματη ανίχνευση, ένα μήνυμα στα Χίντι διαβάζεται στα Χίντι.\n- Ακόμη κι αν απενεργοποιήσετε την αυτόματη εκφώνηση, μπορείτε να πατήσετε το κουμπί για να ακούσετε το μήνυμα.\n- Χρησιμοποιεί πρώτα τα συνδεδεμένα ακουστικά βαρηκοΐας, τις συσκευές Bluetooth ή τα ενσύρματα ακουστικά. Αν δεν υπάρχει κανένα, ο ήχος ακούγεται από το ακουστικό κλήσεων αντί για το ηχείο.\n- Η αναπαραγωγή σε επανάληψη συνεχίζει τον ήχο μέχρι να τον σταματήσετε ή να λήξει ο χρόνος που ορίσατε.\n- Ο επανέλεγχος ρωτά ξανά μέχρι να σημειώσετε την εργασία ως ολοκληρωμένη.\n- Οι ώρες ησυχίας μπορούν να σταματούν τον ήχο των υπενθυμίσεων στο διάστημα που επιλέγετε.</string>
+    <string name="help_s9_title">Λειτουργία μόνο ήχου και αξιοπιστία</string>
+    <string name="help_s9_content">- Η λειτουργία μόνο ήχου χρησιμοποιεί έναν καθαρό ήχο ξυπνητηριού αντί για φωνή ή TTS.\n- Μπορείτε να επιλέξετε προσαρμοσμένο ήχο ειδοποίησης ή να κρατήσετε τον προεπιλεγμένο ήχο ξυπνητηριού.\n- Η ρύθμιση Ειδοποίηση ακόμη και σε Μην ενοχλείτε επιτρέπει στο %1$s να προσπαθεί να παίζει σημαντικές υπενθυμίσεις όσο είναι ενεργή η λειτουργία Μην ενοχλείτε.\n- Όταν αυτή η ρύθμιση είναι ανενεργή, οι υπενθυμίσεις που μπλοκάρει η λειτουργία Μην ενοχλείτε πηγαίνουν στις Χαμένες αντί να παίξουν.\n- Αυτή η ρύθμιση δεν ενεργοποιεί ούτε απενεργοποιεί τη λειτουργία Μην ενοχλείτε του τηλεφώνου. Χρειάζεται πρόσβαση Μην ενοχλείτε του Android πριν ενεργοποιηθεί η παράκαμψη.\n- Όταν είναι ενεργή, οι υπενθυμίσεις χρησιμοποιούν ήχο προτεραιότητας ξυπνητηριού. Ορισμένες ρουτίνες του τηλεφώνου μπορεί ακόμη να μπλοκάρουν τα ξυπνητήρια αν η λειτουργία συστήματος κάνει σίγαση στον ήχο ξυπνητηριού.\n- Αν ο επιλεγμένος ήχος λείψει αργότερα, το %1$s επιστρέφει αυτόματα στον προεπιλεγμένο ήχο ξυπνητηριού.\n- Χρησιμοποιήστε τη λειτουργία μόνο ήχου αν το τηλέφωνό σας καθυστερεί, καταστέλλει ή σταματά την εκφώνηση.\n- Στις Ρυθμίσεις &gt; Αξιοπιστία θα βρείτε τον Οδηγό βελτιστοποίησης μπαταρίας για τηλέφωνα με αυστηρούς περιορισμούς παρασκηνίου.\n- Κρατήστε ενεργές τις ειδοποιήσεις, τα ακριβή ξυπνητήρια και τις ρυθμίσεις μπαταρίας για τη μέγιστη αξιοπιστία.</string>
+    <string name="help_s10_title">Γραφικά στοιχεία και Wear OS</string>
+    <string name="help_s10_content">- Το γραφικό στοιχείο Γρήγορη υπενθύμιση ανοίγει απευθείας την Προσθήκη υπενθύμισης.\n- Το γραφικό στοιχείο Επερχόμενες εμφανίζει επερχόμενες και χαμένες υπενθυμίσεις.\n- Η υποστήριξη Wear OS εξαρτάται από τις ενεργές ειδοποιήσεις του τηλεφώνου και τον συγχρονισμό του ρολογιού.</string>
+    <string name="help_s11_title">Μετά από επανεκκίνηση της συσκευής</string>
+    <string name="help_s11_content">- Οι μελλοντικές υπενθυμίσεις επαναπρογραμματίζονται αυτόματα μετά την επανεκκίνηση.\n- Οι υπενθυμίσεις που έχουν ήδη περάσει ακολουθούν τη ροή χαμένων υπενθυμίσεων αντί να ενεργοποιηθούν απρόσμενα κατά την εκκίνηση.</string>
+    <string name="help_s13_title">Επανέλεγχοι</string>
+    <string name="help_s13_content">- Ένας επανέλεγχος ρωτά «Ολοκληρώσατε …;» λίγα λεπτά αφότου ενεργοποιηθεί μια υπενθύμιση.\n- Από προεπιλογή επαναλαμβάνεται μέχρι να σημειώσετε την υπενθύμιση ως ολοκληρωμένη. Μπορείτε να ορίσετε όριο επαναλήψεων στις Ρυθμίσεις &gt; Αξιοπιστία αν θέλετε να σταματά μόνος του.\n- Το Ολοκληρώθηκε και η Αναβολή τερματίζουν τον τρέχοντα κύκλο επανελέγχου· οι ώρες ησυχίας σταματούν επίσης τους επανελέγχους.\n- Οι επανέλεγχοι συνεχίζονται μετά από επανεκκίνηση της συσκευής μέχρι την ολοκλήρωση ή το όριο.</string>
+    <string name="help_s14_title">Αντίγραφο ασφαλείας και εισαγωγή</string>
+    <string name="help_s14_content">- Το Αντίγραφο ασφαλείας υπενθυμίσεων στις Ρυθμίσεις αποθηκεύει όλες τις επερχόμενες υπενθυμίσεις, μαζί με τις φωνητικές ηχογραφήσεις, σε ένα αρχείο της επιλογής σας.\n- Η Εισαγωγή υπενθυμίσεων τις επαναφέρει σε αυτή ή σε άλλη συσκευή.\n- Η εισαγωγή παραλείπει ακριβή διπλότυπα και ληγμένες εφάπαξ υπενθυμίσεις· οι επαναλαμβανόμενες συνεχίζουν από την επόμενη επανάληψη.\n- Οι εισαγόμενες υπενθυμίσεις προγραμματίζονται αμέσως.</string>
+    <string name="help_s12_title">Οι υπενθυμίσεις μένουν στην οθόνη μέχρι την ολοκλήρωση</string>
+    <string name="help_s12_content">- Ενεργοποιήστε το Ρυθμίσεις &gt; Αξιοπιστία &gt; Η υπενθύμιση μένει στην οθόνη μέχρι την ολοκλήρωση για να καρφιτσωθεί η ειδοποίηση ώστε να μη σαρωθεί κατά λάθος.\n- Όσο είναι ενεργό, η σάρωση κάνει μόνο σίγαση και αφήνει την υπενθύμιση σε εκκρεμότητα — μένει μέχρι να πατήσετε Ολοκληρώθηκε ή Αναβολή.\n- Η σήμανση ως ολοκληρωμένη λειτουργεί πάντα από την ειδοποίηση, την ειδοποίηση πλήρους οθόνης ή την κάρτα υπενθύμισης, και σταματά κάθε επανέλεγχο.\n- Συνδυάστε το με επανέλεγχο ώστε η υπενθύμιση να ειδοποιεί ξανά με χρονόμετρο μέχρι να ολοκληρωθεί.</string>
+
+    <!-- What's new sheet -->
+    <string name="action_continue">Συνέχεια</string>
+    <string name="wn_title">Τι νέο υπάρχει στο %1$s</string>
+    <string name="wn_intro">Η διαχείριση υπενθυμίσεων γίνεται πιο εύκολη: αλλάξτε ημερομηνία και ώρα απευθείας στην υπενθύμιση, οι ειδοποιήσεις καθαρίζουν μόνες τους και οι φωνητικές υπενθυμίσεις αποθηκεύονται αμέσως.</string>
+    <string name="wn_edit_title">Αλλαγή ημερομηνίας και ώρας επιτόπου</string>
+    <string name="wn_edit_desc">Ανοίξτε μια υπενθύμιση και πατήστε Ημερομηνία ή Ώρα για να την αλλάξετε απευθείας. Δεν χρειάζεται να ανοίξετε πρώτα τον επεξεργαστή.</string>
+    <string name="wn_clear_title">Οι ειδοποιήσεις καθαρίζουν μόνες τους</string>
+    <string name="wn_clear_desc">Όταν ανοίγετε, αναπαράγετε, ολοκληρώνετε ή διαγράφετε μια υπενθύμιση στην εφαρμογή, η ειδοποίησή της φεύγει από το πλαίσιο ειδοποιήσεων. Με ενεργό το Η υπενθύμιση μένει στην οθόνη μέχρι την ολοκλήρωση, παραμένει μέχρι να τη σημειώσετε ως ολοκληρωμένη.</string>
+    <string name="wn_save_title">Οι φωνητικές υπενθυμίσεις αποθηκεύονται αμέσως</string>
+    <string name="wn_save_desc">Με ενεργή την πειραματική βελτίωση φωνής, η αποθήκευση δεν περιμένει πια τον καθαρισμό. Αυτός ολοκληρώνεται στο παρασκήνιο, και στο μεταξύ η υπενθύμιση εμφανίζει Φωνή · βελτιώνεται…</string>
+    <string name="wn_fullscreen_title">Η ειδοποίηση στην οθόνη κλειδώματος λειτουργεί πλέον</string>
+    <string name="wn_fullscreen_desc">Η ειδοποίηση πλήρους οθόνης στην πράξη δεν εμφανιζόταν ποτέ όταν ενεργοποιούνταν μια υπενθύμιση, όπως κι αν ήταν ρυθμισμένη. Τώρα ξυπνά την οθόνη και δείχνει την υπενθύμιση σε μια νέα οθόνη ειδοποίησης με μεγαλύτερα γράμματα και σαφέστερες ενέργειες.</string>
+    <string name="wn_pause_title">Παύση υπενθυμίσεων</string>
+    <string name="wn_pause_desc">Πηγαίνετε σε σύσκεψη; Κάντε παύση από την αρχική οθόνη για μία ώρα, για το υπόλοιπο της ημέρας ή μέχρι μια ώρα που επιλέγετε. Κάθε παύση έχει τέλος, και οι υπενθυμίσεις σε παύση εμφανίζονται στην καρτέλα Χαμένες.</string>
+    <string name="wn_notices_title">Η αρχική λέει γιατί μια υπενθύμιση ήταν σιωπηλή</string>
+    <string name="wn_notices_desc">Αν αυτό το τηλέφωνο μπορεί να σταματήσει το %1$s στο παρασκήνιο ή αν είναι ενεργές οι ώρες ησυχίας, η αρχική το λέει πλέον, αντί οι υπενθυμίσεις απλώς να μη φτάνουν.</string>
+    <string name="wn_lang_title">Τώρα στη γλώσσα σας</string>
+    <string name="wn_lang_desc">Όλη η εφαρμογή είναι διαθέσιμη στα Αγγλικά, Ισπανικά, Χίντι, Αραβικά, Πορτογαλικά (Βραζιλίας), Ρωσικά, Βιετναμικά, Βεγγαλικά, Τελούγκου, Ταμίλ, Ελληνικά και Μαλαγιάλαμ, με υποστήριξη γραφής από δεξιά προς αριστερά. Επιλέξτε γλώσσα στις Ρυθμίσεις &gt; Εμφάνιση &gt; Γλώσσα.</string>
+    <string name="wn_buttons_title">Σαφέστερα κουμπιά ξυπνητηριού</string>
+    <string name="wn_buttons_desc">Οι ειδοποιήσεις υπενθυμίσεων εμφανίζουν πλέον Ολοκληρώθηκε, Σίγαση και Αναβολή. Το Ολοκληρώθηκε ολοκληρώνει την εργασία· η Σίγαση απλώς σταματά τον ήχο και κρατά την υπενθύμιση.</string>
+    <string name="wn_spoken_title">Υπενθυμίσεις με τη σωστή φωνή</string>
+    <string name="wn_spoken_desc">Οι εκφωνούμενες υπενθυμίσεις διαβάζονται αυτόματα στη δική τους γλώσσα — μια υπενθύμιση στα Χίντι διαβάζεται στα Χίντι ακόμη κι αν η εφαρμογή είναι στα Ελληνικά. Ρυθμίστε το στις Ρυθμίσεις &gt; Αναπαραγωγή &gt; Γλώσσα εκφώνησης.</string>
+    <string name="wn_persist_title">Οι υπενθυμίσεις μένουν μέχρι την ολοκλήρωση</string>
+    <string name="wn_persist_desc">Ενεργοποιήστε το Ρυθμίσεις &gt; Αξιοπιστία &gt; Η υπενθύμιση μένει στην οθόνη μέχρι την ολοκλήρωση ώστε η υπενθύμιση να μένει καρφιτσωμένη και να καθαρίζει μόνο με Ολοκληρώθηκε ή Αναβολή.</string>
+    <string name="wn_backup_title">Αντίγραφα ασφαλείας και μεταφορά υπενθυμίσεων</string>
+    <string name="wn_backup_desc">Αποθηκεύστε όλες τις επερχόμενες υπενθυμίσεις — μαζί με τις ηχογραφήσεις — σε ένα αρχείο και επαναφέρετέ τες οποτεδήποτε, ακόμη και σε νέο τηλέφωνο. Θα το βρείτε στις Ρυθμίσεις.</string>
+    <string name="wn_followup_title">Επανέλεγχοι όπως τους θέλετε</string>
+    <string name="wn_followup_desc">Οι επανέλεγχοι συνεχίζουν να ειδοποιούν μέχρι να σημειώσετε την υπενθύμιση ως ολοκληρωμένη, όπως πριν. Νέο: ορίστε όριο επαναλήψεων στις Ρυθμίσεις &gt; Αξιοπιστία αν θέλετε να σταματούν μόνοι τους.</string>
+
+    <!-- Startup dialogs -->
+    <string name="action_allow">Να επιτρέπεται</string>
+    <string name="action_later">Αργότερα</string>
+    <string name="action_open_settings">Άνοιγμα ρυθμίσεων</string>
+    <string name="batt_prompt_title">Επιτρέψτε στο %1$s να εκτελείται στο παρασκήνιο</string>
+    <string name="batt_prompt_message">Ορισμένα τηλέφωνα, ειδικά μοντέλα Xiaomi και POCO, εμποδίζουν τις εφαρμογές να εκτελούνται στο παρασκήνιο για εξοικονόμηση μπαταρίας. Αυτό μπορεί να εμποδίσει την ενεργοποίηση των υπενθυμίσεων. Επιτρέψτε στο %1$s να αγνοεί τη βελτιστοποίηση μπαταρίας για πιο αξιόπιστες υπενθυμίσεις.</string>
+    <string name="batt_toast_unavailable">Οι ρυθμίσεις μπαταρίας δεν είναι διαθέσιμες σε αυτή τη συσκευή.</string>
+    <string name="home_batt_banner_title">Οι υπενθυμίσεις ίσως δεν φτάσουν</string>
+    <string name="home_batt_banner_body">Αυτό το τηλέφωνο μπορεί να σταματήσει το %1$s στο παρασκήνιο. Πατήστε για να επιτρέψετε απεριόριστη χρήση μπαταρίας.</string>
+    <string name="home_quiet_banner">Ώρες ησυχίας %1$s – %2$s. Οι υπενθυμίσεις πηγαίνουν στις Χαμένες.</string>
+    <string name="home_pause_banner">Υπενθυμίσεις σε παύση έως %1$s</string>
+    <string name="home_pause_resume">Συνέχιση</string>
+    <string name="home_pause_title">Παύση υπενθυμίσεων</string>
+    <string name="home_pause_body">Οι υπενθυμίσεις δεν θα ειδοποιούν μέχρι να λήξει η παύση. Θα πηγαίνουν ωστόσο στην καρτέλα Χαμένες.</string>
+    <string name="home_pause_1h">Για 1 ώρα</string>
+    <string name="home_pause_4h">Για 4 ώρες</string>
+    <string name="home_pause_today">Για το υπόλοιπο της ημέρας</string>
+    <string name="home_pause_pick">Επιλογή ώρας λήξης…</string>
+    <string name="home_pause_cd">Παύση υπενθυμίσεων</string>
+    <string name="home_pause_also_quiet">Οι ώρες ησυχίας είναι επίσης ενεργές, %1$s – %2$s.</string>
+    <string name="fsr_title">Επιτρέψτε ξανά τις ειδοποιήσεις πλήρους οθόνης</string>
+    <string name="fsr_message">Οι ειδοποιήσεις υπενθυμίσεων στην οθόνη κλειδώματος είναι ακόμη ενεργές στο %1$s, αλλά η πρόσβαση πλήρους οθόνης του Android είναι ανενεργή. Αυτό μπορεί να συμβεί μετά από επανεγκατάσταση ή επαναφορά.</string>
+    <!-- Version 2.0.34 help and startup highlights -->
+    <string name="help_s15_title">Προσαρμογή της φόρμας υπενθύμισης</string>
+    <string name="help_s15_content">- Ανοίξτε το Ρυθμίσεις &gt; Φόρμα υπενθύμισης για να εμφανίσετε ή να κρύψετε τη Φωνητική ηχογράφηση, την Επιλογή αρχείου ήχου, την Υπενθύμιση κειμένου και τη Σύντομη ετικέτα.\n- Κάθε διακόπτης λειτουργεί ανεξάρτητα. Αν κρυφτούν και οι τρεις τρόποι εισαγωγής, η Προσθήκη υπενθύμισης σάς λέει ποια ρύθμιση να ενεργοποιήσετε ξανά.\n- Κατά την επεξεργασία, μια κρυφή ενότητα εμφανίζεται αυτόματα αν η υπενθύμιση έχει ήδη τέτοιο περιεχόμενο.</string>
+    <string name="help_s16_title">Επιλογή τρόπου φωνητικής ηχογράφησης</string>
+    <string name="help_s16_content">- Ανοίξτε το Ρυθμίσεις &gt; Φόρμα υπενθύμισης &gt; Πειραματική βελτίωση φωνής.\n- Ανενεργό (προεπιλογή): διατηρεί την αρχική ακατέργαστη ηχογράφηση MIC/AAC χωρίς μεταεπεξεργασία.\n- Ενεργό: ενεργοποιεί τις νέες προστασίες ηχογράφησης, την ειδοποίηση σιωπής, τον καθαρισμό θορύβου περιβάλλοντος και την εξισορρόπηση της έντασης της φωνής. Τα αποτελέσματα και ο χρόνος επεξεργασίας διαφέρουν ανά συσκευή.\n- Οι σιωπηλές ηχογραφήσεις μπορούν ακόμη να προεπισκοπηθούν και να αποθηκευτούν.</string>
+    <string name="help_s17_title">Πιο αξιόπιστη αναπαραγωγή υπενθυμίσεων</string>
+    <string name="help_s17_content">- Η ειδοποίηση που απαιτεί το Android εμφανίζεται μόλις ξεκινήσει η αναπαραγωγή, ακόμη και σε νέες εκδόσεις Android ή τηλέφωνα που αργούν να ξεκινήσουν εργασίες στο παρασκήνιο.\n- Έτσι αποφεύγεται η διακοπή της υπενθύμισης λόγω λήξης του χρόνου αναμονής πριν αρχίσει ο ήχος.\n- Για αξιόπιστη λειτουργία, επιτρέψτε τις ειδοποιήσεις και τα ακριβή ξυπνητήρια και κρατήστε τις προτεινόμενες ρυθμίσεις μπαταρίας.</string>
+    <string name="wn_form_title">Η φόρμα υπενθύμισης όπως τη θέλετε</string>
+    <string name="wn_form_desc">Στο Ρυθμίσεις &gt; Φόρμα υπενθύμισης, εμφανίστε ή κρύψτε ανεξάρτητα τη Φωνητική ηχογράφηση, την Επιλογή αρχείου ήχου, την Υπενθύμιση κειμένου και τη Σύντομη ετικέτα.</string>
+    <string name="wn_recording_title">Προαιρετική πειραματική βελτίωση φωνής</string>
+    <string name="wn_recording_desc">Τώρα μπορείτε να επιλέξετε τρόπο ηχογράφησης. Από προεπιλογή η εγγραφή διατηρείται χωρίς επεξεργασία. Αν θέλετε, ενεργοποιήστε πρόσθετους ελέγχους, προειδοποίηση όταν δεν καταγράφεται ήχος και μείωση θορύβου περιβάλλοντος. Οι χαμηλόφωνες ηχογραφήσεις γίνονται πιο ευδιάκριτες χωρίς να δυναμώνει ο θόρυβος του δωματίου. Οι εγγραφές χωρίς ήχο αποθηκεύονται επίσης.</string>
+    <string name="wn_reliability_title">Πιο αξιόπιστο σε νεότερα τηλέφωνα Android</string>
+    <string name="wn_reliability_desc">Η αναπαραγωγή υπενθυμίσεων ξεκινά πλέον με ασφάλεια και αμέσως στο προσκήνιο, αποτρέποντας τα χρονικά όρια εκκίνησης που εμφανίζονταν σε ορισμένες συσκευές Android 12 και Android 16.</string>
+    <string name="settings_24_hour_time">Χρήση 24ωρης μορφής</string>
+    <string name="settings_24_hour_time_desc">Εμφάνιση κάθε ώρας ως 17:30 αντί για 5:30 μ.μ.</string>
+
+    <!-- Reminder card and actions sheet -->
+    <string name="card_recur_onetime">Εφάπαξ υπενθύμιση</string>
+    <string name="card_recur_daily">Επαναλαμβάνεται καθημερινά</string>
+    <string name="card_recur_last_day">Τελευταία ημέρα κάθε μήνα</string>
+    <string name="card_recur_yearly">Επαναλαμβάνεται ετήσια</string>
+    <string name="card_chip_recurring">Επαναλαμβανόμενη</string>
+    <string name="card_days_of_month">Ημέρες του μήνα</string>
+    <string name="card_cd_duplicate">Αντιγραφή υπενθύμισης</string>
+    <string name="card_cd_more">Περισσότερες επιλογές</string>
+    <string name="card_cd_looping">Σε επανάληψη</string>
+    <string name="card_cd_followup">Επανέλεγχος σε %1$d λεπτά</string>
+    <string name="card_cd_ends_after">Λήγει μετά από %1$d %2$s</string>
+    <string name="sheet_reminder_actions">Ενέργειες υπενθύμισης</string>
+    <string name="sheet_stop_playback">Διακοπή αναπαραγωγής</string>
+
+    <!-- Custom follow-up dialog -->
+    <string name="fu_custom_title">Προσαρμοσμένος επανέλεγχος</string>
+    <string name="fu_custom_desc">Ερώτηση ξανά μετά από τόσα λεπτά αν η υπενθύμιση δεν έχει σημειωθεί ως ολοκληρωμένη.</string>
+    <string name="fu_allowed_range">Επιτρέπεται: 1-%1$d λεπτά</string>
+
+    <!-- Voice recorder -->
+    <string name="vr_playing_audio">Αναπαραγωγή ήχου</string>
+    <string name="vr_voice_recorded">Η φωνή ηχογραφήθηκε</string>
+    <string name="vr_text_optional">Το κείμενο είναι προαιρετικό</string>
+    <string name="vr_tap_to_stop">Πατήστε για διακοπή</string>
+    <string name="vr_cd_level">Απεικόνιση στάθμης ήχου σε πραγματικό χρόνο</string>
+    <string name="vr_cd_stop">Διακοπή ηχογράφησης</string>
+    <string name="vr_cd_double_tap_stop">Πατήστε δύο φορές για διακοπή της ηχογράφησης</string>
+    <string name="vr_cd_preview_progress">Πρόοδος προεπισκόπησης φωνής</string>
+    <string name="vr_cd_start">Έναρξη φωνητικής ηχογράφησης</string>
+    <string name="vr_cd_restart">Νέα ηχογράφηση</string>
+
+    <!-- Date and time picker -->
+    <string name="dtp_title">Επιλογή ημερομηνίας και ώρας</string>
+    <string name="dtp_subtitle">Χρησιμοποιήστε τις γρήγορες επιλογές ή επιλέξτε ακριβή ημερομηνία και ώρα.</string>
+    <string name="dtp_quick_date">Γρήγορη ημερομηνία</string>
+    <string name="dtp_quick_time">Γρήγορη ώρα</string>
+    <string name="dtp_pick_date">Επιλογή ακριβούς ημερομηνίας</string>
+    <string name="dtp_pick_time">Επιλογή ακριβούς ώρας</string>
+    <string name="dtp_next_week">Επόμενη εβδομάδα</string>
+    <string name="dtp_plus_10">+10 λεπτά</string>
+    <string name="dtp_plus_30">+30 λεπτά</string>
+    <string name="dtp_plus_60">+1 ώρα</string>
+    <string name="dtp_err_future">Η ώρα πρέπει να είναι στο μέλλον</string>
+    <string name="dtp_err_date_future">Η ημερομηνία πρέπει να είναι σήμερα ή στο μέλλον</string>
+
+    <!-- Recurring completion dialog -->
+    <string name="rcd_title">Αυτή είναι επαναλαμβανόμενη υπενθύμιση</string>
+    <string name="rcd_desc">Ολοκληρώστε μόνο αυτή τη φορά, αλλάξτε τις ώρες επανάληψης ή σταματήστε όλες τις επόμενες.</string>
+    <string name="rcd_mark_occurrence">Σήμανση αυτής της επανάληψης ως ολοκληρωμένης</string>
+    <string name="rcd_edit_schedule">Επεξεργασία προγράμματος</string>
+    <string name="rcd_stop_recurring">Διακοπή επανάληψης</string>
+
+    <!-- Restore reminder dialog -->
+    <string name="rrd_title">Επαναφορά υπενθύμισης</string>
+    <string name="rrd_desc">Έχετε ήδη ολοκληρώσει αυτή την υπενθύμιση. Επιλέξτε πώς θέλετε να τη χρησιμοποιήσετε ξανά.</string>
+    <string name="rrd_reschedule">Επαναπρογραμματισμός υπενθύμισης</string>
+    <string name="rrd_move_missed">Μεταφορά στις Χαμένες</string>
+    <string name="rrd_play">Αναπαραγωγή υπενθύμισης</string>
+    <string name="rrd_keep_done">Να μείνει ολοκληρωμένη</string>
+
+    <!-- Missed reminder sheets -->
+    <string name="pua_title">Χαμένη υπενθύμιση</string>
+    <string name="pua_scheduled_for">Προγραμματισμένη για %1$s</string>
+    <string name="pua_set_new_time">Ορισμός νέας ώρας</string>
+    <string name="pua_just_play">Απλώς αναπαραγωγή της υπενθύμισης</string>
+    <string name="mrr_desc">Ακούστε τώρα την πιο πρόσφατη χαμένη υπενθύμιση ή αφήστε τις όλες στις «Χαμένες» για να τις δείτε αργότερα.</string>
+    <plurals name="mrr_title">
+        <item quantity="one">Χάσατε %1$d υπενθύμιση</item>
+        <item quantity="other">Χάσατε %1$d υπενθυμίσεις</item>
+    </plurals>
+    <string name="mrr_play_latest">Αναπαραγωγή της πιο πρόσφατης χαμένης</string>
+    <string name="mrr_keep">Να μείνουν στις Χαμένες</string>
+
+    <!-- Battery optimization guide -->
+    <string name="bog_title">Οδηγός βελτιστοποίησης μπαταρίας</string>
+    <string name="bog_header">Αξιόπιστες υπενθυμίσεις</string>
+    <string name="bog_header_sub">Ορισμένα τηλέφωνα παύουν ή σταματούν ξυπνητήρια στο παρασκήνιο, εκτός αν το %1$s εξαιρείται από τους περιορισμούς μπαταρίας.</string>
+    <string name="bog_intro">Ορισμένες συσκευές σταματούν τα ξυπνητήρια στο παρασκήνιο για εξοικονόμηση μπαταρίας. Αυτό μπορεί να εμποδίσει την ενεργοποίηση των υπενθυμίσεων.</string>
+    <string name="bog_menu_vary">Τα ονόματα των μενού διαφέρουν ανάλογα με MIUI, HyperOS, EMUI, έκδοση Android και μοντέλο τηλεφώνου.</string>
+    <string name="bog_allow_app">Να επιτρέπεται το %1$s</string>
+    <string name="bog_back_settings">Πίσω στις Ρυθμίσεις</string>
+    <string name="bog_brand_xiaomi">Xiaomi / POCO / Redmi (MIUI / HyperOS)</string>
+    <string name="bog_brand_huawei">Huawei (EMUI)</string>
+    <string name="bog_step">Βήμα %1$d</string>
+    <string name="bog_optional">Προαιρετικό</string>
+    <string name="bog_open_settings">Άνοιγμα Ρυθμίσεων</string>
+    <string name="bog_find_app">Βρείτε το %1$s</string>
+    <string name="bog_xiaomi_battery">Πατήστε Μπαταρία</string>
+    <string name="bog_xiaomi_optimization">Πατήστε Βελτιστοποίηση μπαταρίας</string>
+    <string name="bog_xiaomi_no_restrictions">Επιλέξτε Χωρίς περιορισμούς</string>
+    <string name="bog_xiaomi_opt">Κλειδώστε την εφαρμογή στην οθόνη πρόσφατων εφαρμογών.</string>
+    <string name="bog_huawei_apps">Ανοίξτε Εφαρμογές ή Εκκίνηση εφαρμογών</string>
+    <string name="bog_huawei_manage_off">Απενεργοποιήστε τη Διαχείριση αυτόματα</string>
+    <string name="bog_huawei_allow">Επιτρέψτε αυτόματη εκκίνηση, δευτερεύουσα εκκίνηση και εκτέλεση στο παρασκήνιο</string>
+    <string name="bog_huawei_opt">Ελέγξτε επίσης τη Βελτιστοποίηση μπαταρίας και ορίστε το %1$s σε Να μην επιτρέπεται.</string>
+    <string name="bog_status_enabled">Η βελτιστοποίηση μπαταρίας είναι ακόμη ενεργή για το %1$s.</string>
+    <string name="bog_status_exempt">Το %1$s έχει ήδη άδεια να εκτελείται χωρίς βελτιστοποίηση μπαταρίας.</string>
+    <string name="bog_no_battery_settings">Οι ρυθμίσεις μπαταρίας δεν είναι διαθέσιμες σε αυτή τη συσκευή.</string>
+    <string name="bog_why_title">Γιατί έχει σημασία</string>
+    <string name="bog_why_body">Τηλέφωνα Xiaomi, POCO, Redmi, Huawei και παρόμοιων εταιρειών μπορεί να σταματούν επιθετικά τις εφαρμογές στο παρασκήνιο. Χρησιμοποιήστε τον κατασκευαστή και την έκδοση λογισμικού ως οδηγό· οι ακριβείς διαδρομές διαφέρουν ανά μοντέλο.</string>
+
+    <!-- Reminder card accessibility description -->
+    <string name="a11y_card_reminder">Υπενθύμιση: %1$s</string>
+    <string name="a11y_card_at">στις %1$s</string>
+    <string name="a11y_card_has_audio_file">έχει αρχείο ήχου</string>
+    <string name="a11y_card_has_voice">έχει φωνητική σημείωση</string>
+    <string name="a11y_card_recurring">επαναλαμβανόμενη %1$s</string>
+    <string name="a11y_card_completed">ολοκληρωμένη</string>
+    <string name="a11y_card_playing">αναπαράγεται τώρα</string>
+    <string name="a11y_card_open_hint">Πατήστε δύο φορές για να ανοίξουν οι λεπτομέρειες.</string>
+
+    <!-- Accessibility states -->
+    <string name="state_completed">Ολοκληρωμένη</string>
+    <string name="state_playing">Αναπαράγεται</string>
+    <string name="a11y_percent">%1$d τοις εκατό</string>
+    <string name="a11y_destructive">Μη αναστρέψιμη ενέργεια</string>
+    <string name="a11y_recording_in_progress">Ηχογράφηση σε εξέλιξη</string>
+    <string name="a11y_playing_preview">Αναπαραγωγή προεπισκόπησης ήχου</string>
+    <string name="a11y_voice_recorded">Η φωνητική σημείωση ηχογραφήθηκε</string>
+    <string name="a11y_no_voice_recorded">Δεν ηχογραφήθηκε φωνητική σημείωση</string>
+    <plurals name="card_occurrences">
+        <item quantity="one">%1$d επανάληψη</item>
+        <item quantity="other">%1$d επαναλήψεις</item>
+    </plurals>
+
+    <!-- Test reminder -->
+    <string name="set_test_reminder_title">Δοκιμαστική υπενθύμιση</string>
+    <string name="set_test_reminder_text">Αυτή είναι μια δοκιμαστική υπενθύμιση για τον έλεγχο της αναπαραγωγής. Ενεργοποιείται 10 δευτερόλεπτα μετά τη δημιουργία της.</string>
+    <string name="widget_quick_subtitle">Γρήγορη προσθήκη</string>
+    <string name="widget_upcoming_subtitle">Επερχόμενες και χαμένες υπενθυμίσεις</string>
+    <string name="widget_upcoming_empty">Δεν υπάρχουν επερχόμενες ή χαμένες υπενθυμίσεις</string>
+    <string name="card_type_audio_file">Αρχείο ήχου</string>
+    <string name="card_type_voice_improving">Φωνή · βελτιώνεται…</string>
+    <string name="card_type_voice">Φωνή</string>
+    <string name="card_type_text">Κείμενο</string>
+    <string name="card_voice_recording">Φωνητική ηχογράφηση</string>
+    <string name="card_custom_audio_file">Προσαρμοσμένο αρχείο ήχου</string>
+    <string name="card_text_note">Σημείωση κειμένου</string>
+    <string name="sheet_mark_this_done">Σήμανση ως ολοκληρωμένη</string>
+    <string name="sheet_delete_reminder">Διαγραφή υπενθύμισης</string>
+    <string name="vr_recording_ellipsis">Ηχογράφηση…</string>
+    <string name="vr_play_recording">Αναπαραγωγή ηχογράφησης</string>
+    <string name="rcd_sub_keep_next">Η επόμενη επανάληψη μένει προγραμματισμένη</string>
+    <string name="rcd_sub_change_rules">Αλλαγή κανόνων επανάληψης ή ώρας</string>
+    <string name="rcd_sub_delete_future">Διαγραφή αυτής της υπενθύμισης και των μελλοντικών επαναλήψεων</string>
+    <string name="rrd_sub_pick_new">Επιλογή νέας ημερομηνίας και ώρας</string>
+    <string name="rrd_sub_keep_missed">Να μείνει στις Χαμένες για αργότερα</string>
+    <string name="rrd_sub_hear_now">Ακρόαση τώρα χωρίς επαναφορά</string>
+    <string name="rrd_sub_leave_done">Η υπενθύμιση μένει ολοκληρωμένη</string>
+    <string name="mrr_sub_start_now">Έναρξη αναπαραγωγής αμέσως</string>
+    <string name="set_tab_form">Φόρμα</string>
+    <string name="set_tab_play">Ήχος</string>
+    <string name="set_tab_time">Χρόνος</string>
+    <string name="set_tab_safe">Ασφάλεια</string>
+    <string name="set_tab_backup">Αντίγραφα</string>
+    <string name="set_tab_wear">Ρολόι</string>
+    <string name="set_tab_help">Βοήθεια</string>
+</resources>

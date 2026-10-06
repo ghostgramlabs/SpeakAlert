@@ -1,0 +1,772 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_tagline">অফলাইন ভয়েস রিমাইন্ডার</string>
+    <string name="widget_quick_caption">সঙ্গে সঙ্গে রিমাইন্ডার যোগ করুন</string>
+    <string name="widget_quick_description">হোম স্ক্রিন থেকে সরাসরি রিমাইন্ডার ফর্ম খুলুন</string>
+    <string name="widget_upcoming_description">আপনার পরবর্তী নির্ধারিত রিমাইন্ডারগুলো দেখায়</string>
+
+    <!-- Settings -->
+    <string name="settings_language">অ্যাপের ভাষা</string>
+    <string name="settings_language_system">ডিভাইসের ভাষা অনুসরণ করুন</string>
+    <string name="settings_language_description">অ্যাপে সমর্থিত ভাষা: ইংরেজি, স্প্যানিশ, হিন্দি, আরবি, পর্তুগিজ (ব্রাজিল), রুশ, ভিয়েতনামি, বাংলা, তেলুগু, তামিল, গ্রিক ও মালয়ালম।\nডিভাইসের ভাষা অনুসরণ করলে ফোনের একটি সমর্থিত ভাষা বেছে নেওয়া হয়; না থাকলে অ্যাপ ইংরেজি ব্যবহার করে।\nবলা রিমাইন্ডার আপনার ফোনে ইনস্টল করা কণ্ঠের উপর নির্ভর করে। এগুলো আলাদাভাবে প্লেব্যাক &gt; পড়ে শোনানোর ভাষায় সেট করুন।</string>
+
+    <!-- Notification actions -->
+    <string name="notif_action_done">সম্পন্ন</string>
+    <string name="notif_action_silence">শব্দ বন্ধ করুন</string>
+    <string name="notif_action_snooze">স্নুজ</string>
+    <string name="notif_action_play">চালান</string>
+    <string name="notif_action_speak">বলুন</string>
+    <string name="notif_default_title">ভয়েস রিমাইন্ডার</string>
+    <string name="notif_default_text">রিমাইন্ডার চালাতে ট্যাপ করুন</string>
+    <string name="notif_action_replay">আবার চালান</string>
+    <string name="notif_action_stop">থামান</string>
+    <string name="notif_playback_processing">প্রক্রিয়া হচ্ছে…</string>
+    <string name="notif_playback_speaking">বলা হচ্ছে: \"%1$s\"</string>
+    <string name="notif_reminder_missing">এই রিমাইন্ডারটি খুঁজে পাওয়া যায়নি।</string>
+    <string name="notif_missed_title">মিস হয়েছে: %1$s</string>
+    <string name="notif_missed_scheduled_tap">%1$s-এর জন্য নির্ধারিত - খুলতে ট্যাপ করুন</string>
+    <string name="notif_missed_scheduled_audio_unavailable">%1$s-এর জন্য নির্ধারিত। বেছে নেওয়া অডিও ফাইলটি পাওয়া যাচ্ছে না।</string>
+    <string name="notif_missed_scheduled">নির্ধারিত: %1$s</string>
+    <string name="fallback_reminder_title">রিমাইন্ডার</string>
+    <string name="toast_audio_unavailable">বেছে নেওয়া অডিও ফাইলটি পাওয়া যাচ্ছে না।</string>
+    <string name="tts_voice_hint">%1$s কণ্ঠ ইনস্টল করা নেই। রিমাইন্ডার পড়ে শোনানোর জন্য ফোনের টেক্সট-টু-স্পিচ সেটিংসে এটি যোগ করুন।</string>
+    <string name="tts_voice_hint_this_language">এই ভাষার</string>
+
+    <!-- Alert payload (notification / spoken follow-up text) -->
+    <string name="alert_followup_fallback_title">ফলো-আপ চেক</string>
+    <string name="alert_followup_question">আপনি কি %1$s সম্পন্ন করেছেন?</string>
+    <string name="alert_followup_this_reminder">এই রিমাইন্ডার</string>
+    <string name="alert_audio_unavailable_full">বেছে নেওয়া অডিও ফাইলটি পাওয়া যাচ্ছে না। অন্য ফাইল বেছে নিতে ট্যাপ করুন।</string>
+    <string name="alert_tap_to_view">দেখতে ট্যাপ করুন</string>
+
+    <!-- Section titles -->
+    <string name="set_section_timing">স্নুজ ও ফলো-আপ</string>
+    <string name="set_section_backup">ব্যাকআপ ও পুনরুদ্ধার</string>
+    <string name="set_section_about">সাহায্য ও পরিচিতি</string>
+
+    <!-- Backup & restore -->
+    <string name="set_backup_export">রিমাইন্ডার ব্যাকআপ নিন</string>
+    <string name="set_backup_export_desc">রেকর্ডিংসহ আপনার আসন্ন রিমাইন্ডারগুলো একটি ফাইলে সংরক্ষণ করুন</string>
+    <string name="set_backup_import">রিমাইন্ডার ইমপোর্ট করুন</string>
+    <string name="set_backup_import_desc">ব্যাকআপ ফাইল থেকে রিমাইন্ডার পুনরুদ্ধার করুন</string>
+    <string name="backup_export_none">ব্যাকআপ নেওয়ার মতো কোনো আসন্ন রিমাইন্ডার নেই।</string>
+    <string name="backup_export_success">%1$dটি রিমাইন্ডারের ব্যাকআপ নেওয়া হয়েছে।</string>
+    <string name="backup_export_failed">ব্যাকআপ ব্যর্থ হয়েছে।</string>
+    <string name="backup_import_success">%1$dটি রিমাইন্ডার ইমপোর্ট করা হয়েছে।</string>
+    <string name="backup_import_skipped">%1$dটি রিমাইন্ডার ইমপোর্ট করা হয়েছে (%2$dটি ডুপ্লিকেট ও %3$dটি মেয়াদোত্তীর্ণ বাদ দেওয়া হয়েছে)।</string>
+    <string name="backup_import_failed">ইমপোর্ট ব্যর্থ হয়েছে। একটি SpeakAlert ব্যাকআপ ফাইল বেছে নিন।</string>
+
+    <!-- Notification channels (visible in system Settings) -->
+    <string name="channel_reminders_name">%1$s রিমাইন্ডার</string>
+    <string name="channel_reminders_desc">%1$s রিমাইন্ডারের নোটিফিকেশন</string>
+    <string name="channel_tone_only_name">%1$s শুধু-টোন অ্যালার্ট</string>
+    <string name="channel_tone_only_desc">শুধু ভাইব্রেশনসহ শুধু-টোন নোটিফিকেশন; প্লেব্যাক টোন %1$s চালায়</string>
+    <string name="channel_dnd_bypass_name">%1$s রিমাইন্ডার (বিরক্ত করবেন না উপেক্ষা)</string>
+    <string name="channel_dnd_bypass_desc">Android অনুমতি দিলে বিরক্ত করবেন না চালু থাকার সময়ও অ্যালার্ট দিতে পারে এমন রিমাইন্ডার অ্যালার্ম</string>
+    <string name="channel_tone_only_bypass_name">%1$s শুধু-টোন অ্যালার্ট (বিরক্ত করবেন না উপেক্ষা)</string>
+    <string name="channel_tone_only_bypass_desc">Android অনুমতি দিলে বিরক্ত করবেন না চালু থাকার সময়ও অ্যালার্ট দিতে পারে এমন শুধু-টোন রিমাইন্ডার</string>
+    <string name="pua_sub_reschedule">এই রিমাইন্ডারের সময় আবার ঠিক করুন</string>
+    <string name="pua_sub_play_now">সময় না বদলে এখনই শুনুন</string>
+    <string name="pua_sub_keep_done">সম্পন্ন হিসেবে রাখুন</string>
+    <string name="channel_playback_name">রিমাইন্ডার প্লেব্যাক</string>
+    <string name="channel_playback_desc">রিমাইন্ডার চলার সময় নিয়ন্ত্রণ দেখায়</string>
+    <string name="channel_silent_name">%1$s ফুল-স্ক্রিন অ্যালার্ট</string>
+    <string name="channel_silent_desc">রিমাইন্ডার জোরে বলা চলার সময় %1$s-এর ফুল-স্ক্রিন রিমাইন্ডার</string>
+    <string name="channel_silent_bypass_name">%1$s ফুল-স্ক্রিন অ্যালার্ট (বিরক্ত করবেন না উপেক্ষা)</string>
+    <string name="channel_silent_bypass_desc">Android অনুমতি দিলে বিরক্ত করবেন না চালু থাকার সময়ও অ্যালার্ট দিতে পারে এমন ফুল-স্ক্রিন রিমাইন্ডার</string>
+
+    <!-- Alarm alert screen -->
+    <string name="alert_mark_done">সম্পন্ন চিহ্নিত করুন</string>
+    <string name="alert_silence">শব্দ বন্ধ করুন</string>
+    <string name="alert_silence_now">এখনই শব্দ বন্ধ করুন</string>
+    <string name="alert_play_again">আবার চালান</string>
+    <string name="alert_snooze_minutes">স্নুজ %1$d মি</string>
+    <string name="alert_followup_reminder">ফলো-আপ রিমাইন্ডার</string>
+    <string name="alert_reminder_on_screen">স্ক্রিনে রিমাইন্ডার</string>
+    <string name="alert_followup_on_this">এই রিমাইন্ডারের ফলো-আপ</string>
+    <string name="alert_did_you_complete">আপনি কি এই রিমাইন্ডার সম্পন্ন করেছেন?</string>
+    <string name="alert_reminder_active">রিমাইন্ডার সক্রিয়</string>
+    <string name="alert_voice_reminder">ভয়েস রিমাইন্ডার</string>
+    <string name="alert_text_reminder">টেক্সট রিমাইন্ডার</string>
+    <string name="alert_followup_check">ফলো-আপ চেক</string>
+    <string name="alert_generic">অ্যালার্ট</string>
+    <string name="alert_playing_now">এখন চলছে</string>
+    <string name="alert_needs_response">উত্তর প্রয়োজন</string>
+    <string name="alert_awaiting_action">পদক্ষেপের অপেক্ষায়</string>
+    <string name="alert_scheduled_for">নির্ধারিত সময়</string>
+    <string name="alert_status">অ্যালার্টের অবস্থা</string>
+    <string name="alert_audio_playing">অডিও চলছে। থামাতে “শব্দ বন্ধ করুন” চাপুন।</string>
+    <string name="alert_waiting_done_snooze">সম্পন্ন বা স্নুজের অপেক্ষায়।</string>
+    <string name="alert_followup_label">ফলো-আপ</string>
+    <string name="alert_hint_with_play">পদক্ষেপ নেওয়ার আগে রিমাইন্ডার দেখিয়ে রাখুন, অডিও থামান বা আবার চালান।</string>
+    <string name="alert_hint_no_play">রিমাইন্ডার দেখিয়ে রাখুন, অথবা প্রস্তুত হলে সম্পন্ন বা স্নুজ বেছে নিন।</string>
+    <string name="alert_dock_hint">“শব্দ বন্ধ করুন” শুধু শব্দ থামায়। “সম্পন্ন” বা “স্নুজ” চাপলে লক স্ক্রিনের অ্যালার্ট সরে যায়।</string>
+    <plurals name="alert_followup_repeats">
+        <item quantity="one">সম্পন্ন না হওয়া পর্যন্ত প্রতি %1$d মিনিটে পুনরাবৃত্তি হয়।</item>
+        <item quantity="other">সম্পন্ন না হওয়া পর্যন্ত প্রতি %1$d মিনিটে পুনরাবৃত্তি হয়।</item>
+    </plurals>
+
+    <!-- Home -->
+    <string name="home_greeting_morning">সুপ্রভাত</string>
+    <string name="home_greeting_afternoon">শুভ দুপুর</string>
+    <string name="home_greeting_evening">শুভ সন্ধ্যা</string>
+    <string name="home_all_caught_up">সব কাজ শেষ!</string>
+    <plurals name="home_active_reminders">
+        <item quantity="one">আপনার %1$dটি সক্রিয় রিমাইন্ডার আছে</item>
+        <item quantity="other">আপনার %1$dটি সক্রিয় রিমাইন্ডার আছে</item>
+    </plurals>
+    <string name="home_filter_upcoming">আসন্ন</string>
+    <string name="home_filter_today">আজ</string>
+    <string name="home_filter_missed">মিস হওয়া</string>
+    <string name="home_filter_done">সম্পন্ন</string>
+    <string name="home_cd_settings">সেটিংস</string>
+    <string name="home_cd_help">সাহায্য ও নির্দেশনা</string>
+    <string name="home_cd_add">রিমাইন্ডার যোগ করুন</string>
+    <string name="home_cd_missed">মিস হওয়া রিমাইন্ডার</string>
+    <string name="home_dismiss_all">সব সরান</string>
+    <string name="home_empty_all_caught_up">সব কাজ শেষ!</string>
+    <string name="home_empty_no_missed">কোনো মিস হওয়া রিমাইন্ডার নেই</string>
+    <string name="home_empty_nothing_done">এখনো কিছু সম্পন্ন হয়নি</string>
+    <string name="home_empty_no_upcoming">কোনো আসন্ন রিমাইন্ডার নেই</string>
+    <string name="home_empty_no_reminders">এখনো কোনো রিমাইন্ডার নেই</string>
+    <string name="home_empty_done_sub">সম্পন্ন রিমাইন্ডারগুলো এখানে দেখা যাবে।</string>
+    <string name="home_empty_upcoming_sub">পরের জন্য নির্ধারিত রিমাইন্ডারগুলো এখানে দেখা যাবে।</string>
+    <string name="home_empty_default_sub">কণ্ঠ বা টেক্সট দিয়ে রিমাইন্ডার তৈরি করুন।</string>
+
+    <!-- Common actions -->
+    <string name="action_cancel">বাতিল</string>
+    <string name="action_close">বন্ধ করুন</string>
+    <string name="action_play_now">এখনই চালান</string>
+    <string name="action_stop">থামান</string>
+    <string name="action_dismiss">সরান</string>
+    <string name="action_apply">প্রয়োগ করুন</string>
+    <string name="action_undo">পূর্বাবস্থায় ফেরান</string>
+    <string name="action_open">খুলুন</string>
+    <string name="common_reminder">রিমাইন্ডার</string>
+    <string name="time_picker_title">সময় বেছে নিন</string>
+    <string name="err_date_future">তারিখ আজ বা পরের হতে হবে</string>
+    <string name="err_time_future">ভবিষ্যতের একটি সময় বেছে নিন</string>
+
+    <!-- Home dialogs -->
+    <string name="home_stop_recurring_title">পুনরাবৃত্ত রিমাইন্ডার বন্ধ করবেন?</string>
+    <string name="home_stop_recurring_msg">এতে এই রিমাইন্ডার ও ভবিষ্যতের সব পুনরাবৃত্তি মুছে যাবে। এটি ফেরানো যাবে না।</string>
+    <string name="home_stop_recurring_action">পুনরাবৃত্তি বন্ধ করুন</string>
+    <string name="home_stop_recurring_sub">এই রিমাইন্ডার ও ভবিষ্যতের সব পুনরাবৃত্তি মুছুন</string>
+    <string name="home_keep_reminder">রিমাইন্ডার রাখুন</string>
+    <string name="home_mark_occurrence_title">এই বারটি সম্পন্ন চিহ্নিত করবেন?</string>
+    <string name="home_mark_occurrence_msg">এতে শুধু আজকের বারটি শেষ হবে। রিমাইন্ডারটি পরের নির্ধারিত সময়ে আবার আসবে।</string>
+    <string name="home_mark_occurrence_action">এই বারটি সম্পন্ন চিহ্নিত করুন</string>
+    <string name="home_mark_occurrence_sub">ভবিষ্যতের পুনরাবৃত্তিগুলো নির্ধারিত থাকবে</string>
+    <string name="home_mark_done_title">সম্পন্ন চিহ্নিত করবেন?</string>
+    <string name="home_mark_done_msg">রিমাইন্ডারটি সম্পন্ন ট্যাবে সরানো হবে।</string>
+    <string name="home_move_to_done">সম্পন্নতে সরান</string>
+    <string name="home_move_to_done_sub">এই রিমাইন্ডারটি সম্পন্ন ইতিহাসে রাখুন</string>
+    <string name="home_created_at">তৈরি: %1$s</string>
+    <string name="home_snackbar_deleted">রিমাইন্ডার মুছে ফেলা হয়েছে</string>
+    <string name="home_snackbar_duplicated">রিমাইন্ডার ডুপ্লিকেট করা হয়েছে</string>
+    <string name="home_badge_missed">মিস হয়েছে</string>
+
+    <!-- Add / Edit reminder -->
+    <string name="ae_saved">রিমাইন্ডার সংরক্ষিত হয়েছে!</string>
+    <string name="ae_cannot_past">অতীতের জন্য রিমাইন্ডার সেট করা যায় না</string>
+    <string name="ae_record_too_short">রেকর্ডিং খুব ছোট হয়েছে — কথা বলার সময় বোতাম চেপে রাখুন</string>
+    <string name="ae_record_failed">রেকর্ডিং শুরু করা যায়নি। অন্য কোনো অ্যাপ মাইক্রোফোন ব্যবহার করছে কি না দেখুন।</string>
+    <string name="ae_record_silent">কোনো শব্দ রেকর্ড হয়নি। SpeakAlert-এর মাইক্রোফোনের অনুমতি দেখে নিন।</string>
+    <string name="ae_unsaved_title">রিমাইন্ডার সংরক্ষণ করবেন?</string>
+    <string name="ae_unsaved_msg">রিমাইন্ডারে অসংরক্ষিত পরিবর্তন আছে।</string>
+    <string name="action_save">সংরক্ষণ করুন</string>
+    <string name="ae_keep_editing">সম্পাদনা চালিয়ে যান</string>
+    <string name="action_discard">বাতিল করুন</string>
+    <string name="action_remove">সরান</string>
+    <string name="action_change">পরিবর্তন করুন</string>
+    <string name="ae_title_edit">রিমাইন্ডার সম্পাদনা</string>
+    <string name="ae_title_new">নতুন রিমাইন্ডার</string>
+    <string name="action_back">পিছনে</string>
+    <string name="ae_header_edit">রিমাইন্ডার সম্পাদনা করুন</string>
+    <string name="ae_header_create">রিমাইন্ডার তৈরি করুন</string>
+    <string name="ae_section_content">রিমাইন্ডারের বিষয়বস্তু</string>
+    <string name="ae_content_desc">নিজের কণ্ঠে রেকর্ড করুন, অডিও ফাইল যোগ করুন বা রিমাইন্ডারের বার্তা লিখুন।</string>
+    <string name="ae_tap_to_record">ভয়েস রিমাইন্ডার রেকর্ড করতে ট্যাপ করুন</string>
+    <string name="ae_or_choose_audio">অথবা একটি অডিও ফাইল বেছে নিন</string>
+    <string name="ae_selected_audio">বেছে নেওয়া অডিও ফাইল</string>
+    <string name="ae_cd_stop_preview">অডিও প্রিভিউ থামান</string>
+    <string name="ae_cd_play_preview">অডিও প্রিভিউ চালান</string>
+    <string name="ae_cd_audio_progress">অডিও প্রিভিউর অগ্রগতি</string>
+    <string name="ae_choose_audio_file">অডিও ফাইল বেছে নিন</string>
+    <string name="ae_or_type">অথবা রিমাইন্ডার বার্তা লিখুন</string>
+    <string name="ae_msg_label">রিমাইন্ডার বার্তা</string>
+    <string name="ae_msg_placeholder">যেমন, নাস্তার পর ওষুধ খান</string>
+    <string name="ae_label_placeholder">যেমন, সকালের ওষুধ</string>
+    <string name="ae_msg_help">বার্তাটি অ্যাপ ও নোটিফিকেশনে দেখা যাবে। ভয়েস রেকর্ডিং বা অডিও ফাইল না থাকলে এটি পড়ে শোনানো হবে।</string>
+    <string name="ae_char_count">%1$d/%2$d</string>
+    <string name="ae_need_content">একটি ভয়েস নোট, অডিও ফাইল বা রিমাইন্ডার বার্তা যোগ করুন।</string>
+    <string name="ae_section_label">ছোট লেবেল (ঐচ্ছিক)</string>
+    <string name="ae_label_desc">চাইলে ছোট একটি নাম দিন, যাতে তালিকায় রিমাইন্ডারটি সহজে চিনতে পারেন।</string>
+    <string name="ae_label_hint">তালিকা ও বিবরণে ছোট নাম হিসেবে দেখায়</string>
+    <string name="ae_section_schedule">সময়সূচি</string>
+    <string name="ae_when_fire">এই রিমাইন্ডার কখন বাজবে?</string>
+    <string name="ae_datetime_at">%1$s, %2$s-এ</string>
+    <string name="ae_date">তারিখ</string>
+    <string name="ae_time">সময়</string>
+    <string name="ae_time_future">সময় ভবিষ্যতের হতে হবে</string>
+    <string name="ae_repeat_never">কখনো না</string>
+    <string name="ae_repeat">পুনরাবৃত্তি</string>
+    <string name="state_on">চালু</string>
+    <string name="state_off">বন্ধ</string>
+    <string name="state_active">সক্রিয়</string>
+    <string name="ae_loop">লুপ প্লেব্যাক</string>
+    <string name="ae_loop_desc">আপনি রিমাইন্ডার সরানো পর্যন্ত চলতে থাকে।</string>
+    <string name="ae_followup">ফলো-আপ চেক</string>
+    <string name="ae_followup_desc">রিমাইন্ডার সম্পন্ন চিহ্নিত না হলে কিছুক্ষণ পর আবার জিজ্ঞাসা করে।</string>
+    <string name="ae_cd_saving">রিমাইন্ডার সংরক্ষণ হচ্ছে</string>
+    <string name="ae_save_reminder">রিমাইন্ডার সংরক্ষণ করুন</string>
+    <plurals name="ae_followup_active">
+        <item quantity="one">সক্রিয়: সম্পন্ন চিহ্নিত না হওয়া পর্যন্ত প্রতি %1$d মিনিটে জিজ্ঞাসা করে।</item>
+        <item quantity="other">সক্রিয়: সম্পন্ন চিহ্নিত না হওয়া পর্যন্ত প্রতি %1$d মিনিটে জিজ্ঞাসা করে।</item>
+    </plurals>
+
+    <!-- Recurrence type names (shared) -->
+    <string name="rec_every">প্রতি %1$d %2$s</string>
+    <string name="rec_ends_never">শেষ: কখনো না</string>
+    <string name="rec_if_off_fire">ডিভাইস বন্ধ থাকলে: আবার চালু হলে অ্যালার্ট</string>
+    <string name="rec_if_off_skip">ডিভাইস বন্ধ থাকলে: শুধু নির্দিষ্ট সময়ে মনে করান</string>
+    <string name="date_today">আজ</string>
+    <string name="date_tomorrow">আগামীকাল</string>
+    <string name="date_yesterday">গতকাল</string>
+    <plurals name="rec_ends_times">
+        <item quantity="one">%1$d বার পরে শেষ</item>
+        <item quantity="other">%1$d বার পরে শেষ</item>
+    </plurals>
+    <string name="rec_onetime">একবার</string>
+    <string name="rec_daily">প্রতিদিন</string>
+    <string name="rec_weekly">প্রতি সপ্তাহে</string>
+    <string name="rec_monthly">প্রতি মাসে</string>
+    <string name="rec_yearly">প্রতি বছর</string>
+    <string name="rec_custom">কাস্টম</string>
+    <string name="day_mon">সোম</string>
+    <string name="day_tue">মঙ্গল</string>
+    <string name="day_wed">বুধ</string>
+    <string name="day_thu">বৃহঃ</string>
+    <string name="day_fri">শুক্র</string>
+    <string name="day_sat">শনি</string>
+    <string name="day_sun">রবি</string>
+
+    <!-- Reminder details -->
+    <string name="det_title">রিমাইন্ডারের বিবরণ</string>
+    <string name="action_edit">সম্পাদনা</string>
+    <string name="action_delete">মুছুন</string>
+    <string name="action_confirm">নিশ্চিত করুন</string>
+    <string name="det_audio_file">অডিও ফাইল</string>
+    <string name="det_voice_note">ভয়েস নোট</string>
+    <string name="det_loop_enabled">লুপ চালু</string>
+    <string name="det_followup_pill">ফলো-আপ %1$d মি</string>
+    <string name="det_cd_stop_audio">অডিও থামান</string>
+    <string name="det_cd_play_audio">অডিও চালান</string>
+    <string name="det_ready_preview">প্রিভিউর জন্য প্রস্তুত</string>
+    <string name="det_ready_play">চালানোর জন্য প্রস্তুত</string>
+    <string name="det_voice_recording">ভয়েস রেকর্ডিং</string>
+    <string name="det_tap_preview">রেকর্ড করা রিমাইন্ডার শুনতে চালান ট্যাপ করুন।</string>
+    <string name="det_cd_audio_progress">রিমাইন্ডার অডিওর অগ্রগতি</string>
+    <string name="det_double_tap_edit">সম্পাদনা করতে দুবার ট্যাপ করুন</string>
+    <string name="det_ends_by">%1$s-এ শেষ</string>
+    <string name="det_end_rule">শেষের নিয়ম</string>
+    <string name="det_missed_handling">মিস হওয়া রিমাইন্ডার পরিচালনা</string>
+    <string name="det_missed_fire">ডিভাইস আবার চালু হলে অ্যালার্ট দিন</string>
+    <string name="det_missed_skip">শুধু পরের নির্দিষ্ট সময়ে মনে করান</string>
+    <string name="det_mark_undone">অসম্পন্ন চিহ্নিত করুন</string>
+    <string name="det_mark_done">সম্পন্ন চিহ্নিত করুন</string>
+    <string name="det_scheduled_for">নির্ধারিত: %1$s</string>
+    <string name="det_delete_title">রিমাইন্ডার মুছবেন?</string>
+    <string name="det_delete_recurring">এতে ভবিষ্যতের সব পুনরাবৃত্তি বন্ধ হবে। এটি ফেরানো যাবে না।</string>
+    <string name="det_delete_onetime">এটি ফেরানো যাবে না।</string>
+    <string name="det_reschedule_title">রিমাইন্ডারের সময় আবার ঠিক করবেন?</string>
+    <string name="det_reschedule_to">%1$s-এ সরাবেন?</string>
+    <plurals name="det_ends_after">
+        <item quantity="one">%1$d বার পরে শেষ</item>
+        <item quantity="other">%1$d বার পরে শেষ</item>
+    </plurals>
+
+    <!-- Recurrence selection sheet -->
+    <string name="rs_subtitle">এই রিমাইন্ডার কীভাবে পুনরাবৃত্তি হবে তা বেছে নিন।</string>
+    <string name="rs_none">পুনরাবৃত্তি হয় না</string>
+    <string name="rs_monthly_settings">মাসিক সেটিংস</string>
+    <string name="rs_monthly_subtitle">কোন দিনগুলো বা শেষের নিয়ম ব্যবহার করবেন বেছে নিন।</string>
+    <string name="rs_repeat_on">পুনরাবৃত্তির দিন</string>
+    <string name="rs_days_of_month">মাসের দিন</string>
+    <string name="rs_last_day">শেষ দিন</string>
+    <string name="rs_select_days_toggle">দিন বেছে নিন (চালু/বন্ধ করতে ট্যাপ করুন)</string>
+    <string name="rs_selected">বেছে নেওয়া: %1$s</string>
+    <string name="rs_weekly_settings">সাপ্তাহিক সেটিংস</string>
+    <string name="rs_weekly_subtitle">কোন বারগুলোতে পুনরাবৃত্তি হবে বেছে নিন।</string>
+    <string name="rs_select_days">দিন বেছে নিন</string>
+    <string name="rs_custom_interval">কাস্টম ব্যবধান</string>
+    <string name="rs_custom_subtitle">কতক্ষণ পরপর রিমাইন্ডার আসবে তা ঠিক করুন।</string>
+    <string name="rs_repeat_every">প্রতি</string>
+    <string name="rs_number">সংখ্যা</string>
+    <string name="rs_unit">একক</string>
+    <string name="rs_repeats_every">প্রতি %1$d %2$s পর পর পুনরাবৃত্তি হয়।</string>
+    <string name="rs_interval_min">ব্যবধান কমপক্ষে 1 হতে হবে</string>
+    <string name="rs_ends">শেষ</string>
+    <string name="rs_forever">কখনো না</string>
+    <string name="rs_until_date">তারিখ/সময় পর্যন্ত</string>
+    <string name="rs_after_count">নির্দিষ্ট সংখ্যার পর</string>
+    <string name="rs_must_be_after">%1$s বা তার পরে হতে হবে</string>
+    <string name="rs_date_label">তারিখ: %1$s</string>
+    <string name="rs_time_label">সময়: %1$s</string>
+    <string name="rs_num_occurrences">পুনরাবৃত্তির সংখ্যা</string>
+    <string name="rs_allowed_range">অনুমোদিত: 1-999</string>
+    <string name="rs_end_before_error">শেষের সময় রিমাইন্ডারের সময়ের আগে হতে পারে না</string>
+    <string name="rs_select_end_time">শেষের সময় বেছে নিন</string>
+    <plurals name="unit_minutes" tools:ignore="ImpliedQuantity"><item quantity="one">মিনিট</item><item quantity="other">মিনিট</item></plurals>
+    <plurals name="unit_hours" tools:ignore="ImpliedQuantity"><item quantity="one">ঘণ্টা</item><item quantity="other">ঘণ্টা</item></plurals>
+    <plurals name="unit_days" tools:ignore="ImpliedQuantity"><item quantity="one">দিন</item><item quantity="other">দিন</item></plurals>
+    <plurals name="unit_weeks" tools:ignore="ImpliedQuantity"><item quantity="one">সপ্তাহ</item><item quantity="other">সপ্তাহ</item></plurals>
+    <plurals name="unit_months" tools:ignore="ImpliedQuantity"><item quantity="one">মাস</item><item quantity="other">মাস</item></plurals>
+    <plurals name="unit_years" tools:ignore="ImpliedQuantity"><item quantity="one">বছর</item><item quantity="other">বছর</item></plurals>
+
+    <!-- Settings -->
+    <string name="set_appearance">সাজসজ্জা</string>
+    <string name="set_reminder_form">রিমাইন্ডার ফর্ম</string>
+    <string name="set_reminder_form_desc">রিমাইন্ডার তৈরির সময় কোন অংশগুলো দেখবেন তা বেছে নিন। সব লুকিয়ে রাখলে নতুন রিমাইন্ডার তৈরির আগে অন্তত একটি আবার চালু করতে হবে।</string>
+    <string name="ae_no_content_sections">কোনো রিমাইন্ডার ইনপুট অংশ চালু নেই। সেটিংস &gt; রিমাইন্ডার ফর্মে ভয়েস রেকর্ডিং, অডিও ফাইল বেছে নিন বা লিখিত রিমাইন্ডার চালু করুন।</string>
+    <string name="set_show_voice_recording">ভয়েস রেকর্ডিং</string>
+    <string name="set_show_voice_recording_desc">মাইক্রোফোন রেকর্ডিং অংশ দেখান।</string>
+    <string name="set_experimental_voice_enhancement">পরীক্ষামূলক কণ্ঠ উন্নয়ন</string>
+    <string name="set_experimental_voice_enhancement_desc">বন্ধ রাখলে রেকর্ডিং কোনো প্রক্রিয়াকরণ ছাড়াই রাখা হয়। চালু করলে রেকর্ডিংয়ের বাড়তি সুরক্ষা, শব্দ না পাওয়ার সতর্কবার্তা এবং কণ্ঠ পরিষ্কার করার সুবিধা পাবেন।</string>
+    <string name="set_experimental_voice_enhancement_note">সুবিধাটি পরীক্ষামূলক। ফোনভেদে ফলাফল ও সময় আলাদা হতে পারে। শব্দ বিকৃত হলে বা সংরক্ষণে বেশি সময় লাগলে বন্ধ করে দিন।</string>
+    <string name="set_show_audio_file">অডিও ফাইল বেছে নিন</string>
+    <string name="set_show_audio_file_desc">বিদ্যমান অডিও ফাইল বেছে নেওয়ার বিকল্প দেখান।</string>
+    <string name="set_show_typed_reminder">লিখিত রিমাইন্ডার</string>
+    <string name="set_show_typed_reminder_desc">রিমাইন্ডার বার্তার ঘর দেখান।</string>
+    <string name="set_show_short_label">ছোট লেবেল</string>
+    <string name="set_show_short_label_desc">ঐচ্ছিক ছোট লেবেলের ঘর দেখান।</string>
+    <string name="set_app_theme">অ্যাপ থিম</string>
+    <string name="theme_system">সিস্টেম</string>
+    <string name="theme_light">লাইট</string>
+    <string name="theme_dark">ডার্ক</string>
+    <string name="set_toast_theme_light">লাইট মোড সেট হয়েছে</string>
+    <string name="set_toast_theme_dark">ডার্ক মোড সেট হয়েছে</string>
+    <string name="set_toast_theme_system">সিস্টেম থিম অনুসরণ করা হচ্ছে</string>
+    <string name="set_playback">প্লেব্যাক</string>
+    <string name="set_autoplay">রিমাইন্ডার অডিও স্বয়ংক্রিয়ভাবে চালান</string>
+    <string name="set_autoplay_desc">রিমাইন্ডার বাজলে ভয়েস নোট ও অডিও ফাইল স্বয়ংক্রিয়ভাবে চালায়</string>
+    <string name="set_disabled_tone">শুধু-টোন মোড চালু থাকলে বন্ধ থাকে</string>
+    <string name="set_toast_autoplay_on">স্বয়ংক্রিয় প্লেব্যাক চালু</string>
+    <string name="set_toast_autoplay_off">স্বয়ংক্রিয় প্লেব্যাক বন্ধ</string>
+    <string name="set_unlock_only">শুধু ফোন আনলক থাকলে</string>
+    <string name="set_unlock_only_desc">লক স্ক্রিনে প্লেব্যাক আটকান</string>
+    <string name="set_toast_lock_off">লক স্ক্রিন প্লেব্যাক বন্ধ</string>
+    <string name="set_toast_lock_on">লক স্ক্রিন প্লেব্যাক চালু</string>
+    <string name="set_speak_text">লেখা রিমাইন্ডার নিজে থেকে পড়ে শোনান</string>
+    <string name="set_speak_text_desc">শুধু ভয়েস নোট বা অডিও ফাইল ছাড়া টেক্সট রিমাইন্ডারের জন্য</string>
+    <string name="set_toast_speak_on">স্বয়ংক্রিয়ভাবে লেখা পড়ে শোনানো চালু</string>
+    <string name="set_toast_speak_off">স্বয়ংক্রিয়ভাবে লেখা পড়ে শোনানো বন্ধ</string>
+    <string name="set_spoken_language">পড়ে শোনানোর ভাষা</string>
+    <string name="set_spoken_language_desc">রিমাইন্ডার কোন ভাষায় পড়ে শোনানো হবে। স্বয়ংক্রিয় শনাক্তকরণ বার্তার ভাষা বেছে নেয়। সেই ভাষার কণ্ঠ ফোনের টেক্সট-টু-স্পিচ সেটিংসে ইনস্টল থাকতে হবে।</string>
+    <string name="tts_auto">স্বয়ংক্রিয় শনাক্ত</string>
+    <string name="tts_device">ডিভাইস</string>
+    <string name="tts_english">ইংরেজি</string>
+    <string name="set_toast_tts_device">পড়ে শোনানোর ভাষা: ডিভাইসের ভাষা</string>
+    <string name="set_toast_tts_english">পড়ে শোনানোর ভাষা: ইংরেজি</string>
+    <string name="set_toast_tts_auto">পড়ে শোনানোর ভাষা: স্বয়ংক্রিয় শনাক্ত</string>
+    <string name="set_private">ব্যক্তিগত প্লেব্যাক</string>
+    <string name="set_private_desc">প্রথমে সংযুক্ত হিয়ারিং এইড, ব্লুটুথ ডিভাইস বা তারযুক্ত হেডফোনে শোনাবে। এগুলো না থাকলে লাউডস্পিকারের বদলে ফোনের ইয়ারপিস ব্যবহার করবে।</string>
+    <string name="set_toast_private_on">ব্যক্তিগত প্লেব্যাক চালু</string>
+    <string name="set_toast_private_off">ব্যক্তিগত প্লেব্যাক বন্ধ</string>
+    <string name="set_private_bt">ব্যক্তিগত প্লেব্যাক চালু। ব্লুটুথ রাউটিংয়ের জন্য কাছাকাছি ডিভাইসের অনুমতি দরকার।</string>
+    <string name="set_tone_only">শুধু-টোন মোড</string>
+    <string name="set_tone_only_desc">সর্বোচ্চ নির্ভরযোগ্যতার জন্য কণ্ঠ/TTS-এর বদলে সাধারণ অ্যালার্ম টোন বাজায়। স্বয়ংক্রিয় থামা: %1$s। স্নুজ: %2$d মি।</string>
+    <string name="set_toast_tone_on">শুধু-টোন মোড চালু</string>
+    <string name="set_toast_tone_off">শুধু-টোন মোড বন্ধ</string>
+    <string name="set_infinite">অসীম</string>
+    <string name="set_minutes_short">%1$d মি</string>
+    <string name="set_select_tone">টোন বেছে নিন</string>
+    <string name="file_picker_unavailable">এই ডিভাইসে ফাইল খোলার মতো কোনো অ্যাপ নেই। একটি ফাইল ম্যানেজার ইনস্টল করে আবার চেষ্টা করুন।</string>
+    <string name="tone_picker_unavailable">এই ডিভাইসে টোন বেছে নেওয়ার মতো কোনো অ্যাপ নেই।</string>
+    <string name="set_toast_default_tone">ডিফল্ট অ্যালার্ম টোন ব্যবহার হচ্ছে</string>
+    <string name="set_toast_tone_updated">টোন আপডেট হয়েছে</string>
+    <string name="set_fullscreen">লক স্ক্রিনে ফুল-স্ক্রিন অ্যালার্ট</string>
+    <string name="set_fullscreen_desc_granted">রিমাইন্ডার বাজলে লক স্ক্রিনের উপর রিমাইন্ডারের অপশন দেখান</string>
+    <string name="set_fullscreen_desc_denied">লক স্ক্রিনের উপর দেখাতে Android ফুল-স্ক্রিন অ্যালার্টের অনুমতি দরকার</string>
+    <string name="set_allow_fullscreen">সিস্টেম সেটিংসে ফুল-স্ক্রিন অ্যালার্টের অনুমতি দিন</string>
+    <string name="set_toast_fs_on">লক স্ক্রিন ফুল-স্ক্রিন অ্যালার্ট চালু</string>
+    <string name="set_toast_fs_off">লক স্ক্রিন ফুল-স্ক্রিন অ্যালার্ট বন্ধ</string>
+    <string name="set_fs_off_title">ফুল-স্ক্রিন অনুমতি এখনো বন্ধ</string>
+    <string name="set_fs_off_msg">Android 14+ এ ফুল-স্ক্রিন রিমাইন্ডার অ্যালার্টের জন্য আলাদা সিস্টেম অনুমতি দরকার।</string>
+    <string name="set_open_perm">অনুমতি সেটিংস খুলুন</string>
+    <string name="set_fs_note">আপনি এখনো নোটিফিকেশন থেকে রিমাইন্ডার চালান বা রিমাইন্ডার বলুন ট্যাপ করতে পারেন।</string>
+    <string name="set_tone_volume_note">শুধু-টোন মোডে ভলিউম ডিভাইসের অ্যালার্ম/নোটিফিকেশন ভলিউম দিয়ে নিয়ন্ত্রিত হয়।</string>
+    <string name="set_loop_duration">লুপের সময়কাল</string>
+    <string name="set_loop_duration_desc">রিমাইন্ডার লুপ কতক্ষণ চলবে সেট করুন</string>
+    <string name="set_toast_loop">লুপের সময়কাল: %1$d মিনিট</string>
+    <string name="set_toast_loop_infinite">লুপের সময়কাল: অসীম</string>
+    <string name="set_custom">কাস্টম</string>
+    <string name="set_custom_snooze">কাস্টম স্নুজ</string>
+    <string name="set_snooze_desc">রিমাইন্ডার কতক্ষণ পিছিয়ে যাবে সেট করুন</string>
+    <string name="set_toast_snooze">স্নুজ: %1$d মিনিট</string>
+    <string name="set_toast_followup_off">ডিফল্ট ফলো-আপ বন্ধ</string>
+    <string name="set_toast_followup">ডিফল্ট ফলো-আপ: %1$d মি</string>
+    <string name="set_quiet">নীরব সময়</string>
+    <string name="set_quiet_desc">নির্দিষ্ট সময়ে রিমাইন্ডার নীরব রাখুন</string>
+    <string name="set_toast_quiet_on">নীরব সময় চালু</string>
+    <string name="set_toast_quiet_off">নীরব সময় বন্ধ</string>
+    <string name="set_start">শুরু</string>
+    <string name="set_end">শেষ</string>
+    <string name="set_toast_quiet_start">নীরব সময় শুরু %1$s-এ</string>
+    <string name="set_toast_quiet_end">নীরব সময় শেষ %1$s-এ</string>
+    <string name="set_toast_test">10 সেকেন্ডে টেস্ট রিমাইন্ডার</string>
+    <string name="set_test_reminder">টেস্ট রিমাইন্ডার</string>
+    <string name="set_cd_granted">অনুমতি দেওয়া হয়েছে</string>
+    <string name="set_cd_action_required">পদক্ষেপ প্রয়োজন</string>
+    <string name="set_notifications">নোটিফিকেশন</string>
+    <string name="set_exact_alarms">সঠিক অ্যালার্ম</string>
+    <string name="set_microphone">মাইক্রোফোন</string>
+    <string name="set_dnd">বিরক্ত করবেন না চালু থাকলেও অ্যালার্ট</string>
+    <string name="set_dnd_desc_off">ফোনের সাউন্ড মোড অনুসরণ করে। বিরক্ত করবেন না বা রুটিন রিমাইন্ডার নীরব করতে পারে।</string>
+    <string name="set_dnd_desc_active">সক্রিয়: রিমাইন্ডার অ্যালার্ম-অগ্রাধিকার সাউন্ড ব্যবহার করে ও বিরক্ত করবেন না উপেক্ষা করে।</string>
+    <string name="set_dnd_unavailable">এই ডিভাইসে Android বিরক্ত করবেন না অনুমতির সেটিংস নেই।</string>
+    <string name="set_grant_dnd">Android বিরক্ত করবেন না অনুমতি দিন</string>
+    <string name="set_dnd_note">এটি ফোনের “বিরক্ত করবেন না” মোড চালু বা বন্ধ করে না। শুধু ওই মোড চালু থাকলেও গুরুত্বপূর্ণ রিমাইন্ডার বাজানোর অনুমতি চাইতে দেয় %1$s-কে।</string>
+    <string name="set_battery_guide">ব্যাটারি অপ্টিমাইজেশন গাইড</string>
+    <string name="set_battery_desc">কিছু ফোন ব্যাটারি বাঁচাতে রিমাইন্ডার দেরিতে বাজায় বা বন্ধ করে দেয়।</string>
+    <string name="set_wear">Wear OS</string>
+    <string name="set_wear_checking">Wear OS সংযোগ যাচাই হচ্ছে…</string>
+    <string name="set_wear_connected">Wear OS ঘড়ি সংযুক্ত</string>
+    <string name="set_wear_supported">%1$s ঘড়ির রিমাইন্ডার শুধু Wear OS ঘড়িতে সমর্থিত।</string>
+    <string name="set_wear_notif_off">ফোনে অ্যাপের নোটিফিকেশন বন্ধ। রিমাইন্ডার ঘড়িতে সিঙ্ক করতে এগুলো চালু করুন।</string>
+    <string name="set_open_notif">নোটিফিকেশন সেটিংস খুলুন</string>
+    <string name="set_open_channel">রিমাইন্ডার চ্যানেল খুলুন</string>
+    <string name="set_wear_enabled">ফোনে নোটিফিকেশন চালু আছে। ঘড়িতে রিমাইন্ডার না এলে ঘড়ির সঙ্গে যুক্ত Wear OS অ্যাপে নোটিফিকেশন সিঙ্ক চালু করুন।</string>
+    <string name="set_refresh">অবস্থা রিফ্রেশ করুন</string>
+    <string name="set_app_guide">অ্যাপ গাইড</string>
+    <string name="set_toast_no_email">কোনো ইমেল অ্যাপ নেই। ghostgramlabs@gmail.com-এ ইমেল করতে পারেন বা দেখানো ঠিকানা কপি করতে পারেন।</string>
+    <string name="set_contact_support">ফিচারের অনুরোধ ও সহায়তা</string>
+    <string name="set_contact_support_desc">কোনো আইডিয়া আছে বা সাহায্য দরকার? আমাদের ইমেল করুন।</string>
+    <string name="support_email_subject">%1$s — ফিচারের অনুরোধ বা সহায়তা</string>
+    <string name="feature_request_email_subject">%1$s — ফিচারের অনুরোধ</string>
+    <string name="suggest_feature">ফিচার প্রস্তাব করুন</string>
+    <string name="set_toast_no_rating">এই ডিভাইসে রেটিং পেজ খোলা যায়নি।</string>
+    <string name="set_rate">%1$s রেট করুন</string>
+    <string name="set_developer">ডেভেলপার</string>
+    <string name="set_debug_logging">ডিবাগ লগিং</string>
+    <string name="set_debug_desc">বিস্তারিত লগ রেকর্ড করুন</string>
+    <string name="set_send_logs">লগ পাঠান</string>
+    <string name="set_fix">ঠিক করুন</string>
+    <string name="set_cd_collapse">সংকুচিত করুন</string>
+    <string name="set_cd_expand">প্রসারিত করুন</string>
+    <string name="set_tone_sound">শুধু-টোন অ্যালার্টের শব্দ</string>
+    <string name="set_tone_sound_hint">শব্দ বেছে নিতে শুধু-টোন মোড চালু করুন। ততক্ষণ SpeakAlert ডিফল্ট অ্যালার্ম টোন ব্যবহার করবে।</string>
+    <string name="set_choose_tone">টোন বেছে নিন</string>
+    <string name="set_use_default">ডিফল্ট ব্যবহার করুন</string>
+    <string name="set_default_alarm_tone">ডিফল্ট অ্যালার্ম টোন</string>
+    <string name="set_tone_unavailable">বেছে নেওয়া টোন পাওয়া যাচ্ছে না, ডিফল্ট অ্যালার্ম টোন ব্যবহার হচ্ছে</string>
+    <string name="set_select_label_time">%1$s সময় বেছে নিন</string>
+    <string name="set_minutes">মিনিট</string>
+    <string name="set_max_allowed">সর্বোচ্চ অনুমোদিত: %1$d মিনিট</string>
+    <string name="set_desc_max">%1$s (সর্বোচ্চ %2$d মি)</string>
+    <string name="set_label_time">%1$s: %2$s</string>
+    <string name="set_volume">ভলিউম</string>
+    <string name="set_cd_volume">অ্যাপের ভলিউম: %1$d%%</string>
+    <string name="set_loop_inline_desc">একটানা বাজতে থাকা রিমাইন্ডার কতক্ষণ পরে নিজে থেকে থামবে</string>
+    <string name="set_default_snooze">ডিফল্ট স্নুজ</string>
+    <string name="set_snooze_inline_desc">“স্নুজ” চাপার কতক্ষণ পরে আবার মনে করিয়ে দেবে</string>
+    <string name="set_default_followup">ডিফল্ট ফলো-আপ চেক</string>
+    <string name="set_followup_off_desc">বন্ধ — নতুন রিমাইন্ডারে ফলো-আপ থাকবে না। চাইলে প্রতিটি রিমাইন্ডারে আলাদা করে যোগ করতে পারবেন।</string>
+    <string name="set_followup_on_desc">নতুন রিমাইন্ডারে %1$d মিনিটের ফলো-আপ থাকবে। সম্পন্ন না করলে আবার মনে করিয়ে দেবে। আগের রিমাইন্ডার বদলাবে না।</string>
+    <string name="set_followup_repeat">ফলো-আপ পুনরাবৃত্তির সীমা</string>
+    <string name="set_followup_repeat_desc">ডিফল্ট বিকল্পে (∞) “সম্পন্ন” না করা পর্যন্ত বারবার মনে করিয়ে দেবে। কয়েকবার পরে নিজে থেকে থামাতে চাইলে একটি সীমা ঠিক করুন। নীরব সময় শুরু হলেও ফলো-আপ বন্ধ হবে।</string>
+    <string name="set_toast_followup_repeat_until_done">সম্পন্ন চিহ্নিত না হওয়া পর্যন্ত ফলো-আপ চলবে</string>
+    <string name="set_toast_followup_repeat">ফলো-আপ পুনরাবৃত্তির সীমা: %1$d×</string>
+    <string name="set_reliability">নির্ভরযোগ্যতা</string>
+    <string name="set_persist">সম্পন্ন না হওয়া পর্যন্ত রিমাইন্ডার স্ক্রিনে রাখুন</string>
+    <string name="set_persist_desc">“সম্পন্ন” বা “স্নুজ” না চাপা পর্যন্ত রিমাইন্ডারের নোটিফিকেশন থাকবে। সঙ্গে ফলো-আপ চালু রাখলে আবার মনে করিয়েও দেবে।</string>
+    <string name="set_toast_persist_on">সম্পন্ন না হওয়া পর্যন্ত রিমাইন্ডার থাকবে</string>
+    <string name="set_toast_persist_off">রিমাইন্ডার সোয়াইপ করে সরানো যাবে</string>
+    <string name="set_all_granted">সব অনুমতি দেওয়া হয়েছে</string>
+    <string name="set_some_needed">কিছু অনুমতি দরকার</string>
+    <string name="set_dnd_desc_needed">চালু, কিন্তু উপেক্ষা কাজ করার আগে Android বিরক্ত করবেন না অনুমতি দরকার।</string>
+    <string name="set_toast_dnd_on">বিরক্ত করবেন না উপেক্ষা চালু</string>
+    <string name="set_toast_dnd_off">বিরক্ত করবেন না উপেক্ষা বন্ধ</string>
+    <string name="set_battery_desc_ok">%1$s ইতিমধ্যে ব্যাকগ্রাউন্ডে চলার অনুমতি পেয়েছে।</string>
+    <string name="set_wear_watches">%1$dটি Wear OS ঘড়ি সংযুক্ত</string>
+    <string name="set_wear_none">কোনো Wear OS ঘড়ি সংযুক্ত নেই</string>
+    <string name="set_wear_channel_muted">%1$s রিমাইন্ডার চ্যানেল মিউট করা আছে। ঘড়িতে রিমাইন্ডার পাঠাতে এটি চালু করুন।</string>
+    <string name="set_rate_desc">Google Play-তে আপনার অভিজ্ঞতা শেয়ার করুন।</string>
+    <string name="set_tone_sound_active">%1$s। এটি না পাওয়া গেলে SpeakAlert ডিফল্ট অ্যালার্ম টোনে ফিরে যায়।</string>
+
+    <!-- More apps from the developer -->
+    <string name="set_more_apps_title">GhostgramLabs-এর আরও অ্যাপ</string>
+    <string name="set_more_apps_desc">%1$s-এর নির্মাতাদের বিনামূল্যের অ্যাপ</string>
+    <string name="set_app_free_tag">Google Play-তে বিনামূল্যে</string>
+    <string name="app_pettibox_name">PettiBox: বুকমার্ক ম্যানেজার</string>
+    <string name="app_pettibox_desc">বিনামূল্যে • লিঙ্ক, নোট, ফাইল ও স্ক্রিনশট পরে দেখার জন্য ব্যক্তিগতভাবে সংরক্ষণ, অফলাইন সার্চসহ</string>
+    <string name="app_directserve_name">DirectServe: ফাইল ট্রান্সফার</string>
+    <string name="app_directserve_desc">বিনামূল্যে • যেকোনো ডিভাইস বা টিভিতে ফাইল শেয়ার ও স্ট্রিম করুন — ক্লাউড বা তার ছাড়াই</string>
+    <string name="set_toast_no_store">এই ডিভাইসে Google Play খোলা যায়নি।</string>
+
+    <!-- In-app rating prompt -->
+    <string name="rate_prompt_title">%1$s বিনামূল্যে। আপনার সমর্থন গুরুত্বপূর্ণ।</string>
+    <string name="rate_prompt_message">আপনার রিভিউ আরও মানুষকে %1$s খুঁজে পেতে সাহায্য করে এবং আমাদের আরও উন্নত করতে উৎসাহ দেয়। একটু সময় নিয়ে Google Play-তে আপনার অভিজ্ঞতা শেয়ার করুন।</string>
+    <string name="rate_prompt_positive">এখনই রেট করুন</string>
+    <string name="rate_prompt_later">পরে হয়তো</string>
+    <string name="rate_prompt_never">না, ধন্যবাদ</string>
+
+    <!-- Help guide -->
+    <string name="help_intro">%1$s-এ রিমাইন্ডার তৈরি, চালানো, পুনরাবৃত্তি ও পুনরুদ্ধারের সব গুরুত্বপূর্ণ তথ্য।</string>
+    <string name="help_s1_title">যখন রিমাইন্ডার অ্যালার্ট দেয়</string>
+    <string name="help_s1_content">লক স্ক্রিন ও নোটিফিকেশনে এই বোতামগুলো পাবেন:\n- সম্পন্ন: এই বারের কাজ শেষ করে। বারবার আসার কথা থাকলে পরের রিমাইন্ডারগুলো ঠিক সময়েই আসবে।\n- শব্দ বন্ধ করুন: শুধু শব্দ বন্ধ করে। পরে সিদ্ধান্ত নেওয়ার জন্য রিমাইন্ডারটি স্ক্রিনে থাকে।\n- স্নুজ: কিছুক্ষণ পরে আবার মনে করায়। পুরো স্ক্রিনের অ্যালার্টে ৫ বা ১০ মিনিট বেছে নিতে পারেন।\n- চালান / বলুন: শব্দ না চললে দেখা যায়। রেকর্ডিং বা লেখা বার্তা আবার শুনতে পারবেন।\nশুধু “সম্পন্ন” চাপলেই কাজ শেষ ধরা হয়। শব্দ বন্ধ করলে কাজ বাকি থাকে।</string>
+    <string name="help_s2_title">রিমাইন্ডার তৈরি করা</string>
+    <string name="help_s2_content">- আগে কণ্ঠ: দ্রুত বলা রিমাইন্ডার রেকর্ড করতে মাইক ট্যাপ করুন।\n- অডিও ফাইল: ডিভাইস থেকে বিদ্যমান অডিও ফাইল বেছে নিন।\n- রিমাইন্ডার বার্তা: অ্যাপ ও নোটিফিকেশনে দেখায়।\n- ভয়েস নোট বা অডিও ফাইল থাকলে লেখা পড়ে শোনানোর বদলে সেগুলো চালানো হয়।\n- লিখিত রিমাইন্ডার শুধু তখনই স্বয়ংক্রিয়ভাবে বলা হয় যখন তা শুধু-টেক্সট এবং স্বয়ংক্রিয়ভাবে লেখা পড়ে শোনানো চালু।\n- ছোট লেবেল: তালিকায় সহজে খুঁজতে ঐচ্ছিক নাম।\n- সময়সূচি: তারিখ, সময়, পুনরাবৃত্তি, ফলো-আপ চেক বেছে নিয়ে সংরক্ষণ করুন।</string>
+    <string name="help_s3_title">প্লেব্যাক ও প্রিভিউ</string>
+    <string name="help_s3_content">- রিমাইন্ডার যোগ করুন-এ সংরক্ষণের আগে রেকর্ড করা কণ্ঠ ও বেছে নেওয়া অডিও শুনে নিতে পারেন।\n- রিমাইন্ডারের বিবরণে ভয়েস নোট ও অডিও ফাইল চালানো, থামানো ও সামনে-পিছনে করা যায়।\n- শুধু-টেক্সট রিমাইন্ডার অ্যাপ বা নোটিফিকেশন থেকে নিজে বলিয়ে নেওয়া যায়।\n- শুধু-টোন মোড বলার বদলে রিমাইন্ডার টোন ব্যবহার করে।\n- সেটিংসে শুধু-টোন অ্যালার্টের শব্দ বেছে নিতে পারেন, এবং সেই শব্দ না পাওয়া গেলে %1$s ডিফল্ট অ্যালার্ম টোনে ফিরে যায়।</string>
+    <string name="help_s4_title">হোম ও দ্রুত পদক্ষেপ</string>
+    <string name="help_s4_content">- আজ, আসন্ন, মিস হওয়া ও সম্পন্ন ট্যাব অবস্থা অনুযায়ী রিমাইন্ডার সাজায়।\n- রিমাইন্ডারের পূর্ণ বিবরণ খুলতে কার্ডে ট্যাপ করুন।\n- বিদ্যমান রিমাইন্ডার ডুপ্লিকেট করতে কপি বোতাম ব্যবহার করুন।\n- কার্ডের অপশনে আছে রিমাইন্ডার চালান, সম্পন্ন এবং তিন-বিন্দু মেনু — সম্পাদনা, সম্পন্ন চিহ্নিত করুন, পুনরাবৃত্তি বন্ধ বা মুছুন।</string>
+    <string name="help_s18_title">রিমাইন্ডার বিরতি ও হোমের নোটিস</string>
+    <string name="help_s18_content">- সব রিমাইন্ডার এক ঘণ্টা, চার ঘণ্টা, আজকের বাকি সময় বা আপনার বেছে নেওয়া সময় পর্যন্ত থামিয়ে রাখতে হোম স্ক্রিনে বিরতি বোতাম ট্যাপ করুন।\n- প্রতিটি বিরতির শেষ সময় থাকে। হোম তা দেখায়, সঙ্গে আগে শেষ করার জন্য আবার শুরু করুন।\n- বিরতিতে থাকা রিমাইন্ডার অ্যালার্ট দেয় না, তবে মিস হওয়া ট্যাবে দেখা যায়।\n- বিরতি বিরক্ত করবেন না চালু থাকলেও অ্যালার্ট সেটিংকেও ছাপিয়ে যায়, কারণ এর মানে আপনি এখন কোনো রিমাইন্ডার চান না।\n- এই ফোন ব্যাকগ্রাউন্ডে %1$s থামাতে পারলে হোম সতর্ক করে, এবং নীরব সময় চালু থাকলে তার সময়সীমা দেখায়।</string>
+    <string name="help_s5_title">পুনরাবৃত্ত রিমাইন্ডার</string>
+    <string name="help_s5_content">- পুনরাবৃত্তির মোড: প্রতিদিন, প্রতি সপ্তাহে, প্রতি মাসে, প্রতি বছর বা কাস্টম।\n- বেছে নেওয়া তারিখ ও সময় প্রথম বার হয়।\n- পুনরাবৃত্তি চিরকাল চলতে পারে, নির্দিষ্ট তারিখ ও সময়ে বা নির্দিষ্ট সংখ্যক বারের পর শেষ হতে পারে।\n- পুনরাবৃত্ত রিমাইন্ডার সম্পন্ন চিহ্নিত করলে শুধু বর্তমান বারটি শেষ হয়।</string>
+    <string name="help_s6_title">নোটিফিকেশন ও ফুল-স্ক্রিন অ্যালার্ট</string>
+    <string name="help_s6_content">- রিমাইন্ডার নোটিফিকেশন তিনটি দ্রুত বোতাম দেখায়: সম্পন্ন, স্নুজ, এবং শব্দ বন্ধ করুন (চলার সময়) অথবা চালান/বলুন (আবার শুনতে)।\n- সম্পন্ন রিমাইন্ডার শেষ হিসেবে চিহ্নিত করে; শব্দ বন্ধ করুন শুধু শব্দ থামায় এবং রিমাইন্ডার রেখে দেয় যাতে পরে পদক্ষেপ নিতে পারেন।\n- নোটিফিকেশন সোয়াইপ করে সরালেও বর্তমান বারটি সম্পন্ন চিহ্নিত হয়।\n- সেটিংসে চালু থাকলে লক স্ক্রিনে একই সম্পন্ন, শব্দ বন্ধ করুন, স্নুজ ও আবার চালান অপশনসহ ফুল-স্ক্রিন অ্যালার্ট দেখা যেতে পারে।</string>
+    <string name="help_s7_title">মিস হওয়া ও পুনরুদ্ধার করা রিমাইন্ডার</string>
+    <string name="help_s7_content">- মিস হওয়া রিমাইন্ডার আপনি দেখা পর্যন্ত মিস হওয়া ট্যাবে থাকে।\n- অ্যাপ খুললে একটি পুনরুদ্ধার শিট সর্বশেষ মিস হওয়া রিমাইন্ডার দ্রুত চালানোর সুযোগ দিতে পারে।\n- অতীতের রিমাইন্ডার অপশন মেনু থেকে পুনরুদ্ধার, নতুন সময় ঠিক বা আবার চালানো যায়।</string>
+    <string name="help_s8_title">প্লেব্যাক সেটিংস</string>
+    <string name="help_s8_content">- স্বয়ংক্রিয় প্লেব্যাক চালু থাকলে সময়মতো রিমাইন্ডারের ভয়েস রেকর্ডিং বা অডিও ফাইল বাজবে।\n- শুধু লেখা আছে এমন রিমাইন্ডারই নিজে থেকে পড়ে শোনানো হয়, আর তার জন্য স্বয়ংক্রিয়ভাবে পড়ে শোনানোর সুবিধা চালু থাকতে হবে।\n- রিমাইন্ডার কোন ভাষায় পড়ে শোনানো হবে। স্বয়ংক্রিয় শনাক্তকরণ বার্তার ভাষা বেছে নেয়। সেই ভাষার কণ্ঠ ফোনের টেক্সট-টু-স্পিচ সেটিংসে ইনস্টল থাকতে হবে। চাইলে ফোনের ভাষা বা ইংরেজিও বেছে নিতে পারেন। স্বয়ংক্রিয় শনাক্তকরণে হিন্দিতে লেখা রিমাইন্ডার হিন্দিতেই পড়া হবে।\n- স্বয়ংক্রিয়ভাবে পড়া বন্ধ থাকলেও বোতাম চেপে বার্তা শুনতে পারবেন।\n- প্রথমে সংযুক্ত হিয়ারিং এইড, ব্লুটুথ ডিভাইস বা তারযুক্ত হেডফোনে শোনাবে। এগুলো না থাকলে লাউডস্পিকারের বদলে ফোনের ইয়ারপিস ব্যবহার করবে।\n- লুপ প্লেব্যাকে আপনি থামানো পর্যন্ত বা নির্ধারিত সময় শেষ হওয়া পর্যন্ত শব্দ বারবার বাজবে।\n- ফলো-আপ কাজ সম্পন্ন না করা পর্যন্ত আবার জিজ্ঞেস করবে।\n- নীরব সময়ে বেছে নেওয়া সময়সীমার মধ্যে রিমাইন্ডারের শব্দ বন্ধ থাকতে পারে।</string>
+    <string name="help_s9_title">শুধু-টোন মোড ও নির্ভরযোগ্যতা</string>
+    <string name="help_s9_content">- শুধু-টোন মোড কণ্ঠ বা TTS-এর বদলে স্পষ্ট অ্যালার্ম টোন ব্যবহার করে।\n- কাস্টম শুধু-টোন অ্যালার্টের শব্দ বেছে নিতে পারেন, অথবা ডিফল্ট অ্যালার্ম টোন রাখতে পারেন।\n- বিরক্ত করবেন না চালু থাকলেও অ্যালার্ট %1$s-কে বিরক্ত করবেন না চালু থাকার সময় গুরুত্বপূর্ণ রিমাইন্ডার চালানোর চেষ্টা করতে দেয়।\n- এটি বন্ধ থাকলে বিরক্ত করবেন না-এ আটকে যাওয়া রিমাইন্ডার না বেজে মিস হওয়া ট্যাবে যায়।\n- এই সেটিং আপনার ফোনের বিরক্ত করবেন না মোড চালু বা বন্ধ করে না। নোটিফিকেশন উপেক্ষা সক্রিয় হওয়ার আগে Android বিরক্ত করবেন না অনুমতি দরকার।\n- চালু থাকলে রিমাইন্ডার অ্যালার্ম-অগ্রাধিকার অডিও ব্যবহার করে। সিস্টেম মোড অ্যালার্মের শব্দ নীরব করলে কিছু ফোন রুটিন তবুও অ্যালার্ম আটকাতে পারে।\n- বেছে নেওয়া শব্দ পরে হারিয়ে গেলে %1$s স্বয়ংক্রিয়ভাবে ডিফল্ট অ্যালার্ম টোনে ফিরে যায়।\n- ফোন বলা প্লেব্যাক দেরি করালে, আটকালে বা থামালে শুধু-টোন মোড ব্যবহার করুন।\n- সেটিংস &gt; নির্ভরযোগ্যতায় কঠোর ব্যাকগ্রাউন্ড সীমাবদ্ধতাওয়ালা ফোনের জন্য ব্যাটারি অপ্টিমাইজেশন গাইড আছে।\n- সেরা নির্ভরযোগ্যতার জন্য নোটিফিকেশন, সঠিক অ্যালার্ম ও ব্যাটারি সেটিংস চালু রাখুন।</string>
+    <string name="help_s10_title">উইজেট ও Wear OS</string>
+    <string name="help_s10_content">- দ্রুত রিমাইন্ডার উইজেট সরাসরি রিমাইন্ডার যোগ করুন খোলে।\n- আসন্ন উইজেট আসন্ন ও মিস হওয়া রিমাইন্ডার দেখায়।\n- Wear OS সমর্থন ফোনের নোটিফিকেশন ও ঘড়ির সিঙ্ক চালু থাকার উপর নির্ভর করে।</string>
+    <string name="help_s11_title">ডিভাইস রিস্টার্টের পর</string>
+    <string name="help_s11_content">- রিস্টার্টের পর ভবিষ্যতের রিমাইন্ডারের সময় স্বয়ংক্রিয়ভাবে আবার ঠিক হয়।\n- সময় পেরিয়ে যাওয়া রিমাইন্ডার চালু হওয়ার সময় হঠাৎ না বেজে মিস হওয়া রিমাইন্ডারের প্রক্রিয়ায় যায়।</string>
+    <string name="help_s13_title">ফলো-আপ চেক</string>
+    <string name="help_s13_content">- ফলো-আপ চেক রিমাইন্ডার বাজার কয়েক মিনিট পর জিজ্ঞাসা করে \"আপনি কি … সম্পন্ন করেছেন?\"।\n- ডিফল্টভাবে আপনি রিমাইন্ডার সম্পন্ন চিহ্নিত না করা পর্যন্ত এটি চলতে থাকে। নিজে থেকে থামাতে চাইলে সেটিংস &gt; নির্ভরযোগ্যতায় সীমা সেট করতে পারেন।\n- সম্পন্ন ও স্নুজ বর্তমান ফলো-আপ চক্র শেষ করে; নীরব সময়ও ফলো-আপ থামায়।\n- ডিভাইস রিস্টার্টের পরও সম্পন্ন বা সীমায় না পৌঁছানো পর্যন্ত ফলো-আপ চেক চলতে থাকে।</string>
+    <string name="help_s14_title">ব্যাকআপ ও ইমপোর্ট</string>
+    <string name="help_s14_content">- সেটিংসে রিমাইন্ডার ব্যাকআপ নিন ভয়েস রেকর্ডিংসহ সব আসন্ন রিমাইন্ডার আপনার বেছে নেওয়া একটি ফাইলে সংরক্ষণ করে।\n- রিমাইন্ডার ইমপোর্ট করুন এই বা অন্য ডিভাইসে সেগুলো পুনরুদ্ধার করে।\n- ইমপোর্ট হুবহু ডুপ্লিকেট ও মেয়াদোত্তীর্ণ একবারের রিমাইন্ডার বাদ দেয়; পুনরাবৃত্ত রিমাইন্ডার পরের বার থেকে চলতে থাকে।\n- ইমপোর্ট করা রিমাইন্ডার সঙ্গে সঙ্গে নির্ধারিত হয়।</string>
+    <string name="help_s12_title">সম্পন্ন না হওয়া পর্যন্ত রিমাইন্ডার স্ক্রিনে রাখুন</string>
+    <string name="help_s12_content">- ভুল করে সোয়াইপ হয়ে যাওয়া এড়াতে রিমাইন্ডার নোটিফিকেশন পিন করতে সেটিংস &gt; নির্ভরযোগ্যতা &gt; সম্পন্ন না হওয়া পর্যন্ত রিমাইন্ডার স্ক্রিনে রাখুন চালু করুন।\n- চালু থাকলে সোয়াইপ শুধু শব্দ নীরব করে এবং রিমাইন্ডার বাকি রাখে — সম্পন্ন বা স্নুজ ট্যাপ না করা পর্যন্ত এটি থাকে।\n- নোটিফিকেশন, ফুল-স্ক্রিন অ্যালার্ট বা রিমাইন্ডার কার্ড থেকে সম্পন্ন চিহ্নিত করা সবসময় কাজ করে, এবং তা যেকোনো ফলো-আপ অ্যালার্ট থামায়।\n- ফলো-আপ চেকের সঙ্গে মিলিয়ে ব্যবহার করুন যাতে সম্পন্ন না হওয়া পর্যন্ত রিমাইন্ডার টাইমারে আবার অ্যালার্ট দেয়।</string>
+
+    <!-- What's new sheet -->
+    <string name="action_continue">চালিয়ে যান</string>
+    <string name="wn_title">%1$s-এ নতুন কী</string>
+    <string name="wn_intro">রিমাইন্ডার পরিচালনা আরও সহজ: রিমাইন্ডারেই তারিখ ও সময় বদলান, নোটিফিকেশন নিজে থেকে গুছিয়ে যায়, আর ভয়েস রিমাইন্ডার সঙ্গে সঙ্গে সংরক্ষিত হয়।</string>
+    <string name="wn_edit_title">সেখানেই তারিখ ও সময় বদলান</string>
+    <string name="wn_edit_desc">একটি রিমাইন্ডার খুলে সরাসরি বদলাতে তারিখ বা সময় ট্যাপ করুন। আগে এডিটর খোলার দরকার নেই।</string>
+    <string name="wn_clear_title">নোটিফিকেশন নিজে থেকে গুছিয়ে যায়</string>
+    <string name="wn_clear_desc">অ্যাপে কোনো রিমাইন্ডার খুললে, চালালে, সম্পন্ন করলে বা মুছলে তার নোটিফিকেশন নোটিফিকেশন প্যানেল থেকে সরে যায়। সম্পন্ন না হওয়া পর্যন্ত রিমাইন্ডার স্ক্রিনে রাখুন চালু থাকলে আপনি সম্পন্ন চিহ্নিত না করা পর্যন্ত এটি থাকে।</string>
+    <string name="wn_save_title">ভয়েস রিমাইন্ডার সঙ্গে সঙ্গে সংরক্ষিত</string>
+    <string name="wn_save_desc">পরীক্ষামূলক কণ্ঠ উন্নয়ন চালু থাকলে সংরক্ষণ আর পরিষ্কারের জন্য অপেক্ষা করে না। এটি ব্যাকগ্রাউন্ডে শেষ হয়, আর ততক্ষণ রিমাইন্ডারে ভয়েস · উন্নত হচ্ছে… দেখায়।</string>
+    <string name="wn_fullscreen_title">লক স্ক্রিন অ্যালার্ট এখন কাজ করে</string>
+    <string name="wn_fullscreen_desc">সেটিং যেভাবেই থাকুক, রিমাইন্ডার বাজলে ফুল-স্ক্রিন অ্যালার্ট আসলে কখনো দেখা যেত না। এখন এটি স্ক্রিন জাগিয়ে রিমাইন্ডার দেখায়, বড় লেখা ও স্পষ্ট অপশনসহ নতুন করে তৈরি অ্যালার্ট স্ক্রিনে।</string>
+    <string name="wn_pause_title">রিমাইন্ডার বিরতি</string>
+    <string name="wn_pause_desc">মিটিংয়ে যাচ্ছেন? হোম স্ক্রিন থেকে এক ঘণ্টা, দিনের বাকি সময় বা আপনার বেছে নেওয়া সময় পর্যন্ত বিরতি দিন। প্রতিটি বিরতির শেষ আছে, আর বিরতিতে থাকা রিমাইন্ডার মিস হওয়া ট্যাবে দেখা যায়।</string>
+    <string name="wn_notices_title">রিমাইন্ডার কেন নীরব ছিল হোম তা জানায়</string>
+    <string name="wn_notices_desc">এই ফোন ব্যাকগ্রাউন্ডে %1$s থামাতে পারলে, বা নীরব সময় চালু থাকলে, রিমাইন্ডার চুপচাপ না এসে থাকার বদলে হোম এখন তা জানিয়ে দেয়।</string>
+    <string name="wn_lang_title">এখন আপনার ভাষায়</string>
+    <string name="wn_lang_desc">পুরো অ্যাপ ইংরেজি, স্প্যানিশ, হিন্দি, আরবি, পর্তুগিজ (ব্রাজিল), রুশ, ভিয়েতনামি, বাংলা, তেলুগু, তামিল, গ্রিক ও মালয়ালমে পাওয়া যায়, ডান-থেকে-বাম সমর্থনসহ। সেটিংস &gt; সাজসজ্জা &gt; ভাষা থেকে বেছে নিন।</string>
+    <string name="wn_buttons_title">আরও স্পষ্ট অ্যালার্ম বোতাম</string>
+    <string name="wn_buttons_desc">রিমাইন্ডার অ্যালার্ট ও নোটিফিকেশন এখন সম্পন্ন, শব্দ বন্ধ করুন ও স্নুজ দেখায়। সম্পন্ন কাজ শেষ করে; শব্দ বন্ধ করুন শুধু শব্দ থামায় এবং রিমাইন্ডার রাখে।</string>
+    <string name="wn_spoken_title">সঠিক কণ্ঠে রিমাইন্ডার</string>
+    <string name="wn_spoken_desc">বলা রিমাইন্ডার স্বয়ংক্রিয়ভাবে তাদের নিজের ভাষায় পড়া হয় — অ্যাপ বাংলায় থাকলেও হিন্দি রিমাইন্ডার হিন্দিতে পড়া হয়। সেটিংস &gt; প্লেব্যাক &gt; পড়ে শোনানোর ভাষায় বদলান।</string>
+    <string name="wn_persist_title">সম্পন্ন না হওয়া পর্যন্ত রিমাইন্ডার রাখুন</string>
+    <string name="wn_persist_desc">সেটিংস &gt; নির্ভরযোগ্যতা &gt; সম্পন্ন না হওয়া পর্যন্ত রিমাইন্ডার স্ক্রিনে রাখুন চালু করুন, যাতে রিমাইন্ডার পিন করা থাকে এবং শুধু সম্পন্ন বা স্নুজ করলে সরে যায়।</string>
+    <string name="wn_backup_title">রিমাইন্ডার ব্যাকআপ নিন ও সরান</string>
+    <string name="wn_backup_desc">রেকর্ডিংসহ সব আসন্ন রিমাইন্ডার একটি ফাইলে সংরক্ষণ করুন এবং যেকোনো সময় পুনরুদ্ধার করুন, এমনকি নতুন ফোনেও। সেটিংসে পাবেন।</string>
+    <string name="wn_followup_title">ফলো-আপ চেক, আপনার মতো করে</string>
+    <string name="wn_followup_desc">আগের মতোই, আপনি রিমাইন্ডার সম্পন্ন চিহ্নিত না করা পর্যন্ত ফলো-আপ চেক আবার অ্যালার্ট দিতে থাকে। নতুন: নিজে থেকে থামাতে চাইলে সেটিংস &gt; নির্ভরযোগ্যতায় পুনরাবৃত্তির সীমা সেট করুন।</string>
+
+    <!-- Startup dialogs -->
+    <string name="action_allow">অনুমতি দিন</string>
+    <string name="action_later">পরে</string>
+    <string name="action_open_settings">সেটিংস খুলুন</string>
+    <string name="batt_prompt_title">%1$s-কে ব্যাকগ্রাউন্ডে চলতে দিন</string>
+    <string name="batt_prompt_message">কিছু ফোন, বিশেষ করে Xiaomi ও POCO মডেল, ব্যাটারি বাঁচাতে অ্যাপকে ব্যাকগ্রাউন্ডে চলতে দেয় না। এতে রিমাইন্ডার না বাজতে পারে। আরও নির্ভরযোগ্য রিমাইন্ডারের জন্য %1$s-কে ব্যাটারি অপ্টিমাইজেশন উপেক্ষা করতে দিন।</string>
+    <string name="batt_toast_unavailable">এই ডিভাইসে ব্যাটারি সেটিংস নেই।</string>
+    <string name="home_batt_banner_title">রিমাইন্ডার না-ও আসতে পারে</string>
+    <string name="home_batt_banner_body">এই ফোন ব্যাকগ্রাউন্ডে %1$s থামাতে পারে। সীমাহীন ব্যাটারি ব্যবহারের অনুমতি দিতে ট্যাপ করুন।</string>
+    <string name="home_quiet_banner">নীরব সময় %1$s – %2$s। রিমাইন্ডার মিস হওয়া ট্যাবে যায়।</string>
+    <string name="home_pause_banner">%1$s পর্যন্ত রিমাইন্ডার বিরতিতে</string>
+    <string name="home_pause_resume">আবার শুরু করুন</string>
+    <string name="home_pause_title">রিমাইন্ডার বিরতি দিন</string>
+    <string name="home_pause_body">বিরতি শেষ না হওয়া পর্যন্ত রিমাইন্ডার অ্যালার্ট দেবে না। তবুও সেগুলো মিস হওয়া ট্যাবে যাবে।</string>
+    <string name="home_pause_1h">1 ঘণ্টার জন্য</string>
+    <string name="home_pause_4h">4 ঘণ্টার জন্য</string>
+    <string name="home_pause_today">আজকের বাকি সময়</string>
+    <string name="home_pause_pick">শেষের সময় বেছে নিন…</string>
+    <string name="home_pause_cd">রিমাইন্ডার বিরতি দিন</string>
+    <string name="home_pause_also_quiet">নীরব সময়ও চালু আছে, %1$s – %2$s।</string>
+    <string name="fsr_title">আবার ফুল-স্ক্রিন অ্যালার্টের অনুমতি দিন</string>
+    <string name="fsr_message">%1$s-এ লক স্ক্রিন রিমাইন্ডার অ্যালার্ট এখনো চালু আছে, কিন্তু Android ফুল-স্ক্রিন অনুমতি বন্ধ। আবার ইনস্টল বা পুনরুদ্ধারের পর এমন হতে পারে।</string>
+    <!-- Version 2.0.34 help and startup highlights -->
+    <string name="help_s15_title">রিমাইন্ডার ফর্ম কাস্টমাইজ করুন</string>
+    <string name="help_s15_content">- ভয়েস রেকর্ডিং, অডিও ফাইল বেছে নিন, লিখিত রিমাইন্ডার ও ছোট লেবেল দেখাতে বা লুকাতে সেটিংস &gt; রিমাইন্ডার ফর্ম খুলুন।\n- প্রতিটি সুইচ আলাদাভাবে কাজ করে। তিনটি ইনপুট পদ্ধতিই লুকানো থাকলে রিমাইন্ডার যোগ করুন জানিয়ে দেয় কোন সেটিং আবার চালু করতে হবে।\n- সম্পাদনার সময়, রিমাইন্ডারে আগে থেকেই সেই বিষয়বস্তু থাকলে লুকানো অংশ স্বয়ংক্রিয়ভাবে দেখা যায়।</string>
+    <string name="help_s16_title">ভয়েস রেকর্ডিং মোড বেছে নিন</string>
+    <string name="help_s16_content">- সেটিংস &gt; রিমাইন্ডার ফর্ম &gt; পরীক্ষামূলক কণ্ঠ উন্নয়ন খুলুন।\n- বন্ধ (ডিফল্ট) কোনো পোস্ট-প্রসেসিং ছাড়াই মূল কাঁচা MIC/AAC রেকর্ডিং পদ্ধতি রাখে।\n- চালু করলে নতুন রেকর্ডার সুরক্ষা, নীরবতার বিজ্ঞপ্তি, ব্যাকগ্রাউন্ড নয়েজ পরিষ্কার ও কণ্ঠের মাত্রা সমান করা চালু হয়। ফলাফল ও প্রক্রিয়াকরণের সময় ডিভাইসভেদে আলাদা হতে পারে।\n- নীরব রেকর্ডিংও প্রিভিউ ও সংরক্ষণ করা যায়।</string>
+    <string name="help_s17_title">আরও নির্ভরযোগ্য রিমাইন্ডার প্লেব্যাক</string>
+    <string name="help_s17_content">- রিমাইন্ডার বাজা শুরু হলেই Android-এর প্রয়োজনীয় নোটিফিকেশন দেখানো হয়। নতুন Android সংস্করণ এবং ব্যাকগ্রাউন্ডে চালু হতে সময় লাগে এমন ফোনেও এতে সুবিধা হয়।\n- শব্দ শুরু হওয়ার আগেই সময়সীমা পেরিয়ে যাওয়ায় সিস্টেম যেন রিমাইন্ডার বন্ধ না করে, এটি তা এড়াতে সাহায্য করে।\n- ভালোভাবে কাজ করার জন্য নোটিফিকেশন ও ঠিক সময়ে অ্যালার্মের অনুমতি দিন এবং প্রস্তাবিত ব্যাটারি সেটিংস রাখুন।</string>
+    <string name="wn_form_title">আপনার রিমাইন্ডার ফর্ম, আপনার মতো</string>
+    <string name="wn_form_desc">সেটিংস &gt; রিমাইন্ডার ফর্মে ভয়েস রেকর্ডিং, অডিও ফাইল বেছে নিন, লিখিত রিমাইন্ডার ও ছোট লেবেল আলাদাভাবে দেখান বা লুকান।</string>
+    <string name="wn_recording_title">ঐচ্ছিক পরীক্ষামূলক কণ্ঠ উন্নয়ন</string>
+    <string name="wn_recording_desc">এখন রেকর্ডিংয়ের পদ্ধতি বেছে নিতে পারবেন। ডিফল্টভাবে রেকর্ডিং অপরিবর্তিত থাকে। চাইলে রেকর্ডিংয়ের বাড়তি সুরক্ষা, শব্দ না পাওয়ার সতর্কবার্তা এবং পেছনের শব্দ কমানোর সুবিধা চালু করুন। ঘরের আওয়াজ না বাড়িয়ে আস্তে করা রেকর্ডিং শুনতে সুবিধা হয় এমন মাত্রায় আনা হয়। শব্দহীন রেকর্ডিংও সংরক্ষিত থাকে।</string>
+    <string name="wn_reliability_title">নতুন Android ফোনে আরও নির্ভরযোগ্য</string>
+    <string name="wn_reliability_desc">রিমাইন্ডার প্লেব্যাক এখন নিরাপদে ও সঙ্গে সঙ্গে ফোরগ্রাউন্ডে শুরু হয়, যা কিছু Android 12 ও Android 16 ডিভাইসে দেখা স্টার্টআপ টাইমআউট এড়ায়।</string>
+    <string name="settings_24_hour_time">24-ঘণ্টার সময় ব্যবহার করুন</string>
+    <string name="settings_24_hour_time_desc">সব সময় 5:30 PM-এর বদলে 17:30 হিসেবে দেখান।</string>
+
+    <!-- Reminder card and actions sheet -->
+    <string name="card_recur_onetime">একবারের রিমাইন্ডার</string>
+    <string name="card_recur_daily">প্রতিদিন পুনরাবৃত্তি</string>
+    <string name="card_recur_last_day">প্রতি মাসের শেষ দিন</string>
+    <string name="card_recur_yearly">প্রতি বছর পুনরাবৃত্তি</string>
+    <string name="card_chip_recurring">পুনরাবৃত্ত</string>
+    <string name="card_days_of_month">মাসের দিন</string>
+    <string name="card_cd_duplicate">রিমাইন্ডার ডুপ্লিকেট করুন</string>
+    <string name="card_cd_more">আরও অপশন</string>
+    <string name="card_cd_looping">লুপ চলছে</string>
+    <string name="card_cd_followup">%1$d মিনিটে ফলো-আপ</string>
+    <string name="card_cd_ends_after">%1$d %2$s পরে শেষ</string>
+    <string name="sheet_reminder_actions">রিমাইন্ডারের অপশন</string>
+    <string name="sheet_stop_playback">প্লেব্যাক থামান</string>
+
+    <!-- Custom follow-up dialog -->
+    <string name="fu_custom_title">কাস্টম ফলো-আপ</string>
+    <string name="fu_custom_desc">রিমাইন্ডার সম্পন্ন চিহ্নিত না হলে এত মিনিট পরে আবার জিজ্ঞাসা করুন।</string>
+    <string name="fu_allowed_range">অনুমোদিত: 1-%1$d মিনিট</string>
+
+    <!-- Voice recorder -->
+    <string name="vr_playing_audio">অডিও চলছে</string>
+    <string name="vr_voice_recorded">কণ্ঠ রেকর্ড হয়েছে</string>
+    <string name="vr_text_optional">টেক্সট ঐচ্ছিক</string>
+    <string name="vr_tap_to_stop">থামাতে ট্যাপ করুন</string>
+    <string name="vr_cd_level">রিয়েল-টাইম শব্দমাত্রার চিত্র</string>
+    <string name="vr_cd_stop">রেকর্ডিং থামান</string>
+    <string name="vr_cd_double_tap_stop">রেকর্ডিং থামাতে দুবার ট্যাপ করুন</string>
+    <string name="vr_cd_preview_progress">ভয়েস প্রিভিউর অগ্রগতি</string>
+    <string name="vr_cd_start">ভয়েস রেকর্ডিং শুরু করুন</string>
+    <string name="vr_cd_restart">আবার রেকর্ড করুন</string>
+
+    <!-- Date and time picker -->
+    <string name="dtp_title">তারিখ ও সময় বেছে নিন</string>
+    <string name="dtp_subtitle">দ্রুত বিকল্প ব্যবহার করুন বা সঠিক তারিখ ও সময় বেছে নিন।</string>
+    <string name="dtp_quick_date">দ্রুত তারিখ</string>
+    <string name="dtp_quick_time">দ্রুত সময়</string>
+    <string name="dtp_pick_date">সঠিক তারিখ বেছে নিন</string>
+    <string name="dtp_pick_time">সঠিক সময় বেছে নিন</string>
+    <string name="dtp_next_week">আগামী সপ্তাহ</string>
+    <string name="dtp_plus_10">+10 মিনিট</string>
+    <string name="dtp_plus_30">+30 মিনিট</string>
+    <string name="dtp_plus_60">+1 ঘণ্টা</string>
+    <string name="dtp_err_future">সময় ভবিষ্যতের হতে হবে</string>
+    <string name="dtp_err_date_future">তারিখ আজ বা ভবিষ্যতের হতে হবে</string>
+
+    <!-- Recurring completion dialog -->
+    <string name="rcd_title">এটি একটি পুনরাবৃত্ত রিমাইন্ডার</string>
+    <string name="rcd_desc">শুধু এই বারের কাজ শেষ করবেন, বারবার আসার সময় বদলাবেন, নাকি পরের সব রিমাইন্ডার বন্ধ করবেন — বেছে নিন।</string>
+    <string name="rcd_mark_occurrence">এই বারটি সম্পন্ন চিহ্নিত করুন</string>
+    <string name="rcd_edit_schedule">সময়সূচি সম্পাদনা</string>
+    <string name="rcd_stop_recurring">পুনরাবৃত্তি বন্ধ করুন</string>
+
+    <!-- Restore reminder dialog -->
+    <string name="rrd_title">রিমাইন্ডার পুনরুদ্ধার</string>
+    <string name="rrd_desc">রিমাইন্ডারটি আগে সম্পন্ন করেছেন। এখন কীভাবে ফিরিয়ে আনবেন তা বেছে নিন।</string>
+    <string name="rrd_reschedule">রিমাইন্ডারের সময় আবার ঠিক করুন</string>
+    <string name="rrd_move_missed">মিস হওয়া ট্যাবে সরান</string>
+    <string name="rrd_play">রিমাইন্ডার চালান</string>
+    <string name="rrd_keep_done">সম্পন্ন হিসেবে রাখুন</string>
+
+    <!-- Missed reminder sheets -->
+    <string name="pua_title">রিমাইন্ডার মিস হয়েছে</string>
+    <string name="pua_scheduled_for">%1$s-এর জন্য নির্ধারিত</string>
+    <string name="pua_set_new_time">নতুন সময় সেট করুন</string>
+    <string name="pua_just_play">শুধু রিমাইন্ডার চালান</string>
+    <string name="mrr_desc">সবচেয়ে সাম্প্রতিক মিস হওয়া রিমাইন্ডারটি এখনই শুনুন। অথবা সবগুলো “মিস হওয়া” ট্যাবে রেখে পরে দেখুন।</string>
+    <plurals name="mrr_title">
+        <item quantity="one">আপনি %1$dটি রিমাইন্ডার মিস করেছেন</item>
+        <item quantity="other">আপনি %1$dটি রিমাইন্ডার মিস করেছেন</item>
+    </plurals>
+    <string name="mrr_play_latest">সর্বশেষ মিস হওয়া রিমাইন্ডার চালান</string>
+    <string name="mrr_keep">মিস হওয়া ট্যাবে রাখুন</string>
+
+    <!-- Battery optimization guide -->
+    <string name="bog_title">ব্যাটারি অপ্টিমাইজেশন গাইড</string>
+    <string name="bog_header">রিমাইন্ডার নির্ভরযোগ্য রাখুন</string>
+    <string name="bog_header_sub">%1$s ব্যাটারি সীমাবদ্ধতা থেকে মুক্ত না থাকলে কিছু ফোন ব্যাকগ্রাউন্ড অ্যালার্ম থামিয়ে বা বন্ধ করে দেয়।</string>
+    <string name="bog_intro">কিছু ডিভাইস ব্যাটারি বাঁচাতে ব্যাকগ্রাউন্ড অ্যালার্ম বন্ধ করে দেয়। এতে রিমাইন্ডার না বাজতে পারে।</string>
+    <string name="bog_menu_vary">মেনুর নাম MIUI, HyperOS, EMUI, Android সংস্করণ ও ফোন মডেলভেদে আলাদা হতে পারে।</string>
+    <string name="bog_allow_app">%1$s-কে অনুমতি দিন</string>
+    <string name="bog_back_settings">সেটিংসে ফিরে যান</string>
+    <string name="bog_brand_xiaomi">Xiaomi / POCO / Redmi (MIUI / HyperOS)</string>
+    <string name="bog_brand_huawei">Huawei (EMUI)</string>
+    <string name="bog_step">ধাপ %1$d</string>
+    <string name="bog_optional">ঐচ্ছিক</string>
+    <string name="bog_open_settings">সেটিংস খুলুন</string>
+    <string name="bog_find_app">%1$s খুঁজুন</string>
+    <string name="bog_xiaomi_battery">ব্যাটারি ট্যাপ করুন</string>
+    <string name="bog_xiaomi_optimization">ব্যাটারি অপ্টিমাইজেশন ট্যাপ করুন</string>
+    <string name="bog_xiaomi_no_restrictions">কোনো সীমাবদ্ধতা নেই বেছে নিন</string>
+    <string name="bog_xiaomi_opt">সাম্প্রতিক অ্যাপ স্ক্রিনে অ্যাপটি লক করুন।</string>
+    <string name="bog_huawei_apps">অ্যাপস বা অ্যাপ লঞ্চ খুলুন</string>
+    <string name="bog_huawei_manage_off">স্বয়ংক্রিয়ভাবে পরিচালনা বন্ধ করুন</string>
+    <string name="bog_huawei_allow">অটো-লঞ্চ, সেকেন্ডারি লঞ্চ ও ব্যাকগ্রাউন্ডে চলার অনুমতি দিন</string>
+    <string name="bog_huawei_opt">ব্যাটারি অপ্টিমাইজেশনও দেখুন এবং %1$s-কে অনুমতি দেবেন না-তে সেট করুন।</string>
+    <string name="bog_status_enabled">%1$s-এর জন্য ব্যাটারি অপ্টিমাইজেশন এখনো চালু।</string>
+    <string name="bog_status_exempt">%1$s ইতিমধ্যে ব্যাটারি অপ্টিমাইজেশন ছাড়া চলার অনুমতি পেয়েছে।</string>
+    <string name="bog_no_battery_settings">এই ডিভাইসে ব্যাটারি সেটিংস নেই।</string>
+    <string name="bog_why_title">এটি কেন জরুরি</string>
+    <string name="bog_why_body">Xiaomi, POCO, Redmi, Huawei ও একই ধরনের ব্র্যান্ডের ফোন ব্যাকগ্রাউন্ডে অ্যাপ জোর করে বন্ধ করতে পারে। নির্মাতা ও সফটওয়্যার সংস্করণকে নির্দেশিকা হিসেবে ধরুন; সঠিক পথ ডিভাইস মডেলভেদে আলাদা হতে পারে।</string>
+
+    <!-- Reminder card accessibility description -->
+    <string name="a11y_card_reminder">রিমাইন্ডার: %1$s</string>
+    <string name="a11y_card_at">%1$s-এ</string>
+    <string name="a11y_card_has_audio_file">অডিও ফাইল আছে</string>
+    <string name="a11y_card_has_voice">ভয়েস নোট আছে</string>
+    <string name="a11y_card_recurring">পুনরাবৃত্ত %1$s</string>
+    <string name="a11y_card_completed">সম্পন্ন</string>
+    <string name="a11y_card_playing">এখন চলছে</string>
+    <string name="a11y_card_open_hint">বিবরণ খুলতে দুবার ট্যাপ করুন।</string>
+
+    <!-- Accessibility states -->
+    <string name="state_completed">সম্পন্ন</string>
+    <string name="state_playing">চলছে</string>
+    <string name="a11y_percent">%1$d শতাংশ</string>
+    <string name="a11y_destructive">আগের অবস্থায় ফেরানো যায় না এমন কাজ</string>
+    <string name="a11y_recording_in_progress">রেকর্ডিং চলছে</string>
+    <string name="a11y_playing_preview">অডিও প্রিভিউ চলছে</string>
+    <string name="a11y_voice_recorded">ভয়েস নোট রেকর্ড হয়েছে</string>
+    <string name="a11y_no_voice_recorded">কোনো ভয়েস নোট রেকর্ড হয়নি</string>
+    <plurals name="card_occurrences">
+        <item quantity="one">%1$d বার</item>
+        <item quantity="other">%1$d বার</item>
+    </plurals>
+
+    <!-- Test reminder -->
+    <string name="set_test_reminder_title">টেস্ট রিমাইন্ডার</string>
+    <string name="set_test_reminder_text">প্লেব্যাক যাচাই করার জন্য এটি একটি টেস্ট রিমাইন্ডার। তৈরির 10 সেকেন্ড পরে এটি বাজে।</string>
+    <string name="widget_quick_subtitle">দ্রুত যোগ</string>
+    <string name="widget_upcoming_subtitle">আসন্ন ও মিস হওয়া রিমাইন্ডার</string>
+    <string name="widget_upcoming_empty">কোনো আসন্ন বা মিস হওয়া রিমাইন্ডার নেই</string>
+    <string name="card_type_audio_file">অডিও ফাইল</string>
+    <string name="card_type_voice_improving">ভয়েস · উন্নত হচ্ছে…</string>
+    <string name="card_type_voice">ভয়েস</string>
+    <string name="card_type_text">টেক্সট</string>
+    <string name="card_voice_recording">ভয়েস রেকর্ডিং</string>
+    <string name="card_custom_audio_file">কাস্টম অডিও ফাইল</string>
+    <string name="card_text_note">টেক্সট নোট</string>
+    <string name="sheet_mark_this_done">এটি সম্পন্ন চিহ্নিত করুন</string>
+    <string name="sheet_delete_reminder">রিমাইন্ডার মুছুন</string>
+    <string name="vr_recording_ellipsis">রেকর্ড হচ্ছে…</string>
+    <string name="vr_play_recording">রেকর্ডিং চালান</string>
+    <string name="rcd_sub_keep_next">পরের বারটি নির্ধারিত রাখুন</string>
+    <string name="rcd_sub_change_rules">পুনরাবৃত্তির নিয়ম বা সময় বদলান</string>
+    <string name="rcd_sub_delete_future">এই রিমাইন্ডার ও ভবিষ্যতের পুনরাবৃত্তি মুছুন</string>
+    <string name="rrd_sub_pick_new">নতুন তারিখ ও সময় বেছে নিন</string>
+    <string name="rrd_sub_keep_missed">পরের জন্য মিস হওয়া ট্যাবে রাখুন</string>
+    <string name="rrd_sub_hear_now">পুনরুদ্ধার না করে এখনই শুনুন</string>
+    <string name="rrd_sub_leave_done">রিমাইন্ডার সম্পন্নই থাকুক</string>
+    <string name="mrr_sub_start_now">এখনই প্লেব্যাক শুরু করুন</string>
+    <string name="set_tab_form">ফর্ম</string>
+    <string name="set_tab_play">প্লে</string>
+    <string name="set_tab_time">সময়</string>
+    <string name="set_tab_safe">সুরক্ষা</string>
+    <string name="set_tab_backup">ব্যাকআপ</string>
+    <string name="set_tab_wear">ঘড়ি</string>
+    <string name="set_tab_help">সাহায্য</string>
+</resources>

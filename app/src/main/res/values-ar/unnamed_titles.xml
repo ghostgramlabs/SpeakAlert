@@ -1,6 +1,6 @@
 <resources>
     <string name="unnamed_title_setting">عنوان التذكيرات بلا اسم</string>
-    <string name="unnamed_title_description">اختر العنوان البديل في قائمة التذكيرات وتفاصيلها. تظل تسمياتك ورسائلك المكتوبة ظاهرة دائمًا. تظهر التواريخ والأوقات حتى بدون عنوان.</string>
+    <string name="unnamed_title_description">اختر ما يظهر في القائمة والتفاصيل للتذكيرات التي لم تسمّها. تبقى الأسماء والرسائل التي كتبتها ظاهرة دائمًا، وكذلك التاريخ والوقت حتى عند إخفاء العنوان.</string>
     <string name="unnamed_creation_time">وقت الإنشاء</string>
     <string name="unnamed_reminder_type">نوع التذكير</string>
     <string name="unnamed_no_title">بدون عنوان</string>

@@ -43,7 +43,15 @@ object AppLocale {
         "en" to "English",
         "es" to "Español",
         "hi" to "हिन्दी",
-        "ar" to "العربية"
+        "ar" to "العربية",
+        "pt-BR" to "Português (Brasil)",
+        "ru" to "Русский",
+        "vi" to "Tiếng Việt",
+        "bn" to "বাংলা",
+        "te" to "తెలుగు",
+        "ta" to "தமிழ்",
+        "el" to "Ελληνικά",
+        "ml" to "മലയാളം"
     )
 
     private fun prefs(context: Context) =
@@ -54,9 +62,21 @@ object AppLocale {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val localeManager = context.getSystemService(android.app.LocaleManager::class.java)
             val tags = localeManager?.applicationLocales?.toLanguageTags().orEmpty()
-            return if (tags.isBlank()) "" else tags.substringBefore(',').substringBefore('-')
+            return if (tags.isBlank()) "" else matchSupported(tags.substringBefore(','))
         }
         return prefs(context).getString(KEY_TAG, "").orEmpty()
+    }
+
+    /**
+     * Maps a platform tag (e.g. "es-US" or "pt-BR" picked in system Settings) to the picker entry
+     * it selects: an exact regional match first (pt-BR), otherwise the bare language (es). Unknown
+     * tags fall back to their language so they simply match no chip.
+     */
+    internal fun matchSupported(tag: String): String {
+        supported.firstOrNull { it.first.equals(tag, ignoreCase = true) }?.let { return it.first }
+        val language = tag.substringBefore('-')
+        if (language == "pt") return "pt-BR" // the only Portuguese the app ships
+        return language
     }
 
     /**

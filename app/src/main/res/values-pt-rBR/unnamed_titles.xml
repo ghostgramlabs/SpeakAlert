@@ -1,0 +1,10 @@
+<resources>
+    <string name="unnamed_title_setting">Título de lembrete sem nome</string>
+    <string name="unnamed_title_description">Escolha o que aparece na lista e nos detalhes dos lembretes sem nome. Os nomes e as mensagens que você escreveu continuam visíveis. A data e a hora aparecem mesmo sem título.</string>
+    <string name="unnamed_creation_time">Horário de criação</string>
+    <string name="unnamed_reminder_type">Tipo de lembrete</string>
+    <string name="unnamed_no_title">Sem título</string>
+    <string name="unnamed_voice_reminder">Lembrete de voz</string>
+    <string name="unnamed_audio_reminder">Lembrete de áudio</string>
+    <string name="unnamed_generic_reminder">Lembrete</string>
+</resources>

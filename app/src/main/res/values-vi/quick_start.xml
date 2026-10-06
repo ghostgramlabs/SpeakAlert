@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quick_title">Bắt đầu</string>
+    <string name="quick_progress">Bước %1$d / %2$d</string>
+    <string name="quick_back">Quay lại</string>
+    <string name="quick_next">Tiếp</string>
+    <string name="quick_finish">Bắt đầu sử dụng ứng dụng</string>
+    <string name="quick_later">Đóng — bạn có thể xem lại trong Trợ giúp</string>
+    <string name="quick_create_title">Tạo lời nhắc đầu tiên</string>
+    <string name="quick_create_body">Nhấn + để tạo lời nhắc. Bạn có thể ghi âm, chọn tệp âm thanh hoặc viết nội dung để ứng dụng đọc lên. Chỉ cần cấp quyền micrô khi ghi âm.\n\nChọn ngày giờ sắp tới. Nếu muốn lời nhắc lặp lại, hãy chọn khoảng thời gian giữa các lần. Nghe thử bản ghi rồi nhấn “Lưu”.\n\nLời nhắc trong ngày nằm ở thẻ “Hôm nay”. Những lời nhắc sau đó nằm ở “Sắp tới”.</string>
+    <string name="quick_ready_title">Đảm bảo bạn nghe được</string>
+    <string name="quick_ready_body">Cho phép gửi thông báo khi điện thoại yêu cầu. Trong Cài đặt, kiểm tra quyền đặt báo thức chính xác và giới hạn pin khi chạy nền để Android có thể nhắc bạn đúng giờ.\n\nĐể nghe giọng đọc, bật tự động phát và tắt chế độ chỉ chuông. Với nội dung tự nhập, hãy bật cả tính năng tự động đọc. Tăng âm lượng báo thức. Chế độ phát riêng tư dùng tai nghe hoặc loa thoại của điện thoại.\n\nGiờ yên lặng và cài đặt phát khi khóa màn hình có thể khiến lời nhắc không phát tiếng vào một số thời điểm. Bạn có thể kiểm tra trong Cài đặt.</string>
+    <string name="quick_actions_title">Xong, Báo lại hay Tắt tiếng?</string>
+    <string name="quick_actions_body">“Báo lại” dời cảnh báo hiện tại sang một lúc sau, nhưng không đổi lịch các lần tiếp theo. “Tắt tiếng” chỉ dừng âm thanh; việc cần làm vẫn chưa được đánh dấu xong.\n\nNhấn “Xong” trên cảnh báo để hoàn tất lần này và dừng các lần kiểm tra nhắc lại của nó. Nếu có lịch lặp, lời nhắc sẽ tiếp tục vào lần đã hẹn tiếp theo.\n\nỞ thẻ “Sắp tới”, đánh dấu một lần là xong sẽ bỏ qua riêng lần đó. Các lần sau vẫn giữ nguyên. Lời nhắc không lặp sẽ chuyển sang “Đã xong”, nơi bạn có thể hẹn giờ mới.</string>
+    <string name="quick_try_title">Thử trước khi tin dùng</string>
+    <string name="quick_try_body">Tạo lời nhắc cho hai phút nữa. Khóa điện thoại rồi chờ thông báo và âm thanh. Sau đó thử “Báo lại” và “Xong”.\n\nNếu có thông báo nhưng không có tiếng, nhấn “Phát” hoặc “Phát lại”. Kiểm tra cài đặt phát, âm lượng và tai nghe đang kết nối. Lời nhắc không được gửi như bình thường sẽ nằm ở “Bỏ lỡ”. Với lời nhắc đến trễ, bạn có thể cần nhấn “Phát” để nghe.\n\nĐể xem lại hướng dẫn này, mở Trợ giúp trên màn hình chính hoặc “Hướng dẫn ứng dụng” trong Cài đặt.</string>
+    <string name="quick_settings_title">Tùy chỉnh Cài đặt cho bạn</string>
+    <string name="quick_review_settings">Xem Cài đặt</string>
+    <string name="quick_settings_body">Hãy xem qua các cài đặt. Bạn có thể giữ lựa chọn hiện tại và đổi sau.\n\nBắt đầu ở “Phát”: chọn giọng nói hoặc chuông, âm lượng, ngôn ngữ đọc và phát riêng tư.\n\nKiểm tra thời gian báo lại và giờ yên lặng. Ở “Độ tin cậy”, chọn cách kiểm tra nhắc lại và giữ cảnh báo trên màn hình đến khi xong. Kiểm tra cả quyền thông báo, báo thức chính xác và cài đặt pin.\n\nTrong “Giao diện” và “Biểu mẫu lời nhắc”, chọn ngôn ngữ, giao diện màu và các mục nhập bạn muốn dùng. Sao lưu giúp bạn giữ lại lời nhắc và bản ghi âm.\n\nDùng lời nhắc thử trong “Phát” để kiểm tra mọi thứ.</string>
+</resources>

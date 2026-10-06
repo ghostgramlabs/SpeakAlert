@@ -9,7 +9,7 @@
     <!-- Settings -->
     <string name="settings_language">App language</string>
     <string name="settings_language_system">Follow device language</string>
-    <string name="settings_language_description">Supported app languages: English, Spanish, Hindi, and Arabic.\nFollow device language chooses a supported phone language; otherwise the app uses English.\nSpoken reminders depend on your phone\'s installed voices. Set them separately in Playback &gt; Spoken language.</string>
+    <string name="settings_language_description">Supported app languages: English, Spanish, Hindi, Arabic, Portuguese (Brazil), Russian, Vietnamese, Bengali, Telugu, Tamil, Greek, and Malayalam.\nFollow device language chooses a supported phone language; otherwise the app uses English.\nSpoken reminders depend on your phone\'s installed voices. Set them separately in Playback &gt; Spoken language.</string>
 
     <!-- Notification actions -->
     <string name="notif_action_done">Done</string>
@@ -187,6 +187,7 @@
     <string name="ae_header_create">Create reminder</string>
     <string name="ae_section_content">Reminder content</string>
     <string name="ae_content_desc">Record a voice note, add an audio file, or type a reminder message.</string>
+    <string name="ae_tap_to_record">Tap to record a voice reminder</string>
     <string name="ae_or_choose_audio">Or choose an audio file</string>
     <string name="ae_selected_audio">Selected audio file</string>
     <string name="ae_cd_stop_preview">Stop audio preview</string>
@@ -562,7 +563,7 @@
     <string name="wn_notices_title">Home says why a reminder was silent</string>
     <string name="wn_notices_desc">If this phone is allowed to stop %1$s in the background, or your quiet hours are on, Home now says so, instead of reminders quietly not arriving.</string>
     <string name="wn_lang_title">Now in your language</string>
-    <string name="wn_lang_desc">The whole app is available in English, Spanish, Hindi, and Arabic, with right-to-left support. Choose it in Settings &gt; Appearance &gt; Language.</string>
+    <string name="wn_lang_desc">The whole app is available in English, Spanish, Hindi, Arabic, Portuguese (Brazil), Russian, Vietnamese, Bengali, Telugu, Tamil, Greek, and Malayalam, with right-to-left support. Choose it in Settings &gt; Appearance &gt; Language.</string>
     <string name="wn_buttons_title">Clearer alarm buttons</string>
     <string name="wn_buttons_desc">Reminder alerts and notifications now show Done, Silence, and Snooze. Done completes the task; Silence just stops the sound and keeps the reminder.</string>
     <string name="wn_spoken_title">Reminders in the right voice</string>
