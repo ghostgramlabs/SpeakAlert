@@ -299,7 +299,7 @@ def feature_graphic():
     g.ellipse([-200, -260, 420, 300], fill=(255, 255, 255, 40))
     g.ellipse([620, 200, 1200, 760], fill=(255, 255, 255, 26))
     img = Image.alpha_composite(img, glow.filter(ImageFilter.GaussianBlur(70)))
-    icon = Image.open("play_store_icon.png").convert("RGBA").resize((150, 150), Image.LANCZOS)
+    icon = Image.open("store/play_store_icon.png").convert("RGBA").resize((150, 150), Image.LANCZOS)
     m = Image.new("L", (150, 150), 0)
     ImageDraw.Draw(m).rounded_rectangle([0, 0, 149, 149], radius=36, fill=255)
     sh = Image.new("RGBA", (fw, fh), (0, 0, 0, 0))

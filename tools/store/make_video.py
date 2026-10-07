@@ -299,7 +299,7 @@ def caption_layer(L, head, sub, step, total):
 def title_card(L, t, lines, icon_size):
     """Intro / outro: app icon, name and lines, centred."""
     img = background(L, t, BRAND[0])
-    icon = Image.open("play_store_icon.png").convert("RGBA").resize((icon_size, icon_size), Image.LANCZOS)
+    icon = Image.open("store/play_store_icon.png").convert("RGBA").resize((icon_size, icon_size), Image.LANCZOS)
     m = Image.new("L", (icon_size, icon_size), 0)
     ImageDraw.Draw(m).rounded_rectangle([0, 0, icon_size - 1, icon_size - 1], radius=int(icon_size * 0.23), fill=255)
     cy = L.H // 2 - icon_size // 2 - (110 if L.kind == "landscape" else 200)
@@ -351,7 +351,7 @@ def watch_frame(L, t):
     clock = "10:15"
     tw = ld.textlength(clock, font=tf)
     ld.text((cx - tw / 2, cy - size * 0.42), clock, font=tf, fill=(200, 205, 220, 255))
-    icon = Image.open("play_store_icon.png").convert("RGBA").resize((int(84 * s), int(84 * s)), Image.LANCZOS)
+    icon = Image.open("store/play_store_icon.png").convert("RGBA").resize((int(84 * s), int(84 * s)), Image.LANCZOS)
     m = Image.new("L", icon.size, 0)
     ImageDraw.Draw(m).ellipse([0, 0, icon.width - 1, icon.height - 1], fill=255)
     pulse = 0.5 + 0.5 * math.sin(t * 4)

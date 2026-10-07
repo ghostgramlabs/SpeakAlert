@@ -1,116 +1,149 @@
-# SpeakAlert - Offline Voice Reminders
+<p align="center">
+  <img src="store/play_store_icon.png" width="120" alt="SpeakAlert icon">
+</p>
 
-SpeakAlert is an offline-first Android reminder app for voice and text alerts. It is built with Jetpack Compose, Room, AlarmManager, and MVVM Clean Architecture.
+<h1 align="center">SpeakAlert</h1>
 
-## App Usage Guide
+<p align="center">
+  Talking reminders for Android, in your own voice or text-to-speech.<br>
+  Offline, no account, no ads.
+</p>
 
-### 1. Create a reminder
-1. Tap the floating `Mic` button on Home.
-2. Record a voice reminder, or type reminder text.
-3. Add an optional title.
-4. Pick date/time.
-5. Choose repeat mode:
-   - `Does not repeat`
-   - `Daily`
-   - `Weekly`
-   - `Monthly`
-   - `Custom` (for example: every 2 days, every 3 hours)
-6. Save.
+<p align="center">
+  <a href="https://play.google.com/store/apps/details?id=com.ghostgramlabs.speakalert">Google Play</a> ·
+  <a href="https://ghostgramlabs.com/SpeakAlert/">Website</a> ·
+  <a href="https://ghostgramlabs.com/SpeakAlert/privacy.html">Privacy policy</a> ·
+  <a href="LICENSE">Apache 2.0</a>
+</p>
 
-### 1A. One-time reminder completion
-- A one-time reminder is not completed just because it fired.
-- It stays active until you mark it `Done` or `Dismiss`.
-- `Snooze` keeps it active and reschedules it to the snooze time.
+<p align="center">
+  <img src="store/screenshots/01_hero.png" width="200" alt="Home screen">
+  <img src="store/screenshots/02_voice.png" width="200" alt="Recording a voice reminder">
+  <img src="store/screenshots/03_alert.png" width="200" alt="Full-screen alert">
+  <img src="store/screenshots/06_repeat.png" width="200" alt="Repeat options">
+</p>
 
-### 2. Understand Home tabs
-- `Today`: reminders scheduled for today (including overdue items for today).
-- `Upcoming`: future reminders after today.
-- `Missed`: reminders not delivered at the scheduled moment (for example device off, quiet hours, or late handling).
-- `Done`: completed reminders.
+Most reminder apps post a silent notification. SpeakAlert plays the reminder out loud, so you
+hear it even when the phone is in your pocket or across the room.
 
-### 3. Use reminder cards
-- Tap a card to open details.
-- Use `...` for actions such as edit, mark done, stop recurring, or delete.
-- Use the inline `Play reminder` / `Stop playback` button on cards that can play audio or TTS.
+## Features
 
-### 4. Missed reminders workflow
-- Open `Missed` tab to review missed items.
-- Tap `Play` to fire now.
-- Tap `Stop` to stop current playback.
-- Use `Dismiss` on a single item or `Dismiss All` for bulk clear.
+- **Reminders that talk.** Record your voice, type text for text-to-speech, or pick any audio
+  file. Speech uses the reminder's own language (a Hindi reminder is spoken in Hindi).
+- **Flexible repeats.** Daily, weekly, monthly, yearly, or custom intervals (every 30 minutes,
+  every 3 days). Repeats can end never, on a date, or after a number of times.
+- **Reminds until done.** An optional follow-up check re-alerts until you mark the reminder Done.
+  Full-screen lock-screen alerts have Done, Silence and Snooze buttons.
+- **Reliable delivery.** Exact alarms, rescheduling after reboot, a missed-reminder inbox,
+  tone-only mode, optional Do Not Disturb bypass, and battery-optimisation guidance for
+  restrictive phones.
+- **Private playback.** Play reminders through the earpiece or Bluetooth headphones.
+- **Widgets and Wear OS.** A quick-add widget, an upcoming-reminders widget, and alerts on
+  Wear OS watches.
+- **Backup and restore.** Exports every reminder, voice recordings included.
+- **12 languages.** English, Spanish, Hindi, Arabic, Portuguese (Brazil), Russian, Vietnamese,
+  Bengali, Telugu, Tamil, Greek and Malayalam, with right-to-left layout support.
+- **Fully offline.** No account, no analytics, no network calls for reminders. Data stays on
+  the device.
 
-### 5. Recurring reminders behavior
-- The selected date/time is the first occurrence start point.
-- Recurring reminders automatically compute and schedule the next occurrence after each trigger.
-- `Custom` intervals support minutes, hours, days, weeks, and months.
-- End rules are supported:
-  - Never
-  - Until date
-  - After number of occurrences
-- Marking a recurring reminder as done clears only the current occurrence, then continues to next schedule.
+## Building
 
-### 6. Playback and alert controls
-In `Settings > Playback`:
-- `Auto-play audio`
-- `Only when unlocked`
-- `Text-to-Speech`
-- `Tone-only mode` (alarm tone at fire time, manual Play Voice / Play TTS still available)
-- `Volume`
-- `Loop duration` (including infinite)
-- `Default snooze`
-- `Quiet hours`
+Requirements:
 
-Tone-only notes:
-- Tone-only mode still follows quiet hours.
-- In tone-only mode, volume is controlled by system alarm/notification volume.
+- Android Studio (Ladybug or newer) or the Android SDK command-line tools
+- JDK 17
+- Android SDK 36
 
-### 6A. Tone-only mode (more reliable alerts)
-On some phones, voice or text-to-speech reminders may not always play reliably due to system settings or battery optimizations.
+```bash
+git clone https://github.com/ghostgramlabs/SpeakAlert.git
+cd SpeakAlert
+./gradlew assembleDebug          # Windows: gradlew.bat assembleDebug
+```
 
-To reduce missed audio alerts, enable `Tone-only mode`.
+The debug APK lands in `app/build/outputs/apk/debug/`. Install it on a device or emulator
+running Android 8.0 (API 26) or later:
 
-What it does:
-- Plays a clear alarm tone instead of voice/TTS.
-- Starts quickly and works more consistently across devices.
+```bash
+./gradlew installDebug
+```
 
-Good to know:
-- You can still tap `Play Voice` or `Play TTS` from the notification.
-- Tone stops on `Dismiss`, `Snooze`, `Play Voice`, `Play TTS`, or loop timeout.
+Debug builds need no configuration. Only release builds need a signing key (see
+[Release signing](#release-signing)).
 
-When to use this:
-- If you notice delays in voice playback.
-- If reminders are sometimes silent.
-- If you prefer a simple and reliable alert.
+### Running tests
 
-### 7. Device restart behavior
-- Future reminders are rescheduled automatically after reboot.
-- Past-due reminders are handled as missed flow and surfaced through notification/missed list behavior.
+```bash
+./gradlew testDebugUnitTest
+```
 
-## Key Features
+Unit tests live in `app/src/test` and run on the JVM. Exact-alarm and notification behaviour
+also needs testing on real devices; [docs/REMINDER_RELIABILITY_TEST_PLAN.md](docs/REMINDER_RELIABILITY_TEST_PLAN.md)
+lists the manual checks.
 
-- Voice-first and text reminder creation
-- Exact alarm scheduling with AlarmManager
-- Daily, weekly, monthly, and custom recurrence
-- Missed reminder inbox
-- Local-only storage (database + audio files)
-- Material 3 UI
+### Release signing
+
+Release builds read their signing key from `local.properties`, which git ignores:
+
+```properties
+speakalert.storeFile=your-release-key.jks
+speakalert.storePassword=...
+speakalert.keyAlias=...
+speakalert.keyPassword=...
+```
+
+`storeFile` is resolved relative to the `app/` directory. Never commit a keystore or its
+passwords.
+
+## Project structure
+
+The app is a single Gradle module written in Kotlin with Jetpack Compose, Room, DataStore,
+AlarmManager, WorkManager and Media3, following an MVVM layout.
+
+```
+app/src/main/java/com/ghostgramlabs/speakalert/
+├── alarm/        Exact-alarm scheduling, alarm receivers, boot rescheduling
+├── audio/        Voice recording, processing, playback
+├── data/         Room database, DAOs, repositories, backup/restore
+├── domain/       Domain models and recurrence logic
+├── service/      Foreground playback service and text-to-speech
+├── ui/           Compose screens: home, add/edit, details, alert, settings
+├── widget/       Home-screen widgets
+└── util/         Shared helpers
+
+docs/             Website served at ghostgramlabs.com/SpeakAlert (GitHub Pages)
+store/            Play Store listing, screenshots and icons
+tools/            Python scripts that generate the icon, screenshots and promo video
+```
+
+Translations are in `app/src/main/res/values-*/strings.xml`.
 
 ## Permissions
 
-- `RECORD_AUDIO`: record voice reminders
-- `POST_NOTIFICATIONS` (Android 13+): show reminder alerts
-- `SCHEDULE_EXACT_ALARM` (Android 12+): precise reminder timing
+| Permission | Why |
+| --- | --- |
+| `RECORD_AUDIO` | Record voice reminders |
+| `POST_NOTIFICATIONS` | Show reminder alerts (Android 13+) |
+| `SCHEDULE_EXACT_ALARM`, `USE_EXACT_ALARM` | Fire reminders at the exact minute |
+| `USE_FULL_SCREEN_INTENT` | Full-screen alert on the lock screen |
+| `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_MEDIA_PLAYBACK` | Keep playback running while a reminder speaks |
+| `RECEIVE_BOOT_COMPLETED` | Reschedule reminders after a restart |
+| `ACCESS_NOTIFICATION_POLICY` | Optional Do Not Disturb bypass |
+| `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS` | Ask to be exempted from battery limits that delay alarms |
+| `BLUETOOTH_CONNECT` | Route private playback to Bluetooth headphones |
+| `WAKE_LOCK`, `VIBRATE` | Wake the device and vibrate on alerts |
 
-## Developer Setup
+## Contributing
 
-1. Open the project in Android Studio.
-2. Sync Gradle.
-3. Run on emulator/device (Min SDK 26).
+Bug reports, translations and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
+To report a security problem, follow [SECURITY.md](SECURITY.md) instead of opening a public issue.
 
-## Test
+## License
 
-Run unit tests:
+SpeakAlert is released under the [Apache License 2.0](LICENSE). You may use, modify and
+redistribute it, including commercially, as long as you keep the copyright notice and the
+[NOTICE](NOTICE) file, which credits GhostGram Labs.
 
-```bash
-./gradlew test
-```
+The SpeakAlert name and icon are not covered by the license. If you publish a fork, give it its
+own name, icon and application ID.
+
+Made by [GhostGram Labs](https://ghostgramlabs.com).

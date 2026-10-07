@@ -5,7 +5,7 @@ Outputs (paths relative to the repo root):
   app/src/main/res/drawable/ic_launcher_foreground.xml   adaptive foreground (vector)
   app/src/main/res/drawable/ic_launcher_monochrome.xml   themed-icon layer (Android 13+)
   app/src/main/res/mipmap-*/ic_launcher(_round).png       bitmaps for widgets and old launchers
-  play_store_icon.png (512) and app_icon.png (1024)       store assets
+  store/play_store_icon.png (512), store/app_icon.png (1024)  store assets
   app/src/main/res/ic_launcher.png (1254)                full-size source art
   docs/icon.svg, docs/icon-512.png                       the website's icons
 
@@ -382,12 +382,12 @@ def main():
         if os.path.exists(stale):
             os.remove(stale)
     # Play Store: full-bleed square, Play applies its own mask.
-    crop_visible(render_full(768)).resize((512, 512), Image.LANCZOS).convert("RGBA").save("play_store_icon.png")
+    crop_visible(render_full(768)).resize((512, 512), Image.LANCZOS).convert("RGBA").save("store/play_store_icon.png")
     # The website's raster icon for link previews (social sites do not render SVG).
-    Image.open("play_store_icon.png").save("docs/icon-512.png")
+    Image.open("store/play_store_icon.png").save("docs/icon-512.png")
     # Full-size source art kept alongside the resources (not itself a resource).
     masked(visible.resize((1254, 1254), Image.LANCZOS), "square").save(os.path.join(res, "ic_launcher.png"))
-    masked(visible.resize((1024, 1024), Image.LANCZOS), "square").save("app_icon.png")
+    masked(visible.resize((1024, 1024), Image.LANCZOS), "square").save("store/app_icon.png")
     print("icon generated")
 
 

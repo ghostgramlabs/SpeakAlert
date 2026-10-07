@@ -1,22 +1,42 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-
-/app/build
-/build
+# Gradle and build output
+.gradle/
+build/
 /captures
-.externalNativeBuild
-.cxx
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+
+# Local configuration and secrets: never commit these
 local.properties
 *.jks
-test_output.txt
-test_results.txt
+*.keystore
+google-services.json
+
+# IDEs and editors
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
+
+# AI assistant and tool settings
+.claude/
+.agents/
+
+# Logs, crash dumps, and scratch output
 *.log
+*.stackdump
+/*.txt
+!/LICENSE
 __pycache__/
+
+# Generated promo video and narration (large, reproducible with tools/store/make_video.py)
+store/video/*.mp4
+store/video/*.mp3
+store/video/*.wav
+store/video/narration_cache/
+store/video/voice_samples/
+
+# Private release notes
+docs/RELEASE_AUDIT_*.md
