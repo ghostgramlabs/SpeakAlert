@@ -59,7 +59,7 @@ It works fully offline, needs no account, and has no ads — a simple, reliable 
 
 💾 BACKUP & LANGUAGES
 • Back up and restore all reminders — voice recordings included — even to a new phone
-• App in English, Spanish, Hindi & Arabic with RTL support, light & dark themes
+• App in 12 languages: English, Spanish, Hindi, Arabic, Portuguese (Brazil), Russian, Vietnamese, Bengali, Telugu, Tamil, Greek & Malayalam, with RTL support, light & dark themes
 
 🔒 PRIVATE, OFFLINE & FREE
 • 100% offline — no account, no internet required
