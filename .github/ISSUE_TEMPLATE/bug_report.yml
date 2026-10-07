@@ -1,0 +1,52 @@
+name: Bug report
+description: A reminder misbehaved, the app crashed, or something looks wrong
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Reminder type
+      options:
+        - Voice recording
+        - Text-to-speech
+        - Audio file
+        - Tone-only mode
+        - Not about a specific reminder
+    validations:
+      required: true
+  - type: input
+    id: repeat
+    attributes:
+      label: Repeat setting
+      placeholder: "One-time, daily, every 2 hours..."
+  - type: input
+    id: device
+    attributes:
+      label: Phone model and Android version
+      placeholder: "Pixel 8, Android 16"
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: SpeakAlert version
+      description: Android Settings > Apps > SpeakAlert
+      placeholder: "2.0.40"
+    validations:
+      required: true
+  - type: dropdown
+    id: battery
+    attributes:
+      label: Is SpeakAlert exempt from battery optimisation?
+      description: Missed or late alarms are often caused by the phone's battery manager.
+      options:
+        - "Yes"
+        - "No"
+        - Not sure

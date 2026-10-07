@@ -1,7 +1,7 @@
 # Contributing to SpeakAlert
 
 Thanks for helping improve SpeakAlert. Bug reports, translations, and code changes are all
-welcome.
+welcome. Everyone taking part is expected to follow the [code of conduct](CODE_OF_CONDUCT.md).
 
 ## Reporting a bug
 
@@ -41,6 +41,13 @@ directly.
 5. Add or update tests when you change scheduling, recurrence, or other logic.
 6. For changes to alarms, notifications, or playback, test on a real device and say which
    device and Android version you used.
+7. Add a line under "Unreleased" in [CHANGELOG.md](CHANGELOG.md) for anything users will
+   notice, and update [ARCHITECTURE.md](ARCHITECTURE.md) or the README if you change how the app
+   is structured, its permissions, or its build steps.
+
+CI runs the unit tests and a debug build on every pull request. Read
+[ARCHITECTURE.md](ARCHITECTURE.md) first if you're new to the code; it walks through how a
+reminder is scheduled, fired and played.
 
 Do not commit build output, keystores, `local.properties`, or IDE settings; `.gitignore`
 already excludes them.

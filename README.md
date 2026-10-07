@@ -17,6 +17,10 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/ghostgramlabs/SpeakAlert/actions/workflows/ci.yml"><img src="https://github.com/ghostgramlabs/SpeakAlert/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
+</p>
+
+<p align="center">
   <img src="store/screenshots/01_hero.png" width="200" alt="Home screen">
   <img src="store/screenshots/02_voice.png" width="200" alt="Recording a voice reminder">
   <img src="store/screenshots/03_alert.png" width="200" alt="Full-screen alert">
@@ -132,10 +136,20 @@ Translations are in `app/src/main/res/values-*/strings.xml`.
 | `BLUETOOTH_CONNECT` | Route private playback to Bluetooth headphones |
 | `WAKE_LOCK`, `VIBRATE` | Wake the device and vibrate on alerts |
 
+## Documentation
+
+| Document | What it covers |
+| --- | --- |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | How the app is built: packages, data model, the alarm and playback flow |
+| [CHANGELOG.md](CHANGELOG.md) | What changed in each release |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Reporting bugs, translating, and submitting pull requests |
+| [docs/REMINDER_RELIABILITY_TEST_PLAN.md](docs/REMINDER_RELIABILITY_TEST_PLAN.md) | Manual device checks before a release |
+
 ## Contributing
 
 Bug reports, translations and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 To report a security problem, follow [SECURITY.md](SECURITY.md) instead of opening a public issue.
+Everyone taking part is expected to follow the [code of conduct](CODE_OF_CONDUCT.md).
 
 ## License
 
