@@ -1,8 +1,18 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
 }
+
+// Release signing comes from the git-ignored local.properties (speakalert.storeFile,
+// .storePassword, .keyAlias, .keyPassword), so no credentials live in the repository.
+// Without them, debug builds still work; only release builds need them.
+val localProps = Properties().apply {
+    rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
+}
+val releaseStoreFile: String? = localProps.getProperty("speakalert.storeFile")
 
 android {
     namespace = "com.ghostgramlabs.speakalert"
@@ -23,10 +33,12 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("speakalert-release.jks")
-            storePassword = "REMOVED"
-            keyAlias = "speakalert"
-            keyPassword = "REMOVED"
+            if (releaseStoreFile != null) {
+                storeFile = file(releaseStoreFile)
+                storePassword = localProps.getProperty("speakalert.storePassword")
+                keyAlias = localProps.getProperty("speakalert.keyAlias")
+                keyPassword = localProps.getProperty("speakalert.keyPassword")
+            }
         }
     }
 
