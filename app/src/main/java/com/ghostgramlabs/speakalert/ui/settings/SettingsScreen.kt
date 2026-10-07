@@ -583,14 +583,13 @@ fun SettingsScreen(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+                val loopPresets = listOf(5, 10, 15)
+                val isCustomLoop = loopTimeoutMinutes != 0 && loopTimeoutMinutes !in loopPresets
                 Row(
                     modifier = Modifier.padding(top = 4.dp).fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
-                    val presets = listOf(5, 10, 15)
-                    val isCustom = loopTimeoutMinutes != 0 && loopTimeoutMinutes !in presets
-                    
-                    presets.forEach { mins ->
+                    loopPresets.forEach { mins ->
                         SnoozeOptionChip(
                             text = stringResource(R.string.set_minutes_short, mins),
                             isSelected = loopTimeoutMinutes == mins,
@@ -607,18 +606,22 @@ fun SettingsScreen(
                         modifier = Modifier.weight(1f)
                     )
 
+                }
+                // Custom gets its own line, sized to its label. As a fifth equal-width chip it
+                // broke mid-word ("Custo / m") even in English.
+                Row(modifier = Modifier.padding(top = 8.dp).fillMaxWidth()) {
                     var showCustomLoopDialog by remember { mutableStateOf(false) }
                     SnoozeOptionChip(
-                        text = if (isCustom) stringResource(R.string.set_minutes_short, loopTimeoutMinutes) else stringResource(R.string.set_custom),
-                        isSelected = isCustom,
+                        text = if (isCustomLoop) stringResource(R.string.set_minutes_short, loopTimeoutMinutes) else stringResource(R.string.set_custom),
+                        isSelected = isCustomLoop,
                         onClick = { showCustomLoopDialog = true },
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.widthIn(min = 96.dp)
                     )
 
                     if (showCustomLoopDialog) {
                         CustomDurationDialog(
                             title = stringResource(R.string.set_loop_duration),
-                            initialValue = if (isCustom) loopTimeoutMinutes else 20,
+                            initialValue = if (isCustomLoop) loopTimeoutMinutes else 20,
                             maxMinutes = 1440,
                             description = stringResource(R.string.set_loop_duration_desc),
                             onDismiss = { showCustomLoopDialog = false },
@@ -661,34 +664,35 @@ fun SettingsScreen(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+                val snoozePresets = listOf(2, 5, 10, 15)
+                val isCustomSnooze = defaultSnoozeDuration !in snoozePresets
                 Row(
                     modifier = Modifier.padding(top = 4.dp).fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
-                    val presets = listOf(2, 5, 10, 15)
-                    val isCustom = defaultSnoozeDuration !in presets
-                    
-                    presets.forEach { mins ->
+                    snoozePresets.forEach { mins ->
                         SnoozeOptionChip(
                             text = stringResource(R.string.set_minutes_short, mins),
-                            isSelected = !isCustom && defaultSnoozeDuration == mins,
+                            isSelected = !isCustomSnooze && defaultSnoozeDuration == mins,
                             onClick = { viewModel.setDefaultSnoozeDuration(mins) },
                             modifier = Modifier.weight(1f)
                         )
                     }
 
+                }
+                Row(modifier = Modifier.padding(top = 8.dp).fillMaxWidth()) {
                     var showCustomSnoozeDialog by remember { mutableStateOf(false) }
                     SnoozeOptionChip(
-                        text = if (isCustom) stringResource(R.string.set_minutes_short, defaultSnoozeDuration) else stringResource(R.string.set_custom),
-                        isSelected = isCustom,
+                        text = if (isCustomSnooze) stringResource(R.string.set_minutes_short, defaultSnoozeDuration) else stringResource(R.string.set_custom),
+                        isSelected = isCustomSnooze,
                         onClick = { showCustomSnoozeDialog = true },
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.widthIn(min = 96.dp)
                     )
 
                     if (showCustomSnoozeDialog) {
                         CustomDurationDialog(
                             title = stringResource(R.string.set_custom_snooze),
-                            initialValue = if (isCustom) defaultSnoozeDuration else 20,
+                            initialValue = if (isCustomSnooze) defaultSnoozeDuration else 20,
                             maxMinutes = 240,
                             description = stringResource(R.string.set_snooze_desc),
                             onDismiss = { showCustomSnoozeDialog = false },
@@ -1282,7 +1286,11 @@ fun SettingsScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { exportBackupLauncher.launchOrToast(context, backupManager.suggestedFileName(), R.string.file_picker_unavailable) }
+                        .clickable {
+                            viewModel.requestBackup(context) {
+                                exportBackupLauncher.launchOrToast(context, backupManager.suggestedFileName(), R.string.file_picker_unavailable)
+                            }
+                        }
                         .padding(vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {

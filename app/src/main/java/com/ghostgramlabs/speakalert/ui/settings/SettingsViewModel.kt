@@ -274,6 +274,20 @@ class SettingsViewModel(
     }
 
     /** Writes all upcoming (active) reminders, including their audio, to [uri] as a ZIP backup. */
+    /**
+     * Opens the save dialog only when there is something to save. Checking afterwards left an
+     * empty file behind, because the dialog creates the file before the app sees it.
+     */
+    fun requestBackup(context: android.content.Context, openSaveDialog: () -> Unit) {
+        viewModelScope.launch {
+            if (reminderRepository.getAllActiveReminders().isEmpty()) {
+                showToast(context, context.getString(com.ghostgramlabs.speakalert.R.string.backup_export_none))
+            } else {
+                openSaveDialog()
+            }
+        }
+    }
+
     fun exportBackup(context: android.content.Context, uri: android.net.Uri) {
         viewModelScope.launch {
             try {
