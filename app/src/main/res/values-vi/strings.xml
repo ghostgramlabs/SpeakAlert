@@ -542,7 +542,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">Tiếp tục</string>
     <string name="wn_title">Có gì mới trong %1$s</string>
-    <string name="wn_intro">Quản lý lời nhắc dễ hơn: đổi ngày giờ ngay trên lời nhắc, thông báo tự dọn dẹp và lời nhắc giọng nói được lưu tức thì.</string>
+    <string name="wn_intro">SpeakAlert giờ có 12 ngôn ngữ, và lời nhắc bị bỏ lỡ dễ dàng được đặt lại.</string>
     <string name="wn_edit_title">Đổi ngày giờ ngay tại chỗ</string>
     <string name="wn_edit_desc">Mở lời nhắc và nhấn Ngày hoặc Giờ để đổi trực tiếp. Không cần mở trình chỉnh sửa trước.</string>
     <string name="wn_clear_title">Thông báo tự dọn dẹp</string>
@@ -557,6 +557,10 @@
     <string name="wn_notices_desc">Nếu điện thoại này được phép dừng %1$s chạy nền, hoặc giờ yên lặng đang bật, màn hình chính giờ sẽ báo cho bạn, thay vì lời nhắc lặng lẽ không đến.</string>
     <string name="wn_lang_title">Giờ đã có ngôn ngữ của bạn</string>
     <string name="wn_lang_desc">Toàn bộ ứng dụng có sẵn bằng tiếng Anh, tiếng Tây Ban Nha, tiếng Hindi, tiếng Ả Rập, tiếng Bồ Đào Nha (Brazil), tiếng Nga, tiếng Việt, tiếng Bengal, tiếng Telugu, tiếng Tamil, tiếng Hy Lạp và tiếng Malayalam, có hỗ trợ viết từ phải sang trái. Chọn trong Cài đặt &gt; Giao diện &gt; Ngôn ngữ.</string>
+    <string name="wn_missed_title">Đặt lại lời nhắc bị bỏ lỡ</string>
+    <string name="wn_missed_desc">Trong thẻ Bỏ lỡ, nhấn biểu tượng bút chì trên lời nhắc để chọn ngày hoặc giờ mới. Lời nhắc sẽ quay lại danh sách sắp tới.</string>
+    <string name="wn_quiet_title">Âm thanh dừng khi bạn xong</string>
+    <string name="wn_quiet_desc">Vuốt bỏ thông báo của lời nhắc giờ sẽ dừng âm thanh, và lời nhắc không còn tự phát khi bạn chỉnh sửa hoặc đổi giờ.</string>
     <string name="wn_buttons_title">Nút báo thức rõ ràng hơn</string>
     <string name="wn_buttons_desc">Cảnh báo và thông báo lời nhắc giờ hiển thị Xong, Tắt tiếng và Báo lại. Xong hoàn thành việc; Tắt tiếng chỉ dừng âm thanh và giữ lời nhắc.</string>
     <string name="wn_spoken_title">Lời nhắc đúng giọng</string>

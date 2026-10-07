@@ -534,7 +534,7 @@
 
     <string name="action_continue">Continuar</string>
     <string name="wn_title">Novedades en %1$s</string>
-    <string name="wn_intro">Los recordatorios son más fáciles de gestionar: cambia la fecha y la hora directamente en un recordatorio, las notificaciones se ordenan solas y los recordatorios de voz se guardan al instante.</string>
+    <string name="wn_intro">SpeakAlert ya habla 12 idiomas, y es fácil retomar los recordatorios perdidos.</string>
     <string name="wn_edit_title">Cambia la fecha y la hora ahí mismo</string>
     <string name="wn_edit_desc">Abre un recordatorio y toca Fecha u Hora para cambiarla directamente. Ya no hace falta abrir el editor.</string>
     <string name="wn_clear_title">Las notificaciones se ordenan solas</string>
@@ -549,6 +549,10 @@
     <string name="wn_notices_desc">Si este teléfono puede detener %1$s en segundo plano, o si tus horas de silencio están activas, la pantalla de inicio ahora lo indica, en lugar de que los recordatorios simplemente no lleguen.</string>
     <string name="wn_lang_title">Ahora en tu idioma</string>
     <string name="wn_lang_desc">Toda la app está disponible en inglés, español, hindi, árabe, portugués (Brasil), ruso, vietnamita, bengalí, telugu, tamil, griego y malayalam, con soporte de derecha a izquierda. Elígelo en Ajustes &gt; Apariencia &gt; Idioma.</string>
+    <string name="wn_missed_title">Reprograma los recordatorios perdidos</string>
+    <string name="wn_missed_desc">En la pestaña Perdidos, toca el lápiz de un recordatorio para darle una nueva fecha u hora. Vuelve a tus próximos recordatorios.</string>
+    <string name="wn_quiet_title">El sonido se detiene cuando terminas</string>
+    <string name="wn_quiet_desc">Al deslizar la notificación de un recordatorio, su sonido se detiene, y un recordatorio ya no empieza a sonar mientras lo editas o cambias su hora.</string>
     <string name="wn_buttons_title">Botones de alarma más claros</string>
     <string name="wn_buttons_desc">Las alertas y notificaciones ahora muestran Hecho, Silenciar y Posponer. Hecho completa la tarea; Silenciar solo detiene el sonido y mantiene el recordatorio.</string>
     <string name="wn_spoken_title">Recordatorios con la voz correcta</string>

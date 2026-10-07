@@ -552,7 +552,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">Continuar</string>
     <string name="wn_title">Novidades do %1$s</string>
-    <string name="wn_intro">Ficou mais fácil gerenciar lembretes: mude a data e o horário direto no lembrete, as notificações se organizam sozinhas e os lembretes de voz são salvos na hora.</string>
+    <string name="wn_intro">O SpeakAlert agora fala 12 idiomas, e ficou fácil retomar lembretes perdidos.</string>
     <string name="wn_edit_title">Mude a data e o horário no próprio lembrete</string>
     <string name="wn_edit_desc">Abra um lembrete e toque em Data ou Horário para alterar diretamente. Não é preciso abrir o editor antes.</string>
     <string name="wn_clear_title">As notificações se organizam sozinhas</string>
@@ -567,6 +567,10 @@
     <string name="wn_notices_desc">Se este celular puder interromper o %1$s em segundo plano, ou se o seu horário de silêncio estiver ativo, o Início agora avisa, em vez de os lembretes simplesmente não chegarem.</string>
     <string name="wn_lang_title">Agora no seu idioma</string>
     <string name="wn_lang_desc">O app inteiro está disponível em inglês, espanhol, hindi, árabe, português (Brasil), russo, vietnamita, bengali, telugo, tâmil, grego e malaiala, com suporte a escrita da direita para a esquerda. Escolha em Configurações &gt; Aparência &gt; Idioma.</string>
+    <string name="wn_missed_title">Reagende lembretes perdidos</string>
+    <string name="wn_missed_desc">Na aba Perdidos, toque no lápis de um lembrete para dar a ele uma nova data ou horário. Ele volta para seus próximos lembretes.</string>
+    <string name="wn_quiet_title">O som para quando você termina</string>
+    <string name="wn_quiet_desc">Deslizar a notificação de um lembrete agora para o som, e um lembrete não começa mais a tocar enquanto você o edita ou muda o horário.</string>
     <string name="wn_buttons_title">Botões de alarme mais claros</string>
     <string name="wn_buttons_desc">Os alertas e as notificações de lembrete agora mostram Concluído, Silenciar e Adiar. Concluído finaliza a tarefa; Silenciar só para o som e mantém o lembrete.</string>
     <string name="wn_spoken_title">Lembretes na voz certa</string>

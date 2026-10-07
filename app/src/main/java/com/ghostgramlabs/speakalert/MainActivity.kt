@@ -412,16 +412,16 @@ class MainActivity : ComponentActivity() {
                                         description = stringResource(R.string.wn_lang_desc)
                                     )
                                     WhatsNewFeatureCard(
+                                        title = stringResource(R.string.wn_missed_title),
+                                        description = stringResource(R.string.wn_missed_desc)
+                                    )
+                                    WhatsNewFeatureCard(
+                                        title = stringResource(R.string.wn_quiet_title),
+                                        description = stringResource(R.string.wn_quiet_desc)
+                                    )
+                                    WhatsNewFeatureCard(
                                         title = stringResource(R.string.wn_edit_title),
                                         description = stringResource(R.string.wn_edit_desc)
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_clear_title),
-                                        description = stringResource(R.string.wn_clear_desc)
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_save_title),
-                                        description = stringResource(R.string.wn_save_desc)
                                     )
                                 }
                                 Button(

@@ -78,7 +78,18 @@ Most reminder apps rely on silent notifications. SpeakAlert is a talking reminde
 
 ## "What's new" (release notes, max 500 chars)
 
-### 2.0.39 (build 60) — current
+### 2.0.40 (build 61) — current
+
+```
+• Now in 12 languages: Portuguese (Brazil), Russian, Vietnamese, Bengali, Telugu, Tamil, Greek and Malayalam join English, Spanish, Hindi and Arabic
+• Reschedule a missed reminder: tap the pencil in the Missed tab
+• Fixed: sound kept playing after swiping the notification away
+• Fixed: a reminder played by itself after you changed its time
+• Fixed: a voice note kept playing while you edited it
+• Fixed: an empty backup file when there was nothing to back up
+```
+
+### 2.0.39 (build 60) — previous
 
 ```
 • New look: a refreshed, modern app icon
@@ -91,7 +102,7 @@ Most reminder apps rely on silent notifications. SpeakAlert is a talking reminde
 • Fixed: the first-launch battery prompt, and Done not clearing a pinned reminder
 ```
 
-### 2.0.38 (build 59) — previous
+### 2.0.38 (build 59)
 
 ```
 • Pause reminders from Home — for an hour, the rest of the day, or until a time you pick

@@ -549,7 +549,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">Continue</string>
     <string name="wn_title">What\'s new in %1$s</string>
-    <string name="wn_intro">Reminders are easier to manage: change the date and time right on a reminder, notifications tidy themselves up, and voice reminders save instantly.</string>
+    <string name="wn_intro">SpeakAlert now speaks 12 languages, and missed reminders are easy to get back on track.</string>
     <string name="wn_edit_title">Change the date and time in place</string>
     <string name="wn_edit_desc">Open a reminder and tap Date or Time to change it directly. No need to open the editor first.</string>
     <string name="wn_clear_title">Notifications tidy themselves up</string>
@@ -564,6 +564,10 @@
     <string name="wn_notices_desc">If this phone is allowed to stop %1$s in the background, or your quiet hours are on, Home now says so, instead of reminders quietly not arriving.</string>
     <string name="wn_lang_title">Now in your language</string>
     <string name="wn_lang_desc">The whole app is available in English, Spanish, Hindi, Arabic, Portuguese (Brazil), Russian, Vietnamese, Bengali, Telugu, Tamil, Greek, and Malayalam, with right-to-left support. Choose it in Settings &gt; Appearance &gt; Language.</string>
+    <string name="wn_missed_title">Reschedule missed reminders</string>
+    <string name="wn_missed_desc">In the Missed tab, tap the pencil on a reminder to give it a new date or time. It moves back to your upcoming reminders.</string>
+    <string name="wn_quiet_title">Sound stops when you\'re done</string>
+    <string name="wn_quiet_desc">Swiping away a reminder\'s notification now stops its sound, and a reminder no longer starts playing while you edit it or change its time.</string>
     <string name="wn_buttons_title">Clearer alarm buttons</string>
     <string name="wn_buttons_desc">Reminder alerts and notifications now show Done, Silence, and Snooze. Done completes the task; Silence just stops the sound and keeps the reminder.</string>
     <string name="wn_spoken_title">Reminders in the right voice</string>
