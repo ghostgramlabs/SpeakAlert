@@ -977,9 +977,9 @@ fun SettingsScreen(
                             )
                             Text(
                                 text = if (batteryOptimizationEnabled) {
-                                    stringResource(R.string.set_battery_desc)
+                                    stringResource(R.string.battery_status_restricted)
                                 } else {
-                                    stringResource(R.string.set_battery_desc_ok, APP_DISPLAY_NAME)
+                                    stringResource(R.string.battery_status_allowed)
                                 },
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant

@@ -219,6 +219,71 @@ class HomeViewModelTest {
     }
 
     @Test
+    fun `done this time while the fired alert is showing keeps the next occurrence`() = runTest {
+        val now = System.currentTimeMillis()
+        val tomorrow = now + 86_400_000L - 60_000L
+        val reminder = ReminderEntity(
+            id = 7,
+            recurrenceType = RecurrenceType.DAILY,
+            lastFiredAt = now - 60_000L,
+            nextTriggerAt = tomorrow
+        )
+        val alerts = mock<com.ghostgramlabs.speakalert.alarm.ReminderAlertNotifications>()
+        whenever(alerts.isShowing(7)).thenReturn(true)
+        val vm = HomeViewModel(repository, missedRepository, scheduler, settingsRepository, alerts)
+
+        vm.markTodayAsDone(reminder)
+        advanceUntilIdle()
+
+        verify(repository).updateReminder(org.mockito.kotlin.check {
+            assertEquals(tomorrow, it.nextTriggerAt)
+            assertFalse(it.isCompleted)
+        })
+        verify(alerts).onResolved(7)
+        verify(scheduler).schedule(org.mockito.kotlin.check { assertEquals(tomorrow, it.nextTriggerAt) }, org.mockito.kotlin.eq(false))
+    }
+
+    @Test
+    fun `done this time on a snoozed fired occurrence keeps the next occurrence`() = runTest {
+        val now = System.currentTimeMillis()
+        val tomorrow = now + 86_400_000L - 600_000L
+        val reminder = ReminderEntity(
+            id = 8,
+            recurrenceType = RecurrenceType.DAILY,
+            lastFiredAt = now - 600_000L,
+            snoozeUntil = now + 300_000L,
+            nextTriggerAt = tomorrow
+        )
+
+        viewModel.markTodayAsDone(reminder)
+        advanceUntilIdle()
+
+        verify(repository).updateReminder(org.mockito.kotlin.check {
+            assertEquals(tomorrow, it.nextTriggerAt)
+            assertNull(it.snoozeUntil)
+        })
+    }
+
+    @Test
+    fun `done this time before the occurrence fires skips it`() = runTest {
+        val now = System.currentTimeMillis()
+        val later = now + 3_600_000L
+        val reminder = ReminderEntity(
+            id = 9,
+            recurrenceType = RecurrenceType.DAILY,
+            lastFiredAt = now - 82_800_000L,
+            nextTriggerAt = later
+        )
+
+        viewModel.markTodayAsDone(reminder)
+        advanceUntilIdle()
+
+        verify(repository).updateReminder(org.mockito.kotlin.check {
+            assertTrue(it.nextTriggerAt > later)
+        })
+    }
+
+    @Test
     fun `skipping two upcoming occurrences cancels old cycles and preserves playback`() = runTest {
         val original = ReminderEntity(
             id = 91,

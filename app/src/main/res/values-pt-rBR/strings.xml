@@ -780,4 +780,15 @@
     <string name="set_tab_backup">Backup</string>
     <string name="set_tab_wear">Wear</string>
     <string name="set_tab_help">Ajuda</string>
+    <string name="battery_guidance_title">Ajude os lembretes a chegar na hora</string>
+    <string name="battery_guidance_body">Seu celular limita a atividade do %1$s em segundo plano para economizar bateria. Em alguns celulares, isso pode atrasar os lembretes quando o app está fechado. Escolha Sem restrições nas configurações de bateria para reduzir esse risco. Você pode manter a configuração atual e alterá-la depois.</string>
+    <string name="battery_review_settings">Revisar configurações de bateria</string>
+    <string name="battery_keep_current">Manter configuração atual</string>
+    <string name="battery_status_restricted">Acesso à bateria em segundo plano: Restrito. Recomendado: Sem restrições para lembretes pontuais.</string>
+    <string name="battery_status_allowed">Acesso à bateria em segundo plano: Sem restrições.</string>
+    <string name="card_done_occurrence">Concluir esta vez</string>
+    <string name="home_delete_confirm_body">Você pode desfazer logo após a exclusão.</string>
+    <string name="battery_banner_body">Seu celular pode atrasar os lembretes do %1$s quando o app está fechado.</string>
+    <string name="home_empty_nothing_today">Nada para hoje</string>
+    <string name="home_empty_today_sub">Seu próximo lembrete está em \"%1$s\".</string>
 </resources>

@@ -773,4 +773,15 @@
     <string name="set_tab_backup">காப்பு</string>
     <string name="set_tab_wear">கடிகாரம்</string>
     <string name="set_tab_help">உதவி</string>
+    <string name="battery_guidance_title">நினைவூட்டல்கள் சரியான நேரத்தில் வர உதவுங்கள்</string>
+    <string name="battery_guidance_body">பேட்டரியைச் சேமிக்க உங்கள் தொலைபேசி %1$s இன் பின்னணிச் செயல்பாட்டைக் கட்டுப்படுத்துகிறது. சில தொலைபேசிகளில் ஆப் மூடப்பட்டிருக்கும்போது இது நினைவூட்டல்களைத் தாமதப்படுத்தலாம். இந்த அபாயத்தைக் குறைக்க பேட்டரி அமைப்புகளில் கட்டுப்பாடற்றது என்பதைத் தேர்ந்தெடுக்கவும். தற்போதைய அமைப்பை வைத்துக்கொண்டு பின்னர் மாற்றலாம்.</string>
+    <string name="battery_review_settings">பேட்டரி அமைப்புகளைப் பார்க்கவும்</string>
+    <string name="battery_keep_current">தற்போதைய அமைப்பை வைத்திரு</string>
+    <string name="battery_status_restricted">பின்னணி பேட்டரி அணுகல்: கட்டுப்படுத்தப்பட்டது. சரியான நேரத்தில் நினைவூட்டல்களுக்கு கட்டுப்பாடற்றது பரிந்துரைக்கப்படுகிறது.</string>
+    <string name="battery_status_allowed">பின்னணி பேட்டரி அணுகல்: கட்டுப்பாடற்றது.</string>
+    <string name="card_done_occurrence">இந்த முறை முடிந்தது</string>
+    <string name="home_delete_confirm_body">நீக்கிய உடனே அதை மீட்டெடுக்கலாம்.</string>
+    <string name="battery_banner_body">ஆப் மூடப்பட்டிருக்கும்போது உங்கள் தொலைபேசி %1$s நினைவூட்டல்களைத் தாமதப்படுத்தலாம்.</string>
+    <string name="home_empty_nothing_today">இன்று எதுவும் இல்லை</string>
+    <string name="home_empty_today_sub">உங்கள் அடுத்த நினைவூட்டல் \"%1$s\" பிரிவில் உள்ளது.</string>
 </resources>

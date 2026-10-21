@@ -788,4 +788,15 @@
     <string name="set_tab_backup">Копия</string>
     <string name="set_tab_wear">Часы</string>
     <string name="set_tab_help">Справка</string>
+    <string name="battery_guidance_title">Помогите напоминаниям приходить вовремя</string>
+    <string name="battery_guidance_body">Телефон ограничивает фоновую работу %1$s для экономии заряда. На некоторых телефонах это может задерживать напоминания, когда приложение закрыто. Выберите «Без ограничений» в настройках батареи, чтобы снизить этот риск. Можно сохранить текущую настройку и изменить её позже.</string>
+    <string name="battery_review_settings">Проверить настройки батареи</string>
+    <string name="battery_keep_current">Сохранить текущую настройку</string>
+    <string name="battery_status_restricted">Фоновый доступ к батарее: ограничен. Для своевременных напоминаний рекомендуется режим «Без ограничений».</string>
+    <string name="battery_status_allowed">Фоновый доступ к батарее: без ограничений.</string>
+    <string name="card_done_occurrence">Выполнено в этот раз</string>
+    <string name="home_delete_confirm_body">Сразу после удаления действие можно отменить.</string>
+    <string name="battery_banner_body">Когда приложение закрыто, телефон может задерживать напоминания %1$s.</string>
+    <string name="home_empty_nothing_today">На сегодня ничего нет</string>
+    <string name="home_empty_today_sub">Следующее напоминание — во вкладке «%1$s».</string>
 </resources>

@@ -773,4 +773,15 @@
     <string name="set_tab_backup">ব্যাকআপ</string>
     <string name="set_tab_wear">ঘড়ি</string>
     <string name="set_tab_help">সাহায্য</string>
+    <string name="battery_guidance_title">রিমাইন্ডার সময়মতো আসতে সাহায্য করুন</string>
+    <string name="battery_guidance_body">ব্যাটারি বাঁচাতে আপনার ফোন %1$s-এর ব্যাকগ্রাউন্ড কার্যকলাপ সীমিত করে। কিছু ফোনে অ্যাপ বন্ধ থাকলে এর ফলে রিমাইন্ডার দেরিতে আসতে পারে। এই ঝুঁকি কমাতে ব্যাটারি সেটিংসে সীমাহীন বেছে নিন। বর্তমান সেটিং রেখে পরে বদলাতেও পারেন।</string>
+    <string name="battery_review_settings">ব্যাটারি সেটিংস দেখুন</string>
+    <string name="battery_keep_current">বর্তমান সেটিং রাখুন</string>
+    <string name="battery_status_restricted">ব্যাকগ্রাউন্ড ব্যাটারি অ্যাক্সেস: সীমিত। সময়মতো রিমাইন্ডারের জন্য সীমাহীন বেছে নেওয়া ভালো।</string>
+    <string name="battery_status_allowed">ব্যাকগ্রাউন্ড ব্যাটারি অ্যাক্সেস: সীমাহীন।</string>
+    <string name="card_done_occurrence">এবার সম্পন্ন</string>
+    <string name="home_delete_confirm_body">মোছার ঠিক পরেই তা ফিরিয়ে আনতে পারবেন।</string>
+    <string name="battery_banner_body">অ্যাপ বন্ধ থাকলে আপনার ফোন %1$s-এর রিমাইন্ডার দেরিতে দিতে পারে।</string>
+    <string name="home_empty_nothing_today">আজ কিছু নেই</string>
+    <string name="home_empty_today_sub">আপনার পরের রিমাইন্ডার \"%1$s\"-এ আছে।</string>
 </resources>

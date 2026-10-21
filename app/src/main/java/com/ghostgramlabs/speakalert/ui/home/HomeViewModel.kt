@@ -38,6 +38,11 @@ class HomeViewModel(
     private val alertNotifications: com.ghostgramlabs.speakalert.alarm.ReminderAlertNotifications =
         com.ghostgramlabs.speakalert.alarm.ReminderAlertNotifications.None
 ) : ViewModel() {
+    val batteryGuidanceDismissed get() = settingsRepository.batteryGuidanceDismissed
+
+    fun dismissBatteryGuidance() {
+        viewModelScope.launch { settingsRepository.dismissBatteryGuidance() }
+    }
 
     /** Instant the current pause ends, or 0 when reminders are running. */
     val pausedUntil: StateFlow<Long> = settingsRepository.pauseRemindersUntil.stateIn(
@@ -211,6 +216,7 @@ class HomeViewModel(
                     )
                     repository.updateReminder(updated)
                     alarmScheduler.cancel(reminder)
+                    alertNotifications.onResolved(reminder.id)
                     alarmScheduler.schedule(updated)
                 }
 
@@ -250,6 +256,8 @@ class HomeViewModel(
                     )
                 }
                 repository.updateReminder(updated)
+                alarmScheduler.cancel(reminder)
+                alertNotifications.onResolved(reminder.id)
                 alarmScheduler.schedule(updated)
                 missedRepository.deleteMissedReminderById(missed.id)
             }
@@ -273,6 +281,24 @@ class HomeViewModel(
 
     fun markTodayAsDone(reminder: ReminderEntity) {
         viewModelScope.launch {
+            // When the occurrence has already fired and its alert is still open (ringing,
+            // snoozed or awaiting a follow-up), "this time" is that occurrence. Firing already
+            // moved nextTriggerAt on, so advancing again would silently skip the next one.
+            val firedAlertOpen = reminder.lastFiredAt != null && (
+                reminder.snoozeUntil != null ||
+                    reminder.pendingFollowUpAt != null ||
+                    alertNotifications.isShowing(reminder.id)
+                )
+            if (firedAlertOpen) {
+                val updated = reminder.copy(snoozeUntil = null, pendingFollowUpAt = null)
+                repository.updateReminder(updated)
+                alarmScheduler.cancel(reminder)
+                alertNotifications.onResolved(reminder.id)
+                missedRepository.deleteMissedReminderByReminderId(reminder.id)
+                alarmScheduler.schedule(updated)
+                return@launch
+            }
+
             val now = System.currentTimeMillis()
             var updated = reminder.copy(
                 lastFiredAt = now,

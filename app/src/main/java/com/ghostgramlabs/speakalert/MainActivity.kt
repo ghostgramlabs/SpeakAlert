@@ -287,12 +287,10 @@ class MainActivity : ComponentActivity() {
                     if (showBatteryOptimizationDialog) {
                         val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                         ModalBottomSheet(
-                            // A tap outside the sheet or a stray swipe is not an answer. This is
-                            // the setting that decides whether reminders arrive at all, and it
-                            // used to get one chance ever - spent by the accident. Closing it
-                            // this way leaves it to be asked again on a later launch; only the
-                            // explicit "Later" below counts as having been asked.
-                            onDismissRequest = { showBatteryOptimizationDialog = false },
+                            onDismissRequest = {
+                                showBatteryOptimizationDialog = false
+                                coroutineScope.launch { settingsRepository.setBatteryOptimizationPromptShown(true) }
+                            },
                             sheetState = sheetState,
                             dragHandle = { BottomSheetDefaults.DragHandle() }
                         ) {
@@ -305,12 +303,12 @@ class MainActivity : ComponentActivity() {
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
                                 Text(
-                                    text = stringResource(R.string.batt_prompt_title, APP_DISPLAY_NAME),
+                                    text = stringResource(R.string.battery_guidance_title),
                                     style = MaterialTheme.typography.titleLarge,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                                 Text(
-                                    text = stringResource(R.string.batt_prompt_message, APP_DISPLAY_NAME),
+                                    text = stringResource(R.string.battery_guidance_body, APP_DISPLAY_NAME),
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -333,19 +331,19 @@ class MainActivity : ComponentActivity() {
                                     modifier = Modifier.fillMaxWidth(),
                                     shape = RoundedCornerShape(18.dp)
                                 ) {
-                                    Text(stringResource(R.string.action_allow))
+                                    Text(stringResource(R.string.battery_review_settings))
                                 }
                                 OutlinedButton(
                                     onClick = {
                                         showBatteryOptimizationDialog = false
                                         coroutineScope.launch {
-                                            settingsRepository.setBatteryOptimizationPromptShown(true)
+                                            settingsRepository.dismissBatteryGuidance()
                                         }
                                     },
                                     modifier = Modifier.fillMaxWidth(),
                                     shape = RoundedCornerShape(18.dp)
                                 ) {
-                                    Text(stringResource(R.string.action_later))
+                                    Text(stringResource(R.string.battery_keep_current))
                                 }
                             }
                         }

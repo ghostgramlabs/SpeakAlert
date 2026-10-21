@@ -773,4 +773,15 @@
     <string name="set_tab_backup">ബാക്കപ്പ്</string>
     <string name="set_tab_wear">വാച്ച്</string>
     <string name="set_tab_help">സഹായം</string>
+    <string name="battery_guidance_title">ഓർമ്മപ്പെടുത്തലുകൾ സമയത്ത് എത്താൻ സഹായിക്കുക</string>
+    <string name="battery_guidance_body">ബാറ്ററി ലാഭിക്കാൻ നിങ്ങളുടെ ഫോൺ %1$s-ന്റെ പശ്ചാത്തല പ്രവർത്തനം പരിമിതപ്പെടുത്തുന്നു. ചില ഫോണുകളിൽ ആപ്പ് അടച്ചിരിക്കുമ്പോൾ ഇത് ഓർമ്മപ്പെടുത്തലുകൾ വൈകാൻ കാരണമാകാം. ഈ സാധ്യത കുറയ്ക്കാൻ ബാറ്ററി ക്രമീകരണങ്ങളിൽ നിയന്ത്രണമില്ലാത്തത് തിരഞ്ഞെടുക്കുക. നിലവിലെ ക്രമീകരണം നിലനിർത്തി പിന്നീട് മാറ്റാം.</string>
+    <string name="battery_review_settings">ബാറ്ററി ക്രമീകരണങ്ങൾ കാണുക</string>
+    <string name="battery_keep_current">നിലവിലെ ക്രമീകരണം നിലനിർത്തുക</string>
+    <string name="battery_status_restricted">പശ്ചാത്തല ബാറ്ററി ആക്‌സസ്: പരിമിതം. സമയബന്ധിതമായ ഓർമ്മപ്പെടുത്തലുകൾക്കായി നിയന്ത്രണമില്ലാത്തത് ശുപാർശ ചെയ്യുന്നു.</string>
+    <string name="battery_status_allowed">പശ്ചാത്തല ബാറ്ററി ആക്‌സസ്: നിയന്ത്രണമില്ല.</string>
+    <string name="card_done_occurrence">ഇത്തവണ പൂർത്തിയായി</string>
+    <string name="home_delete_confirm_body">ഇല്ലാതാക്കിയ ഉടനെ പഴയപടിയാക്കാം.</string>
+    <string name="battery_banner_body">ആപ്പ് അടച്ചിരിക്കുമ്പോൾ നിങ്ങളുടെ ഫോൺ %1$s ഓർമ്മപ്പെടുത്തലുകൾ വൈകിപ്പിച്ചേക്കാം.</string>
+    <string name="home_empty_nothing_today">ഇന്നത്തേക്ക് ഒന്നുമില്ല</string>
+    <string name="home_empty_today_sub">നിങ്ങളുടെ അടുത്ത ഓർമ്മപ്പെടുത്തൽ \"%1$s\" എന്നതിലുണ്ട്.</string>
 </resources>

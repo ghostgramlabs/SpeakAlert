@@ -450,6 +450,11 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
 
             // Capture reminderId for completion logic
             val reminderId = intent?.getLongExtra(EXTRA_ID, -1L) ?: -1L
+            if ((intent?.action == ACTION_STOP || intent?.action == "ACTION_STOP_SERVICE") &&
+                reminderId != -1L && reminderId != currentReminderId) {
+                if (currentReminderId == -1L) stopSelf()
+                return START_NOT_STICKY
+            }
             if (reminderId != -1L) {
                 currentReminderId = reminderId
             }
@@ -1193,9 +1198,10 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             }
         }
         
-        fun stop(context: Context) {
+        fun stop(context: Context, reminderId: Long? = null) {
             val intent = Intent(context, ReminderPlaybackService::class.java).apply {
                 action = ACTION_STOP
+                reminderId?.let { putExtra(EXTRA_ID, it) }
             }
             try {
                 context.startService(intent)

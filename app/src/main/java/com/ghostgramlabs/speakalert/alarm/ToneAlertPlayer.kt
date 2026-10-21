@@ -12,14 +12,17 @@ import com.ghostgramlabs.speakalert.util.FileLogger
 
 object ToneAlertPlayer {
     private var ringtone: Ringtone? = null
+    private var activeReminderId: Long? = null
     private val handler = Handler(Looper.getMainLooper())
     private var timeoutRunnable: Runnable? = null
 
+    @Synchronized
     fun start(
         context: Context,
         loopTimeoutMinutes: Int,
         selectedToneUri: String? = null,
-        dndBypass: Boolean = true
+        dndBypass: Boolean = true,
+        reminderId: Long? = null
     ) {
         stop()
 
@@ -45,6 +48,7 @@ object ToneAlertPlayer {
                 .build()
             nextTone.play()
             ringtone = nextTone
+            activeReminderId = reminderId
             FileLogger.log("TONE: Started alarm tone, timeoutMinutes=$loopTimeoutMinutes")
         } catch (e: Exception) {
             FileLogger.logError("TONE", "Failed to start alarm tone", e)
@@ -61,7 +65,9 @@ object ToneAlertPlayer {
         }
     }
 
-    fun stop() {
+    @Synchronized
+    fun stop(reminderId: Long? = null) {
+        if (reminderId != null && reminderId != activeReminderId) return
         timeoutRunnable?.let { handler.removeCallbacks(it) }
         timeoutRunnable = null
         try {
@@ -69,6 +75,7 @@ object ToneAlertPlayer {
         } catch (_: Exception) {
         } finally {
             ringtone = null
+            activeReminderId = null
         }
     }
 

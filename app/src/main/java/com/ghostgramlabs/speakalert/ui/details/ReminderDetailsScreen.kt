@@ -650,11 +650,9 @@ fun ReminderDetailsScreen(
                                 if (item.isCompleted && item.nextTriggerAt < now) {
                                     showPastActionSheet = true
                                 } else if (isRecurring && !item.isCompleted) {
-                                    viewModel.dismissReminder(context)
-                                    navigateBack()
+                                    viewModel.dismissReminder(context, onSaved = navigateBack)
                                 } else {
-                                    viewModel.toggleDone()
-                                    navigateBack()
+                                    viewModel.toggleDone(onSaved = navigateBack)
                                 }
                             },
                             modifier = Modifier.fillMaxWidth()
@@ -808,9 +806,10 @@ fun ReminderDetailsScreen(
                 Button(
                     onClick = {
                         showDeleteDialog = false
-                        viewModel.deleteReminder()
-                        Toast.makeText(context, context.getString(R.string.home_snackbar_deleted), Toast.LENGTH_SHORT).show()
-                        navigateBack()
+                        viewModel.deleteReminder {
+                            Toast.makeText(context, context.getString(R.string.home_snackbar_deleted), Toast.LENGTH_SHORT).show()
+                            navigateBack()
+                        }
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.error
@@ -886,9 +885,10 @@ fun ReminderDetailsScreen(
             confirmButton = {
                 Button(
                     onClick = {
-                        viewModel.reschedule(pendingRescheduleTime!!)
-                        showRescheduleConfirmation = false
-                        navigateBack()
+                        viewModel.reschedule(pendingRescheduleTime!!) {
+                            showRescheduleConfirmation = false
+                            navigateBack()
+                        }
                     }
                 ) {
                     Text(stringResource(R.string.action_confirm))

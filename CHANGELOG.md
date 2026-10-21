@@ -3,9 +3,23 @@
 User-facing changes to SpeakAlert, newest first. Version numbers match the Google Play release
 (`versionName` in `app/build.gradle.kts`).
 
-## Unreleased
+## 2.0.41 - 2026-10-20
 
 - SpeakAlert is now open source under the Apache License 2.0.
+- The full-screen alert shows the reminder itself as the large, coloured headline; the app name
+  is now a small label above it.
+- Edit, Done and Delete buttons at the bottom of each reminder card. Deleting asks first and can
+  still be undone.
+- Reminder cards are more compact: "One-time" and "Daily" are no longer repeated in a separate
+  box.
+- The battery notice on Home is calmer and can be dismissed with "Keep current setting".
+  Settings still shows whether background battery access is restricted.
+- Fixed: the alert tone or spoken reminder kept playing after the reminder was marked done,
+  deleted or rescheduled.
+- Fixed: marking a repeating reminder done while it was ringing or snoozed also skipped its
+  next occurrence.
+- The Today tab says "Nothing due today" instead of "No reminders yet" when reminders are
+  scheduled for later.
 
 ## 2.0.40 - 2026-10-06
 

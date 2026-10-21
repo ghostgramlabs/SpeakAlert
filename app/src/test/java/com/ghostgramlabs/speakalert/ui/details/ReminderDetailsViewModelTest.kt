@@ -69,6 +69,24 @@ class ReminderDetailsViewModelTest {
     }
     
     @Test
+    fun `done waits for database write before navigation callback`() = runTest {
+        val reminder = ReminderEntity(id = 1, nextTriggerAt = 1000L, snoozeUntil = 2000L)
+        whenever(repository.getReminder(1)).thenReturn(reminder)
+        viewModel.loadReminder(1)
+        advanceUntilIdle()
+        var saved = false
+        viewModel.toggleDone {
+            assertTrue(viewModel.reminder.value!!.isCompleted)
+            assertNull(viewModel.reminder.value!!.snoozeUntil)
+            saved = true
+        }
+        assertFalse(saved)
+        advanceUntilIdle()
+        verify(repository).updateReminder(any())
+        assertTrue(saved)
+    }
+
+    @Test
     fun `loadReminder updates ui state`() = runTest {
         // Arrange
         val reminder = ReminderEntity(id = 1, title = "Test", nextTriggerAt = 1000L)

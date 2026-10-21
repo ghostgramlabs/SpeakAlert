@@ -98,6 +98,7 @@ import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.service.ReminderPlaybackService
 import com.ghostgramlabs.speakalert.ui.theme.VoiceReminderTheme
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
+import com.ghostgramlabs.speakalert.util.isDefaultAppDisplayName
 import com.ghostgramlabs.speakalert.util.DateUtils
 import com.ghostgramlabs.speakalert.util.sanitizeUnitFloat
 
@@ -287,10 +288,10 @@ private fun ReminderAlertContent(
     }
 
     val isFollowUp = isFollowUpAlert || (reminder.followUpCheckMinutes > 0 && reminder.pendingFollowUpAt != null)
-    val headline = titleOverride
-        ?: reminder.title
-        ?: reminder.reminderText
-        ?: APP_DISPLAY_NAME
+    val headline = sequenceOf(titleOverride, reminder.title, messageOverride, reminder.reminderText)
+        .mapNotNull { it?.trim()?.takeIf { value -> value.isNotEmpty() &&
+            !value.isDefaultAppDisplayName() } }
+        .firstOrNull() ?: stringResource(R.string.alert_generic)
     val bodyText = messageOverride
         ?: reminder.reminderText
         ?: if (isFollowUp) {
@@ -396,6 +397,12 @@ private fun ReminderAlertContent(
                 // Who and when, in that order, both quiet. The reminder is the headline; this is
                 // the dateline above it.
                 Text(
+                    text = APP_DISPLAY_NAME,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
                     text = if (isFollowUp) {
                         stringResource(R.string.alert_followup_check)
                     } else {
@@ -421,7 +428,7 @@ private fun ReminderAlertContent(
                     text = headline,
                     style = MaterialTheme.typography.displaySmall,
                     fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = MaterialTheme.colorScheme.primary,
                     lineHeight = MaterialTheme.typography.displaySmall.fontSize * 1.15f,
                     modifier = Modifier.entering(2)
                 )

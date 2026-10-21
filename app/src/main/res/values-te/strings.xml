@@ -773,4 +773,15 @@
     <string name="set_tab_backup">బ్యాకప్</string>
     <string name="set_tab_wear">వాచ్</string>
     <string name="set_tab_help">సహాయం</string>
+    <string name="battery_guidance_title">రిమైండర్లు సమయానికి రావడానికి సహాయపడండి</string>
+    <string name="battery_guidance_body">బ్యాటరీని ఆదా చేయడానికి మీ ఫోన్ %1$s నేపథ్య కార్యకలాపాలను పరిమితం చేస్తుంది. కొన్ని ఫోన్లలో యాప్ మూసివేసినప్పుడు దీనివల్ల రిమైండర్లు ఆలస్యం కావచ్చు. ఈ ప్రమాదాన్ని తగ్గించడానికి బ్యాటరీ సెట్టింగ్‌లలో పరిమితులు లేనిది ఎంచుకోండి. ప్రస్తుత సెట్టింగ్‌ను ఉంచి తర్వాత మార్చవచ్చు.</string>
+    <string name="battery_review_settings">బ్యాటరీ సెట్టింగ్‌లు చూడండి</string>
+    <string name="battery_keep_current">ప్రస్తుత సెట్టింగ్‌ను ఉంచు</string>
+    <string name="battery_status_restricted">నేపథ్య బ్యాటరీ యాక్సెస్: పరిమితం. సమయానికి రిమైండర్ల కోసం పరిమితులు లేనిది సిఫార్సు చేయబడింది.</string>
+    <string name="battery_status_allowed">నేపథ్య బ్యాటరీ యాక్సెస్: పరిమితులు లేవు.</string>
+    <string name="card_done_occurrence">ఈసారి పూర్తయింది</string>
+    <string name="home_delete_confirm_body">తొలగించిన వెంటనే దాన్ని తిరిగి పొందవచ్చు.</string>
+    <string name="battery_banner_body">యాప్ మూసివేసినప్పుడు మీ ఫోన్ %1$s రిమైండర్లను ఆలస్యం చేయవచ్చు.</string>
+    <string name="home_empty_nothing_today">ఈ రోజు ఏమీ లేవు</string>
+    <string name="home_empty_today_sub">మీ తదుపరి రిమైండర్ \"%1$s\"లో ఉంది.</string>
 </resources>

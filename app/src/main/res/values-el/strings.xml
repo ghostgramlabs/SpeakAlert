@@ -773,4 +773,15 @@
     <string name="set_tab_backup">Αντίγραφα</string>
     <string name="set_tab_wear">Ρολόι</string>
     <string name="set_tab_help">Βοήθεια</string>
+    <string name="battery_guidance_title">Βοηθήστε τις υπενθυμίσεις να φτάνουν έγκαιρα</string>
+    <string name="battery_guidance_body">Το τηλέφωνό σας περιορίζει τη λειτουργία του %1$s στο παρασκήνιο για εξοικονόμηση μπαταρίας. Σε ορισμένα τηλέφωνα αυτό μπορεί να καθυστερήσει τις υπενθυμίσεις όταν η εφαρμογή είναι κλειστή. Επιλέξτε Χωρίς περιορισμούς στις ρυθμίσεις μπαταρίας για να μειώσετε αυτόν τον κίνδυνο. Μπορείτε να διατηρήσετε την τρέχουσα ρύθμιση και να την αλλάξετε αργότερα.</string>
+    <string name="battery_review_settings">Έλεγχος ρυθμίσεων μπαταρίας</string>
+    <string name="battery_keep_current">Διατήρηση τρέχουσας ρύθμισης</string>
+    <string name="battery_status_restricted">Πρόσβαση μπαταρίας στο παρασκήνιο: Περιορισμένη. Συνιστάται Χωρίς περιορισμούς για έγκαιρες υπενθυμίσεις.</string>
+    <string name="battery_status_allowed">Πρόσβαση μπαταρίας στο παρασκήνιο: Χωρίς περιορισμούς.</string>
+    <string name="card_done_occurrence">Έγινε αυτή τη φορά</string>
+    <string name="home_delete_confirm_body">Μπορείτε να αναιρέσετε αμέσως μετά τη διαγραφή.</string>
+    <string name="battery_banner_body">Το τηλέφωνό σας μπορεί να καθυστερήσει τις υπενθυμίσεις του %1$s όταν η εφαρμογή είναι κλειστή.</string>
+    <string name="home_empty_nothing_today">Τίποτα για σήμερα</string>
+    <string name="home_empty_today_sub">Η επόμενη υπενθύμισή σας είναι στις «%1$s».</string>
 </resources>

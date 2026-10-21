@@ -358,7 +358,7 @@ private data class RecurrenceEndRuleDisplay(
 )
 
 // ─── Redesigned Reminder Card ─────────────────────────────────────────────────
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun ReminderCard(
     title: String,
@@ -586,11 +586,17 @@ fun ReminderCard(
                 color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
             )
             
-            RecurrenceDetailsRow(
-                recurrenceType = recurrenceType,
-                recurrenceJson = recurrenceJson,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
-            )
+            // "One-time" and "Daily" already show under the title; only weekday and
+            // month-day patterns add something here.
+            if (recurrenceType == RecurrenceType.NONE || recurrenceType == RecurrenceType.DAILY) {
+                Spacer(modifier = Modifier.height(10.dp))
+            } else {
+                RecurrenceDetailsRow(
+                    recurrenceType = recurrenceType,
+                    recurrenceJson = recurrenceJson,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
+                )
+            }
 
             if (hasAudio || (hasText && isTextToSpeechEnabled)) {
                 FilledTonalButton(
@@ -739,6 +745,25 @@ fun ReminderCard(
                             }
                         }
                     }
+                }
+            }
+            Divider(color = MaterialTheme.colorScheme.outlineVariant)
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                TextButton(onClick = onEditClick) { Text(stringResource(R.string.action_edit)) }
+                if (!isCompleted) {
+                    TextButton(onClick = onCompleteClick) {
+                        Text(stringResource(if (recurrenceType != RecurrenceType.NONE)
+                            R.string.card_done_occurrence else R.string.notif_action_done))
+                    }
+                }
+                TextButton(onClick = onDeleteClick,
+                    colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onSurfaceVariant)
+                ) {
+                    Text(stringResource(if (recurrenceType != RecurrenceType.NONE)
+                        R.string.rcd_stop_recurring else R.string.action_delete))
                 }
             }
         }

@@ -784,4 +784,15 @@
     <string name="set_tab_backup">النسخ</string>
     <string name="set_tab_wear">الساعة</string>
     <string name="set_tab_help">المساعدة</string>
+    <string name="battery_guidance_title">ساعد التذكيرات على الوصول في موعدها</string>
+    <string name="battery_guidance_body">يحد هاتفك من نشاط %1$s في الخلفية لتوفير البطارية. على بعض الهواتف، قد يؤدي ذلك إلى تأخير التذكيرات عندما يكون التطبيق مغلقًا. اختر «بلا قيود» في إعدادات البطارية لتقليل هذا الاحتمال. يمكنك الاحتفاظ بالإعداد الحالي وتغييره لاحقًا.</string>
+    <string name="battery_review_settings">مراجعة إعدادات البطارية</string>
+    <string name="battery_keep_current">الاحتفاظ بالإعداد الحالي</string>
+    <string name="battery_status_restricted">استخدام البطارية في الخلفية: مقيّد. يوصى باختيار «بلا قيود» لوصول التذكيرات في موعدها.</string>
+    <string name="battery_status_allowed">استخدام البطارية في الخلفية: بلا قيود.</string>
+    <string name="card_done_occurrence">تم هذه المرة</string>
+    <string name="home_delete_confirm_body">يمكنك التراجع فور الحذف.</string>
+    <string name="battery_banner_body">قد يؤخر هاتفك تذكيرات %1$s عندما يكون التطبيق مغلقًا.</string>
+    <string name="home_empty_nothing_today">لا شيء مستحق اليوم</string>
+    <string name="home_empty_today_sub">تذكيرك التالي في «%1$s».</string>
 </resources>

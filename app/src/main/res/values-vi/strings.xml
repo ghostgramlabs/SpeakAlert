@@ -766,4 +766,15 @@
     <string name="set_tab_backup">Sao lưu</string>
     <string name="set_tab_wear">Đồng hồ</string>
     <string name="set_tab_help">Trợ giúp</string>
+    <string name="battery_guidance_title">Giúp lời nhắc đến đúng giờ</string>
+    <string name="battery_guidance_body">Điện thoại đang giới hạn hoạt động nền của %1$s để tiết kiệm pin. Trên một số điện thoại, điều này có thể làm chậm lời nhắc khi ứng dụng đóng. Chọn Không hạn chế trong cài đặt pin để giảm nguy cơ này. Bạn có thể giữ cài đặt hiện tại và đổi sau.</string>
+    <string name="battery_review_settings">Xem cài đặt pin</string>
+    <string name="battery_keep_current">Giữ cài đặt hiện tại</string>
+    <string name="battery_status_restricted">Quyền dùng pin trong nền: Bị hạn chế. Nên chọn Không hạn chế để nhận lời nhắc đúng giờ.</string>
+    <string name="battery_status_allowed">Quyền dùng pin trong nền: Không hạn chế.</string>
+    <string name="card_done_occurrence">Xong lần này</string>
+    <string name="home_delete_confirm_body">Bạn có thể hoàn tác ngay sau khi xóa.</string>
+    <string name="battery_banner_body">Điện thoại có thể làm chậm lời nhắc của %1$s khi ứng dụng đóng.</string>
+    <string name="home_empty_nothing_today">Hôm nay không có gì</string>
+    <string name="home_empty_today_sub">Lời nhắc tiếp theo của bạn nằm trong mục \"%1$s\".</string>
 </resources>

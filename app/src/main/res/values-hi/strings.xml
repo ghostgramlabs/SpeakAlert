@@ -757,4 +757,15 @@
     <string name="set_tab_backup">बैकअप</string>
     <string name="set_tab_wear">घड़ी</string>
     <string name="set_tab_help">सहायता</string>
+    <string name="battery_guidance_title">रिमाइंडर समय पर आने में मदद करें</string>
+    <string name="battery_guidance_body">बैटरी बचाने के लिए आपका फ़ोन %1$s की बैकग्राउंड गतिविधि सीमित करता है। कुछ फ़ोन पर ऐप बंद होने पर इससे रिमाइंडर देर से आ सकते हैं। यह जोखिम कम करने के लिए बैटरी सेटिंग में अप्रतिबंधित चुनें। आप मौजूदा सेटिंग रख सकते हैं और बाद में बदल सकते हैं।</string>
+    <string name="battery_review_settings">बैटरी सेटिंग देखें</string>
+    <string name="battery_keep_current">मौजूदा सेटिंग रखें</string>
+    <string name="battery_status_restricted">बैकग्राउंड बैटरी ऐक्सेस: प्रतिबंधित। समय पर रिमाइंडर के लिए अप्रतिबंधित चुनने की सलाह दी जाती है।</string>
+    <string name="battery_status_allowed">बैकग्राउंड बैटरी ऐक्सेस: अप्रतिबंधित।</string>
+    <string name="card_done_occurrence">इस बार पूरा हुआ</string>
+    <string name="home_delete_confirm_body">मिटाने के तुरंत बाद आप इसे वापस ला सकते हैं।</string>
+    <string name="battery_banner_body">ऐप बंद होने पर आपका फ़ोन %1$s के रिमाइंडर देर से दे सकता है।</string>
+    <string name="home_empty_nothing_today">आज के लिए कुछ नहीं</string>
+    <string name="home_empty_today_sub">आपका अगला रिमाइंडर \"%1$s\" में है।</string>
 </resources>

@@ -775,4 +775,15 @@
     <string name="set_tab_backup">Backup</string>
     <string name="set_tab_wear">Wear</string>
     <string name="set_tab_help">Help</string>
+    <string name="battery_guidance_title">Help reminders arrive on time</string>
+    <string name="battery_guidance_body">Your phone currently limits background activity for %1$s to save battery. On some phones, this can delay reminders while the app is closed. Choose Unrestricted in battery settings to reduce this risk. You can keep your current setting and change it later.</string>
+    <string name="battery_review_settings">Review battery settings</string>
+    <string name="battery_keep_current">Keep current setting</string>
+    <string name="battery_status_restricted">Background battery access: Restricted. Recommended: Unrestricted for timely reminders.</string>
+    <string name="battery_status_allowed">Background battery access: Unrestricted.</string>
+    <string name="card_done_occurrence">Done this time</string>
+    <string name="home_delete_confirm_body">You can undo right after deleting.</string>
+    <string name="battery_banner_body">Your phone may delay %1$s reminders while the app is closed.</string>
+    <string name="home_empty_nothing_today">Nothing due today</string>
+    <string name="home_empty_today_sub">Your next reminder is in %1$s.</string>
 </resources>

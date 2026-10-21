@@ -763,4 +763,15 @@
     <string name="set_tab_backup">Copia</string>
     <string name="set_tab_wear">Reloj</string>
     <string name="set_tab_help">Ayuda</string>
+    <string name="battery_guidance_title">Ayuda a que los recordatorios lleguen a tiempo</string>
+    <string name="battery_guidance_body">Tu teléfono limita la actividad de %1$s en segundo plano para ahorrar batería. En algunos teléfonos, esto puede retrasar los recordatorios cuando la app está cerrada. Elige Sin restricciones en los ajustes de batería para reducir este riesgo. Puedes mantener el ajuste actual y cambiarlo más adelante.</string>
+    <string name="battery_review_settings">Revisar ajustes de batería</string>
+    <string name="battery_keep_current">Mantener el ajuste actual</string>
+    <string name="battery_status_restricted">Acceso a la batería en segundo plano: Restringido. Se recomienda Sin restricciones para recibir recordatorios a tiempo.</string>
+    <string name="battery_status_allowed">Acceso a la batería en segundo plano: Sin restricciones.</string>
+    <string name="card_done_occurrence">Hecho esta vez</string>
+    <string name="home_delete_confirm_body">Puedes deshacerlo justo después de eliminarlo.</string>
+    <string name="battery_banner_body">Tu teléfono puede retrasar los recordatorios de %1$s cuando la app está cerrada.</string>
+    <string name="home_empty_nothing_today">Nada pendiente para hoy</string>
+    <string name="home_empty_today_sub">Tu próximo recordatorio está en «%1$s».</string>
 </resources>

@@ -288,7 +288,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                                 )
                             }
                             if (toneOnlyMode && missedNotificationShown) {
-                                ToneAlertPlayer.start(context, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled)
+                                ToneAlertPlayer.start(context, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled, reminderId = reminder.id)
                             }
                             
                             // Still schedule next occurrence
@@ -481,7 +481,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 }
 
                 if (toneOnlyMode && notificationShown) {
-                    ToneAlertPlayer.start(context, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled)
+                    ToneAlertPlayer.start(context, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled, reminderId = reminder.id)
                 }
 
                 // Update state and AUTO-RESCHEDULE for recurring reminders

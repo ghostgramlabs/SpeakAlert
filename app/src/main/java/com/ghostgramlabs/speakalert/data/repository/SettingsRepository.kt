@@ -65,6 +65,7 @@ class SettingsRepository internal constructor(
         val SHOW_TYPED_REMINDER_SECTION = booleanPreferencesKey("show_typed_reminder_section")
         val SHOW_SHORT_LABEL_SECTION = booleanPreferencesKey("show_short_label_section")
         val BATTERY_OPTIMIZATION_PROMPT_SHOWN = booleanPreferencesKey("battery_optimization_prompt_shown")
+        val BATTERY_GUIDANCE_DISMISSED = booleanPreferencesKey("battery_guidance_dismissed")
         val LAST_WHATS_NEW_VERSION_SHOWN = stringPreferencesKey("last_whats_new_version_shown")
 
         // In-app rating prompt tracking
@@ -148,6 +149,16 @@ class SettingsRepository internal constructor(
     val showShortLabelSection: Flow<Boolean> = dataStore.data.map { it[SHOW_SHORT_LABEL_SECTION] ?: true }
     val batteryOptimizationPromptShown: Flow<Boolean> = dataStore.data.map {
         it[BATTERY_OPTIMIZATION_PROMPT_SHOWN] ?: false
+    }
+    val batteryGuidanceDismissed: Flow<Boolean> = dataStore.data.map {
+        it[BATTERY_GUIDANCE_DISMISSED] ?: false
+    }
+
+    suspend fun dismissBatteryGuidance() {
+        dataStore.edit {
+            it[BATTERY_GUIDANCE_DISMISSED] = true
+            it[BATTERY_OPTIMIZATION_PROMPT_SHOWN] = true
+        }
     }
     val lastWhatsNewVersionShown: Flow<String?> = dataStore.data.map {
         it[LAST_WHATS_NEW_VERSION_SHOWN]

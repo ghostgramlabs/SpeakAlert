@@ -129,7 +129,7 @@ class BootRescheduleWorker internal constructor(
                             dndBypassEnabled = dndBypassEnabled
                         )
                         if (toneOnlyMode && notificationShown) {
-                            ToneAlertPlayer.start(applicationContext, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled)
+                            ToneAlertPlayer.start(applicationContext, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled, reminderId = reminder.id)
                         }
                     } else if (shouldShowMissedNotification) {
                         val reason = if (silenceForDnd) "DND with bypass off" else "device restart"
@@ -223,7 +223,7 @@ class BootRescheduleWorker internal constructor(
                                 dndBypassEnabled = dndBypassEnabled
                             )
                             if (toneOnlyMode && notificationShown) {
-                                ToneAlertPlayer.start(applicationContext, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled)
+                                ToneAlertPlayer.start(applicationContext, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled, reminderId = reminder.id)
                             }
                         } else {
                             val reason = if (silenceForDnd) "DND with bypass off" else "device restart"
