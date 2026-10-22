@@ -784,9 +784,12 @@
     <string name="battery_banner_body">ആപ്പ് അടച്ചിരിക്കുമ്പോൾ നിങ്ങളുടെ ഫോൺ %1$s ഓർമ്മപ്പെടുത്തലുകൾ വൈകിപ്പിച്ചേക്കാം.</string>
     <string name="home_empty_nothing_today">ഇന്നത്തേക്ക് ഒന്നുമില്ല</string>
     <string name="home_empty_today_sub">നിങ്ങളുടെ അടുത്ത ഓർമ്മപ്പെടുത്തൽ \"%1$s\" എന്നതിലുണ്ട്.</string>
-    <string name="set_alarm_clock">അലാറം ക്ലോക്ക് പോലെ അറിയിക്കുക</string>
-    <string name="set_alarm_clock_desc">ബാറ്ററി ലാഭിക്കാൻ ഓർമ്മപ്പെടുത്തലുകൾ വൈകിപ്പിക്കുന്ന ഫോണുകൾക്കായി. Android ഇവ തടഞ്ഞുവയ്ക്കില്ല, സ്റ്റാറ്റസ് ബാറിൽ അലാറം ഐക്കൺ കാണിക്കും.</string>
+    <string name="set_alarm_clock">കൂടുതൽ വിശ്വസനീയമായ ഓർമ്മപ്പെടുത്തലുകൾ</string>
+    <string name="set_alarm_clock_desc">ബാറ്ററി ലാഭിക്കാൻ ആപ്പുകൾ വൈകിപ്പിക്കുന്ന ഫോണുകളിൽ ഓർമ്മപ്പെടുത്തലുകൾ കൃത്യസമയത്ത് മുഴങ്ങാൻ സഹായിക്കുന്നു. ഇത് ഓണായിരിക്കുമ്പോൾ ചില ഫോണുകൾ ഒരു ക്ലോക്ക് ഐക്കണോ \"അലാറം സജ്ജമാക്കി\" എന്ന സന്ദേശമോ കാണിക്കും.</string>
     <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
     <string name="bog_transsion_autostart">ആപ്പുകൾ &gt; ഓട്ടോ-സ്റ്റാർട്ട് (അല്ലെങ്കിൽ Phone Master &gt; ഓട്ടോ-സ്റ്റാർട്ട്) തുറന്ന് %1$s-ന് ഓണാക്കുക</string>
     <string name="bog_transsion_battery">ആപ്പുകൾ &gt; %1$s &gt; ബാറ്ററി തുറന്ന് നിയന്ത്രണമില്ലാത്തത് തിരഞ്ഞെടുക്കുക</string>
+    <string name="set_alarm_clock_status_next">നിങ്ങളുടെ അടുത്ത ഓർമ്മപ്പെടുത്തലിന് ഓണാണ്: %1$s</string>
+    <string name="set_alarm_clock_status_none">നിങ്ങളുടെ അടുത്ത ഓർമ്മപ്പെടുത്തൽ ഇത് ഉപയോഗിക്കും.</string>
+    <string name="home_extra_reliable_on">കൂടുതൽ വിശ്വസനീയമായ ഓർമ്മപ്പെടുത്തലുകൾ ഓണാണ്</string>
 </resources>

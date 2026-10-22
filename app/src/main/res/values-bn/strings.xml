@@ -784,9 +784,12 @@
     <string name="battery_banner_body">অ্যাপ বন্ধ থাকলে আপনার ফোন %1$s-এর রিমাইন্ডার দেরিতে দিতে পারে।</string>
     <string name="home_empty_nothing_today">আজ কিছু নেই</string>
     <string name="home_empty_today_sub">আপনার পরের রিমাইন্ডার \"%1$s\"-এ আছে।</string>
-    <string name="set_alarm_clock">অ্যালার্ম ঘড়ির মতো বাজান</string>
-    <string name="set_alarm_clock_desc">যেসব ফোন ব্যাটারি বাঁচাতে রিমাইন্ডার দেরিতে দেয় তাদের জন্য। Android এগুলো আটকে রাখে না এবং স্ট্যাটাস বারে অ্যালার্ম আইকন দেখায়।</string>
+    <string name="set_alarm_clock">অতিরিক্ত নির্ভরযোগ্য রিমাইন্ডার</string>
+    <string name="set_alarm_clock_desc">ব্যাটারি বাঁচাতে যেসব ফোন অ্যাপ দেরি করায়, সেখানে রিমাইন্ডার সময়মতো বাজাতে সাহায্য করে। এটি চালু থাকলে কিছু ফোন ঘড়ির আইকন বা \"অ্যালার্ম সেট\" বার্তা দেখায়।</string>
     <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
     <string name="bog_transsion_autostart">অ্যাপস &gt; অটো-স্টার্ট (বা Phone Master &gt; অটো-স্টার্ট) খুলে %1$s-এর জন্য চালু করুন</string>
     <string name="bog_transsion_battery">অ্যাপস &gt; %1$s &gt; ব্যাটারি খুলে সীমাহীন বেছে নিন</string>
+    <string name="set_alarm_clock_status_next">আপনার পরের রিমাইন্ডারের জন্য চালু: %1$s</string>
+    <string name="set_alarm_clock_status_none">আপনার পরের রিমাইন্ডার এটি ব্যবহার করবে।</string>
+    <string name="home_extra_reliable_on">অতিরিক্ত নির্ভরযোগ্য রিমাইন্ডার চালু</string>
 </resources>

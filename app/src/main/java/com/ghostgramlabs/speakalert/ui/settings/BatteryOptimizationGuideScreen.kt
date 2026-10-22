@@ -48,6 +48,8 @@ import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.BatteryOptimizationSupport
 import androidx.compose.ui.res.stringResource
 import com.ghostgramlabs.speakalert.R
+import androidx.compose.runtime.collectAsState
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import com.ghostgramlabs.speakalert.ui.components.mirrorInRtl
 
@@ -253,6 +255,18 @@ fun BatteryOptimizationGuideScreen(
     }
 }
 
+/** Confirms "Extra-reliable reminders" is in effect, so nobody has to look for a status-bar icon. */
+@Composable
+internal fun alarmClockStatusText(nextReminderAt: Long?): String =
+    if (nextReminderAt != null) {
+        "\u2713 " + stringResource(
+            R.string.set_alarm_clock_status_next,
+            com.ghostgramlabs.speakalert.util.DateUtils.formatSmartDate(nextReminderAt)
+        )
+    } else {
+        stringResource(R.string.set_alarm_clock_status_none)
+    }
+
 @Composable
 private fun AlarmClockDeliveryCard() {
     val context = LocalContext.current
@@ -260,6 +274,11 @@ private fun AlarmClockDeliveryCard() {
     var enabled by remember {
         mutableStateOf(com.ghostgramlabs.speakalert.util.AlarmDeliveryPreferences.useAlarmClock(context))
     }
+    val container = remember { (context.applicationContext as com.ghostgramlabs.speakalert.VoiceReminderApp).container }
+    val nextReminderAt by remember {
+        container.reminderRepository.getAllRemindersStream()
+            .map { com.ghostgramlabs.speakalert.util.AlarmDeliveryPreferences.nextReminderAt(it) }
+    }.collectAsState(initial = null)
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
@@ -283,13 +302,19 @@ private fun AlarmClockDeliveryCard() {
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+                if (enabled) {
+                    Text(
+                        text = alarmClockStatusText(nextReminderAt),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
             Spacer(modifier = Modifier.width(12.dp))
             androidx.compose.material3.Switch(
                 checked = enabled,
                 onCheckedChange = {
                     enabled = it
-                    val container = (context.applicationContext as com.ghostgramlabs.speakalert.VoiceReminderApp).container
                     scope.launch {
                         com.ghostgramlabs.speakalert.alarm.setAlarmClockDelivery(
                             context, it, container.reminderRepository, container.alarmScheduler

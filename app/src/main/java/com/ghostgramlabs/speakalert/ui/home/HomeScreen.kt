@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material.icons.filled.BatteryAlert
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.CheckCircle
@@ -196,11 +197,16 @@ fun HomeScreen(
         mutableStateOf(BatteryOptimizationSupport.isBatteryOptimizationEnabled(context))
     }
     val batteryGuidanceDismissed by viewModel.batteryGuidanceDismissed.collectAsState(initial = true)
+    // Explains the clock icon or "alarm set" message some phones show while this is on.
+    var extraReliable by remember {
+        mutableStateOf(com.ghostgramlabs.speakalert.util.AlarmDeliveryPreferences.useAlarmClock(context))
+    }
     val homeLifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(homeLifecycleOwner, context) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
                 batteryRestricted = BatteryOptimizationSupport.isBatteryOptimizationEnabled(context)
+                extraReliable = com.ghostgramlabs.speakalert.util.AlarmDeliveryPreferences.useAlarmClock(context)
             }
         }
         homeLifecycleOwner.lifecycle.addObserver(observer)
@@ -710,6 +716,31 @@ fun HomeScreen(
                 PremiumHeaderCard(
                     title = getGreeting(),
                     subtitle = getSubtitle(uiState),
+                    supportingContent = if (extraReliable) {
+                        {
+                            Row(
+                                modifier = Modifier
+                                    .padding(top = 4.dp)
+                                    .clickable(onClick = navigateToSettings),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.Alarm,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Text(
+                                    text = stringResource(R.string.home_extra_reliable_on),
+                                    style = MaterialTheme.typography.labelLarge,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                            }
+                        }
+                    } else {
+                        null
+                    },
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .padding(top = 8.dp, bottom = 14.dp)

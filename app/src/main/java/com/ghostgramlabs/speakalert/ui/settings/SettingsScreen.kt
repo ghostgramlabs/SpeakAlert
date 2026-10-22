@@ -903,9 +903,14 @@ fun SettingsScreen(
                 var alarmClockDelivery by remember {
                     mutableStateOf(com.ghostgramlabs.speakalert.util.AlarmDeliveryPreferences.useAlarmClock(context))
                 }
+                val nextReminderAt by viewModel.nextReminderAt.collectAsState()
                 SwitchRow(
                     text = stringResource(R.string.set_alarm_clock),
-                    description = stringResource(R.string.set_alarm_clock_desc),
+                    description = if (alarmClockDelivery) {
+                        stringResource(R.string.set_alarm_clock_desc) + "\n" + alarmClockStatusText(nextReminderAt)
+                    } else {
+                        stringResource(R.string.set_alarm_clock_desc)
+                    },
                     checked = alarmClockDelivery,
                     onCheckedChange = {
                         alarmClockDelivery = it

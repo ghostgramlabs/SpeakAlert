@@ -799,9 +799,12 @@
     <string name="battery_banner_body">Когда приложение закрыто, телефон может задерживать напоминания %1$s.</string>
     <string name="home_empty_nothing_today">На сегодня ничего нет</string>
     <string name="home_empty_today_sub">Следующее напоминание — во вкладке «%1$s».</string>
-    <string name="set_alarm_clock">Срабатывать как будильник</string>
-    <string name="set_alarm_clock_desc">Для телефонов, которые задерживают напоминания ради экономии заряда. Android не откладывает такие сигналы и показывает значок будильника в строке состояния.</string>
+    <string name="set_alarm_clock">Сверхнадёжные напоминания</string>
+    <string name="set_alarm_clock_desc">Помогает напоминаниям срабатывать вовремя на телефонах, которые задерживают приложения ради экономии заряда. Пока режим включён, некоторые телефоны показывают значок часов или сообщение «Будильник установлен».</string>
     <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
     <string name="bog_transsion_autostart">Откройте Приложения &gt; Автозапуск (или Phone Master &gt; Автозапуск) и включите его для %1$s</string>
     <string name="bog_transsion_battery">Откройте Приложения &gt; %1$s &gt; Батарея и выберите «Без ограничений»</string>
+    <string name="set_alarm_clock_status_next">Включено для следующего напоминания: %1$s</string>
+    <string name="set_alarm_clock_status_none">Следующее напоминание будет использовать этот режим.</string>
+    <string name="home_extra_reliable_on">Сверхнадёжные напоминания включены</string>
 </resources>

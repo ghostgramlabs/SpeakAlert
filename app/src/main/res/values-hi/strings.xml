@@ -768,9 +768,12 @@
     <string name="battery_banner_body">ऐप बंद होने पर आपका फ़ोन %1$s के रिमाइंडर देर से दे सकता है।</string>
     <string name="home_empty_nothing_today">आज के लिए कुछ नहीं</string>
     <string name="home_empty_today_sub">आपका अगला रिमाइंडर \"%1$s\" में है।</string>
-    <string name="set_alarm_clock">अलार्म घड़ी की तरह बजाएं</string>
-    <string name="set_alarm_clock_desc">उन फ़ोन के लिए जो बैटरी बचाने के लिए रिमाइंडर देर से देते हैं। Android इन्हें नहीं रोकता और स्टेटस बार में अलार्म आइकन दिखाता है।</string>
+    <string name="set_alarm_clock">अतिरिक्त भरोसेमंद रिमाइंडर</string>
+    <string name="set_alarm_clock_desc">बैटरी बचाने के लिए ऐप्स को धीमा करने वाले फ़ोन पर रिमाइंडर को समय पर बजने में मदद करता है। इसके चालू रहने पर कुछ फ़ोन घड़ी का आइकन या \"अलार्म सेट\" संदेश दिखाते हैं।</string>
     <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
     <string name="bog_transsion_autostart">ऐप्स &gt; ऑटो-स्टार्ट (या Phone Master &gt; ऑटो-स्टार्ट) खोलें और %1$s के लिए चालू करें</string>
     <string name="bog_transsion_battery">ऐप्स &gt; %1$s &gt; बैटरी खोलें और अप्रतिबंधित चुनें</string>
+    <string name="set_alarm_clock_status_next">आपके अगले रिमाइंडर के लिए चालू: %1$s</string>
+    <string name="set_alarm_clock_status_none">आपका अगला रिमाइंडर इसका उपयोग करेगा।</string>
+    <string name="home_extra_reliable_on">अतिरिक्त भरोसेमंद रिमाइंडर चालू</string>
 </resources>

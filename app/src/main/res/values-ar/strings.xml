@@ -795,9 +795,12 @@
     <string name="battery_banner_body">قد يؤخر هاتفك تذكيرات %1$s عندما يكون التطبيق مغلقًا.</string>
     <string name="home_empty_nothing_today">لا شيء مستحق اليوم</string>
     <string name="home_empty_today_sub">تذكيرك التالي في «%1$s».</string>
-    <string name="set_alarm_clock">التنبيه مثل المنبّه</string>
-    <string name="set_alarm_clock_desc">للهواتف التي تؤخر التذكيرات لتوفير البطارية. لا يؤخرها Android، ويعرض رمز منبّه في شريط الحالة.</string>
+    <string name="set_alarm_clock">تذكيرات موثوقة أكثر</string>
+    <string name="set_alarm_clock_desc">يساعد على رنين التذكيرات في وقتها على الهواتف التي تؤخر التطبيقات لتوفير البطارية. أثناء تشغيله، تعرض بعض الهواتف رمز ساعة أو رسالة «تم ضبط المنبّه».</string>
     <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
     <string name="bog_transsion_autostart">افتح التطبيقات &gt; التشغيل التلقائي (أو Phone Master &gt; التشغيل التلقائي) وفعّله لـ %1$s</string>
     <string name="bog_transsion_battery">افتح التطبيقات &gt; %1$s &gt; البطارية واختر «بلا قيود»</string>
+    <string name="set_alarm_clock_status_next">مفعّل لتذكيرك التالي: %1$s</string>
+    <string name="set_alarm_clock_status_none">سيستخدمه تذكيرك التالي.</string>
+    <string name="home_extra_reliable_on">التذكيرات الموثوقة أكثر مفعّلة</string>
 </resources>

@@ -777,9 +777,12 @@
     <string name="battery_banner_body">Điện thoại có thể làm chậm lời nhắc của %1$s khi ứng dụng đóng.</string>
     <string name="home_empty_nothing_today">Hôm nay không có gì</string>
     <string name="home_empty_today_sub">Lời nhắc tiếp theo của bạn nằm trong mục \"%1$s\".</string>
-    <string name="set_alarm_clock">Báo như đồng hồ báo thức</string>
-    <string name="set_alarm_clock_desc">Dành cho điện thoại làm chậm lời nhắc để tiết kiệm pin. Android không trì hoãn các lời nhắc này và hiển thị biểu tượng báo thức trên thanh trạng thái.</string>
+    <string name="set_alarm_clock">Lời nhắc siêu tin cậy</string>
+    <string name="set_alarm_clock_desc">Giúp lời nhắc kêu đúng giờ trên điện thoại làm chậm ứng dụng để tiết kiệm pin. Khi bật, một số điện thoại hiển thị biểu tượng đồng hồ hoặc thông báo \"đã đặt báo thức\".</string>
     <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
     <string name="bog_transsion_autostart">Mở Ứng dụng &gt; Tự khởi động (hoặc Phone Master &gt; Tự khởi động) và bật cho %1$s</string>
     <string name="bog_transsion_battery">Mở Ứng dụng &gt; %1$s &gt; Pin và chọn Không hạn chế</string>
+    <string name="set_alarm_clock_status_next">Đang bật cho lời nhắc tiếp theo: %1$s</string>
+    <string name="set_alarm_clock_status_none">Lời nhắc tiếp theo của bạn sẽ dùng chế độ này.</string>
+    <string name="home_extra_reliable_on">Đã bật lời nhắc siêu tin cậy</string>
 </resources>

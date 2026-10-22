@@ -791,9 +791,12 @@
     <string name="battery_banner_body">Seu celular pode atrasar os lembretes do %1$s quando o app está fechado.</string>
     <string name="home_empty_nothing_today">Nada para hoje</string>
     <string name="home_empty_today_sub">Seu próximo lembrete está em \"%1$s\".</string>
-    <string name="set_alarm_clock">Avisar como um despertador</string>
-    <string name="set_alarm_clock_desc">Para celulares que atrasam lembretes para economizar bateria. O Android não os segura e mostra um ícone de alarme na barra de status.</string>
+    <string name="set_alarm_clock">Lembretes extraconfiáveis</string>
+    <string name="set_alarm_clock_desc">Ajuda os lembretes a tocarem na hora em celulares que atrasam apps para economizar bateria. Com isto ativado, alguns celulares mostram um ícone de relógio ou uma mensagem de \"alarme definido\".</string>
     <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
     <string name="bog_transsion_autostart">Abra Apps &gt; Início automático (ou Phone Master &gt; Início automático) e ative para o %1$s</string>
     <string name="bog_transsion_battery">Abra Apps &gt; %1$s &gt; Bateria e escolha Sem restrições</string>
+    <string name="set_alarm_clock_status_next">Ativado para seu próximo lembrete: %1$s</string>
+    <string name="set_alarm_clock_status_none">Seu próximo lembrete vai usar isto.</string>
+    <string name="home_extra_reliable_on">Lembretes extraconfiáveis ativados</string>
 </resources>

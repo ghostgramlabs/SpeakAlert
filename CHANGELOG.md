@@ -5,9 +5,10 @@ User-facing changes to SpeakAlert, newest first. Version numbers match the Googl
 
 ## 2.0.42 - 2026-10-21
 
-- New "Deliver like an alarm clock" option in Settings > Reliability and the Battery
-  Optimization Guide. Off by default; for phones whose battery saver holds reminders back until
-  the app is opened. It shows an alarm icon in the status bar.
+- New "Extra-reliable reminders" option in Settings > Reliability and the Battery Optimization
+  Guide. Off by default; for phones whose battery saver holds reminders back until the app is
+  opened. Reminders are then set like alarms, so some phones show a clock icon or an "alarm
+  set" message; Home and Settings say when it is on and which reminder it applies to next.
 - The Battery Optimization Guide has steps for Infinix, Tecno and itel phones.
 
 ## 2.0.41 - 2026-10-20

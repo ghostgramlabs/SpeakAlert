@@ -784,9 +784,12 @@
     <string name="battery_banner_body">Το τηλέφωνό σας μπορεί να καθυστερήσει τις υπενθυμίσεις του %1$s όταν η εφαρμογή είναι κλειστή.</string>
     <string name="home_empty_nothing_today">Τίποτα για σήμερα</string>
     <string name="home_empty_today_sub">Η επόμενη υπενθύμισή σας είναι στις «%1$s».</string>
-    <string name="set_alarm_clock">Ειδοποίηση σαν ξυπνητήρι</string>
-    <string name="set_alarm_clock_desc">Για τηλέφωνα που καθυστερούν τις υπενθυμίσεις για εξοικονόμηση μπαταρίας. Το Android δεν τις καθυστερεί και εμφανίζει εικονίδιο ξυπνητηριού στη γραμμή κατάστασης.</string>
+    <string name="set_alarm_clock">Εξαιρετικά αξιόπιστες υπενθυμίσεις</string>
+    <string name="set_alarm_clock_desc">Βοηθά τις υπενθυμίσεις να χτυπούν στην ώρα τους σε τηλέφωνα που καθυστερούν τις εφαρμογές για εξοικονόμηση μπαταρίας. Όσο είναι ενεργό, ορισμένα τηλέφωνα εμφανίζουν εικονίδιο ρολογιού ή μήνυμα «ορίστηκε ξυπνητήρι».</string>
     <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
     <string name="bog_transsion_autostart">Ανοίξτε Εφαρμογές &gt; Αυτόματη εκκίνηση (ή Phone Master &gt; Αυτόματη εκκίνηση) και ενεργοποιήστε την για το %1$s</string>
     <string name="bog_transsion_battery">Ανοίξτε Εφαρμογές &gt; %1$s &gt; Μπαταρία και επιλέξτε Χωρίς περιορισμούς</string>
+    <string name="set_alarm_clock_status_next">Ενεργό για την επόμενη υπενθύμισή σας: %1$s</string>
+    <string name="set_alarm_clock_status_none">Η επόμενη υπενθύμισή σας θα το χρησιμοποιήσει.</string>
+    <string name="home_extra_reliable_on">Εξαιρετικά αξιόπιστες υπενθυμίσεις ενεργές</string>
 </resources>

@@ -81,7 +81,7 @@ Most reminder apps rely on silent notifications. SpeakAlert is a talking reminde
 ### 2.0.42 (build 63) — current
 
 ```
-• New: "Deliver like an alarm clock" in Settings > Reliability. If your phone delays reminders to save battery, turn it on so they ring on time
+• New: "Extra-reliable reminders" in Settings > Reliability. If your phone delays reminders to save battery, turn it on so they ring on time
 • Battery guide: steps for Infinix, Tecno and itel phones
 ```
 

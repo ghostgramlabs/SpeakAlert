@@ -784,9 +784,12 @@
     <string name="battery_banner_body">ஆப் மூடப்பட்டிருக்கும்போது உங்கள் தொலைபேசி %1$s நினைவூட்டல்களைத் தாமதப்படுத்தலாம்.</string>
     <string name="home_empty_nothing_today">இன்று எதுவும் இல்லை</string>
     <string name="home_empty_today_sub">உங்கள் அடுத்த நினைவூட்டல் \"%1$s\" பிரிவில் உள்ளது.</string>
-    <string name="set_alarm_clock">அலாரம் கடிகாரம் போல ஒலிக்கவும்</string>
-    <string name="set_alarm_clock_desc">பேட்டரியைச் சேமிக்க நினைவூட்டல்களைத் தாமதப்படுத்தும் தொலைபேசிகளுக்கு. Android இவற்றைத் தாமதப்படுத்தாது, நிலைப் பட்டியில் அலாரம் ஐகானைக் காட்டும்.</string>
+    <string name="set_alarm_clock">கூடுதல் நம்பகமான நினைவூட்டல்கள்</string>
+    <string name="set_alarm_clock_desc">பேட்டரியைச் சேமிக்க ஆப்ஸைத் தாமதப்படுத்தும் தொலைபேசிகளில் நினைவூட்டல்கள் சரியான நேரத்தில் ஒலிக்க உதவுகிறது. இது இயக்கத்தில் இருக்கும்போது, சில தொலைபேசிகள் கடிகார ஐகானையோ \"அலாரம் அமைக்கப்பட்டது\" செய்தியையோ காட்டும்.</string>
     <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
     <string name="bog_transsion_autostart">ஆப்ஸ் &gt; தானியங்கு தொடக்கம் (அல்லது Phone Master &gt; தானியங்கு தொடக்கம்) திறந்து %1$s-க்கு இயக்கவும்</string>
     <string name="bog_transsion_battery">ஆப்ஸ் &gt; %1$s &gt; பேட்டரி திறந்து கட்டுப்பாடற்றது என்பதைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="set_alarm_clock_status_next">உங்கள் அடுத்த நினைவூட்டலுக்கு இயக்கத்தில்: %1$s</string>
+    <string name="set_alarm_clock_status_none">உங்கள் அடுத்த நினைவூட்டல் இதைப் பயன்படுத்தும்.</string>
+    <string name="home_extra_reliable_on">கூடுதல் நம்பகமான நினைவூட்டல்கள் இயக்கத்தில்</string>
 </resources>

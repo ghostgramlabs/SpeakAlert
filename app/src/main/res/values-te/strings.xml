@@ -784,9 +784,12 @@
     <string name="battery_banner_body">యాప్ మూసివేసినప్పుడు మీ ఫోన్ %1$s రిమైండర్లను ఆలస్యం చేయవచ్చు.</string>
     <string name="home_empty_nothing_today">ఈ రోజు ఏమీ లేవు</string>
     <string name="home_empty_today_sub">మీ తదుపరి రిమైండర్ \"%1$s\"లో ఉంది.</string>
-    <string name="set_alarm_clock">అలారం గడియారంలా మోగించు</string>
-    <string name="set_alarm_clock_desc">బ్యాటరీ ఆదా కోసం రిమైండర్లను ఆలస్యం చేసే ఫోన్ల కోసం. Android వీటిని ఆపదు, స్టేటస్ బార్‌లో అలారం చిహ్నాన్ని చూపుతుంది.</string>
+    <string name="set_alarm_clock">అదనపు నమ్మకమైన రిమైండర్లు</string>
+    <string name="set_alarm_clock_desc">బ్యాటరీ ఆదా కోసం యాప్‌లను ఆలస్యం చేసే ఫోన్లలో రిమైండర్లు సమయానికి మోగడానికి సహాయపడుతుంది. ఇది ఆన్‌లో ఉన్నప్పుడు కొన్ని ఫోన్లు గడియారం చిహ్నం లేదా \"అలారం సెట్ చేయబడింది\" సందేశాన్ని చూపుతాయి.</string>
     <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
     <string name="bog_transsion_autostart">యాప్‌లు &gt; ఆటో-స్టార్ట్ (లేదా Phone Master &gt; ఆటో-స్టార్ట్) తెరిచి %1$s కోసం ఆన్ చేయండి</string>
     <string name="bog_transsion_battery">యాప్‌లు &gt; %1$s &gt; బ్యాటరీ తెరిచి పరిమితులు లేనిది ఎంచుకోండి</string>
+    <string name="set_alarm_clock_status_next">మీ తదుపరి రిమైండర్‌కు ఆన్‌లో ఉంది: %1$s</string>
+    <string name="set_alarm_clock_status_none">మీ తదుపరి రిమైండర్ దీన్ని ఉపయోగిస్తుంది.</string>
+    <string name="home_extra_reliable_on">అదనపు నమ్మకమైన రిమైండర్లు ఆన్‌లో ఉన్నాయి</string>
 </resources>
