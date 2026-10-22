@@ -721,7 +721,7 @@
     <string name="bog_status_exempt">O %1$s já tem permissão para rodar sem otimização de bateria.</string>
     <string name="bog_no_battery_settings">As configurações de bateria não estão disponíveis neste aparelho.</string>
     <string name="bog_why_title">Por que isso importa</string>
-    <string name="bog_why_body">Celulares da Xiaomi, POCO, Redmi, Huawei e marcas parecidas podem interromper apps em segundo plano de forma agressiva. Use a família do fabricante e a versão do software como guia; os caminhos exatos podem variar conforme o modelo do aparelho.</string>
+    <string name="bog_why_body">Celulares da Xiaomi, POCO, Redmi, Huawei, Infinix, Tecno e marcas parecidas podem interromper apps em segundo plano de forma agressiva. Use a família do fabricante e a versão do software como guia; os caminhos exatos podem variar conforme o modelo do aparelho.</string>
 
     <!-- Reminder card accessibility description -->
     <string name="a11y_card_reminder">Lembrete: %1$s</string>
@@ -791,4 +791,9 @@
     <string name="battery_banner_body">Seu celular pode atrasar os lembretes do %1$s quando o app está fechado.</string>
     <string name="home_empty_nothing_today">Nada para hoje</string>
     <string name="home_empty_today_sub">Seu próximo lembrete está em \"%1$s\".</string>
+    <string name="set_alarm_clock">Avisar como um despertador</string>
+    <string name="set_alarm_clock_desc">Para celulares que atrasam lembretes para economizar bateria. O Android não os segura e mostra um ícone de alarme na barra de status.</string>
+    <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
+    <string name="bog_transsion_autostart">Abra Apps &gt; Início automático (ou Phone Master &gt; Início automático) e ative para o %1$s</string>
+    <string name="bog_transsion_battery">Abra Apps &gt; %1$s &gt; Bateria e escolha Sem restrições</string>
 </resources>

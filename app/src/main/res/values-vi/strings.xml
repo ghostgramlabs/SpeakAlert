@@ -709,7 +709,7 @@
     <string name="bog_status_exempt">%1$s đã được phép chạy không cần tối ưu hóa pin.</string>
     <string name="bog_no_battery_settings">Cài đặt pin không có trên thiết bị này.</string>
     <string name="bog_why_title">Vì sao điều này quan trọng</string>
-    <string name="bog_why_body">Điện thoại Xiaomi, POCO, Redmi, Huawei và các hãng tương tự có thể dừng ứng dụng chạy nền rất mạnh tay. Hãy dựa vào dòng sản phẩm và phiên bản phần mềm để tham khảo; đường dẫn chính xác có thể khác nhau tùy mẫu máy.</string>
+    <string name="bog_why_body">Điện thoại Xiaomi, POCO, Redmi, Huawei, Infinix, Tecno và các hãng tương tự có thể dừng ứng dụng chạy nền rất mạnh tay. Hãy dựa vào dòng sản phẩm và phiên bản phần mềm để tham khảo; đường dẫn chính xác có thể khác nhau tùy mẫu máy.</string>
 
     <!-- Reminder card accessibility description -->
     <string name="a11y_card_reminder">Lời nhắc: %1$s</string>
@@ -777,4 +777,9 @@
     <string name="battery_banner_body">Điện thoại có thể làm chậm lời nhắc của %1$s khi ứng dụng đóng.</string>
     <string name="home_empty_nothing_today">Hôm nay không có gì</string>
     <string name="home_empty_today_sub">Lời nhắc tiếp theo của bạn nằm trong mục \"%1$s\".</string>
+    <string name="set_alarm_clock">Báo như đồng hồ báo thức</string>
+    <string name="set_alarm_clock_desc">Dành cho điện thoại làm chậm lời nhắc để tiết kiệm pin. Android không trì hoãn các lời nhắc này và hiển thị biểu tượng báo thức trên thanh trạng thái.</string>
+    <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
+    <string name="bog_transsion_autostart">Mở Ứng dụng &gt; Tự khởi động (hoặc Phone Master &gt; Tự khởi động) và bật cho %1$s</string>
+    <string name="bog_transsion_battery">Mở Ứng dụng &gt; %1$s &gt; Pin và chọn Không hạn chế</string>
 </resources>

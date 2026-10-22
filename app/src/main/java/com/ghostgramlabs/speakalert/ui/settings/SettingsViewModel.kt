@@ -137,6 +137,14 @@ class SettingsViewModel(
         }
     }
 
+    fun setAlarmClockDelivery(context: android.content.Context, enabled: Boolean) {
+        viewModelScope.launch {
+            com.ghostgramlabs.speakalert.alarm.setAlarmClockDelivery(
+                context, enabled, reminderRepository, alarmScheduler
+            )
+        }
+    }
+
     fun setPersistUntilDone(enabled: Boolean) {
         viewModelScope.launch {
             settingsRepository.setPersistUntilDone(enabled)

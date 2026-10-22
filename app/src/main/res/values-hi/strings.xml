@@ -699,7 +699,7 @@
     <string name="bog_status_exempt">%1$s को बिना बैटरी ऑप्टिमाइज़ेशन के चलने की अनुमति पहले से है।</string>
     <string name="bog_no_battery_settings">इस डिवाइस पर बैटरी सेटिंग्स उपलब्ध नहीं हैं।</string>
     <string name="bog_why_title">यह क्यों मायने रखता है</string>
-    <string name="bog_why_body">Xiaomi, POCO, Redmi, Huawei और इसी तरह के ब्रांड के फ़ोन बैकग्राउंड ऐप्स को आक्रामक रूप से रोक सकते हैं। निर्माता और सॉफ़्टवेयर संस्करण को मार्गदर्शक मानें; सटीक रास्ते मॉडल के अनुसार भिन्न हो सकते हैं।</string>
+    <string name="bog_why_body">Xiaomi, POCO, Redmi, Huawei, Infinix, Tecno और इसी तरह के ब्रांड के फ़ोन बैकग्राउंड ऐप्स को आक्रामक रूप से रोक सकते हैं। निर्माता और सॉफ़्टवेयर संस्करण को मार्गदर्शक मानें; सटीक रास्ते मॉडल के अनुसार भिन्न हो सकते हैं।</string>
 
     <!-- कार्ड की सुगम्यता विवरण -->
     <string name="a11y_card_reminder">रिमाइंडर: %1$s</string>
@@ -768,4 +768,9 @@
     <string name="battery_banner_body">ऐप बंद होने पर आपका फ़ोन %1$s के रिमाइंडर देर से दे सकता है।</string>
     <string name="home_empty_nothing_today">आज के लिए कुछ नहीं</string>
     <string name="home_empty_today_sub">आपका अगला रिमाइंडर \"%1$s\" में है।</string>
+    <string name="set_alarm_clock">अलार्म घड़ी की तरह बजाएं</string>
+    <string name="set_alarm_clock_desc">उन फ़ोन के लिए जो बैटरी बचाने के लिए रिमाइंडर देर से देते हैं। Android इन्हें नहीं रोकता और स्टेटस बार में अलार्म आइकन दिखाता है।</string>
+    <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
+    <string name="bog_transsion_autostart">ऐप्स &gt; ऑटो-स्टार्ट (या Phone Master &gt; ऑटो-स्टार्ट) खोलें और %1$s के लिए चालू करें</string>
+    <string name="bog_transsion_battery">ऐप्स &gt; %1$s &gt; बैटरी खोलें और अप्रतिबंधित चुनें</string>
 </resources>

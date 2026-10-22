@@ -3,6 +3,13 @@
 User-facing changes to SpeakAlert, newest first. Version numbers match the Google Play release
 (`versionName` in `app/build.gradle.kts`).
 
+## 2.0.42 - 2026-10-21
+
+- New "Deliver like an alarm clock" option in Settings > Reliability and the Battery
+  Optimization Guide. Off by default; for phones whose battery saver holds reminders back until
+  the app is opened. It shows an alarm icon in the status bar.
+- The Battery Optimization Guide has steps for Infinix, Tecno and itel phones.
+
 ## 2.0.41 - 2026-10-20
 
 - SpeakAlert is now open source under the Apache License 2.0.

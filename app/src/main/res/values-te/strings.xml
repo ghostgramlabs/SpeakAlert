@@ -715,7 +715,7 @@
     <string name="bog_status_exempt">%1$s ఇప్పటికే బ్యాటరీ ఆప్టిమైజేషన్ లేకుండా రన్ అవ్వడానికి అనుమతి పొందింది.</string>
     <string name="bog_no_battery_settings">ఈ పరికరంలో బ్యాటరీ సెట్టింగ్‌లు అందుబాటులో లేవు.</string>
     <string name="bog_why_title">ఇది ఎందుకు ముఖ్యం</string>
-    <string name="bog_why_body">Xiaomi, POCO, Redmi, Huawei, ఇలాంటి బ్రాండ్‌ల ఫోన్‌లు బ్యాక్‌గ్రౌండ్‌లో యాప్‌లను దూకుడుగా ఆపగలవు. తయారీదారు, సాఫ్ట్‌వేర్ వెర్షన్‌ను మార్గదర్శిగా ఉపయోగించండి; ఖచ్చితమైన మార్గాలు పరికరం మోడల్‌ను బట్టి మారవచ్చు.</string>
+    <string name="bog_why_body">Xiaomi, POCO, Redmi, Huawei, Infinix, Tecno, ఇలాంటి బ్రాండ్‌ల ఫోన్‌లు బ్యాక్‌గ్రౌండ్‌లో యాప్‌లను దూకుడుగా ఆపగలవు. తయారీదారు, సాఫ్ట్‌వేర్ వెర్షన్‌ను మార్గదర్శిగా ఉపయోగించండి; ఖచ్చితమైన మార్గాలు పరికరం మోడల్‌ను బట్టి మారవచ్చు.</string>
 
     <!-- Reminder card accessibility description -->
     <string name="a11y_card_reminder">రిమైండర్: %1$s</string>
@@ -784,4 +784,9 @@
     <string name="battery_banner_body">యాప్ మూసివేసినప్పుడు మీ ఫోన్ %1$s రిమైండర్లను ఆలస్యం చేయవచ్చు.</string>
     <string name="home_empty_nothing_today">ఈ రోజు ఏమీ లేవు</string>
     <string name="home_empty_today_sub">మీ తదుపరి రిమైండర్ \"%1$s\"లో ఉంది.</string>
+    <string name="set_alarm_clock">అలారం గడియారంలా మోగించు</string>
+    <string name="set_alarm_clock_desc">బ్యాటరీ ఆదా కోసం రిమైండర్లను ఆలస్యం చేసే ఫోన్ల కోసం. Android వీటిని ఆపదు, స్టేటస్ బార్‌లో అలారం చిహ్నాన్ని చూపుతుంది.</string>
+    <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
+    <string name="bog_transsion_autostart">యాప్‌లు &gt; ఆటో-స్టార్ట్ (లేదా Phone Master &gt; ఆటో-స్టార్ట్) తెరిచి %1$s కోసం ఆన్ చేయండి</string>
+    <string name="bog_transsion_battery">యాప్‌లు &gt; %1$s &gt; బ్యాటరీ తెరిచి పరిమితులు లేనిది ఎంచుకోండి</string>
 </resources>

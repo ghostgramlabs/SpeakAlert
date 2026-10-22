@@ -704,7 +704,7 @@
     <string name="bog_status_exempt">%1$s ya puede ejecutarse sin optimización de batería.</string>
     <string name="bog_no_battery_settings">Los ajustes de batería no están disponibles en este dispositivo.</string>
     <string name="bog_why_title">Por qué es importante</string>
-    <string name="bog_why_body">Los teléfonos de Xiaomi, POCO, Redmi, Huawei y marcas similares pueden detener agresivamente las apps en segundo plano. Usa la familia del fabricante y la versión del software como guía; las rutas exactas pueden variar según el modelo.</string>
+    <string name="bog_why_body">Los teléfonos de Xiaomi, POCO, Redmi, Huawei, Infinix, Tecno y marcas similares pueden detener agresivamente las apps en segundo plano. Usa la familia del fabricante y la versión del software como guía; las rutas exactas pueden variar según el modelo.</string>
 
     <!-- Descripción accesible de la tarjeta -->
     <string name="a11y_card_reminder">Recordatorio: %1$s</string>
@@ -774,4 +774,9 @@
     <string name="battery_banner_body">Tu teléfono puede retrasar los recordatorios de %1$s cuando la app está cerrada.</string>
     <string name="home_empty_nothing_today">Nada pendiente para hoy</string>
     <string name="home_empty_today_sub">Tu próximo recordatorio está en «%1$s».</string>
+    <string name="set_alarm_clock">Avisar como un despertador</string>
+    <string name="set_alarm_clock_desc">Para teléfonos que retrasan los recordatorios para ahorrar batería. Android no los retiene y muestra un icono de alarma en la barra de estado.</string>
+    <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
+    <string name="bog_transsion_autostart">Abre Aplicaciones &gt; Inicio automático (o Phone Master &gt; Inicio automático) y actívalo para %1$s</string>
+    <string name="bog_transsion_battery">Abre Aplicaciones &gt; %1$s &gt; Batería y elige Sin restricciones</string>
 </resources>

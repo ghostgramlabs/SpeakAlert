@@ -78,7 +78,14 @@ Most reminder apps rely on silent notifications. SpeakAlert is a talking reminde
 
 ## "What's new" (release notes, max 500 chars)
 
-### 2.0.41 (build 62) — current
+### 2.0.42 (build 63) — current
+
+```
+• New: "Deliver like an alarm clock" in Settings > Reliability. If your phone delays reminders to save battery, turn it on so they ring on time
+• Battery guide: steps for Infinix, Tecno and itel phones
+```
+
+### 2.0.41 (build 62) — previous
 
 ```
 • The full-screen alert shows your reminder in large, coloured text
@@ -89,7 +96,7 @@ Most reminder apps rely on silent notifications. SpeakAlert is a talking reminde
 • Fixed: Done on a ringing repeating reminder also skipped the next one
 ```
 
-### 2.0.40 (build 61) — previous
+### 2.0.40 (build 61)
 
 ```
 • Now in 12 languages: Portuguese (Brazil), Russian, Vietnamese, Bengali, Telugu, Tamil, Greek and Malayalam join English, Spanish, Hindi and Arabic

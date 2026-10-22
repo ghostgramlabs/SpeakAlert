@@ -40,7 +40,8 @@ hear it even when the phone is in your pocket or across the room.
   Full-screen lock-screen alerts have Done, Silence and Snooze buttons.
 - **Reliable delivery.** Exact alarms, rescheduling after reboot, a missed-reminder inbox,
   tone-only mode, optional Do Not Disturb bypass, and battery-optimisation guidance for
-  restrictive phones.
+  restrictive phones. Reminders can optionally be delivered as alarm clocks, which phones'
+  battery savers do not hold back.
 - **Private playback.** Play reminders through the earpiece or Bluetooth headphones.
 - **Widgets and Wear OS.** A quick-add widget, an upcoming-reminders widget, and alerts on
   Wear OS watches.

@@ -900,6 +900,19 @@ fun SettingsScreen(
                     onCheckedChange = { viewModel.setPersistUntilDone(it) }
                 )
 
+                var alarmClockDelivery by remember {
+                    mutableStateOf(com.ghostgramlabs.speakalert.util.AlarmDeliveryPreferences.useAlarmClock(context))
+                }
+                SwitchRow(
+                    text = stringResource(R.string.set_alarm_clock),
+                    description = stringResource(R.string.set_alarm_clock_desc),
+                    checked = alarmClockDelivery,
+                    onCheckedChange = {
+                        alarmClockDelivery = it
+                        viewModel.setAlarmClockDelivery(context, it)
+                    }
+                )
+
                 SwitchRow(
                     text = stringResource(R.string.set_dnd),
                     description = when {

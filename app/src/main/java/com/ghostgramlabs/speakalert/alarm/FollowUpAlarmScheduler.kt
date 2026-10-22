@@ -13,11 +13,7 @@ object FollowUpAlarmScheduler {
         val alarmManager = context.getSystemService(AlarmManager::class.java)
         val pendingIntent = pendingIntent(context, reminderId, triggerAt)
         try {
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                triggerAt,
-                pendingIntent
-            )
+            scheduleReminderAlarm(context, reminderId, triggerAt, pendingIntent)
         } catch (_: SecurityException) {
             alarmManager.setAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,

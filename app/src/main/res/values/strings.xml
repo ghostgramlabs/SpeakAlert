@@ -717,7 +717,7 @@
     <string name="bog_status_exempt">%1$s is already allowed to run without battery optimization.</string>
     <string name="bog_no_battery_settings">Battery settings are not available on this device.</string>
     <string name="bog_why_title">Why this matters</string>
-    <string name="bog_why_body">Phones from Xiaomi, POCO, Redmi, Huawei, and similar brands can aggressively stop apps in the background. Use the manufacturer family and software version as a guide; exact paths can differ by device model.</string>
+    <string name="bog_why_body">Phones from Xiaomi, POCO, Redmi, Huawei, Infinix, Tecno, and similar brands can aggressively stop apps in the background. Use the manufacturer family and software version as a guide; exact paths can differ by device model.</string>
 
     <!-- Reminder card accessibility description -->
     <string name="a11y_card_reminder">Reminder: %1$s</string>
@@ -786,4 +786,9 @@
     <string name="battery_banner_body">Your phone may delay %1$s reminders while the app is closed.</string>
     <string name="home_empty_nothing_today">Nothing due today</string>
     <string name="home_empty_today_sub">Your next reminder is in %1$s.</string>
+    <string name="set_alarm_clock">Deliver like an alarm clock</string>
+    <string name="set_alarm_clock_desc">For phones that delay reminders to save battery. Android won\'t hold these back, and shows an alarm icon in the status bar.</string>
+    <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
+    <string name="bog_transsion_autostart">Open Apps &gt; Auto-start (or Phone Master &gt; Auto-start) and turn it on for %1$s</string>
+    <string name="bog_transsion_battery">Open Apps &gt; %1$s &gt; Battery and choose Unrestricted</string>
 </resources>

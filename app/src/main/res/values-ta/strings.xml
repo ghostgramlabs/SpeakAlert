@@ -715,7 +715,7 @@
     <string name="bog_status_exempt">%1$s ஏற்கனவே பேட்டரி மேம்படுத்தல் இல்லாமல் இயங்க அனுமதிக்கப்பட்டுள்ளது.</string>
     <string name="bog_no_battery_settings">இந்தச் சாதனத்தில் பேட்டரி அமைப்புகள் இல்லை.</string>
     <string name="bog_why_title">இது ஏன் முக்கியம்</string>
-    <string name="bog_why_body">Xiaomi, POCO, Redmi, Huawei மற்றும் இதுபோன்ற பிராண்டுகளின் ஃபோன்கள் பின்னணியில் ஆப்ஸைக் கடுமையாக நிறுத்தலாம். உற்பத்தியாளர் குடும்பத்தையும் மென்பொருள் பதிப்பையும் வழிகாட்டியாகக் கொள்ளுங்கள்; சரியான பாதைகள் சாதன மாடலைப் பொறுத்து மாறலாம்.</string>
+    <string name="bog_why_body">Xiaomi, POCO, Redmi, Huawei, Infinix, Tecno மற்றும் இதுபோன்ற பிராண்டுகளின் ஃபோன்கள் பின்னணியில் ஆப்ஸைக் கடுமையாக நிறுத்தலாம். உற்பத்தியாளர் குடும்பத்தையும் மென்பொருள் பதிப்பையும் வழிகாட்டியாகக் கொள்ளுங்கள்; சரியான பாதைகள் சாதன மாடலைப் பொறுத்து மாறலாம்.</string>
 
     <!-- Reminder card accessibility description -->
     <string name="a11y_card_reminder">நினைவூட்டல்: %1$s</string>
@@ -784,4 +784,9 @@
     <string name="battery_banner_body">ஆப் மூடப்பட்டிருக்கும்போது உங்கள் தொலைபேசி %1$s நினைவூட்டல்களைத் தாமதப்படுத்தலாம்.</string>
     <string name="home_empty_nothing_today">இன்று எதுவும் இல்லை</string>
     <string name="home_empty_today_sub">உங்கள் அடுத்த நினைவூட்டல் \"%1$s\" பிரிவில் உள்ளது.</string>
+    <string name="set_alarm_clock">அலாரம் கடிகாரம் போல ஒலிக்கவும்</string>
+    <string name="set_alarm_clock_desc">பேட்டரியைச் சேமிக்க நினைவூட்டல்களைத் தாமதப்படுத்தும் தொலைபேசிகளுக்கு. Android இவற்றைத் தாமதப்படுத்தாது, நிலைப் பட்டியில் அலாரம் ஐகானைக் காட்டும்.</string>
+    <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
+    <string name="bog_transsion_autostart">ஆப்ஸ் &gt; தானியங்கு தொடக்கம் (அல்லது Phone Master &gt; தானியங்கு தொடக்கம்) திறந்து %1$s-க்கு இயக்கவும்</string>
+    <string name="bog_transsion_battery">ஆப்ஸ் &gt; %1$s &gt; பேட்டரி திறந்து கட்டுப்பாடற்றது என்பதைத் தேர்ந்தெடுக்கவும்</string>
 </resources>

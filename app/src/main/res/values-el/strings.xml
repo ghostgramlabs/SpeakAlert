@@ -715,7 +715,7 @@
     <string name="bog_status_exempt">Το %1$s έχει ήδη άδεια να εκτελείται χωρίς βελτιστοποίηση μπαταρίας.</string>
     <string name="bog_no_battery_settings">Οι ρυθμίσεις μπαταρίας δεν είναι διαθέσιμες σε αυτή τη συσκευή.</string>
     <string name="bog_why_title">Γιατί έχει σημασία</string>
-    <string name="bog_why_body">Τηλέφωνα Xiaomi, POCO, Redmi, Huawei και παρόμοιων εταιρειών μπορεί να σταματούν επιθετικά τις εφαρμογές στο παρασκήνιο. Χρησιμοποιήστε τον κατασκευαστή και την έκδοση λογισμικού ως οδηγό· οι ακριβείς διαδρομές διαφέρουν ανά μοντέλο.</string>
+    <string name="bog_why_body">Τηλέφωνα Xiaomi, POCO, Redmi, Huawei, Infinix, Tecno και παρόμοιων εταιρειών μπορεί να σταματούν επιθετικά τις εφαρμογές στο παρασκήνιο. Χρησιμοποιήστε τον κατασκευαστή και την έκδοση λογισμικού ως οδηγό· οι ακριβείς διαδρομές διαφέρουν ανά μοντέλο.</string>
 
     <!-- Reminder card accessibility description -->
     <string name="a11y_card_reminder">Υπενθύμιση: %1$s</string>
@@ -784,4 +784,9 @@
     <string name="battery_banner_body">Το τηλέφωνό σας μπορεί να καθυστερήσει τις υπενθυμίσεις του %1$s όταν η εφαρμογή είναι κλειστή.</string>
     <string name="home_empty_nothing_today">Τίποτα για σήμερα</string>
     <string name="home_empty_today_sub">Η επόμενη υπενθύμισή σας είναι στις «%1$s».</string>
+    <string name="set_alarm_clock">Ειδοποίηση σαν ξυπνητήρι</string>
+    <string name="set_alarm_clock_desc">Για τηλέφωνα που καθυστερούν τις υπενθυμίσεις για εξοικονόμηση μπαταρίας. Το Android δεν τις καθυστερεί και εμφανίζει εικονίδιο ξυπνητηριού στη γραμμή κατάστασης.</string>
+    <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
+    <string name="bog_transsion_autostart">Ανοίξτε Εφαρμογές &gt; Αυτόματη εκκίνηση (ή Phone Master &gt; Αυτόματη εκκίνηση) και ενεργοποιήστε την για το %1$s</string>
+    <string name="bog_transsion_battery">Ανοίξτε Εφαρμογές &gt; %1$s &gt; Μπαταρία και επιλέξτε Χωρίς περιορισμούς</string>
 </resources>

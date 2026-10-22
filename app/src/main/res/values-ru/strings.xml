@@ -728,7 +728,7 @@
     <string name="bog_status_exempt">%1$s уже может работать без оптимизации батареи.</string>
     <string name="bog_no_battery_settings">Настройки батареи недоступны на этом устройстве.</string>
     <string name="bog_why_title">Почему это важно</string>
-    <string name="bog_why_body">Телефоны Xiaomi, POCO, Redmi, Huawei и похожих брендов могут агрессивно останавливать приложения в фоне. Ориентируйтесь на производителя и версию прошивки; точный путь может отличаться в зависимости от модели.</string>
+    <string name="bog_why_body">Телефоны Xiaomi, POCO, Redmi, Huawei, Infinix, Tecno и похожих брендов могут агрессивно останавливать приложения в фоне. Ориентируйтесь на производителя и версию прошивки; точный путь может отличаться в зависимости от модели.</string>
 
     <!-- Reminder card accessibility description -->
     <string name="a11y_card_reminder">Напоминание: %1$s</string>
@@ -799,4 +799,9 @@
     <string name="battery_banner_body">Когда приложение закрыто, телефон может задерживать напоминания %1$s.</string>
     <string name="home_empty_nothing_today">На сегодня ничего нет</string>
     <string name="home_empty_today_sub">Следующее напоминание — во вкладке «%1$s».</string>
+    <string name="set_alarm_clock">Срабатывать как будильник</string>
+    <string name="set_alarm_clock_desc">Для телефонов, которые задерживают напоминания ради экономии заряда. Android не откладывает такие сигналы и показывает значок будильника в строке состояния.</string>
+    <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
+    <string name="bog_transsion_autostart">Откройте Приложения &gt; Автозапуск (или Phone Master &gt; Автозапуск) и включите его для %1$s</string>
+    <string name="bog_transsion_battery">Откройте Приложения &gt; %1$s &gt; Батарея и выберите «Без ограничений»</string>
 </resources>

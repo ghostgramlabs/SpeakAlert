@@ -715,7 +715,7 @@
     <string name="bog_status_exempt">%1$s-ന് ഇതിനകം ബാറ്ററി ഒപ്റ്റിമൈസേഷൻ ഇല്ലാതെ പ്രവർത്തിക്കാൻ അനുമതിയുണ്ട്.</string>
     <string name="bog_no_battery_settings">ഈ ഉപകരണത്തിൽ ബാറ്ററി ക്രമീകരണം ലഭ്യമല്ല.</string>
     <string name="bog_why_title">ഇത് എന്തുകൊണ്ട് പ്രധാനം</string>
-    <string name="bog_why_body">Xiaomi, POCO, Redmi, Huawei പോലുള്ള ബ്രാൻഡുകളുടെ ഫോണുകൾ പശ്ചാത്തലത്തിൽ ആപ്പുകളെ കർശനമായി നിർത്താം. നിർമ്മാതാവിനെയും സോഫ്റ്റ്‌വെയർ പതിപ്പിനെയും വഴികാട്ടിയായി എടുക്കുക; കൃത്യമായ വഴികൾ ഉപകരണ മോഡലനുസരിച്ച് വ്യത്യാസപ്പെടാം.</string>
+    <string name="bog_why_body">Xiaomi, POCO, Redmi, Huawei, Infinix, Tecno പോലുള്ള ബ്രാൻഡുകളുടെ ഫോണുകൾ പശ്ചാത്തലത്തിൽ ആപ്പുകളെ കർശനമായി നിർത്താം. നിർമ്മാതാവിനെയും സോഫ്റ്റ്‌വെയർ പതിപ്പിനെയും വഴികാട്ടിയായി എടുക്കുക; കൃത്യമായ വഴികൾ ഉപകരണ മോഡലനുസരിച്ച് വ്യത്യാസപ്പെടാം.</string>
 
     <!-- Reminder card accessibility description -->
     <string name="a11y_card_reminder">റിമൈൻഡർ: %1$s</string>
@@ -784,4 +784,9 @@
     <string name="battery_banner_body">ആപ്പ് അടച്ചിരിക്കുമ്പോൾ നിങ്ങളുടെ ഫോൺ %1$s ഓർമ്മപ്പെടുത്തലുകൾ വൈകിപ്പിച്ചേക്കാം.</string>
     <string name="home_empty_nothing_today">ഇന്നത്തേക്ക് ഒന്നുമില്ല</string>
     <string name="home_empty_today_sub">നിങ്ങളുടെ അടുത്ത ഓർമ്മപ്പെടുത്തൽ \"%1$s\" എന്നതിലുണ്ട്.</string>
+    <string name="set_alarm_clock">അലാറം ക്ലോക്ക് പോലെ അറിയിക്കുക</string>
+    <string name="set_alarm_clock_desc">ബാറ്ററി ലാഭിക്കാൻ ഓർമ്മപ്പെടുത്തലുകൾ വൈകിപ്പിക്കുന്ന ഫോണുകൾക്കായി. Android ഇവ തടഞ്ഞുവയ്ക്കില്ല, സ്റ്റാറ്റസ് ബാറിൽ അലാറം ഐക്കൺ കാണിക്കും.</string>
+    <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
+    <string name="bog_transsion_autostart">ആപ്പുകൾ &gt; ഓട്ടോ-സ്റ്റാർട്ട് (അല്ലെങ്കിൽ Phone Master &gt; ഓട്ടോ-സ്റ്റാർട്ട്) തുറന്ന് %1$s-ന് ഓണാക്കുക</string>
+    <string name="bog_transsion_battery">ആപ്പുകൾ &gt; %1$s &gt; ബാറ്ററി തുറന്ന് നിയന്ത്രണമില്ലാത്തത് തിരഞ്ഞെടുക്കുക</string>
 </resources>
