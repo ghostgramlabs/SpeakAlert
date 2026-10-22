@@ -799,4 +799,7 @@
     <string name="set_alarm_clock_status_next">Ativado para seu próximo lembrete: %1$s</string>
     <string name="set_alarm_clock_status_none">Seu próximo lembrete vai usar isto.</string>
     <string name="home_extra_reliable_on">Lembretes extraconfiáveis ativados</string>
+    <string name="set_alarm_volume_ok">Os lembretes tocam no volume de alarme do celular (%1$d%%).</string>
+    <string name="set_alarm_volume_low">O volume de alarme do celular está baixo (%1$d%%). Os lembretes tocam nesse volume, então podem ficar difíceis de ouvir.</string>
+    <string name="set_alarm_volume_raise">Aumentar volume do alarme</string>
 </resources>

@@ -807,4 +807,7 @@
     <string name="set_alarm_clock_status_next">Включено для следующего напоминания: %1$s</string>
     <string name="set_alarm_clock_status_none">Следующее напоминание будет использовать этот режим.</string>
     <string name="home_extra_reliable_on">Сверхнадёжные напоминания включены</string>
+    <string name="set_alarm_volume_ok">Напоминания звучат с громкостью будильника телефона (%1$d%%).</string>
+    <string name="set_alarm_volume_low">Громкость будильника на телефоне низкая (%1$d%%). Напоминания звучат с этой громкостью, поэтому их может быть плохо слышно.</string>
+    <string name="set_alarm_volume_raise">Увеличить громкость будильника</string>
 </resources>

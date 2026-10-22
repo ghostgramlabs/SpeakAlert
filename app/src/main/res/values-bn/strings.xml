@@ -792,4 +792,7 @@
     <string name="set_alarm_clock_status_next">আপনার পরের রিমাইন্ডারের জন্য চালু: %1$s</string>
     <string name="set_alarm_clock_status_none">আপনার পরের রিমাইন্ডার এটি ব্যবহার করবে।</string>
     <string name="home_extra_reliable_on">অতিরিক্ত নির্ভরযোগ্য রিমাইন্ডার চালু</string>
+    <string name="set_alarm_volume_ok">রিমাইন্ডার আপনার ফোনের অ্যালার্ম ভলিউমে (%1$d%%) বাজে।</string>
+    <string name="set_alarm_volume_low">আপনার ফোনের অ্যালার্ম ভলিউম কম (%1$d%%)। রিমাইন্ডার এই ভলিউমে বাজে, তাই শুনতে অসুবিধা হতে পারে।</string>
+    <string name="set_alarm_volume_raise">অ্যালার্ম ভলিউম বাড়ান</string>
 </resources>

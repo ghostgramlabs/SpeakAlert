@@ -785,4 +785,7 @@
     <string name="set_alarm_clock_status_next">Đang bật cho lời nhắc tiếp theo: %1$s</string>
     <string name="set_alarm_clock_status_none">Lời nhắc tiếp theo của bạn sẽ dùng chế độ này.</string>
     <string name="home_extra_reliable_on">Đã bật lời nhắc siêu tin cậy</string>
+    <string name="set_alarm_volume_ok">Lời nhắc phát theo âm lượng báo thức của điện thoại (%1$d%%).</string>
+    <string name="set_alarm_volume_low">Âm lượng báo thức của điện thoại đang thấp (%1$d%%). Lời nhắc phát ở mức này nên có thể khó nghe.</string>
+    <string name="set_alarm_volume_raise">Tăng âm lượng báo thức</string>
 </resources>

@@ -803,4 +803,7 @@
     <string name="set_alarm_clock_status_next">مفعّل لتذكيرك التالي: %1$s</string>
     <string name="set_alarm_clock_status_none">سيستخدمه تذكيرك التالي.</string>
     <string name="home_extra_reliable_on">التذكيرات الموثوقة أكثر مفعّلة</string>
+    <string name="set_alarm_volume_ok">تُشغَّل التذكيرات بمستوى صوت المنبّه في هاتفك (%1$d%%).</string>
+    <string name="set_alarm_volume_low">مستوى صوت المنبّه في هاتفك منخفض (%1$d%%). تُشغَّل التذكيرات بهذا المستوى، لذا قد يصعب سماعها.</string>
+    <string name="set_alarm_volume_raise">رفع صوت المنبّه</string>
 </resources>

@@ -792,4 +792,7 @@
     <string name="set_alarm_clock_status_next">Ενεργό για την επόμενη υπενθύμισή σας: %1$s</string>
     <string name="set_alarm_clock_status_none">Η επόμενη υπενθύμισή σας θα το χρησιμοποιήσει.</string>
     <string name="home_extra_reliable_on">Εξαιρετικά αξιόπιστες υπενθυμίσεις ενεργές</string>
+    <string name="set_alarm_volume_ok">Οι υπενθυμίσεις παίζουν στην ένταση ξυπνητηριού του τηλεφώνου (%1$d%%).</string>
+    <string name="set_alarm_volume_low">Η ένταση ξυπνητηριού του τηλεφώνου είναι χαμηλή (%1$d%%). Οι υπενθυμίσεις παίζουν σε αυτή την ένταση, οπότε μπορεί να ακούγονται δύσκολα.</string>
+    <string name="set_alarm_volume_raise">Αύξηση έντασης ξυπνητηριού</string>
 </resources>

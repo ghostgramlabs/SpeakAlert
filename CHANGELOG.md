@@ -10,6 +10,8 @@ User-facing changes to SpeakAlert, newest first. Version numbers match the Googl
   opened. Reminders are then set like alarms, so some phones show a clock icon or an "alarm
   set" message; Home and Settings say when it is on and which reminder it applies to next.
 - The Battery Optimization Guide has steps for Infinix, Tecno and itel phones.
+- Settings shows the phone's alarm volume, which reminders play at, and warns when it is low,
+  with a button to raise it.
 
 ## 2.0.41 - 2026-10-20
 

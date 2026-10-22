@@ -792,4 +792,7 @@
     <string name="set_alarm_clock_status_next">നിങ്ങളുടെ അടുത്ത ഓർമ്മപ്പെടുത്തലിന് ഓണാണ്: %1$s</string>
     <string name="set_alarm_clock_status_none">നിങ്ങളുടെ അടുത്ത ഓർമ്മപ്പെടുത്തൽ ഇത് ഉപയോഗിക്കും.</string>
     <string name="home_extra_reliable_on">കൂടുതൽ വിശ്വസനീയമായ ഓർമ്മപ്പെടുത്തലുകൾ ഓണാണ്</string>
+    <string name="set_alarm_volume_ok">ഓർമ്മപ്പെടുത്തലുകൾ നിങ്ങളുടെ ഫോണിന്റെ അലാറം ശബ്ദത്തിൽ (%1$d%%) മുഴങ്ങും.</string>
+    <string name="set_alarm_volume_low">നിങ്ങളുടെ ഫോണിന്റെ അലാറം ശബ്ദം കുറവാണ് (%1$d%%). ഓർമ്മപ്പെടുത്തലുകൾ ഈ ശബ്ദത്തിൽ മുഴങ്ങുന്നതിനാൽ കേൾക്കാൻ ബുദ്ധിമുട്ടായേക്കാം.</string>
+    <string name="set_alarm_volume_raise">അലാറം ശബ്ദം കൂട്ടുക</string>
 </resources>

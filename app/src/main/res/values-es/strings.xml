@@ -782,4 +782,7 @@
     <string name="set_alarm_clock_status_next">Activado para tu próximo recordatorio: %1$s</string>
     <string name="set_alarm_clock_status_none">Tu próximo recordatorio lo usará.</string>
     <string name="home_extra_reliable_on">Recordatorios extra fiables activados</string>
+    <string name="set_alarm_volume_ok">Los recordatorios suenan al volumen de alarma del teléfono (%1$d %%).</string>
+    <string name="set_alarm_volume_low">El volumen de alarma del teléfono está bajo (%1$d %%). Los recordatorios suenan a este volumen, así que pueden oírse poco.</string>
+    <string name="set_alarm_volume_raise">Subir volumen de alarma</string>
 </resources>

@@ -576,6 +576,11 @@ fun SettingsScreen(
                     )
                 }
                  
+                // Private playback uses the media or call volume instead.
+                if (!privatePlaybackEnabled) {
+                    AlarmVolumeHint()
+                }
+
                 // Loop Auto-Stop (compact inline)
                 Text(stringResource(R.string.set_loop_duration), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 8.dp))
                 Text(
@@ -1619,6 +1624,56 @@ private fun needsBluetoothConnectPermission(context: android.content.Context): B
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
         context.checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) !=
         android.content.pm.PackageManager.PERMISSION_GRANTED
+}
+
+/**
+ * Reminders play at the phone's alarm volume, which the volume buttons usually do not change -
+ * so a low one is easy to miss and makes every reminder quiet. This only shows it and opens the
+ * system volume control; the app never changes the user's volume itself.
+ */
+@Composable
+private fun AlarmVolumeHint() {
+    val context = LocalContext.current
+    val audioManager = remember { context.getSystemService(android.media.AudioManager::class.java) }
+    fun readPercent(): Int {
+        val max = audioManager.getStreamMaxVolume(android.media.AudioManager.STREAM_ALARM).coerceAtLeast(1)
+        return audioManager.getStreamVolume(android.media.AudioManager.STREAM_ALARM) * 100 / max
+    }
+    var percent by remember { mutableStateOf(readPercent()) }
+    // The system volume panel changes it without leaving this screen, so keep it current.
+    androidx.compose.runtime.LaunchedEffect(Unit) {
+        while (true) {
+            percent = readPercent()
+            kotlinx.coroutines.delay(1000)
+        }
+    }
+    val low = percent < 50
+    Column(modifier = Modifier.padding(top = 4.dp)) {
+        Text(
+            text = if (low) {
+                stringResource(R.string.set_alarm_volume_low, percent)
+            } else {
+                stringResource(R.string.set_alarm_volume_ok, percent)
+            },
+            style = MaterialTheme.typography.bodySmall,
+            color = if (low) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        if (low) {
+            TextButton(
+                onClick = {
+                    audioManager.adjustStreamVolume(
+                        android.media.AudioManager.STREAM_ALARM,
+                        android.media.AudioManager.ADJUST_RAISE,
+                        android.media.AudioManager.FLAG_SHOW_UI
+                    )
+                    percent = readPercent()
+                },
+                contentPadding = PaddingValues(horizontal = 0.dp, vertical = 4.dp)
+            ) {
+                Text(stringResource(R.string.set_alarm_volume_raise))
+            }
+        }
+    }
 }
 
 @Composable

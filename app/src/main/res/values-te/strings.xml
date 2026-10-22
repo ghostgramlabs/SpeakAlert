@@ -792,4 +792,7 @@
     <string name="set_alarm_clock_status_next">మీ తదుపరి రిమైండర్‌కు ఆన్‌లో ఉంది: %1$s</string>
     <string name="set_alarm_clock_status_none">మీ తదుపరి రిమైండర్ దీన్ని ఉపయోగిస్తుంది.</string>
     <string name="home_extra_reliable_on">అదనపు నమ్మకమైన రిమైండర్లు ఆన్‌లో ఉన్నాయి</string>
+    <string name="set_alarm_volume_ok">రిమైండర్లు మీ ఫోన్ అలారం వాల్యూమ్‌లో (%1$d%%) మోగుతాయి.</string>
+    <string name="set_alarm_volume_low">మీ ఫోన్ అలారం వాల్యూమ్ తక్కువగా ఉంది (%1$d%%). రిమైండర్లు ఈ వాల్యూమ్‌లోనే మోగుతాయి, కాబట్టి వినడం కష్టం కావచ్చు.</string>
+    <string name="set_alarm_volume_raise">అలారం వాల్యూమ్ పెంచండి</string>
 </resources>

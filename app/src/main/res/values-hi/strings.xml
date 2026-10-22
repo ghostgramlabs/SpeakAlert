@@ -776,4 +776,7 @@
     <string name="set_alarm_clock_status_next">आपके अगले रिमाइंडर के लिए चालू: %1$s</string>
     <string name="set_alarm_clock_status_none">आपका अगला रिमाइंडर इसका उपयोग करेगा।</string>
     <string name="home_extra_reliable_on">अतिरिक्त भरोसेमंद रिमाइंडर चालू</string>
+    <string name="set_alarm_volume_ok">रिमाइंडर आपके फ़ोन के अलार्म वॉल्यूम (%1$d%%) पर बजते हैं।</string>
+    <string name="set_alarm_volume_low">आपके फ़ोन का अलार्म वॉल्यूम कम है (%1$d%%)। रिमाइंडर इसी वॉल्यूम पर बजते हैं, इसलिए सुनने में मुश्किल हो सकती है।</string>
+    <string name="set_alarm_volume_raise">अलार्म वॉल्यूम बढ़ाएं</string>
 </resources>

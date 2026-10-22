@@ -794,4 +794,7 @@
     <string name="set_alarm_clock_status_next">On for your next reminder: %1$s</string>
     <string name="set_alarm_clock_status_none">Your next reminder will use this.</string>
     <string name="home_extra_reliable_on">Extra-reliable reminders on</string>
+    <string name="set_alarm_volume_ok">Reminders play at your phone\'s alarm volume (%1$d%%).</string>
+    <string name="set_alarm_volume_low">Your phone\'s alarm volume is low (%1$d%%). Reminders play at this volume, so they may be hard to hear.</string>
+    <string name="set_alarm_volume_raise">Raise alarm volume</string>
 </resources>

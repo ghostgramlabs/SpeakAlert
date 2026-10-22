@@ -792,4 +792,7 @@
     <string name="set_alarm_clock_status_next">உங்கள் அடுத்த நினைவூட்டலுக்கு இயக்கத்தில்: %1$s</string>
     <string name="set_alarm_clock_status_none">உங்கள் அடுத்த நினைவூட்டல் இதைப் பயன்படுத்தும்.</string>
     <string name="home_extra_reliable_on">கூடுதல் நம்பகமான நினைவூட்டல்கள் இயக்கத்தில்</string>
+    <string name="set_alarm_volume_ok">நினைவூட்டல்கள் உங்கள் தொலைபேசியின் அலாரம் ஒலியளவில் (%1$d%%) ஒலிக்கும்.</string>
+    <string name="set_alarm_volume_low">உங்கள் தொலைபேசியின் அலாரம் ஒலியளவு குறைவாக உள்ளது (%1$d%%). நினைவூட்டல்கள் இந்த ஒலியளவில் ஒலிப்பதால் கேட்பது கடினமாக இருக்கலாம்.</string>
+    <string name="set_alarm_volume_raise">அலாரம் ஒலியளவை அதிகரிக்கவும்</string>
 </resources>
