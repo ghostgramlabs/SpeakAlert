@@ -3,7 +3,11 @@
 User-facing changes to SpeakAlert, newest first. Version numbers match the Google Play release
 (`versionName` in `app/build.gradle.kts`).
 
-## 2.0.42 - 2026-10-21
+## 2.0.43 - 2026-10-22
+
+- Public release of 2.0.42, which went to closed testing only. No further changes.
+
+## 2.0.42 - 2026-10-21 (closed testing)
 
 - New "Extra-reliable reminders" option in Settings > Reliability and the Battery Optimization
   Guide. Off by default; for phones whose battery saver holds reminders back until the app is
