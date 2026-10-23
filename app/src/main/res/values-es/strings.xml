@@ -337,8 +337,8 @@
     <string name="set_toast_theme_dark">Modo oscuro activado</string>
     <string name="set_toast_theme_system">Siguiendo el tema del sistema</string>
     <string name="set_playback">Reproducción</string>
-    <string name="set_autoplay">Reproducir audio del recordatorio automáticamente</string>
-    <string name="set_autoplay_desc">Reproduce automáticamente notas de voz y archivos de audio cuando suena un recordatorio</string>
+    <string name="set_autoplay">Reproducir automáticamente</string>
+    <string name="set_autoplay_desc">Reproduce grabaciones, archivos de audio y texto hablado habilitado al activarse un recordatorio. Si está desactivado, toca Reproducir para escucharlo.</string>
     <string name="set_disabled_tone">Desactivado mientras el modo Solo tono está activo</string>
     <string name="set_toast_autoplay_on">Reproducción automática activada</string>
     <string name="set_toast_autoplay_off">Reproducción automática desactivada</string>
@@ -364,7 +364,7 @@
     <string name="set_toast_private_off">Reproducción privada desactivada</string>
     <string name="set_private_bt">Reproducción privada activada. El enrutamiento Bluetooth necesita permiso de dispositivos cercanos.</string>
     <string name="set_tone_only">Modo Solo tono</string>
-    <string name="set_tone_only_desc">Reproduce un tono de alarma simple en lugar de voz/TTS para máxima fiabilidad. Autoparada: %1$s. Posponer: %2$dm.</string>
+    <string name="set_tone_only_desc">Reproduce un tono de alarma en lugar de grabaciones o voz. Se detiene tras: %1$s. Posponer: %2$d min.</string>
     <string name="set_toast_tone_on">Modo Solo tono activado</string>
     <string name="set_toast_tone_off">Modo Solo tono desactivado</string>
     <string name="set_infinite">Infinito</string>
@@ -385,8 +385,8 @@
     <string name="set_open_perm">Abrir ajustes de permisos</string>
     <string name="set_fs_note">Aún puedes tocar Reproducir o Leer desde la notificación.</string>
     <string name="set_tone_volume_note">En modo Solo tono, el volumen lo controla el volumen de alarma/notificación del dispositivo.</string>
-    <string name="set_loop_duration">Duración del bucle</string>
-    <string name="set_loop_duration_desc">Define cuánto continúa el bucle del recordatorio</string>
+    <string name="set_loop_duration">Detener la reproducción continua después de</string>
+    <string name="set_loop_duration_desc">Detiene el tono o el audio en bucle tras este tiempo. Los recordatorios de seguimiento son alertas posteriores independientes.</string>
     <string name="set_toast_loop">Duración del bucle: %1$d min</string>
     <string name="set_toast_loop_infinite">Duración del bucle: Infinito</string>
     <string name="set_custom">Personalizado</string>
@@ -456,7 +456,7 @@
     <string name="set_label_time">%1$s: %2$s</string>
     <string name="set_volume">Volumen</string>
     <string name="set_cd_volume">Volumen de la app: %1$d%%</string>
-    <string name="set_loop_inline_desc">Cuánto tiempo se repite el sonido antes de detenerse automáticamente</string>
+    <string name="set_loop_inline_desc">Detiene el tono o el audio en bucle tras este tiempo. Los recordatorios de seguimiento son alertas posteriores independientes.</string>
     <string name="set_default_snooze">Posposición predeterminada</string>
     <string name="set_snooze_inline_desc">Cuánto tarda en volver a avisarte después de tocar «Posponer»</string>
     <string name="set_default_followup">Comprobación de seguimiento predeterminada</string>
@@ -467,7 +467,7 @@
     <string name="set_toast_followup_repeat_until_done">El seguimiento se repite hasta marcarlo como hecho</string>
     <string name="set_toast_followup_repeat">Límite de repetición del seguimiento: %1$d×</string>
     <string name="set_reliability">Fiabilidad</string>
-    <string name="set_persist">Mantener el recordatorio en pantalla hasta completarlo</string>
+    <string name="set_persist">Mantener la notificación hasta completar</string>
     <string name="set_persist_desc">La notificación permanece visible hasta que tocas «Hecho» o «Posponer». Activa también el seguimiento si quieres que vuelva a avisarte.</string>
     <string name="set_toast_persist_on">Los recordatorios permanecen hasta completarse</string>
     <string name="set_toast_persist_off">Los recordatorios se pueden descartar deslizando</string>
@@ -763,7 +763,7 @@
     <string name="set_tab_backup">Copia</string>
     <string name="set_tab_wear">Reloj</string>
     <string name="set_tab_help">Ayuda</string>
-    <string name="battery_guidance_title">Ayuda a que los recordatorios lleguen a tiempo</string>
+    <string name="battery_guidance_title">Los recordatorios pueden llegar tarde o perderse</string>
     <string name="battery_guidance_body">Tu teléfono limita la actividad de %1$s en segundo plano para ahorrar batería. En algunos teléfonos, esto puede retrasar los recordatorios cuando la app está cerrada. Elige Sin restricciones en los ajustes de batería para reducir este riesgo. Puedes mantener el ajuste actual y cambiarlo más adelante.</string>
     <string name="battery_review_settings">Revisar ajustes de batería</string>
     <string name="battery_keep_current">Mantener el ajuste actual</string>
@@ -771,7 +771,7 @@
     <string name="battery_status_allowed">Acceso a la batería en segundo plano: Sin restricciones.</string>
     <string name="card_done_occurrence">Hecho esta vez</string>
     <string name="home_delete_confirm_body">Puedes deshacerlo justo después de eliminarlo.</string>
-    <string name="battery_banner_body">Tu teléfono puede retrasar los recordatorios de %1$s cuando la app está cerrada.</string>
+    <string name="battery_banner_body">El ahorro de batería del teléfono puede frenar a %1$s.</string>
     <string name="home_empty_nothing_today">Nada pendiente para hoy</string>
     <string name="home_empty_today_sub">Tu próximo recordatorio está en «%1$s».</string>
     <string name="set_alarm_clock">Recordatorios extra fiables</string>
@@ -782,7 +782,25 @@
     <string name="set_alarm_clock_status_next">Activado para tu próximo recordatorio: %1$s</string>
     <string name="set_alarm_clock_status_none">Tu próximo recordatorio lo usará.</string>
     <string name="home_extra_reliable_on">Recordatorios extra fiables activados</string>
-    <string name="set_alarm_volume_ok">Los recordatorios suenan al volumen de alarma del teléfono (%1$d %%).</string>
-    <string name="set_alarm_volume_low">El volumen de alarma del teléfono está bajo (%1$d %%). Los recordatorios suenan a este volumen, así que pueden oírse poco.</string>
-    <string name="set_alarm_volume_raise">Subir volumen de alarma</string>
+    <string name="set_section_check">Comprobación de recordatorios</string>
+    <string name="set_section_ringing">Cuando suena un recordatorio</string>
+    <string name="check_all_good">Los permisos necesarios están activados.</string>
+    <string name="check_issues">Activa los permisos que faltan para mostrar y programar recordatorios.</string>
+    <string name="check_notif_ok">Las notificaciones están activadas</string>
+    <string name="check_notif_bad">Las notificaciones están desactivadas</string>
+    <string name="check_exact_ok">Los recordatorios pueden sonar en el minuto exacto</string>
+    <string name="check_exact_bad">Puede que los recordatorios no suenen en el minuto exacto</string>
+    <string name="check_battery_ok">Tu teléfono deja que los recordatorios funcionen en segundo plano</string>
+    <string name="check_battery_bad">El ahorro de batería puede frenar los recordatorios</string>
+    <string name="check_volume_bad">El volumen de alarma está bajo (%1$d %%) y los recordatorios pueden oírse poco</string>
+    <string name="check_raise">Subir</string>
+    <string name="check_fullscreen_bad">Las alertas en pantalla bloqueada necesitan permiso</string>
+    <string name="check_dnd_bad">Permite el acceso a No molestar para recibir alertas durante ese modo</string>
+    <string name="check_mic_ok">Micrófono permitido para recordatorios de voz</string>
+    <string name="check_mic_bad">Micrófono desactivado: no se pueden grabar recordatorios de voz</string>
+    <string name="check_volume_how">Toca Subir o abre los ajustes de sonido del teléfono y sube el volumen de alarma.</string>
+    <string name="set_required_permissions">Permisos necesarios</string>
+    <string name="set_recommendations">Recomendaciones y funciones opcionales</string>
+    <string name="set_playback_mode">Sonido del recordatorio</string>
+    <string name="set_voice_audio_mode">Voz, archivos de audio y texto hablado</string>
 </resources>

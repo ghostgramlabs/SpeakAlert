@@ -348,8 +348,8 @@
     <string name="set_toast_theme_dark">Ορίστηκε σκούρο θέμα</string>
     <string name="set_toast_theme_system">Ακολουθεί το θέμα του συστήματος</string>
     <string name="set_playback">Αναπαραγωγή</string>
-    <string name="set_autoplay">Αυτόματη αναπαραγωγή ήχου υπενθύμισης</string>
-    <string name="set_autoplay_desc">Αναπαράγει αυτόματα φωνητικές σημειώσεις και αρχεία ήχου όταν ενεργοποιείται μια υπενθύμιση</string>
+    <string name="set_autoplay">Αυτόματη αναπαραγωγή</string>
+    <string name="set_autoplay_desc">Παίζει ηχογραφήσεις, αρχεία ήχου και ενεργοποιημένη εκφώνηση όταν ενεργοποιείται μια υπενθύμιση. Όταν είναι ανενεργό, πατήστε Αναπαραγωγή για να ακούσετε.</string>
     <string name="set_disabled_tone">Ανενεργό όσο είναι ενεργή η λειτουργία μόνο ήχου</string>
     <string name="set_toast_autoplay_on">Αυτόματη αναπαραγωγή ενεργή</string>
     <string name="set_toast_autoplay_off">Αυτόματη αναπαραγωγή ανενεργή</string>
@@ -375,7 +375,7 @@
     <string name="set_toast_private_off">Ιδιωτική αναπαραγωγή ανενεργή</string>
     <string name="set_private_bt">Ιδιωτική αναπαραγωγή ενεργή. Η δρομολόγηση μέσω Bluetooth χρειάζεται την άδεια Συσκευές σε κοντινή απόσταση.</string>
     <string name="set_tone_only">Λειτουργία μόνο ήχου</string>
-    <string name="set_tone_only_desc">Παίζει έναν απλό ήχο ξυπνητηριού αντί για φωνή/TTS για μέγιστη αξιοπιστία. Αυτόματη διακοπή: %1$s. Αναβολή: %2$d λ.</string>
+    <string name="set_tone_only_desc">Παίζει ήχο ξυπνητηριού αντί για ηχογραφήσεις ή ομιλία. Διακοπή μετά από: %1$s. Αναβολή: %2$d λεπ.</string>
     <string name="set_toast_tone_on">Λειτουργία μόνο ήχου ενεργή</string>
     <string name="set_toast_tone_off">Λειτουργία μόνο ήχου ανενεργή</string>
     <string name="set_infinite">Άπειρο</string>
@@ -396,8 +396,8 @@
     <string name="set_open_perm">Άνοιγμα ρυθμίσεων αδειών</string>
     <string name="set_fs_note">Μπορείτε ακόμη να πατήσετε Αναπαραγωγή ή Εκφώνηση υπενθύμισης από την ειδοποίηση.</string>
     <string name="set_tone_volume_note">Στη λειτουργία μόνο ήχου, η ένταση ελέγχεται από την ένταση ξυπνητηριού/ειδοποιήσεων της συσκευής.</string>
-    <string name="set_loop_duration">Διάρκεια επανάληψης</string>
-    <string name="set_loop_duration_desc">Ορίστε πόσο διαρκεί η επανάληψη της υπενθύμισης</string>
+    <string name="set_loop_duration">Διακοπή συνεχούς αναπαραγωγής μετά από</string>
+    <string name="set_loop_duration_desc">Σταματά τον ήχο ή την επαναλαμβανόμενη αναπαραγωγή μετά από αυτό το διάστημα. Οι υπενθυμίσεις ελέγχου είναι ξεχωριστές ειδοποιήσεις αργότερα.</string>
     <string name="set_toast_loop">Διάρκεια επανάληψης: %1$d λεπτά</string>
     <string name="set_toast_loop_infinite">Διάρκεια επανάληψης: Άπειρη</string>
     <string name="set_custom">Προσαρμογή</string>
@@ -467,7 +467,7 @@
     <string name="set_label_time">%1$s: %2$s</string>
     <string name="set_volume">Ένταση</string>
     <string name="set_cd_volume">Ένταση εφαρμογής: %1$d%%</string>
-    <string name="set_loop_inline_desc">Πόση ώρα θα επαναλαμβάνεται ο ήχος πριν σταματήσει αυτόματα</string>
+    <string name="set_loop_inline_desc">Σταματά τον ήχο ή την επαναλαμβανόμενη αναπαραγωγή μετά από αυτό το διάστημα. Οι υπενθυμίσεις ελέγχου είναι ξεχωριστές ειδοποιήσεις αργότερα.</string>
     <string name="set_default_snooze">Προεπιλεγμένη αναβολή</string>
     <string name="set_snooze_inline_desc">Πόση ώρα μετά την «Αναβολή» θα ειδοποιηθείτε ξανά</string>
     <string name="set_default_followup">Προεπιλεγμένος επανέλεγχος</string>
@@ -478,7 +478,7 @@
     <string name="set_toast_followup_repeat_until_done">Ο επανέλεγχος επαναλαμβάνεται μέχρι την ολοκλήρωση</string>
     <string name="set_toast_followup_repeat">Όριο επαναλήψεων επανελέγχου: %1$d×</string>
     <string name="set_reliability">Αξιοπιστία</string>
-    <string name="set_persist">Η υπενθύμιση μένει στην οθόνη μέχρι την ολοκλήρωση</string>
+    <string name="set_persist">Διατήρηση ειδοποίησης μέχρι την ολοκλήρωση</string>
     <string name="set_persist_desc">Η ειδοποίηση παραμένει στην οθόνη μέχρι να πατήσετε «Ολοκληρώθηκε» ή «Αναβολή». Ενεργοποιήστε και τον επανέλεγχο αν θέλετε να ειδοποιηθείτε ξανά.</string>
     <string name="set_toast_persist_on">Οι υπενθυμίσεις μένουν μέχρι την ολοκλήρωση</string>
     <string name="set_toast_persist_off">Οι υπενθυμίσεις μπορούν να σαρωθούν</string>
@@ -773,7 +773,7 @@
     <string name="set_tab_backup">Αντίγραφα</string>
     <string name="set_tab_wear">Ρολόι</string>
     <string name="set_tab_help">Βοήθεια</string>
-    <string name="battery_guidance_title">Βοηθήστε τις υπενθυμίσεις να φτάνουν έγκαιρα</string>
+    <string name="battery_guidance_title">Οι υπενθυμίσεις μπορεί να καθυστερήσουν ή να χαθούν</string>
     <string name="battery_guidance_body">Το τηλέφωνό σας περιορίζει τη λειτουργία του %1$s στο παρασκήνιο για εξοικονόμηση μπαταρίας. Σε ορισμένα τηλέφωνα αυτό μπορεί να καθυστερήσει τις υπενθυμίσεις όταν η εφαρμογή είναι κλειστή. Επιλέξτε Χωρίς περιορισμούς στις ρυθμίσεις μπαταρίας για να μειώσετε αυτόν τον κίνδυνο. Μπορείτε να διατηρήσετε την τρέχουσα ρύθμιση και να την αλλάξετε αργότερα.</string>
     <string name="battery_review_settings">Έλεγχος ρυθμίσεων μπαταρίας</string>
     <string name="battery_keep_current">Διατήρηση τρέχουσας ρύθμισης</string>
@@ -781,7 +781,7 @@
     <string name="battery_status_allowed">Πρόσβαση μπαταρίας στο παρασκήνιο: Χωρίς περιορισμούς.</string>
     <string name="card_done_occurrence">Έγινε αυτή τη φορά</string>
     <string name="home_delete_confirm_body">Μπορείτε να αναιρέσετε αμέσως μετά τη διαγραφή.</string>
-    <string name="battery_banner_body">Το τηλέφωνό σας μπορεί να καθυστερήσει τις υπενθυμίσεις του %1$s όταν η εφαρμογή είναι κλειστή.</string>
+    <string name="battery_banner_body">Η εξοικονόμηση μπαταρίας του τηλεφώνου μπορεί να καθυστερεί το %1$s.</string>
     <string name="home_empty_nothing_today">Τίποτα για σήμερα</string>
     <string name="home_empty_today_sub">Η επόμενη υπενθύμισή σας είναι στις «%1$s».</string>
     <string name="set_alarm_clock">Εξαιρετικά αξιόπιστες υπενθυμίσεις</string>
@@ -792,7 +792,25 @@
     <string name="set_alarm_clock_status_next">Ενεργό για την επόμενη υπενθύμισή σας: %1$s</string>
     <string name="set_alarm_clock_status_none">Η επόμενη υπενθύμισή σας θα το χρησιμοποιήσει.</string>
     <string name="home_extra_reliable_on">Εξαιρετικά αξιόπιστες υπενθυμίσεις ενεργές</string>
-    <string name="set_alarm_volume_ok">Οι υπενθυμίσεις παίζουν στην ένταση ξυπνητηριού του τηλεφώνου (%1$d%%).</string>
-    <string name="set_alarm_volume_low">Η ένταση ξυπνητηριού του τηλεφώνου είναι χαμηλή (%1$d%%). Οι υπενθυμίσεις παίζουν σε αυτή την ένταση, οπότε μπορεί να ακούγονται δύσκολα.</string>
-    <string name="set_alarm_volume_raise">Αύξηση έντασης ξυπνητηριού</string>
+    <string name="set_section_check">Έλεγχος υπενθυμίσεων</string>
+    <string name="set_section_ringing">Όταν χτυπά μια υπενθύμιση</string>
+    <string name="check_all_good">Τα απαραίτητα δικαιώματα έχουν δοθεί.</string>
+    <string name="check_issues">Δώστε τα δικαιώματα που λείπουν για την εμφάνιση και τον προγραμματισμό υπενθυμίσεων.</string>
+    <string name="check_notif_ok">Οι ειδοποιήσεις είναι ενεργές</string>
+    <string name="check_notif_bad">Οι ειδοποιήσεις είναι ανενεργές</string>
+    <string name="check_exact_ok">Οι υπενθυμίσεις μπορούν να χτυπούν στο ακριβές λεπτό</string>
+    <string name="check_exact_bad">Οι υπενθυμίσεις ίσως δεν χτυπούν στο ακριβές λεπτό</string>
+    <string name="check_battery_ok">Το τηλέφωνο επιτρέπει στις υπενθυμίσεις να λειτουργούν στο παρασκήνιο</string>
+    <string name="check_battery_bad">Η εξοικονόμηση μπαταρίας μπορεί να καθυστερεί τις υπενθυμίσεις</string>
+    <string name="check_volume_bad">Η ένταση ξυπνητηριού είναι χαμηλή (%1$d%%), οπότε οι υπενθυμίσεις μπορεί να ακούγονται δύσκολα</string>
+    <string name="check_raise">Αύξηση</string>
+    <string name="check_fullscreen_bad">Οι ειδοποιήσεις οθόνης κλειδώματος χρειάζονται άδεια</string>
+    <string name="check_dnd_bad">Επιτρέψτε πρόσβαση στη λειτουργία Μην ενοχλείτε για ειδοποιήσεις κατά τη διάρκειά της</string>
+    <string name="check_mic_ok">Το μικρόφωνο επιτρέπεται για φωνητικές υπενθυμίσεις</string>
+    <string name="check_mic_bad">Το μικρόφωνο είναι ανενεργό, οπότε δεν γίνεται εγγραφή φωνητικών υπενθυμίσεων</string>
+    <string name="check_volume_how">Πατήστε Αύξηση ή ανοίξτε τις ρυθμίσεις ήχου του τηλεφώνου και αυξήστε την ένταση ξυπνητηριού.</string>
+    <string name="set_required_permissions">Απαραίτητα δικαιώματα</string>
+    <string name="set_recommendations">Προτάσεις και προαιρετικές λειτουργίες</string>
+    <string name="set_playback_mode">Ήχος υπενθύμισης</string>
+    <string name="set_voice_audio_mode">Ηχογραφήσεις, αρχεία ήχου και εκφώνηση κειμένου</string>
 </resources>

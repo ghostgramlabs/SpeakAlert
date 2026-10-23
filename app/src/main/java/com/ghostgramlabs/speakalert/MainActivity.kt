@@ -287,10 +287,11 @@ class MainActivity : ComponentActivity() {
                     if (showBatteryOptimizationDialog) {
                         val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                         ModalBottomSheet(
-                            onDismissRequest = {
-                                showBatteryOptimizationDialog = false
-                                coroutineScope.launch { settingsRepository.setBatteryOptimizationPromptShown(true) }
-                            },
+                            // A tap outside the sheet or a stray swipe is not an answer. This is
+                            // the setting that decides whether reminders arrive at all, so closing
+                            // it this way leaves it to be asked again on a later launch; only the
+                            // buttons below count as having been asked.
+                            onDismissRequest = { showBatteryOptimizationDialog = false },
                             sheetState = sheetState,
                             dragHandle = { BottomSheetDefaults.DragHandle() }
                         ) {

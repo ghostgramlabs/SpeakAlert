@@ -348,8 +348,8 @@
     <string name="set_toast_theme_dark">இருள் பயன்முறை அமைக்கப்பட்டது</string>
     <string name="set_toast_theme_system">சிஸ்டம் தீமைப் பின்பற்றுகிறது</string>
     <string name="set_playback">இயக்கம்</string>
-    <string name="set_autoplay">நினைவூட்டல் ஆடியோவைத் தானாக இயக்கு</string>
-    <string name="set_autoplay_desc">நினைவூட்டல் ஒலிக்கும்போது குரல் குறிப்புகளையும் ஆடியோ கோப்புகளையும் தானாக இயக்கும்</string>
+    <string name="set_autoplay">தானாக இயக்கு</string>
+    <string name="set_autoplay_desc">நினைவூட்டல் வரும்போது பதிவுகள், ஆடியோ கோப்புகள் மற்றும் இயக்கப்பட்ட உரை வாசிப்பை இயக்கும். அணைத்திருந்தால் கேட்க இயக்கு என்பதைத் தட்டவும்.</string>
     <string name="set_disabled_tone">டோன்-மட்டும் பயன்முறை ஆனில் இருக்கும்போது முடக்கப்பட்டுள்ளது</string>
     <string name="set_toast_autoplay_on">தானியங்கு இயக்கம் ஆன்</string>
     <string name="set_toast_autoplay_off">தானியங்கு இயக்கம் ஆஃப்</string>
@@ -375,7 +375,7 @@
     <string name="set_toast_private_off">தனிப்பட்ட இயக்கம் ஆஃப்</string>
     <string name="set_private_bt">தனிப்பட்ட இயக்கம் ஆன். புளூடூத் வழியாக அனுப்ப அருகிலுள்ள சாதனங்கள் அனுமதி தேவை.</string>
     <string name="set_tone_only">டோன்-மட்டும் பயன்முறை</string>
-    <string name="set_tone_only_desc">அதிகபட்ச நம்பகத்தன்மைக்காகக் குரல்/TTS க்குப் பதிலாக எளிய அலாரம் டோனை இயக்கும். தானியங்கு நிறுத்தம்: %1$s. ஒத்திவைப்பு: %2$d நி.</string>
+    <string name="set_tone_only_desc">பதிவுகள் அல்லது பேச்சுக்குப் பதிலாக அலாரம் ஒலிக்கும். நிறுத்தம்: %1$sக்குப் பிறகு. ஒத்திவைப்பு: %2$d நிமிடம்.</string>
     <string name="set_toast_tone_on">டோன்-மட்டும் பயன்முறை ஆன்</string>
     <string name="set_toast_tone_off">டோன்-மட்டும் பயன்முறை ஆஃப்</string>
     <string name="set_infinite">வரம்பற்றது</string>
@@ -396,8 +396,8 @@
     <string name="set_open_perm">அனுமதி அமைப்புகளைத் திற</string>
     <string name="set_fs_note">அறிவிப்பிலிருந்து நினைவூட்டலை இயக்கு அல்லது நினைவூட்டலைப் பேசு என்பதை இன்னும் தட்டலாம்.</string>
     <string name="set_tone_volume_note">டோன்-மட்டும் பயன்முறையில் ஒலியளவு சாதனத்தின் அலாரம்/அறிவிப்பு ஒலியளவால் கட்டுப்படுத்தப்படும்.</string>
-    <string name="set_loop_duration">சுழற்சி கால அளவு</string>
-    <string name="set_loop_duration_desc">நினைவூட்டல் சுழற்சி எவ்வளவு நேரம் தொடர வேண்டும் என அமைக்கவும்</string>
+    <string name="set_loop_duration">தொடர்ச்சியான ஒலியை நிறுத்தும் நேரம்</string>
+    <string name="set_loop_duration_desc">இந்த நேரத்திற்குப் பிறகு டோன் அல்லது மீண்டும் மீண்டும் இயங்கும் ஆடியோ நிற்கும். தொடர்நினைவூட்டல்கள் பின்னர் வரும் தனி எச்சரிக்கைகள்.</string>
     <string name="set_toast_loop">சுழற்சி கால அளவு: %1$d நிமி</string>
     <string name="set_toast_loop_infinite">சுழற்சி கால அளவு: வரம்பற்றது</string>
     <string name="set_custom">தனிப்பயன்</string>
@@ -467,7 +467,7 @@
     <string name="set_label_time">%1$s: %2$s</string>
     <string name="set_volume">ஒலியளவு</string>
     <string name="set_cd_volume">ஆப் ஒலியளவு: %1$d%%</string>
-    <string name="set_loop_inline_desc">தொடர்ந்து ஒலிக்கும் நினைவூட்டல் எவ்வளவு நேரத்திற்குப் பிறகு தானாக நிற்க வேண்டும்</string>
+    <string name="set_loop_inline_desc">இந்த நேரத்திற்குப் பிறகு டோன் அல்லது மீண்டும் மீண்டும் இயங்கும் ஆடியோ நிற்கும். தொடர்நினைவூட்டல்கள் பின்னர் வரும் தனி எச்சரிக்கைகள்.</string>
     <string name="set_default_snooze">இயல்புநிலை ஒத்திவைப்பு</string>
     <string name="set_snooze_inline_desc">“ஒத்திவை” என்பதைத் தட்டிய எவ்வளவு நேரத்திற்குப் பிறகு மீண்டும் நினைவூட்ட வேண்டும்</string>
     <string name="set_default_followup">இயல்புநிலைப் பின்தொடர் சரிபார்ப்பு</string>
@@ -478,7 +478,7 @@
     <string name="set_toast_followup_repeat_until_done">முடிந்ததாகக் குறிக்கும் வரை பின்தொடர் மீண்டும் வரும்</string>
     <string name="set_toast_followup_repeat">பின்தொடர் மீள்வரம்பு: %1$d×</string>
     <string name="set_reliability">நம்பகத்தன்மை</string>
-    <string name="set_persist">முடியும் வரை நினைவூட்டலைத் திரையில் வை</string>
+    <string name="set_persist">முடிக்கும் வரை அறிவிப்பை வைத்திரு</string>
     <string name="set_persist_desc">“முடிந்தது” அல்லது “ஒத்திவை” என்பதைத் தட்டும் வரை நினைவூட்டல் அறிவிப்பு திரையில் இருக்கும். பின்தொடர் சரிபார்ப்பையும் இயக்கினால் மீண்டும் நினைவூட்டும்.</string>
     <string name="set_toast_persist_on">முடியும் வரை நினைவூட்டல்கள் இருக்கும்</string>
     <string name="set_toast_persist_off">நினைவூட்டல்களை ஸ்வைப் செய்து அகற்றலாம்</string>
@@ -773,7 +773,7 @@
     <string name="set_tab_backup">காப்பு</string>
     <string name="set_tab_wear">கடிகாரம்</string>
     <string name="set_tab_help">உதவி</string>
-    <string name="battery_guidance_title">நினைவூட்டல்கள் சரியான நேரத்தில் வர உதவுங்கள்</string>
+    <string name="battery_guidance_title">நினைவூட்டல்கள் தாமதமாகலாம் அல்லது தவறலாம்</string>
     <string name="battery_guidance_body">பேட்டரியைச் சேமிக்க உங்கள் தொலைபேசி %1$s இன் பின்னணிச் செயல்பாட்டைக் கட்டுப்படுத்துகிறது. சில தொலைபேசிகளில் ஆப் மூடப்பட்டிருக்கும்போது இது நினைவூட்டல்களைத் தாமதப்படுத்தலாம். இந்த அபாயத்தைக் குறைக்க பேட்டரி அமைப்புகளில் கட்டுப்பாடற்றது என்பதைத் தேர்ந்தெடுக்கவும். தற்போதைய அமைப்பை வைத்துக்கொண்டு பின்னர் மாற்றலாம்.</string>
     <string name="battery_review_settings">பேட்டரி அமைப்புகளைப் பார்க்கவும்</string>
     <string name="battery_keep_current">தற்போதைய அமைப்பை வைத்திரு</string>
@@ -781,7 +781,7 @@
     <string name="battery_status_allowed">பின்னணி பேட்டரி அணுகல்: கட்டுப்பாடற்றது.</string>
     <string name="card_done_occurrence">இந்த முறை முடிந்தது</string>
     <string name="home_delete_confirm_body">நீக்கிய உடனே அதை மீட்டெடுக்கலாம்.</string>
-    <string name="battery_banner_body">ஆப் மூடப்பட்டிருக்கும்போது உங்கள் தொலைபேசி %1$s நினைவூட்டல்களைத் தாமதப்படுத்தலாம்.</string>
+    <string name="battery_banner_body">உங்கள் தொலைபேசியின் பேட்டரி சேமிப்பான் %1$s-ஐத் தடுக்கலாம்.</string>
     <string name="home_empty_nothing_today">இன்று எதுவும் இல்லை</string>
     <string name="home_empty_today_sub">உங்கள் அடுத்த நினைவூட்டல் \"%1$s\" பிரிவில் உள்ளது.</string>
     <string name="set_alarm_clock">கூடுதல் நம்பகமான நினைவூட்டல்கள்</string>
@@ -792,7 +792,25 @@
     <string name="set_alarm_clock_status_next">உங்கள் அடுத்த நினைவூட்டலுக்கு இயக்கத்தில்: %1$s</string>
     <string name="set_alarm_clock_status_none">உங்கள் அடுத்த நினைவூட்டல் இதைப் பயன்படுத்தும்.</string>
     <string name="home_extra_reliable_on">கூடுதல் நம்பகமான நினைவூட்டல்கள் இயக்கத்தில்</string>
-    <string name="set_alarm_volume_ok">நினைவூட்டல்கள் உங்கள் தொலைபேசியின் அலாரம் ஒலியளவில் (%1$d%%) ஒலிக்கும்.</string>
-    <string name="set_alarm_volume_low">உங்கள் தொலைபேசியின் அலாரம் ஒலியளவு குறைவாக உள்ளது (%1$d%%). நினைவூட்டல்கள் இந்த ஒலியளவில் ஒலிப்பதால் கேட்பது கடினமாக இருக்கலாம்.</string>
-    <string name="set_alarm_volume_raise">அலாரம் ஒலியளவை அதிகரிக்கவும்</string>
+    <string name="set_section_check">நினைவூட்டல் சரிபார்ப்பு</string>
+    <string name="set_section_ringing">நினைவூட்டல் ஒலிக்கும்போது</string>
+    <string name="check_all_good">தேவையான அனுமதிகள் வழங்கப்பட்டுள்ளன.</string>
+    <string name="check_issues">நினைவூட்டல்களைக் காட்டவும் திட்டமிடவும் கீழே விடுபட்ட அனுமதிகளை வழங்கவும்.</string>
+    <string name="check_notif_ok">அறிவிப்புகள் இயக்கத்தில் உள்ளன</string>
+    <string name="check_notif_bad">அறிவிப்புகள் முடக்கத்தில் உள்ளன</string>
+    <string name="check_exact_ok">நினைவூட்டல்கள் சரியான நிமிடத்தில் ஒலிக்க முடியும்</string>
+    <string name="check_exact_bad">நினைவூட்டல்கள் சரியான நிமிடத்தில் ஒலிக்காமல் போகலாம்</string>
+    <string name="check_battery_ok">உங்கள் தொலைபேசி நினைவூட்டல்களைப் பின்னணியில் இயங்க அனுமதிக்கிறது</string>
+    <string name="check_battery_bad">பேட்டரி சேமிப்பான் நினைவூட்டல்களைத் தடுக்கலாம்</string>
+    <string name="check_volume_bad">அலாரம் ஒலியளவு குறைவு (%1$d%%), அதனால் நினைவூட்டல்களைக் கேட்பது கடினமாக இருக்கலாம்</string>
+    <string name="check_raise">அதிகரி</string>
+    <string name="check_fullscreen_bad">பூட்டுத் திரை விழிப்பூட்டல்களுக்கு அனுமதி தேவை</string>
+    <string name="check_dnd_bad">தொந்தரவு செய்ய வேண்டாம் பயன்முறையிலும் எச்சரிக்க அதற்கான அணுகலை அனுமதிக்கவும்</string>
+    <string name="check_mic_ok">குரல் நினைவூட்டல்களுக்கு மைக்ரோஃபோன் அனுமதிக்கப்பட்டுள்ளது</string>
+    <string name="check_mic_bad">மைக்ரோஃபோன் முடக்கத்தில் உள்ளதால் குரல் நினைவூட்டல்களைப் பதிவு செய்ய முடியாது</string>
+    <string name="check_volume_how">அதிகரி என்பதைத் தட்டவும், அல்லது தொலைபேசியின் ஒலி அமைப்புகளில் அலாரம் ஒலியளவை அதிகரிக்கவும்.</string>
+    <string name="set_required_permissions">தேவையான அனுமதிகள்</string>
+    <string name="set_recommendations">பரிந்துரைகளும் விருப்ப அம்சங்களும்</string>
+    <string name="set_playback_mode">நினைவூட்டல் ஒலி</string>
+    <string name="set_voice_audio_mode">பதிவுகள், ஆடியோ கோப்புகள் மற்றும் உரை வாசிப்பு</string>
 </resources>

@@ -348,8 +348,8 @@
     <string name="set_toast_theme_dark">డార్క్ మోడ్ సెట్ అయింది</string>
     <string name="set_toast_theme_system">సిస్టమ్ థీమ్‌ను అనుసరిస్తోంది</string>
     <string name="set_playback">ప్లేబ్యాక్</string>
-    <string name="set_autoplay">రిమైండర్ ఆడియోను ఆటోమేటిక్‌గా ప్లే చేయి</string>
-    <string name="set_autoplay_desc">రిమైండర్ మోగినప్పుడు వాయిస్ నోట్‌లు, ఆడియో ఫైల్‌లను ఆటోమేటిక్‌గా ప్లే చేస్తుంది</string>
+    <string name="set_autoplay">స్వయంచాలకంగా ప్లే చేయండి</string>
+    <string name="set_autoplay_desc">రిమైండర్ వచ్చినప్పుడు రికార్డింగ్‌లు, ఆడియో ఫైల్‌లు, ప్రారంభించిన వచన పఠనాన్ని ప్లే చేస్తుంది. ఆఫ్‌లో ఉంటే వినడానికి ప్లే నొక్కండి.</string>
     <string name="set_disabled_tone">టోన్-మాత్రమే మోడ్ ఆన్‌లో ఉన్నప్పుడు నిలిపివేయబడింది</string>
     <string name="set_toast_autoplay_on">ఆటో-ప్లే ఆన్</string>
     <string name="set_toast_autoplay_off">ఆటో-ప్లే ఆఫ్</string>
@@ -375,7 +375,7 @@
     <string name="set_toast_private_off">ప్రైవేట్ ప్లేబ్యాక్ ఆఫ్</string>
     <string name="set_private_bt">ప్రైవేట్ ప్లేబ్యాక్ ఆన్. బ్లూటూత్ రూటింగ్‌కు సమీప పరికరాల అనుమతి అవసరం.</string>
     <string name="set_tone_only">టోన్-మాత్రమే మోడ్</string>
-    <string name="set_tone_only_desc">గరిష్ట విశ్వసనీయత కోసం వాయిస్/TTSకి బదులు సాధారణ అలారం టోన్ ప్లే చేస్తుంది. ఆటో-ఆపు: %1$s. స్నూజ్: %2$d ని.</string>
+    <string name="set_tone_only_desc">రికార్డింగ్‌లు లేదా మాటలకు బదులుగా అలారం మోగుతుంది. ఆగే సమయం: %1$s తర్వాత. స్నూజ్: %2$d నిమి.</string>
     <string name="set_toast_tone_on">టోన్-మాత్రమే మోడ్ ఆన్</string>
     <string name="set_toast_tone_off">టోన్-మాత్రమే మోడ్ ఆఫ్</string>
     <string name="set_infinite">అనంతం</string>
@@ -396,8 +396,8 @@
     <string name="set_open_perm">అనుమతి సెట్టింగ్‌లను తెరవండి</string>
     <string name="set_fs_note">మీరు ఇప్పటికీ నోటిఫికేషన్ నుండి రిమైండర్ ప్లే లేదా రిమైండర్ చదవండి నొక్కవచ్చు.</string>
     <string name="set_tone_volume_note">టోన్-మాత్రమే మోడ్‌లో వాల్యూమ్ మీ పరికరం అలారం/నోటిఫికేషన్ వాల్యూమ్‌తో నియంత్రించబడుతుంది.</string>
-    <string name="set_loop_duration">లూప్ వ్యవధి</string>
-    <string name="set_loop_duration_desc">రిమైండర్ లూప్ ఎంతసేపు కొనసాగాలో సెట్ చేయండి</string>
+    <string name="set_loop_duration">నిరంతర ప్లేబ్యాక్ ఆపే సమయం</string>
+    <string name="set_loop_duration_desc">ఈ సమయం తర్వాత టోన్ లేదా పదేపదే ప్లే అయ్యే ఆడియో ఆగుతుంది. ఫాలో-అప్ రిమైండర్లు తర్వాత వచ్చే వేర్వేరు అలర్ట్‌లు.</string>
     <string name="set_toast_loop">లూప్ వ్యవధి: %1$d నిమి</string>
     <string name="set_toast_loop_infinite">లూప్ వ్యవధి: అనంతం</string>
     <string name="set_custom">అనుకూలం</string>
@@ -467,7 +467,7 @@
     <string name="set_label_time">%1$s: %2$s</string>
     <string name="set_volume">వాల్యూమ్</string>
     <string name="set_cd_volume">యాప్ వాల్యూమ్: %1$d%%</string>
-    <string name="set_loop_inline_desc">పదేపదే వినిపించే రిమైండర్ ఎంతసేపటి తర్వాత దానంతట అదే ఆగాలి</string>
+    <string name="set_loop_inline_desc">ఈ సమయం తర్వాత టోన్ లేదా పదేపదే ప్లే అయ్యే ఆడియో ఆగుతుంది. ఫాలో-అప్ రిమైండర్లు తర్వాత వచ్చే వేర్వేరు అలర్ట్‌లు.</string>
     <string name="set_default_snooze">డిఫాల్ట్ స్నూజ్</string>
     <string name="set_snooze_inline_desc">“స్నూజ్” నొక్కిన ఎంతసేపటి తర్వాత మళ్లీ గుర్తుచేయాలి</string>
     <string name="set_default_followup">డిఫాల్ట్ ఫాలో-అప్ చెక్</string>
@@ -478,7 +478,7 @@
     <string name="set_toast_followup_repeat_until_done">పూర్తయినట్లు గుర్తించే వరకు ఫాలో-అప్ పునరావృతమవుతుంది</string>
     <string name="set_toast_followup_repeat">ఫాలో-అప్ పునరావృత పరిమితి: %1$d×</string>
     <string name="set_reliability">విశ్వసనీయత</string>
-    <string name="set_persist">పూర్తయ్యే వరకు రిమైండర్‌ను స్క్రీన్‌పై ఉంచు</string>
+    <string name="set_persist">పూర్తయ్యే వరకు నోటిఫికేషన్ ఉంచండి</string>
     <string name="set_persist_desc">మీరు “పూర్తయింది” లేదా “స్నూజ్” నొక్కే వరకు రిమైండర్ నోటిఫికేషన్ అలాగే ఉంటుంది. ఫాలో-అప్ కూడా ఆన్ చేస్తే మళ్లీ గుర్తుచేస్తుంది.</string>
     <string name="set_toast_persist_on">పూర్తయ్యే వరకు రిమైండర్‌లు ఉంటాయి</string>
     <string name="set_toast_persist_off">రిమైండర్‌లను స్వైప్ చేసి తీసివేయవచ్చు</string>
@@ -773,7 +773,7 @@
     <string name="set_tab_backup">బ్యాకప్</string>
     <string name="set_tab_wear">వాచ్</string>
     <string name="set_tab_help">సహాయం</string>
-    <string name="battery_guidance_title">రిమైండర్లు సమయానికి రావడానికి సహాయపడండి</string>
+    <string name="battery_guidance_title">రిమైండర్లు ఆలస్యం కావచ్చు లేదా మిస్ కావచ్చు</string>
     <string name="battery_guidance_body">బ్యాటరీని ఆదా చేయడానికి మీ ఫోన్ %1$s నేపథ్య కార్యకలాపాలను పరిమితం చేస్తుంది. కొన్ని ఫోన్లలో యాప్ మూసివేసినప్పుడు దీనివల్ల రిమైండర్లు ఆలస్యం కావచ్చు. ఈ ప్రమాదాన్ని తగ్గించడానికి బ్యాటరీ సెట్టింగ్‌లలో పరిమితులు లేనిది ఎంచుకోండి. ప్రస్తుత సెట్టింగ్‌ను ఉంచి తర్వాత మార్చవచ్చు.</string>
     <string name="battery_review_settings">బ్యాటరీ సెట్టింగ్‌లు చూడండి</string>
     <string name="battery_keep_current">ప్రస్తుత సెట్టింగ్‌ను ఉంచు</string>
@@ -781,7 +781,7 @@
     <string name="battery_status_allowed">నేపథ్య బ్యాటరీ యాక్సెస్: పరిమితులు లేవు.</string>
     <string name="card_done_occurrence">ఈసారి పూర్తయింది</string>
     <string name="home_delete_confirm_body">తొలగించిన వెంటనే దాన్ని తిరిగి పొందవచ్చు.</string>
-    <string name="battery_banner_body">యాప్ మూసివేసినప్పుడు మీ ఫోన్ %1$s రిమైండర్లను ఆలస్యం చేయవచ్చు.</string>
+    <string name="battery_banner_body">మీ ఫోన్ బ్యాటరీ సేవర్ %1$s‌ను ఆపవచ్చు.</string>
     <string name="home_empty_nothing_today">ఈ రోజు ఏమీ లేవు</string>
     <string name="home_empty_today_sub">మీ తదుపరి రిమైండర్ \"%1$s\"లో ఉంది.</string>
     <string name="set_alarm_clock">అదనపు నమ్మకమైన రిమైండర్లు</string>
@@ -792,7 +792,25 @@
     <string name="set_alarm_clock_status_next">మీ తదుపరి రిమైండర్‌కు ఆన్‌లో ఉంది: %1$s</string>
     <string name="set_alarm_clock_status_none">మీ తదుపరి రిమైండర్ దీన్ని ఉపయోగిస్తుంది.</string>
     <string name="home_extra_reliable_on">అదనపు నమ్మకమైన రిమైండర్లు ఆన్‌లో ఉన్నాయి</string>
-    <string name="set_alarm_volume_ok">రిమైండర్లు మీ ఫోన్ అలారం వాల్యూమ్‌లో (%1$d%%) మోగుతాయి.</string>
-    <string name="set_alarm_volume_low">మీ ఫోన్ అలారం వాల్యూమ్ తక్కువగా ఉంది (%1$d%%). రిమైండర్లు ఈ వాల్యూమ్‌లోనే మోగుతాయి, కాబట్టి వినడం కష్టం కావచ్చు.</string>
-    <string name="set_alarm_volume_raise">అలారం వాల్యూమ్ పెంచండి</string>
+    <string name="set_section_check">రిమైండర్ తనిఖీ</string>
+    <string name="set_section_ringing">రిమైండర్ మోగినప్పుడు</string>
+    <string name="check_all_good">అవసరమైన అనుమతులు ప్రారంభించబడ్డాయి.</string>
+    <string name="check_issues">రిమైండర్లను చూపడానికి, షెడ్యూల్ చేయడానికి కింద మిగిలిన అనుమతులను ఇవ్వండి.</string>
+    <string name="check_notif_ok">నోటిఫికేషన్లు ఆన్‌లో ఉన్నాయి</string>
+    <string name="check_notif_bad">నోటిఫికేషన్లు ఆఫ్‌లో ఉన్నాయి</string>
+    <string name="check_exact_ok">రిమైండర్లు సరిగ్గా అదే నిమిషంలో మోగగలవు</string>
+    <string name="check_exact_bad">రిమైండర్లు సరిగ్గా అదే నిమిషంలో మోగకపోవచ్చు</string>
+    <string name="check_battery_ok">మీ ఫోన్ రిమైండర్లను బ్యాక్‌గ్రౌండ్‌లో పనిచేయనిస్తుంది</string>
+    <string name="check_battery_bad">బ్యాటరీ సేవర్ రిమైండర్లను ఆపవచ్చు</string>
+    <string name="check_volume_bad">అలారం వాల్యూమ్ తక్కువగా ఉంది (%1$d%%), కాబట్టి రిమైండర్లు వినడం కష్టం కావచ్చు</string>
+    <string name="check_raise">పెంచండి</string>
+    <string name="check_fullscreen_bad">లాక్ స్క్రీన్ అలర్ట్‌లకు అనుమతి కావాలి</string>
+    <string name="check_dnd_bad">అంతరాయం కలిగించవద్దు మోడ్‌లోనూ అలర్ట్‌ల కోసం ఆ మోడ్‌కు అనుమతి ఇవ్వండి</string>
+    <string name="check_mic_ok">వాయిస్ రిమైండర్ల కోసం మైక్రోఫోన్‌కు అనుమతి ఉంది</string>
+    <string name="check_mic_bad">మైక్రోఫోన్ ఆఫ్‌లో ఉంది, కాబట్టి వాయిస్ రిమైండర్లు రికార్డ్ చేయలేరు</string>
+    <string name="check_volume_how">పెంచండి నొక్కండి, లేదా ఫోన్ సౌండ్ సెట్టింగ్‌లు తెరిచి అలారం వాల్యూమ్ పెంచండి.</string>
+    <string name="set_required_permissions">అవసరమైన అనుమతులు</string>
+    <string name="set_recommendations">సూచనలు మరియు ఐచ్ఛిక సదుపాయాలు</string>
+    <string name="set_playback_mode">రిమైండర్ శబ్దం</string>
+    <string name="set_voice_audio_mode">రికార్డింగ్‌లు, ఆడియో ఫైల్‌లు మరియు వచన పఠనం</string>
 </resources>

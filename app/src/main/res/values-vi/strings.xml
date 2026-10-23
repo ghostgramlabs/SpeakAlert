@@ -343,8 +343,8 @@
     <string name="set_toast_theme_dark">Đã đặt chế độ tối</string>
     <string name="set_toast_theme_system">Theo chủ đề hệ thống</string>
     <string name="set_playback">Phát</string>
-    <string name="set_autoplay">Tự động phát âm thanh lời nhắc</string>
-    <string name="set_autoplay_desc">Tự động phát ghi chú giọng nói và tệp âm thanh khi lời nhắc báo</string>
+    <string name="set_autoplay">Tự động phát</string>
+    <string name="set_autoplay_desc">Phát bản ghi, tệp âm thanh và phần đọc văn bản đã bật khi đến giờ nhắc. Khi tắt, chạm Phát để nghe.</string>
     <string name="set_disabled_tone">Bị tắt khi đang bật chế độ chỉ chuông</string>
     <string name="set_toast_autoplay_on">Đã bật tự động phát</string>
     <string name="set_toast_autoplay_off">Đã tắt tự động phát</string>
@@ -370,7 +370,7 @@
     <string name="set_toast_private_off">Đã tắt phát riêng tư</string>
     <string name="set_private_bt">Đã bật phát riêng tư. Định tuyến Bluetooth cần quyền thiết bị ở gần.</string>
     <string name="set_tone_only">Chế độ chỉ chuông</string>
-    <string name="set_tone_only_desc">Phát chuông báo thức đơn giản thay cho giọng nói/TTS để có độ tin cậy cao nhất. Tự dừng: %1$s. Báo lại: %2$d phút.</string>
+    <string name="set_tone_only_desc">Phát tiếng báo thức thay cho bản ghi hoặc giọng đọc. Dừng sau: %1$s. Báo lại: %2$d phút.</string>
     <string name="set_toast_tone_on">Đã bật chế độ chỉ chuông</string>
     <string name="set_toast_tone_off">Đã tắt chế độ chỉ chuông</string>
     <string name="set_infinite">Vô hạn</string>
@@ -391,8 +391,8 @@
     <string name="set_open_perm">Mở cài đặt quyền</string>
     <string name="set_fs_note">Bạn vẫn có thể nhấn Phát lời nhắc hoặc Đọc lời nhắc từ thông báo.</string>
     <string name="set_tone_volume_note">Ở chế độ chỉ chuông, âm lượng do âm lượng báo thức/thông báo của thiết bị điều khiển.</string>
-    <string name="set_loop_duration">Thời lượng lặp</string>
-    <string name="set_loop_duration_desc">Đặt thời gian lặp lại của lời nhắc</string>
+    <string name="set_loop_duration">Dừng phát liên tục sau</string>
+    <string name="set_loop_duration_desc">Dừng tiếng chuông hoặc âm thanh lặp sau khoảng thời gian này. Lời nhắc kiểm tra là các cảnh báo riêng gửi sau đó.</string>
     <string name="set_toast_loop">Thời lượng lặp: %1$d phút</string>
     <string name="set_toast_loop_infinite">Thời lượng lặp: Vô hạn</string>
     <string name="set_custom">Tùy chỉnh</string>
@@ -462,7 +462,7 @@
     <string name="set_label_time">%1$s: %2$s</string>
     <string name="set_volume">Âm lượng</string>
     <string name="set_cd_volume">Âm lượng ứng dụng: %1$d%%</string>
-    <string name="set_loop_inline_desc">Âm thanh lặp trong bao lâu trước khi tự dừng</string>
+    <string name="set_loop_inline_desc">Dừng tiếng chuông hoặc âm thanh lặp sau khoảng thời gian này. Lời nhắc kiểm tra là các cảnh báo riêng gửi sau đó.</string>
     <string name="set_default_snooze">Báo lại mặc định</string>
     <string name="set_snooze_inline_desc">Chờ bao lâu trước khi nhắc tiếp sau khi bạn nhấn “Báo lại”</string>
     <string name="set_default_followup">Kiểm tra nhắc lại mặc định</string>
@@ -473,7 +473,7 @@
     <string name="set_toast_followup_repeat_until_done">Nhắc lại cho đến khi đánh dấu xong</string>
     <string name="set_toast_followup_repeat">Giới hạn nhắc lại: %1$d×</string>
     <string name="set_reliability">Độ tin cậy</string>
-    <string name="set_persist">Giữ lời nhắc trên màn hình đến khi xong</string>
+    <string name="set_persist">Giữ thông báo đến khi hoàn tất</string>
     <string name="set_persist_desc">Thông báo luôn hiển thị đến khi bạn nhấn “Xong” hoặc “Báo lại”. Bật thêm kiểm tra nhắc lại nếu muốn được nhắc tiếp.</string>
     <string name="set_toast_persist_on">Lời nhắc giữ lại đến khi xong</string>
     <string name="set_toast_persist_off">Có thể vuốt bỏ lời nhắc</string>
@@ -766,7 +766,7 @@
     <string name="set_tab_backup">Sao lưu</string>
     <string name="set_tab_wear">Đồng hồ</string>
     <string name="set_tab_help">Trợ giúp</string>
-    <string name="battery_guidance_title">Giúp lời nhắc đến đúng giờ</string>
+    <string name="battery_guidance_title">Lời nhắc có thể bị trễ hoặc bị lỡ</string>
     <string name="battery_guidance_body">Điện thoại đang giới hạn hoạt động nền của %1$s để tiết kiệm pin. Trên một số điện thoại, điều này có thể làm chậm lời nhắc khi ứng dụng đóng. Chọn Không hạn chế trong cài đặt pin để giảm nguy cơ này. Bạn có thể giữ cài đặt hiện tại và đổi sau.</string>
     <string name="battery_review_settings">Xem cài đặt pin</string>
     <string name="battery_keep_current">Giữ cài đặt hiện tại</string>
@@ -774,7 +774,7 @@
     <string name="battery_status_allowed">Quyền dùng pin trong nền: Không hạn chế.</string>
     <string name="card_done_occurrence">Xong lần này</string>
     <string name="home_delete_confirm_body">Bạn có thể hoàn tác ngay sau khi xóa.</string>
-    <string name="battery_banner_body">Điện thoại có thể làm chậm lời nhắc của %1$s khi ứng dụng đóng.</string>
+    <string name="battery_banner_body">Trình tiết kiệm pin của điện thoại có thể kìm hãm %1$s.</string>
     <string name="home_empty_nothing_today">Hôm nay không có gì</string>
     <string name="home_empty_today_sub">Lời nhắc tiếp theo của bạn nằm trong mục \"%1$s\".</string>
     <string name="set_alarm_clock">Lời nhắc siêu tin cậy</string>
@@ -785,7 +785,25 @@
     <string name="set_alarm_clock_status_next">Đang bật cho lời nhắc tiếp theo: %1$s</string>
     <string name="set_alarm_clock_status_none">Lời nhắc tiếp theo của bạn sẽ dùng chế độ này.</string>
     <string name="home_extra_reliable_on">Đã bật lời nhắc siêu tin cậy</string>
-    <string name="set_alarm_volume_ok">Lời nhắc phát theo âm lượng báo thức của điện thoại (%1$d%%).</string>
-    <string name="set_alarm_volume_low">Âm lượng báo thức của điện thoại đang thấp (%1$d%%). Lời nhắc phát ở mức này nên có thể khó nghe.</string>
-    <string name="set_alarm_volume_raise">Tăng âm lượng báo thức</string>
+    <string name="set_section_check">Kiểm tra lời nhắc</string>
+    <string name="set_section_ringing">Khi lời nhắc reo</string>
+    <string name="check_all_good">Các quyền cần thiết đã được cấp.</string>
+    <string name="check_issues">Cấp các quyền còn thiếu bên dưới để hiển thị và lên lịch lời nhắc.</string>
+    <string name="check_notif_ok">Thông báo đang bật</string>
+    <string name="check_notif_bad">Thông báo đang tắt</string>
+    <string name="check_exact_ok">Lời nhắc có thể reo đúng phút</string>
+    <string name="check_exact_bad">Lời nhắc có thể không reo đúng phút</string>
+    <string name="check_battery_ok">Điện thoại cho phép lời nhắc chạy nền</string>
+    <string name="check_battery_bad">Trình tiết kiệm pin có thể kìm hãm lời nhắc</string>
+    <string name="check_volume_bad">Âm lượng báo thức thấp (%1$d%%) nên có thể khó nghe lời nhắc</string>
+    <string name="check_raise">Tăng</string>
+    <string name="check_fullscreen_bad">Cảnh báo trên màn hình khóa cần quyền</string>
+    <string name="check_dnd_bad">Cấp quyền Không làm phiền để phát cảnh báo trong chế độ này</string>
+    <string name="check_mic_ok">Đã cho phép micrô cho lời nhắc bằng giọng nói</string>
+    <string name="check_mic_bad">Micrô đang tắt nên không thể ghi lời nhắc bằng giọng nói</string>
+    <string name="check_volume_how">Nhấn Tăng hoặc mở cài đặt âm thanh của điện thoại và tăng âm lượng báo thức.</string>
+    <string name="set_required_permissions">Quyền cần thiết</string>
+    <string name="set_recommendations">Đề xuất và tính năng tùy chọn</string>
+    <string name="set_playback_mode">Âm thanh lời nhắc</string>
+    <string name="set_voice_audio_mode">Bản ghi, tệp âm thanh và đọc văn bản</string>
 </resources>

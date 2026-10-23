@@ -359,8 +359,8 @@
     <string name="set_toast_theme_dark">Включена тёмная тема</string>
     <string name="set_toast_theme_system">Как в системе</string>
     <string name="set_playback">Воспроизведение</string>
-    <string name="set_autoplay">Автовоспроизведение аудио</string>
-    <string name="set_autoplay_desc">Автоматически воспроизводит голосовые заметки и аудиофайлы, когда срабатывает напоминание</string>
+    <string name="set_autoplay">Воспроизводить автоматически</string>
+    <string name="set_autoplay_desc">Воспроизводит записи, аудиофайлы и включённое озвучивание текста при срабатывании напоминания. Если выключено, нажмите «Воспроизвести», чтобы прослушать.</string>
     <string name="set_disabled_tone">Недоступно, пока включён режим «Только сигнал»</string>
     <string name="set_toast_autoplay_on">Автовоспроизведение включено</string>
     <string name="set_toast_autoplay_off">Автовоспроизведение выключено</string>
@@ -386,7 +386,7 @@
     <string name="set_toast_private_off">Приватное воспроизведение выключено</string>
     <string name="set_private_bt">Приватное воспроизведение включено. Для вывода через Bluetooth нужно разрешение «Устройства поблизости».</string>
     <string name="set_tone_only">Режим «Только сигнал»</string>
-    <string name="set_tone_only_desc">Воспроизводит простой сигнал будильника вместо голоса/TTS для максимальной надёжности. Автоостановка: %1$s. Откладывание: %2$d мин.</string>
+    <string name="set_tone_only_desc">Сигнал будильника вместо записей и речи. Остановка через: %1$s. Отложить: %2$d мин.</string>
     <string name="set_toast_tone_on">Режим «Только сигнал» включён</string>
     <string name="set_toast_tone_off">Режим «Только сигнал» выключен</string>
     <string name="set_infinite">Бесконечно</string>
@@ -407,8 +407,8 @@
     <string name="set_open_perm">Открыть настройки разрешений</string>
     <string name="set_fs_note">Вы по-прежнему можете нажать «Воспроизвести» или «Озвучить» в уведомлении.</string>
     <string name="set_tone_volume_note">В режиме «Только сигнал» громкость задаётся громкостью будильника/уведомлений устройства.</string>
-    <string name="set_loop_duration">Длительность повтора по кругу</string>
-    <string name="set_loop_duration_desc">Задайте, как долго напоминание звучит по кругу</string>
+    <string name="set_loop_duration">Останавливать непрерывное воспроизведение через</string>
+    <string name="set_loop_duration_desc">Останавливает сигнал или зацикленное аудио через указанное время. Проверочные напоминания — отдельные сигналы, которые приходят позже.</string>
     <string name="set_toast_loop">Длительность повтора: %1$d мин</string>
     <string name="set_toast_loop_infinite">Длительность повтора: бесконечно</string>
     <string name="set_custom">Своё значение</string>
@@ -478,7 +478,7 @@
     <string name="set_label_time">%1$s: %2$s</string>
     <string name="set_volume">Громкость</string>
     <string name="set_cd_volume">Громкость приложения: %1$d%%</string>
-    <string name="set_loop_inline_desc">Как долго повторять звук, прежде чем остановить его автоматически</string>
+    <string name="set_loop_inline_desc">Останавливает сигнал или зацикленное аудио через указанное время. Проверочные напоминания — отдельные сигналы, которые приходят позже.</string>
     <string name="set_default_snooze">Откладывание по умолчанию</string>
     <string name="set_snooze_inline_desc">Через сколько времени напомнить снова после нажатия «Отложить»</string>
     <string name="set_default_followup">Повторная проверка по умолчанию</string>
@@ -489,7 +489,7 @@
     <string name="set_toast_followup_repeat_until_done">Проверка повторяется до выполнения</string>
     <string name="set_toast_followup_repeat">Лимит повторных проверок: %1$d×</string>
     <string name="set_reliability">Надёжность</string>
-    <string name="set_persist">Держать напоминание на экране до выполнения</string>
+    <string name="set_persist">Сохранять уведомление до выполнения</string>
     <string name="set_persist_desc">Уведомление остаётся на экране, пока вы не нажмёте «Готово» или «Отложить». Включите повторную проверку, если хотите, чтобы приложение напомнило ещё раз.</string>
     <string name="set_toast_persist_on">Напоминания остаются до выполнения</string>
     <string name="set_toast_persist_off">Напоминания можно смахнуть</string>
@@ -788,7 +788,7 @@
     <string name="set_tab_backup">Копия</string>
     <string name="set_tab_wear">Часы</string>
     <string name="set_tab_help">Справка</string>
-    <string name="battery_guidance_title">Помогите напоминаниям приходить вовремя</string>
+    <string name="battery_guidance_title">Напоминания могут опаздывать или пропадать</string>
     <string name="battery_guidance_body">Телефон ограничивает фоновую работу %1$s для экономии заряда. На некоторых телефонах это может задерживать напоминания, когда приложение закрыто. Выберите «Без ограничений» в настройках батареи, чтобы снизить этот риск. Можно сохранить текущую настройку и изменить её позже.</string>
     <string name="battery_review_settings">Проверить настройки батареи</string>
     <string name="battery_keep_current">Сохранить текущую настройку</string>
@@ -796,7 +796,7 @@
     <string name="battery_status_allowed">Фоновый доступ к батарее: без ограничений.</string>
     <string name="card_done_occurrence">Выполнено в этот раз</string>
     <string name="home_delete_confirm_body">Сразу после удаления действие можно отменить.</string>
-    <string name="battery_banner_body">Когда приложение закрыто, телефон может задерживать напоминания %1$s.</string>
+    <string name="battery_banner_body">Режим экономии заряда может тормозить работу %1$s.</string>
     <string name="home_empty_nothing_today">На сегодня ничего нет</string>
     <string name="home_empty_today_sub">Следующее напоминание — во вкладке «%1$s».</string>
     <string name="set_alarm_clock">Сверхнадёжные напоминания</string>
@@ -807,7 +807,25 @@
     <string name="set_alarm_clock_status_next">Включено для следующего напоминания: %1$s</string>
     <string name="set_alarm_clock_status_none">Следующее напоминание будет использовать этот режим.</string>
     <string name="home_extra_reliable_on">Сверхнадёжные напоминания включены</string>
-    <string name="set_alarm_volume_ok">Напоминания звучат с громкостью будильника телефона (%1$d%%).</string>
-    <string name="set_alarm_volume_low">Громкость будильника на телефоне низкая (%1$d%%). Напоминания звучат с этой громкостью, поэтому их может быть плохо слышно.</string>
-    <string name="set_alarm_volume_raise">Увеличить громкость будильника</string>
+    <string name="set_section_check">Проверка напоминаний</string>
+    <string name="set_section_ringing">Когда звучит напоминание</string>
+    <string name="check_all_good">Необходимые разрешения предоставлены.</string>
+    <string name="check_issues">Предоставьте недостающие разрешения для показа и планирования напоминаний.</string>
+    <string name="check_notif_ok">Уведомления включены</string>
+    <string name="check_notif_bad">Уведомления выключены</string>
+    <string name="check_exact_ok">Напоминания могут звучать точно в назначенную минуту</string>
+    <string name="check_exact_bad">Напоминания могут звучать не в назначенную минуту</string>
+    <string name="check_battery_ok">Телефон разрешает напоминаниям работать в фоне</string>
+    <string name="check_battery_bad">Экономия заряда может задерживать напоминания</string>
+    <string name="check_volume_bad">Громкость будильника низкая (%1$d%%), напоминания может быть плохо слышно</string>
+    <string name="check_raise">Увеличить</string>
+    <string name="check_fullscreen_bad">Для оповещений на экране блокировки нужно разрешение</string>
+    <string name="check_dnd_bad">Разрешите доступ к режиму «Не беспокоить», чтобы получать сигналы в этом режиме</string>
+    <string name="check_mic_ok">Микрофон разрешён для голосовых напоминаний</string>
+    <string name="check_mic_bad">Микрофон выключен, поэтому голосовые напоминания нельзя записать</string>
+    <string name="check_volume_how">Нажмите «Увеличить» или откройте настройки звука телефона и прибавьте громкость будильника.</string>
+    <string name="set_required_permissions">Необходимые разрешения</string>
+    <string name="set_recommendations">Рекомендации и дополнительные функции</string>
+    <string name="set_playback_mode">Звук напоминания</string>
+    <string name="set_voice_audio_mode">Записи, аудиофайлы и озвучивание текста</string>
 </resources>

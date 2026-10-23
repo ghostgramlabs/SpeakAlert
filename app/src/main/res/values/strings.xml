@@ -349,8 +349,8 @@
     <string name="set_toast_theme_dark">Dark mode set</string>
     <string name="set_toast_theme_system">Following system theme</string>
     <string name="set_playback">Playback</string>
-    <string name="set_autoplay">Auto-play reminder audio</string>
-    <string name="set_autoplay_desc">Automatically plays voice notes and audio files when a reminder fires</string>
+    <string name="set_autoplay">Play automatically</string>
+    <string name="set_autoplay_desc">Play recordings, audio files and enabled spoken text when a reminder fires. When off, tap Play to listen.</string>
     <string name="set_disabled_tone">Disabled while Tone-only mode is on</string>
     <string name="set_toast_autoplay_on">Auto-play on</string>
     <string name="set_toast_autoplay_off">Auto-play off</string>
@@ -376,7 +376,7 @@
     <string name="set_toast_private_off">Private playback off</string>
     <string name="set_private_bt">Private playback on. Bluetooth routing needs nearby devices permission.</string>
     <string name="set_tone_only">Tone-only mode</string>
-    <string name="set_tone_only_desc">Plays a simple alarm tone instead of voice/TTS for maximum reliability. Auto-stop: %1$s. Snooze: %2$dm.</string>
+    <string name="set_tone_only_desc">Play an alarm tone instead of recordings or speech. Stops after: %1$s. Snooze: %2$dm.</string>
     <string name="set_toast_tone_on">Tone-only mode on</string>
     <string name="set_toast_tone_off">Tone-only mode off</string>
     <string name="set_infinite">Infinite</string>
@@ -397,8 +397,8 @@
     <string name="set_open_perm">Open permission settings</string>
     <string name="set_fs_note">You can still tap Play reminder or Speak reminder from the notification.</string>
     <string name="set_tone_volume_note">In Tone-only mode, volume is controlled by your device alarm/notification volume.</string>
-    <string name="set_loop_duration">Loop Duration</string>
-    <string name="set_loop_duration_desc">Set how long the reminder loop continues</string>
+    <string name="set_loop_duration">Stop continuous playback after</string>
+    <string name="set_loop_duration_desc">Stops the tone or looping audio after this time. Follow-up reminders are separate alerts later.</string>
     <string name="set_toast_loop">Loop duration: %1$d min</string>
     <string name="set_toast_loop_infinite">Loop duration: Infinite</string>
     <string name="set_custom">Custom</string>
@@ -469,7 +469,7 @@
     <string name="set_label_time">%1$s: %2$s</string>
     <string name="set_volume">Volume</string>
     <string name="set_cd_volume">App Volume: %1$d%%</string>
-    <string name="set_loop_inline_desc">How long a looping reminder notification repeats before stopping</string>
+    <string name="set_loop_inline_desc">Stops the tone or looping audio after this time. Follow-up reminders are separate alerts later.</string>
     <string name="set_default_snooze">Default snooze</string>
     <string name="set_snooze_inline_desc">How long the reminder is delayed when you tap Snooze</string>
     <string name="set_default_followup">Default follow-up check</string>
@@ -480,7 +480,7 @@
     <string name="set_toast_followup_repeat_until_done">Follow-up repeats until marked done</string>
     <string name="set_toast_followup_repeat">Follow-up repeat limit: %1$d×</string>
     <string name="set_reliability">Reliability</string>
-    <string name="set_persist">Keep reminder on screen until done</string>
+    <string name="set_persist">Keep notification until done</string>
     <string name="set_persist_desc">The reminder notification stays pinned and only clears when you tap Done or Snooze. Works best with a follow-up check.</string>
     <string name="set_toast_persist_on">Reminders stay until done</string>
     <string name="set_toast_persist_off">Reminders can be swiped away</string>
@@ -775,7 +775,7 @@
     <string name="set_tab_backup">Backup</string>
     <string name="set_tab_wear">Wear</string>
     <string name="set_tab_help">Help</string>
-    <string name="battery_guidance_title">Help reminders arrive on time</string>
+    <string name="battery_guidance_title">Reminders may be late or missed</string>
     <string name="battery_guidance_body">Your phone currently limits background activity for %1$s to save battery. On some phones, this can delay reminders while the app is closed. Choose Unrestricted in battery settings to reduce this risk. You can keep your current setting and change it later.</string>
     <string name="battery_review_settings">Review battery settings</string>
     <string name="battery_keep_current">Keep current setting</string>
@@ -783,7 +783,7 @@
     <string name="battery_status_allowed">Background battery access: Unrestricted.</string>
     <string name="card_done_occurrence">Done this time</string>
     <string name="home_delete_confirm_body">You can undo right after deleting.</string>
-    <string name="battery_banner_body">Your phone may delay %1$s reminders while the app is closed.</string>
+    <string name="battery_banner_body">Your phone\'s battery saver may hold %1$s back.</string>
     <string name="home_empty_nothing_today">Nothing due today</string>
     <string name="home_empty_today_sub">Your next reminder is in %1$s.</string>
     <string name="set_alarm_clock">Extra-reliable reminders</string>
@@ -794,7 +794,25 @@
     <string name="set_alarm_clock_status_next">On for your next reminder: %1$s</string>
     <string name="set_alarm_clock_status_none">Your next reminder will use this.</string>
     <string name="home_extra_reliable_on">Extra-reliable reminders on</string>
-    <string name="set_alarm_volume_ok">Reminders play at your phone\'s alarm volume (%1$d%%).</string>
-    <string name="set_alarm_volume_low">Your phone\'s alarm volume is low (%1$d%%). Reminders play at this volume, so they may be hard to hear.</string>
-    <string name="set_alarm_volume_raise">Raise alarm volume</string>
+    <string name="set_section_check">Reminder check</string>
+    <string name="set_section_ringing">When a reminder rings</string>
+    <string name="check_all_good">Required permissions are enabled.</string>
+    <string name="check_issues">Enable the missing permissions below to show and schedule reminders.</string>
+    <string name="check_notif_ok">Notifications are on</string>
+    <string name="check_notif_bad">Notifications are off</string>
+    <string name="check_exact_ok">Reminders can ring at the exact minute</string>
+    <string name="check_exact_bad">Reminders may not ring at the exact minute</string>
+    <string name="check_battery_ok">Your phone lets reminders run in the background</string>
+    <string name="check_battery_bad">Battery saver may hold reminders back</string>
+    <string name="check_volume_bad">Alarm volume is low (%1$d%%), so reminders may be hard to hear</string>
+    <string name="check_raise">Raise</string>
+    <string name="check_fullscreen_bad">Lock-screen alerts need permission</string>
+    <string name="check_dnd_bad">Allow DND access to alert during Do Not Disturb</string>
+    <string name="check_mic_ok">Microphone allowed for voice reminders</string>
+    <string name="check_mic_bad">Microphone off, so voice reminders can\'t be recorded</string>
+    <string name="check_volume_how">Tap Raise, or open your phone\'s sound settings and turn up Alarm volume.</string>
+    <string name="set_required_permissions">Required permissions</string>
+    <string name="set_recommendations">Recommendations &amp; optional features</string>
+    <string name="set_playback_mode">Reminder sound</string>
+    <string name="set_voice_audio_mode">Voice, audio files &amp; spoken text</string>
 </resources>

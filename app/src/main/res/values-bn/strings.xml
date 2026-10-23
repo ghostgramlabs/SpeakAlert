@@ -348,8 +348,8 @@
     <string name="set_toast_theme_dark">ডার্ক মোড সেট হয়েছে</string>
     <string name="set_toast_theme_system">সিস্টেম থিম অনুসরণ করা হচ্ছে</string>
     <string name="set_playback">প্লেব্যাক</string>
-    <string name="set_autoplay">রিমাইন্ডার অডিও স্বয়ংক্রিয়ভাবে চালান</string>
-    <string name="set_autoplay_desc">রিমাইন্ডার বাজলে ভয়েস নোট ও অডিও ফাইল স্বয়ংক্রিয়ভাবে চালায়</string>
+    <string name="set_autoplay">স্বয়ংক্রিয়ভাবে চালান</string>
+    <string name="set_autoplay_desc">রিমাইন্ডারের সময় রেকর্ডিং, অডিও ফাইল এবং চালু থাকা পাঠ্য পাঠ করে শোনায়। বন্ধ থাকলে শুনতে চালান-এ ট্যাপ করুন।</string>
     <string name="set_disabled_tone">শুধু-টোন মোড চালু থাকলে বন্ধ থাকে</string>
     <string name="set_toast_autoplay_on">স্বয়ংক্রিয় প্লেব্যাক চালু</string>
     <string name="set_toast_autoplay_off">স্বয়ংক্রিয় প্লেব্যাক বন্ধ</string>
@@ -375,7 +375,7 @@
     <string name="set_toast_private_off">ব্যক্তিগত প্লেব্যাক বন্ধ</string>
     <string name="set_private_bt">ব্যক্তিগত প্লেব্যাক চালু। ব্লুটুথ রাউটিংয়ের জন্য কাছাকাছি ডিভাইসের অনুমতি দরকার।</string>
     <string name="set_tone_only">শুধু-টোন মোড</string>
-    <string name="set_tone_only_desc">সর্বোচ্চ নির্ভরযোগ্যতার জন্য কণ্ঠ/TTS-এর বদলে সাধারণ অ্যালার্ম টোন বাজায়। স্বয়ংক্রিয় থামা: %1$s। স্নুজ: %2$d মি।</string>
+    <string name="set_tone_only_desc">রেকর্ডিং বা কথার বদলে অ্যালার্ম বাজায়। বন্ধ হবে: %1$s পরে। স্নুজ: %2$d মিনিট।</string>
     <string name="set_toast_tone_on">শুধু-টোন মোড চালু</string>
     <string name="set_toast_tone_off">শুধু-টোন মোড বন্ধ</string>
     <string name="set_infinite">অসীম</string>
@@ -396,8 +396,8 @@
     <string name="set_open_perm">অনুমতি সেটিংস খুলুন</string>
     <string name="set_fs_note">আপনি এখনো নোটিফিকেশন থেকে রিমাইন্ডার চালান বা রিমাইন্ডার বলুন ট্যাপ করতে পারেন।</string>
     <string name="set_tone_volume_note">শুধু-টোন মোডে ভলিউম ডিভাইসের অ্যালার্ম/নোটিফিকেশন ভলিউম দিয়ে নিয়ন্ত্রিত হয়।</string>
-    <string name="set_loop_duration">লুপের সময়কাল</string>
-    <string name="set_loop_duration_desc">রিমাইন্ডার লুপ কতক্ষণ চলবে সেট করুন</string>
+    <string name="set_loop_duration">একটানা বাজানো বন্ধ হবে</string>
+    <string name="set_loop_duration_desc">এই সময়ের পরে টোন বা বারবার চলা অডিও বন্ধ হয়। ফলো-আপ রিমাইন্ডার পরে আসা আলাদা অ্যালার্ট।</string>
     <string name="set_toast_loop">লুপের সময়কাল: %1$d মিনিট</string>
     <string name="set_toast_loop_infinite">লুপের সময়কাল: অসীম</string>
     <string name="set_custom">কাস্টম</string>
@@ -467,7 +467,7 @@
     <string name="set_label_time">%1$s: %2$s</string>
     <string name="set_volume">ভলিউম</string>
     <string name="set_cd_volume">অ্যাপের ভলিউম: %1$d%%</string>
-    <string name="set_loop_inline_desc">একটানা বাজতে থাকা রিমাইন্ডার কতক্ষণ পরে নিজে থেকে থামবে</string>
+    <string name="set_loop_inline_desc">এই সময়ের পরে টোন বা বারবার চলা অডিও বন্ধ হয়। ফলো-আপ রিমাইন্ডার পরে আসা আলাদা অ্যালার্ট।</string>
     <string name="set_default_snooze">ডিফল্ট স্নুজ</string>
     <string name="set_snooze_inline_desc">“স্নুজ” চাপার কতক্ষণ পরে আবার মনে করিয়ে দেবে</string>
     <string name="set_default_followup">ডিফল্ট ফলো-আপ চেক</string>
@@ -478,7 +478,7 @@
     <string name="set_toast_followup_repeat_until_done">সম্পন্ন চিহ্নিত না হওয়া পর্যন্ত ফলো-আপ চলবে</string>
     <string name="set_toast_followup_repeat">ফলো-আপ পুনরাবৃত্তির সীমা: %1$d×</string>
     <string name="set_reliability">নির্ভরযোগ্যতা</string>
-    <string name="set_persist">সম্পন্ন না হওয়া পর্যন্ত রিমাইন্ডার স্ক্রিনে রাখুন</string>
+    <string name="set_persist">সম্পন্ন না হওয়া পর্যন্ত বিজ্ঞপ্তি রাখুন</string>
     <string name="set_persist_desc">“সম্পন্ন” বা “স্নুজ” না চাপা পর্যন্ত রিমাইন্ডারের নোটিফিকেশন থাকবে। সঙ্গে ফলো-আপ চালু রাখলে আবার মনে করিয়েও দেবে।</string>
     <string name="set_toast_persist_on">সম্পন্ন না হওয়া পর্যন্ত রিমাইন্ডার থাকবে</string>
     <string name="set_toast_persist_off">রিমাইন্ডার সোয়াইপ করে সরানো যাবে</string>
@@ -773,7 +773,7 @@
     <string name="set_tab_backup">ব্যাকআপ</string>
     <string name="set_tab_wear">ঘড়ি</string>
     <string name="set_tab_help">সাহায্য</string>
-    <string name="battery_guidance_title">রিমাইন্ডার সময়মতো আসতে সাহায্য করুন</string>
+    <string name="battery_guidance_title">রিমাইন্ডার দেরিতে আসতে পারে বা বাদ পড়তে পারে</string>
     <string name="battery_guidance_body">ব্যাটারি বাঁচাতে আপনার ফোন %1$s-এর ব্যাকগ্রাউন্ড কার্যকলাপ সীমিত করে। কিছু ফোনে অ্যাপ বন্ধ থাকলে এর ফলে রিমাইন্ডার দেরিতে আসতে পারে। এই ঝুঁকি কমাতে ব্যাটারি সেটিংসে সীমাহীন বেছে নিন। বর্তমান সেটিং রেখে পরে বদলাতেও পারেন।</string>
     <string name="battery_review_settings">ব্যাটারি সেটিংস দেখুন</string>
     <string name="battery_keep_current">বর্তমান সেটিং রাখুন</string>
@@ -781,7 +781,7 @@
     <string name="battery_status_allowed">ব্যাকগ্রাউন্ড ব্যাটারি অ্যাক্সেস: সীমাহীন।</string>
     <string name="card_done_occurrence">এবার সম্পন্ন</string>
     <string name="home_delete_confirm_body">মোছার ঠিক পরেই তা ফিরিয়ে আনতে পারবেন।</string>
-    <string name="battery_banner_body">অ্যাপ বন্ধ থাকলে আপনার ফোন %1$s-এর রিমাইন্ডার দেরিতে দিতে পারে।</string>
+    <string name="battery_banner_body">আপনার ফোনের ব্যাটারি সেভার %1$s-কে আটকে রাখতে পারে।</string>
     <string name="home_empty_nothing_today">আজ কিছু নেই</string>
     <string name="home_empty_today_sub">আপনার পরের রিমাইন্ডার \"%1$s\"-এ আছে।</string>
     <string name="set_alarm_clock">অতিরিক্ত নির্ভরযোগ্য রিমাইন্ডার</string>
@@ -792,7 +792,25 @@
     <string name="set_alarm_clock_status_next">আপনার পরের রিমাইন্ডারের জন্য চালু: %1$s</string>
     <string name="set_alarm_clock_status_none">আপনার পরের রিমাইন্ডার এটি ব্যবহার করবে।</string>
     <string name="home_extra_reliable_on">অতিরিক্ত নির্ভরযোগ্য রিমাইন্ডার চালু</string>
-    <string name="set_alarm_volume_ok">রিমাইন্ডার আপনার ফোনের অ্যালার্ম ভলিউমে (%1$d%%) বাজে।</string>
-    <string name="set_alarm_volume_low">আপনার ফোনের অ্যালার্ম ভলিউম কম (%1$d%%)। রিমাইন্ডার এই ভলিউমে বাজে, তাই শুনতে অসুবিধা হতে পারে।</string>
-    <string name="set_alarm_volume_raise">অ্যালার্ম ভলিউম বাড়ান</string>
+    <string name="set_section_check">রিমাইন্ডার পরীক্ষা</string>
+    <string name="set_section_ringing">রিমাইন্ডার বাজলে</string>
+    <string name="check_all_good">প্রয়োজনীয় অনুমতি দেওয়া আছে।</string>
+    <string name="check_issues">রিমাইন্ডার দেখাতে ও সময় নির্ধারণ করতে নিচের বাকি অনুমতিগুলো দিন।</string>
+    <string name="check_notif_ok">বিজ্ঞপ্তি চালু আছে</string>
+    <string name="check_notif_bad">বিজ্ঞপ্তি বন্ধ আছে</string>
+    <string name="check_exact_ok">রিমাইন্ডার ঠিক মিনিটে বাজতে পারে</string>
+    <string name="check_exact_bad">রিমাইন্ডার হয়তো ঠিক মিনিটে বাজবে না</string>
+    <string name="check_battery_ok">আপনার ফোন রিমাইন্ডারকে ব্যাকগ্রাউন্ডে চলতে দেয়</string>
+    <string name="check_battery_bad">ব্যাটারি সেভার রিমাইন্ডার আটকে রাখতে পারে</string>
+    <string name="check_volume_bad">অ্যালার্ম ভলিউম কম (%1$d%%), তাই রিমাইন্ডার শুনতে অসুবিধা হতে পারে</string>
+    <string name="check_raise">বাড়ান</string>
+    <string name="check_fullscreen_bad">লক স্ক্রিন সতর্কতার জন্য অনুমতি দরকার</string>
+    <string name="check_dnd_bad">বিরক্ত করবেন না মোডেও অ্যালার্ট পেতে সেই মোডে অ্যাক্সেস দিন</string>
+    <string name="check_mic_ok">ভয়েস রিমাইন্ডারের জন্য মাইক্রোফোন অনুমোদিত</string>
+    <string name="check_mic_bad">মাইক্রোফোন বন্ধ, তাই ভয়েস রিমাইন্ডার রেকর্ড করা যাবে না</string>
+    <string name="check_volume_how">বাড়ান-এ ট্যাপ করুন, অথবা ফোনের সাউন্ড সেটিংসে গিয়ে অ্যালার্ম ভলিউম বাড়ান।</string>
+    <string name="set_required_permissions">প্রয়োজনীয় অনুমতি</string>
+    <string name="set_recommendations">পরামর্শ ও ঐচ্ছিক সুবিধা</string>
+    <string name="set_playback_mode">রিমাইন্ডারের শব্দ</string>
+    <string name="set_voice_audio_mode">রেকর্ডিং, অডিও ফাইল ও পাঠ্য পড়ে শোনানো</string>
 </resources>

@@ -353,8 +353,8 @@
     <string name="set_toast_theme_dark">Modo escuro definido</string>
     <string name="set_toast_theme_system">Seguindo o tema do sistema</string>
     <string name="set_playback">Reprodução</string>
-    <string name="set_autoplay">Reproduzir áudio do lembrete automaticamente</string>
-    <string name="set_autoplay_desc">Reproduz automaticamente notas de voz e arquivos de áudio quando um lembrete toca</string>
+    <string name="set_autoplay">Reproduzir automaticamente</string>
+    <string name="set_autoplay_desc">Reproduz gravações, arquivos de áudio e texto falado ativado quando o lembrete toca. Quando desativado, toque em Reproduzir para ouvir.</string>
     <string name="set_disabled_tone">Desativado enquanto o modo só toque estiver ativado</string>
     <string name="set_toast_autoplay_on">Reprodução automática ativada</string>
     <string name="set_toast_autoplay_off">Reprodução automática desativada</string>
@@ -380,7 +380,7 @@
     <string name="set_toast_private_off">Reprodução privada desativada</string>
     <string name="set_private_bt">Reprodução privada ativada. O roteamento por Bluetooth precisa da permissão de dispositivos por perto.</string>
     <string name="set_tone_only">Modo só toque</string>
-    <string name="set_tone_only_desc">Toca um som de alarme simples em vez de voz/TTS para máxima confiabilidade. Parada automática: %1$s. Adiar: %2$d min.</string>
+    <string name="set_tone_only_desc">Toca um alarme em vez de gravações ou fala. Para após: %1$s. Adiar: %2$d min.</string>
     <string name="set_toast_tone_on">Modo só toque ativado</string>
     <string name="set_toast_tone_off">Modo só toque desativado</string>
     <string name="set_infinite">Infinito</string>
@@ -401,8 +401,8 @@
     <string name="set_open_perm">Abrir configurações de permissão</string>
     <string name="set_fs_note">Você ainda pode tocar em Reproduzir lembrete ou Falar lembrete na notificação.</string>
     <string name="set_tone_volume_note">No modo só toque, o volume é controlado pelo volume de alarme/notificação do aparelho.</string>
-    <string name="set_loop_duration">Duração do loop</string>
-    <string name="set_loop_duration_desc">Defina por quanto tempo o loop do lembrete continua</string>
+    <string name="set_loop_duration">Parar reprodução contínua após</string>
+    <string name="set_loop_duration_desc">Interrompe o toque ou o áudio em repetição após esse tempo. Lembretes de acompanhamento são alertas separados enviados depois.</string>
     <string name="set_toast_loop">Duração do loop: %1$d min</string>
     <string name="set_toast_loop_infinite">Duração do loop: Infinita</string>
     <string name="set_custom">Personalizado</string>
@@ -472,7 +472,7 @@
     <string name="set_label_time">%1$s: %2$s</string>
     <string name="set_volume">Volume</string>
     <string name="set_cd_volume">Volume do app: %1$d%%</string>
-    <string name="set_loop_inline_desc">Por quanto tempo o som se repete antes de parar automaticamente</string>
+    <string name="set_loop_inline_desc">Interrompe o toque ou o áudio em repetição após esse tempo. Lembretes de acompanhamento são alertas separados enviados depois.</string>
     <string name="set_default_snooze">Adiamento padrão</string>
     <string name="set_snooze_inline_desc">Quanto tempo esperar para avisar de novo depois de tocar em “Adiar”</string>
     <string name="set_default_followup">Verificação de acompanhamento padrão</string>
@@ -483,7 +483,7 @@
     <string name="set_toast_followup_repeat_until_done">O acompanhamento se repete até ser concluído</string>
     <string name="set_toast_followup_repeat">Limite de repetições do acompanhamento: %1$d×</string>
     <string name="set_reliability">Confiabilidade</string>
-    <string name="set_persist">Manter o lembrete na tela até concluir</string>
+    <string name="set_persist">Manter notificação até concluir</string>
     <string name="set_persist_desc">A notificação fica na tela até você tocar em “Concluído” ou “Adiar”. Ative também o acompanhamento se quiser receber novos avisos.</string>
     <string name="set_toast_persist_on">Os lembretes ficam até serem concluídos</string>
     <string name="set_toast_persist_off">Os lembretes podem ser deslizados para fora</string>
@@ -780,7 +780,7 @@
     <string name="set_tab_backup">Backup</string>
     <string name="set_tab_wear">Wear</string>
     <string name="set_tab_help">Ajuda</string>
-    <string name="battery_guidance_title">Ajude os lembretes a chegar na hora</string>
+    <string name="battery_guidance_title">Os lembretes podem atrasar ou ser perdidos</string>
     <string name="battery_guidance_body">Seu celular limita a atividade do %1$s em segundo plano para economizar bateria. Em alguns celulares, isso pode atrasar os lembretes quando o app está fechado. Escolha Sem restrições nas configurações de bateria para reduzir esse risco. Você pode manter a configuração atual e alterá-la depois.</string>
     <string name="battery_review_settings">Revisar configurações de bateria</string>
     <string name="battery_keep_current">Manter configuração atual</string>
@@ -788,7 +788,7 @@
     <string name="battery_status_allowed">Acesso à bateria em segundo plano: Sem restrições.</string>
     <string name="card_done_occurrence">Concluir esta vez</string>
     <string name="home_delete_confirm_body">Você pode desfazer logo após a exclusão.</string>
-    <string name="battery_banner_body">Seu celular pode atrasar os lembretes do %1$s quando o app está fechado.</string>
+    <string name="battery_banner_body">A economia de bateria do celular pode segurar o %1$s.</string>
     <string name="home_empty_nothing_today">Nada para hoje</string>
     <string name="home_empty_today_sub">Seu próximo lembrete está em \"%1$s\".</string>
     <string name="set_alarm_clock">Lembretes extraconfiáveis</string>
@@ -799,7 +799,25 @@
     <string name="set_alarm_clock_status_next">Ativado para seu próximo lembrete: %1$s</string>
     <string name="set_alarm_clock_status_none">Seu próximo lembrete vai usar isto.</string>
     <string name="home_extra_reliable_on">Lembretes extraconfiáveis ativados</string>
-    <string name="set_alarm_volume_ok">Os lembretes tocam no volume de alarme do celular (%1$d%%).</string>
-    <string name="set_alarm_volume_low">O volume de alarme do celular está baixo (%1$d%%). Os lembretes tocam nesse volume, então podem ficar difíceis de ouvir.</string>
-    <string name="set_alarm_volume_raise">Aumentar volume do alarme</string>
+    <string name="set_section_check">Verificação de lembretes</string>
+    <string name="set_section_ringing">Quando um lembrete toca</string>
+    <string name="check_all_good">As permissões necessárias estão ativadas.</string>
+    <string name="check_issues">Ative as permissões que faltam para exibir e agendar lembretes.</string>
+    <string name="check_notif_ok">As notificações estão ativadas</string>
+    <string name="check_notif_bad">As notificações estão desativadas</string>
+    <string name="check_exact_ok">Os lembretes podem tocar no minuto exato</string>
+    <string name="check_exact_bad">Os lembretes podem não tocar no minuto exato</string>
+    <string name="check_battery_ok">Seu celular deixa os lembretes funcionarem em segundo plano</string>
+    <string name="check_battery_bad">A economia de bateria pode segurar os lembretes</string>
+    <string name="check_volume_bad">O volume do alarme está baixo (%1$d%%), então os lembretes podem ficar difíceis de ouvir</string>
+    <string name="check_raise">Aumentar</string>
+    <string name="check_fullscreen_bad">Os alertas na tela de bloqueio precisam de permissão</string>
+    <string name="check_dnd_bad">Permita o acesso ao Não perturbe para receber alertas nesse modo</string>
+    <string name="check_mic_ok">Microfone permitido para lembretes de voz</string>
+    <string name="check_mic_bad">Microfone desativado, então não dá para gravar lembretes de voz</string>
+    <string name="check_volume_how">Toque em Aumentar ou abra as configurações de som do celular e aumente o volume do alarme.</string>
+    <string name="set_required_permissions">Permissões necessárias</string>
+    <string name="set_recommendations">Recomendações e recursos opcionais</string>
+    <string name="set_playback_mode">Som do lembrete</string>
+    <string name="set_voice_audio_mode">Voz, arquivos de áudio e texto falado</string>
 </resources>

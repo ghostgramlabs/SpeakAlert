@@ -3,6 +3,23 @@
 User-facing changes to SpeakAlert, newest first. Version numbers match the Google Play release
 (`versionName` in `app/build.gradle.kts`).
 
+## 2.0.44 - 2026-10-22
+
+- Settings is regrouped so it is easier to follow. A new "Reminder check" at the top lists, in
+  plain words, everything that decides whether reminders ring on time: notifications, exact
+  alarms, battery, alarm volume, and lock-screen and Do Not Disturb access when those are in
+  use. Required permissions are separate from recommendations and optional features, so
+  battery restrictions alone do not show a red failure summary. "When a reminder rings"
+  starts with a sound-mode choice and shows the relevant controls while preserving preferences.
+  Continuous playback duration and persistent notifications have clearer labels; less-used
+  sections start collapsed. Updated copy is translated across all 12 supported languages.
+- The alarm-volume line appears only when the volume is low, with a Raise button and how to turn
+  it up in the phone's sound settings.
+- The battery notice says the same thing everywhere: "Reminders may be late or missed" on Home
+  and at first launch, "Battery saver may hold reminders back" in Settings.
+- Closing the first-launch battery prompt by tapping outside it no longer counts as an answer;
+  it is asked again on the next launch.
+
 ## 2.0.43 - 2026-10-22
 
 - Public release of 2.0.42, which went to closed testing only. No further changes.

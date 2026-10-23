@@ -19,6 +19,41 @@ import java.io.File
 class ReminderDesignTest {
     @get:Rule val compose = createEmptyComposeRule()
     private val app = ApplicationProvider.getApplicationContext<VoiceReminderApp>()
+    @Test fun settingsModesShowRelevantControlsAndPreservePreferences() {
+        val settings = app.container.settingsRepository
+        val originalTone = runBlocking { settings.toneOnlyMode.first() }
+        val originalAutoPlay = runBlocking { settings.autoPlayEnabled.first() }
+        try {
+            runBlocking {
+                settings.setBatteryOptimizationPromptShown(true)
+                settings.setLastWhatsNewVersionShown(BuildConfig.VERSION_NAME)
+                settings.setToneOnlyMode(false)
+                settings.setAutoPlayEnabled(true)
+            }
+            ActivityScenario.launch<MainActivity>(Intent(app, MainActivity::class.java)).use {
+                compose.onNodeWithContentDescription(app.getString(R.string.home_cd_settings)).performClick()
+                compose.onNodeWithText(app.getString(R.string.set_required_permissions)).assertExists()
+                compose.onNodeWithText(app.getString(R.string.set_recommendations)).assertExists()
+                compose.onNodeWithText(app.getString(R.string.set_autoplay)).performScrollTo().assertIsDisplayed()
+                compose.onNodeWithText(app.getString(R.string.set_tone_only)).performScrollTo().performClick()
+                compose.waitUntil(5_000) { runBlocking { settings.toneOnlyMode.first() } }
+                compose.onNodeWithText(app.getString(R.string.set_autoplay)).assertDoesNotExist()
+                compose.onNodeWithText(app.getString(R.string.set_voice_audio_mode)).performScrollTo()
+                snapshot("settings-tone-mode.png")
+                compose.onNodeWithText(app.getString(R.string.set_voice_audio_mode)).performClick()
+                compose.waitUntil(5_000) { !runBlocking { settings.toneOnlyMode.first() } }
+                compose.onNodeWithText(app.getString(R.string.set_autoplay)).performScrollTo().assertIsDisplayed()
+                assertTrue(runBlocking { settings.autoPlayEnabled.first() })
+                snapshot("settings-voice-mode.png")
+            }
+        } finally {
+            runBlocking {
+                settings.setToneOnlyMode(originalTone)
+                settings.setAutoPlayEnabled(originalAutoPlay)
+            }
+        }
+    }
+
     private fun snapshot(name: String) {
         compose.waitForIdle()
         InstrumentationRegistry.getInstrumentation().uiAutomation.takeScreenshot().let { bitmap ->

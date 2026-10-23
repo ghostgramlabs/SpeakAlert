@@ -352,8 +352,8 @@
     <string name="set_toast_theme_dark">تم ضبط الوضع الداكن</string>
     <string name="set_toast_theme_system">اتباع سمة النظام</string>
     <string name="set_playback">التشغيل</string>
-    <string name="set_autoplay">تشغيل صوت التذكير تلقائيًا</string>
-    <string name="set_autoplay_desc">يشغّل الملاحظات الصوتية وملفات الصوت تلقائيًا عند انطلاق التذكير</string>
+    <string name="set_autoplay">التشغيل تلقائيًا</string>
+    <string name="set_autoplay_desc">يشغّل التسجيلات والملفات الصوتية وقراءة النص المفعّلة عند حلول التذكير. عند إيقافه، اضغط تشغيل للاستماع.</string>
     <string name="set_disabled_tone">معطّل أثناء وضع النغمة فقط</string>
     <string name="set_toast_autoplay_on">التشغيل التلقائي مفعّل</string>
     <string name="set_toast_autoplay_off">التشغيل التلقائي معطّل</string>
@@ -379,7 +379,7 @@
     <string name="set_toast_private_off">التشغيل الخاص معطّل</string>
     <string name="set_private_bt">التشغيل الخاص مفعّل. توجيه البلوتوث يحتاج إذن الأجهزة القريبة.</string>
     <string name="set_tone_only">وضع النغمة فقط</string>
-    <string name="set_tone_only_desc">يشغّل نغمة إنذار بسيطة بدلًا من الصوت/TTS لأقصى موثوقية. إيقاف تلقائي: %1$s. غفوة: %2$d د.</string>
+    <string name="set_tone_only_desc">يشغّل نغمة منبّه بدلًا من التسجيلات أو الكلام. يتوقف بعد: %1$s. غفوة: %2$d دقيقة.</string>
     <string name="set_toast_tone_on">وضع النغمة فقط مفعّل</string>
     <string name="set_toast_tone_off">وضع النغمة فقط معطّل</string>
     <string name="set_infinite">غير محدود</string>
@@ -400,8 +400,8 @@
     <string name="set_open_perm">فتح إعدادات الأذونات</string>
     <string name="set_fs_note">لا يزال بإمكانك الضغط على تشغيل أو نطق من الإشعار.</string>
     <string name="set_tone_volume_note">في وضع النغمة فقط، يتحكم في مستوى الصوت مستوى صوت الإنذار/الإشعار بجهازك.</string>
-    <string name="set_loop_duration">مدة التكرار</string>
-    <string name="set_loop_duration_desc">حدّد المدة التي يستمر فيها تكرار التذكير</string>
+    <string name="set_loop_duration">إيقاف التشغيل المستمر بعد</string>
+    <string name="set_loop_duration_desc">يوقف النغمة أو الصوت المتكرر بعد هذه المدة. تذكيرات المتابعة تنبيهات منفصلة تأتي لاحقًا.</string>
     <string name="set_toast_loop">مدة التكرار: %1$d دقيقة</string>
     <string name="set_toast_loop_infinite">مدة التكرار: غير محدود</string>
     <string name="set_custom">مخصص</string>
@@ -471,7 +471,7 @@
     <string name="set_label_time">%1$s: %2$s</string>
     <string name="set_volume">مستوى الصوت</string>
     <string name="set_cd_volume">مستوى صوت التطبيق: %1$d%%</string>
-    <string name="set_loop_inline_desc">المدة التي يستمر خلالها الصوت المتكرر قبل أن يتوقف تلقائيًا</string>
+    <string name="set_loop_inline_desc">يوقف النغمة أو الصوت المتكرر بعد هذه المدة. تذكيرات المتابعة تنبيهات منفصلة تأتي لاحقًا.</string>
     <string name="set_default_snooze">الغفوة الافتراضية</string>
     <string name="set_snooze_inline_desc">المدة حتى ينبهك التذكير مجددًا بعد الضغط على «غفوة»</string>
     <string name="set_default_followup">فحص المتابعة الافتراضي</string>
@@ -482,7 +482,7 @@
     <string name="set_toast_followup_repeat_until_done">تتكرر المتابعة حتى وضع علامة تم</string>
     <string name="set_toast_followup_repeat">حدّ تكرار المتابعة: %1$d×</string>
     <string name="set_reliability">الموثوقية</string>
-    <string name="set_persist">إبقاء التذكير على الشاشة حتى الانتهاء</string>
+    <string name="set_persist">إبقاء الإشعار حتى الإكمال</string>
     <string name="set_persist_desc">يبقى إشعار التذكير ظاهرًا حتى تضغط «تم» أو «غفوة». فعّل المتابعة أيضًا إذا أردت أن ينبّهك مرة أخرى.</string>
     <string name="set_toast_persist_on">تبقى التذكيرات حتى الانتهاء</string>
     <string name="set_toast_persist_off">يمكن تجاهل التذكيرات بالتمرير</string>
@@ -784,7 +784,7 @@
     <string name="set_tab_backup">النسخ</string>
     <string name="set_tab_wear">الساعة</string>
     <string name="set_tab_help">المساعدة</string>
-    <string name="battery_guidance_title">ساعد التذكيرات على الوصول في موعدها</string>
+    <string name="battery_guidance_title">قد تتأخر التذكيرات أو تفوتك</string>
     <string name="battery_guidance_body">يحد هاتفك من نشاط %1$s في الخلفية لتوفير البطارية. على بعض الهواتف، قد يؤدي ذلك إلى تأخير التذكيرات عندما يكون التطبيق مغلقًا. اختر «بلا قيود» في إعدادات البطارية لتقليل هذا الاحتمال. يمكنك الاحتفاظ بالإعداد الحالي وتغييره لاحقًا.</string>
     <string name="battery_review_settings">مراجعة إعدادات البطارية</string>
     <string name="battery_keep_current">الاحتفاظ بالإعداد الحالي</string>
@@ -792,7 +792,7 @@
     <string name="battery_status_allowed">استخدام البطارية في الخلفية: بلا قيود.</string>
     <string name="card_done_occurrence">تم هذه المرة</string>
     <string name="home_delete_confirm_body">يمكنك التراجع فور الحذف.</string>
-    <string name="battery_banner_body">قد يؤخر هاتفك تذكيرات %1$s عندما يكون التطبيق مغلقًا.</string>
+    <string name="battery_banner_body">قد يعيق موفّر البطارية في هاتفك عمل %1$s.</string>
     <string name="home_empty_nothing_today">لا شيء مستحق اليوم</string>
     <string name="home_empty_today_sub">تذكيرك التالي في «%1$s».</string>
     <string name="set_alarm_clock">تذكيرات موثوقة أكثر</string>
@@ -803,7 +803,25 @@
     <string name="set_alarm_clock_status_next">مفعّل لتذكيرك التالي: %1$s</string>
     <string name="set_alarm_clock_status_none">سيستخدمه تذكيرك التالي.</string>
     <string name="home_extra_reliable_on">التذكيرات الموثوقة أكثر مفعّلة</string>
-    <string name="set_alarm_volume_ok">تُشغَّل التذكيرات بمستوى صوت المنبّه في هاتفك (%1$d%%).</string>
-    <string name="set_alarm_volume_low">مستوى صوت المنبّه في هاتفك منخفض (%1$d%%). تُشغَّل التذكيرات بهذا المستوى، لذا قد يصعب سماعها.</string>
-    <string name="set_alarm_volume_raise">رفع صوت المنبّه</string>
+    <string name="set_section_check">فحص التذكيرات</string>
+    <string name="set_section_ringing">عند رنين التذكير</string>
+    <string name="check_all_good">الأذونات المطلوبة مفعّلة.</string>
+    <string name="check_issues">فعّل الأذونات الناقصة أدناه لعرض التذكيرات وجدولتها.</string>
+    <string name="check_notif_ok">الإشعارات مفعّلة</string>
+    <string name="check_notif_bad">الإشعارات متوقفة</string>
+    <string name="check_exact_ok">يمكن أن ترنّ التذكيرات في الدقيقة المحددة بالضبط</string>
+    <string name="check_exact_bad">قد لا ترنّ التذكيرات في الدقيقة المحددة بالضبط</string>
+    <string name="check_battery_ok">يسمح هاتفك بعمل التذكيرات في الخلفية</string>
+    <string name="check_battery_bad">قد يعيق موفّر البطارية التذكيرات</string>
+    <string name="check_volume_bad">صوت المنبّه منخفض (%1$d%%)، لذا قد يصعب سماع التذكيرات</string>
+    <string name="check_raise">رفع</string>
+    <string name="check_fullscreen_bad">تنبيهات شاشة القفل تحتاج إلى إذن</string>
+    <string name="check_dnd_bad">اسمح بالوصول إلى عدم الإزعاج لإصدار تنبيهات أثناء هذا الوضع</string>
+    <string name="check_mic_ok">الميكروفون مسموح للتذكيرات الصوتية</string>
+    <string name="check_mic_bad">الميكروفون متوقف، لذا لا يمكن تسجيل التذكيرات الصوتية</string>
+    <string name="check_volume_how">اضغط «رفع» أو افتح إعدادات الصوت في هاتفك وارفع صوت المنبّه.</string>
+    <string name="set_required_permissions">الأذونات المطلوبة</string>
+    <string name="set_recommendations">توصيات وميزات اختيارية</string>
+    <string name="set_playback_mode">صوت التذكير</string>
+    <string name="set_voice_audio_mode">التسجيلات والملفات الصوتية وقراءة النص</string>
 </resources>

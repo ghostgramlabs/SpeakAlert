@@ -333,8 +333,8 @@
     <string name="set_toast_theme_dark">डार्क मोड सेट</string>
     <string name="set_toast_theme_system">सिस्टम थीम का पालन</string>
     <string name="set_playback">प्लेबैक</string>
-    <string name="set_autoplay">रिमाइंडर ऑडियो स्वतः चलाएं</string>
-    <string name="set_autoplay_desc">रिमाइंडर बजने पर वॉइस नोट और ऑडियो फ़ाइलें स्वतः चलाता है</string>
+    <string name="set_autoplay">अपने-आप चलाएँ</string>
+    <string name="set_autoplay_desc">रिमाइंडर आने पर रिकॉर्डिंग, ऑडियो फ़ाइलें और चालू किया गया टेक्स्ट वाचन चलाता है। बंद होने पर सुनने के लिए चलाएँ पर टैप करें।</string>
     <string name="set_disabled_tone">टोन-ओनली मोड चालू रहने पर अक्षम</string>
     <string name="set_toast_autoplay_on">ऑटो-प्ले चालू</string>
     <string name="set_toast_autoplay_off">ऑटो-प्ले बंद</string>
@@ -360,7 +360,7 @@
     <string name="set_toast_private_off">निजी प्लेबैक बंद</string>
     <string name="set_private_bt">निजी प्लेबैक चालू। ब्लूटूथ रूटिंग के लिए आस-पास के डिवाइस की अनुमति चाहिए।</string>
     <string name="set_tone_only">टोन-ओनली मोड</string>
-    <string name="set_tone_only_desc">अधिकतम विश्वसनीयता के लिए वॉइस/TTS के बजाय एक सरल अलार्म टोन बजाता है। ऑटो-स्टॉप: %1$s। स्नूज़: %2$dमि.</string>
+    <string name="set_tone_only_desc">रिकॉर्डिंग या बोलने के बजाय अलार्म टोन बजाता है। बंद होने का समय: %1$s। स्नूज़: %2$d मिनट।</string>
     <string name="set_toast_tone_on">टोन-ओनली मोड चालू</string>
     <string name="set_toast_tone_off">टोन-ओनली मोड बंद</string>
     <string name="set_infinite">असीमित</string>
@@ -381,8 +381,8 @@
     <string name="set_open_perm">अनुमति सेटिंग्स खोलें</string>
     <string name="set_fs_note">आप अभी भी नोटिफ़िकेशन से रिमाइंडर चलाएं या बोलें टैप कर सकते हैं।</string>
     <string name="set_tone_volume_note">टोन-ओनली मोड में, वॉल्यूम आपके डिवाइस के अलार्म/नोटिफ़िकेशन वॉल्यूम द्वारा नियंत्रित होता है।</string>
-    <string name="set_loop_duration">लूप अवधि</string>
-    <string name="set_loop_duration_desc">सेट करें कि रिमाइंडर लूप कितनी देर जारी रहे</string>
+    <string name="set_loop_duration">लगातार प्लेबैक रोकने का समय</string>
+    <string name="set_loop_duration_desc">इस समय के बाद टोन या बार-बार चलने वाला ऑडियो रुक जाता है। फ़ॉलो-अप रिमाइंडर बाद में आने वाले अलग अलर्ट हैं।</string>
     <string name="set_toast_loop">लूप अवधि: %1$d मिनट</string>
     <string name="set_toast_loop_infinite">लूप अवधि: असीमित</string>
     <string name="set_custom">कस्टम</string>
@@ -452,7 +452,7 @@
     <string name="set_label_time">%1$s: %2$s</string>
     <string name="set_volume">वॉल्यूम</string>
     <string name="set_cd_volume">ऐप वॉल्यूम: %1$d%%</string>
-    <string name="set_loop_inline_desc">लगातार बजने वाला रिमाइंडर कितनी देर बाद अपने-आप बंद हो</string>
+    <string name="set_loop_inline_desc">इस समय के बाद टोन या बार-बार चलने वाला ऑडियो रुक जाता है। फ़ॉलो-अप रिमाइंडर बाद में आने वाले अलग अलर्ट हैं।</string>
     <string name="set_default_snooze">डिफ़ॉल्ट स्नूज़</string>
     <string name="set_snooze_inline_desc">“स्नूज़” दबाने के कितनी देर बाद फिर याद दिलाया जाए</string>
     <string name="set_default_followup">डिफ़ॉल्ट फ़ॉलो-अप जांच</string>
@@ -463,7 +463,7 @@
     <string name="set_toast_followup_repeat_until_done">फ़ॉलो-अप पूर्ण चिह्नित होने तक दोहराया जाएगा</string>
     <string name="set_toast_followup_repeat">फ़ॉलो-अप दोहराव सीमा: %1$d×</string>
     <string name="set_reliability">विश्वसनीयता</string>
-    <string name="set_persist">पूर्ण होने तक रिमाइंडर स्क्रीन पर रखें</string>
+    <string name="set_persist">पूरा होने तक नोटिफ़िकेशन रखें</string>
     <string name="set_persist_desc">रिमाइंडर की सूचना तब तक स्क्रीन पर रहेगी, जब तक आप “हो गया” या “स्नूज़” नहीं दबाते। साथ में फ़ॉलो-अप चालू रखें तो दोबारा याद भी दिलाया जाएगा।</string>
     <string name="set_toast_persist_on">रिमाइंडर पूर्ण होने तक रहते हैं</string>
     <string name="set_toast_persist_off">रिमाइंडर स्वाइप करके हटाए जा सकते हैं</string>
@@ -757,7 +757,7 @@
     <string name="set_tab_backup">बैकअप</string>
     <string name="set_tab_wear">घड़ी</string>
     <string name="set_tab_help">सहायता</string>
-    <string name="battery_guidance_title">रिमाइंडर समय पर आने में मदद करें</string>
+    <string name="battery_guidance_title">रिमाइंडर देर से आ सकते हैं या छूट सकते हैं</string>
     <string name="battery_guidance_body">बैटरी बचाने के लिए आपका फ़ोन %1$s की बैकग्राउंड गतिविधि सीमित करता है। कुछ फ़ोन पर ऐप बंद होने पर इससे रिमाइंडर देर से आ सकते हैं। यह जोखिम कम करने के लिए बैटरी सेटिंग में अप्रतिबंधित चुनें। आप मौजूदा सेटिंग रख सकते हैं और बाद में बदल सकते हैं।</string>
     <string name="battery_review_settings">बैटरी सेटिंग देखें</string>
     <string name="battery_keep_current">मौजूदा सेटिंग रखें</string>
@@ -765,7 +765,7 @@
     <string name="battery_status_allowed">बैकग्राउंड बैटरी ऐक्सेस: अप्रतिबंधित।</string>
     <string name="card_done_occurrence">इस बार पूरा हुआ</string>
     <string name="home_delete_confirm_body">मिटाने के तुरंत बाद आप इसे वापस ला सकते हैं।</string>
-    <string name="battery_banner_body">ऐप बंद होने पर आपका फ़ोन %1$s के रिमाइंडर देर से दे सकता है।</string>
+    <string name="battery_banner_body">आपके फ़ोन का बैटरी सेवर %1$s को रोक सकता है।</string>
     <string name="home_empty_nothing_today">आज के लिए कुछ नहीं</string>
     <string name="home_empty_today_sub">आपका अगला रिमाइंडर \"%1$s\" में है।</string>
     <string name="set_alarm_clock">अतिरिक्त भरोसेमंद रिमाइंडर</string>
@@ -776,7 +776,25 @@
     <string name="set_alarm_clock_status_next">आपके अगले रिमाइंडर के लिए चालू: %1$s</string>
     <string name="set_alarm_clock_status_none">आपका अगला रिमाइंडर इसका उपयोग करेगा।</string>
     <string name="home_extra_reliable_on">अतिरिक्त भरोसेमंद रिमाइंडर चालू</string>
-    <string name="set_alarm_volume_ok">रिमाइंडर आपके फ़ोन के अलार्म वॉल्यूम (%1$d%%) पर बजते हैं।</string>
-    <string name="set_alarm_volume_low">आपके फ़ोन का अलार्म वॉल्यूम कम है (%1$d%%)। रिमाइंडर इसी वॉल्यूम पर बजते हैं, इसलिए सुनने में मुश्किल हो सकती है।</string>
-    <string name="set_alarm_volume_raise">अलार्म वॉल्यूम बढ़ाएं</string>
+    <string name="set_section_check">रिमाइंडर जांच</string>
+    <string name="set_section_ringing">जब रिमाइंडर बजता है</string>
+    <string name="check_all_good">ज़रूरी अनुमतियाँ चालू हैं।</string>
+    <string name="check_issues">रिमाइंडर दिखाने और शेड्यूल करने के लिए नीचे दी गई बाकी अनुमतियाँ दें।</string>
+    <string name="check_notif_ok">सूचनाएं चालू हैं</string>
+    <string name="check_notif_bad">सूचनाएं बंद हैं</string>
+    <string name="check_exact_ok">रिमाइंडर ठीक मिनट पर बज सकते हैं</string>
+    <string name="check_exact_bad">रिमाइंडर ठीक मिनट पर शायद न बजें</string>
+    <string name="check_battery_ok">आपका फ़ोन रिमाइंडर को बैकग्राउंड में चलने देता है</string>
+    <string name="check_battery_bad">बैटरी सेवर रिमाइंडर को रोक सकता है</string>
+    <string name="check_volume_bad">अलार्म वॉल्यूम कम है (%1$d%%), इसलिए रिमाइंडर सुनने में मुश्किल हो सकती है</string>
+    <string name="check_raise">बढ़ाएं</string>
+    <string name="check_fullscreen_bad">लॉक स्क्रीन अलर्ट के लिए अनुमति चाहिए</string>
+    <string name="check_dnd_bad">परेशान न करें मोड में अलर्ट पाने के लिए उसकी अनुमति दें</string>
+    <string name="check_mic_ok">वॉइस रिमाइंडर के लिए माइक्रोफ़ोन की अनुमति है</string>
+    <string name="check_mic_bad">माइक्रोफ़ोन बंद है, इसलिए वॉइस रिमाइंडर रिकॉर्ड नहीं हो सकते</string>
+    <string name="check_volume_how">बढ़ाएं पर टैप करें, या फ़ोन की साउंड सेटिंग खोलकर अलार्म वॉल्यूम बढ़ाएं।</string>
+    <string name="set_required_permissions">ज़रूरी अनुमतियाँ</string>
+    <string name="set_recommendations">सुझाव और वैकल्पिक सुविधाएँ</string>
+    <string name="set_playback_mode">रिमाइंडर की आवाज़</string>
+    <string name="set_voice_audio_mode">रिकॉर्डिंग, ऑडियो फ़ाइलें और बोला गया टेक्स्ट</string>
 </resources>

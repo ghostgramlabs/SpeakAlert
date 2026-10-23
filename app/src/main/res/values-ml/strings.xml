@@ -348,8 +348,8 @@
     <string name="set_toast_theme_dark">ഡാർക്ക് മോഡ് സജ്ജമാക്കി</string>
     <string name="set_toast_theme_system">സിസ്റ്റം തീം പിന്തുടരുന്നു</string>
     <string name="set_playback">പ്ലേബാക്ക്</string>
-    <string name="set_autoplay">റിമൈൻഡർ ഓഡിയോ സ്വയമേവ പ്ലേ ചെയ്യുക</string>
-    <string name="set_autoplay_desc">റിമൈൻഡർ മുഴങ്ങുമ്പോൾ വോയ്‌സ് നോട്ടുകളും ഓഡിയോ ഫയലുകളും സ്വയമേവ പ്ലേ ചെയ്യും</string>
+    <string name="set_autoplay">സ്വയമേവ പ്ലേ ചെയ്യുക</string>
+    <string name="set_autoplay_desc">ഓർമ്മപ്പെടുത്തൽ വരുമ്പോൾ റെക്കോർഡിങ്ങുകളും ഓഡിയോ ഫയലുകളും പ്രവർത്തനക്ഷമമായ വാചക വായനയും പ്ലേ ചെയ്യും. ഓഫാണെങ്കിൽ കേൾക്കാൻ പ്ലേ അമർത്തുക.</string>
     <string name="set_disabled_tone">ടോൺ മാത്രം മോഡ് ഓണായിരിക്കുമ്പോൾ പ്രവർത്തനരഹിതം</string>
     <string name="set_toast_autoplay_on">ഓട്ടോ-പ്ലേ ഓൺ</string>
     <string name="set_toast_autoplay_off">ഓട്ടോ-പ്ലേ ഓഫ്</string>
@@ -375,7 +375,7 @@
     <string name="set_toast_private_off">സ്വകാര്യ പ്ലേബാക്ക് ഓഫ്</string>
     <string name="set_private_bt">സ്വകാര്യ പ്ലേബാക്ക് ഓൺ. ബ്ലൂടൂത്ത് റൂട്ടിംഗിന് സമീപത്തുള്ള ഉപകരണങ്ങളുടെ അനുമതി വേണം.</string>
     <string name="set_tone_only">ടോൺ മാത്രം മോഡ്</string>
-    <string name="set_tone_only_desc">പരമാവധി വിശ്വാസ്യതയ്ക്കായി ശബ്ദം/TTS-നു പകരം ലളിതമായ അലാറം ടോൺ പ്ലേ ചെയ്യും. സ്വയം നിർത്തൽ: %1$s. സ്‌നൂസ്: %2$d മി.</string>
+    <string name="set_tone_only_desc">റെക്കോർഡിങ്ങുകൾക്കും സംസാരത്തിനും പകരം അലാറം മുഴക്കും. നിർത്തുന്നത്: %1$s കഴിഞ്ഞ്. സ്‌നൂസ്: %2$d മിനിറ്റ്.</string>
     <string name="set_toast_tone_on">ടോൺ മാത്രം മോഡ് ഓൺ</string>
     <string name="set_toast_tone_off">ടോൺ മാത്രം മോഡ് ഓഫ്</string>
     <string name="set_infinite">പരിധിയില്ല</string>
@@ -396,8 +396,8 @@
     <string name="set_open_perm">അനുമതി ക്രമീകരണം തുറക്കുക</string>
     <string name="set_fs_note">അറിയിപ്പിൽ നിന്ന് റിമൈൻഡർ പ്ലേ ചെയ്യുക അല്ലെങ്കിൽ റിമൈൻഡർ വായിക്കുക ഇപ്പോഴും ടാപ്പ് ചെയ്യാം.</string>
     <string name="set_tone_volume_note">ടോൺ മാത്രം മോഡിൽ വോളിയം ഉപകരണത്തിന്റെ അലാറം/അറിയിപ്പ് വോളിയം നിയന്ത്രിക്കും.</string>
-    <string name="set_loop_duration">ലൂപ്പ് ദൈർഘ്യം</string>
-    <string name="set_loop_duration_desc">റിമൈൻഡർ ലൂപ്പ് എത്രനേരം തുടരണമെന്ന് സജ്ജമാക്കുക</string>
+    <string name="set_loop_duration">തുടർച്ചയായ പ്ലേബാക്ക് നിർത്തേണ്ട സമയം</string>
+    <string name="set_loop_duration_desc">ഈ സമയത്തിന് ശേഷം ടോണോ ആവർത്തിക്കുന്ന ഓഡിയോയോ നിൽക്കും. ഫോളോ-അപ്പ് ഓർമ്മപ്പെടുത്തലുകൾ പിന്നീട് വരുന്ന വേറിട്ട അറിയിപ്പുകളാണ്.</string>
     <string name="set_toast_loop">ലൂപ്പ് ദൈർഘ്യം: %1$d മിനിറ്റ്</string>
     <string name="set_toast_loop_infinite">ലൂപ്പ് ദൈർഘ്യം: പരിധിയില്ല</string>
     <string name="set_custom">ഇഷ്‌ടാനുസൃതം</string>
@@ -467,7 +467,7 @@
     <string name="set_label_time">%1$s: %2$s</string>
     <string name="set_volume">വോളിയം</string>
     <string name="set_cd_volume">ആപ്പ് വോളിയം: %1$d%%</string>
-    <string name="set_loop_inline_desc">തുടർച്ചയായി കേൾപ്പിക്കുന്ന റിമൈൻഡർ എത്രനേരത്തിനുശേഷം തനിയെ നിർത്തണം</string>
+    <string name="set_loop_inline_desc">ഈ സമയത്തിന് ശേഷം ടോണോ ആവർത്തിക്കുന്ന ഓഡിയോയോ നിൽക്കും. ഫോളോ-അപ്പ് ഓർമ്മപ്പെടുത്തലുകൾ പിന്നീട് വരുന്ന വേറിട്ട അറിയിപ്പുകളാണ്.</string>
     <string name="set_default_snooze">ഡിഫോൾട്ട് സ്‌നൂസ്</string>
     <string name="set_snooze_inline_desc">“സ്‌നൂസ്” ടാപ്പ് ചെയ്ത് എത്രനേരത്തിനുശേഷം വീണ്ടും ഓർമ്മിപ്പിക്കണം</string>
     <string name="set_default_followup">ഡിഫോൾട്ട് ഫോളോ-അപ്പ് പരിശോധന</string>
@@ -478,7 +478,7 @@
     <string name="set_toast_followup_repeat_until_done">പൂർത്തിയായതായി അടയാളപ്പെടുത്തുന്നതുവരെ ഫോളോ-അപ്പ് ആവർത്തിക്കും</string>
     <string name="set_toast_followup_repeat">ഫോളോ-അപ്പ് ആവർത്തന പരിധി: %1$d×</string>
     <string name="set_reliability">വിശ്വാസ്യത</string>
-    <string name="set_persist">പൂർത്തിയാകുന്നതുവരെ റിമൈൻഡർ സ്ക്രീനിൽ നിലനിർത്തുക</string>
+    <string name="set_persist">പൂർത്തിയാക്കുന്നതുവരെ അറിയിപ്പ് നിലനിർത്തുക</string>
     <string name="set_persist_desc">“പൂർത്തിയായി” അല്ലെങ്കിൽ “സ്‌നൂസ്” ടാപ്പ് ചെയ്യുന്നതുവരെ റിമൈൻഡർ അറിയിപ്പ് കാണും. ഫോളോ-അപ്പും ഓണാക്കിയാൽ വീണ്ടും ഓർമ്മിപ്പിക്കുകയും ചെയ്യും.</string>
     <string name="set_toast_persist_on">പൂർത്തിയാകുന്നതുവരെ റിമൈൻഡറുകൾ നിലനിൽക്കും</string>
     <string name="set_toast_persist_off">റിമൈൻഡറുകൾ സ്വൈപ്പ് ചെയ്ത് മാറ്റാം</string>
@@ -773,7 +773,7 @@
     <string name="set_tab_backup">ബാക്കപ്പ്</string>
     <string name="set_tab_wear">വാച്ച്</string>
     <string name="set_tab_help">സഹായം</string>
-    <string name="battery_guidance_title">ഓർമ്മപ്പെടുത്തലുകൾ സമയത്ത് എത്താൻ സഹായിക്കുക</string>
+    <string name="battery_guidance_title">ഓർമ്മപ്പെടുത്തലുകൾ വൈകുകയോ നഷ്ടപ്പെടുകയോ ചെയ്യാം</string>
     <string name="battery_guidance_body">ബാറ്ററി ലാഭിക്കാൻ നിങ്ങളുടെ ഫോൺ %1$s-ന്റെ പശ്ചാത്തല പ്രവർത്തനം പരിമിതപ്പെടുത്തുന്നു. ചില ഫോണുകളിൽ ആപ്പ് അടച്ചിരിക്കുമ്പോൾ ഇത് ഓർമ്മപ്പെടുത്തലുകൾ വൈകാൻ കാരണമാകാം. ഈ സാധ്യത കുറയ്ക്കാൻ ബാറ്ററി ക്രമീകരണങ്ങളിൽ നിയന്ത്രണമില്ലാത്തത് തിരഞ്ഞെടുക്കുക. നിലവിലെ ക്രമീകരണം നിലനിർത്തി പിന്നീട് മാറ്റാം.</string>
     <string name="battery_review_settings">ബാറ്ററി ക്രമീകരണങ്ങൾ കാണുക</string>
     <string name="battery_keep_current">നിലവിലെ ക്രമീകരണം നിലനിർത്തുക</string>
@@ -781,7 +781,7 @@
     <string name="battery_status_allowed">പശ്ചാത്തല ബാറ്ററി ആക്‌സസ്: നിയന്ത്രണമില്ല.</string>
     <string name="card_done_occurrence">ഇത്തവണ പൂർത്തിയായി</string>
     <string name="home_delete_confirm_body">ഇല്ലാതാക്കിയ ഉടനെ പഴയപടിയാക്കാം.</string>
-    <string name="battery_banner_body">ആപ്പ് അടച്ചിരിക്കുമ്പോൾ നിങ്ങളുടെ ഫോൺ %1$s ഓർമ്മപ്പെടുത്തലുകൾ വൈകിപ്പിച്ചേക്കാം.</string>
+    <string name="battery_banner_body">നിങ്ങളുടെ ഫോണിലെ ബാറ്ററി സേവർ %1$s-നെ തടഞ്ഞേക്കാം.</string>
     <string name="home_empty_nothing_today">ഇന്നത്തേക്ക് ഒന്നുമില്ല</string>
     <string name="home_empty_today_sub">നിങ്ങളുടെ അടുത്ത ഓർമ്മപ്പെടുത്തൽ \"%1$s\" എന്നതിലുണ്ട്.</string>
     <string name="set_alarm_clock">കൂടുതൽ വിശ്വസനീയമായ ഓർമ്മപ്പെടുത്തലുകൾ</string>
@@ -792,7 +792,25 @@
     <string name="set_alarm_clock_status_next">നിങ്ങളുടെ അടുത്ത ഓർമ്മപ്പെടുത്തലിന് ഓണാണ്: %1$s</string>
     <string name="set_alarm_clock_status_none">നിങ്ങളുടെ അടുത്ത ഓർമ്മപ്പെടുത്തൽ ഇത് ഉപയോഗിക്കും.</string>
     <string name="home_extra_reliable_on">കൂടുതൽ വിശ്വസനീയമായ ഓർമ്മപ്പെടുത്തലുകൾ ഓണാണ്</string>
-    <string name="set_alarm_volume_ok">ഓർമ്മപ്പെടുത്തലുകൾ നിങ്ങളുടെ ഫോണിന്റെ അലാറം ശബ്ദത്തിൽ (%1$d%%) മുഴങ്ങും.</string>
-    <string name="set_alarm_volume_low">നിങ്ങളുടെ ഫോണിന്റെ അലാറം ശബ്ദം കുറവാണ് (%1$d%%). ഓർമ്മപ്പെടുത്തലുകൾ ഈ ശബ്ദത്തിൽ മുഴങ്ങുന്നതിനാൽ കേൾക്കാൻ ബുദ്ധിമുട്ടായേക്കാം.</string>
-    <string name="set_alarm_volume_raise">അലാറം ശബ്ദം കൂട്ടുക</string>
+    <string name="set_section_check">ഓർമ്മപ്പെടുത്തൽ പരിശോധന</string>
+    <string name="set_section_ringing">ഓർമ്മപ്പെടുത്തൽ മുഴങ്ങുമ്പോൾ</string>
+    <string name="check_all_good">ആവശ്യമായ അനുമതികൾ നൽകിയിട്ടുണ്ട്.</string>
+    <string name="check_issues">ഓർമ്മപ്പെടുത്തലുകൾ കാണിക്കാനും സമയക്രമം നിശ്ചയിക്കാനും താഴെ ബാക്കിയുള്ള അനുമതികൾ നൽകുക.</string>
+    <string name="check_notif_ok">അറിയിപ്പുകൾ ഓണാണ്</string>
+    <string name="check_notif_bad">അറിയിപ്പുകൾ ഓഫാണ്</string>
+    <string name="check_exact_ok">ഓർമ്മപ്പെടുത്തലുകൾക്ക് കൃത്യം മിനിറ്റിൽ മുഴങ്ങാം</string>
+    <string name="check_exact_bad">ഓർമ്മപ്പെടുത്തലുകൾ കൃത്യം മിനിറ്റിൽ മുഴങ്ങിയേക്കില്ല</string>
+    <string name="check_battery_ok">നിങ്ങളുടെ ഫോൺ ഓർമ്മപ്പെടുത്തലുകളെ പശ്ചാത്തലത്തിൽ പ്രവർത്തിക്കാൻ അനുവദിക്കുന്നു</string>
+    <string name="check_battery_bad">ബാറ്ററി സേവർ ഓർമ്മപ്പെടുത്തലുകൾ തടഞ്ഞേക്കാം</string>
+    <string name="check_volume_bad">അലാറം ശബ്ദം കുറവാണ് (%1$d%%), അതിനാൽ ഓർമ്മപ്പെടുത്തലുകൾ കേൾക്കാൻ ബുദ്ധിമുട്ടായേക്കാം</string>
+    <string name="check_raise">കൂട്ടുക</string>
+    <string name="check_fullscreen_bad">ലോക്ക് സ്ക്രീൻ അലേർട്ടുകൾക്ക് അനുമതി വേണം</string>
+    <string name="check_dnd_bad">ശല്യപ്പെടുത്തരുത് മോഡിലും അറിയിപ്പുകൾക്കായി അതിലേക്കുള്ള ആക്‌സസ് അനുവദിക്കുക</string>
+    <string name="check_mic_ok">വോയ്സ് ഓർമ്മപ്പെടുത്തലുകൾക്ക് മൈക്രോഫോൺ അനുവദിച്ചിട്ടുണ്ട്</string>
+    <string name="check_mic_bad">മൈക്രോഫോൺ ഓഫാണ്, അതിനാൽ വോയ്സ് ഓർമ്മപ്പെടുത്തലുകൾ റെക്കോർഡ് ചെയ്യാനാവില്ല</string>
+    <string name="check_volume_how">കൂട്ടുക ടാപ്പ് ചെയ്യുക, അല്ലെങ്കിൽ ഫോണിന്റെ ശബ്ദ ക്രമീകരണങ്ങൾ തുറന്ന് അലാറം ശബ്ദം കൂട്ടുക.</string>
+    <string name="set_required_permissions">ആവശ്യമായ അനുമതികൾ</string>
+    <string name="set_recommendations">നിർദ്ദേശങ്ങളും ഐച്ഛിക സവിശേഷതകളും</string>
+    <string name="set_playback_mode">ഓർമ്മപ്പെടുത്തലിന്റെ ശബ്ദം</string>
+    <string name="set_voice_audio_mode">റെക്കോർഡിങ്ങുകൾ, ഓഡിയോ ഫയലുകൾ, വാചകം വായിക്കൽ</string>
 </resources>
