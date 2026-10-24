@@ -79,6 +79,7 @@
     <string name="alert_mark_done">முடிந்ததாகக் குறி</string>
     <string name="alert_silence">ஒலியை நிறுத்து</string>
     <string name="alert_silence_now">இப்போதே ஒலியை நிறுத்து</string>
+    <string name="alert_snoozed_at">ஒத்திவைக்கப்பட்டது • %1$s</string>
     <string name="alert_play_again">மீண்டும் இயக்கு</string>
     <string name="alert_snooze_minutes">ஒத்திவை %1$d நி</string>
     <string name="alert_followup_reminder">பின்தொடர் நினைவூட்டல்</string>

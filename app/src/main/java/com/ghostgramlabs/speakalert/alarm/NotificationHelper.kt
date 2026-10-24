@@ -144,7 +144,10 @@ class NotificationHelper(private val context: Context) {
         playingSound: Boolean = false,
         // When true, the notification is ongoing (pinned) and a swipe no longer completes the
         // reminder — it only silences it, leaving the reminder pending until Done/Snooze.
-        persistUntilDone: Boolean = false
+        persistUntilDone: Boolean = false,
+        // When a snooze is ringing, the time it rings at; the alert screen shows it instead of
+        // the original time, which otherwise reads as wrong.
+        snoozedRingTime: Long? = null
     ): Boolean {
         Log.d(TAG, "showNotification called for reminderId=$reminderId, title=$title")
         createNotificationChannel(dndBypassEnabled)
@@ -202,6 +205,7 @@ class NotificationHelper(private val context: Context) {
                 putExtra(ReminderAlertActivity.EXTRA_PLAYBACK_AUDIO_PATH, audioPath)
                 putExtra(ReminderAlertActivity.EXTRA_PLAYBACK_TEXT, reminderText)
                 putExtra(ReminderAlertActivity.EXTRA_IS_FOLLOW_UP_ALERT, isFollowUpAlert)
+                snoozedRingTime?.let { putExtra(ReminderAlertActivity.EXTRA_SNOOZED_RING_TIME, it) }
             }
             PendingIntent.getActivity(
                 context,
@@ -334,6 +338,10 @@ class NotificationHelper(private val context: Context) {
         //  - Tone-only alerts have no voice payload to replay, so they retain Silence.
         val canPlayOnDemand = !audioPath.isNullOrBlank() || !reminderText.isNullOrBlank()
         when {
+            // A tone is sounding: stopping it matters more than hearing the text, which the
+            // alert screen and the app still offer.
+            toneOnlyMode && playingSound ->
+                builder.addAction(android.R.drawable.ic_lock_silent_mode, strings.getString(R.string.notif_action_silence), silencePendingIntent)
             canPlayOnDemand -> {
                 val playLabel = if (playingSound) {
                     strings.getString(R.string.notif_action_replay)

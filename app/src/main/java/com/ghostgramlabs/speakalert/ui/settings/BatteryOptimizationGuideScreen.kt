@@ -46,6 +46,7 @@ import com.ghostgramlabs.speakalert.ui.components.PremiumHeaderCard
 import com.ghostgramlabs.speakalert.ui.components.PremiumScreenBackground
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.BatteryOptimizationSupport
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.ui.res.stringResource
 import com.ghostgramlabs.speakalert.R
 import androidx.compose.runtime.collectAsState
@@ -284,8 +285,23 @@ private fun AlarmClockDeliveryCard() {
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         shape = RoundedCornerShape(20.dp)
     ) {
+        val onToggle: (Boolean) -> Unit = {
+            enabled = it
+            scope.launch {
+                com.ghostgramlabs.speakalert.alarm.setAlarmClockDelivery(
+                    context, it, container.reminderRepository, container.alarmScheduler
+                )
+            }
+        }
+        // The whole card toggles, as Settings rows do; only the small switch used to.
         androidx.compose.foundation.layout.Row(
-            modifier = Modifier.padding(20.dp),
+            modifier = Modifier
+                .toggleable(
+                    value = enabled,
+                    role = androidx.compose.ui.semantics.Role.Switch,
+                    onValueChange = onToggle
+                )
+                .padding(20.dp),
             verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
         ) {
             Column(
@@ -311,17 +327,7 @@ private fun AlarmClockDeliveryCard() {
                 }
             }
             Spacer(modifier = Modifier.width(12.dp))
-            androidx.compose.material3.Switch(
-                checked = enabled,
-                onCheckedChange = {
-                    enabled = it
-                    scope.launch {
-                        com.ghostgramlabs.speakalert.alarm.setAlarmClockDelivery(
-                            context, it, container.reminderRepository, container.alarmScheduler
-                        )
-                    }
-                }
-            )
+            androidx.compose.material3.Switch(checked = enabled, onCheckedChange = null)
         }
     }
 }

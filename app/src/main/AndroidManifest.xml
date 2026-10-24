@@ -91,7 +91,8 @@
 
         <receiver
             android:name=".widget.QuickReminderWidgetProvider"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/widget_quick_subtitle">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -102,7 +103,8 @@
 
         <receiver
             android:name=".widget.UpcomingRemindersWidgetProvider"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/widget_upcoming_subtitle">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

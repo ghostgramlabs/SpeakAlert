@@ -79,6 +79,7 @@
     <string name="alert_mark_done">Ολοκληρώθηκε</string>
     <string name="alert_silence">Σίγαση</string>
     <string name="alert_silence_now">Σίγαση τώρα</string>
+    <string name="alert_snoozed_at">Σε αναβολή • %1$s</string>
     <string name="alert_play_again">Αναπαραγωγή ξανά</string>
     <string name="alert_snooze_minutes">Αναβολή %1$d λ.</string>
     <string name="alert_followup_reminder">Υπενθύμιση επανελέγχου</string>

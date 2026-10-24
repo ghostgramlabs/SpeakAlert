@@ -71,6 +71,7 @@
     <string name="alert_mark_done">Marcar como hecho</string>
     <string name="alert_silence">Silenciar</string>
     <string name="alert_silence_now">Silenciar ahora</string>
+    <string name="alert_snoozed_at">Pospuesto • %1$s</string>
     <string name="alert_play_again">Reproducir de nuevo</string>
     <string name="alert_snooze_minutes">Posponer %1$dm</string>
     <string name="alert_followup_reminder">Recordatorio de seguimiento</string>

@@ -79,6 +79,7 @@
     <string name="alert_mark_done">పూర్తయినట్లు గుర్తించు</string>
     <string name="alert_silence">శబ్దం ఆపు</string>
     <string name="alert_silence_now">ఇప్పుడే శబ్దం ఆపు</string>
+    <string name="alert_snoozed_at">స్నూజ్ చేయబడింది • %1$s</string>
     <string name="alert_play_again">మళ్లీ ప్లే చేయి</string>
     <string name="alert_snooze_minutes">స్నూజ్ %1$d ని</string>
     <string name="alert_followup_reminder">ఫాలో-అప్ రిమైండర్</string>

@@ -79,6 +79,7 @@
     <string name="alert_mark_done">Отметить выполненным</string>
     <string name="alert_silence">Заглушить</string>
     <string name="alert_silence_now">Заглушить сейчас</string>
+    <string name="alert_snoozed_at">Отложено • %1$s</string>
     <string name="alert_play_again">Воспроизвести снова</string>
     <string name="alert_snooze_minutes">Отложить на %1$d мин</string>
     <string name="alert_followup_reminder">Повторное напоминание</string>

@@ -12,10 +12,6 @@ import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.util.isDefaultAppDisplayName
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 
 class UpcomingRemindersRemoteViewsService : RemoteViewsService() {
 
@@ -121,10 +117,15 @@ private class UpcomingRemindersRemoteViewsFactory(
                     stableId = -1_000_000L - missed.id,
                     reminderId = missed.reminderId.takeIf { it > 0L },
                     title = buildDisplayTitle(missed),
-                    whenLabel = "Missed • ${formatWhen(missed.scheduledTime)}"
+                    whenLabel = strings().getString(com.ghostgramlabs.speakalert.R.string.home_badge_missed) +
+                        " • " + formatWhen(missed.scheduledTime)
                 )
             }
     }
+
+    // Widgets render outside any activity, so resolve text in the app's chosen language, not the
+    // phone's.
+    private fun strings(): Context = com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(context)
 
     private fun buildDisplayTitle(reminder: ReminderEntity): String {
         val userTitle = reminder.title
@@ -136,7 +137,7 @@ private class UpcomingRemindersRemoteViewsFactory(
             ?.trim()
             ?.takeIf { it.isNotEmpty() }
             ?.let(::truncateTextTitle)
-        return textFallback ?: context.getString(com.ghostgramlabs.speakalert.R.string.fallback_reminder_title)
+        return textFallback ?: strings().getString(com.ghostgramlabs.speakalert.R.string.fallback_reminder_title)
     }
 
     private fun buildDisplayTitle(missed: MissedReminderEntity): String {
@@ -149,7 +150,7 @@ private class UpcomingRemindersRemoteViewsFactory(
             ?.trim()
             ?.takeIf { it.isNotEmpty() }
             ?.let(::truncateTextTitle)
-        return textFallback ?: context.getString(com.ghostgramlabs.speakalert.R.string.fallback_reminder_title)
+        return textFallback ?: strings().getString(com.ghostgramlabs.speakalert.R.string.fallback_reminder_title)
     }
 
     private fun truncateTextTitle(text: String): String {
@@ -157,20 +158,10 @@ private class UpcomingRemindersRemoteViewsFactory(
         return if (words.size > 8) words.take(8).joinToString(" ") else text
     }
 
-    private fun formatWhen(triggerAt: Long): String {
-        val now = Calendar.getInstance()
-        val todayYear = now.get(Calendar.YEAR)
-        val today = now.get(Calendar.DAY_OF_YEAR)
-        val target = Calendar.getInstance().apply { timeInMillis = triggerAt }
-        val targetYear = target.get(Calendar.YEAR)
-        val targetDay = target.get(Calendar.DAY_OF_YEAR)
-        val time = SimpleDateFormat(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern, Locale.getDefault()).format(Date(triggerAt))
-        return when {
-            targetYear == todayYear && targetDay == today -> "Today • $time"
-            targetYear == todayYear && targetDay == today + 1 -> "Tomorrow • $time"
-            else -> "${SimpleDateFormat("MMM d", Locale.getDefault()).format(Date(triggerAt))} • $time"
-        }
-    }
+    // Shared with the alert screen: translated, and "Tomorrow" survives a year boundary, which a
+    // day-of-year comparison did not.
+    private fun formatWhen(triggerAt: Long): String =
+        com.ghostgramlabs.speakalert.util.DateUtils.formatSmartDate(triggerAt)
 }
 
 private data class UpcomingWidgetItem(

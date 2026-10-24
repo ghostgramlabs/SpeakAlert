@@ -71,6 +71,7 @@
     <string name="alert_mark_done">وضع علامة تم</string>
     <string name="alert_silence">كتم</string>
     <string name="alert_silence_now">كتم الآن</string>
+    <string name="alert_snoozed_at">مؤجَّل • %1$s</string>
     <string name="alert_play_again">تشغيل مرة أخرى</string>
     <string name="alert_snooze_minutes">غفوة %1$d د</string>
     <string name="alert_followup_reminder">تذكير متابعة</string>

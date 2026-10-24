@@ -79,6 +79,7 @@
     <string name="alert_mark_done">പൂർത്തിയായി</string>
     <string name="alert_silence">ശബ്ദം നിർത്തുക</string>
     <string name="alert_silence_now">ഇപ്പോൾ ശബ്ദം നിർത്തുക</string>
+    <string name="alert_snoozed_at">സ്‌നൂസ് ചെയ്തു • %1$s</string>
     <string name="alert_play_again">വീണ്ടും പ്ലേ ചെയ്യുക</string>
     <string name="alert_snooze_minutes">സ്‌നൂസ് %1$d മി</string>
     <string name="alert_followup_reminder">ഫോളോ-അപ്പ് റിമൈൻഡർ</string>

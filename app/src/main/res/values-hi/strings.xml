@@ -71,6 +71,7 @@
     <string name="alert_mark_done">पूर्ण चिह्नित करें</string>
     <string name="alert_silence">शांत करें</string>
     <string name="alert_silence_now">अभी शांत करें</string>
+    <string name="alert_snoozed_at">स्नूज़ किया गया • %1$s</string>
     <string name="alert_play_again">फिर से चलाएं</string>
     <string name="alert_snooze_minutes">%1$d मि स्नूज़</string>
     <string name="alert_followup_reminder">फ़ॉलो-अप रिमाइंडर</string>

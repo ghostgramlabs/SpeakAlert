@@ -114,6 +114,7 @@ class ReminderAlertActivity : ComponentActivity() {
         const val EXTRA_PLAYBACK_AUDIO_PATH = "playbackAudioPath"
         const val EXTRA_PLAYBACK_TEXT = "playbackText"
         const val EXTRA_IS_FOLLOW_UP_ALERT = "isFollowUpAlert"
+        const val EXTRA_SNOOZED_RING_TIME = "snoozedRingTime"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -140,6 +141,7 @@ class ReminderAlertActivity : ComponentActivity() {
         val playbackAudioPathOverride = intent.getStringExtra(EXTRA_PLAYBACK_AUDIO_PATH)
         val playbackTextOverride = intent.getStringExtra(EXTRA_PLAYBACK_TEXT)
         val isFollowUpAlert = intent.getBooleanExtra(EXTRA_IS_FOLLOW_UP_ALERT, false)
+        val snoozedRingTime = intent.getLongExtra(EXTRA_SNOOZED_RING_TIME, -1L).takeIf { it > 0L }
         if (reminderId == -1L) {
             finish()
             return
@@ -203,7 +205,8 @@ class ReminderAlertActivity : ComponentActivity() {
                         messageOverride = alertMessageOverride,
                         playbackAudioPath = playbackAudioPathOverride,
                         playbackText = playbackTextOverride,
-                        isFollowUpAlert = isFollowUpAlert
+                        isFollowUpAlert = isFollowUpAlert,
+                        snoozedRingTime = snoozedRingTime
                     )
                 }
             }
@@ -258,10 +261,17 @@ private fun ReminderAlertContent(
     messageOverride: String?,
     playbackAudioPath: String?,
     playbackText: String?,
-    isFollowUpAlert: Boolean
+    isFollowUpAlert: Boolean,
+    snoozedRingTime: Long? = null
 ) {
     val context = LocalContext.current
-    var isPlaying by remember(reminder.id) { mutableStateOf(false) }
+    // Sound may have started before this screen existed, so ask rather than wait for a broadcast.
+    var isPlaying by remember(reminder.id) {
+        mutableStateOf(
+            ReminderPlaybackService.playingReminderId == reminder.id ||
+                ToneAlertPlayer.isPlayingFor(reminder.id)
+        )
+    }
 
     DisposableEffect(context, reminder.id) {
         val receiver = object : BroadcastReceiver() {
@@ -299,7 +309,11 @@ private fun ReminderAlertContent(
         } else {
             stringResource(R.string.alert_reminder_active)
         }
-    val scheduledText = DateUtils.formatSmartDate(reminder.nextTriggerAt)
+    // A snooze rings later than the reminder's own time; showing the original time there made
+    // the alert look late or wrong.
+    val scheduledText = snoozedRingTime?.let {
+        stringResource(R.string.alert_snoozed_at, DateUtils.formatSmartDate(it))
+    } ?: DateUtils.formatSmartDate(reminder.nextTriggerAt)
     val canPlayAgain = !playbackAudioPath.isNullOrBlank() || !playbackText.isNullOrBlank()
     val sourceLabel = when {
         isFollowUp -> stringResource(R.string.alert_followup_check)

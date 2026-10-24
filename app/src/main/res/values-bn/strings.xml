@@ -79,6 +79,7 @@
     <string name="alert_mark_done">সম্পন্ন চিহ্নিত করুন</string>
     <string name="alert_silence">শব্দ বন্ধ করুন</string>
     <string name="alert_silence_now">এখনই শব্দ বন্ধ করুন</string>
+    <string name="alert_snoozed_at">স্নুজ করা • %1$s</string>
     <string name="alert_play_again">আবার চালান</string>
     <string name="alert_snooze_minutes">স্নুজ %1$d মি</string>
     <string name="alert_followup_reminder">ফলো-আপ রিমাইন্ডার</string>

@@ -25,6 +25,20 @@ User-facing changes to SpeakAlert, newest first. Version numbers match the Googl
   "Remind only at the next exact time" while the app alerted on resume.
 - A repeating reminder that ends after a number of times no longer shows "0 occurrences" once
   it has finished.
+- A tone-only alarm offers Silence again: first in the notification, and as "Silence now" on the
+  lock-screen alert. Before, a reminder with typed text showed Replay instead, and the alert
+  screen showed "Play again" while the tone was still ringing.
+- The lock-screen alert also shows "Silence now" when the voice started playing a moment before
+  the screen appeared; it used to miss that and offer "Play again".
+- A snoozed reminder's alert shows "Snoozed" with the time it is ringing, instead of the original
+  time, which made it look late.
+- Tapping the "Loop playback" label in the reminder form now turns it on; only the small switch
+  did. The same fix applies to Extra-reliable reminders in the battery guide.
+- The audio playback notification has one Stop button (it had two, one always in English) and no
+  longer shows Previous and Next.
+- Widgets: each has its own name and a real preview in the widget picker, the Quick add button's
+  plus sign matches the button, and "Missed", "Today" and "Tomorrow" in the reminders widget
+  follow the app language. "Tomorrow" is also correct across New Year.
 - Help, Quick start and What's new text no longer point to the old section names (Playback,
   Reliability, Appearance). Updated copy is translated across all 12 supported languages.
 

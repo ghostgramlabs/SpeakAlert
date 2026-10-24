@@ -455,6 +455,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             toneOnlyMode = toneOnlyMode,
                             useFullScreenAlert = useLockScreenFullScreen,
                             isFollowUpAlert = alertPayload.isFollowUpAlert,
+                            snoozedRingTime = scheduledTime.takeIf { isSnoozeTrigger },
                             dndBypassEnabled = dndBypassEnabled,
                             silentAlert = playbackRequested && (!privatePlaybackEnabled ||
                                 PrivateAudioRoute.hasExternalPrivateRoute(context)),
@@ -478,6 +479,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             toneOnlyMode = toneOnlyMode,
                             useFullScreenAlert = useLockScreenFullScreen,
                             isFollowUpAlert = alertPayload.isFollowUpAlert,
+                            snoozedRingTime = scheduledTime.takeIf { isSnoozeTrigger },
                             dndBypassEnabled = dndBypassEnabled,
                             silentAlert = false,
                             // No autoplay here; only a tone-only alarm makes sound, otherwise keep Play.
