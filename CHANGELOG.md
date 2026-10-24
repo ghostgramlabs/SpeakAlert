@@ -3,6 +3,22 @@
 User-facing changes to SpeakAlert, newest first. Version numbers match the Google Play release
 (`versionName` in `app/build.gradle.kts`).
 
+## Unreleased
+
+- Settings is easier to search. Every collapsed section now shows a short line saying what is
+  inside, such as "App language, theme, time format", so a setting can be found without opening
+  each card.
+- The app language moved up, right below Reminder check, in a section renamed "Language &
+  appearance" with a globe icon that is recognizable in any language. Language comes before the
+  theme inside it.
+- The battery prompt's buttons now say what they do: "Allow background use" (it opens Android's
+  "allow in background" question) and "No thanks". The text matches the Allow choice on that
+  screen and says where to change it later. In Settings, the battery line uses the same "Fix"
+  button as the other checks, and the guide link reads "Reminders still late? Steps for your
+  phone".
+- Help, Quick start and What's new text no longer point to the old section names (Playback,
+  Reliability, Appearance). Updated copy is translated across all 12 supported languages.
+
 ## 2.0.44 - 2026-10-22
 
 - Settings is regrouped so it is easier to follow. A new "Reminder check" at the top lists, in

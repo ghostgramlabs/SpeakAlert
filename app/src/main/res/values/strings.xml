@@ -9,7 +9,7 @@
     <!-- Settings -->
     <string name="settings_language">App language</string>
     <string name="settings_language_system">Follow device language</string>
-    <string name="settings_language_description">Supported app languages: English, Spanish, Hindi, Arabic, Portuguese (Brazil), Russian, Vietnamese, Bengali, Telugu, Tamil, Greek, and Malayalam.\nFollow device language chooses a supported phone language; otherwise the app uses English.\nSpoken reminders depend on your phone\'s installed voices. Set them separately in Playback &gt; Spoken language.</string>
+    <string name="settings_language_description">Follow device language uses your phone\'s language if the app supports it; otherwise English.\nThe voice that reads reminders aloud is set separately in When a reminder rings &gt; Spoken language.</string>
 
     <!-- Notification actions -->
     <string name="notif_action_done">Done</string>
@@ -326,7 +326,7 @@
     <plurals name="unit_years"><item quantity="one">Year</item><item quantity="other">Years</item></plurals>
 
     <!-- Settings -->
-    <string name="set_appearance">Appearance</string>
+    <string name="set_appearance">Language &amp; appearance</string>
     <string name="set_reminder_form">Reminder form</string>
     <string name="set_reminder_form_desc">Choose each section independently. If you hide every input section, turn one back on before creating a reminder.</string>
     <string name="ae_no_content_sections">No reminder input sections are enabled. Turn on Voice recording, Choose audio file, or Typed reminder in Settings &gt; Reminder form.</string>
@@ -428,7 +428,7 @@
     <string name="set_dnd_unavailable">Android DND access settings are not available on this device.</string>
     <string name="set_grant_dnd">Grant Android DND access</string>
     <string name="set_dnd_note">This does not control your phone\'s DND mode. It only lets %1$s request permission to play important reminders through it.</string>
-    <string name="set_battery_guide">Battery Optimization Guide</string>
+    <string name="set_battery_guide">Reminders still late? Steps for your phone</string>
     <string name="set_battery_desc">Battery optimization can delay or stop reminders on some phones.</string>
     <string name="set_wear">Wear OS</string>
     <string name="set_wear_checking">Checking Wear OS connection…</string>
@@ -534,7 +534,7 @@
     <string name="help_s8_title">Playback settings</string>
     <string name="help_s8_content">- Auto-play reminder audio starts voice note or audio file playback when a reminder fires.\n- Speak typed reminders automatically controls spoken text for text-only reminders only.\n- Spoken language sets the voice for spoken reminders: Auto-detect matches the reminder\'s own language (so a Hindi reminder is read in Hindi), or you can force Device language or English. The chosen language\'s voice must be installed in your phone\'s Text-to-speech settings.\n- Manual playback still works even if automatic spoken text is off.\n- Private playback tries connected hearing aids, Bluetooth, or wired headphones first. If none are connected, it uses the phone earpiece instead of the speaker.\n- Loop playback keeps audio repeating until you stop it or the loop timeout is reached.\n- Follow-up check asks again until the reminder is marked done.\n- Quiet hours can silence reminder playback during selected times.</string>
     <string name="help_s9_title">Tone-only mode and reliability</string>
-    <string name="help_s9_content">- Tone-only mode uses a clear alarm tone instead of voice or TTS.\n- You can choose a custom tone-only alert sound, or keep the default alarm tone.\n- Alert even during DND lets %1$s try to play important reminders while Do Not Disturb is active.\n- When Alert even during DND is off, reminders blocked by DND go to Missed instead of playing.\n- This setting does not turn your phone\'s DND mode on or off. Android DND access is required before notification bypass becomes active.\n- When enabled, reminders use alarm-priority audio. Some phone routines can still block alarms if the system mode silences alarm audio.\n- If the selected sound is missing later, %1$s automatically falls back to the default alarm tone.\n- Use tone-only mode if your phone delays, suppresses, or stops spoken playback.\n- Settings &gt; Reliability includes the Battery Optimization Guide for phones with aggressive background restrictions.\n- Keep notifications, exact alarms, and battery settings enabled for the best reminder reliability.</string>
+    <string name="help_s9_content">- Tone-only mode uses a clear alarm tone instead of voice or TTS.\n- You can choose a custom tone-only alert sound, or keep the default alarm tone.\n- Alert even during DND lets %1$s try to play important reminders while Do Not Disturb is active.\n- When Alert even during DND is off, reminders blocked by DND go to Missed instead of playing.\n- This setting does not turn your phone\'s DND mode on or off. Android DND access is required before notification bypass becomes active.\n- When enabled, reminders use alarm-priority audio. Some phone routines can still block alarms if the system mode silences alarm audio.\n- If the selected sound is missing later, %1$s automatically falls back to the default alarm tone.\n- Use tone-only mode if your phone delays, suppresses, or stops spoken playback.\n- Settings &gt; Reminder check has step-by-step battery help for phones with aggressive background restrictions.\n- Keep notifications, exact alarms, and battery settings enabled for the best reminder reliability.</string>
     <string name="help_s10_title">Widgets and Wear OS</string>
     <string name="help_s10_content">- Quick Reminder widget opens Add Reminder directly.\n- Upcoming widget shows upcoming reminders and missed reminders.\n- Wear OS support depends on phone notifications and watch sync being enabled.</string>
     <string name="help_s11_title">After device restart</string>
@@ -563,7 +563,7 @@
     <string name="wn_notices_title">Home says why a reminder was silent</string>
     <string name="wn_notices_desc">If this phone is allowed to stop %1$s in the background, or your quiet hours are on, Home now says so, instead of reminders quietly not arriving.</string>
     <string name="wn_lang_title">Now in your language</string>
-    <string name="wn_lang_desc">The whole app is available in English, Spanish, Hindi, Arabic, Portuguese (Brazil), Russian, Vietnamese, Bengali, Telugu, Tamil, Greek, and Malayalam, with right-to-left support. Choose it in Settings &gt; Appearance &gt; Language.</string>
+    <string name="wn_lang_desc">The whole app is available in English, Spanish, Hindi, Arabic, Portuguese (Brazil), Russian, Vietnamese, Bengali, Telugu, Tamil, Greek, and Malayalam, with right-to-left support. Choose it in Settings &gt; Language &amp; appearance &gt; Language.</string>
     <string name="wn_missed_title">Reschedule missed reminders</string>
     <string name="wn_missed_desc">In the Missed tab, tap the pencil on a reminder to give it a new date or time. It moves back to your upcoming reminders.</string>
     <string name="wn_quiet_title">Sound stops when you\'re done</string>
@@ -571,7 +571,7 @@
     <string name="wn_buttons_title">Clearer alarm buttons</string>
     <string name="wn_buttons_desc">Reminder alerts and notifications now show Done, Silence, and Snooze. Done completes the task; Silence just stops the sound and keeps the reminder.</string>
     <string name="wn_spoken_title">Reminders in the right voice</string>
-    <string name="wn_spoken_desc">Spoken reminders are read in their own language automatically — a Hindi reminder is read in Hindi even if the app is in English. Adjust it in Settings &gt; Playback &gt; Spoken language.</string>
+    <string name="wn_spoken_desc">Spoken reminders are read in their own language automatically — a Hindi reminder is read in Hindi even if the app is in English. Adjust it in Settings &gt; When a reminder rings &gt; Spoken language.</string>
     <string name="wn_persist_title">Keep reminders until done</string>
     <string name="wn_persist_desc">Turn on Settings &gt; Reliability &gt; Keep reminder on screen until done so a reminder stays pinned and only clears when you mark it Done or Snooze.</string>
     <string name="wn_backup_title">Back up and move your reminders</string>
@@ -776,9 +776,9 @@
     <string name="set_tab_wear">Wear</string>
     <string name="set_tab_help">Help</string>
     <string name="battery_guidance_title">Reminders may be late or missed</string>
-    <string name="battery_guidance_body">Your phone currently limits background activity for %1$s to save battery. On some phones, this can delay reminders while the app is closed. Choose Unrestricted in battery settings to reduce this risk. You can keep your current setting and change it later.</string>
-    <string name="battery_review_settings">Review battery settings</string>
-    <string name="battery_keep_current">Keep current setting</string>
+    <string name="battery_guidance_body">Your phone limits %1$s in the background to save battery, so reminders may ring late when the app is closed. Tap Allow background use, then choose Allow. You can change this later in Settings &gt; Reminder check.</string>
+    <string name="battery_review_settings">Allow background use</string>
+    <string name="battery_keep_current">No thanks</string>
     <string name="battery_status_restricted">Background battery access: Restricted. Recommended: Unrestricted for timely reminders.</string>
     <string name="battery_status_allowed">Background battery access: Unrestricted.</string>
     <string name="card_done_occurrence">Done this time</string>
@@ -796,6 +796,14 @@
     <string name="home_extra_reliable_on">Extra-reliable reminders on</string>
     <string name="set_section_check">Reminder check</string>
     <string name="set_section_ringing">When a reminder rings</string>
+    <string name="set_sum_check">Permissions, battery and alarm volume</string>
+    <string name="set_sum_lang">App language, theme, time format</string>
+    <string name="set_sum_ringing">Voice or tone, volume, spoken language, test reminder</string>
+    <string name="set_sum_timing">Snooze length, follow-up checks, quiet hours</string>
+    <string name="set_sum_form">Which options show when you add a reminder</string>
+    <string name="set_sum_wear">Reminders on your watch</string>
+    <string name="set_sum_backup">Save or restore reminders and recordings</string>
+    <string name="set_sum_about">App guide, support, more apps</string>
     <string name="check_all_good">Required permissions are enabled.</string>
     <string name="check_issues">Enable the missing permissions below to show and schedule reminders.</string>
     <string name="check_notif_ok">Notifications are on</string>

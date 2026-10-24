@@ -239,6 +239,7 @@ fun SettingsScreen(
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_section_check),
                 icon = "Safe",
+                summary = stringResource(R.string.set_sum_check),
                 initiallyExpanded = true
             ) {
                 Text(stringResource(R.string.set_required_permissions), style = MaterialTheme.typography.titleSmall)
@@ -281,7 +282,7 @@ fun SettingsScreen(
                     text = stringResource(
                         if (batteryOptimizationEnabled) R.string.check_battery_bad else R.string.check_battery_ok
                     ),
-                    actionLabel = stringResource(R.string.action_open_settings),
+                    actionLabel = stringResource(R.string.set_fix),
                     onAction = {
                         if (!BatteryOptimizationSupport.requestIgnoreBatteryOptimizations(context)) {
                             Toast.makeText(context, noBatterySettings, Toast.LENGTH_SHORT).show()
@@ -377,11 +378,93 @@ fun SettingsScreen(
             }
 
             // ============================================================
+            // LANGUAGE & APPEARANCE (near the top: language is what people look for first)
+            // ============================================================
+            val themeMode by viewModel.themeMode.collectAsState()
+            CollapsibleSettingsSection(
+                title = stringResource(R.string.set_appearance),
+                icon = "Lang",
+                summary = stringResource(R.string.set_sum_lang),
+                initiallyExpanded = false
+            ) {
+                Text(stringResource(R.string.settings_language), style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    text = stringResource(R.string.settings_language_description),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+                val currentLangTag = com.ghostgramlabs.speakalert.util.AppLocale.currentTag(context)
+                // FlowRow so every language stays visible (wraps instead of scrolling offscreen).
+                // Chips size to their label, so wide scripts (हिन्दी, العربية) never clip, and
+                // the flow direction follows the layout direction for RTL locales.
+                FlowRow(
+                    modifier = Modifier
+                        .padding(top = 12.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    com.ghostgramlabs.speakalert.util.AppLocale.supported.forEach { (tag, label) ->
+                        LanguageChip(
+                            // Language names stay in their own script; only the "follow the
+                            // system" option localizes with the UI language.
+                            text = if (tag.isEmpty()) stringResource(R.string.settings_language_system) else label,
+                            isSelected = currentLangTag == tag,
+                            onClick = {
+                                com.ghostgramlabs.speakalert.util.AppLocale
+                                    .activityFrom(context)?.let { activity ->
+                                        com.ghostgramlabs.speakalert.util.AppLocale.set(activity, tag)
+                                    }
+                            }
+                        )
+                    }
+                }
+
+                Spacer(Modifier.height(16.dp))
+                Text(stringResource(R.string.set_app_theme), style = MaterialTheme.typography.bodyMedium)
+                Row(
+                    modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    val themes = listOf(
+                        stringResource(R.string.theme_system),
+                        stringResource(R.string.theme_light),
+                        stringResource(R.string.theme_dark)
+                    )
+                    themes.forEachIndexed { index, name ->
+                        SnoozeOptionChip(
+                            text = name,
+                            isSelected = themeMode == index,
+                            onClick = {
+                                viewModel.setThemeMode(index)
+                                // Mirror synchronously so the next cold start picks the right
+                                // window background before DataStore loads.
+                                com.ghostgramlabs.speakalert.util.ThemePrefs.cache(context, index)
+                            },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+
+                Spacer(Modifier.height(16.dp))
+                SwitchRow(
+                    text = stringResource(R.string.settings_24_hour_time),
+                    description = stringResource(R.string.settings_24_hour_time_desc),
+                    checked = use24HourTime,
+                    onCheckedChange = viewModel::setUse24HourTime
+                )
+                Spacer(Modifier.height(16.dp))
+                UnnamedReminderTitleSetting()
+            }
+
+            // ============================================================
             // WHEN A REMINDER RINGS (includes Test Reminder at bottom)
             // ============================================================
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_section_ringing),
                 icon = "Play",
+                summary = stringResource(R.string.set_sum_ringing),
                 initiallyExpanded = true
             ) {
                 Text(stringResource(R.string.set_playback_mode), style = MaterialTheme.typography.titleSmall)
@@ -759,6 +842,7 @@ fun SettingsScreen(
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_section_timing),
                 icon = "Time",
+                summary = stringResource(R.string.set_sum_timing),
                 initiallyExpanded = false
             ) {
                 // Snooze Duration
@@ -894,6 +978,7 @@ fun SettingsScreen(
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_reminder_form),
                 icon = "Form",
+                summary = stringResource(R.string.set_sum_form),
                 initiallyExpanded = false
             ) {
                 Text(
@@ -963,91 +1048,12 @@ fun SettingsScreen(
             }
 
             // ============================================================
-            // SECTION 0: APPEARANCE
-            // ============================================================
-            val themeMode by viewModel.themeMode.collectAsState()
-            CollapsibleSettingsSection(
-                title = stringResource(R.string.set_appearance),
-                icon = "UI",
-                initiallyExpanded = false
-            ) {
-                Text(stringResource(R.string.set_app_theme), style = MaterialTheme.typography.bodyMedium)
-                Row(
-                    modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    val themes = listOf(
-                        stringResource(R.string.theme_system),
-                        stringResource(R.string.theme_light),
-                        stringResource(R.string.theme_dark)
-                    )
-                    themes.forEachIndexed { index, name ->
-                        SnoozeOptionChip(
-                            text = name,
-                            isSelected = themeMode == index,
-                            onClick = {
-                                viewModel.setThemeMode(index)
-                                // Mirror synchronously so the next cold start picks the right
-                                // window background before DataStore loads.
-                                com.ghostgramlabs.speakalert.util.ThemePrefs.cache(context, index)
-                            },
-                            modifier = Modifier.weight(1f)
-                        )
-                    }
-                }
-
-                Spacer(Modifier.height(16.dp))
-                Text(stringResource(R.string.settings_language), style = MaterialTheme.typography.bodyMedium)
-                Text(
-                    text = stringResource(R.string.settings_language_description),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-                val currentLangTag = com.ghostgramlabs.speakalert.util.AppLocale.currentTag(context)
-                // FlowRow so every language stays visible (wraps instead of scrolling offscreen).
-                // Chips size to their label, so wide scripts (हिन्दी, العربية) never clip, and
-                // the flow direction follows the layout direction for RTL locales.
-                FlowRow(
-                    modifier = Modifier
-                        .padding(top = 12.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    com.ghostgramlabs.speakalert.util.AppLocale.supported.forEach { (tag, label) ->
-                        LanguageChip(
-                            // Language names stay in their own script; only the "follow the
-                            // system" option localizes with the UI language.
-                            text = if (tag.isEmpty()) stringResource(R.string.settings_language_system) else label,
-                            isSelected = currentLangTag == tag,
-                            onClick = {
-                                com.ghostgramlabs.speakalert.util.AppLocale
-                                    .activityFrom(context)?.let { activity ->
-                                        com.ghostgramlabs.speakalert.util.AppLocale.set(activity, tag)
-                                    }
-                            }
-                        )
-                    }
-                }
-
-                Spacer(Modifier.height(16.dp))
-                SwitchRow(
-                    text = stringResource(R.string.settings_24_hour_time),
-                    description = stringResource(R.string.settings_24_hour_time_desc),
-                    checked = use24HourTime,
-                    onCheckedChange = viewModel::setUse24HourTime
-                )
-                Spacer(Modifier.height(16.dp))
-                UnnamedReminderTitleSetting()
-            }
-
-            // ============================================================
             // SECTION 5: WEAR OS
             // ============================================================
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_wear),
                 icon = "Wear",
+                summary = stringResource(R.string.set_sum_wear),
                 initiallyExpanded = false
             ) {
                 val notificationsReady =
@@ -1184,6 +1190,7 @@ fun SettingsScreen(
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_section_about),
                 icon = "Help",
+                summary = stringResource(R.string.set_sum_about),
                 initiallyExpanded = false
             ) {
                 var showHelpDialog by remember { mutableStateOf(false) }
@@ -1329,6 +1336,7 @@ fun SettingsScreen(
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_section_backup),
                 icon = "Backup",
+                summary = stringResource(R.string.set_sum_backup),
                 initiallyExpanded = false
             ) {
                 Row(
@@ -1512,6 +1520,9 @@ private fun CollapsibleSettingsSection(
     title: String,
     icon: String,
     initiallyExpanded: Boolean = true,
+    // What is inside, shown while collapsed so people can find a setting without opening
+    // every card.
+    summary: String? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
     var isExpanded by remember { mutableStateOf(initiallyExpanded) }
@@ -1546,6 +1557,7 @@ private fun CollapsibleSettingsSection(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Row(
+                    modifier = Modifier.weight(1f),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -1555,13 +1567,22 @@ private fun CollapsibleSettingsSection(
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(20.dp)
                     )
-                    Text(
-                        text = title,
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.SemiBold
-                        ),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
+                    Column {
+                        Text(
+                            text = title,
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                fontWeight = FontWeight.SemiBold
+                            ),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        if (summary != null && !isExpanded) {
+                            Text(
+                                text = summary,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
                 }
                 
                 Icon(
@@ -1592,6 +1613,8 @@ private fun CollapsibleSettingsSection(
 private fun settingsSectionIcon(icon: String): ImageVector {
     return when (icon) {
         "UI" -> Icons.Default.Palette
+        // A globe reads as "language" even to someone who cannot read the current UI language.
+        "Lang" -> Icons.Default.Language
         "Play" -> Icons.Default.PlayArrow
         "Time" -> Icons.Default.Schedule
         "Safe" -> Icons.Default.VerifiedUser
