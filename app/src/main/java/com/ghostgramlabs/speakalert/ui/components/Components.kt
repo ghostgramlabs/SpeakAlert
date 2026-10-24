@@ -343,7 +343,9 @@ private fun buildRecurrenceEndRuleText(
             )
         }
         EndRuleType.AFTER_OCCURRENCES -> {
+            // The stored count is what remains; "0 occurrences" on a finished series reads as a bug.
             val count = model.endRule.count ?: 0
+            if (count <= 0) return null
             RecurrenceEndRuleDisplay(
                 text = pluralStringResource(R.plurals.card_occurrences, count, count),
                 contentDescription = pluralStringResource(R.plurals.det_ends_after, count, count)

@@ -111,8 +111,9 @@ fun localizedRecurrenceSummary(
                 sb.append("\n").append(stringResource(R.string.det_ends_by, dateStr))
             }
             EndRuleType.AFTER_OCCURRENCES -> {
+                // The stored count is what remains; a finished series has none left to describe.
                 val count = model.endRule.count ?: 0
-                sb.append("\n").append(pluralStringResource(R.plurals.rec_ends_times, count, count))
+                if (count > 0) sb.append("\n").append(pluralStringResource(R.plurals.rec_ends_times, count, count))
             }
         }
     }

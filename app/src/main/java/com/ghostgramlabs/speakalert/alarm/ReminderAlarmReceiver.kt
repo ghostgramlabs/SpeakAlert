@@ -20,6 +20,7 @@ import com.ghostgramlabs.speakalert.data.model.MissedReminderEntity
 import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
 import com.ghostgramlabs.speakalert.domain.models.MissedPolicy
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
+import com.ghostgramlabs.speakalert.domain.MissedPolicyResolver
 import com.ghostgramlabs.speakalert.domain.models.TimeUnit
 import com.ghostgramlabs.speakalert.service.ReminderPlaybackService
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
@@ -114,16 +115,12 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 
                 FileLogger.log("ALARM: scheduledTime=$scheduledTime, now=$now, delay=${delay}ms, graceWindow=${graceWindow}ms, isLate=$isLate")
 
-                // Get missed policy from recurrence model (default: SKIP_TO_NEXT)
-                val recurrenceModel = RecurrenceUtils.fromJson(reminder.recurrenceType, reminder.recurrenceJson)
-                val settingsDefaultPolicy = parseMissedPolicy(settingsRepository.defaultMissedPolicy.first())
-                val recurrencePolicy = recurrenceModel?.missedPolicy?.takeIf {
-                    it != MissedPolicy.SKIP_TO_NEXT || settingsDefaultPolicy == MissedPolicy.SKIP_TO_NEXT
-                }
-                val missedPolicy = recurrencePolicy ?: reminder.missedPolicy.takeIf {
-                    // For legacy reminders that still have the model default persisted, prefer app setting.
-                    it != MissedPolicy.SKIP_TO_NEXT || settingsDefaultPolicy == MissedPolicy.SKIP_TO_NEXT
-                } ?: settingsDefaultPolicy
+                val missedPolicy = MissedPolicyResolver.effective(
+                    reminder.recurrenceType,
+                    reminder.recurrenceJson,
+                    reminder.missedPolicy,
+                    MissedPolicyResolver.parse(settingsRepository.defaultMissedPolicy.first())
+                )
                 val toneOnlyMode = settingsRepository.toneOnlyMode.first()
                 val toneOnlyAlertToneUri = settingsRepository.toneOnlyAlertToneUri.first()
                 val privatePlaybackEnabled = settingsRepository.privatePlaybackEnabled.first()
@@ -264,7 +261,19 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                         MissedPolicy.FIRE_ON_RESUME -> {
                             // Show "Missed" notification (no autoplay), then schedule next
                             FileLogger.log("ALARM: FIRE_ON_RESUME - showing missed notification")
-                            
+
+                            // The Missed tab has to list it too, as it does after a reboot:
+                            // otherwise swiping the notification away loses the occurrence.
+                            missedRepository.insertMissedReminder(
+                                MissedReminderEntity(
+                                    reminderId = reminder.id,
+                                    title = buildMissedDisplayTitle(context, reminder.title, reminder.reminderText),
+                                    scheduledTime = scheduledTime,
+                                    detectedTime = now,
+                                    reminderText = reminder.reminderText
+                                )
+                            )
+
                             val missedNotificationShown = withContext(Dispatchers.Main) {
                                 val strings = com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(context)
                                 notificationHelper.showNotification(
@@ -634,14 +643,6 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
     private fun formatTime(millis: Long): String {
         val sdf = java.text.SimpleDateFormat(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern, java.util.Locale.getDefault())
         return sdf.format(java.util.Date(millis))
-    }
-
-    private fun parseMissedPolicy(raw: String): MissedPolicy {
-        return when (raw) {
-            "FIRE_ON_RESUME", "FIRE" -> MissedPolicy.FIRE_ON_RESUME
-            "SKIP_TO_NEXT", "SKIP" -> MissedPolicy.SKIP_TO_NEXT
-            else -> MissedPolicy.SKIP_TO_NEXT
-        }
     }
 
     private fun buildMissedDisplayTitle(context: Context, title: String?, reminderText: String?): String {

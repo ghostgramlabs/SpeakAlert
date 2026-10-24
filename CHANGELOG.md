@@ -18,6 +18,13 @@ User-facing changes to SpeakAlert, newest first. Version numbers match the Googl
   phone".
 - In Reminder check, a long button label (such as "Open settings" in Malayalam) now sits under
   its line instead of squeezing the text to a word per line.
+- A repeating reminder that rings late while the phone is on (battery saver, doze, a clock
+  change) now also appears in the Missed tab, as it already did after a restart. Before, it only
+  showed a "Missed" notification, and swiping that away lost it.
+- A reminder's details now show the missed-reminder handling that actually applies. Some showed
+  "Remind only at the next exact time" while the app alerted on resume.
+- A repeating reminder that ends after a number of times no longer shows "0 occurrences" once
+  it has finished.
 - Help, Quick start and What's new text no longer point to the old section names (Playback,
   Reliability, Appearance). Updated copy is translated across all 12 supported languages.
 

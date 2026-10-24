@@ -10,7 +10,11 @@ import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.data.repository.ReminderRepository
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
+import com.ghostgramlabs.speakalert.domain.models.MissedPolicy
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -28,6 +32,11 @@ class ReminderDetailsViewModel(
 
     private val _reminder = MutableStateFlow<ReminderEntity?>(null)
     val reminder = _reminder.asStateFlow()
+
+    /** App-wide missed-reminder default, needed to show the policy that actually applies. */
+    val defaultMissedPolicy = settingsRepository.defaultMissedPolicy
+        .map { com.ghostgramlabs.speakalert.domain.MissedPolicyResolver.parse(it) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), MissedPolicy.FIRE_ON_RESUME)
     private val appContext = context
     
     private var isTtsEnabled = true
