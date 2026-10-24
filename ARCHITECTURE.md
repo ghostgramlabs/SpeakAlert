@@ -82,8 +82,8 @@ and are read through `SettingsRepository`.
      ▼              ▼                        ▼                   ▼
  quiet hours /   late recurring         on time              follow-up
  paused          (missed policy)                             check due
- → Missed inbox  → Missed inbox or   → notification and     → re-alert,
-                   "missed" notice     ReminderPlaybackService   schedule next
+ → Missed inbox  → Missed inbox,     → notification and     → re-alert,
+                   + "missed" notice   ReminderPlaybackService   schedule next
                                        (voice or TTS) or         check
                                        ToneAlertPlayer
                                 │
@@ -108,8 +108,10 @@ holds most of the delivery rules. In order, it:
    inbox, and its recurrence still advances.
 3. Decides whether the alarm is late. The grace window is 60 seconds for minute or hour
    intervals and 5 minutes for calendar repeats; one-time reminders are always shown. A late
-   recurring reminder follows its missed policy: `SKIP_TO_NEXT` logs it to the inbox silently,
-   `FIRE_ON_RESUME` shows a "missed" notification.
+   recurring reminder follows its missed policy, which `MissedPolicyResolver` works out (a stored
+   `SKIP_TO_NEXT` is often just the model default, so the app-wide default can override it).
+   Both policies log the occurrence to the Missed inbox; `FIRE_ON_RESUME` also shows a
+   "missed" notification. The boot worker and the details screen use the same resolver.
 4. On time: posts the notification (full-screen when the system allows it) and either starts
    `ReminderPlaybackService` for voice or TTS autoplay, or starts `ToneAlertPlayer` in tone-only
    mode.
