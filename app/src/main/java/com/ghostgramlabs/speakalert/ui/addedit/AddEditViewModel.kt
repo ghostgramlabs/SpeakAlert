@@ -624,7 +624,9 @@ class AddEditViewModel(
 
                 // Only save user-provided title; display layer handles fallbacks
                 val smartLabel = state.title.ifBlank { null }
-                val settingsDefaultMissedPolicy = parseMissedPolicy(settingsRepository.defaultMissedPolicy.first())
+                val settingsDefaultMissedPolicy = com.ghostgramlabs.speakalert.domain.MissedPolicyResolver.parse(
+                    settingsRepository.defaultMissedPolicy.first()
+                )
                 val recurrenceJson = clampRecurrenceEndRuleJson(
                     type = state.recurrenceType,
                     json = state.recurrenceJson,
@@ -725,13 +727,6 @@ class AddEditViewModel(
         tempAudioFile = null
     }
 
-    private fun parseMissedPolicy(raw: String): MissedPolicy {
-        return when (raw) {
-            "FIRE_ON_RESUME", "FIRE" -> MissedPolicy.FIRE_ON_RESUME
-            "SKIP_TO_NEXT", "SKIP" -> MissedPolicy.SKIP_TO_NEXT
-            else -> MissedPolicy.SKIP_TO_NEXT
-        }
-    }
 
     private fun clampRecurrenceEndRuleJson(
         type: RecurrenceType,

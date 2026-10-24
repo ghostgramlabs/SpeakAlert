@@ -5,6 +5,7 @@
     android:minWidth="146dp"
     android:minHeight="118dp"
     android:previewImage="@mipmap/ic_launcher"
+    android:previewLayout="@layout/widget_quick_reminder"
     android:resizeMode="horizontal|vertical"
     android:targetCellWidth="2"
     android:targetCellHeight="2"

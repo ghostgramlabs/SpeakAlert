@@ -28,6 +28,7 @@ import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.argumentCaptor
 import org.mockito.kotlin.atLeastOnce
 import org.mockito.kotlin.any
+import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.isNull
 import org.mockito.kotlin.mock
@@ -130,7 +131,8 @@ class BootRescheduleWorkerTest {
                 any(),
                 any(),
                 any(),
-                any()
+                any(),
+                anyOrNull()
             )
             verify(missedRepository).insertMissedReminder(any())
             verify(repository).updateReminder(any())
@@ -173,7 +175,8 @@ class BootRescheduleWorkerTest {
                 any(),
                 any(),
                 any(),
-                any()
+                any(),
+                anyOrNull()
             )
             verify(scheduler).schedule(eq(reminder), eq(true))
             verify(repository).updateReminder(any())
@@ -313,7 +316,8 @@ class BootRescheduleWorkerTest {
                 eq(true),
                 eq(false),
                 eq(false),
-                eq(false)
+                eq(false),
+                isNull()
             )
         }
     }

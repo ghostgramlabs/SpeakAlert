@@ -162,6 +162,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     override fun onBind(intent: Intent?): IBinder? = null
 
     private fun broadcastPlaybackStatus(isPlaying: Boolean) {
+        playingReminderId = if (isPlaying) currentReminderId else -1L
         val positionMs = if (!isTtsMode && ::player.isInitialized) {
             runCatching { player.currentPosition.coerceAtLeast(0L) }.getOrDefault(0L)
         } else {
@@ -360,7 +361,8 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
                 )
                 val stopAction = NotificationCompat.Action.Builder(
                     android.R.drawable.ic_media_pause,
-                    "Stop",
+                    com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(context)
+                        .getString(R.string.notif_action_stop),
                     stopPendingIntent
                 ).build()
                 
@@ -380,9 +382,12 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         })
         .build()
         
-        // Show play/pause and enable rewind/forward for seek
+        // Play/pause and rewind/forward for seeking. The custom Stop above ends the service, so
+        // the built-in one would only be a second "Stop"; previous/next mean nothing for one clip.
         playerNotificationManager.setUsePlayPauseActions(true)
-        playerNotificationManager.setUseStopAction(true)
+        playerNotificationManager.setUseStopAction(false)
+        playerNotificationManager.setUsePreviousAction(false)
+        playerNotificationManager.setUseNextAction(false)
         
         playerNotificationManager.setPlayer(player)
         FileLogger.log("SERVICE: PlayerNotificationManager initialized")
@@ -450,6 +455,11 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
 
             // Capture reminderId for completion logic
             val reminderId = intent?.getLongExtra(EXTRA_ID, -1L) ?: -1L
+            if ((intent?.action == ACTION_STOP || intent?.action == "ACTION_STOP_SERVICE") &&
+                reminderId != -1L && reminderId != currentReminderId) {
+                if (currentReminderId == -1L) stopSelf()
+                return START_NOT_STICKY
+            }
             if (reminderId != -1L) {
                 currentReminderId = reminderId
             }
@@ -1128,6 +1138,15 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
 
     companion object {
         private const val TAG = "ReminderPlaybackSvc"
+
+        /**
+         * The reminder whose voice or text is playing right now, or -1. The status broadcast only
+         * reaches screens that were already listening; a full-screen alert opened a moment after
+         * playback started reads this instead, so it still offers Silence.
+         */
+        @Volatile
+        var playingReminderId: Long = -1L
+            private set
         const val CHANNEL_ID = "playback_channel"
         // Reserve a high fixed ID so it never collides with reminder alert IDs (which use reminderId.toInt()).
         const val NOTIFICATION_ID = 2_000_001
@@ -1193,9 +1212,10 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             }
         }
         
-        fun stop(context: Context) {
+        fun stop(context: Context, reminderId: Long? = null) {
             val intent = Intent(context, ReminderPlaybackService::class.java).apply {
                 action = ACTION_STOP
+                reminderId?.let { putExtra(EXTRA_ID, it) }
             }
             try {
                 context.startService(intent)

@@ -7,7 +7,7 @@
 
     <string name="settings_language">Idioma de la app</string>
     <string name="settings_language_system">Usar el idioma del dispositivo</string>
-    <string name="settings_language_description">Idiomas disponibles en la app: inglés, español, hindi, árabe, portugués (Brasil), ruso, vietnamita, bengalí, telugu, tamil, griego y malayalam.\nUsar el idioma del dispositivo elige un idioma compatible del teléfono; si no hay ninguno, la app usa inglés.\nLos recordatorios hablados dependen de las voces instaladas en el teléfono. Configúralas por separado en Reproducción &gt; Idioma hablado.</string>
+    <string name="settings_language_description">Usar el idioma del dispositivo aplica el idioma del teléfono si la app lo admite; si no, inglés.\nLa voz que lee los recordatorios se elige aparte en Cuando suena un recordatorio &gt; Idioma hablado.</string>
 
     <string name="notif_action_done">Hecho</string>
     <string name="notif_action_silence">Silenciar</string>
@@ -71,6 +71,7 @@
     <string name="alert_mark_done">Marcar como hecho</string>
     <string name="alert_silence">Silenciar</string>
     <string name="alert_silence_now">Silenciar ahora</string>
+    <string name="alert_snoozed_at">Pospuesto • %1$s</string>
     <string name="alert_play_again">Reproducir de nuevo</string>
     <string name="alert_snooze_minutes">Posponer %1$dm</string>
     <string name="alert_followup_reminder">Recordatorio de seguimiento</string>
@@ -314,7 +315,7 @@
     <plurals name="unit_months"><item quantity="one">Mes</item><item quantity="many">Meses</item><item quantity="other">Meses</item></plurals>
     <plurals name="unit_years"><item quantity="one">Año</item><item quantity="many">Años</item><item quantity="other">Años</item></plurals>
 
-    <string name="set_appearance">Apariencia</string>
+    <string name="set_appearance">Idioma y apariencia</string>
     <string name="set_reminder_form">Formulario de recordatorio</string>
     <string name="set_reminder_form_desc">Elige qué secciones aparecen al crear un recordatorio. Si ocultas todas las formas de añadir contenido, tendrás que volver a activar al menos una para crear otro.</string>
     <string name="ae_no_content_sections">No hay ninguna sección de entrada activada. Activa Grabación de voz, Elegir archivo de audio o Recordatorio escrito en Ajustes &gt; Formulario del recordatorio.</string>
@@ -337,8 +338,8 @@
     <string name="set_toast_theme_dark">Modo oscuro activado</string>
     <string name="set_toast_theme_system">Siguiendo el tema del sistema</string>
     <string name="set_playback">Reproducción</string>
-    <string name="set_autoplay">Reproducir audio del recordatorio automáticamente</string>
-    <string name="set_autoplay_desc">Reproduce automáticamente notas de voz y archivos de audio cuando suena un recordatorio</string>
+    <string name="set_autoplay">Reproducir automáticamente</string>
+    <string name="set_autoplay_desc">Reproduce grabaciones, archivos de audio y texto hablado habilitado al activarse un recordatorio. Si está desactivado, toca Reproducir para escucharlo.</string>
     <string name="set_disabled_tone">Desactivado mientras el modo Solo tono está activo</string>
     <string name="set_toast_autoplay_on">Reproducción automática activada</string>
     <string name="set_toast_autoplay_off">Reproducción automática desactivada</string>
@@ -364,7 +365,7 @@
     <string name="set_toast_private_off">Reproducción privada desactivada</string>
     <string name="set_private_bt">Reproducción privada activada. El enrutamiento Bluetooth necesita permiso de dispositivos cercanos.</string>
     <string name="set_tone_only">Modo Solo tono</string>
-    <string name="set_tone_only_desc">Reproduce un tono de alarma simple en lugar de voz/TTS para máxima fiabilidad. Autoparada: %1$s. Posponer: %2$dm.</string>
+    <string name="set_tone_only_desc">Reproduce un tono de alarma en lugar de grabaciones o voz. Se detiene tras: %1$s. Posponer: %2$d min.</string>
     <string name="set_toast_tone_on">Modo Solo tono activado</string>
     <string name="set_toast_tone_off">Modo Solo tono desactivado</string>
     <string name="set_infinite">Infinito</string>
@@ -385,8 +386,8 @@
     <string name="set_open_perm">Abrir ajustes de permisos</string>
     <string name="set_fs_note">Aún puedes tocar Reproducir o Leer desde la notificación.</string>
     <string name="set_tone_volume_note">En modo Solo tono, el volumen lo controla el volumen de alarma/notificación del dispositivo.</string>
-    <string name="set_loop_duration">Duración del bucle</string>
-    <string name="set_loop_duration_desc">Define cuánto continúa el bucle del recordatorio</string>
+    <string name="set_loop_duration">Detener la reproducción continua después de</string>
+    <string name="set_loop_duration_desc">Detiene el tono o el audio en bucle tras este tiempo. Los recordatorios de seguimiento son alertas posteriores independientes.</string>
     <string name="set_toast_loop">Duración del bucle: %1$d min</string>
     <string name="set_toast_loop_infinite">Duración del bucle: Infinito</string>
     <string name="set_custom">Personalizado</string>
@@ -416,7 +417,7 @@
     <string name="set_dnd_unavailable">Los ajustes de acceso a No molestar de Android no están disponibles en este dispositivo.</string>
     <string name="set_grant_dnd">Conceder acceso a No molestar de Android</string>
     <string name="set_dnd_note">Esta opción no activa ni desactiva el modo No molestar del teléfono. Permite que %1$s solicite permiso para hacer sonar recordatorios importantes aunque ese modo esté activado.</string>
-    <string name="set_battery_guide">Guía de optimización de batería</string>
+    <string name="set_battery_guide">¿Siguen llegando tarde? Pasos para tu teléfono</string>
     <string name="set_battery_desc">Algunos teléfonos retrasan o bloquean los recordatorios para ahorrar batería.</string>
     <string name="set_wear">Reloj inteligente (Wear OS)</string>
     <string name="set_wear_checking">Comprobando la conexión con Wear OS…</string>
@@ -456,7 +457,7 @@
     <string name="set_label_time">%1$s: %2$s</string>
     <string name="set_volume">Volumen</string>
     <string name="set_cd_volume">Volumen de la app: %1$d%%</string>
-    <string name="set_loop_inline_desc">Cuánto tiempo se repite el sonido antes de detenerse automáticamente</string>
+    <string name="set_loop_inline_desc">Detiene el tono o el audio en bucle tras este tiempo. Los recordatorios de seguimiento son alertas posteriores independientes.</string>
     <string name="set_default_snooze">Posposición predeterminada</string>
     <string name="set_snooze_inline_desc">Cuánto tarda en volver a avisarte después de tocar «Posponer»</string>
     <string name="set_default_followup">Comprobación de seguimiento predeterminada</string>
@@ -467,7 +468,7 @@
     <string name="set_toast_followup_repeat_until_done">El seguimiento se repite hasta marcarlo como hecho</string>
     <string name="set_toast_followup_repeat">Límite de repetición del seguimiento: %1$d×</string>
     <string name="set_reliability">Fiabilidad</string>
-    <string name="set_persist">Mantener el recordatorio en pantalla hasta completarlo</string>
+    <string name="set_persist">Mantener la notificación hasta completar</string>
     <string name="set_persist_desc">La notificación permanece visible hasta que tocas «Hecho» o «Posponer». Activa también el seguimiento si quieres que vuelva a avisarte.</string>
     <string name="set_toast_persist_on">Los recordatorios permanecen hasta completarse</string>
     <string name="set_toast_persist_off">Los recordatorios se pueden descartar deslizando</string>
@@ -522,7 +523,7 @@
     <string name="help_s6_content">- La notificación del recordatorio muestra tres botones rápidos: Hecho, Posponer, y Silenciar (mientras suena) o Reproducir/Leer (para volver a oírlo).\n- Hecho marca el recordatorio como completado; Silenciar solo detiene el sonido y deja el recordatorio para que actúes después.\n- Deslizar la notificación también marca la repetición actual como hecha.\n- Cuando está activada en Ajustes, puede aparecer una alerta a pantalla completa en el bloqueo con las mismas acciones Hecho, Silenciar, Posponer y Reproducir de nuevo.</string>
     <string name="help_s7_content">- Los recordatorios perdidos permanecen en la pestaña Perdidos hasta que los revises.\n- Al abrir la app, una hoja de recuperación puede ofrecer la reproducción rápida del último recordatorio perdido.\n- Los recordatorios pasados se pueden restaurar, reprogramar o volver a reproducir desde sus hojas de acciones.</string>
     <string name="help_s8_content">- Con la reproducción automática activada, la grabación o el archivo de audio empieza a sonar a la hora del recordatorio.\n- Los mensajes se leen automáticamente solo si el recordatorio no tiene grabación ni archivo de audio y has activado la lectura automática.\n- Idioma en el que se leen los recordatorios. La detección automática elige el idioma del mensaje. Debes tener instalada una voz para ese idioma en los ajustes de texto a voz del teléfono. También puedes elegir el idioma del teléfono o el inglés. Con la detección automática, un mensaje escrito en hindi se lee en hindi.\n- Aunque desactives la lectura automática, puedes tocar el botón para escuchar el mensaje.\n- Usa primero los dispositivos conectados: audífonos para la pérdida auditiva, dispositivos Bluetooth o auriculares con cable. Si no hay ninguno, el sonido sale por el auricular de llamadas del teléfono, en lugar del altavoz.\n- La reproducción en bucle repite el audio hasta que lo detienes o se alcanza el tiempo límite.\n- El seguimiento vuelve a preguntar hasta que marcas la tarea como hecha.\n- Las horas de silencio pueden impedir que suenen los recordatorios durante el horario que elijas.</string>
-    <string name="help_s9_content">- El modo Solo tono usa un tono de alarma claro en lugar de voz o TTS.\n- Puedes elegir un sonido de alerta de Solo tono personalizado, o mantener el tono de alarma predeterminado.\n- Avisar incluso durante No molestar permite que %1$s intente reproducir recordatorios importantes mientras No molestar está activo.\n- Cuando Avisar incluso durante No molestar está desactivado, los recordatorios bloqueados por No molestar van a Perdidos en lugar de reproducirse.\n- Este ajuste no activa ni desactiva el modo No molestar del teléfono. Se requiere acceso a No molestar de Android antes de que la omisión funcione.\n- Cuando está activado, los recordatorios usan audio con prioridad de alarma. Algunas rutinas del teléfono aún pueden bloquear alarmas si el modo del sistema silencia el audio de alarma.\n- Si el sonido seleccionado falta más tarde, %1$s usa automáticamente el tono de alarma predeterminado.\n- Usa el modo Solo tono si tu teléfono retrasa, suprime o detiene la reproducción hablada.\n- Ajustes &gt; Fiabilidad incluye la Guía de optimización de batería para teléfonos con restricciones de fondo agresivas.\n- Mantén activadas las notificaciones, las alarmas exactas y los ajustes de batería para la mejor fiabilidad.</string>
+    <string name="help_s9_content">- El modo Solo tono usa un tono de alarma claro en lugar de voz o TTS.\n- Puedes elegir un sonido de alerta de Solo tono personalizado, o mantener el tono de alarma predeterminado.\n- Avisar incluso durante No molestar permite que %1$s intente reproducir recordatorios importantes mientras No molestar está activo.\n- Cuando Avisar incluso durante No molestar está desactivado, los recordatorios bloqueados por No molestar van a Perdidos en lugar de reproducirse.\n- Este ajuste no activa ni desactiva el modo No molestar del teléfono. Se requiere acceso a No molestar de Android antes de que la omisión funcione.\n- Cuando está activado, los recordatorios usan audio con prioridad de alarma. Algunas rutinas del teléfono aún pueden bloquear alarmas si el modo del sistema silencia el audio de alarma.\n- Si el sonido seleccionado falta más tarde, %1$s usa automáticamente el tono de alarma predeterminado.\n- Usa el modo Solo tono si tu teléfono retrasa, suprime o detiene la reproducción hablada.\n- Ajustes &gt; Comprobación de recordatorios incluye ayuda paso a paso con la batería para teléfonos con restricciones de fondo agresivas.\n- Mantén activadas las notificaciones, las alarmas exactas y los ajustes de batería para la mejor fiabilidad.</string>
     <string name="help_s10_content">- El widget Recordatorio rápido abre Añadir recordatorio directamente.\n- El widget Próximos muestra los próximos recordatorios y los perdidos.\n- La compatibilidad con Wear OS depende de que las notificaciones del teléfono y la sincronización del reloj estén activadas.</string>
     <string name="help_s11_content">- Los recordatorios futuros se reprograman automáticamente tras reiniciar.\n- Los recordatorios vencidos pasan por el flujo de recordatorios perdidos en lugar de sonar inesperadamente al arrancar.</string>
     <string name="help_s13_title">Comprobaciones de seguimiento</string>
@@ -534,7 +535,17 @@
 
     <string name="action_continue">Continuar</string>
     <string name="wn_title">Novedades en %1$s</string>
-    <string name="wn_intro">SpeakAlert ya habla 12 idiomas, y es fácil retomar los recordatorios perdidos.</string>
+    <string name="wn_intro">Esta actualización ayuda a que cada recordatorio suene a tiempo.</string>
+    <string name="wn_check_title">Mira qué podría impedir un recordatorio</string>
+    <string name="wn_check_desc">«Comprobación de recordatorios», arriba del todo en Ajustes, muestra lo que podría retrasar o silenciar los recordatorios, como las notificaciones, la batería o un volumen de alarma bajo, con un botón para corregir cada cosa.</string>
+    <string name="wn_reliable_title">Recordatorios extra fiables</string>
+    <string name="wn_reliable_desc">Si tu teléfono retrasa los recordatorios para ahorrar batería, activa «Recordatorios extra fiables» en Ajustes &gt; Comprobación de recordatorios. Los recordatorios se programan como alarmas y suenan a tiempo.</string>
+    <string name="wn_settings_title">Ajustes más fáciles de encontrar</string>
+    <string name="wn_settings_desc">Cada sección indica lo que contiene, y el idioma de la app está arriba, en «Idioma y apariencia».</string>
+    <string name="wn_cards_title">Editar, Hecho y Eliminar en cada tarjeta</string>
+    <string name="wn_cards_desc">Cada tarjeta de recordatorio tiene botones para editar, marcar como hecho y eliminar. Eliminar pide confirmación y se puede deshacer.</string>
+    <string name="wn_sound_title">El sonido se detiene cuando debe</string>
+    <string name="wn_sound_desc">Al marcar un recordatorio como hecho, eliminarlo o cambiar su hora, su sonido se detiene al instante. Las alarmas de tono vuelven a tener el botón Silenciar.</string>
     <string name="wn_edit_title">Cambia la fecha y la hora ahí mismo</string>
     <string name="wn_edit_desc">Abre un recordatorio y toca Fecha u Hora para cambiarla directamente. Ya no hace falta abrir el editor.</string>
     <string name="wn_clear_title">Las notificaciones se ordenan solas</string>
@@ -548,7 +559,7 @@
     <string name="wn_notices_title">La pantalla de inicio explica el silencio</string>
     <string name="wn_notices_desc">Si este teléfono puede detener %1$s en segundo plano, o si tus horas de silencio están activas, la pantalla de inicio ahora lo indica, en lugar de que los recordatorios simplemente no lleguen.</string>
     <string name="wn_lang_title">Ahora en tu idioma</string>
-    <string name="wn_lang_desc">Toda la app está disponible en inglés, español, hindi, árabe, portugués (Brasil), ruso, vietnamita, bengalí, telugu, tamil, griego y malayalam, con soporte de derecha a izquierda. Elígelo en Ajustes &gt; Apariencia &gt; Idioma.</string>
+    <string name="wn_lang_desc">Toda la app está disponible en inglés, español, hindi, árabe, portugués (Brasil), ruso, vietnamita, bengalí, telugu, tamil, griego y malayalam, con soporte de derecha a izquierda. Elígelo en Ajustes &gt; Idioma y apariencia &gt; Idioma.</string>
     <string name="wn_missed_title">Reprograma los recordatorios perdidos</string>
     <string name="wn_missed_desc">En la pestaña Perdidos, toca el lápiz de un recordatorio para darle una nueva fecha u hora. Vuelve a tus próximos recordatorios.</string>
     <string name="wn_quiet_title">El sonido se detiene cuando terminas</string>
@@ -556,7 +567,7 @@
     <string name="wn_buttons_title">Botones de alarma más claros</string>
     <string name="wn_buttons_desc">Las alertas y notificaciones ahora muestran Hecho, Silenciar y Posponer. Hecho completa la tarea; Silenciar solo detiene el sonido y mantiene el recordatorio.</string>
     <string name="wn_spoken_title">Recordatorios con la voz correcta</string>
-    <string name="wn_spoken_desc">Los recordatorios hablados se leen en su propio idioma automáticamente: un recordatorio en hindi se lee en hindi aunque la app esté en inglés. Ajústalo en Ajustes &gt; Reproducción &gt; Idioma hablado.</string>
+    <string name="wn_spoken_desc">Los recordatorios hablados se leen en su propio idioma automáticamente: un recordatorio en hindi se lee en hindi aunque la app esté en inglés. Ajústalo en Ajustes &gt; Cuando suena un recordatorio &gt; Idioma hablado.</string>
     <string name="wn_persist_title">Mantener recordatorios hasta completarlos</string>
     <string name="wn_persist_desc">Activa Ajustes &gt; Fiabilidad &gt; Mantener el recordatorio en pantalla hasta completarlo para que un recordatorio permanezca fijo y solo se borre cuando lo marques como Hecho o lo pospongas.</string>
 
@@ -704,7 +715,7 @@
     <string name="bog_status_exempt">%1$s ya puede ejecutarse sin optimización de batería.</string>
     <string name="bog_no_battery_settings">Los ajustes de batería no están disponibles en este dispositivo.</string>
     <string name="bog_why_title">Por qué es importante</string>
-    <string name="bog_why_body">Los teléfonos de Xiaomi, POCO, Redmi, Huawei y marcas similares pueden detener agresivamente las apps en segundo plano. Usa la familia del fabricante y la versión del software como guía; las rutas exactas pueden variar según el modelo.</string>
+    <string name="bog_why_body">Los teléfonos de Xiaomi, POCO, Redmi, Huawei, Infinix, Tecno y marcas similares pueden detener agresivamente las apps en segundo plano. Usa la familia del fabricante y la versión del software como guía; las rutas exactas pueden variar según el modelo.</string>
 
     <!-- Descripción accesible de la tarjeta -->
     <string name="a11y_card_reminder">Recordatorio: %1$s</string>
@@ -763,4 +774,52 @@
     <string name="set_tab_backup">Copia</string>
     <string name="set_tab_wear">Reloj</string>
     <string name="set_tab_help">Ayuda</string>
+    <string name="battery_guidance_title">Los recordatorios pueden llegar tarde o perderse</string>
+    <string name="battery_guidance_body">Tu teléfono limita %1$s en segundo plano para ahorrar batería, así que los recordatorios pueden sonar tarde con la app cerrada. Toca Permitir uso en segundo plano y luego elige Permitir. Puedes cambiarlo después en Ajustes &gt; Comprobación de recordatorios.</string>
+    <string name="battery_review_settings">Permitir uso en segundo plano</string>
+    <string name="battery_keep_current">No, gracias</string>
+    <string name="battery_status_restricted">Acceso a la batería en segundo plano: Restringido. Se recomienda Sin restricciones para recibir recordatorios a tiempo.</string>
+    <string name="battery_status_allowed">Acceso a la batería en segundo plano: Sin restricciones.</string>
+    <string name="card_done_occurrence">Hecho esta vez</string>
+    <string name="home_delete_confirm_body">Puedes deshacerlo justo después de eliminarlo.</string>
+    <string name="battery_banner_body">El ahorro de batería del teléfono puede frenar a %1$s.</string>
+    <string name="home_empty_nothing_today">Nada pendiente para hoy</string>
+    <string name="home_empty_today_sub">Tu próximo recordatorio está en «%1$s».</string>
+    <string name="set_alarm_clock">Recordatorios extra fiables</string>
+    <string name="set_alarm_clock_desc">Ayuda a que los recordatorios suenen a tiempo en teléfonos que retrasan las apps para ahorrar batería. Mientras está activado, algunos teléfonos muestran un icono de reloj o un mensaje de «alarma configurada».</string>
+    <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
+    <string name="bog_transsion_autostart">Abre Aplicaciones &gt; Inicio automático (o Phone Master &gt; Inicio automático) y actívalo para %1$s</string>
+    <string name="bog_transsion_battery">Abre Aplicaciones &gt; %1$s &gt; Batería y elige Sin restricciones</string>
+    <string name="set_alarm_clock_status_next">Activado para tu próximo recordatorio: %1$s</string>
+    <string name="set_alarm_clock_status_none">Tu próximo recordatorio lo usará.</string>
+    <string name="home_extra_reliable_on">Recordatorios extra fiables activados</string>
+    <string name="set_section_check">Comprobación de recordatorios</string>
+    <string name="set_section_ringing">Cuando suena un recordatorio</string>
+    <string name="set_sum_check">Permisos, batería y volumen de alarma</string>
+    <string name="set_sum_lang">Idioma de la app, tema, formato de hora</string>
+    <string name="set_sum_ringing">Voz o tono, volumen, idioma hablado, recordatorio de prueba</string>
+    <string name="set_sum_timing">Tiempo de posponer, seguimiento, horas de silencio</string>
+    <string name="set_sum_form">Qué opciones ves al crear un recordatorio</string>
+    <string name="set_sum_wear">Recordatorios en tu reloj</string>
+    <string name="set_sum_backup">Guarda o restaura recordatorios y grabaciones</string>
+    <string name="set_sum_about">Guía de la app, soporte, más apps</string>
+    <string name="check_all_good">Los permisos necesarios están activados.</string>
+    <string name="check_issues">Activa los permisos que faltan para mostrar y programar recordatorios.</string>
+    <string name="check_notif_ok">Las notificaciones están activadas</string>
+    <string name="check_notif_bad">Las notificaciones están desactivadas</string>
+    <string name="check_exact_ok">Los recordatorios pueden sonar en el minuto exacto</string>
+    <string name="check_exact_bad">Puede que los recordatorios no suenen en el minuto exacto</string>
+    <string name="check_battery_ok">Tu teléfono deja que los recordatorios funcionen en segundo plano</string>
+    <string name="check_battery_bad">El ahorro de batería puede frenar los recordatorios</string>
+    <string name="check_volume_bad">El volumen de alarma está bajo (%1$d %%) y los recordatorios pueden oírse poco</string>
+    <string name="check_raise">Subir</string>
+    <string name="check_fullscreen_bad">Las alertas en pantalla bloqueada necesitan permiso</string>
+    <string name="check_dnd_bad">Permite el acceso a No molestar para recibir alertas durante ese modo</string>
+    <string name="check_mic_ok">Micrófono permitido para recordatorios de voz</string>
+    <string name="check_mic_bad">Micrófono desactivado: no se pueden grabar recordatorios de voz</string>
+    <string name="check_volume_how">Toca Subir o abre los ajustes de sonido del teléfono y sube el volumen de alarma.</string>
+    <string name="set_required_permissions">Permisos necesarios</string>
+    <string name="set_recommendations">Recomendaciones y funciones opcionales</string>
+    <string name="set_playback_mode">Sonido del recordatorio</string>
+    <string name="set_voice_audio_mode">Voz, archivos de audio y texto hablado</string>
 </resources>

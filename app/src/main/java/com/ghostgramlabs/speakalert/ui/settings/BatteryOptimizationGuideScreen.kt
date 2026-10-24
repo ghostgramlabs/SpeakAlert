@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -45,8 +46,12 @@ import com.ghostgramlabs.speakalert.ui.components.PremiumHeaderCard
 import com.ghostgramlabs.speakalert.ui.components.PremiumScreenBackground
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.BatteryOptimizationSupport
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.ui.res.stringResource
 import com.ghostgramlabs.speakalert.R
+import androidx.compose.runtime.collectAsState
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import com.ghostgramlabs.speakalert.ui.components.mirrorInRtl
 
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
@@ -172,6 +177,10 @@ fun BatteryOptimizationGuideScreen(
                 }
             }
 
+            // When the maker's own battery settings are confusing or do not stick, this still
+            // gets reminders through. The same switch is in Settings > Reliability.
+            AlarmClockDeliveryCard()
+
             Text(
                 text = stringResource(R.string.bog_brand_xiaomi),
                 style = MaterialTheme.typography.titleLarge,
@@ -197,6 +206,17 @@ fun BatteryOptimizationGuideScreen(
             BatteryGuideStep(number = stringResource(R.string.bog_step, 4), text = stringResource(R.string.bog_huawei_manage_off))
             BatteryGuideStep(number = stringResource(R.string.bog_step, 5), text = stringResource(R.string.bog_huawei_allow))
             BatteryGuideStep(number = stringResource(R.string.bog_optional), text = stringResource(R.string.bog_huawei_opt, APP_DISPLAY_NAME))
+
+            Text(
+                text = stringResource(R.string.bog_brand_transsion),
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.SemiBold
+            )
+
+            BatteryGuideStep(number = stringResource(R.string.bog_step, 1), text = stringResource(R.string.bog_open_settings))
+            BatteryGuideStep(number = stringResource(R.string.bog_step, 2), text = stringResource(R.string.bog_transsion_autostart, APP_DISPLAY_NAME))
+            BatteryGuideStep(number = stringResource(R.string.bog_step, 3), text = stringResource(R.string.bog_transsion_battery, APP_DISPLAY_NAME))
+            BatteryGuideStep(number = stringResource(R.string.bog_optional), text = stringResource(R.string.bog_xiaomi_opt))
 
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -232,6 +252,82 @@ fun BatteryOptimizationGuideScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
         }
+        }
+    }
+}
+
+/** Confirms "Extra-reliable reminders" is in effect, so nobody has to look for a status-bar icon. */
+@Composable
+internal fun alarmClockStatusText(nextReminderAt: Long?): String =
+    if (nextReminderAt != null) {
+        "\u2713 " + stringResource(
+            R.string.set_alarm_clock_status_next,
+            com.ghostgramlabs.speakalert.util.DateUtils.formatSmartDate(nextReminderAt)
+        )
+    } else {
+        stringResource(R.string.set_alarm_clock_status_none)
+    }
+
+@Composable
+private fun AlarmClockDeliveryCard() {
+    val context = LocalContext.current
+    val scope = androidx.compose.runtime.rememberCoroutineScope()
+    var enabled by remember {
+        mutableStateOf(com.ghostgramlabs.speakalert.util.AlarmDeliveryPreferences.useAlarmClock(context))
+    }
+    val container = remember { (context.applicationContext as com.ghostgramlabs.speakalert.VoiceReminderApp).container }
+    val nextReminderAt by remember {
+        container.reminderRepository.getAllRemindersStream()
+            .map { com.ghostgramlabs.speakalert.util.AlarmDeliveryPreferences.nextReminderAt(it) }
+    }.collectAsState(initial = null)
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        shape = RoundedCornerShape(20.dp)
+    ) {
+        val onToggle: (Boolean) -> Unit = {
+            enabled = it
+            scope.launch {
+                com.ghostgramlabs.speakalert.alarm.setAlarmClockDelivery(
+                    context, it, container.reminderRepository, container.alarmScheduler
+                )
+            }
+        }
+        // The whole card toggles, as Settings rows do; only the small switch used to.
+        androidx.compose.foundation.layout.Row(
+            modifier = Modifier
+                .toggleable(
+                    value = enabled,
+                    role = androidx.compose.ui.semantics.Role.Switch,
+                    onValueChange = onToggle
+                )
+                .padding(20.dp),
+            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+        ) {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.set_alarm_clock),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = stringResource(R.string.set_alarm_clock_desc),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                if (enabled) {
+                    Text(
+                        text = alarmClockStatusText(nextReminderAt),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.width(12.dp))
+            androidx.compose.material3.Switch(checked = enabled, onCheckedChange = null)
         }
     }
 }

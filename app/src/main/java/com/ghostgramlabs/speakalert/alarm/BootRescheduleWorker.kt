@@ -11,6 +11,7 @@ import com.ghostgramlabs.speakalert.data.model.MissedReminderEntity
 import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
 import com.ghostgramlabs.speakalert.domain.models.MissedPolicy
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
+import com.ghostgramlabs.speakalert.domain.MissedPolicyResolver
 import com.ghostgramlabs.speakalert.util.FileLogger
 import com.ghostgramlabs.speakalert.util.isDefaultAppDisplayName
 import com.ghostgramlabs.speakalert.widget.SpeakAlertWidgetUpdater
@@ -51,7 +52,7 @@ class BootRescheduleWorker internal constructor(
             val scheduler = app.container.alarmScheduler
             val missedRepository = app.container.missedReminderRepository
             val notificationHelper = NotificationHelper(applicationContext)
-            val settingsDefaultPolicy = parseMissedPolicy(settingsRepository.defaultMissedPolicy.first())
+            val settingsDefaultPolicy = MissedPolicyResolver.parse(settingsRepository.defaultMissedPolicy.first())
             val toneOnlyMode = settingsRepository.toneOnlyMode.first()
             val toneOnlyAlertToneUri = settingsRepository.toneOnlyAlertToneUri.first()
             val dndBypassEnabled = settingsRepository.dndBypassEnabled.first()
@@ -88,13 +89,12 @@ class BootRescheduleWorker internal constructor(
                     // Past/Missed/Immediate reminder: Handle INLINE to avoid FGS start frequency limit/restriction
                     FileLogger.log("BOOT_WORKER: Reminder ${reminder.id} is past due ($triggerTime <= $now). Handling inline as missed.")
 
-                    val recurrenceModel = RecurrenceUtils.fromJson(reminder.recurrenceType, reminder.recurrenceJson)
-                    val recurrencePolicy = recurrenceModel?.missedPolicy?.takeIf {
-                        it != MissedPolicy.SKIP_TO_NEXT || settingsDefaultPolicy == MissedPolicy.SKIP_TO_NEXT
-                    }
-                    val missedPolicy = recurrencePolicy ?: reminder.missedPolicy.takeIf {
-                        it != MissedPolicy.SKIP_TO_NEXT || settingsDefaultPolicy == MissedPolicy.SKIP_TO_NEXT
-                    } ?: settingsDefaultPolicy
+                    val missedPolicy = MissedPolicyResolver.effective(
+                        reminder.recurrenceType,
+                        reminder.recurrenceJson,
+                        reminder.missedPolicy,
+                        settingsDefaultPolicy
+                    )
                     val shouldShowMissedNotification =
                         reminder.recurrenceType == RecurrenceType.NONE || missedPolicy == MissedPolicy.FIRE_ON_RESUME
                      
@@ -129,7 +129,7 @@ class BootRescheduleWorker internal constructor(
                             dndBypassEnabled = dndBypassEnabled
                         )
                         if (toneOnlyMode && notificationShown) {
-                            ToneAlertPlayer.start(applicationContext, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled)
+                            ToneAlertPlayer.start(applicationContext, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled, reminderId = reminder.id)
                         }
                     } else if (shouldShowMissedNotification) {
                         val reason = if (silenceForDnd) "DND with bypass off" else "device restart"
@@ -223,7 +223,7 @@ class BootRescheduleWorker internal constructor(
                                 dndBypassEnabled = dndBypassEnabled
                             )
                             if (toneOnlyMode && notificationShown) {
-                                ToneAlertPlayer.start(applicationContext, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled)
+                                ToneAlertPlayer.start(applicationContext, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled, reminderId = reminder.id)
                             }
                         } else {
                             val reason = if (silenceForDnd) "DND with bypass off" else "device restart"
@@ -251,13 +251,6 @@ class BootRescheduleWorker internal constructor(
         const val KEY_TRIGGER_ACTION = "trigger_action"
     }
 
-    private fun parseMissedPolicy(raw: String): MissedPolicy {
-        return when (raw) {
-            "FIRE_ON_RESUME", "FIRE" -> MissedPolicy.FIRE_ON_RESUME
-            "SKIP_TO_NEXT", "SKIP" -> MissedPolicy.SKIP_TO_NEXT
-            else -> MissedPolicy.SKIP_TO_NEXT
-        }
-    }
     private fun buildMissedDisplayTitle(title: String?, reminderText: String?): String {
         val userTitle = title
             ?.trim()

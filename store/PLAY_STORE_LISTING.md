@@ -78,7 +78,54 @@ Most reminder apps rely on silent notifications. SpeakAlert is a talking reminde
 
 ## "What's new" (release notes, max 500 chars)
 
-### 2.0.40 (build 61) — current
+### 2.0.45 (build 66) — current (covers everything since 2.0.40, the last production release)
+
+```
+• Reminder check in Settings shows anything that could stop reminders ringing on time, with a fix button
+• New Extra-reliable reminders for phones that delay reminders to save battery
+• Settings is easier to search, with App language near the top
+• Edit, Done and Delete on every reminder card
+• Sound stops as soon as a reminder is done; tone alarms have Silence again
+• Late repeating reminders now appear in the Missed tab
+• Many smaller fixes
+```
+
+### 2.0.44 (build 65) — previous
+
+```
+• Settings is easier to follow: a Reminder check at the top shows anything that could stop reminders ringing on time, with a button to fix it
+• Choose voice or tone-only in one place; only the settings that apply are shown
+• A warning appears only if your alarm volume is too low, with a quick Raise button
+```
+
+### 2.0.43 (build 64)
+
+```
+• New: "Extra-reliable reminders" in Settings > Reliability. If your phone delays reminders to save battery, turn it on so they ring on time
+• Battery guide: steps for Infinix, Tecno and itel phones
+• Settings shows your phone's alarm volume and warns if it's too low to hear reminders
+```
+
+### 2.0.42 (build 63) — closed testing
+
+```
+• New: "Extra-reliable reminders" in Settings > Reliability. If your phone delays reminders to save battery, turn it on so they ring on time
+• Battery guide: steps for Infinix, Tecno and itel phones
+• Settings shows your phone's alarm volume and warns if it's too low to hear reminders
+```
+
+### 2.0.41 (build 62) — previous
+
+```
+• The full-screen alert shows your reminder in large, coloured text
+• Edit, Done and Delete buttons right on each reminder card
+• A calmer battery notice that you can dismiss
+• Today says "Nothing due today" when your reminders are later
+• Fixed: sound kept playing after marking a reminder done
+• Fixed: Done on a ringing repeating reminder also skipped the next one
+```
+
+### 2.0.40 (build 61)
 
 ```
 • Now in 12 languages: Portuguese (Brazil), Russian, Vietnamese, Bengali, Telugu, Tamil, Greek and Malayalam join English, Spanish, Hindi and Arabic
@@ -89,7 +136,7 @@ Most reminder apps rely on silent notifications. SpeakAlert is a talking reminde
 • Fixed: an empty backup file when there was nothing to back up
 ```
 
-### 2.0.39 (build 60) — previous
+### 2.0.39 (build 60)
 
 ```
 • New look: a refreshed, modern app icon

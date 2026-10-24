@@ -1,5 +1,6 @@
 package com.ghostgramlabs.speakalert.alarm
 
+import android.app.NotificationManager
 import android.content.Context
 import com.ghostgramlabs.speakalert.data.repository.SettingsRepository
 import kotlinx.coroutines.flow.first
@@ -11,8 +12,8 @@ import kotlinx.coroutines.flow.first
  */
 interface ReminderAlertNotifications {
     /**
-     * The reminder was deleted or marked done in the app. Its alert goes regardless of any
-     * setting: "Keep notification until done" pins it, so nothing else could clear it.
+     * The reminder was deleted or marked done in the app. Stop its active playback and clear
+     * its notification regardless of "Keep notification until done".
      */
     fun onResolved(reminderId: Long)
 
@@ -22,9 +23,13 @@ interface ReminderAlertNotifications {
      */
     suspend fun onSeen(reminderId: Long)
 
+    /** Whether the reminder's alert notification is still on screen. */
+    fun isShowing(reminderId: Long): Boolean
+
     object None : ReminderAlertNotifications {
         override fun onResolved(reminderId: Long) = Unit
         override suspend fun onSeen(reminderId: Long) = Unit
+        override fun isShowing(reminderId: Long) = false
     }
 }
 
@@ -33,6 +38,8 @@ class SystemReminderAlertNotifications(
     private val settingsRepository: SettingsRepository
 ) : ReminderAlertNotifications {
     override fun onResolved(reminderId: Long) {
+        ToneAlertPlayer.stop(reminderId)
+        com.ghostgramlabs.speakalert.service.ReminderPlaybackService.stop(context, reminderId)
         NotificationHelper.cancelAlertNotification(context, reminderId)
     }
 
@@ -40,4 +47,9 @@ class SystemReminderAlertNotifications(
         if (settingsRepository.persistUntilDone.first()) return
         NotificationHelper.cancelAlertNotification(context, reminderId)
     }
+
+    override fun isShowing(reminderId: Long): Boolean =
+        context.getSystemService(NotificationManager::class.java)
+            ?.activeNotifications
+            ?.any { it.id == reminderId.toInt() } == true
 }

@@ -20,6 +20,8 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -33,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import com.ghostgramlabs.speakalert.R
 import com.ghostgramlabs.speakalert.ui.components.AppTimePickerDialog
@@ -48,6 +51,7 @@ import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -199,40 +203,192 @@ fun SettingsScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
             // ============================================================
-            // SECTION 0: APPEARANCE
+            // REMINDER CHECK: everything that decides whether reminders ring on time, in one
+            // place and in plain words. It replaces the old permissions card, which said "All
+            // permissions granted" even with a restricted battery or a quiet alarm volume.
+            // ============================================================
+            val hasMicPerm = androidx.core.content.ContextCompat.checkSelfPermission(
+                context, Manifest.permission.RECORD_AUDIO
+            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+            val hasNotifPerm = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                androidx.core.content.ContextCompat.checkSelfPermission(
+                    context, Manifest.permission.POST_NOTIFICATIONS
+                ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+            } else true
+            val canScheduleAlarms = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                context.getSystemService(AlarmManager::class.java).canScheduleExactAlarms()
+            } else true
+            val alarmAudio = remember { context.getSystemService(android.media.AudioManager::class.java) }
+            fun readAlarmVolumePercent(): Int {
+                val max = alarmAudio.getStreamMaxVolume(android.media.AudioManager.STREAM_ALARM).coerceAtLeast(1)
+                return alarmAudio.getStreamVolume(android.media.AudioManager.STREAM_ALARM) * 100 / max
+            }
+            var alarmVolumePercent by remember { mutableStateOf(readAlarmVolumePercent()) }
+            // The system volume panel changes it without leaving this screen, so keep it current.
+            LaunchedEffect(Unit) {
+                while (true) {
+                    alarmVolumePercent = readAlarmVolumePercent()
+                    kotlinx.coroutines.delay(1000)
+                }
+            }
+            // Private playback uses the media or call volume, so the alarm volume does not apply.
+            val alarmVolumeLow = (toneOnlyMode || !privatePlaybackEnabled) && alarmVolumePercent < 50
+            val fullScreenNeedsAccess = fullScreenAlertEnabled && !fullScreenAccessGranted
+            val dndNeedsAccess = dndBypassEnabled && !dndPolicyAccessGranted
+            val reminderCheckOk = hasNotifPerm && canScheduleAlarms
+            val noBatterySettings = stringResource(R.string.bog_no_battery_settings)
+
+            CollapsibleSettingsSection(
+                title = stringResource(R.string.set_section_check),
+                icon = "Safe",
+                summary = stringResource(R.string.set_sum_check),
+                initiallyExpanded = true
+            ) {
+                Text(stringResource(R.string.set_required_permissions), style = MaterialTheme.typography.titleSmall)
+                // The ticks below already say when all is well; only a missing permission needs words.
+                if (!reminderCheckOk) {
+                    Text(
+                        text = stringResource(R.string.check_issues),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                }
+                CheckRow(
+                    ok = hasNotifPerm,
+                    required = true,
+                    text = stringResource(if (hasNotifPerm) R.string.check_notif_ok else R.string.check_notif_bad),
+                    actionLabel = stringResource(R.string.set_fix),
+                    onAction = {
+                        context.startActivity(Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                            putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                        })
+                    }
+                )
+                CheckRow(
+                    ok = canScheduleAlarms,
+                    required = true,
+                    text = stringResource(if (canScheduleAlarms) R.string.check_exact_ok else R.string.check_exact_bad),
+                    actionLabel = stringResource(R.string.set_fix),
+                    onAction = {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                            context.startActivity(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM))
+                        }
+                    }
+                )
+                Divider(Modifier.padding(vertical = 12.dp))
+                Text(stringResource(R.string.set_recommendations), style = MaterialTheme.typography.titleSmall)
+                CheckRow(
+                    ok = !batteryOptimizationEnabled,
+                    text = stringResource(
+                        if (batteryOptimizationEnabled) R.string.check_battery_bad else R.string.check_battery_ok
+                    ),
+                    actionLabel = stringResource(R.string.set_fix),
+                    onAction = {
+                        if (!BatteryOptimizationSupport.requestIgnoreBatteryOptimizations(context)) {
+                            Toast.makeText(context, noBatterySettings, Toast.LENGTH_SHORT).show()
+                            onOpenBatteryOptimizationGuide()
+                        }
+                    }
+                )
+                // Only when it is a problem: "loud enough (85%)" raised more questions than it
+                // answered, and the summary line already says when everything is fine.
+                if (alarmVolumeLow) {
+                    CheckRow(
+                        ok = false,
+                        text = stringResource(R.string.check_volume_bad, alarmVolumePercent),
+                        detail = stringResource(R.string.check_volume_how),
+                        actionLabel = stringResource(R.string.check_raise),
+                        onAction = {
+                            // The explicitly labeled Raise action increases alarm volume one step.
+                            alarmAudio.adjustStreamVolume(
+                                android.media.AudioManager.STREAM_ALARM,
+                                android.media.AudioManager.ADJUST_RAISE,
+                                android.media.AudioManager.FLAG_SHOW_UI
+                            )
+                            alarmVolumePercent = readAlarmVolumePercent()
+                        }
+                    )
+                }
+                if (fullScreenNeedsAccess) {
+                    CheckRow(
+                        ok = false,
+                        text = stringResource(R.string.check_fullscreen_bad),
+                        actionLabel = stringResource(R.string.action_open_settings),
+                        onAction = { FullScreenIntentSupport.openSettings(context) }
+                    )
+                }
+                if (dndNeedsAccess) {
+                    CheckRow(
+                        ok = false,
+                        text = stringResource(R.string.check_dnd_bad),
+                        actionLabel = stringResource(R.string.action_open_settings),
+                        onAction = {
+                            runCatching {
+                                context.startActivity(Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS))
+                            }.onFailure {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.set_dnd_unavailable),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    )
+                }
+                CheckRow(
+                    ok = hasMicPerm,
+                    text = stringResource(if (hasMicPerm) R.string.check_mic_ok else R.string.check_mic_bad),
+                    actionLabel = stringResource(R.string.action_open_settings),
+                    onAction = {
+                        context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                            data = android.net.Uri.parse("package:${context.packageName}")
+                        })
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+                var alarmClockDelivery by remember {
+                    mutableStateOf(com.ghostgramlabs.speakalert.util.AlarmDeliveryPreferences.useAlarmClock(context))
+                }
+                val nextReminderAt by viewModel.nextReminderAt.collectAsState()
+                SwitchRow(
+                    text = stringResource(R.string.set_alarm_clock),
+                    description = if (alarmClockDelivery) {
+                        stringResource(R.string.set_alarm_clock_desc) + "\n" + alarmClockStatusText(nextReminderAt)
+                    } else {
+                        stringResource(R.string.set_alarm_clock_desc)
+                    },
+                    checked = alarmClockDelivery,
+                    onCheckedChange = {
+                        alarmClockDelivery = it
+                        viewModel.setAlarmClockDelivery(context, it)
+                    }
+                )
+
+
+                TextButton(onClick = onOpenBatteryOptimizationGuide) {
+                    Icon(
+                        imageVector = Icons.Default.BatteryAlert,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text(stringResource(R.string.set_battery_guide))
+                }
+            }
+
+            // ============================================================
+            // LANGUAGE & APPEARANCE (near the top: language is what people look for first)
             // ============================================================
             val themeMode by viewModel.themeMode.collectAsState()
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_appearance),
-                icon = "UI",
-                initiallyExpanded = true
+                icon = "Lang",
+                summary = stringResource(R.string.set_sum_lang),
+                initiallyExpanded = false
             ) {
-                Text(stringResource(R.string.set_app_theme), style = MaterialTheme.typography.bodyMedium)
-                Row(
-                    modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    val themes = listOf(
-                        stringResource(R.string.theme_system),
-                        stringResource(R.string.theme_light),
-                        stringResource(R.string.theme_dark)
-                    )
-                    themes.forEachIndexed { index, name ->
-                        SnoozeOptionChip(
-                            text = name,
-                            isSelected = themeMode == index,
-                            onClick = {
-                                viewModel.setThemeMode(index)
-                                // Mirror synchronously so the next cold start picks the right
-                                // window background before DataStore loads.
-                                com.ghostgramlabs.speakalert.util.ThemePrefs.cache(context, index)
-                            },
-                            modifier = Modifier.weight(1f)
-                        )
-                    }
-                }
-
-                Spacer(Modifier.height(16.dp))
                 Text(stringResource(R.string.settings_language), style = MaterialTheme.typography.bodyMedium)
                 Text(
                     text = stringResource(R.string.settings_language_description),
@@ -268,6 +424,32 @@ fun SettingsScreen(
                 }
 
                 Spacer(Modifier.height(16.dp))
+                Text(stringResource(R.string.set_app_theme), style = MaterialTheme.typography.bodyMedium)
+                Row(
+                    modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    val themes = listOf(
+                        stringResource(R.string.theme_system),
+                        stringResource(R.string.theme_light),
+                        stringResource(R.string.theme_dark)
+                    )
+                    themes.forEachIndexed { index, name ->
+                        SnoozeOptionChip(
+                            text = name,
+                            isSelected = themeMode == index,
+                            onClick = {
+                                viewModel.setThemeMode(index)
+                                // Mirror synchronously so the next cold start picks the right
+                                // window background before DataStore loads.
+                                com.ghostgramlabs.speakalert.util.ThemePrefs.cache(context, index)
+                            },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+
+                Spacer(Modifier.height(16.dp))
                 SwitchRow(
                     text = stringResource(R.string.settings_24_hour_time),
                     description = stringResource(R.string.settings_24_hour_time_desc),
@@ -278,85 +460,34 @@ fun SettingsScreen(
                 UnnamedReminderTitleSetting()
             }
 
+            // ============================================================
+            // WHEN A REMINDER RINGS (includes Test Reminder at bottom)
+            // ============================================================
             CollapsibleSettingsSection(
-                title = stringResource(R.string.set_reminder_form),
-                icon = "Form",
+                title = stringResource(R.string.set_section_ringing),
+                icon = "Play",
+                summary = stringResource(R.string.set_sum_ringing),
                 initiallyExpanded = true
             ) {
-                Text(
-                    text = stringResource(R.string.set_reminder_form_desc),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Spacer(Modifier.height(10.dp))
-                SwitchRow(
-                    text = stringResource(R.string.set_show_voice_recording),
-                    description = stringResource(R.string.set_show_voice_recording_desc),
-                    checked = showVoiceRecordingSection,
-                    onCheckedChange = viewModel::setShowVoiceRecordingSection
-                )
-                if (showVoiceRecordingSection) {
-                    SwitchRow(
-                        text = stringResource(R.string.set_experimental_voice_enhancement),
-                        description = stringResource(R.string.set_experimental_voice_enhancement_desc),
-                        checked = experimentalVoiceEnhancementEnabled,
-                        onCheckedChange = viewModel::setExperimentalVoiceEnhancementEnabled
-                    )
-                    if (experimentalVoiceEnhancementEnabled) {
-                        Surface(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
-                            shape = RoundedCornerShape(12.dp),
-                            color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.55f)
+                Text(stringResource(R.string.set_playback_mode), style = MaterialTheme.typography.titleSmall)
+                Column(Modifier.fillMaxWidth().selectableGroup()) {
+                    listOf(false, true).forEach { tone ->
+                        Row(
+                            modifier = Modifier.fillMaxWidth().selectable(
+                                selected = toneOnlyMode == tone,
+                                role = Role.RadioButton,
+                                onClick = { viewModel.setToneOnlyMode(tone) }
+                            ).padding(vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Row(
-                                modifier = Modifier.padding(12.dp),
-                                verticalAlignment = Alignment.Top
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Filled.Science,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onTertiaryContainer
-                                )
-                                Spacer(Modifier.width(10.dp))
-                                Text(
-                                    text = stringResource(R.string.set_experimental_voice_enhancement_note),
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onTertiaryContainer
-                                )
-                            }
+                            RadioButton(selected = toneOnlyMode == tone, onClick = null)
+                            Spacer(Modifier.width(12.dp))
+                            Text(stringResource(if (tone) R.string.set_tone_only else R.string.set_voice_audio_mode),
+                                modifier = Modifier.weight(1f))
                         }
                     }
                 }
-                SwitchRow(
-                    text = stringResource(R.string.set_show_audio_file),
-                    description = stringResource(R.string.set_show_audio_file_desc),
-                    checked = showAudioFileSection,
-                    onCheckedChange = viewModel::setShowAudioFileSection
-                )
-                SwitchRow(
-                    text = stringResource(R.string.set_show_typed_reminder),
-                    description = stringResource(R.string.set_show_typed_reminder_desc),
-                    checked = showTypedReminderSection,
-                    onCheckedChange = viewModel::setShowTypedReminderSection
-                )
-                SwitchRow(
-                    text = stringResource(R.string.set_show_short_label),
-                    description = stringResource(R.string.set_show_short_label_desc),
-                    checked = showShortLabelSection,
-                    onCheckedChange = viewModel::setShowShortLabelSection
-                )
-            }
-
-            // ============================================================
-            // SECTION 1: PLAYBACK (includes Test Reminder at bottom)
-            // ============================================================
-            CollapsibleSettingsSection(
-                title = stringResource(R.string.set_playback),
-                icon = "Play",
-                initiallyExpanded = true
-            ) {
+                if (!toneOnlyMode) {
                 SwitchRow(
                     text = stringResource(R.string.set_autoplay),
                     description = if (toneOnlyMode) {
@@ -440,13 +571,8 @@ fun SettingsScreen(
                     enabled = !toneOnlyMode
                 )
 
-                SwitchRow(
-                    text = stringResource(R.string.set_tone_only),
-                    description = toneOnlySubtitle,
-                    checked = toneOnlyMode,
-                    onCheckedChange = { viewModel.setToneOnlyMode(it) }
-                )
-
+                } else {
+                Text(toneOnlySubtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 ToneSelectionRow(
                     currentToneLabel = resolveToneOnlyToneLabel(context, toneOnlyAlertToneUri),
                     hasCustomTone = !toneOnlyAlertToneUri.isNullOrBlank(),
@@ -471,6 +597,8 @@ fun SettingsScreen(
                     },
                     onUseDefault = { viewModel.setToneOnlyAlertToneUri(null) }
                 )
+
+                }
 
                 SwitchRow(
                     text = stringResource(R.string.set_fullscreen),
@@ -535,6 +663,7 @@ fun SettingsScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
                 
+                if (!toneOnlyMode) {
                 // Volume Slider
                 Row(
                     verticalAlignment = Alignment.CenterVertically, 
@@ -568,6 +697,7 @@ fun SettingsScreen(
                          modifier = Modifier.padding(start = 8.dp).width(40.dp)
                     )
                 }
+                }
                 if (toneOnlyMode) {
                     Text(
                         text = stringResource(R.string.set_tone_volume_note),
@@ -576,6 +706,7 @@ fun SettingsScreen(
                     )
                 }
                  
+
                 // Loop Auto-Stop (compact inline)
                 Text(stringResource(R.string.set_loop_duration), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 8.dp))
                 Text(
@@ -633,6 +764,64 @@ fun SettingsScreen(
                     }
                 }
 
+                Spacer(modifier = Modifier.height(8.dp))
+                val persistUntilDone by viewModel.persistUntilDone.collectAsState()
+                SwitchRow(
+                    text = stringResource(R.string.set_persist),
+                    description = stringResource(R.string.set_persist_desc),
+                    checked = persistUntilDone,
+                    onCheckedChange = { viewModel.setPersistUntilDone(it) }
+                )
+
+                SwitchRow(
+                    text = stringResource(R.string.set_dnd),
+                    description = when {
+                        !dndBypassEnabled -> stringResource(R.string.set_dnd_desc_off)
+                        dndPolicyAccessGranted -> stringResource(R.string.set_dnd_desc_active)
+                        else -> stringResource(R.string.set_dnd_desc_needed)
+                    },
+                    checked = dndBypassEnabled,
+                    onCheckedChange = {
+                        viewModel.setDndBypassEnabled(it)
+                        NotificationHelper(context).refreshChannels(dndBypassEnabled = it)
+                    }
+                )
+
+                if (dndBypassEnabled && !dndPolicyAccessGranted) {
+                    OutlinedButton(
+                        onClick = {
+                            runCatching {
+                                context.startActivity(Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS))
+                            }.onFailure {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.set_dnd_unavailable),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.NotificationsActive,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(stringResource(R.string.set_grant_dnd))
+                    }
+                    Text(
+                        stringResource(R.string.set_dnd_note, APP_DISPLAY_NAME),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                } else {
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
+
                 Divider(modifier = Modifier.padding(vertical = 12.dp))
 
                 // Test Reminder Button
@@ -655,7 +844,8 @@ fun SettingsScreen(
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_section_timing),
                 icon = "Time",
-                initiallyExpanded = true
+                summary = stringResource(R.string.set_sum_timing),
+                initiallyExpanded = false
             ) {
                 // Snooze Duration
                 Text(stringResource(R.string.set_default_snooze), style = MaterialTheme.typography.bodyMedium)
@@ -782,216 +972,81 @@ fun SettingsScreen(
                         )
                     }
                 }
-                
+
             }
 
 
 
-            // ============================================================
-            // SECTION 3: PERMISSIONS (compact - show details only if issues)
-            // ============================================================
-            val hasMicPerm = androidx.core.content.ContextCompat.checkSelfPermission(
-                context, Manifest.permission.RECORD_AUDIO
-            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
-            
-            val hasNotifPerm = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                androidx.core.content.ContextCompat.checkSelfPermission(
-                    context, Manifest.permission.POST_NOTIFICATIONS
-                ) == android.content.pm.PackageManager.PERMISSION_GRANTED
-            } else true
-            
-            val canScheduleAlarms = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                context.getSystemService(AlarmManager::class.java).canScheduleExactAlarms()
-            } else true
-            
-            val allGranted = hasMicPerm && hasNotifPerm && canScheduleAlarms
-            
-            // Show Permissions section only if there are issues, or as a compact card if all good
-            Card(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = if (allGranted) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f) 
-                                     else MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.3f)
-                )
-            ) {
-                if (allGranted) {
-                    // Compact success state
-                    Row(
-                        modifier = Modifier.fillMaxWidth().padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            Icons.Filled.CheckCircle,
-                            contentDescription = stringResource(R.string.set_cd_granted),
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Text(stringResource(R.string.set_all_granted), style = MaterialTheme.typography.bodyMedium)
-                    }
-                } else {
-                    // Expanded error state with fix buttons
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(
-                                Icons.Filled.Warning,
-                                contentDescription = stringResource(R.string.set_cd_action_required),
-                                tint = MaterialTheme.colorScheme.error
-                            )
-                            Spacer(modifier = Modifier.width(12.dp))
-                            Text(stringResource(R.string.set_some_needed), style = MaterialTheme.typography.titleSmall)
-                        }
-                        
-                        Spacer(modifier = Modifier.height(12.dp))
-                        
-                        if (!hasNotifPerm && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            PermissionRow(
-                                name = stringResource(R.string.set_notifications),
-                                granted = false,
-                                onFix = {
-                                    val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
-                                        putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
-                                    }
-                                    context.startActivity(intent)
-                                }
-                            )
-                        }
-                        
-                        if (!canScheduleAlarms && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                            PermissionRow(
-                                name = stringResource(R.string.set_exact_alarms),
-                                granted = false,
-                                onFix = {
-                                    val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
-                                    context.startActivity(intent)
-                                }
-                            )
-                        }
-                        
-                        if (!hasMicPerm) {
-                            PermissionRow(
-                                name = stringResource(R.string.set_microphone),
-                                granted = false,
-                                onFix = {
-                                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                                        data = android.net.Uri.parse("package:${context.packageName}")
-                                    }
-                                    context.startActivity(intent)
-                                }
-                            )
-                        }
-                    }
-                }
-            }
-
-            // ============================================================
-            // SECTION 4: RELIABILITY
-            // ============================================================
             CollapsibleSettingsSection(
-                title = stringResource(R.string.set_reliability),
-                icon = "Safe",
-                initiallyExpanded = true
+                title = stringResource(R.string.set_reminder_form),
+                icon = "Form",
+                summary = stringResource(R.string.set_sum_form),
+                initiallyExpanded = false
             ) {
-                val persistUntilDone by viewModel.persistUntilDone.collectAsState()
-                SwitchRow(
-                    text = stringResource(R.string.set_persist),
-                    description = stringResource(R.string.set_persist_desc),
-                    checked = persistUntilDone,
-                    onCheckedChange = { viewModel.setPersistUntilDone(it) }
+                Text(
+                    text = stringResource(R.string.set_reminder_form_desc),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-
+                Spacer(Modifier.height(10.dp))
                 SwitchRow(
-                    text = stringResource(R.string.set_dnd),
-                    description = when {
-                        !dndBypassEnabled -> stringResource(R.string.set_dnd_desc_off)
-                        dndPolicyAccessGranted -> stringResource(R.string.set_dnd_desc_active)
-                        else -> stringResource(R.string.set_dnd_desc_needed)
-                    },
-                    checked = dndBypassEnabled,
-                    onCheckedChange = {
-                        viewModel.setDndBypassEnabled(it)
-                        NotificationHelper(context).refreshChannels(dndBypassEnabled = it)
-                    }
+                    text = stringResource(R.string.set_show_voice_recording),
+                    description = stringResource(R.string.set_show_voice_recording_desc),
+                    checked = showVoiceRecordingSection,
+                    onCheckedChange = viewModel::setShowVoiceRecordingSection
                 )
-
-                if (dndBypassEnabled && !dndPolicyAccessGranted) {
-                    OutlinedButton(
-                        onClick = {
-                            runCatching {
-                                context.startActivity(Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS))
-                            }.onFailure {
-                                Toast.makeText(
-                                    context,
-                                    context.getString(R.string.set_dnd_unavailable),
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                if (showVoiceRecordingSection) {
+                    SwitchRow(
+                        text = stringResource(R.string.set_experimental_voice_enhancement),
+                        description = stringResource(R.string.set_experimental_voice_enhancement_desc),
+                        checked = experimentalVoiceEnhancementEnabled,
+                        onCheckedChange = viewModel::setExperimentalVoiceEnhancementEnabled
+                    )
+                    if (experimentalVoiceEnhancementEnabled) {
+                        Surface(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
+                            shape = RoundedCornerShape(12.dp),
+                            color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.55f)
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(12.dp),
+                                verticalAlignment = Alignment.Top
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.Science,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onTertiaryContainer
+                                )
+                                Spacer(Modifier.width(10.dp))
+                                Text(
+                                    text = stringResource(R.string.set_experimental_voice_enhancement_note),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onTertiaryContainer
+                                )
                             }
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.NotificationsActive,
-                            contentDescription = null,
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(stringResource(R.string.set_grant_dnd))
-                    }
-                    Text(
-                        stringResource(R.string.set_dnd_note, APP_DISPLAY_NAME),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(top = 8.dp)
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
-                } else {
-                    Spacer(modifier = Modifier.height(12.dp))
-                }
-
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-                    )
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { onOpenBatteryOptimizationGuide() }
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.BatteryAlert,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(Modifier.width(16.dp))
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                text = stringResource(R.string.set_battery_guide),
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.Medium
-                            )
-                            Text(
-                                text = if (batteryOptimizationEnabled) {
-                                    stringResource(R.string.set_battery_desc)
-                                } else {
-                                    stringResource(R.string.set_battery_desc_ok, APP_DISPLAY_NAME)
-                                },
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
                         }
-                        Icon(
-                        Icons.Default.ChevronRight,
-                        contentDescription = null,
-                        modifier = Modifier.mirrorInRtl()
-                    )
                     }
                 }
+                SwitchRow(
+                    text = stringResource(R.string.set_show_audio_file),
+                    description = stringResource(R.string.set_show_audio_file_desc),
+                    checked = showAudioFileSection,
+                    onCheckedChange = viewModel::setShowAudioFileSection
+                )
+                SwitchRow(
+                    text = stringResource(R.string.set_show_typed_reminder),
+                    description = stringResource(R.string.set_show_typed_reminder_desc),
+                    checked = showTypedReminderSection,
+                    onCheckedChange = viewModel::setShowTypedReminderSection
+                )
+                SwitchRow(
+                    text = stringResource(R.string.set_show_short_label),
+                    description = stringResource(R.string.set_show_short_label_desc),
+                    checked = showShortLabelSection,
+                    onCheckedChange = viewModel::setShowShortLabelSection
+                )
             }
 
             // ============================================================
@@ -1000,7 +1055,8 @@ fun SettingsScreen(
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_wear),
                 icon = "Wear",
-                initiallyExpanded = true
+                summary = stringResource(R.string.set_sum_wear),
+                initiallyExpanded = false
             ) {
                 val notificationsReady =
                     appNotificationStatus.appNotificationsEnabled && appNotificationStatus.reminderChannelEnabled
@@ -1136,7 +1192,8 @@ fun SettingsScreen(
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_section_about),
                 icon = "Help",
-                initiallyExpanded = true
+                summary = stringResource(R.string.set_sum_about),
+                initiallyExpanded = false
             ) {
                 var showHelpDialog by remember { mutableStateOf(false) }
 
@@ -1281,7 +1338,8 @@ fun SettingsScreen(
             CollapsibleSettingsSection(
                 title = stringResource(R.string.set_section_backup),
                 icon = "Backup",
-                initiallyExpanded = true
+                summary = stringResource(R.string.set_sum_backup),
+                initiallyExpanded = false
             ) {
                 Row(
                     modifier = Modifier
@@ -1464,6 +1522,9 @@ private fun CollapsibleSettingsSection(
     title: String,
     icon: String,
     initiallyExpanded: Boolean = true,
+    // What is inside, shown while collapsed so people can find a setting without opening
+    // every card.
+    summary: String? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
     var isExpanded by remember { mutableStateOf(initiallyExpanded) }
@@ -1498,6 +1559,7 @@ private fun CollapsibleSettingsSection(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Row(
+                    modifier = Modifier.weight(1f),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -1507,13 +1569,22 @@ private fun CollapsibleSettingsSection(
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(20.dp)
                     )
-                    Text(
-                        text = title,
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.SemiBold
-                        ),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
+                    Column {
+                        Text(
+                            text = title,
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                fontWeight = FontWeight.SemiBold
+                            ),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        if (summary != null && !isExpanded) {
+                            Text(
+                                text = summary,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
                 }
                 
                 Icon(
@@ -1544,6 +1615,8 @@ private fun CollapsibleSettingsSection(
 private fun settingsSectionIcon(icon: String): ImageVector {
     return when (icon) {
         "UI" -> Icons.Default.Palette
+        // A globe reads as "language" even to someone who cannot read the current UI language.
+        "Lang" -> Icons.Default.Language
         "Play" -> Icons.Default.PlayArrow
         "Time" -> Icons.Default.Schedule
         "Safe" -> Icons.Default.VerifiedUser
@@ -1601,6 +1674,68 @@ private fun needsBluetoothConnectPermission(context: android.content.Context): B
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
         context.checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) !=
         android.content.pm.PackageManager.PERMISSION_GRANTED
+}
+
+/** One line of the Reminder check: a tick or a warning, and a button only when it can help. */
+@Composable
+private fun CheckRow(
+    ok: Boolean,
+    text: String,
+    actionLabel: String,
+    onAction: () -> Unit,
+    detail: String? = null,
+    required: Boolean = false
+) {
+    // A long action label ("ക്രമീകരണം തുറക്കുക") beside the text squeezed it to a word per line,
+    // so the button moves under the text once it would take more than a third of the row.
+    val textMeasurer = rememberTextMeasurer()
+    val labelStyle = MaterialTheme.typography.labelLarge
+    val density = LocalDensity.current
+    BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+        val labelWidth = with(density) {
+            textMeasurer.measure(actionLabel, labelStyle, maxLines = 1).size.width.toDp()
+        }
+        // TextButton adds 12dp of padding on each side.
+        val stacked = !ok && labelWidth + 24.dp > maxWidth / 3
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = 44.dp),
+            verticalAlignment = if (stacked) Alignment.Top else Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = if (ok) Icons.Filled.CheckCircle else if (required) Icons.Filled.Warning else Icons.Filled.Info,
+                contentDescription = null,
+                tint = if (ok) MaterialTheme.colorScheme.primary else if (required) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier
+                    .padding(top = if (stacked) 2.dp else 0.dp)
+                    .size(20.dp)
+            )
+            Spacer(Modifier.width(12.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(text = text, style = MaterialTheme.typography.bodyMedium)
+                if (detail != null) {
+                    Text(
+                        text = detail,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(top = 2.dp)
+                    )
+                }
+                if (stacked) {
+                    // Pull the button's own padding back so its label lines up with the text.
+                    TextButton(onClick = onAction, modifier = Modifier.offset(x = (-12).dp)) {
+                        Text(actionLabel)
+                    }
+                }
+            }
+            if (!ok && !stacked) {
+                TextButton(onClick = onAction) {
+                    Text(actionLabel)
+                }
+            }
+        }
+    }
 }
 
 @Composable

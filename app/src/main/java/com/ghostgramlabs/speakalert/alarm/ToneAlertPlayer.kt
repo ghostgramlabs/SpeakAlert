@@ -12,14 +12,22 @@ import com.ghostgramlabs.speakalert.util.FileLogger
 
 object ToneAlertPlayer {
     private var ringtone: Ringtone? = null
+    private var activeReminderId: Long? = null
     private val handler = Handler(Looper.getMainLooper())
     private var timeoutRunnable: Runnable? = null
+    private var appContext: Context? = null
 
+    /** True while [reminderId]'s alarm tone is sounding. */
+    @Synchronized
+    fun isPlayingFor(reminderId: Long): Boolean = ringtone != null && activeReminderId == reminderId
+
+    @Synchronized
     fun start(
         context: Context,
         loopTimeoutMinutes: Int,
         selectedToneUri: String? = null,
-        dndBypass: Boolean = true
+        dndBypass: Boolean = true,
+        reminderId: Long? = null
     ) {
         stop()
 
@@ -45,6 +53,9 @@ object ToneAlertPlayer {
                 .build()
             nextTone.play()
             ringtone = nextTone
+            activeReminderId = reminderId
+            this.appContext = appContext
+            broadcastStatus(appContext, reminderId, isPlaying = true)
             FileLogger.log("TONE: Started alarm tone, timeoutMinutes=$loopTimeoutMinutes")
         } catch (e: Exception) {
             FileLogger.logError("TONE", "Failed to start alarm tone", e)
@@ -61,15 +72,32 @@ object ToneAlertPlayer {
         }
     }
 
-    fun stop() {
+    @Synchronized
+    fun stop(reminderId: Long? = null) {
+        if (reminderId != null && reminderId != activeReminderId) return
         timeoutRunnable?.let { handler.removeCallbacks(it) }
         timeoutRunnable = null
+        val stoppedId = activeReminderId
         try {
             ringtone?.stop()
         } catch (_: Exception) {
         } finally {
             ringtone = null
+            activeReminderId = null
         }
+        appContext?.let { if (stoppedId != null) broadcastStatus(it, stoppedId, isPlaying = false) }
+    }
+
+    // The same status the playback service sends, so the alert screen shows Silence for a tone too.
+    private fun broadcastStatus(context: Context, reminderId: Long?, isPlaying: Boolean) {
+        if (reminderId == null) return
+        context.sendBroadcast(
+            android.content.Intent("ACTION_PLAYBACK_STATUS").apply {
+                setPackage(context.packageName)
+                putExtra("reminderId", reminderId)
+                putExtra("isPlaying", isPlaying)
+            }
+        )
     }
 
     private fun resolveToneUri(context: Context, selectedToneUri: String?): Uri? {

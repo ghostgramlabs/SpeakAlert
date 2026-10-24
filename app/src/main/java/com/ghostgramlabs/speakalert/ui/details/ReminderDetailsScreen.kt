@@ -85,6 +85,7 @@ fun ReminderDetailsScreen(
     }
 
     val reminder by viewModel.reminder.collectAsState()
+    val defaultMissedPolicy by viewModel.defaultMissedPolicy.collectAsState()
     var isPlaying by remember { mutableStateOf(false) }
     // The notification's autoplay request is settled once, when the reminder first loads. Saveable
     // so it is not asked again on return from the editor or after the activity is recreated.
@@ -519,7 +520,10 @@ fun ReminderDetailsScreen(
                             ).format(java.util.Date(item.nextTriggerAt)),
                             onClick = { showInlineTimePicker = true }
                         )
-                        if (recurrenceModel.endRule.type != EndRuleType.NEVER) {
+                        // A finished count-limited series has no remaining count worth showing.
+                        val endRuleExhausted = recurrenceModel.endRule.type == EndRuleType.AFTER_OCCURRENCES &&
+                            (recurrenceModel.endRule.count ?: 0) <= 0
+                        if (recurrenceModel.endRule.type != EndRuleType.NEVER && !endRuleExhausted) {
                             val endRuleText = when (recurrenceModel.endRule.type) {
                                 EndRuleType.UNTIL_DATE -> {
                                     val dateStr = java.text.SimpleDateFormat(
@@ -544,7 +548,16 @@ fun ReminderDetailsScreen(
                         DetailInfoRow(
                             icon = Icons.Default.NotificationsActive,
                             label = stringResource(R.string.det_missed_handling),
-                            value = when (recurrenceModel.missedPolicy) {
+                            // The stored value can be a never-chosen default the alarm ignores;
+                            // show what will actually happen.
+                            value = when (
+                                com.ghostgramlabs.speakalert.domain.MissedPolicyResolver.effective(
+                                    item.recurrenceType,
+                                    item.recurrenceJson,
+                                    item.missedPolicy,
+                                    defaultMissedPolicy
+                                )
+                            ) {
                                 MissedPolicy.FIRE_ON_RESUME -> stringResource(R.string.det_missed_fire)
                                 MissedPolicy.SKIP_TO_NEXT -> stringResource(R.string.det_missed_skip)
                             }
@@ -650,11 +663,9 @@ fun ReminderDetailsScreen(
                                 if (item.isCompleted && item.nextTriggerAt < now) {
                                     showPastActionSheet = true
                                 } else if (isRecurring && !item.isCompleted) {
-                                    viewModel.dismissReminder(context)
-                                    navigateBack()
+                                    viewModel.dismissReminder(context, onSaved = navigateBack)
                                 } else {
-                                    viewModel.toggleDone()
-                                    navigateBack()
+                                    viewModel.toggleDone(onSaved = navigateBack)
                                 }
                             },
                             modifier = Modifier.fillMaxWidth()
@@ -808,9 +819,10 @@ fun ReminderDetailsScreen(
                 Button(
                     onClick = {
                         showDeleteDialog = false
-                        viewModel.deleteReminder()
-                        Toast.makeText(context, context.getString(R.string.home_snackbar_deleted), Toast.LENGTH_SHORT).show()
-                        navigateBack()
+                        viewModel.deleteReminder {
+                            Toast.makeText(context, context.getString(R.string.home_snackbar_deleted), Toast.LENGTH_SHORT).show()
+                            navigateBack()
+                        }
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.error
@@ -886,9 +898,10 @@ fun ReminderDetailsScreen(
             confirmButton = {
                 Button(
                     onClick = {
-                        viewModel.reschedule(pendingRescheduleTime!!)
-                        showRescheduleConfirmation = false
-                        navigateBack()
+                        viewModel.reschedule(pendingRescheduleTime!!) {
+                            showRescheduleConfirmation = false
+                            navigateBack()
+                        }
                     }
                 ) {
                     Text(stringResource(R.string.action_confirm))

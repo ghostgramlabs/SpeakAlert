@@ -35,6 +35,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.stateDescription
@@ -664,9 +665,15 @@ fun AddEditReminderScreen(
                         modifier = Modifier.padding(horizontal = 16.dp),
                         color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)
                     )
+                    // The whole row toggles: only the small switch did, so a tap on the label was lost.
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .toggleable(
+                                value = uiState.loopPlayback,
+                                role = Role.Switch,
+                                onValueChange = { viewModel.setLoopPlayback(it) }
+                            )
                             .padding(horizontal = 16.dp, vertical = 12.dp)
                             .semantics(mergeDescendants = true) {
                                 stateDescription = if (uiState.loopPlayback) stateOn else stateOff
@@ -702,7 +709,7 @@ fun AddEditReminderScreen(
                         }
                         Switch(
                             checked = uiState.loopPlayback,
-                            onCheckedChange = { viewModel.setLoopPlayback(it) },
+                            onCheckedChange = null,
                             colors = SwitchDefaults.colors(
                                 checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
                                 checkedTrackColor = MaterialTheme.colorScheme.primary

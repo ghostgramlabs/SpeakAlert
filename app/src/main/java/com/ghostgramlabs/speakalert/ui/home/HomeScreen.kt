@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material.icons.filled.BatteryAlert
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.CheckCircle
@@ -195,11 +196,17 @@ fun HomeScreen(
     var batteryRestricted by remember {
         mutableStateOf(BatteryOptimizationSupport.isBatteryOptimizationEnabled(context))
     }
+    val batteryGuidanceDismissed by viewModel.batteryGuidanceDismissed.collectAsState(initial = true)
+    // Explains the clock icon or "alarm set" message some phones show while this is on.
+    var extraReliable by remember {
+        mutableStateOf(com.ghostgramlabs.speakalert.util.AlarmDeliveryPreferences.useAlarmClock(context))
+    }
     val homeLifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(homeLifecycleOwner, context) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
                 batteryRestricted = BatteryOptimizationSupport.isBatteryOptimizationEnabled(context)
+                extraReliable = com.ghostgramlabs.speakalert.util.AlarmDeliveryPreferences.useAlarmClock(context)
             }
         }
         homeLifecycleOwner.lifecycle.addObserver(observer)
@@ -210,6 +217,26 @@ fun HomeScreen(
     var showRestoreDialog by remember { mutableStateOf(false) }
     var reminderToRestore by remember { mutableStateOf<ReminderEntity?>(null) }
     var showMarkDoneDialog by remember { mutableStateOf(false) }
+    var pendingDeleteAction by remember { mutableStateOf<(() -> Unit)?>(null) }
+    if (pendingDeleteAction != null) {
+        AlertDialog(
+            onDismissRequest = { pendingDeleteAction = null },
+            title = { Text(stringResource(R.string.det_delete_title)) },
+            text = { Text(stringResource(R.string.home_delete_confirm_body)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    val delete = pendingDeleteAction
+                    pendingDeleteAction = null
+                    delete?.invoke()
+                }) { Text(stringResource(R.string.action_delete)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { pendingDeleteAction = null }) {
+                    Text(stringResource(R.string.action_cancel))
+                }
+            }
+        )
+    }
     var reminderToMarkDone by remember { mutableStateOf<ReminderEntity?>(null) }
     var isRestoringFromUndo by remember { mutableStateOf(false) }
     var showMissedRecoveryDialog by rememberSaveable { mutableStateOf(false) }
@@ -689,18 +716,41 @@ fun HomeScreen(
                 PremiumHeaderCard(
                     title = getGreeting(),
                     subtitle = getSubtitle(uiState),
+                    supportingContent = if (extraReliable) {
+                        {
+                            Row(
+                                modifier = Modifier
+                                    .padding(top = 4.dp)
+                                    .clickable(onClick = navigateToSettings),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.Alarm,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Text(
+                                    text = stringResource(R.string.home_extra_reliable_on),
+                                    style = MaterialTheme.typography.labelLarge,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                            }
+                        }
+                    } else {
+                        null
+                    },
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .padding(top = 8.dp, bottom = 14.dp)
                         .semantics(mergeDescendants = true) {}
                 )
 
-                // A startup sheet asked once and was gone, so the setting that decides whether
-                // reminders arrive at all could be lost to a single stray tap. This states the
-                // problem where it cannot be missed and removes itself the moment the phone
-                // stops restricting the app - so it is never a nag, only an unresolved fault.
-                if (batteryRestricted) {
+                // Explain the phone setting once, and respect the user's choice to decline.
+                if (batteryRestricted && !batteryGuidanceDismissed) {
                     BatteryRestrictedBanner(
+                        onDismiss = viewModel::dismissBatteryGuidance,
                         onClick = {
                             if (!BatteryOptimizationSupport.requestIgnoreBatteryOptimizations(context)) {
                                 Toast.makeText(
@@ -864,6 +914,9 @@ fun HomeScreen(
                     }
 
                     if (list.isEmpty()) {
+                        // Today being empty is not the same as having no reminders at all.
+                        val laterOnly = selectedFilter == FilterType.TODAY &&
+                            uiState.upcomingReminders.isNotEmpty()
                         EmptyState(
                             icon = when (selectedFilter) {
                                  FilterType.TODAY -> Icons.Filled.Schedule
@@ -873,12 +926,17 @@ fun HomeScreen(
                             title = when (selectedFilter) {
                                 FilterType.COMPLETED -> stringResource(R.string.home_empty_nothing_done)
                                 FilterType.UPCOMING -> stringResource(R.string.home_empty_no_upcoming)
-                                else -> stringResource(R.string.home_empty_no_reminders)
+                                else -> if (laterOnly) stringResource(R.string.home_empty_nothing_today)
+                                    else stringResource(R.string.home_empty_no_reminders)
                             },
                             subtitle = when (selectedFilter) {
                                 FilterType.COMPLETED -> stringResource(R.string.home_empty_done_sub)
                                 FilterType.UPCOMING -> stringResource(R.string.home_empty_upcoming_sub)
-                                else -> stringResource(R.string.home_empty_default_sub)
+                                else -> if (laterOnly) {
+                                    stringResource(R.string.home_empty_today_sub, stringResource(R.string.home_filter_upcoming))
+                                } else {
+                                    stringResource(R.string.home_empty_default_sub)
+                                }
                             }
                         )
                 } else {
@@ -942,23 +1000,25 @@ fun HomeScreen(
                                     if (reminder.recurrenceType != com.ghostgramlabs.speakalert.domain.models.RecurrenceType.NONE) {
                                         reminderToStop = reminder
                                     } else {
-                                        viewModel.deleteReminder(reminder)
-                                        scope.launch {
-                                            val result = snackbarHostState.showSnackbar(
-                                                message = context.getString(R.string.home_snackbar_deleted),
-                                                actionLabel = context.getString(R.string.action_undo),
-                                                duration = SnackbarDuration.Short
-                                            )
-                                            if (result == SnackbarResult.ActionPerformed) {
-                                                val preview = viewModel.previewUndo()
-                                                val now = System.currentTimeMillis()
-                                                if (preview != null && preview.nextTriggerAt < now) {
-                                                    // Time is past, force picker
-                                                    reminderToRestore = preview
-                                                    isRestoringFromUndo = true
-                                                    openReschedulePicker(preview, true)
-                                                } else {
-                                                    viewModel.undoDelete()
+                                        pendingDeleteAction = {
+                                            viewModel.deleteReminder(reminder)
+                                            scope.launch {
+                                                val result = snackbarHostState.showSnackbar(
+                                                    message = context.getString(R.string.home_snackbar_deleted),
+                                                    actionLabel = context.getString(R.string.action_undo),
+                                                    duration = SnackbarDuration.Short
+                                                )
+                                                if (result == SnackbarResult.ActionPerformed) {
+                                                    val preview = viewModel.previewUndo()
+                                                    val now = System.currentTimeMillis()
+                                                    if (preview != null && preview.nextTriggerAt < now) {
+                                                        // Time is past, force picker
+                                                        reminderToRestore = preview
+                                                        isRestoringFromUndo = true
+                                                        openReschedulePicker(preview, true)
+                                                    } else {
+                                                        viewModel.undoDelete()
+                                                    }
                                                 }
                                             }
                                         }
@@ -1360,45 +1420,62 @@ private fun isPlaybackNotificationActive(context: Context): Boolean {
  * reminders arriving, and it disappears on its own the moment the fault is fixed. Styled as a
  * warning rather than as a promotion so it reads as something to resolve, not something to sell.
  */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun BatteryRestrictedBanner(
     onClick: () -> Unit,
+    onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(
-        onClick = onClick,
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.errorContainer,
-        contentColor = MaterialTheme.colorScheme.onErrorContainer
+        color = MaterialTheme.colorScheme.surfaceVariant,
+        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
     ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = Icons.Filled.BatteryAlert,
-                contentDescription = null,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.width(14.dp))
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = stringResource(R.string.home_batt_banner_title),
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.SemiBold
+        Column(modifier = Modifier.padding(start = 16.dp, end = 12.dp, top = 14.dp, bottom = 8.dp)) {
+            Row(verticalAlignment = Alignment.Top) {
+                Icon(
+                    imageVector = Icons.Filled.BatteryAlert,
+                    contentDescription = null,
+                    modifier = Modifier.size(22.dp)
                 )
-                Spacer(modifier = Modifier.height(2.dp))
-                Text(
-                    text = stringResource(R.string.home_batt_banner_body, APP_DISPLAY_NAME),
-                    style = MaterialTheme.typography.bodySmall
-                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = stringResource(R.string.battery_guidance_title),
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = stringResource(R.string.battery_banner_body, APP_DISPLAY_NAME),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
             }
-            Icon(
-                imageVector = Icons.Filled.ChevronRight,
-                contentDescription = null,
-                modifier = Modifier.size(20.dp).mirrorInRtl()
-            )
+            // Side by side when they fit; long translations wrap to a second line.
+            FlowRow(
+                modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.End)
+            ) {
+                val compact = PaddingValues(horizontal = 10.dp, vertical = 8.dp)
+                TextButton(
+                    onClick = onDismiss,
+                    contentPadding = compact,
+                    colors = ButtonDefaults.textButtonColors(
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                ) {
+                    Text(stringResource(R.string.battery_keep_current))
+                }
+                TextButton(onClick = onClick, contentPadding = compact) {
+                    Text(
+                        text = stringResource(R.string.battery_review_settings),
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
         }
     }
 }

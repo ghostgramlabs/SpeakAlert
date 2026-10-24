@@ -8,7 +8,7 @@
     <!-- Settings -->
     <string name="settings_language">অ্যাপের ভাষা</string>
     <string name="settings_language_system">ডিভাইসের ভাষা অনুসরণ করুন</string>
-    <string name="settings_language_description">অ্যাপে সমর্থিত ভাষা: ইংরেজি, স্প্যানিশ, হিন্দি, আরবি, পর্তুগিজ (ব্রাজিল), রুশ, ভিয়েতনামি, বাংলা, তেলুগু, তামিল, গ্রিক ও মালয়ালম।\nডিভাইসের ভাষা অনুসরণ করলে ফোনের একটি সমর্থিত ভাষা বেছে নেওয়া হয়; না থাকলে অ্যাপ ইংরেজি ব্যবহার করে।\nবলা রিমাইন্ডার আপনার ফোনে ইনস্টল করা কণ্ঠের উপর নির্ভর করে। এগুলো আলাদাভাবে প্লেব্যাক &gt; পড়ে শোনানোর ভাষায় সেট করুন।</string>
+    <string name="settings_language_description">ডিভাইসের ভাষা অনুসরণ করলে অ্যাপ সমর্থন করলে ফোনের ভাষা ব্যবহার হয়; না হলে ইংরেজি।\nরিমাইন্ডার পড়ে শোনানোর কণ্ঠ আলাদাভাবে রিমাইন্ডার বাজলে &gt; পড়ে শোনানোর ভাষায় বেছে নিন।</string>
 
     <!-- Notification actions -->
     <string name="notif_action_done">সম্পন্ন</string>
@@ -79,6 +79,7 @@
     <string name="alert_mark_done">সম্পন্ন চিহ্নিত করুন</string>
     <string name="alert_silence">শব্দ বন্ধ করুন</string>
     <string name="alert_silence_now">এখনই শব্দ বন্ধ করুন</string>
+    <string name="alert_snoozed_at">স্নুজ করা • %1$s</string>
     <string name="alert_play_again">আবার চালান</string>
     <string name="alert_snooze_minutes">স্নুজ %1$d মি</string>
     <string name="alert_followup_reminder">ফলো-আপ রিমাইন্ডার</string>
@@ -325,7 +326,7 @@
     <plurals name="unit_years" tools:ignore="ImpliedQuantity"><item quantity="one">বছর</item><item quantity="other">বছর</item></plurals>
 
     <!-- Settings -->
-    <string name="set_appearance">সাজসজ্জা</string>
+    <string name="set_appearance">ভাষা ও সাজসজ্জা</string>
     <string name="set_reminder_form">রিমাইন্ডার ফর্ম</string>
     <string name="set_reminder_form_desc">রিমাইন্ডার তৈরির সময় কোন অংশগুলো দেখবেন তা বেছে নিন। সব লুকিয়ে রাখলে নতুন রিমাইন্ডার তৈরির আগে অন্তত একটি আবার চালু করতে হবে।</string>
     <string name="ae_no_content_sections">কোনো রিমাইন্ডার ইনপুট অংশ চালু নেই। সেটিংস &gt; রিমাইন্ডার ফর্মে ভয়েস রেকর্ডিং, অডিও ফাইল বেছে নিন বা লিখিত রিমাইন্ডার চালু করুন।</string>
@@ -348,8 +349,8 @@
     <string name="set_toast_theme_dark">ডার্ক মোড সেট হয়েছে</string>
     <string name="set_toast_theme_system">সিস্টেম থিম অনুসরণ করা হচ্ছে</string>
     <string name="set_playback">প্লেব্যাক</string>
-    <string name="set_autoplay">রিমাইন্ডার অডিও স্বয়ংক্রিয়ভাবে চালান</string>
-    <string name="set_autoplay_desc">রিমাইন্ডার বাজলে ভয়েস নোট ও অডিও ফাইল স্বয়ংক্রিয়ভাবে চালায়</string>
+    <string name="set_autoplay">স্বয়ংক্রিয়ভাবে চালান</string>
+    <string name="set_autoplay_desc">রিমাইন্ডারের সময় রেকর্ডিং, অডিও ফাইল এবং চালু থাকা পাঠ্য পাঠ করে শোনায়। বন্ধ থাকলে শুনতে চালান-এ ট্যাপ করুন।</string>
     <string name="set_disabled_tone">শুধু-টোন মোড চালু থাকলে বন্ধ থাকে</string>
     <string name="set_toast_autoplay_on">স্বয়ংক্রিয় প্লেব্যাক চালু</string>
     <string name="set_toast_autoplay_off">স্বয়ংক্রিয় প্লেব্যাক বন্ধ</string>
@@ -375,7 +376,7 @@
     <string name="set_toast_private_off">ব্যক্তিগত প্লেব্যাক বন্ধ</string>
     <string name="set_private_bt">ব্যক্তিগত প্লেব্যাক চালু। ব্লুটুথ রাউটিংয়ের জন্য কাছাকাছি ডিভাইসের অনুমতি দরকার।</string>
     <string name="set_tone_only">শুধু-টোন মোড</string>
-    <string name="set_tone_only_desc">সর্বোচ্চ নির্ভরযোগ্যতার জন্য কণ্ঠ/TTS-এর বদলে সাধারণ অ্যালার্ম টোন বাজায়। স্বয়ংক্রিয় থামা: %1$s। স্নুজ: %2$d মি।</string>
+    <string name="set_tone_only_desc">রেকর্ডিং বা কথার বদলে অ্যালার্ম বাজায়। বন্ধ হবে: %1$s পরে। স্নুজ: %2$d মিনিট।</string>
     <string name="set_toast_tone_on">শুধু-টোন মোড চালু</string>
     <string name="set_toast_tone_off">শুধু-টোন মোড বন্ধ</string>
     <string name="set_infinite">অসীম</string>
@@ -396,8 +397,8 @@
     <string name="set_open_perm">অনুমতি সেটিংস খুলুন</string>
     <string name="set_fs_note">আপনি এখনো নোটিফিকেশন থেকে রিমাইন্ডার চালান বা রিমাইন্ডার বলুন ট্যাপ করতে পারেন।</string>
     <string name="set_tone_volume_note">শুধু-টোন মোডে ভলিউম ডিভাইসের অ্যালার্ম/নোটিফিকেশন ভলিউম দিয়ে নিয়ন্ত্রিত হয়।</string>
-    <string name="set_loop_duration">লুপের সময়কাল</string>
-    <string name="set_loop_duration_desc">রিমাইন্ডার লুপ কতক্ষণ চলবে সেট করুন</string>
+    <string name="set_loop_duration">একটানা বাজানো বন্ধ হবে</string>
+    <string name="set_loop_duration_desc">এই সময়ের পরে টোন বা বারবার চলা অডিও বন্ধ হয়। ফলো-আপ রিমাইন্ডার পরে আসা আলাদা অ্যালার্ট।</string>
     <string name="set_toast_loop">লুপের সময়কাল: %1$d মিনিট</string>
     <string name="set_toast_loop_infinite">লুপের সময়কাল: অসীম</string>
     <string name="set_custom">কাস্টম</string>
@@ -427,7 +428,7 @@
     <string name="set_dnd_unavailable">এই ডিভাইসে Android বিরক্ত করবেন না অনুমতির সেটিংস নেই।</string>
     <string name="set_grant_dnd">Android বিরক্ত করবেন না অনুমতি দিন</string>
     <string name="set_dnd_note">এটি ফোনের “বিরক্ত করবেন না” মোড চালু বা বন্ধ করে না। শুধু ওই মোড চালু থাকলেও গুরুত্বপূর্ণ রিমাইন্ডার বাজানোর অনুমতি চাইতে দেয় %1$s-কে।</string>
-    <string name="set_battery_guide">ব্যাটারি অপ্টিমাইজেশন গাইড</string>
+    <string name="set_battery_guide">রিমাইন্ডার এখনও দেরিতে? আপনার ফোনের জন্য ধাপ</string>
     <string name="set_battery_desc">কিছু ফোন ব্যাটারি বাঁচাতে রিমাইন্ডার দেরিতে বাজায় বা বন্ধ করে দেয়।</string>
     <string name="set_wear">Wear OS</string>
     <string name="set_wear_checking">Wear OS সংযোগ যাচাই হচ্ছে…</string>
@@ -467,7 +468,7 @@
     <string name="set_label_time">%1$s: %2$s</string>
     <string name="set_volume">ভলিউম</string>
     <string name="set_cd_volume">অ্যাপের ভলিউম: %1$d%%</string>
-    <string name="set_loop_inline_desc">একটানা বাজতে থাকা রিমাইন্ডার কতক্ষণ পরে নিজে থেকে থামবে</string>
+    <string name="set_loop_inline_desc">এই সময়ের পরে টোন বা বারবার চলা অডিও বন্ধ হয়। ফলো-আপ রিমাইন্ডার পরে আসা আলাদা অ্যালার্ট।</string>
     <string name="set_default_snooze">ডিফল্ট স্নুজ</string>
     <string name="set_snooze_inline_desc">“স্নুজ” চাপার কতক্ষণ পরে আবার মনে করিয়ে দেবে</string>
     <string name="set_default_followup">ডিফল্ট ফলো-আপ চেক</string>
@@ -478,7 +479,7 @@
     <string name="set_toast_followup_repeat_until_done">সম্পন্ন চিহ্নিত না হওয়া পর্যন্ত ফলো-আপ চলবে</string>
     <string name="set_toast_followup_repeat">ফলো-আপ পুনরাবৃত্তির সীমা: %1$d×</string>
     <string name="set_reliability">নির্ভরযোগ্যতা</string>
-    <string name="set_persist">সম্পন্ন না হওয়া পর্যন্ত রিমাইন্ডার স্ক্রিনে রাখুন</string>
+    <string name="set_persist">সম্পন্ন না হওয়া পর্যন্ত বিজ্ঞপ্তি রাখুন</string>
     <string name="set_persist_desc">“সম্পন্ন” বা “স্নুজ” না চাপা পর্যন্ত রিমাইন্ডারের নোটিফিকেশন থাকবে। সঙ্গে ফলো-আপ চালু রাখলে আবার মনে করিয়েও দেবে।</string>
     <string name="set_toast_persist_on">সম্পন্ন না হওয়া পর্যন্ত রিমাইন্ডার থাকবে</string>
     <string name="set_toast_persist_off">রিমাইন্ডার সোয়াইপ করে সরানো যাবে</string>
@@ -532,7 +533,7 @@
     <string name="help_s8_title">প্লেব্যাক সেটিংস</string>
     <string name="help_s8_content">- স্বয়ংক্রিয় প্লেব্যাক চালু থাকলে সময়মতো রিমাইন্ডারের ভয়েস রেকর্ডিং বা অডিও ফাইল বাজবে।\n- শুধু লেখা আছে এমন রিমাইন্ডারই নিজে থেকে পড়ে শোনানো হয়, আর তার জন্য স্বয়ংক্রিয়ভাবে পড়ে শোনানোর সুবিধা চালু থাকতে হবে।\n- রিমাইন্ডার কোন ভাষায় পড়ে শোনানো হবে। স্বয়ংক্রিয় শনাক্তকরণ বার্তার ভাষা বেছে নেয়। সেই ভাষার কণ্ঠ ফোনের টেক্সট-টু-স্পিচ সেটিংসে ইনস্টল থাকতে হবে। চাইলে ফোনের ভাষা বা ইংরেজিও বেছে নিতে পারেন। স্বয়ংক্রিয় শনাক্তকরণে হিন্দিতে লেখা রিমাইন্ডার হিন্দিতেই পড়া হবে।\n- স্বয়ংক্রিয়ভাবে পড়া বন্ধ থাকলেও বোতাম চেপে বার্তা শুনতে পারবেন।\n- প্রথমে সংযুক্ত হিয়ারিং এইড, ব্লুটুথ ডিভাইস বা তারযুক্ত হেডফোনে শোনাবে। এগুলো না থাকলে লাউডস্পিকারের বদলে ফোনের ইয়ারপিস ব্যবহার করবে।\n- লুপ প্লেব্যাকে আপনি থামানো পর্যন্ত বা নির্ধারিত সময় শেষ হওয়া পর্যন্ত শব্দ বারবার বাজবে।\n- ফলো-আপ কাজ সম্পন্ন না করা পর্যন্ত আবার জিজ্ঞেস করবে।\n- নীরব সময়ে বেছে নেওয়া সময়সীমার মধ্যে রিমাইন্ডারের শব্দ বন্ধ থাকতে পারে।</string>
     <string name="help_s9_title">শুধু-টোন মোড ও নির্ভরযোগ্যতা</string>
-    <string name="help_s9_content">- শুধু-টোন মোড কণ্ঠ বা TTS-এর বদলে স্পষ্ট অ্যালার্ম টোন ব্যবহার করে।\n- কাস্টম শুধু-টোন অ্যালার্টের শব্দ বেছে নিতে পারেন, অথবা ডিফল্ট অ্যালার্ম টোন রাখতে পারেন।\n- বিরক্ত করবেন না চালু থাকলেও অ্যালার্ট %1$s-কে বিরক্ত করবেন না চালু থাকার সময় গুরুত্বপূর্ণ রিমাইন্ডার চালানোর চেষ্টা করতে দেয়।\n- এটি বন্ধ থাকলে বিরক্ত করবেন না-এ আটকে যাওয়া রিমাইন্ডার না বেজে মিস হওয়া ট্যাবে যায়।\n- এই সেটিং আপনার ফোনের বিরক্ত করবেন না মোড চালু বা বন্ধ করে না। নোটিফিকেশন উপেক্ষা সক্রিয় হওয়ার আগে Android বিরক্ত করবেন না অনুমতি দরকার।\n- চালু থাকলে রিমাইন্ডার অ্যালার্ম-অগ্রাধিকার অডিও ব্যবহার করে। সিস্টেম মোড অ্যালার্মের শব্দ নীরব করলে কিছু ফোন রুটিন তবুও অ্যালার্ম আটকাতে পারে।\n- বেছে নেওয়া শব্দ পরে হারিয়ে গেলে %1$s স্বয়ংক্রিয়ভাবে ডিফল্ট অ্যালার্ম টোনে ফিরে যায়।\n- ফোন বলা প্লেব্যাক দেরি করালে, আটকালে বা থামালে শুধু-টোন মোড ব্যবহার করুন।\n- সেটিংস &gt; নির্ভরযোগ্যতায় কঠোর ব্যাকগ্রাউন্ড সীমাবদ্ধতাওয়ালা ফোনের জন্য ব্যাটারি অপ্টিমাইজেশন গাইড আছে।\n- সেরা নির্ভরযোগ্যতার জন্য নোটিফিকেশন, সঠিক অ্যালার্ম ও ব্যাটারি সেটিংস চালু রাখুন।</string>
+    <string name="help_s9_content">- শুধু-টোন মোড কণ্ঠ বা TTS-এর বদলে স্পষ্ট অ্যালার্ম টোন ব্যবহার করে।\n- কাস্টম শুধু-টোন অ্যালার্টের শব্দ বেছে নিতে পারেন, অথবা ডিফল্ট অ্যালার্ম টোন রাখতে পারেন।\n- বিরক্ত করবেন না চালু থাকলেও অ্যালার্ট %1$s-কে বিরক্ত করবেন না চালু থাকার সময় গুরুত্বপূর্ণ রিমাইন্ডার চালানোর চেষ্টা করতে দেয়।\n- এটি বন্ধ থাকলে বিরক্ত করবেন না-এ আটকে যাওয়া রিমাইন্ডার না বেজে মিস হওয়া ট্যাবে যায়।\n- এই সেটিং আপনার ফোনের বিরক্ত করবেন না মোড চালু বা বন্ধ করে না। নোটিফিকেশন উপেক্ষা সক্রিয় হওয়ার আগে Android বিরক্ত করবেন না অনুমতি দরকার।\n- চালু থাকলে রিমাইন্ডার অ্যালার্ম-অগ্রাধিকার অডিও ব্যবহার করে। সিস্টেম মোড অ্যালার্মের শব্দ নীরব করলে কিছু ফোন রুটিন তবুও অ্যালার্ম আটকাতে পারে।\n- বেছে নেওয়া শব্দ পরে হারিয়ে গেলে %1$s স্বয়ংক্রিয়ভাবে ডিফল্ট অ্যালার্ম টোনে ফিরে যায়।\n- ফোন বলা প্লেব্যাক দেরি করালে, আটকালে বা থামালে শুধু-টোন মোড ব্যবহার করুন।\n- সেটিংস &gt; রিমাইন্ডার পরীক্ষায় কঠোর ব্যাকগ্রাউন্ড সীমাবদ্ধতাওয়ালা ফোনের জন্য ধাপে ধাপে ব্যাটারি সহায়তা আছে।\n- সেরা নির্ভরযোগ্যতার জন্য নোটিফিকেশন, সঠিক অ্যালার্ম ও ব্যাটারি সেটিংস চালু রাখুন।</string>
     <string name="help_s10_title">উইজেট ও Wear OS</string>
     <string name="help_s10_content">- দ্রুত রিমাইন্ডার উইজেট সরাসরি রিমাইন্ডার যোগ করুন খোলে।\n- আসন্ন উইজেট আসন্ন ও মিস হওয়া রিমাইন্ডার দেখায়।\n- Wear OS সমর্থন ফোনের নোটিফিকেশন ও ঘড়ির সিঙ্ক চালু থাকার উপর নির্ভর করে।</string>
     <string name="help_s11_title">ডিভাইস রিস্টার্টের পর</string>
@@ -547,7 +548,17 @@
     <!-- What's new sheet -->
     <string name="action_continue">চালিয়ে যান</string>
     <string name="wn_title">%1$s-এ নতুন কী</string>
-    <string name="wn_intro">SpeakAlert এখন ১২টি ভাষায়, আর মিস হওয়া রিমাইন্ডার আবার নির্ধারণ করা সহজ।</string>
+    <string name="wn_intro">এই আপডেট নিশ্চিত করতে সাহায্য করে যে প্রতিটি রিমাইন্ডার সময়মতো বাজবে।</string>
+    <string name="wn_check_title">দেখুন কী রিমাইন্ডার আটকাতে পারে</string>
+    <string name="wn_check_desc">সেটিংস-এর একদম উপরে “রিমাইন্ডার পরীক্ষা” দেখায় কী কী রিমাইন্ডার দেরিতে বা নীরবে আসার কারণ হতে পারে, যেমন নোটিফিকেশন, ব্যাটারি বা কম অ্যালার্ম ভলিউম, আর প্রতিটি ঠিক করার বোতাম দেয়।</string>
+    <string name="wn_reliable_title">অতিরিক্ত নির্ভরযোগ্য রিমাইন্ডার</string>
+    <string name="wn_reliable_desc">ব্যাটারি বাঁচাতে আপনার ফোন রিমাইন্ডার দেরিতে বাজালে সেটিংস &gt; রিমাইন্ডার পরীক্ষা-এ “অতিরিক্ত নির্ভরযোগ্য রিমাইন্ডার” চালু করুন। তখন রিমাইন্ডার অ্যালার্মের মতো সেট হয় আর সময়মতো বাজে।</string>
+    <string name="wn_settings_title">সেটিংস খুঁজে পাওয়া সহজ</string>
+    <string name="wn_settings_desc">প্রতিটি অংশ জানায় তাতে কী আছে, আর অ্যাপের ভাষা এখন উপরের দিকে “ভাষা ও সাজসজ্জা”-এ।</string>
+    <string name="wn_cards_title">প্রতিটি কার্ডে সম্পাদনা, সম্পন্ন ও মুছুন</string>
+    <string name="wn_cards_desc">প্রতিটি রিমাইন্ডার কার্ডে সম্পাদনা, সম্পন্ন ও মুছে ফেলার বোতাম আছে। মুছে ফেলার আগে জিজ্ঞাসা করা হয় এবং তা ফেরানো যায়।</string>
+    <string name="wn_sound_title">ঠিক সময়ে আওয়াজ থামে</string>
+    <string name="wn_sound_desc">রিমাইন্ডার সম্পন্ন করলে, মুছে ফেললে বা সময় বদলালে আওয়াজ সঙ্গে সঙ্গে থামে। টোন অ্যালার্মে আবার নীরব করার বোতাম আছে।</string>
     <string name="wn_edit_title">সেখানেই তারিখ ও সময় বদলান</string>
     <string name="wn_edit_desc">একটি রিমাইন্ডার খুলে সরাসরি বদলাতে তারিখ বা সময় ট্যাপ করুন। আগে এডিটর খোলার দরকার নেই।</string>
     <string name="wn_clear_title">নোটিফিকেশন নিজে থেকে গুছিয়ে যায়</string>
@@ -561,7 +572,7 @@
     <string name="wn_notices_title">রিমাইন্ডার কেন নীরব ছিল হোম তা জানায়</string>
     <string name="wn_notices_desc">এই ফোন ব্যাকগ্রাউন্ডে %1$s থামাতে পারলে, বা নীরব সময় চালু থাকলে, রিমাইন্ডার চুপচাপ না এসে থাকার বদলে হোম এখন তা জানিয়ে দেয়।</string>
     <string name="wn_lang_title">এখন আপনার ভাষায়</string>
-    <string name="wn_lang_desc">পুরো অ্যাপ ইংরেজি, স্প্যানিশ, হিন্দি, আরবি, পর্তুগিজ (ব্রাজিল), রুশ, ভিয়েতনামি, বাংলা, তেলুগু, তামিল, গ্রিক ও মালয়ালমে পাওয়া যায়, ডান-থেকে-বাম সমর্থনসহ। সেটিংস &gt; সাজসজ্জা &gt; ভাষা থেকে বেছে নিন।</string>
+    <string name="wn_lang_desc">পুরো অ্যাপ ইংরেজি, স্প্যানিশ, হিন্দি, আরবি, পর্তুগিজ (ব্রাজিল), রুশ, ভিয়েতনামি, বাংলা, তেলুগু, তামিল, গ্রিক ও মালয়ালমে পাওয়া যায়, ডান-থেকে-বাম সমর্থনসহ। সেটিংস &gt; ভাষা ও সাজসজ্জা &gt; ভাষা থেকে বেছে নিন।</string>
     <string name="wn_missed_title">মিস হওয়া রিমাইন্ডার আবার নির্ধারণ করুন</string>
     <string name="wn_missed_desc">মিস হওয়া ট্যাবে কোনো রিমাইন্ডারের পেন্সিলে ট্যাপ করে নতুন তারিখ বা সময় দিন। সেটি আবার আপনার আসন্ন রিমাইন্ডারে ফিরে যাবে।</string>
     <string name="wn_quiet_title">কাজ শেষ হলে শব্দ থামে</string>
@@ -569,7 +580,7 @@
     <string name="wn_buttons_title">আরও স্পষ্ট অ্যালার্ম বোতাম</string>
     <string name="wn_buttons_desc">রিমাইন্ডার অ্যালার্ট ও নোটিফিকেশন এখন সম্পন্ন, শব্দ বন্ধ করুন ও স্নুজ দেখায়। সম্পন্ন কাজ শেষ করে; শব্দ বন্ধ করুন শুধু শব্দ থামায় এবং রিমাইন্ডার রাখে।</string>
     <string name="wn_spoken_title">সঠিক কণ্ঠে রিমাইন্ডার</string>
-    <string name="wn_spoken_desc">বলা রিমাইন্ডার স্বয়ংক্রিয়ভাবে তাদের নিজের ভাষায় পড়া হয় — অ্যাপ বাংলায় থাকলেও হিন্দি রিমাইন্ডার হিন্দিতে পড়া হয়। সেটিংস &gt; প্লেব্যাক &gt; পড়ে শোনানোর ভাষায় বদলান।</string>
+    <string name="wn_spoken_desc">বলা রিমাইন্ডার স্বয়ংক্রিয়ভাবে তাদের নিজের ভাষায় পড়া হয় — অ্যাপ বাংলায় থাকলেও হিন্দি রিমাইন্ডার হিন্দিতে পড়া হয়। সেটিংস &gt; রিমাইন্ডার বাজলে &gt; পড়ে শোনানোর ভাষায় বদলান।</string>
     <string name="wn_persist_title">সম্পন্ন না হওয়া পর্যন্ত রিমাইন্ডার রাখুন</string>
     <string name="wn_persist_desc">সেটিংস &gt; নির্ভরযোগ্যতা &gt; সম্পন্ন না হওয়া পর্যন্ত রিমাইন্ডার স্ক্রিনে রাখুন চালু করুন, যাতে রিমাইন্ডার পিন করা থাকে এবং শুধু সম্পন্ন বা স্নুজ করলে সরে যায়।</string>
     <string name="wn_backup_title">রিমাইন্ডার ব্যাকআপ নিন ও সরান</string>
@@ -715,7 +726,7 @@
     <string name="bog_status_exempt">%1$s ইতিমধ্যে ব্যাটারি অপ্টিমাইজেশন ছাড়া চলার অনুমতি পেয়েছে।</string>
     <string name="bog_no_battery_settings">এই ডিভাইসে ব্যাটারি সেটিংস নেই।</string>
     <string name="bog_why_title">এটি কেন জরুরি</string>
-    <string name="bog_why_body">Xiaomi, POCO, Redmi, Huawei ও একই ধরনের ব্র্যান্ডের ফোন ব্যাকগ্রাউন্ডে অ্যাপ জোর করে বন্ধ করতে পারে। নির্মাতা ও সফটওয়্যার সংস্করণকে নির্দেশিকা হিসেবে ধরুন; সঠিক পথ ডিভাইস মডেলভেদে আলাদা হতে পারে।</string>
+    <string name="bog_why_body">Xiaomi, POCO, Redmi, Huawei, Infinix, Tecno ও একই ধরনের ব্র্যান্ডের ফোন ব্যাকগ্রাউন্ডে অ্যাপ জোর করে বন্ধ করতে পারে। নির্মাতা ও সফটওয়্যার সংস্করণকে নির্দেশিকা হিসেবে ধরুন; সঠিক পথ ডিভাইস মডেলভেদে আলাদা হতে পারে।</string>
 
     <!-- Reminder card accessibility description -->
     <string name="a11y_card_reminder">রিমাইন্ডার: %1$s</string>
@@ -773,4 +784,52 @@
     <string name="set_tab_backup">ব্যাকআপ</string>
     <string name="set_tab_wear">ঘড়ি</string>
     <string name="set_tab_help">সাহায্য</string>
+    <string name="battery_guidance_title">রিমাইন্ডার দেরিতে আসতে পারে বা বাদ পড়তে পারে</string>
+    <string name="battery_guidance_body">ব্যাটারি বাঁচাতে আপনার ফোন %1$s-কে ব্যাকগ্রাউন্ডে সীমিত রাখে, তাই অ্যাপ বন্ধ থাকলে রিমাইন্ডার দেরিতে বাজতে পারে। \"ব্যাকগ্রাউন্ডে চলতে দিন\" ট্যাপ করুন, তারপর \"অনুমতি দিন\" বেছে নিন। পরে সেটিংস &gt; রিমাইন্ডার পরীক্ষা থেকে এটি বদলাতে পারবেন।</string>
+    <string name="battery_review_settings">ব্যাকগ্রাউন্ডে চলতে দিন</string>
+    <string name="battery_keep_current">না, ধন্যবাদ</string>
+    <string name="battery_status_restricted">ব্যাকগ্রাউন্ড ব্যাটারি অ্যাক্সেস: সীমিত। সময়মতো রিমাইন্ডারের জন্য সীমাহীন বেছে নেওয়া ভালো।</string>
+    <string name="battery_status_allowed">ব্যাকগ্রাউন্ড ব্যাটারি অ্যাক্সেস: সীমাহীন।</string>
+    <string name="card_done_occurrence">এবার সম্পন্ন</string>
+    <string name="home_delete_confirm_body">মোছার ঠিক পরেই তা ফিরিয়ে আনতে পারবেন।</string>
+    <string name="battery_banner_body">আপনার ফোনের ব্যাটারি সেভার %1$s-কে আটকে রাখতে পারে।</string>
+    <string name="home_empty_nothing_today">আজ কিছু নেই</string>
+    <string name="home_empty_today_sub">আপনার পরের রিমাইন্ডার \"%1$s\"-এ আছে।</string>
+    <string name="set_alarm_clock">অতিরিক্ত নির্ভরযোগ্য রিমাইন্ডার</string>
+    <string name="set_alarm_clock_desc">ব্যাটারি বাঁচাতে যেসব ফোন অ্যাপ দেরি করায়, সেখানে রিমাইন্ডার সময়মতো বাজাতে সাহায্য করে। এটি চালু থাকলে কিছু ফোন ঘড়ির আইকন বা \"অ্যালার্ম সেট\" বার্তা দেখায়।</string>
+    <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
+    <string name="bog_transsion_autostart">অ্যাপস &gt; অটো-স্টার্ট (বা Phone Master &gt; অটো-স্টার্ট) খুলে %1$s-এর জন্য চালু করুন</string>
+    <string name="bog_transsion_battery">অ্যাপস &gt; %1$s &gt; ব্যাটারি খুলে সীমাহীন বেছে নিন</string>
+    <string name="set_alarm_clock_status_next">আপনার পরের রিমাইন্ডারের জন্য চালু: %1$s</string>
+    <string name="set_alarm_clock_status_none">আপনার পরের রিমাইন্ডার এটি ব্যবহার করবে।</string>
+    <string name="home_extra_reliable_on">অতিরিক্ত নির্ভরযোগ্য রিমাইন্ডার চালু</string>
+    <string name="set_section_check">রিমাইন্ডার পরীক্ষা</string>
+    <string name="set_section_ringing">রিমাইন্ডার বাজলে</string>
+    <string name="set_sum_check">অনুমতি, ব্যাটারি ও অ্যালার্মের ভলিউম</string>
+    <string name="set_sum_lang">অ্যাপের ভাষা, থিম, সময়ের ফরম্যাট</string>
+    <string name="set_sum_ringing">কণ্ঠ বা টোন, ভলিউম, পড়ে শোনানোর ভাষা, টেস্ট রিমাইন্ডার</string>
+    <string name="set_sum_timing">স্নুজের সময়, ফলো-আপ, নীরব সময়</string>
+    <string name="set_sum_form">রিমাইন্ডার যোগ করার সময় কোন বিকল্প দেখাবে</string>
+    <string name="set_sum_wear">আপনার ঘড়িতে রিমাইন্ডার</string>
+    <string name="set_sum_backup">রিমাইন্ডার ও রেকর্ডিং সংরক্ষণ বা পুনরুদ্ধার</string>
+    <string name="set_sum_about">অ্যাপ গাইড, সাহায্য, আরও অ্যাপ</string>
+    <string name="check_all_good">প্রয়োজনীয় অনুমতি দেওয়া আছে।</string>
+    <string name="check_issues">রিমাইন্ডার দেখাতে ও সময় নির্ধারণ করতে নিচের বাকি অনুমতিগুলো দিন।</string>
+    <string name="check_notif_ok">বিজ্ঞপ্তি চালু আছে</string>
+    <string name="check_notif_bad">বিজ্ঞপ্তি বন্ধ আছে</string>
+    <string name="check_exact_ok">রিমাইন্ডার ঠিক মিনিটে বাজতে পারে</string>
+    <string name="check_exact_bad">রিমাইন্ডার হয়তো ঠিক মিনিটে বাজবে না</string>
+    <string name="check_battery_ok">আপনার ফোন রিমাইন্ডারকে ব্যাকগ্রাউন্ডে চলতে দেয়</string>
+    <string name="check_battery_bad">ব্যাটারি সেভার রিমাইন্ডার আটকে রাখতে পারে</string>
+    <string name="check_volume_bad">অ্যালার্ম ভলিউম কম (%1$d%%), তাই রিমাইন্ডার শুনতে অসুবিধা হতে পারে</string>
+    <string name="check_raise">বাড়ান</string>
+    <string name="check_fullscreen_bad">লক স্ক্রিন সতর্কতার জন্য অনুমতি দরকার</string>
+    <string name="check_dnd_bad">বিরক্ত করবেন না মোডেও অ্যালার্ট পেতে সেই মোডে অ্যাক্সেস দিন</string>
+    <string name="check_mic_ok">ভয়েস রিমাইন্ডারের জন্য মাইক্রোফোন অনুমোদিত</string>
+    <string name="check_mic_bad">মাইক্রোফোন বন্ধ, তাই ভয়েস রিমাইন্ডার রেকর্ড করা যাবে না</string>
+    <string name="check_volume_how">বাড়ান-এ ট্যাপ করুন, অথবা ফোনের সাউন্ড সেটিংসে গিয়ে অ্যালার্ম ভলিউম বাড়ান।</string>
+    <string name="set_required_permissions">প্রয়োজনীয় অনুমতি</string>
+    <string name="set_recommendations">পরামর্শ ও ঐচ্ছিক সুবিধা</string>
+    <string name="set_playback_mode">রিমাইন্ডারের শব্দ</string>
+    <string name="set_voice_audio_mode">রেকর্ডিং, অডিও ফাইল ও পাঠ্য পড়ে শোনানো</string>
 </resources>

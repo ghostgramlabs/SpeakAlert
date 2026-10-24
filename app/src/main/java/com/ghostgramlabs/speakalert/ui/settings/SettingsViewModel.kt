@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ghostgramlabs.speakalert.data.repository.SettingsRepository
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -134,6 +135,19 @@ class SettingsViewModel(
     fun setTtsLanguageMode(mode: Int) {
         viewModelScope.launch {
             settingsRepository.setTtsLanguageMode(mode)
+        }
+    }
+
+    /** When the next active reminder is due; shown under "Extra-reliable reminders". */
+    val nextReminderAt = reminderRepository.getAllRemindersStream()
+        .map { com.ghostgramlabs.speakalert.util.AlarmDeliveryPreferences.nextReminderAt(it) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+
+    fun setAlarmClockDelivery(context: android.content.Context, enabled: Boolean) {
+        viewModelScope.launch {
+            com.ghostgramlabs.speakalert.alarm.setAlarmClockDelivery(
+                context, enabled, reminderRepository, alarmScheduler
+            )
         }
     }
 

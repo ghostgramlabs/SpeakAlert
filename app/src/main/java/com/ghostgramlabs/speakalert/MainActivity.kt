@@ -288,10 +288,9 @@ class MainActivity : ComponentActivity() {
                         val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                         ModalBottomSheet(
                             // A tap outside the sheet or a stray swipe is not an answer. This is
-                            // the setting that decides whether reminders arrive at all, and it
-                            // used to get one chance ever - spent by the accident. Closing it
-                            // this way leaves it to be asked again on a later launch; only the
-                            // explicit "Later" below counts as having been asked.
+                            // the setting that decides whether reminders arrive at all, so closing
+                            // it this way leaves it to be asked again on a later launch; only the
+                            // buttons below count as having been asked.
                             onDismissRequest = { showBatteryOptimizationDialog = false },
                             sheetState = sheetState,
                             dragHandle = { BottomSheetDefaults.DragHandle() }
@@ -305,12 +304,12 @@ class MainActivity : ComponentActivity() {
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
                                 Text(
-                                    text = stringResource(R.string.batt_prompt_title, APP_DISPLAY_NAME),
+                                    text = stringResource(R.string.battery_guidance_title),
                                     style = MaterialTheme.typography.titleLarge,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                                 Text(
-                                    text = stringResource(R.string.batt_prompt_message, APP_DISPLAY_NAME),
+                                    text = stringResource(R.string.battery_guidance_body, APP_DISPLAY_NAME),
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -333,19 +332,19 @@ class MainActivity : ComponentActivity() {
                                     modifier = Modifier.fillMaxWidth(),
                                     shape = RoundedCornerShape(18.dp)
                                 ) {
-                                    Text(stringResource(R.string.action_allow))
+                                    Text(stringResource(R.string.battery_review_settings))
                                 }
                                 OutlinedButton(
                                     onClick = {
                                         showBatteryOptimizationDialog = false
                                         coroutineScope.launch {
-                                            settingsRepository.setBatteryOptimizationPromptShown(true)
+                                            settingsRepository.dismissBatteryGuidance()
                                         }
                                     },
                                     modifier = Modifier.fillMaxWidth(),
                                     shape = RoundedCornerShape(18.dp)
                                 ) {
-                                    Text(stringResource(R.string.action_later))
+                                    Text(stringResource(R.string.battery_keep_current))
                                 }
                             }
                         }
@@ -406,22 +405,27 @@ class MainActivity : ComponentActivity() {
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
-                                    // Ordered by how often the reader will meet it.
+                                    // Ordered by how much it matters to someone coming from 2.0.40, the last
+                                    // production release: first, whether reminders will ring at all.
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_lang_title),
-                                        description = stringResource(R.string.wn_lang_desc)
+                                        title = stringResource(R.string.wn_check_title),
+                                        description = stringResource(R.string.wn_check_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_missed_title),
-                                        description = stringResource(R.string.wn_missed_desc)
+                                        title = stringResource(R.string.wn_reliable_title),
+                                        description = stringResource(R.string.wn_reliable_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_quiet_title),
-                                        description = stringResource(R.string.wn_quiet_desc)
+                                        title = stringResource(R.string.wn_settings_title),
+                                        description = stringResource(R.string.wn_settings_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_edit_title),
-                                        description = stringResource(R.string.wn_edit_desc)
+                                        title = stringResource(R.string.wn_cards_title),
+                                        description = stringResource(R.string.wn_cards_desc)
+                                    )
+                                    WhatsNewFeatureCard(
+                                        title = stringResource(R.string.wn_sound_title),
+                                        description = stringResource(R.string.wn_sound_desc)
                                     )
                                 }
                                 Button(

@@ -10,7 +10,11 @@ import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.data.repository.ReminderRepository
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
+import com.ghostgramlabs.speakalert.domain.models.MissedPolicy
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -28,6 +32,11 @@ class ReminderDetailsViewModel(
 
     private val _reminder = MutableStateFlow<ReminderEntity?>(null)
     val reminder = _reminder.asStateFlow()
+
+    /** App-wide missed-reminder default, needed to show the policy that actually applies. */
+    val defaultMissedPolicy = settingsRepository.defaultMissedPolicy
+        .map { com.ghostgramlabs.speakalert.domain.MissedPolicyResolver.parse(it) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), MissedPolicy.FIRE_ON_RESUME)
     private val appContext = context
     
     private var isTtsEnabled = true
@@ -50,24 +59,26 @@ class ReminderDetailsViewModel(
         }
     }
     
-    fun deleteReminder() {
+    fun deleteReminder(onDeleted: () -> Unit = {}) {
         viewModelScope.launch {
             _reminder.value?.let {
                 stopAudio()
                 scheduler.cancel(it)
                 alertNotifications.onResolved(it.id)
                 repository.deleteReminder(it)
+                onDeleted()
             }
         }
     }
     
-    fun toggleDone() {
+    fun toggleDone(onSaved: () -> Unit = {}) {
         viewModelScope.launch {
             val current = _reminder.value ?: return@launch
             val newCompleted = !current.isCompleted
             var updated = current.copy(
                 isCompleted = newCompleted,
                 completedAt = if (newCompleted) System.currentTimeMillis() else null,
+                snoozeUntil = null,
                 pendingFollowUpAt = null
             )
             
@@ -90,11 +101,13 @@ class ReminderDetailsViewModel(
             }
             
             repository.updateReminder(updated)
+            if (newCompleted) missedRepository?.deleteMissedReminderByReminderId(current.id)
             _reminder.value = updated
+            onSaved()
         }
     }
 
-    fun dismissReminder(context: Context) {
+    fun dismissReminder(context: Context, onSaved: () -> Unit = {}) {
         viewModelScope.launch {
             val current = _reminder.value ?: return@launch
             stopAudio(context)
@@ -115,9 +128,11 @@ class ReminderDetailsViewModel(
                 // Recurring: always clear alert transient state and keep next schedule active.
                 val updated = current.copy(snoozeUntil = null, pendingFollowUpAt = null)
                 repository.updateReminder(updated)
+                scheduler.cancel(current)
                 scheduler.schedule(updated)
                 _reminder.value = updated
             }
+            onSaved()
         }
     }
     
@@ -275,7 +290,7 @@ class ReminderDetailsViewModel(
         reschedule(aligned ?: timestamp)
     }
 
-    fun reschedule(timestamp: Long) {
+    fun reschedule(timestamp: Long, onSaved: () -> Unit = {}) {
         viewModelScope.launch {
             val current = _reminder.value ?: return@launch
             
@@ -293,14 +308,18 @@ class ReminderDetailsViewModel(
                 completedAt = null,
                 lastFiredAt = null,
                 nextTriggerAt = finalTime,
+                snoozeUntil = null,
                 pendingFollowUpAt = null
             )
             
             repository.updateReminder(updated)
+            scheduler.cancel(current)
+            alertNotifications.onResolved(current.id)
             scheduler.schedule(updated)
             // A new time settles the missed occurrence, so the reminder leaves the Missed tab.
             missedRepository?.deleteMissedReminderByReminderId(current.id)
             _reminder.value = updated
+            onSaved()
         }
     }
     

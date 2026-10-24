@@ -8,7 +8,7 @@
     <!-- Settings -->
     <string name="settings_language">Ngôn ngữ ứng dụng</string>
     <string name="settings_language_system">Theo ngôn ngữ thiết bị</string>
-    <string name="settings_language_description">Ngôn ngữ ứng dụng được hỗ trợ: tiếng Anh, tiếng Tây Ban Nha, tiếng Hindi, tiếng Ả Rập, tiếng Bồ Đào Nha (Brazil), tiếng Nga, tiếng Việt, tiếng Bengal, tiếng Telugu, tiếng Tamil, tiếng Hy Lạp và tiếng Malayalam.\nTheo ngôn ngữ thiết bị sẽ chọn một ngôn ngữ được hỗ trợ của điện thoại; nếu không có, ứng dụng dùng tiếng Anh.\nLời nhắc được đọc phụ thuộc vào giọng nói đã cài trên điện thoại. Đặt riêng trong Phát &gt; Ngôn ngữ đọc.</string>
+    <string name="settings_language_description">Theo ngôn ngữ thiết bị dùng ngôn ngữ của điện thoại nếu ứng dụng hỗ trợ; nếu không thì tiếng Anh.\nGiọng đọc lời nhắc được chọn riêng trong Khi lời nhắc reo &gt; Ngôn ngữ đọc.</string>
 
     <!-- Notification actions -->
     <string name="notif_action_done">Xong</string>
@@ -79,6 +79,7 @@
     <string name="alert_mark_done">Đánh dấu xong</string>
     <string name="alert_silence">Tắt tiếng</string>
     <string name="alert_silence_now">Tắt tiếng ngay</string>
+    <string name="alert_snoozed_at">Đã báo lại • %1$s</string>
     <string name="alert_play_again">Phát lại</string>
     <string name="alert_snooze_minutes">Báo lại %1$d phút</string>
     <string name="alert_followup_reminder">Lời nhắc lại</string>
@@ -320,7 +321,7 @@
     <plurals name="unit_years"><item quantity="other">Năm</item></plurals>
 
     <!-- Settings -->
-    <string name="set_appearance">Giao diện</string>
+    <string name="set_appearance">Ngôn ngữ và giao diện</string>
     <string name="set_reminder_form">Biểu mẫu lời nhắc</string>
     <string name="set_reminder_form_desc">Chọn các mục sẽ hiện khi tạo lời nhắc. Nếu ẩn hết các cách nhập nội dung, bạn cần bật lại ít nhất một mục trước khi tạo lời nhắc mới.</string>
     <string name="ae_no_content_sections">Chưa bật mục nhập lời nhắc nào. Hãy bật Ghi âm giọng nói, Chọn tệp âm thanh hoặc Lời nhắc văn bản trong Cài đặt &gt; Biểu mẫu lời nhắc.</string>
@@ -343,8 +344,8 @@
     <string name="set_toast_theme_dark">Đã đặt chế độ tối</string>
     <string name="set_toast_theme_system">Theo chủ đề hệ thống</string>
     <string name="set_playback">Phát</string>
-    <string name="set_autoplay">Tự động phát âm thanh lời nhắc</string>
-    <string name="set_autoplay_desc">Tự động phát ghi chú giọng nói và tệp âm thanh khi lời nhắc báo</string>
+    <string name="set_autoplay">Tự động phát</string>
+    <string name="set_autoplay_desc">Phát bản ghi, tệp âm thanh và phần đọc văn bản đã bật khi đến giờ nhắc. Khi tắt, chạm Phát để nghe.</string>
     <string name="set_disabled_tone">Bị tắt khi đang bật chế độ chỉ chuông</string>
     <string name="set_toast_autoplay_on">Đã bật tự động phát</string>
     <string name="set_toast_autoplay_off">Đã tắt tự động phát</string>
@@ -370,7 +371,7 @@
     <string name="set_toast_private_off">Đã tắt phát riêng tư</string>
     <string name="set_private_bt">Đã bật phát riêng tư. Định tuyến Bluetooth cần quyền thiết bị ở gần.</string>
     <string name="set_tone_only">Chế độ chỉ chuông</string>
-    <string name="set_tone_only_desc">Phát chuông báo thức đơn giản thay cho giọng nói/TTS để có độ tin cậy cao nhất. Tự dừng: %1$s. Báo lại: %2$d phút.</string>
+    <string name="set_tone_only_desc">Phát tiếng báo thức thay cho bản ghi hoặc giọng đọc. Dừng sau: %1$s. Báo lại: %2$d phút.</string>
     <string name="set_toast_tone_on">Đã bật chế độ chỉ chuông</string>
     <string name="set_toast_tone_off">Đã tắt chế độ chỉ chuông</string>
     <string name="set_infinite">Vô hạn</string>
@@ -391,8 +392,8 @@
     <string name="set_open_perm">Mở cài đặt quyền</string>
     <string name="set_fs_note">Bạn vẫn có thể nhấn Phát lời nhắc hoặc Đọc lời nhắc từ thông báo.</string>
     <string name="set_tone_volume_note">Ở chế độ chỉ chuông, âm lượng do âm lượng báo thức/thông báo của thiết bị điều khiển.</string>
-    <string name="set_loop_duration">Thời lượng lặp</string>
-    <string name="set_loop_duration_desc">Đặt thời gian lặp lại của lời nhắc</string>
+    <string name="set_loop_duration">Dừng phát liên tục sau</string>
+    <string name="set_loop_duration_desc">Dừng tiếng chuông hoặc âm thanh lặp sau khoảng thời gian này. Lời nhắc kiểm tra là các cảnh báo riêng gửi sau đó.</string>
     <string name="set_toast_loop">Thời lượng lặp: %1$d phút</string>
     <string name="set_toast_loop_infinite">Thời lượng lặp: Vô hạn</string>
     <string name="set_custom">Tùy chỉnh</string>
@@ -422,7 +423,7 @@
     <string name="set_dnd_unavailable">Cài đặt quyền Không làm phiền của Android không có trên thiết bị này.</string>
     <string name="set_grant_dnd">Cấp quyền Không làm phiền của Android</string>
     <string name="set_dnd_note">Cài đặt này không bật hoặc tắt chế độ Không làm phiền. Nó cho phép %1$s xin quyền phát những lời nhắc quan trọng ngay cả khi chế độ đó đang bật.</string>
-    <string name="set_battery_guide">Hướng dẫn tối ưu hóa pin</string>
+    <string name="set_battery_guide">Lời nhắc vẫn muộn? Các bước cho điện thoại của bạn</string>
     <string name="set_battery_desc">Một số điện thoại làm trễ hoặc chặn lời nhắc để tiết kiệm pin.</string>
     <string name="set_wear">Wear OS</string>
     <string name="set_wear_checking">Đang kiểm tra kết nối Wear OS…</string>
@@ -462,7 +463,7 @@
     <string name="set_label_time">%1$s: %2$s</string>
     <string name="set_volume">Âm lượng</string>
     <string name="set_cd_volume">Âm lượng ứng dụng: %1$d%%</string>
-    <string name="set_loop_inline_desc">Âm thanh lặp trong bao lâu trước khi tự dừng</string>
+    <string name="set_loop_inline_desc">Dừng tiếng chuông hoặc âm thanh lặp sau khoảng thời gian này. Lời nhắc kiểm tra là các cảnh báo riêng gửi sau đó.</string>
     <string name="set_default_snooze">Báo lại mặc định</string>
     <string name="set_snooze_inline_desc">Chờ bao lâu trước khi nhắc tiếp sau khi bạn nhấn “Báo lại”</string>
     <string name="set_default_followup">Kiểm tra nhắc lại mặc định</string>
@@ -473,7 +474,7 @@
     <string name="set_toast_followup_repeat_until_done">Nhắc lại cho đến khi đánh dấu xong</string>
     <string name="set_toast_followup_repeat">Giới hạn nhắc lại: %1$d×</string>
     <string name="set_reliability">Độ tin cậy</string>
-    <string name="set_persist">Giữ lời nhắc trên màn hình đến khi xong</string>
+    <string name="set_persist">Giữ thông báo đến khi hoàn tất</string>
     <string name="set_persist_desc">Thông báo luôn hiển thị đến khi bạn nhấn “Xong” hoặc “Báo lại”. Bật thêm kiểm tra nhắc lại nếu muốn được nhắc tiếp.</string>
     <string name="set_toast_persist_on">Lời nhắc giữ lại đến khi xong</string>
     <string name="set_toast_persist_off">Có thể vuốt bỏ lời nhắc</string>
@@ -527,7 +528,7 @@
     <string name="help_s8_title">Cài đặt phát</string>
     <string name="help_s8_content">- Khi bật tự động phát, bản ghi hoặc tệp âm thanh sẽ phát vào giờ của lời nhắc.\n- Nội dung chỉ được đọc tự động khi lời nhắc không có bản ghi hay tệp âm thanh và bạn đã bật tự động đọc.\n- Ngôn ngữ dùng để đọc lời nhắc. Tự động phát hiện sẽ chọn ngôn ngữ của nội dung bạn viết. Bạn cần cài giọng đọc cho ngôn ngữ đó trong phần chuyển văn bản thành giọng nói của điện thoại. Bạn cũng có thể chọn ngôn ngữ điện thoại hoặc tiếng Anh. Với tự động phát hiện, nội dung tiếng Hindi sẽ được đọc bằng tiếng Hindi.\n- Dù tắt tự động đọc, bạn vẫn có thể nhấn nút để nghe nội dung.\n- Ưu tiên phát qua máy trợ thính, thiết bị Bluetooth hoặc tai nghe có dây đang kết nối. Nếu không có, âm thanh sẽ phát qua loa thoại thay vì loa ngoài.\n- Phát lặp sẽ lặp lại âm thanh đến khi bạn dừng hoặc hết thời gian đã đặt.\n- Kiểm tra nhắc lại tiếp tục hỏi đến khi bạn đánh dấu việc đã xong.\n- Giờ yên lặng có thể tắt tiếng lời nhắc trong khoảng thời gian bạn chọn.</string>
     <string name="help_s9_title">Chế độ chỉ chuông và độ tin cậy</string>
-    <string name="help_s9_content">- Chế độ chỉ chuông dùng chuông báo thức rõ ràng thay cho giọng nói hoặc TTS.\n- Bạn có thể chọn âm cảnh báo chỉ chuông tùy chỉnh, hoặc giữ chuông báo thức mặc định.\n- Cảnh báo cả khi Không làm phiền cho phép %1$s cố gắng phát lời nhắc quan trọng khi Không làm phiền đang bật.\n- Khi tắt Cảnh báo cả khi Không làm phiền, lời nhắc bị Không làm phiền chặn sẽ vào Bỏ lỡ thay vì phát.\n- Cài đặt này không bật hay tắt chế độ Không làm phiền của điện thoại. Cần quyền Không làm phiền của Android trước khi thông báo có thể bỏ qua chế độ này.\n- Khi bật, lời nhắc dùng âm thanh ưu tiên báo thức. Một số quy trình tự động của điện thoại vẫn có thể chặn báo thức nếu hệ thống tắt âm báo thức.\n- Nếu âm đã chọn bị mất sau này, %1$s sẽ tự động dùng chuông báo thức mặc định.\n- Dùng chế độ chỉ chuông nếu điện thoại làm trễ, chặn hoặc dừng giọng đọc.\n- Cài đặt &gt; Độ tin cậy có Hướng dẫn tối ưu hóa pin cho điện thoại hạn chế chạy nền mạnh.\n- Hãy bật thông báo, báo thức chính xác và cài đặt pin để lời nhắc đáng tin cậy nhất.</string>
+    <string name="help_s9_content">- Chế độ chỉ chuông dùng chuông báo thức rõ ràng thay cho giọng nói hoặc TTS.\n- Bạn có thể chọn âm cảnh báo chỉ chuông tùy chỉnh, hoặc giữ chuông báo thức mặc định.\n- Cảnh báo cả khi Không làm phiền cho phép %1$s cố gắng phát lời nhắc quan trọng khi Không làm phiền đang bật.\n- Khi tắt Cảnh báo cả khi Không làm phiền, lời nhắc bị Không làm phiền chặn sẽ vào Bỏ lỡ thay vì phát.\n- Cài đặt này không bật hay tắt chế độ Không làm phiền của điện thoại. Cần quyền Không làm phiền của Android trước khi thông báo có thể bỏ qua chế độ này.\n- Khi bật, lời nhắc dùng âm thanh ưu tiên báo thức. Một số quy trình tự động của điện thoại vẫn có thể chặn báo thức nếu hệ thống tắt âm báo thức.\n- Nếu âm đã chọn bị mất sau này, %1$s sẽ tự động dùng chuông báo thức mặc định.\n- Dùng chế độ chỉ chuông nếu điện thoại làm trễ, chặn hoặc dừng giọng đọc.\n- Cài đặt &gt; Kiểm tra lời nhắc có hướng dẫn từng bước về pin cho điện thoại hạn chế chạy nền mạnh.\n- Hãy bật thông báo, báo thức chính xác và cài đặt pin để lời nhắc đáng tin cậy nhất.</string>
     <string name="help_s10_title">Tiện ích và Wear OS</string>
     <string name="help_s10_content">- Tiện ích Lời nhắc nhanh mở trực tiếp Thêm lời nhắc.\n- Tiện ích Sắp tới hiển thị lời nhắc sắp tới và lời nhắc bị bỏ lỡ.\n- Hỗ trợ Wear OS cần bật thông báo trên điện thoại và đồng bộ đồng hồ.</string>
     <string name="help_s11_title">Sau khi khởi động lại thiết bị</string>
@@ -542,7 +543,17 @@
     <!-- What's new sheet -->
     <string name="action_continue">Tiếp tục</string>
     <string name="wn_title">Có gì mới trong %1$s</string>
-    <string name="wn_intro">SpeakAlert giờ có 12 ngôn ngữ, và lời nhắc bị bỏ lỡ dễ dàng được đặt lại.</string>
+    <string name="wn_intro">Bản cập nhật này giúp mọi lời nhắc đều reo đúng giờ.</string>
+    <string name="wn_check_title">Xem điều gì có thể chặn lời nhắc</string>
+    <string name="wn_check_desc">“Kiểm tra lời nhắc” ở đầu Cài đặt cho biết mọi thứ có thể làm lời nhắc đến muộn hoặc không có tiếng, như thông báo, pin hoặc âm lượng báo thức thấp, kèm nút để sửa từng mục.</string>
+    <string name="wn_reliable_title">Lời nhắc siêu tin cậy</string>
+    <string name="wn_reliable_desc">Nếu điện thoại làm chậm lời nhắc để tiết kiệm pin, hãy bật “Lời nhắc siêu tin cậy” trong Cài đặt &gt; Kiểm tra lời nhắc. Lời nhắc sẽ được đặt như báo thức nên reo đúng giờ.</string>
+    <string name="wn_settings_title">Cài đặt dễ tìm hơn</string>
+    <string name="wn_settings_desc">Mỗi mục cho biết bên trong có gì, và ngôn ngữ ứng dụng nằm ở gần đầu, trong “Ngôn ngữ và giao diện”.</string>
+    <string name="wn_cards_title">Sửa, Xong và Xóa trên mỗi thẻ</string>
+    <string name="wn_cards_desc">Mỗi thẻ lời nhắc có nút Sửa, Xong và Xóa. Xóa sẽ hỏi trước và có thể hoàn tác.</string>
+    <string name="wn_sound_title">Âm thanh dừng đúng lúc</string>
+    <string name="wn_sound_desc">Đánh dấu xong, xóa hoặc đổi giờ một lời nhắc sẽ dừng âm thanh ngay. Báo thức bằng chuông có lại nút Tắt tiếng.</string>
     <string name="wn_edit_title">Đổi ngày giờ ngay tại chỗ</string>
     <string name="wn_edit_desc">Mở lời nhắc và nhấn Ngày hoặc Giờ để đổi trực tiếp. Không cần mở trình chỉnh sửa trước.</string>
     <string name="wn_clear_title">Thông báo tự dọn dẹp</string>
@@ -556,7 +567,7 @@
     <string name="wn_notices_title">Màn hình chính cho biết vì sao lời nhắc bị im lặng</string>
     <string name="wn_notices_desc">Nếu điện thoại này được phép dừng %1$s chạy nền, hoặc giờ yên lặng đang bật, màn hình chính giờ sẽ báo cho bạn, thay vì lời nhắc lặng lẽ không đến.</string>
     <string name="wn_lang_title">Giờ đã có ngôn ngữ của bạn</string>
-    <string name="wn_lang_desc">Toàn bộ ứng dụng có sẵn bằng tiếng Anh, tiếng Tây Ban Nha, tiếng Hindi, tiếng Ả Rập, tiếng Bồ Đào Nha (Brazil), tiếng Nga, tiếng Việt, tiếng Bengal, tiếng Telugu, tiếng Tamil, tiếng Hy Lạp và tiếng Malayalam, có hỗ trợ viết từ phải sang trái. Chọn trong Cài đặt &gt; Giao diện &gt; Ngôn ngữ.</string>
+    <string name="wn_lang_desc">Toàn bộ ứng dụng có sẵn bằng tiếng Anh, tiếng Tây Ban Nha, tiếng Hindi, tiếng Ả Rập, tiếng Bồ Đào Nha (Brazil), tiếng Nga, tiếng Việt, tiếng Bengal, tiếng Telugu, tiếng Tamil, tiếng Hy Lạp và tiếng Malayalam, có hỗ trợ viết từ phải sang trái. Chọn trong Cài đặt &gt; Ngôn ngữ và giao diện &gt; Ngôn ngữ.</string>
     <string name="wn_missed_title">Đặt lại lời nhắc bị bỏ lỡ</string>
     <string name="wn_missed_desc">Trong thẻ Bỏ lỡ, nhấn biểu tượng bút chì trên lời nhắc để chọn ngày hoặc giờ mới. Lời nhắc sẽ quay lại danh sách sắp tới.</string>
     <string name="wn_quiet_title">Âm thanh dừng khi bạn xong</string>
@@ -564,7 +575,7 @@
     <string name="wn_buttons_title">Nút báo thức rõ ràng hơn</string>
     <string name="wn_buttons_desc">Cảnh báo và thông báo lời nhắc giờ hiển thị Xong, Tắt tiếng và Báo lại. Xong hoàn thành việc; Tắt tiếng chỉ dừng âm thanh và giữ lời nhắc.</string>
     <string name="wn_spoken_title">Lời nhắc đúng giọng</string>
-    <string name="wn_spoken_desc">Lời nhắc được tự động đọc bằng ngôn ngữ của chính nó — lời nhắc tiếng Hindi được đọc bằng tiếng Hindi kể cả khi ứng dụng đang dùng tiếng Việt. Điều chỉnh trong Cài đặt &gt; Phát &gt; Ngôn ngữ đọc.</string>
+    <string name="wn_spoken_desc">Lời nhắc được tự động đọc bằng ngôn ngữ của chính nó — lời nhắc tiếng Hindi được đọc bằng tiếng Hindi kể cả khi ứng dụng đang dùng tiếng Việt. Điều chỉnh trong Cài đặt &gt; Khi lời nhắc reo &gt; Ngôn ngữ đọc.</string>
     <string name="wn_persist_title">Giữ lời nhắc đến khi xong</string>
     <string name="wn_persist_desc">Bật Cài đặt &gt; Độ tin cậy &gt; Giữ lời nhắc trên màn hình đến khi xong để lời nhắc được ghim và chỉ mất khi bạn đánh dấu Xong hoặc Báo lại.</string>
     <string name="wn_backup_title">Sao lưu và chuyển lời nhắc</string>
@@ -709,7 +720,7 @@
     <string name="bog_status_exempt">%1$s đã được phép chạy không cần tối ưu hóa pin.</string>
     <string name="bog_no_battery_settings">Cài đặt pin không có trên thiết bị này.</string>
     <string name="bog_why_title">Vì sao điều này quan trọng</string>
-    <string name="bog_why_body">Điện thoại Xiaomi, POCO, Redmi, Huawei và các hãng tương tự có thể dừng ứng dụng chạy nền rất mạnh tay. Hãy dựa vào dòng sản phẩm và phiên bản phần mềm để tham khảo; đường dẫn chính xác có thể khác nhau tùy mẫu máy.</string>
+    <string name="bog_why_body">Điện thoại Xiaomi, POCO, Redmi, Huawei, Infinix, Tecno và các hãng tương tự có thể dừng ứng dụng chạy nền rất mạnh tay. Hãy dựa vào dòng sản phẩm và phiên bản phần mềm để tham khảo; đường dẫn chính xác có thể khác nhau tùy mẫu máy.</string>
 
     <!-- Reminder card accessibility description -->
     <string name="a11y_card_reminder">Lời nhắc: %1$s</string>
@@ -766,4 +777,52 @@
     <string name="set_tab_backup">Sao lưu</string>
     <string name="set_tab_wear">Đồng hồ</string>
     <string name="set_tab_help">Trợ giúp</string>
+    <string name="battery_guidance_title">Lời nhắc có thể bị trễ hoặc bị lỡ</string>
+    <string name="battery_guidance_body">Điện thoại đang hạn chế %1$s chạy nền để tiết kiệm pin, nên lời nhắc có thể reo muộn khi ứng dụng đóng. Nhấn Cho phép chạy nền, rồi chọn Cho phép. Bạn có thể đổi sau trong Cài đặt &gt; Kiểm tra lời nhắc.</string>
+    <string name="battery_review_settings">Cho phép chạy nền</string>
+    <string name="battery_keep_current">Không, cảm ơn</string>
+    <string name="battery_status_restricted">Quyền dùng pin trong nền: Bị hạn chế. Nên chọn Không hạn chế để nhận lời nhắc đúng giờ.</string>
+    <string name="battery_status_allowed">Quyền dùng pin trong nền: Không hạn chế.</string>
+    <string name="card_done_occurrence">Xong lần này</string>
+    <string name="home_delete_confirm_body">Bạn có thể hoàn tác ngay sau khi xóa.</string>
+    <string name="battery_banner_body">Trình tiết kiệm pin của điện thoại có thể kìm hãm %1$s.</string>
+    <string name="home_empty_nothing_today">Hôm nay không có gì</string>
+    <string name="home_empty_today_sub">Lời nhắc tiếp theo của bạn nằm trong mục \"%1$s\".</string>
+    <string name="set_alarm_clock">Lời nhắc siêu tin cậy</string>
+    <string name="set_alarm_clock_desc">Giúp lời nhắc kêu đúng giờ trên điện thoại làm chậm ứng dụng để tiết kiệm pin. Khi bật, một số điện thoại hiển thị biểu tượng đồng hồ hoặc thông báo \"đã đặt báo thức\".</string>
+    <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
+    <string name="bog_transsion_autostart">Mở Ứng dụng &gt; Tự khởi động (hoặc Phone Master &gt; Tự khởi động) và bật cho %1$s</string>
+    <string name="bog_transsion_battery">Mở Ứng dụng &gt; %1$s &gt; Pin và chọn Không hạn chế</string>
+    <string name="set_alarm_clock_status_next">Đang bật cho lời nhắc tiếp theo: %1$s</string>
+    <string name="set_alarm_clock_status_none">Lời nhắc tiếp theo của bạn sẽ dùng chế độ này.</string>
+    <string name="home_extra_reliable_on">Đã bật lời nhắc siêu tin cậy</string>
+    <string name="set_section_check">Kiểm tra lời nhắc</string>
+    <string name="set_section_ringing">Khi lời nhắc reo</string>
+    <string name="set_sum_check">Quyền, pin và âm lượng báo thức</string>
+    <string name="set_sum_lang">Ngôn ngữ ứng dụng, giao diện màu, định dạng giờ</string>
+    <string name="set_sum_ringing">Giọng nói hoặc chuông, âm lượng, ngôn ngữ đọc, lời nhắc thử</string>
+    <string name="set_sum_timing">Thời gian báo lại, nhắc lại, giờ yên lặng</string>
+    <string name="set_sum_form">Các tùy chọn hiện khi thêm lời nhắc</string>
+    <string name="set_sum_wear">Lời nhắc trên đồng hồ</string>
+    <string name="set_sum_backup">Lưu hoặc khôi phục lời nhắc và bản ghi âm</string>
+    <string name="set_sum_about">Hướng dẫn, hỗ trợ, ứng dụng khác</string>
+    <string name="check_all_good">Các quyền cần thiết đã được cấp.</string>
+    <string name="check_issues">Cấp các quyền còn thiếu bên dưới để hiển thị và lên lịch lời nhắc.</string>
+    <string name="check_notif_ok">Thông báo đang bật</string>
+    <string name="check_notif_bad">Thông báo đang tắt</string>
+    <string name="check_exact_ok">Lời nhắc có thể reo đúng phút</string>
+    <string name="check_exact_bad">Lời nhắc có thể không reo đúng phút</string>
+    <string name="check_battery_ok">Điện thoại cho phép lời nhắc chạy nền</string>
+    <string name="check_battery_bad">Trình tiết kiệm pin có thể kìm hãm lời nhắc</string>
+    <string name="check_volume_bad">Âm lượng báo thức thấp (%1$d%%) nên có thể khó nghe lời nhắc</string>
+    <string name="check_raise">Tăng</string>
+    <string name="check_fullscreen_bad">Cảnh báo trên màn hình khóa cần quyền</string>
+    <string name="check_dnd_bad">Cấp quyền Không làm phiền để phát cảnh báo trong chế độ này</string>
+    <string name="check_mic_ok">Đã cho phép micrô cho lời nhắc bằng giọng nói</string>
+    <string name="check_mic_bad">Micrô đang tắt nên không thể ghi lời nhắc bằng giọng nói</string>
+    <string name="check_volume_how">Nhấn Tăng hoặc mở cài đặt âm thanh của điện thoại và tăng âm lượng báo thức.</string>
+    <string name="set_required_permissions">Quyền cần thiết</string>
+    <string name="set_recommendations">Đề xuất và tính năng tùy chọn</string>
+    <string name="set_playback_mode">Âm thanh lời nhắc</string>
+    <string name="set_voice_audio_mode">Bản ghi, tệp âm thanh và đọc văn bản</string>
 </resources>
