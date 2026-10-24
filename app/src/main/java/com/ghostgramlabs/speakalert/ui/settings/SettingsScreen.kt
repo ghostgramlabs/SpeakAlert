@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import com.ghostgramlabs.speakalert.R
 import com.ghostgramlabs.speakalert.ui.components.AppTimePickerDialog
@@ -50,6 +51,7 @@ import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -1684,33 +1686,53 @@ private fun CheckRow(
     detail: String? = null,
     required: Boolean = false
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 44.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            imageVector = if (ok) Icons.Filled.CheckCircle else if (required) Icons.Filled.Warning else Icons.Filled.Info,
-            contentDescription = null,
-            tint = if (ok) MaterialTheme.colorScheme.primary else if (required) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.size(20.dp)
-        )
-        Spacer(Modifier.width(12.dp))
-        Column(modifier = Modifier.weight(1f)) {
-            Text(text = text, style = MaterialTheme.typography.bodyMedium)
-            if (detail != null) {
-                Text(
-                    text = detail,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(top = 2.dp)
-                )
-            }
+    // A long action label ("ക്രമീകരണം തുറക്കുക") beside the text squeezed it to a word per line,
+    // so the button moves under the text once it would take more than a third of the row.
+    val textMeasurer = rememberTextMeasurer()
+    val labelStyle = MaterialTheme.typography.labelLarge
+    val density = LocalDensity.current
+    BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+        val labelWidth = with(density) {
+            textMeasurer.measure(actionLabel, labelStyle, maxLines = 1).size.width.toDp()
         }
-        if (!ok) {
-            TextButton(onClick = onAction) {
-                Text(actionLabel)
+        // TextButton adds 12dp of padding on each side.
+        val stacked = !ok && labelWidth + 24.dp > maxWidth / 3
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = 44.dp),
+            verticalAlignment = if (stacked) Alignment.Top else Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = if (ok) Icons.Filled.CheckCircle else if (required) Icons.Filled.Warning else Icons.Filled.Info,
+                contentDescription = null,
+                tint = if (ok) MaterialTheme.colorScheme.primary else if (required) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier
+                    .padding(top = if (stacked) 2.dp else 0.dp)
+                    .size(20.dp)
+            )
+            Spacer(Modifier.width(12.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(text = text, style = MaterialTheme.typography.bodyMedium)
+                if (detail != null) {
+                    Text(
+                        text = detail,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(top = 2.dp)
+                    )
+                }
+                if (stacked) {
+                    // Pull the button's own padding back so its label lines up with the text.
+                    TextButton(onClick = onAction, modifier = Modifier.offset(x = (-12).dp)) {
+                        Text(actionLabel)
+                    }
+                }
+            }
+            if (!ok && !stacked) {
+                TextButton(onClick = onAction) {
+                    Text(actionLabel)
+                }
             }
         }
     }

@@ -16,6 +16,8 @@ User-facing changes to SpeakAlert, newest first. Version numbers match the Googl
   screen and says where to change it later. In Settings, the battery line uses the same "Fix"
   button as the other checks, and the guide link reads "Reminders still late? Steps for your
   phone".
+- In Reminder check, a long button label (such as "Open settings" in Malayalam) now sits under
+  its line instead of squeezing the text to a word per line.
 - Help, Quick start and What's new text no longer point to the old section names (Playback,
   Reliability, Appearance). Updated copy is translated across all 12 supported languages.
 
