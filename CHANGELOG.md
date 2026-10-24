@@ -3,7 +3,7 @@
 User-facing changes to SpeakAlert, newest first. Version numbers match the Google Play release
 (`versionName` in `app/build.gradle.kts`).
 
-## Unreleased
+## 2.0.45 - 2026-10-24
 
 - Settings is easier to search. Every collapsed section now shows a short line saying what is
   inside, such as "App language, theme, time format", so a setting can be found without opening

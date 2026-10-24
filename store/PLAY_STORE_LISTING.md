@@ -78,7 +78,18 @@ Most reminder apps rely on silent notifications. SpeakAlert is a talking reminde
 
 ## "What's new" (release notes, max 500 chars)
 
-### 2.0.44 (build 65) — current
+### 2.0.45 (build 66) — current
+
+```
+• Settings is easier to search: each section says what's inside, and App language is near the top
+• Clearer battery prompt: "Allow background use" or "No thanks"
+• Tone alarms have a Silence button again; a snoozed alert shows the time it rings
+• Late repeating reminders now also appear in the Missed tab
+• Widgets show a real preview and their own names
+• Many smaller fixes
+```
+
+### 2.0.44 (build 65) — previous
 
 ```
 • Settings is easier to follow: a Reminder check at the top shows anything that could stop reminders ringing on time, with a button to fix it
@@ -86,7 +97,7 @@ Most reminder apps rely on silent notifications. SpeakAlert is a talking reminde
 • A warning appears only if your alarm volume is too low, with a quick Raise button
 ```
 
-### 2.0.43 (build 64) — previous
+### 2.0.43 (build 64)
 
 ```
 • New: "Extra-reliable reminders" in Settings > Reliability. If your phone delays reminders to save battery, turn it on so they ring on time
