@@ -543,7 +543,17 @@
     <!-- What's new sheet -->
     <string name="action_continue">Tiếp tục</string>
     <string name="wn_title">Có gì mới trong %1$s</string>
-    <string name="wn_intro">SpeakAlert giờ có 12 ngôn ngữ, và lời nhắc bị bỏ lỡ dễ dàng được đặt lại.</string>
+    <string name="wn_intro">Bản cập nhật này giúp mọi lời nhắc đều reo đúng giờ.</string>
+    <string name="wn_check_title">Xem điều gì có thể chặn lời nhắc</string>
+    <string name="wn_check_desc">“Kiểm tra lời nhắc” ở đầu Cài đặt cho biết mọi thứ có thể làm lời nhắc đến muộn hoặc không có tiếng, như thông báo, pin hoặc âm lượng báo thức thấp, kèm nút để sửa từng mục.</string>
+    <string name="wn_reliable_title">Lời nhắc siêu tin cậy</string>
+    <string name="wn_reliable_desc">Nếu điện thoại làm chậm lời nhắc để tiết kiệm pin, hãy bật “Lời nhắc siêu tin cậy” trong Cài đặt &gt; Kiểm tra lời nhắc. Lời nhắc sẽ được đặt như báo thức nên reo đúng giờ.</string>
+    <string name="wn_settings_title">Cài đặt dễ tìm hơn</string>
+    <string name="wn_settings_desc">Mỗi mục cho biết bên trong có gì, và ngôn ngữ ứng dụng nằm ở gần đầu, trong “Ngôn ngữ và giao diện”.</string>
+    <string name="wn_cards_title">Sửa, Xong và Xóa trên mỗi thẻ</string>
+    <string name="wn_cards_desc">Mỗi thẻ lời nhắc có nút Sửa, Xong và Xóa. Xóa sẽ hỏi trước và có thể hoàn tác.</string>
+    <string name="wn_sound_title">Âm thanh dừng đúng lúc</string>
+    <string name="wn_sound_desc">Đánh dấu xong, xóa hoặc đổi giờ một lời nhắc sẽ dừng âm thanh ngay. Báo thức bằng chuông có lại nút Tắt tiếng.</string>
     <string name="wn_edit_title">Đổi ngày giờ ngay tại chỗ</string>
     <string name="wn_edit_desc">Mở lời nhắc và nhấn Ngày hoặc Giờ để đổi trực tiếp. Không cần mở trình chỉnh sửa trước.</string>
     <string name="wn_clear_title">Thông báo tự dọn dẹp</string>

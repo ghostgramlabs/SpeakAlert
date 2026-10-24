@@ -5,6 +5,9 @@ User-facing changes to SpeakAlert, newest first. Version numbers match the Googl
 
 ## 2.0.45 - 2026-10-24
 
+- The "What's new" sheet describes what changed since 2.0.40, the last production release:
+  Reminder check, Extra-reliable reminders, easier Settings, card buttons, and sound that stops
+  when it should.
 - Settings is easier to search. Every collapsed section now shows a short line saying what is
   inside, such as "App language, theme, time format", so a setting can be found without opening
   each card.

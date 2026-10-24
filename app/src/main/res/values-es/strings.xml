@@ -535,7 +535,17 @@
 
     <string name="action_continue">Continuar</string>
     <string name="wn_title">Novedades en %1$s</string>
-    <string name="wn_intro">SpeakAlert ya habla 12 idiomas, y es fácil retomar los recordatorios perdidos.</string>
+    <string name="wn_intro">Esta actualización ayuda a que cada recordatorio suene a tiempo.</string>
+    <string name="wn_check_title">Mira qué podría impedir un recordatorio</string>
+    <string name="wn_check_desc">«Comprobación de recordatorios», arriba del todo en Ajustes, muestra lo que podría retrasar o silenciar los recordatorios, como las notificaciones, la batería o un volumen de alarma bajo, con un botón para corregir cada cosa.</string>
+    <string name="wn_reliable_title">Recordatorios extra fiables</string>
+    <string name="wn_reliable_desc">Si tu teléfono retrasa los recordatorios para ahorrar batería, activa «Recordatorios extra fiables» en Ajustes &gt; Comprobación de recordatorios. Los recordatorios se programan como alarmas y suenan a tiempo.</string>
+    <string name="wn_settings_title">Ajustes más fáciles de encontrar</string>
+    <string name="wn_settings_desc">Cada sección indica lo que contiene, y el idioma de la app está arriba, en «Idioma y apariencia».</string>
+    <string name="wn_cards_title">Editar, Hecho y Eliminar en cada tarjeta</string>
+    <string name="wn_cards_desc">Cada tarjeta de recordatorio tiene botones para editar, marcar como hecho y eliminar. Eliminar pide confirmación y se puede deshacer.</string>
+    <string name="wn_sound_title">El sonido se detiene cuando debe</string>
+    <string name="wn_sound_desc">Al marcar un recordatorio como hecho, eliminarlo o cambiar su hora, su sonido se detiene al instante. Las alarmas de tono vuelven a tener el botón Silenciar.</string>
     <string name="wn_edit_title">Cambia la fecha y la hora ahí mismo</string>
     <string name="wn_edit_desc">Abre un recordatorio y toca Fecha u Hora para cambiarla directamente. Ya no hace falta abrir el editor.</string>
     <string name="wn_clear_title">Las notificaciones se ordenan solas</string>

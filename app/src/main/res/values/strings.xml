@@ -550,7 +550,17 @@
     <!-- What's new sheet -->
     <string name="action_continue">Continue</string>
     <string name="wn_title">What\'s new in %1$s</string>
-    <string name="wn_intro">SpeakAlert now speaks 12 languages, and missed reminders are easy to get back on track.</string>
+    <string name="wn_intro">This update helps make sure every reminder rings on time.</string>
+    <string name="wn_check_title">See what could stop a reminder</string>
+    <string name="wn_check_desc">Reminder check, at the top of Settings, shows anything that could make reminders late or silent, such as notifications, battery or a low alarm volume, with a button to fix each one.</string>
+    <string name="wn_reliable_title">Extra-reliable reminders</string>
+    <string name="wn_reliable_desc">If your phone delays reminders to save battery, turn on Extra-reliable reminders in Settings &gt; Reminder check. Reminders are then set like alarms, so they ring on time.</string>
+    <string name="wn_settings_title">Settings that are easier to find</string>
+    <string name="wn_settings_desc">Each section says what is inside, and the app language is near the top, under Language &amp; appearance.</string>
+    <string name="wn_cards_title">Edit, Done and Delete on every card</string>
+    <string name="wn_cards_desc">Each reminder card has Edit, Done and Delete buttons. Deleting asks first and can be undone.</string>
+    <string name="wn_sound_title">Sound stops when it should</string>
+    <string name="wn_sound_desc">Marking a reminder done, deleting it or changing its time stops its sound right away. Tone alarms have a Silence button again.</string>
     <string name="wn_edit_title">Change the date and time in place</string>
     <string name="wn_edit_desc">Open a reminder and tap Date or Time to change it directly. No need to open the editor first.</string>
     <string name="wn_clear_title">Notifications tidy themselves up</string>

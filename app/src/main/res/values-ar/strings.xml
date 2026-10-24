@@ -550,7 +550,17 @@
 
     <string name="action_continue">متابعة</string>
     <string name="wn_title">الجديد في %1$s</string>
-    <string name="wn_intro">يتحدث SpeakAlert الآن 12 لغة، وأصبح من السهل إعادة جدولة التذكيرات الفائتة.</string>
+    <string name="wn_intro">يساعد هذا التحديث على أن يرن كل تذكير في وقته.</string>
+    <string name="wn_check_title">اعرف ما قد يمنع التذكير</string>
+    <string name="wn_check_desc">يعرض «فحص التذكيرات» في أعلى الإعدادات كل ما قد يؤخر التذكيرات أو يجعلها صامتة، مثل الإشعارات أو البطارية أو انخفاض صوت المنبه، مع زر لإصلاح كل منها.</string>
+    <string name="wn_reliable_title">تذكيرات موثوقة أكثر</string>
+    <string name="wn_reliable_desc">إذا كان هاتفك يؤخر التذكيرات لتوفير البطارية، فشغّل «تذكيرات موثوقة أكثر» من الإعدادات &gt; فحص التذكيرات. عندها تُضبط التذكيرات مثل المنبهات فترن في وقتها.</string>
+    <string name="wn_settings_title">إعدادات أسهل في الوصول</string>
+    <string name="wn_settings_desc">يوضح كل قسم ما يحتويه، ولغة التطبيق أصبحت في الأعلى ضمن «اللغة والمظهر».</string>
+    <string name="wn_cards_title">تعديل وتم وحذف في كل بطاقة</string>
+    <string name="wn_cards_desc">تحتوي كل بطاقة تذكير على أزرار التعديل والإنجاز والحذف. يطلب الحذف تأكيدًا ويمكن التراجع عنه.</string>
+    <string name="wn_sound_title">يتوقف الصوت عندما يجب</string>
+    <string name="wn_sound_desc">عند إنجاز التذكير أو حذفه أو تغيير وقته يتوقف صوته فورًا. وعاد زر الإسكات إلى منبهات النغمة.</string>
     <string name="wn_edit_title">غيّر التاريخ والوقت في مكانهما</string>
     <string name="wn_edit_desc">افتح تذكيرًا واضغط على التاريخ أو الوقت لتغييره مباشرةً، دون الحاجة إلى فتح المحرر أولًا.</string>
     <string name="wn_clear_title">تختفي الإشعارات من تلقاء نفسها</string>

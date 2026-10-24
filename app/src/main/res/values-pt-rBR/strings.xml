@@ -553,7 +553,17 @@
     <!-- What's new sheet -->
     <string name="action_continue">Continuar</string>
     <string name="wn_title">Novidades do %1$s</string>
-    <string name="wn_intro">O SpeakAlert agora fala 12 idiomas, e ficou fácil retomar lembretes perdidos.</string>
+    <string name="wn_intro">Esta atualização ajuda a garantir que cada lembrete toque na hora.</string>
+    <string name="wn_check_title">Veja o que pode impedir um lembrete</string>
+    <string name="wn_check_desc">A “Verificação de lembretes”, no topo das Configurações, mostra tudo o que pode atrasar ou silenciar os lembretes, como notificações, bateria ou volume de alarme baixo, com um botão para corrigir cada item.</string>
+    <string name="wn_reliable_title">Lembretes extraconfiáveis</string>
+    <string name="wn_reliable_desc">Se o seu celular atrasa os lembretes para economizar bateria, ative “Lembretes extraconfiáveis” em Configurações &gt; Verificação de lembretes. Os lembretes passam a ser definidos como alarmes e tocam na hora.</string>
+    <string name="wn_settings_title">Configurações mais fáceis de encontrar</string>
+    <string name="wn_settings_desc">Cada seção mostra o que contém, e o idioma do app fica no topo, em “Idioma e aparência”.</string>
+    <string name="wn_cards_title">Editar, Concluir e Excluir em cada cartão</string>
+    <string name="wn_cards_desc">Cada cartão de lembrete tem botões para editar, concluir e excluir. Excluir pede confirmação e pode ser desfeito.</string>
+    <string name="wn_sound_title">O som para quando deve</string>
+    <string name="wn_sound_desc">Concluir, excluir ou mudar o horário de um lembrete para o som na hora. Os alarmes de toque voltaram a ter o botão Silenciar.</string>
     <string name="wn_edit_title">Mude a data e o horário no próprio lembrete</string>
     <string name="wn_edit_desc">Abra um lembrete e toque em Data ou Horário para alterar diretamente. Não é preciso abrir o editor antes.</string>
     <string name="wn_clear_title">As notificações se organizam sozinhas</string>

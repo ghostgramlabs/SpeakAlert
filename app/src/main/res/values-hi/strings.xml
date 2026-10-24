@@ -531,7 +531,17 @@
 
     <string name="action_continue">जारी रखें</string>
     <string name="wn_title">%1$s में नया</string>
-    <string name="wn_intro">SpeakAlert अब 12 भाषाओं में है, और छूटे रिमाइंडर को फिर से शेड्यूल करना आसान है।</string>
+    <string name="wn_intro">यह अपडेट यह पक्का करने में मदद करता है कि हर रिमाइंडर समय पर बजे।</string>
+    <string name="wn_check_title">देखें कि रिमाइंडर को क्या रोक सकता है</string>
+    <string name="wn_check_desc">सेटिंग्स में सबसे ऊपर “रिमाइंडर जांच” वह सब दिखाता है जिससे रिमाइंडर देर से या बिना आवाज़ के आ सकते हैं, जैसे सूचनाएं, बैटरी या कम अलार्म वॉल्यूम, और हर एक को ठीक करने का बटन देता है।</string>
+    <string name="wn_reliable_title">अतिरिक्त भरोसेमंद रिमाइंडर</string>
+    <string name="wn_reliable_desc">अगर आपका फ़ोन बैटरी बचाने के लिए रिमाइंडर देर से बजाता है, तो सेटिंग्स &gt; रिमाइंडर जांच में “अतिरिक्त भरोसेमंद रिमाइंडर” चालू करें। तब रिमाइंडर अलार्म की तरह सेट होते हैं और समय पर बजते हैं।</string>
+    <string name="wn_settings_title">सेटिंग्स ढूंढना अब आसान</string>
+    <string name="wn_settings_desc">हर सेक्शन बताता है कि उसमें क्या है, और ऐप की भाषा अब ऊपर “भाषा और दिखावट” में है।</string>
+    <string name="wn_cards_title">हर कार्ड पर बदलें, हो गया और हटाएं</string>
+    <string name="wn_cards_desc">हर रिमाइंडर कार्ड पर बदलने, पूरा करने और हटाने के बटन हैं। हटाने से पहले पूछा जाता है और इसे वापस भी लिया जा सकता है।</string>
+    <string name="wn_sound_title">आवाज़ सही समय पर रुकती है</string>
+    <string name="wn_sound_desc">रिमाइंडर को पूरा करने, हटाने या उसका समय बदलने पर उसकी आवाज़ तुरंत रुक जाती है। टोन अलार्म में शांत करें बटन फिर से है।</string>
     <string name="wn_edit_title">तारीख और समय वहीं बदलें</string>
     <string name="wn_edit_desc">कोई रिमाइंडर खोलें और तारीख या समय पर टैप करके उसे सीधे बदलें। पहले एडिटर खोलने की ज़रूरत नहीं।</string>
     <string name="wn_clear_title">नोटिफ़िकेशन अपने आप हट जाते हैं</string>
