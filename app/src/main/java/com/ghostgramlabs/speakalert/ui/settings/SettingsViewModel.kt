@@ -163,6 +163,19 @@ class SettingsViewModel(
         }
     }
 
+    val cardDoneColor = settingsRepository.cardDoneColor
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+    val cardDeleteColor = settingsRepository.cardDeleteColor
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+
+    fun setCardDoneColor(key: String?) {
+        viewModelScope.launch { settingsRepository.setCardDoneColor(key) }
+    }
+
+    fun setCardDeleteColor(key: String?) {
+        viewModelScope.launch { settingsRepository.setCardDeleteColor(key) }
+    }
+
     fun setFullScreenAlertEnabled(enabled: Boolean) {
         viewModelScope.launch {
             settingsRepository.setFullScreenAlertEnabled(enabled)
@@ -238,6 +251,15 @@ class SettingsViewModel(
     fun setLoopTimeoutMinutes(minutes: Int) {
         viewModelScope.launch {
             settingsRepository.setLoopTimeoutMinutes(minutes)
+        }
+    }
+
+    val loopGapSeconds = settingsRepository.loopGapSeconds
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+
+    fun setLoopGapSeconds(seconds: Int) {
+        viewModelScope.launch {
+            settingsRepository.setLoopGapSeconds(seconds)
         }
     }
     

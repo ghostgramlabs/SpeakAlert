@@ -471,6 +471,13 @@
     <string name="set_volume">Volume</string>
     <string name="set_cd_volume">App Volume: %1$d%%</string>
     <string name="set_loop_inline_desc">Stops the tone or looping audio after this time. Follow-up reminders are separate alerts later.</string>
+    <string name="set_loop_gap">Pause between repeats</string>
+    <string name="set_loop_gap_desc">Silence before a looping reminder plays again. The stop time above still ends the loop. Tones ring without pausing.</string>
+    <string name="set_loop_gap_none">None</string>
+    <string name="set_seconds_short">%1$ds</string>
+    <string name="set_seconds">Seconds</string>
+    <string name="set_max_allowed_seconds">Max allowed: %1$d sec</string>
+    <string name="set_desc_max_seconds">%1$s (Max %2$ds)</string>
     <string name="set_default_snooze">Default snooze</string>
     <string name="set_snooze_inline_desc">How long the reminder is delayed when you tap Snooze</string>
     <string name="set_default_followup">Default follow-up check</string>
@@ -550,7 +557,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">Continue</string>
     <string name="wn_title">What\'s new in %1$s</string>
-    <string name="wn_intro">This update helps make sure every reminder rings on time.</string>
+    <string name="wn_intro">Four improvements, all suggested by people who use the app.</string>
     <string name="wn_check_title">See what could stop a reminder</string>
     <string name="wn_check_desc">Reminder check, at the top of Settings, shows anything that could make reminders late or silent, such as notifications, battery or a low alarm volume, with a button to fix each one.</string>
     <string name="wn_reliable_title">Extra-reliable reminders</string>
@@ -561,6 +568,14 @@
     <string name="wn_cards_desc">Each reminder card has Edit, Done and Delete buttons. Deleting asks first and can be undone.</string>
     <string name="wn_sound_title">Sound stops when it should</string>
     <string name="wn_sound_desc">Marking a reminder done, deleting it or changing its time stops its sound right away. Tone alarms have a Silence button again.</string>
+    <string name="wn_nthday_title">Repeat on the last Thursday</string>
+    <string name="wn_nthday_desc">Monthly reminders can fall on a weekday by its place in the month, such as the first Monday or the last Thursday. Choose Repeat &gt; Monthly &gt; Day of week.</string>
+    <string name="wn_gap_title">A pause between repeats</string>
+    <string name="wn_gap_desc">A looping reminder can wait before it plays again: “Meeting”, 10 seconds of quiet, “Meeting” again, until its stop time. Set it in Settings &gt; When a reminder rings &gt; Pause between repeats.</string>
+    <string name="wn_colors_title">Your colors for Done and Delete</string>
+    <string name="wn_colors_desc">Give the Done and Delete buttons on reminder cards your own colors in Settings &gt; Language &amp; appearance &gt; Reminder card buttons.</string>
+    <string name="wn_notif_title">Notifications clear when you open the app</string>
+    <string name="wn_notif_desc">After a reminder rings, opening the app or saving a change to the reminder clears its notification. With “Keep notification until done” on, opening the app leaves it.</string>
     <string name="wn_edit_title">Change the date and time in place</string>
     <string name="wn_edit_desc">Open a reminder and tap Date or Time to change it directly. No need to open the editor first.</string>
     <string name="wn_clear_title">Notifications tidy themselves up</string>
@@ -632,6 +647,48 @@
     <string name="card_recur_onetime">One-time reminder</string>
     <string name="card_recur_daily">Repeats daily</string>
     <string name="card_recur_last_day">Last day of each month</string>
+    <string name="rs_day_of_week">Day of week</string>
+    <string name="rs_which_one">Which one in the month</string>
+    <string name="rs_weekday">Weekday</string>
+    <string name="rec_nth_weekday">%1$s %2$s</string>
+    <string name="card_recur_nth_weekday">%1$s of each month</string>
+    <string-array name="rs_ordinal_labels">
+        <item>First</item>
+        <item>Second</item>
+        <item>Third</item>
+        <item>Fourth</item>
+        <item>Last</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>First</item>
+        <item>Second</item>
+        <item>Third</item>
+        <item>Fourth</item>
+        <item>Last</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>First</item>
+        <item>Second</item>
+        <item>Third</item>
+        <item>Fourth</item>
+        <item>Last</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>First</item>
+        <item>Second</item>
+        <item>Third</item>
+        <item>Fourth</item>
+        <item>Last</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+    </string-array>
     <string name="card_recur_yearly">Repeats yearly</string>
     <string name="card_chip_recurring">Recurring</string>
     <string name="card_days_of_month">Days of month</string>
@@ -808,7 +865,20 @@
     <string name="set_section_check">Reminder check</string>
     <string name="set_section_ringing">When a reminder rings</string>
     <string name="set_sum_check">Permissions, battery and alarm volume</string>
-    <string name="set_sum_lang">App language, theme, time format</string>
+    <string name="set_sum_lang">App language, theme, time format, button colors</string>
+    <string name="set_card_colors">Reminder card buttons</string>
+    <string name="set_card_colors_desc">Choose colors for the Done and Delete buttons on Home.</string>
+    <string name="set_card_done_color">Done button</string>
+    <string name="set_card_delete_color">Delete / Stop recurring button</string>
+    <string name="color_default">App default</string>
+    <string name="color_red">Red</string>
+    <string name="color_orange">Orange</string>
+    <string name="color_green">Green</string>
+    <string name="color_teal">Teal</string>
+    <string name="color_blue">Blue</string>
+    <string name="color_purple">Purple</string>
+    <string name="color_pink">Pink</string>
+    <string name="color_gray">Gray</string>
     <string name="set_sum_ringing">Voice or tone, volume, spoken language, test reminder</string>
     <string name="set_sum_timing">Snooze length, follow-up checks, quiet hours</string>
     <string name="set_sum_form">Which options show when you add a reminder</string>

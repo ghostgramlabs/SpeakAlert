@@ -469,6 +469,13 @@
     <string name="set_volume">వాల్యూమ్</string>
     <string name="set_cd_volume">యాప్ వాల్యూమ్: %1$d%%</string>
     <string name="set_loop_inline_desc">ఈ సమయం తర్వాత టోన్ లేదా పదేపదే ప్లే అయ్యే ఆడియో ఆగుతుంది. ఫాలో-అప్ రిమైండర్లు తర్వాత వచ్చే వేర్వేరు అలర్ట్‌లు.</string>
+    <string name="set_loop_gap">పునరావృతాల మధ్య విరామం</string>
+    <string name="set_loop_gap_desc">పదేపదే ప్లే అయ్యే రిమైండర్ మళ్లీ ప్లే అయ్యే ముందు నిశ్శబ్దం. పైన ఉన్న ఆపే సమయమే ఇంకా లూప్‌ను ముగిస్తుంది. టోన్‌లు విరామం లేకుండా మోగుతాయి.</string>
+    <string name="set_loop_gap_none">ఏదీ లేదు</string>
+    <string name="set_seconds_short">%1$d సె</string>
+    <string name="set_seconds">సెకన్లు</string>
+    <string name="set_max_allowed_seconds">గరిష్టంగా అనుమతి: %1$d సెక</string>
+    <string name="set_desc_max_seconds">%1$s (గరిష్టం %2$d సె)</string>
     <string name="set_default_snooze">డిఫాల్ట్ స్నూజ్</string>
     <string name="set_snooze_inline_desc">“స్నూజ్” నొక్కిన ఎంతసేపటి తర్వాత మళ్లీ గుర్తుచేయాలి</string>
     <string name="set_default_followup">డిఫాల్ట్ ఫాలో-అప్ చెక్</string>
@@ -548,7 +555,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">కొనసాగించు</string>
     <string name="wn_title">%1$sలో కొత్తవి</string>
-    <string name="wn_intro">ప్రతి రిమైండర్ సమయానికి మోగేలా చూసుకోవడానికి ఈ అప్‌డేట్ సహాయపడుతుంది.</string>
+    <string name="wn_intro">నాలుగు మెరుగుదలలు, అన్నీ యాప్ వాడేవారి సూచనలే.</string>
     <string name="wn_check_title">రిమైండర్‌ను ఏది ఆపగలదో చూడండి</string>
     <string name="wn_check_desc">సెట్టింగ్‌లు పైభాగంలో ఉన్న “రిమైండర్ తనిఖీ” రిమైండర్‌లు ఆలస్యం కావడానికి లేదా శబ్దం లేకుండా రావడానికి కారణమయ్యే వాటిని, అంటే నోటిఫికేషన్‌లు, బ్యాటరీ లేదా తక్కువ అలారం వాల్యూమ్ వంటివాటిని చూపిస్తుంది, ప్రతిదాన్ని సరిచేసే బటన్‌తో.</string>
     <string name="wn_reliable_title">అదనపు నమ్మకమైన రిమైండర్లు</string>
@@ -559,6 +566,14 @@
     <string name="wn_cards_desc">ప్రతి రిమైండర్ కార్డ్‌పై సవరించడానికి, పూర్తి చేయడానికి, తొలగించడానికి బటన్‌లు ఉన్నాయి. తొలగించే ముందు అడుగుతుంది, దాన్ని రద్దు కూడా చేయవచ్చు.</string>
     <string name="wn_sound_title">శబ్దం సరైన సమయంలో ఆగుతుంది</string>
     <string name="wn_sound_desc">రిమైండర్‌ను పూర్తి చేసినా, తొలగించినా లేదా దాని సమయం మార్చినా దాని శబ్దం వెంటనే ఆగుతుంది. టోన్ అలారాలకు నిశ్శబ్దం బటన్ మళ్లీ వచ్చింది.</string>
+    <string name="wn_nthday_title">చివరి గురువారం పునరావృతం</string>
+    <string name="wn_nthday_desc">నెలవారీ రిమైండర్‌లు ఇప్పుడు నెలలో వారంలోని రోజు స్థానం ఆధారంగా రావచ్చు, ఉదా. మొదటి సోమవారం లేదా చివరి గురువారం. పునరావృతం &gt; ప్రతి నెల &gt; వారంలో రోజు ఎంచుకోండి.</string>
+    <string name="wn_gap_title">పునరావృతాల మధ్య విరామం</string>
+    <string name="wn_gap_desc">పదేపదే ప్లే అయ్యే రిమైండర్ మళ్లీ ప్లే అయ్యే ముందు ఆగవచ్చు: “మీటింగ్”, 10 సెకన్ల నిశ్శబ్దం, మళ్లీ “మీటింగ్”, ఆపే సమయం వరకు. సెట్టింగ్‌లు &gt; రిమైండర్ మోగినప్పుడు &gt; పునరావృతాల మధ్య విరామంలో సెట్ చేయండి.</string>
+    <string name="wn_colors_title">పూర్తయింది, తొలగించు బటన్‌లకు మీ రంగులు</string>
+    <string name="wn_colors_desc">సెట్టింగ్‌లు &gt; భాష &amp; రూపం &gt; రిమైండర్ కార్డ్ బటన్‌లులో రిమైండర్ కార్డ్‌లపై పూర్తయింది, తొలగించు బటన్‌లకు మీ సొంత రంగులు ఇవ్వండి.</string>
+    <string name="wn_notif_title">యాప్ తెరిస్తే నోటిఫికేషన్ పోతుంది</string>
+    <string name="wn_notif_desc">రిమైండర్ మోగిన తర్వాత యాప్ తెరిచినా లేదా దానిలో మార్పు సేవ్ చేసినా దాని నోటిఫికేషన్ పోతుంది. “పూర్తయ్యే వరకు నోటిఫికేషన్ ఉంచండి” ఆన్‌లో ఉంటే, యాప్ తెరిచినా అది ఉంటుంది.</string>
     <string name="wn_edit_title">అక్కడికక్కడే తేదీ, సమయం మార్చండి</string>
     <string name="wn_edit_desc">రిమైండర్‌ను తెరిచి నేరుగా మార్చడానికి తేదీ లేదా సమయం నొక్కండి. ముందుగా ఎడిటర్ తెరవాల్సిన అవసరం లేదు.</string>
     <string name="wn_clear_title">నోటిఫికేషన్‌లు వాటంతట అవే తొలగిపోతాయి</string>
@@ -630,6 +645,48 @@
     <string name="card_recur_onetime">ఒక్కసారి రిమైండర్</string>
     <string name="card_recur_daily">ప్రతిరోజూ పునరావృతం</string>
     <string name="card_recur_last_day">ప్రతి నెల చివరి రోజు</string>
+    <string name="rs_day_of_week">వారంలో రోజు</string>
+    <string name="rs_which_one">నెలలో ఏది</string>
+    <string name="rs_weekday">రోజు</string>
+    <string name="rec_nth_weekday">%1$s %2$s</string>
+    <string name="card_recur_nth_weekday">ప్రతి నెల %1$s</string>
+    <string-array name="rs_ordinal_labels">
+        <item>మొదటి</item>
+        <item>రెండవ</item>
+        <item>మూడవ</item>
+        <item>నాలుగవ</item>
+        <item>చివరి</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>మొదటి</item>
+        <item>రెండవ</item>
+        <item>మూడవ</item>
+        <item>నాలుగవ</item>
+        <item>చివరి</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>మొదటి</item>
+        <item>రెండవ</item>
+        <item>మూడవ</item>
+        <item>నాలుగవ</item>
+        <item>చివరి</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>మొదటి</item>
+        <item>రెండవ</item>
+        <item>మూడవ</item>
+        <item>నాలుగవ</item>
+        <item>చివరి</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+    </string-array>
     <string name="card_recur_yearly">ప్రతి సంవత్సరం పునరావృతం</string>
     <string name="card_chip_recurring">పునరావృతం</string>
     <string name="card_days_of_month">నెలలోని రోజులు</string>
@@ -806,7 +863,20 @@
     <string name="set_section_check">రిమైండర్ తనిఖీ</string>
     <string name="set_section_ringing">రిమైండర్ మోగినప్పుడు</string>
     <string name="set_sum_check">అనుమతులు, బ్యాటరీ, అలారం వాల్యూమ్</string>
-    <string name="set_sum_lang">యాప్ భాష, థీమ్, సమయ ఫార్మాట్</string>
+    <string name="set_sum_lang">యాప్ భాష, థీమ్, సమయ ఫార్మాట్, బటన్ రంగులు</string>
+    <string name="set_card_colors">రిమైండర్ కార్డ్ బటన్‌లు</string>
+    <string name="set_card_colors_desc">హోమ్‌లో పూర్తయింది, తొలగించు బటన్‌ల రంగులను ఎంచుకోండి.</string>
+    <string name="set_card_done_color">పూర్తయింది బటన్</string>
+    <string name="set_card_delete_color">తొలగించు / పునరావృతం ఆపు బటన్</string>
+    <string name="color_default">యాప్ డిఫాల్ట్</string>
+    <string name="color_red">ఎరుపు</string>
+    <string name="color_orange">నారింజ</string>
+    <string name="color_green">ఆకుపచ్చ</string>
+    <string name="color_teal">టీల్</string>
+    <string name="color_blue">నీలం</string>
+    <string name="color_purple">ఊదా</string>
+    <string name="color_pink">గులాబీ</string>
+    <string name="color_gray">బూడిద</string>
     <string name="set_sum_ringing">వాయిస్ లేదా టోన్, వాల్యూమ్, చదివి వినిపించే భాష, టెస్ట్ రిమైండర్</string>
     <string name="set_sum_timing">స్నూజ్ వ్యవధి, ఫాలో-అప్, నిశ్శబ్ద సమయం</string>
     <string name="set_sum_form">రిమైండర్ జోడించేటప్పుడు ఏ ఎంపికలు కనిపించాలి</string>

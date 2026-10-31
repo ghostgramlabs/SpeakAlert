@@ -266,7 +266,17 @@ class MainActivity : ComponentActivity() {
                     fullScreenAlertEnabled && !fullScreenAccessGranted
             }
 
+            val cardDoneColor by settingsRepository.cardDoneColor.collectAsState(initial = null)
+            val cardDeleteColor by settingsRepository.cardDeleteColor.collectAsState(initial = null)
+            val cardActionColors = com.ghostgramlabs.speakalert.ui.theme.CardActionColors(
+                done = com.ghostgramlabs.speakalert.ui.theme.CardButtonColor.fromKey(cardDoneColor)?.shade(isDarkTheme),
+                delete = com.ghostgramlabs.speakalert.ui.theme.CardButtonColor.fromKey(cardDeleteColor)?.shade(isDarkTheme)
+            )
+
             VoiceReminderTheme(darkTheme = isDarkTheme) {
+              androidx.compose.runtime.CompositionLocalProvider(
+                  com.ghostgramlabs.speakalert.ui.theme.LocalCardActionColors provides cardActionColors
+              ) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -405,27 +415,23 @@ class MainActivity : ComponentActivity() {
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
-                                    // Ordered by how much it matters to someone coming from 2.0.40, the last
-                                    // production release: first, whether reminders will ring at all.
+                                    // 2.0.46, for people coming from 2.0.45 (in production): the four
+                                    // changes users asked for.
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_check_title),
-                                        description = stringResource(R.string.wn_check_desc)
+                                        title = stringResource(R.string.wn_nthday_title),
+                                        description = stringResource(R.string.wn_nthday_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_reliable_title),
-                                        description = stringResource(R.string.wn_reliable_desc)
+                                        title = stringResource(R.string.wn_gap_title),
+                                        description = stringResource(R.string.wn_gap_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_settings_title),
-                                        description = stringResource(R.string.wn_settings_desc)
+                                        title = stringResource(R.string.wn_notif_title),
+                                        description = stringResource(R.string.wn_notif_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_cards_title),
-                                        description = stringResource(R.string.wn_cards_desc)
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_sound_title),
-                                        description = stringResource(R.string.wn_sound_desc)
+                                        title = stringResource(R.string.wn_colors_title),
+                                        description = stringResource(R.string.wn_colors_desc)
                                     )
                                 }
                                 Button(
@@ -572,6 +578,7 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 }
+              }
             }
         }
     }

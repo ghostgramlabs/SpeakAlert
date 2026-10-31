@@ -243,6 +243,14 @@ fun RecurrenceDetailsRow(
             if (model is RecurrenceModel.Monthly) {
                 if (model.variant == MonthlyVariant.LAST_DAY) {
                     RecurrenceInfoCard(text = stringResource(R.string.card_recur_last_day), modifier = modifier)
+                } else if (model.variant == MonthlyVariant.DAY_OF_WEEK) {
+                    RecurrenceInfoCard(
+                        text = stringResource(
+                            R.string.card_recur_nth_weekday,
+                            com.ghostgramlabs.speakalert.ui.util.nthWeekdayPhrase(model.weekOfMonth, model.dayOfWeek)
+                        ),
+                        modifier = modifier
+                    )
                 } else {
                     MonthlyDayGrid(
                         selectedDays = model.daysOfMonth,
@@ -754,15 +762,22 @@ fun ReminderCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
+                val actionColors = com.ghostgramlabs.speakalert.ui.theme.LocalCardActionColors.current
                 TextButton(onClick = onEditClick) { Text(stringResource(R.string.action_edit)) }
                 if (!isCompleted) {
-                    TextButton(onClick = onCompleteClick) {
+                    TextButton(onClick = onCompleteClick,
+                        colors = ButtonDefaults.textButtonColors(
+                            contentColor = actionColors.done ?: MaterialTheme.colorScheme.primary
+                        )
+                    ) {
                         Text(stringResource(if (recurrenceType != RecurrenceType.NONE)
                             R.string.card_done_occurrence else R.string.notif_action_done))
                     }
                 }
                 TextButton(onClick = onDeleteClick,
-                    colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onSurfaceVariant)
+                    colors = ButtonDefaults.textButtonColors(
+                        contentColor = actionColors.delete ?: MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 ) {
                     Text(stringResource(if (recurrenceType != RecurrenceType.NONE)
                         R.string.rcd_stop_recurring else R.string.action_delete))

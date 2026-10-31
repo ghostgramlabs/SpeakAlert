@@ -34,15 +34,19 @@ hear it even when the phone is in your pocket or across the room.
 
 - **Reminders that talk.** Record your voice, type text for text-to-speech, or pick any audio
   file. Speech uses the reminder's own language (a Hindi reminder is spoken in Hindi).
-- **Flexible repeats.** Daily, weekly, monthly, yearly, or custom intervals (every 30 minutes,
-  every 3 days). Repeats can end never, on a date, or after a number of times.
+- **Flexible repeats.** Daily, weekly, monthly (by date, last day, or a weekday such as the last
+  Thursday), yearly, or custom intervals (every 30 minutes, every 3 days). Repeats can end never,
+  on a date, or after a number of times.
 - **Reminds until done.** An optional follow-up check re-alerts until you mark the reminder Done.
-  Full-screen lock-screen alerts have Done, Silence and Snooze buttons.
+  Full-screen lock-screen alerts have Done, Silence and Snooze buttons. A looping reminder can
+  pause between repeats ("Meeting", 10 seconds of quiet, "Meeting" again) until its stop time.
 - **Reliable delivery.** Exact alarms, rescheduling after reboot, a missed-reminder inbox,
   tone-only mode, optional Do Not Disturb bypass, and battery-optimisation guidance for
   restrictive phones. Reminders can optionally be delivered as alarm clocks, which phones'
   battery savers do not hold back.
 - **Private playback.** Play reminders through the earpiece or Bluetooth headphones.
+- **Your colors.** Light, dark or system theme, and your own colors for the Done and Delete
+  buttons on reminder cards.
 - **Widgets and Wear OS.** A quick-add widget, an upcoming-reminders widget, and alerts on
   Wear OS watches.
 - **Backup and restore.** Exports every reminder, voice recordings included.

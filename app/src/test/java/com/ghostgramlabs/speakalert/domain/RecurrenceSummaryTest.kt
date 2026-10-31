@@ -73,6 +73,23 @@ class RecurrenceSummaryTest {
     }
 
     @Test
+    fun testMonthlyLastThursday() {
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.HOUR_OF_DAY, 9)
+        cal.set(Calendar.MINUTE, 0)
+
+        val model = RecurrenceModel.Monthly(
+            variant = MonthlyVariant.DAY_OF_WEEK,
+            weekOfMonth = com.ghostgramlabs.speakalert.domain.models.LAST_WEEK_OF_MONTH,
+            dayOfWeek = 4
+        )
+        val json = RecurrenceUtils.toJson(model)
+
+        val summary = RecurrenceUtils.getRecurrenceSummary(RecurrenceType.MONTHLY, json, cal.timeInMillis)
+        assertEquals("Monthly • Last Thursday • 9:00 AM", summary)
+    }
+
+    @Test
     fun testCustom() {
         val cal = Calendar.getInstance()
         cal.set(Calendar.HOUR_OF_DAY, 7)

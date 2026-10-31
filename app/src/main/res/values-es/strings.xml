@@ -458,6 +458,13 @@
     <string name="set_volume">Volumen</string>
     <string name="set_cd_volume">Volumen de la app: %1$d%%</string>
     <string name="set_loop_inline_desc">Detiene el tono o el audio en bucle tras este tiempo. Los recordatorios de seguimiento son alertas posteriores independientes.</string>
+    <string name="set_loop_gap">Pausa entre repeticiones</string>
+    <string name="set_loop_gap_desc">Silencio antes de que un recordatorio en bucle vuelva a sonar. El tiempo de detención anterior sigue terminando el bucle. Los tonos suenan sin pausa.</string>
+    <string name="set_loop_gap_none">Ninguna</string>
+    <string name="set_seconds_short">%1$ds</string>
+    <string name="set_seconds">Segundos</string>
+    <string name="set_max_allowed_seconds">Máximo permitido: %1$d s</string>
+    <string name="set_desc_max_seconds">%1$s (Máx %2$ds)</string>
     <string name="set_default_snooze">Posposición predeterminada</string>
     <string name="set_snooze_inline_desc">Cuánto tarda en volver a avisarte después de tocar «Posponer»</string>
     <string name="set_default_followup">Comprobación de seguimiento predeterminada</string>
@@ -535,7 +542,7 @@
 
     <string name="action_continue">Continuar</string>
     <string name="wn_title">Novedades en %1$s</string>
-    <string name="wn_intro">Esta actualización ayuda a que cada recordatorio suene a tiempo.</string>
+    <string name="wn_intro">Cuatro mejoras, todas sugeridas por quienes usan la app.</string>
     <string name="wn_check_title">Mira qué podría impedir un recordatorio</string>
     <string name="wn_check_desc">«Comprobación de recordatorios», arriba del todo en Ajustes, muestra lo que podría retrasar o silenciar los recordatorios, como las notificaciones, la batería o un volumen de alarma bajo, con un botón para corregir cada cosa.</string>
     <string name="wn_reliable_title">Recordatorios extra fiables</string>
@@ -546,6 +553,14 @@
     <string name="wn_cards_desc">Cada tarjeta de recordatorio tiene botones para editar, marcar como hecho y eliminar. Eliminar pide confirmación y se puede deshacer.</string>
     <string name="wn_sound_title">El sonido se detiene cuando debe</string>
     <string name="wn_sound_desc">Al marcar un recordatorio como hecho, eliminarlo o cambiar su hora, su sonido se detiene al instante. Las alarmas de tono vuelven a tener el botón Silenciar.</string>
+    <string name="wn_nthday_title">Repetir el último jueves</string>
+    <string name="wn_nthday_desc">Los recordatorios mensuales pueden caer en un día de la semana según su lugar en el mes, como el primer lunes o el último jueves. Elige Repetir &gt; Mensual &gt; Día de la semana.</string>
+    <string name="wn_gap_title">Una pausa entre repeticiones</string>
+    <string name="wn_gap_desc">Un recordatorio en bucle puede esperar antes de volver a sonar: “Reunión”, 10 segundos de silencio, “Reunión” otra vez, hasta su hora de parada. Configúralo en Ajustes &gt; Cuando suena un recordatorio &gt; Pausa entre repeticiones.</string>
+    <string name="wn_colors_title">Tus colores para Hecho y Eliminar</string>
+    <string name="wn_colors_desc">Da tus propios colores a los botones Hecho y Eliminar de las tarjetas en Ajustes &gt; Idioma y apariencia &gt; Botones de las tarjetas.</string>
+    <string name="wn_notif_title">Las notificaciones se borran al abrir la app</string>
+    <string name="wn_notif_desc">Después de que suene un recordatorio, abrir la app o guardar un cambio en él borra su notificación. Con “Mantener la notificación hasta completar” activado, abrir la app la mantiene.</string>
     <string name="wn_edit_title">Cambia la fecha y la hora ahí mismo</string>
     <string name="wn_edit_desc">Abre un recordatorio y toca Fecha u Hora para cambiarla directamente. Ya no hace falta abrir el editor.</string>
     <string name="wn_clear_title">Las notificaciones se ordenan solas</string>
@@ -618,6 +633,48 @@
     <string name="card_recur_onetime">Recordatorio único</string>
     <string name="card_recur_daily">Se repite a diario</string>
     <string name="card_recur_last_day">Último día de cada mes</string>
+    <string name="rs_day_of_week">Día de la semana</string>
+    <string name="rs_which_one">Cuál del mes</string>
+    <string name="rs_weekday">Día</string>
+    <string name="rec_nth_weekday">%1$s %2$s</string>
+    <string name="card_recur_nth_weekday">%1$s de cada mes</string>
+    <string-array name="rs_ordinal_labels">
+        <item>Primero</item>
+        <item>Segundo</item>
+        <item>Tercero</item>
+        <item>Cuarto</item>
+        <item>Último</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>Primer</item>
+        <item>Segundo</item>
+        <item>Tercer</item>
+        <item>Cuarto</item>
+        <item>Último</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>Primer</item>
+        <item>Segundo</item>
+        <item>Tercer</item>
+        <item>Cuarto</item>
+        <item>Último</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>Primer</item>
+        <item>Segundo</item>
+        <item>Tercer</item>
+        <item>Cuarto</item>
+        <item>Último</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+    </string-array>
     <string name="card_recur_yearly">Se repite cada año</string>
     <string name="card_chip_recurring">Recurrente</string>
     <string name="card_days_of_month">Días del mes</string>
@@ -796,7 +853,20 @@
     <string name="set_section_check">Comprobación de recordatorios</string>
     <string name="set_section_ringing">Cuando suena un recordatorio</string>
     <string name="set_sum_check">Permisos, batería y volumen de alarma</string>
-    <string name="set_sum_lang">Idioma de la app, tema, formato de hora</string>
+    <string name="set_sum_lang">Idioma de la app, tema, formato de hora, colores de botones</string>
+    <string name="set_card_colors">Botones de las tarjetas</string>
+    <string name="set_card_colors_desc">Elige los colores de los botones Hecho y Eliminar en Inicio.</string>
+    <string name="set_card_done_color">Botón Hecho</string>
+    <string name="set_card_delete_color">Botón Eliminar / Detener repetición</string>
+    <string name="color_default">Predeterminado de la app</string>
+    <string name="color_red">Rojo</string>
+    <string name="color_orange">Naranja</string>
+    <string name="color_green">Verde</string>
+    <string name="color_teal">Verde azulado</string>
+    <string name="color_blue">Azul</string>
+    <string name="color_purple">Morado</string>
+    <string name="color_pink">Rosa</string>
+    <string name="color_gray">Gris</string>
     <string name="set_sum_ringing">Voz o tono, volumen, idioma hablado, recordatorio de prueba</string>
     <string name="set_sum_timing">Tiempo de posponer, seguimiento, horas de silencio</string>
     <string name="set_sum_form">Qué opciones ves al crear un recordatorio</string>

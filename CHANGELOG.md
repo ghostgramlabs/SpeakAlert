@@ -3,6 +3,30 @@
 User-facing changes to SpeakAlert, newest first. Version numbers match the Google Play release
 (`versionName` in `app/build.gradle.kts`).
 
+## 2.0.46 - 2026-10-31
+
+- The "What's new" sheet lists the four changes below that users asked for.
+- Fixed a crash on some phones (seen on an Oppo with Android 10) when a reminder stopped while
+  the phone's speech engine was still starting up. The engine now connects only for spoken
+  reminders, is never shut down mid-connect, and a spoken reminder whose engine never starts
+  gives up after 20 seconds instead of waiting silently.
+- Choose your own colors for the Done and Delete (Stop recurring) buttons on Home's reminder
+  cards: Settings, Language & appearance, Reminder card buttons. Eight colors plus the app
+  default, each with a readable shade in dark theme, and a preview as you pick.
+- A reminder's notification now clears when you open the app after it rings, and when you edit
+  and save the reminder. Before, it only cleared when you tapped the notification itself. One that
+  is still sounding stays, so its Silence and Stop buttons remain. With "Keep notification until
+  done" on, opening the app leaves it as before; saving an edit still clears it, since the edit
+  replaces the time it was about.
+- Monthly repeats can now fall on a weekday by its place in the month: the first, second, third,
+  fourth or last Monday to Sunday, such as "Last Thursday of each month". Choose Repeat, then
+  Monthly, then "Day of week". It starts from the reminder's own date (Saturday the 31st offers
+  the last Saturday), and the reminder card shows the rule.
+- New "Pause between repeats" setting, under "Stop continuous playback after". A looping
+  reminder can now wait 5, 10 or 30 seconds, or a custom time up to 10 minutes, before it plays
+  again, so a short message like "Meeting" becomes a periodic nudge instead of nonstop speech.
+  The stop time still ends the loop. The default stays back-to-back; tones are not affected.
+
 ## 2.0.45 - 2026-10-24
 
 - The "What's new" sheet describes what changed since 2.0.40, the last production release:

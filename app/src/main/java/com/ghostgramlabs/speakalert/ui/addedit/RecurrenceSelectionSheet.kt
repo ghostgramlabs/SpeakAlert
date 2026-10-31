@@ -227,7 +227,26 @@ fun MonthlyConfigSheet(
             // Default to empty - user must select
         }
     }
-    
+
+    // Weekday by position, defaulting to the reminder's own date: Thursday the 30th -> last Thursday
+    val startCal = remember { Calendar.getInstance().apply { timeInMillis = minEndDateTimeMillis } }
+    var weekOfMonth by remember {
+        mutableIntStateOf(
+            initialModel?.weekOfMonth?.takeIf { it in 1..4 || it == LAST_WEEK_OF_MONTH } ?: run {
+                val day = startCal.get(Calendar.DAY_OF_MONTH)
+                if (day + 7 > startCal.getActualMaximum(Calendar.DAY_OF_MONTH)) LAST_WEEK_OF_MONTH else (day - 1) / 7 + 1
+            }
+        )
+    }
+    var dayOfWeek by remember {
+        mutableIntStateOf(
+            initialModel?.dayOfWeek?.takeIf { it in 1..7 } ?: run {
+                val calDay = startCal.get(Calendar.DAY_OF_WEEK)
+                if (calDay == Calendar.SUNDAY) 7 else calDay - 1
+            }
+        )
+    }
+
     // End Rule
     var endRuleType by remember { 
         mutableStateOf(when(initialModel?.endRule?.type) {
@@ -303,8 +322,82 @@ fun MonthlyConfigSheet(
                             selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     )
+                    FilterChip(
+                        selected = variant == MonthlyVariant.DAY_OF_WEEK,
+                        onClick = { variant = MonthlyVariant.DAY_OF_WEEK },
+                        label = { Text(stringResource(R.string.rs_day_of_week)) },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    )
                 }
-                
+
+                if (variant == MonthlyVariant.DAY_OF_WEEK) {
+                    val ordinalLabels = LocalContext.current.resources.getStringArray(R.array.rs_ordinal_labels)
+                    val weekOptions = listOf(1, 2, 3, 4, LAST_WEEK_OF_MONTH)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(stringResource(R.string.rs_which_one), style = MaterialTheme.typography.labelMedium)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    FlowRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        weekOptions.forEachIndexed { index, week ->
+                            FilterChip(
+                                selected = weekOfMonth == week,
+                                onClick = { weekOfMonth = week },
+                                label = { Text(ordinalLabels.getOrElse(index) { "" }) },
+                                colors = FilterChipDefaults.filterChipColors(
+                                    selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                    selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
+                                )
+                            )
+                        }
+                    }
+
+                    val weekdays = listOf(
+                        1 to stringResource(R.string.day_mon),
+                        2 to stringResource(R.string.day_tue),
+                        3 to stringResource(R.string.day_wed),
+                        4 to stringResource(R.string.day_thu),
+                        5 to stringResource(R.string.day_fri),
+                        6 to stringResource(R.string.day_sat),
+                        7 to stringResource(R.string.day_sun)
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(stringResource(R.string.rs_weekday), style = MaterialTheme.typography.labelMedium)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    FlowRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        weekdays.forEach { (day, name) ->
+                            FilterChip(
+                                selected = dayOfWeek == day,
+                                onClick = { dayOfWeek = day },
+                                label = { Text(name) },
+                                colors = FilterChipDefaults.filterChipColors(
+                                    selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                    selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
+                                )
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        stringResource(
+                            R.string.card_recur_nth_weekday,
+                            com.ghostgramlabs.speakalert.ui.util.nthWeekdayPhrase(weekOfMonth, dayOfWeek)
+                        ),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+
                 if (variant == MonthlyVariant.DAY_OF_MONTH) {
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(stringResource(R.string.rs_select_days_toggle), style = MaterialTheme.typography.labelMedium)
@@ -387,12 +480,14 @@ fun MonthlyConfigSheet(
                         onSave(RecurrenceModel.Monthly(
                             variant = variant,
                             daysOfMonth = if (variant == MonthlyVariant.DAY_OF_MONTH) selectedDays.toSet() else emptySet(),
+                            weekOfMonth = if (variant == MonthlyVariant.DAY_OF_WEEK) weekOfMonth else 0,
+                            dayOfWeek = if (variant == MonthlyVariant.DAY_OF_WEEK) dayOfWeek else 0,
                             endRule = endRule,
                             missedPolicy = missedPolicy
                         ))
                     },
                     modifier = Modifier.weight(1f),
-                    enabled = variant == MonthlyVariant.LAST_DAY || selectedDays.isNotEmpty(),
+                    enabled = variant != MonthlyVariant.DAY_OF_MONTH || selectedDays.isNotEmpty(),
                     shape = RoundedCornerShape(16.dp)
                 ) { Text(stringResource(R.string.action_save)) }
             }

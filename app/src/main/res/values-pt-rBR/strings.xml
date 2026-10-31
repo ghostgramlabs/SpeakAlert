@@ -474,6 +474,13 @@
     <string name="set_volume">Volume</string>
     <string name="set_cd_volume">Volume do app: %1$d%%</string>
     <string name="set_loop_inline_desc">Interrompe o toque ou o áudio em repetição após esse tempo. Lembretes de acompanhamento são alertas separados enviados depois.</string>
+    <string name="set_loop_gap">Pausa entre repetições</string>
+    <string name="set_loop_gap_desc">Silêncio antes que um lembrete em repetição toque de novo. O tempo de parada acima continua encerrando a repetição. Os toques soam sem pausa.</string>
+    <string name="set_loop_gap_none">Nenhuma</string>
+    <string name="set_seconds_short">%1$d s</string>
+    <string name="set_seconds">Segundos</string>
+    <string name="set_max_allowed_seconds">Máximo permitido: %1$d s</string>
+    <string name="set_desc_max_seconds">%1$s (máx. %2$d s)</string>
     <string name="set_default_snooze">Adiamento padrão</string>
     <string name="set_snooze_inline_desc">Quanto tempo esperar para avisar de novo depois de tocar em “Adiar”</string>
     <string name="set_default_followup">Verificação de acompanhamento padrão</string>
@@ -553,7 +560,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">Continuar</string>
     <string name="wn_title">Novidades do %1$s</string>
-    <string name="wn_intro">Esta atualização ajuda a garantir que cada lembrete toque na hora.</string>
+    <string name="wn_intro">Quatro melhorias, todas sugeridas por quem usa o app.</string>
     <string name="wn_check_title">Veja o que pode impedir um lembrete</string>
     <string name="wn_check_desc">A “Verificação de lembretes”, no topo das Configurações, mostra tudo o que pode atrasar ou silenciar os lembretes, como notificações, bateria ou volume de alarme baixo, com um botão para corrigir cada item.</string>
     <string name="wn_reliable_title">Lembretes extraconfiáveis</string>
@@ -564,6 +571,14 @@
     <string name="wn_cards_desc">Cada cartão de lembrete tem botões para editar, concluir e excluir. Excluir pede confirmação e pode ser desfeito.</string>
     <string name="wn_sound_title">O som para quando deve</string>
     <string name="wn_sound_desc">Concluir, excluir ou mudar o horário de um lembrete para o som na hora. Os alarmes de toque voltaram a ter o botão Silenciar.</string>
+    <string name="wn_nthday_title">Repetir na última quinta-feira</string>
+    <string name="wn_nthday_desc">Lembretes mensais podem cair em um dia da semana pela posição no mês, como a primeira segunda-feira ou a última quinta-feira. Escolha Repetir &gt; Mensalmente &gt; Dia da semana.</string>
+    <string name="wn_gap_title">Uma pausa entre repetições</string>
+    <string name="wn_gap_desc">Um lembrete em repetição pode esperar antes de tocar de novo: “Reunião”, 10 segundos de silêncio, “Reunião” de novo, até o horário de parada. Ajuste em Configurações &gt; Quando um lembrete toca &gt; Pausa entre repetições.</string>
+    <string name="wn_colors_title">Suas cores para Concluído e Excluir</string>
+    <string name="wn_colors_desc">Dê suas próprias cores aos botões Concluído e Excluir dos cartões em Configurações &gt; Idioma e aparência &gt; Botões dos cartões.</string>
+    <string name="wn_notif_title">Notificações somem ao abrir o app</string>
+    <string name="wn_notif_desc">Depois que um lembrete toca, abrir o app ou salvar uma alteração nele remove a notificação. Com “Manter notificação até concluir” ativado, abrir o app a mantém.</string>
     <string name="wn_edit_title">Mude a data e o horário no próprio lembrete</string>
     <string name="wn_edit_desc">Abra um lembrete e toque em Data ou Horário para alterar diretamente. Não é preciso abrir o editor antes.</string>
     <string name="wn_clear_title">As notificações se organizam sozinhas</string>
@@ -635,6 +650,48 @@
     <string name="card_recur_onetime">Lembrete único</string>
     <string name="card_recur_daily">Repete diariamente</string>
     <string name="card_recur_last_day">Último dia de cada mês</string>
+    <string name="rs_day_of_week">Dia da semana</string>
+    <string name="rs_which_one">Qual do mês</string>
+    <string name="rs_weekday">Dia</string>
+    <string name="rec_nth_weekday">%1$s %2$s</string>
+    <string name="card_recur_nth_weekday">%1$s de cada mês</string>
+    <string-array name="rs_ordinal_labels">
+        <item>Primeiro</item>
+        <item>Segundo</item>
+        <item>Terceiro</item>
+        <item>Quarto</item>
+        <item>Último</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>Primeiro</item>
+        <item>Segundo</item>
+        <item>Terceiro</item>
+        <item>Quarto</item>
+        <item>Último</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>Primeira</item>
+        <item>Segunda</item>
+        <item>Terceira</item>
+        <item>Quarta</item>
+        <item>Última</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>Primeiro</item>
+        <item>Segundo</item>
+        <item>Terceiro</item>
+        <item>Quarto</item>
+        <item>Último</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>f</item>
+        <item>f</item>
+        <item>f</item>
+        <item>f</item>
+        <item>f</item>
+        <item>m</item>
+        <item>m</item>
+    </string-array>
     <string name="card_recur_yearly">Repete anualmente</string>
     <string name="card_chip_recurring">Recorrente</string>
     <string name="card_days_of_month">Dias do mês</string>
@@ -813,7 +870,20 @@
     <string name="set_section_check">Verificação de lembretes</string>
     <string name="set_section_ringing">Quando um lembrete toca</string>
     <string name="set_sum_check">Permissões, bateria e volume do alarme</string>
-    <string name="set_sum_lang">Idioma do app, tema, formato de hora</string>
+    <string name="set_sum_lang">Idioma do app, tema, formato de hora, cores dos botões</string>
+    <string name="set_card_colors">Botões dos cartões</string>
+    <string name="set_card_colors_desc">Escolha as cores dos botões Concluído e Excluir na tela inicial.</string>
+    <string name="set_card_done_color">Botão Concluído</string>
+    <string name="set_card_delete_color">Botão Excluir / Parar recorrência</string>
+    <string name="color_default">Padrão do app</string>
+    <string name="color_red">Vermelho</string>
+    <string name="color_orange">Laranja</string>
+    <string name="color_green">Verde</string>
+    <string name="color_teal">Verde-azulado</string>
+    <string name="color_blue">Azul</string>
+    <string name="color_purple">Roxo</string>
+    <string name="color_pink">Rosa</string>
+    <string name="color_gray">Cinza</string>
     <string name="set_sum_ringing">Voz ou toque, volume, idioma falado, lembrete de teste</string>
     <string name="set_sum_timing">Tempo de adiamento, acompanhamento, horário de silêncio</string>
     <string name="set_sum_form">Quais opções aparecem ao criar um lembrete</string>

@@ -469,6 +469,13 @@
     <string name="set_volume">വോളിയം</string>
     <string name="set_cd_volume">ആപ്പ് വോളിയം: %1$d%%</string>
     <string name="set_loop_inline_desc">ഈ സമയത്തിന് ശേഷം ടോണോ ആവർത്തിക്കുന്ന ഓഡിയോയോ നിൽക്കും. ഫോളോ-അപ്പ് ഓർമ്മപ്പെടുത്തലുകൾ പിന്നീട് വരുന്ന വേറിട്ട അറിയിപ്പുകളാണ്.</string>
+    <string name="set_loop_gap">ആവർത്തനങ്ങൾക്കിടയിലെ ഇടവേള</string>
+    <string name="set_loop_gap_desc">ആവർത്തിക്കുന്ന ഓർമ്മപ്പെടുത്തൽ വീണ്ടും പ്ലേ ചെയ്യുന്നതിന് മുമ്പുള്ള നിശ്ശബ്ദത. മുകളിലെ നിർത്തൽ സമയം തന്നെ ആവർത്തനം അവസാനിപ്പിക്കും. ടോണുകൾ ഇടവേളയില്ലാതെ മുഴങ്ങും.</string>
+    <string name="set_loop_gap_none">ഒന്നുമില്ല</string>
+    <string name="set_seconds_short">%1$d സെ</string>
+    <string name="set_seconds">സെക്കൻഡ്</string>
+    <string name="set_max_allowed_seconds">പരമാവധി അനുവദനീയം: %1$d സെക്കൻഡ്</string>
+    <string name="set_desc_max_seconds">%1$s (പരമാവധി %2$d സെ)</string>
     <string name="set_default_snooze">ഡിഫോൾട്ട് സ്‌നൂസ്</string>
     <string name="set_snooze_inline_desc">“സ്‌നൂസ്” ടാപ്പ് ചെയ്ത് എത്രനേരത്തിനുശേഷം വീണ്ടും ഓർമ്മിപ്പിക്കണം</string>
     <string name="set_default_followup">ഡിഫോൾട്ട് ഫോളോ-അപ്പ് പരിശോധന</string>
@@ -548,7 +555,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">തുടരുക</string>
     <string name="wn_title">%1$s-ൽ പുതിയതെന്ത്</string>
-    <string name="wn_intro">ഓരോ ഓർമ്മപ്പെടുത്തലും സമയത്ത് മുഴങ്ങുന്നുവെന്ന് ഉറപ്പാക്കാൻ ഈ അപ്ഡേറ്റ് സഹായിക്കുന്നു.</string>
+    <string name="wn_intro">നാല് മെച്ചപ്പെടുത്തലുകൾ, എല്ലാം ആപ്പ് ഉപയോഗിക്കുന്നവരുടെ നിർദ്ദേശങ്ങൾ.</string>
     <string name="wn_check_title">ഓർമ്മപ്പെടുത്തലിനെ എന്ത് തടയാമെന്ന് കാണുക</string>
     <string name="wn_check_desc">ക്രമീകരണം മുകളിലുള്ള “ഓർമ്മപ്പെടുത്തൽ പരിശോധന” ഓർമ്മപ്പെടുത്തലുകൾ വൈകാനോ ശബ്ദമില്ലാതെ വരാനോ കാരണമാകുന്നവ, അതായത് അറിയിപ്പുകൾ, ബാറ്ററി, കുറഞ്ഞ അലാറം വോളിയം എന്നിവ കാണിക്കുകയും ഓരോന്നും ശരിയാക്കാൻ ഒരു ബട്ടൺ നൽകുകയും ചെയ്യുന്നു.</string>
     <string name="wn_reliable_title">കൂടുതൽ വിശ്വസനീയമായ ഓർമ്മപ്പെടുത്തലുകൾ</string>
@@ -559,6 +566,14 @@
     <string name="wn_cards_desc">ഓരോ ഓർമ്മപ്പെടുത്തൽ കാർഡിലും എഡിറ്റ് ചെയ്യാനും പൂർത്തിയാക്കാനും ഇല്ലാതാക്കാനും ബട്ടണുകളുണ്ട്. ഇല്ലാതാക്കുന്നതിന് മുമ്പ് ചോദിക്കും, അത് പഴയപടിയാക്കാനും കഴിയും.</string>
     <string name="wn_sound_title">ശബ്ദം ശരിയായ സമയത്ത് നിൽക്കും</string>
     <string name="wn_sound_desc">ഓർമ്മപ്പെടുത്തൽ പൂർത്തിയാക്കുകയോ ഇല്ലാതാക്കുകയോ സമയം മാറ്റുകയോ ചെയ്താൽ അതിന്റെ ശബ്ദം ഉടൻ നിൽക്കും. ടോൺ അലാറങ്ങൾക്ക് വീണ്ടും നിശബ്ദമാക്കുക ബട്ടൺ ഉണ്ട്.</string>
+    <string name="wn_nthday_title">അവസാന വ്യാഴാഴ്ച ആവർത്തിക്കുക</string>
+    <string name="wn_nthday_desc">മാസംതോറുമുള്ള ഓർമ്മപ്പെടുത്തലുകൾ ഇനി മാസത്തിലെ സ്ഥാനമനുസരിച്ച് ഒരു ആഴ്ചദിവസത്തിൽ വരാം, ഉദാ. ആദ്യ തിങ്കളാഴ്ച അല്ലെങ്കിൽ അവസാന വ്യാഴാഴ്ച. ആവർത്തനം &gt; മാസംതോറും &gt; ആഴ്ചയിലെ ദിവസം തിരഞ്ഞെടുക്കുക.</string>
+    <string name="wn_gap_title">ആവർത്തനങ്ങൾക്കിടയിലെ ഇടവേള</string>
+    <string name="wn_gap_desc">ആവർത്തിക്കുന്ന ഓർമ്മപ്പെടുത്തലിന് വീണ്ടും പ്ലേ ചെയ്യുന്നതിന് മുമ്പ് കാത്തിരിക്കാം: “മീറ്റിംഗ്”, 10 സെക്കൻഡ് നിശ്ശബ്ദത, വീണ്ടും “മീറ്റിംഗ്”, നിർത്തൽ സമയം വരെ. ക്രമീകരണം &gt; ഓർമ്മപ്പെടുത്തൽ മുഴങ്ങുമ്പോൾ &gt; ആവർത്തനങ്ങൾക്കിടയിലെ ഇടവേള എന്നതിൽ സജ്ജമാക്കുക.</string>
+    <string name="wn_colors_title">പൂർത്തിയായി, ഇല്ലാതാക്കുക ബട്ടണുകൾക്ക് നിങ്ങളുടെ നിറങ്ങൾ</string>
+    <string name="wn_colors_desc">ക്രമീകരണം &gt; ഭാഷയും രൂപഭാവവും &gt; ഓർമ്മപ്പെടുത്തൽ കാർഡ് ബട്ടണുകൾ എന്നതിൽ ഓർമ്മപ്പെടുത്തൽ കാർഡുകളിലെ പൂർത്തിയായി, ഇല്ലാതാക്കുക ബട്ടണുകൾക്ക് സ്വന്തം നിറങ്ങൾ നൽകുക.</string>
+    <string name="wn_notif_title">ആപ്പ് തുറക്കുമ്പോൾ അറിയിപ്പ് മായും</string>
+    <string name="wn_notif_desc">ഓർമ്മപ്പെടുത്തൽ മുഴങ്ങിയ ശേഷം ആപ്പ് തുറക്കുകയോ അതിലെ മാറ്റം സേവ് ചെയ്യുകയോ ചെയ്താൽ അതിന്റെ അറിയിപ്പ് മായും. “പൂർത്തിയാക്കുന്നതുവരെ അറിയിപ്പ് നിലനിർത്തുക” ഓണാണെങ്കിൽ, ആപ്പ് തുറന്നാലും അത് നിലനിൽക്കും.</string>
     <string name="wn_edit_title">അവിടെ വച്ചുതന്നെ തീയതിയും സമയവും മാറ്റുക</string>
     <string name="wn_edit_desc">ഒരു റിമൈൻഡർ തുറന്ന് നേരിട്ട് മാറ്റാൻ തീയതി അല്ലെങ്കിൽ സമയം ടാപ്പ് ചെയ്യുക. ആദ്യം എഡിറ്റർ തുറക്കേണ്ടതില്ല.</string>
     <string name="wn_clear_title">അറിയിപ്പുകൾ സ്വയം മായും</string>
@@ -630,6 +645,48 @@
     <string name="card_recur_onetime">ഒറ്റത്തവണ റിമൈൻഡർ</string>
     <string name="card_recur_daily">ദിവസവും ആവർത്തിക്കും</string>
     <string name="card_recur_last_day">എല്ലാ മാസത്തിന്റെയും അവസാന ദിവസം</string>
+    <string name="rs_day_of_week">ആഴ്ചയിലെ ദിവസം</string>
+    <string name="rs_which_one">മാസത്തിലെ ഏത്</string>
+    <string name="rs_weekday">ദിവസം</string>
+    <string name="rec_nth_weekday">%1$s %2$s</string>
+    <string name="card_recur_nth_weekday">എല്ലാ മാസത്തിലെയും %1$s</string>
+    <string-array name="rs_ordinal_labels">
+        <item>ആദ്യത്തേത്</item>
+        <item>രണ്ടാമത്തേത്</item>
+        <item>മൂന്നാമത്തേത്</item>
+        <item>നാലാമത്തേത്</item>
+        <item>അവസാനത്തേത്</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>ആദ്യ</item>
+        <item>രണ്ടാം</item>
+        <item>മൂന്നാം</item>
+        <item>നാലാം</item>
+        <item>അവസാന</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>ആദ്യ</item>
+        <item>രണ്ടാം</item>
+        <item>മൂന്നാം</item>
+        <item>നാലാം</item>
+        <item>അവസാന</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>ആദ്യ</item>
+        <item>രണ്ടാം</item>
+        <item>മൂന്നാം</item>
+        <item>നാലാം</item>
+        <item>അവസാന</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+    </string-array>
     <string name="card_recur_yearly">വർഷംതോറും ആവർത്തിക്കും</string>
     <string name="card_chip_recurring">ആവർത്തിക്കുന്നത്</string>
     <string name="card_days_of_month">മാസത്തിലെ ദിവസങ്ങൾ</string>
@@ -806,7 +863,20 @@
     <string name="set_section_check">ഓർമ്മപ്പെടുത്തൽ പരിശോധന</string>
     <string name="set_section_ringing">ഓർമ്മപ്പെടുത്തൽ മുഴങ്ങുമ്പോൾ</string>
     <string name="set_sum_check">അനുമതികൾ, ബാറ്ററി, അലാറം വോളിയം</string>
-    <string name="set_sum_lang">ആപ്പ് ഭാഷ, തീം, സമയ ഫോർമാറ്റ്</string>
+    <string name="set_sum_lang">ആപ്പ് ഭാഷ, തീം, സമയ ഫോർമാറ്റ്, ബട്ടൺ നിറങ്ങൾ</string>
+    <string name="set_card_colors">ഓർമ്മപ്പെടുത്തൽ കാർഡ് ബട്ടണുകൾ</string>
+    <string name="set_card_colors_desc">ഹോമിലെ പൂർത്തിയായി, ഇല്ലാതാക്കുക ബട്ടണുകളുടെ നിറങ്ങൾ തിരഞ്ഞെടുക്കുക.</string>
+    <string name="set_card_done_color">പൂർത്തിയായി ബട്ടൺ</string>
+    <string name="set_card_delete_color">ഇല്ലാതാക്കുക / ആവർത്തനം നിർത്തുക ബട്ടൺ</string>
+    <string name="color_default">ആപ്പിന്റെ ഡിഫോൾട്ട്</string>
+    <string name="color_red">ചുവപ്പ്</string>
+    <string name="color_orange">ഓറഞ്ച്</string>
+    <string name="color_green">പച്ച</string>
+    <string name="color_teal">ടീൽ</string>
+    <string name="color_blue">നീല</string>
+    <string name="color_purple">പർപ്പിൾ</string>
+    <string name="color_pink">പിങ്ക്</string>
+    <string name="color_gray">ചാരനിറം</string>
     <string name="set_sum_ringing">ശബ്ദമോ ടോണോ, വോളിയം, വായിച്ചുകേൾപ്പിക്കുന്ന ഭാഷ, ടെസ്റ്റ് റിമൈൻഡർ</string>
     <string name="set_sum_timing">സ്‌നൂസ് ദൈർഘ്യം, ഫോളോ-അപ്പ്, നിശബ്ദ സമയം</string>
     <string name="set_sum_form">റിമൈൻഡർ ചേർക്കുമ്പോൾ ഏതൊക്കെ ഓപ്ഷനുകൾ കാണിക്കണം</string>

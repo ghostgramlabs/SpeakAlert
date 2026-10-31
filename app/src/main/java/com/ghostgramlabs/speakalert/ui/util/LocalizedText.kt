@@ -1,6 +1,7 @@
 package com.ghostgramlabs.speakalert.ui.util
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import com.ghostgramlabs.speakalert.R
@@ -12,6 +13,7 @@ import com.ghostgramlabs.speakalert.domain.models.RecurrenceModel
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
 import com.ghostgramlabs.speakalert.domain.models.TimeUnit
 import com.ghostgramlabs.speakalert.util.DateUtils
+import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -84,6 +86,8 @@ fun localizedRecurrenceSummary(
             sb.append(stringResource(R.string.rec_monthly)).append(" • ")
             if (model.variant == MonthlyVariant.LAST_DAY) {
                 sb.append(stringResource(R.string.rs_last_day))
+            } else if (model.variant == MonthlyVariant.DAY_OF_WEEK) {
+                sb.append(nthWeekdayPhrase(model.weekOfMonth, model.dayOfWeek))
             } else {
                 val days = if (model.daysOfMonth.isEmpty()) listOf(1) else model.daysOfMonth.sorted()
                 sb.append(days.joinToString(", "))
@@ -126,6 +130,29 @@ fun localizedRecurrenceSummary(
     }
 
     return sb.toString()
+}
+
+/**
+ * "Last Thursday", "Second Monday". In some languages the ordinal agrees with the weekday's
+ * grammatical gender (Russian последний четверг / последняя пятница), so each locale lists its
+ * weekdays' genders and an ordinal set per gender.
+ */
+@Composable
+fun nthWeekdayPhrase(weekOfMonth: Int, dayOfWeek: Int): String {
+    val res = LocalContext.current.resources
+    val ordinalIndex = if (weekOfMonth in 1..4) weekOfMonth - 1 else 4
+    val gender = res.getStringArray(R.array.weekday_gender).getOrElse(dayOfWeek - 1) { "m" }
+    val ordinals = res.getStringArray(
+        when (gender) {
+            "f" -> R.array.rec_ordinal_f
+            "n" -> R.array.rec_ordinal_n
+            else -> R.array.rec_ordinal_m
+        }
+    )
+    // Calendar order is Sunday-first; the model is Monday-first.
+    val calDay = if (dayOfWeek == 7) Calendar.SUNDAY else dayOfWeek + 1
+    val dayName = DateFormatSymbols.getInstance(Locale.getDefault()).weekdays.getOrElse(calDay) { "" }
+    return stringResource(R.string.rec_nth_weekday, ordinals.getOrElse(ordinalIndex) { "" }, dayName)
 }
 
 @Composable

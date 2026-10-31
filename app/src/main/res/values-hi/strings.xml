@@ -454,6 +454,13 @@
     <string name="set_volume">वॉल्यूम</string>
     <string name="set_cd_volume">ऐप वॉल्यूम: %1$d%%</string>
     <string name="set_loop_inline_desc">इस समय के बाद टोन या बार-बार चलने वाला ऑडियो रुक जाता है। फ़ॉलो-अप रिमाइंडर बाद में आने वाले अलग अलर्ट हैं।</string>
+    <string name="set_loop_gap">दोहराव के बीच विराम</string>
+    <string name="set_loop_gap_desc">लूप वाला रिमाइंडर दोबारा चलने से पहले की चुप्पी। ऊपर दिया रोकने का समय अब भी लूप खत्म करता है। टोन बिना विराम के बजते हैं।</string>
+    <string name="set_loop_gap_none">कोई नहीं</string>
+    <string name="set_seconds_short">%1$dसे</string>
+    <string name="set_seconds">सेकंड</string>
+    <string name="set_max_allowed_seconds">अधिकतम अनुमत: %1$d सेकंड</string>
+    <string name="set_desc_max_seconds">%1$s (अधिकतम %2$dसे)</string>
     <string name="set_default_snooze">डिफ़ॉल्ट स्नूज़</string>
     <string name="set_snooze_inline_desc">“स्नूज़” दबाने के कितनी देर बाद फिर याद दिलाया जाए</string>
     <string name="set_default_followup">डिफ़ॉल्ट फ़ॉलो-अप जांच</string>
@@ -531,7 +538,7 @@
 
     <string name="action_continue">जारी रखें</string>
     <string name="wn_title">%1$s में नया</string>
-    <string name="wn_intro">यह अपडेट यह पक्का करने में मदद करता है कि हर रिमाइंडर समय पर बजे।</string>
+    <string name="wn_intro">चार सुधार, सभी ऐप इस्तेमाल करने वालों के सुझाव पर।</string>
     <string name="wn_check_title">देखें कि रिमाइंडर को क्या रोक सकता है</string>
     <string name="wn_check_desc">सेटिंग्स में सबसे ऊपर “रिमाइंडर जांच” वह सब दिखाता है जिससे रिमाइंडर देर से या बिना आवाज़ के आ सकते हैं, जैसे सूचनाएं, बैटरी या कम अलार्म वॉल्यूम, और हर एक को ठीक करने का बटन देता है।</string>
     <string name="wn_reliable_title">अतिरिक्त भरोसेमंद रिमाइंडर</string>
@@ -542,6 +549,14 @@
     <string name="wn_cards_desc">हर रिमाइंडर कार्ड पर बदलने, पूरा करने और हटाने के बटन हैं। हटाने से पहले पूछा जाता है और इसे वापस भी लिया जा सकता है।</string>
     <string name="wn_sound_title">आवाज़ सही समय पर रुकती है</string>
     <string name="wn_sound_desc">रिमाइंडर को पूरा करने, हटाने या उसका समय बदलने पर उसकी आवाज़ तुरंत रुक जाती है। टोन अलार्म में शांत करें बटन फिर से है।</string>
+    <string name="wn_nthday_title">आखिरी गुरुवार को दोहराएं</string>
+    <string name="wn_nthday_desc">मासिक रिमाइंडर अब महीने में सप्ताह के किसी दिन की जगह के हिसाब से सेट हो सकते हैं, जैसे पहला सोमवार या आखिरी गुरुवार। दोहराएं &gt; मासिक &gt; सप्ताह का दिन चुनें।</string>
+    <string name="wn_gap_title">दोहराव के बीच विराम</string>
+    <string name="wn_gap_desc">लूप वाला रिमाइंडर दोबारा चलने से पहले रुक सकता है: “मीटिंग”, 10 सेकंड शांति, फिर “मीटिंग”, रुकने के समय तक। इसे सेटिंग्स &gt; जब रिमाइंडर बजता है &gt; दोहराव के बीच विराम में सेट करें।</string>
+    <string name="wn_colors_title">हो गया और हटाएं के लिए आपके रंग</string>
+    <string name="wn_colors_desc">रिमाइंडर कार्ड के हो गया और हटाएं बटन को सेटिंग्स &gt; भाषा और दिखावट &gt; रिमाइंडर कार्ड के बटन में अपने रंग दें।</string>
+    <string name="wn_notif_title">ऐप खोलने पर नोटिफ़िकेशन हट जाता है</string>
+    <string name="wn_notif_desc">रिमाइंडर बजने के बाद ऐप खोलने या उसमें बदलाव सेव करने पर उसका नोटिफ़िकेशन हट जाता है। “पूरा होने तक नोटिफ़िकेशन रखें” चालू हो तो ऐप खोलने पर वह बना रहता है।</string>
     <string name="wn_edit_title">तारीख और समय वहीं बदलें</string>
     <string name="wn_edit_desc">कोई रिमाइंडर खोलें और तारीख या समय पर टैप करके उसे सीधे बदलें। पहले एडिटर खोलने की ज़रूरत नहीं।</string>
     <string name="wn_clear_title">नोटिफ़िकेशन अपने आप हट जाते हैं</string>
@@ -614,6 +629,48 @@
     <string name="card_recur_onetime">एक बार का रिमाइंडर</string>
     <string name="card_recur_daily">रोज़ दोहराता है</string>
     <string name="card_recur_last_day">हर महीने का आखिरी दिन</string>
+    <string name="rs_day_of_week">सप्ताह का दिन</string>
+    <string name="rs_which_one">महीने में कौन-सा</string>
+    <string name="rs_weekday">दिन</string>
+    <string name="rec_nth_weekday">%1$s %2$s</string>
+    <string name="card_recur_nth_weekday">हर महीने का %1$s</string>
+    <string-array name="rs_ordinal_labels">
+        <item>पहला</item>
+        <item>दूसरा</item>
+        <item>तीसरा</item>
+        <item>चौथा</item>
+        <item>आखिरी</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>पहला</item>
+        <item>दूसरा</item>
+        <item>तीसरा</item>
+        <item>चौथा</item>
+        <item>आखिरी</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>पहला</item>
+        <item>दूसरा</item>
+        <item>तीसरा</item>
+        <item>चौथा</item>
+        <item>आखिरी</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>पहला</item>
+        <item>दूसरा</item>
+        <item>तीसरा</item>
+        <item>चौथा</item>
+        <item>आखिरी</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+    </string-array>
     <string name="card_recur_yearly">हर वर्ष दोहराता है</string>
     <string name="card_chip_recurring">आवर्ती</string>
     <string name="card_days_of_month">महीने के दिन</string>
@@ -790,7 +847,20 @@
     <string name="set_section_check">रिमाइंडर जांच</string>
     <string name="set_section_ringing">जब रिमाइंडर बजता है</string>
     <string name="set_sum_check">अनुमतियां, बैटरी और अलार्म वॉल्यूम</string>
-    <string name="set_sum_lang">ऐप की भाषा, थीम, समय का प्रारूप</string>
+    <string name="set_sum_lang">ऐप की भाषा, थीम, समय का प्रारूप, बटन के रंग</string>
+    <string name="set_card_colors">रिमाइंडर कार्ड के बटन</string>
+    <string name="set_card_colors_desc">होम पर हो गया और हटाएं बटन के रंग चुनें।</string>
+    <string name="set_card_done_color">हो गया बटन</string>
+    <string name="set_card_delete_color">हटाएं / दोहराव रोकें बटन</string>
+    <string name="color_default">ऐप का डिफ़ॉल्ट</string>
+    <string name="color_red">लाल</string>
+    <string name="color_orange">नारंगी</string>
+    <string name="color_green">हरा</string>
+    <string name="color_teal">टील</string>
+    <string name="color_blue">नीला</string>
+    <string name="color_purple">बैंगनी</string>
+    <string name="color_pink">गुलाबी</string>
+    <string name="color_gray">स्लेटी</string>
     <string name="set_sum_ringing">आवाज़ या टोन, वॉल्यूम, पढ़कर सुनाने की भाषा, परीक्षण रिमाइंडर</string>
     <string name="set_sum_timing">स्नूज़ की अवधि, फ़ॉलो-अप जांच, शांत समय</string>
     <string name="set_sum_form">रिमाइंडर जोड़ते समय कौन से विकल्प दिखें</string>

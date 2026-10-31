@@ -222,6 +222,14 @@ object RecurrenceUtils {
                 if (temp.timeInMillis > fromTime) {
                     return temp.timeInMillis
                 }
+            } else if (rule.variant == MonthlyVariant.DAY_OF_WEEK) {
+                // e.g. last Thursday: temp is on the 1st here
+                val day = nthWeekdayOfMonth(temp, rule.weekOfMonth, rule.dayOfWeek)
+                    ?: return null // Invalid rule, can't compute
+                temp.set(Calendar.DAY_OF_MONTH, day)
+                if (temp.timeInMillis > fromTime) {
+                    return temp.timeInMillis
+                }
             } else {
                 // DAY_OF_MONTH - check all specified days in sorted order
                 if (rule.daysOfMonth.isEmpty()) {
@@ -241,6 +249,22 @@ object RecurrenceUtils {
         }
         
         return null
+    }
+
+    /**
+     * Day of the month for the [weekOfMonth]-th [dayOfWeek] (1 = Monday) of [month]'s month, or
+     * null for an invalid rule. Weeks 1-4 always exist; a fifth is only ever reached as "last".
+     */
+    internal fun nthWeekdayOfMonth(month: Calendar, weekOfMonth: Int, dayOfWeek: Int): Int? {
+        if (dayOfWeek !in 1..7) return null
+        if (weekOfMonth !in 1..4 && weekOfMonth != LAST_WEEK_OF_MONTH) return null
+        val first = month.clone() as Calendar
+        first.set(Calendar.DAY_OF_MONTH, 1)
+        val calTarget = if (dayOfWeek == 7) Calendar.SUNDAY else dayOfWeek + 1
+        val firstMatch = 1 + (calTarget - first.get(Calendar.DAY_OF_WEEK) + 7) % 7
+        if (weekOfMonth != LAST_WEEK_OF_MONTH) return firstMatch + 7 * (weekOfMonth - 1)
+        val maxDay = first.getActualMaximum(Calendar.DAY_OF_MONTH)
+        return firstMatch + 7 * ((maxDay - firstMatch) / 7)
     }
 
     // --- YEARLY ---
@@ -410,6 +434,17 @@ object RecurrenceUtils {
                 sb.append("Monthly • ")
                 if (model.variant == MonthlyVariant.LAST_DAY) {
                     sb.append("Last day")
+                } else if (model.variant == MonthlyVariant.DAY_OF_WEEK) {
+                    val ordinal = when (model.weekOfMonth) {
+                        1 -> "First"
+                        2 -> "Second"
+                        3 -> "Third"
+                        4 -> "Fourth"
+                        else -> "Last"
+                    }
+                    val day = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+                        .getOrElse(model.dayOfWeek - 1) { "" }
+                    sb.append("$ordinal $day")
                 } else {
                     val days = if (model.daysOfMonth.isEmpty()) listOf(1) else model.daysOfMonth.sorted()
                     val daysStr = days.joinToString(", ") { d ->

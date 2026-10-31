@@ -49,6 +49,9 @@ import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.semantics.selected
+import com.ghostgramlabs.speakalert.ui.theme.CardButtonColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -58,6 +61,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.core.app.NotificationManagerCompat
 import com.ghostgramlabs.speakalert.alarm.NotificationHelper
+import com.ghostgramlabs.speakalert.data.repository.SettingsRepository
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.BatteryOptimizationSupport
 import com.ghostgramlabs.speakalert.util.FullScreenIntentSupport
@@ -122,7 +126,8 @@ fun SettingsScreen(
     val defaultSnoozeDuration by viewModel.defaultSnoozeDuration.collectAsState()
     val defaultFollowUpMinutes by viewModel.defaultFollowUpMinutes.collectAsState()
     val loopTimeoutMinutes by viewModel.loopTimeoutMinutes.collectAsState()
-    
+    val loopGapSeconds by viewModel.loopGapSeconds.collectAsState()
+
     // Quiet Time state
     val quietTimeEnabled by viewModel.quietTimeEnabled.collectAsState()
     val startHour by viewModel.quietTimeStartHour.collectAsState()
@@ -450,6 +455,9 @@ fun SettingsScreen(
                 }
 
                 Spacer(Modifier.height(16.dp))
+                CardButtonColorsSetting(viewModel)
+
+                Spacer(Modifier.height(16.dp))
                 SwitchRow(
                     text = stringResource(R.string.settings_24_hour_time),
                     description = stringResource(R.string.settings_24_hour_time_desc),
@@ -759,6 +767,59 @@ fun SettingsScreen(
                             onSave = {
                                 viewModel.setLoopTimeoutMinutes(it)
                                 showCustomLoopDialog = false
+                            }
+                        )
+                    }
+                }
+
+                // Pause between loop repeats
+                Text(stringResource(R.string.set_loop_gap), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 8.dp))
+                Text(
+                    stringResource(R.string.set_loop_gap_desc),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                val gapPresets = listOf(5, 10, 30)
+                val isCustomGap = loopGapSeconds != 0 && loopGapSeconds !in gapPresets
+                Row(
+                    modifier = Modifier.padding(top = 4.dp).fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    SnoozeOptionChip(
+                        text = stringResource(R.string.set_loop_gap_none),
+                        isSelected = loopGapSeconds == 0,
+                        onClick = { viewModel.setLoopGapSeconds(0) },
+                        modifier = Modifier.weight(1f)
+                    )
+                    gapPresets.forEach { secs ->
+                        SnoozeOptionChip(
+                            text = stringResource(R.string.set_seconds_short, secs),
+                            isSelected = loopGapSeconds == secs,
+                            onClick = { viewModel.setLoopGapSeconds(secs) },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+                Row(modifier = Modifier.padding(top = 8.dp).fillMaxWidth()) {
+                    var showCustomGapDialog by remember { mutableStateOf(false) }
+                    SnoozeOptionChip(
+                        text = if (isCustomGap) stringResource(R.string.set_seconds_short, loopGapSeconds) else stringResource(R.string.set_custom),
+                        isSelected = isCustomGap,
+                        onClick = { showCustomGapDialog = true },
+                        modifier = Modifier.widthIn(min = 96.dp)
+                    )
+
+                    if (showCustomGapDialog) {
+                        CustomDurationDialog(
+                            title = stringResource(R.string.set_loop_gap),
+                            initialValue = if (isCustomGap) loopGapSeconds else 15,
+                            maxMinutes = SettingsRepository.MAX_LOOP_GAP_SECONDS,
+                            description = stringResource(R.string.set_loop_gap_desc),
+                            inSeconds = true,
+                            onDismiss = { showCustomGapDialog = false },
+                            onSave = {
+                                viewModel.setLoopGapSeconds(it)
+                                showCustomGapDialog = false
                             }
                         )
                     }
@@ -1921,6 +1982,145 @@ private fun TimePickerButton(
     }
 }
 
+/** Colors for the Done and Delete buttons on Home's reminder cards, with a live preview. */
+@Composable
+private fun CardButtonColorsSetting(viewModel: SettingsViewModel) {
+    val doneKey by viewModel.cardDoneColor.collectAsState()
+    val deleteKey by viewModel.cardDeleteColor.collectAsState()
+    val darkTheme = MaterialTheme.colorScheme.surface.luminance() < 0.5f
+    val defaultDone = MaterialTheme.colorScheme.primary
+    val defaultDelete = MaterialTheme.colorScheme.onSurfaceVariant
+    val doneColor = CardButtonColor.fromKey(doneKey)?.shade(darkTheme) ?: defaultDone
+    val deleteColor = CardButtonColor.fromKey(deleteKey)?.shade(darkTheme) ?: defaultDelete
+
+    Text(stringResource(R.string.set_card_colors), style = MaterialTheme.typography.bodyMedium)
+    Text(
+        stringResource(R.string.set_card_colors_desc),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = Modifier.padding(top = 4.dp)
+    )
+    // Preview, so the choice can be judged against the card it lands on
+    Surface(
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.surface,
+        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        modifier = Modifier.padding(top = 10.dp).fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                stringResource(R.string.action_edit),
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.labelLarge,
+                modifier = Modifier.padding(12.dp)
+            )
+            Text(
+                stringResource(R.string.notif_action_done),
+                color = doneColor,
+                style = MaterialTheme.typography.labelLarge,
+                modifier = Modifier.padding(12.dp)
+            )
+            Text(
+                stringResource(R.string.action_delete),
+                color = deleteColor,
+                style = MaterialTheme.typography.labelLarge,
+                modifier = Modifier.padding(12.dp)
+            )
+        }
+    }
+    CardColorRow(
+        label = stringResource(R.string.set_card_done_color),
+        selectedKey = doneKey,
+        defaultColor = defaultDone,
+        darkTheme = darkTheme,
+        onSelect = viewModel::setCardDoneColor
+    )
+    CardColorRow(
+        label = stringResource(R.string.set_card_delete_color),
+        selectedKey = deleteKey,
+        defaultColor = defaultDelete,
+        darkTheme = darkTheme,
+        onSelect = viewModel::setCardDeleteColor
+    )
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun CardColorRow(
+    label: String,
+    selectedKey: String?,
+    defaultColor: Color,
+    darkTheme: Boolean,
+    onSelect: (String?) -> Unit
+) {
+    val selected = CardButtonColor.fromKey(selectedKey)
+    Text(
+        label,
+        style = MaterialTheme.typography.labelLarge,
+        modifier = Modifier.padding(top = 14.dp, bottom = 8.dp)
+    )
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        ColorSwatch(
+            color = defaultColor,
+            name = stringResource(R.string.color_default),
+            selected = selected == null,
+            onClick = { onSelect(null) }
+        )
+        CardButtonColor.values().forEach { choice ->
+            ColorSwatch(
+                color = choice.shade(darkTheme),
+                name = stringResource(choice.label),
+                selected = selected == choice,
+                onClick = { onSelect(choice.key) }
+            )
+        }
+    }
+    Text(
+        stringResource(selected?.label ?: R.string.color_default),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = Modifier.padding(top = 6.dp)
+    )
+}
+
+@Composable
+private fun ColorSwatch(color: Color, name: String, selected: Boolean, onClick: () -> Unit) {
+    Surface(
+        onClick = onClick,
+        shape = CircleShape,
+        color = color,
+        border = androidx.compose.foundation.BorderStroke(
+            if (selected) 3.dp else 1.dp,
+            if (selected) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.outlineVariant
+        ),
+        modifier = Modifier
+            .size(40.dp)
+            .semantics {
+                contentDescription = name
+                this.selected = selected
+                role = Role.RadioButton
+            }
+    ) {
+        if (selected) {
+            Box(contentAlignment = Alignment.Center) {
+                Icon(
+                    Icons.Default.Check,
+                    contentDescription = null,
+                    tint = if (color.luminance() > 0.5f) Color.Black else Color.White,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+        }
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CustomDurationDialog(
@@ -1929,7 +2129,9 @@ private fun CustomDurationDialog(
     maxMinutes: Int,
     description: String,
     onDismiss: () -> Unit,
-    onSave: (Int) -> Unit
+    onSave: (Int) -> Unit,
+    // maxMinutes and the saved value are seconds when true
+    inSeconds: Boolean = false
 ) {
     var value by remember { mutableStateOf(initialValue.toString()) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -1955,7 +2157,7 @@ private fun CustomDurationDialog(
                 fontWeight = FontWeight.SemiBold
             )
             Text(
-                text = stringResource(R.string.set_desc_max, description, maxMinutes),
+                text = stringResource(if (inSeconds) R.string.set_desc_max_seconds else R.string.set_desc_max, description, maxMinutes),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -1967,8 +2169,8 @@ private fun CustomDurationDialog(
                         value = normalized
                     }
                 },
-                label = { Text(stringResource(R.string.set_minutes)) },
-                supportingText = { Text(stringResource(R.string.set_max_allowed, maxMinutes)) },
+                label = { Text(stringResource(if (inSeconds) R.string.set_seconds else R.string.set_minutes)) },
+                supportingText = { Text(stringResource(if (inSeconds) R.string.set_max_allowed_seconds else R.string.set_max_allowed, maxMinutes)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()

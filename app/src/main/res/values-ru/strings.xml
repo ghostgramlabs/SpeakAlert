@@ -480,6 +480,13 @@
     <string name="set_volume">Громкость</string>
     <string name="set_cd_volume">Громкость приложения: %1$d%%</string>
     <string name="set_loop_inline_desc">Останавливает сигнал или зацикленное аудио через указанное время. Проверочные напоминания — отдельные сигналы, которые приходят позже.</string>
+    <string name="set_loop_gap">Пауза между повторами</string>
+    <string name="set_loop_gap_desc">Тишина перед тем, как зацикленное напоминание прозвучит снова. Время остановки выше по-прежнему завершает цикл. Сигналы звучат без пауз.</string>
+    <string name="set_loop_gap_none">Нет</string>
+    <string name="set_seconds_short">%1$d с</string>
+    <string name="set_seconds">Секунды</string>
+    <string name="set_max_allowed_seconds">Максимум: %1$d с</string>
+    <string name="set_desc_max_seconds">%1$s (макс. %2$d с)</string>
     <string name="set_default_snooze">Откладывание по умолчанию</string>
     <string name="set_snooze_inline_desc">Через сколько времени напомнить снова после нажатия «Отложить»</string>
     <string name="set_default_followup">Повторная проверка по умолчанию</string>
@@ -559,7 +566,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">Продолжить</string>
     <string name="wn_title">Что нового в %1$s</string>
-    <string name="wn_intro">Это обновление помогает убедиться, что каждое напоминание прозвучит вовремя.</string>
+    <string name="wn_intro">Четыре улучшения — все предложены пользователями приложения.</string>
     <string name="wn_check_title">Что может помешать напоминанию</string>
     <string name="wn_check_desc">«Проверка напоминаний» в начале раздела «Настройки» показывает всё, из-за чего напоминания могут опоздать или прозвучать беззвучно: уведомления, батарею, низкую громкость будильника, — и кнопку, чтобы это исправить.</string>
     <string name="wn_reliable_title">Сверхнадёжные напоминания</string>
@@ -570,6 +577,14 @@
     <string name="wn_cards_desc">На каждой карточке есть кнопки для изменения, отметки о выполнении и удаления. Перед удалением приложение спрашивает, и его можно отменить.</string>
     <string name="wn_sound_title">Звук останавливается вовремя</string>
     <string name="wn_sound_desc">Когда вы отмечаете напоминание выполненным, удаляете его или меняете время, звук сразу останавливается. У сигнальных напоминаний снова есть кнопка «Без звука».</string>
+    <string name="wn_nthday_title">Повтор в последний четверг</string>
+    <string name="wn_nthday_desc">Ежемесячные напоминания можно привязать к дню недели по его месту в месяце, например к первому понедельнику или последнему четвергу. Выберите Повтор &gt; Ежемесячно &gt; День недели.</string>
+    <string name="wn_gap_title">Пауза между повторами</string>
+    <string name="wn_gap_desc">Зацикленное напоминание может делать паузу перед повтором: «Встреча», 10 секунд тишины, снова «Встреча» — до времени остановки. Настройте: Настройки &gt; Когда звучит напоминание &gt; Пауза между повторами.</string>
+    <string name="wn_colors_title">Свои цвета для «Готово» и «Удалить»</string>
+    <string name="wn_colors_desc">Задайте свои цвета кнопкам «Готово» и «Удалить» на карточках: Настройки &gt; Язык и внешний вид &gt; Кнопки карточек.</string>
+    <string name="wn_notif_title">Уведомления исчезают при открытии приложения</string>
+    <string name="wn_notif_desc">Когда напоминание прозвучало, открытие приложения или сохранение изменений в напоминании убирает его уведомление. Если включено «Сохранять уведомление до выполнения», при открытии приложения оно остаётся.</string>
     <string name="wn_edit_title">Дата и время меняются на месте</string>
     <string name="wn_edit_desc">Откройте напоминание и нажмите «Дата» или «Время», чтобы изменить их сразу. Открывать редактор не нужно.</string>
     <string name="wn_clear_title">Уведомления убираются сами</string>
@@ -641,6 +656,48 @@
     <string name="card_recur_onetime">Разовое напоминание</string>
     <string name="card_recur_daily">Повторяется ежедневно</string>
     <string name="card_recur_last_day">Последний день каждого месяца</string>
+    <string name="rs_day_of_week">День недели</string>
+    <string name="rs_which_one">Какой по счёту в месяце</string>
+    <string name="rs_weekday">День</string>
+    <string name="rec_nth_weekday">%1$s %2$s</string>
+    <string name="card_recur_nth_weekday">%1$s каждого месяца</string>
+    <string-array name="rs_ordinal_labels">
+        <item>Первый</item>
+        <item>Второй</item>
+        <item>Третий</item>
+        <item>Четвёртый</item>
+        <item>Последний</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>Первый</item>
+        <item>Второй</item>
+        <item>Третий</item>
+        <item>Четвёртый</item>
+        <item>Последний</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>Первая</item>
+        <item>Вторая</item>
+        <item>Третья</item>
+        <item>Четвёртая</item>
+        <item>Последняя</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>Первое</item>
+        <item>Второе</item>
+        <item>Третье</item>
+        <item>Четвёртое</item>
+        <item>Последнее</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>m</item>
+        <item>m</item>
+        <item>f</item>
+        <item>m</item>
+        <item>f</item>
+        <item>f</item>
+        <item>n</item>
+    </string-array>
     <string name="card_recur_yearly">Повторяется ежегодно</string>
     <string name="card_chip_recurring">Повторяющееся</string>
     <string name="card_days_of_month">Дни месяца</string>
@@ -821,7 +878,20 @@
     <string name="set_section_check">Проверка напоминаний</string>
     <string name="set_section_ringing">Когда звучит напоминание</string>
     <string name="set_sum_check">Разрешения, батарея и громкость будильника</string>
-    <string name="set_sum_lang">Язык приложения, тема, формат времени</string>
+    <string name="set_sum_lang">Язык приложения, тема, формат времени, цвета кнопок</string>
+    <string name="set_card_colors">Кнопки карточек</string>
+    <string name="set_card_colors_desc">Выберите цвета кнопок «Готово» и «Удалить» на главном экране.</string>
+    <string name="set_card_done_color">Кнопка «Готово»</string>
+    <string name="set_card_delete_color">Кнопка «Удалить» / «Остановить повторы»</string>
+    <string name="color_default">Как в приложении</string>
+    <string name="color_red">Красный</string>
+    <string name="color_orange">Оранжевый</string>
+    <string name="color_green">Зелёный</string>
+    <string name="color_teal">Бирюзовый</string>
+    <string name="color_blue">Синий</string>
+    <string name="color_purple">Фиолетовый</string>
+    <string name="color_pink">Розовый</string>
+    <string name="color_gray">Серый</string>
     <string name="set_sum_ringing">Голос или сигнал, громкость, язык озвучивания, тест</string>
     <string name="set_sum_timing">Время откладывания, повторные проверки, тихие часы</string>
     <string name="set_sum_form">Какие поля видны при создании напоминания</string>

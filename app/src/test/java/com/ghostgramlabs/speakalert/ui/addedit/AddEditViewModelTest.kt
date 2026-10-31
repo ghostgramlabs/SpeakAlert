@@ -350,6 +350,38 @@ class AddEditViewModelTest {
     }
 
     @Test
+    fun `saving an edited reminder clears its old alert, a new one does not`() = runTest {
+        val alerts = mock<com.ghostgramlabs.speakalert.alarm.ReminderAlertNotifications>()
+        val editor = AddEditViewModel(
+            repository, scheduler, settingsRepository, context, recorder, player, enhancer,
+            UnconfinedTestDispatcher(), alertNotifications = alerts
+        )
+        val reminder = ReminderEntity(
+            id = 4,
+            reminderText = "Call the bank",
+            nextTriggerAt = System.currentTimeMillis() + 3_600_000L
+        )
+        whenever(repository.getReminder(4)).thenReturn(reminder)
+
+        editor.loadReminder(4)
+        advanceUntilIdle()
+        editor.saveReminder()
+        advanceUntilIdle()
+        verify(alerts).onRescheduled(4)
+
+        whenever(repository.insertReminder(any())).thenReturn(5L)
+        val creator = AddEditViewModel(
+            repository, scheduler, settingsRepository, context, recorder, player, enhancer,
+            UnconfinedTestDispatcher(), alertNotifications = alerts
+        )
+        creator.updateReminderText("Something new")
+        creator.saveReminder()
+        advanceUntilIdle()
+        verify(repository).insertReminder(any())
+        verify(alerts, never()).onRescheduled(5)
+    }
+
+    @Test
     fun `loadReminder populates ui state`() = runTest {
         // Arrange
         val reminder = ReminderEntity(

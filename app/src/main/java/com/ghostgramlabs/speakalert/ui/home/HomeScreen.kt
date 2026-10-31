@@ -207,6 +207,7 @@ fun HomeScreen(
             if (event == Lifecycle.Event.ON_RESUME) {
                 batteryRestricted = BatteryOptimizationSupport.isBatteryOptimizationEnabled(context)
                 extraReliable = com.ghostgramlabs.speakalert.util.AlarmDeliveryPreferences.useAlarmClock(context)
+                viewModel.onAppOpened()
             }
         }
         homeLifecycleOwner.lifecycle.addObserver(observer)

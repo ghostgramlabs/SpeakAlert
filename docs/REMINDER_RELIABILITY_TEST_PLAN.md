@@ -23,7 +23,13 @@ audible alarm volume, Quiet Time off, and the app's requested notification/alarm
 | Mark an occurrence Done while a follow-up is pending | The old follow-up does not fire. The next regular occurrence still works. |
 | Replace looping playback with a non-looping reminder before its timeout | The old timeout does not stop the new reminder. |
 | Change the loop timeout to Never, then start replacement looping playback | The previous timer does not stop the replacement. Stop it manually after verification. |
+| Pause between repeats = 10s; loop a typed and a recorded reminder | Each repeat starts about 10 s after the previous one ends, until the stop time. |
+| Stop, or start another reminder, during a loop pause | Nothing plays when the pause would have ended. |
+| Reminder rings, playback ends, then open the app from the launcher | Its notification clears. With "Keep notification until done" on, it stays. |
+| Reminder rang; edit it and save | Its old notification clears, even with "Keep notification until done" on. |
+| Monthly → Day of week → Last Thursday, saved on a non-Thursday | First alert is the next last Thursday; Done this time moves to the following month's (Dec 2026: the 31st, a five-Thursday month). |
 | Speak reminder A, then reminder B; use Snooze on B's playback notification | B is snoozed, not A. |
+| Play a typed reminder and press Stop at once, with the speech engine cold | No crash. Logcat shows the engine unbinding only after "Setting up the connection". |
 | Speech engine unavailable; play a recorded reminder | Speech initialization failure does not stop the recording. |
 | Quiet Time, call in progress, lock-screen playback restriction, private route | Playback follows the selected settings; verify speaker, Bluetooth, and earpiece separately. |
 | Restart the phone before a reminder and leave it locked | Rescheduling works. Check the existing missed-reminder and boot playback policies separately from normal on-time playback. |
