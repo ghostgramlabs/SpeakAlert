@@ -506,10 +506,7 @@ fun ReminderDetailsScreen(
                         DetailInfoRow(
                             icon = Icons.Default.DateRange,
                             label = stringResource(R.string.ae_date),
-                            value = java.text.SimpleDateFormat(
-                                "EEE, MMM d, yyyy",
-                                java.util.Locale.getDefault()
-                            ).format(java.util.Date(item.nextTriggerAt)),
+                            value = com.ghostgramlabs.speakalert.util.DateUtils.formatDate(item.nextTriggerAt, com.ghostgramlabs.speakalert.util.DateUtils.DateParts.WEEKDAY_MONTH_DAY_YEAR),
                             onClick = { showInlineDatePicker = true }
                         )
                         DetailInfoRow(
@@ -527,10 +524,7 @@ fun ReminderDetailsScreen(
                         if (recurrenceModel.endRule.type != EndRuleType.NEVER && !endRuleExhausted) {
                             val endRuleText = when (recurrenceModel.endRule.type) {
                                 EndRuleType.UNTIL_DATE -> {
-                                    val dateStr = java.text.SimpleDateFormat(
-                                        "MMM d, yyyy 'at' ${com.ghostgramlabs.speakalert.util.TimeFormat.timePattern}",
-                                        java.util.Locale.getDefault()
-                                    ).format(java.util.Date(recurrenceModel.endRule.endDateMillis ?: 0L))
+                                    val dateStr = com.ghostgramlabs.speakalert.ui.util.localizedDateTimeAt(recurrenceModel.endRule.endDateMillis ?: 0L)
                                     stringResource(R.string.det_ends_by, dateStr)
                                 }
                                 EndRuleType.AFTER_OCCURRENCES -> pluralStringResource(

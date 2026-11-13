@@ -51,8 +51,9 @@ hear it even when the phone is in your pocket or across the room.
 - **Widgets and Wear OS.** A quick-add widget, an upcoming-reminders widget, and alerts on
   Wear OS watches.
 - **Backup and restore.** Exports every reminder, voice recordings included.
-- **12 languages.** English, Spanish, Hindi, Arabic, Portuguese (Brazil), Russian, Vietnamese,
-  Bengali, Telugu, Tamil, Greek and Malayalam, with right-to-left layout support.
+- **15 languages.** English, Spanish, German, French, Indonesian, Hindi, Arabic, Portuguese
+  (Brazil), Russian, Vietnamese, Bengali, Telugu, Tamil, Greek and Malayalam, with right-to-left
+  layout support. Dates follow each language's own order.
 - **Fully offline.** No account, no analytics, no network calls for reminders. Data stays on
   the device.
 

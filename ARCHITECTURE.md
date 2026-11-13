@@ -173,7 +173,7 @@ backups must still import.
 ## Localisation
 
 User-facing text belongs in `res/values/strings.xml`, with translations in `res/values-<code>/`
-(currently ar, bn, el, es, hi, ml, pt-rBR, ru, ta, te, vi). Arabic is right-to-left; use
+(currently ar, bn, de, el, es, fr, in (Indonesian), hi, ml, pt-rBR, ru, ta, te, vi). Arabic is right-to-left; use
 `RtlMirror` and start/end rather than left/right. The in-app language picker uses
 `AppCompatDelegate.setApplicationLocales`.
 

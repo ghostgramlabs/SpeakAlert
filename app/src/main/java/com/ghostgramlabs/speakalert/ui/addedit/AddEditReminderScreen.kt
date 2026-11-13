@@ -175,7 +175,7 @@ fun AddEditReminderScreen(
     }
     var showDatePickerDialog by remember { mutableStateOf(false) }
     var showTimePickerDialog by remember { mutableStateOf(false) }
-    val dateFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { java.text.SimpleDateFormat("EEE, MMM d, yyyy", java.util.Locale.getDefault()) }
+    val dateFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { java.text.SimpleDateFormat(com.ghostgramlabs.speakalert.util.DateUtils.datePattern(com.ghostgramlabs.speakalert.util.DateUtils.DateParts.WEEKDAY_MONTH_DAY_YEAR), java.util.Locale.getDefault()) }
     val timeFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { java.text.SimpleDateFormat(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern, java.util.Locale.getDefault()) }
 
     if (showUnsavedDialog) {

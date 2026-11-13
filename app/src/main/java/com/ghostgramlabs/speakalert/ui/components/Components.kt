@@ -282,7 +282,9 @@ fun RecurrenceDetailsRow(
                         pluralStringResource(R.plurals.unit_months, model.interval)
                     com.ghostgramlabs.speakalert.domain.models.TimeUnit.YEARS ->
                         pluralStringResource(R.plurals.unit_years, model.interval)
-                }.lowercase(Locale.getDefault())
+                }.let { label ->
+                    if (Locale.getDefault().language == "de") label else label.lowercase(Locale.getDefault())
+                }
                 stringResource(R.string.rec_every, model.interval, unitStr)
             } else {
                 stringResource(R.string.rs_custom_interval)
@@ -324,7 +326,7 @@ private fun RecurrenceEndRuleChip(
                 text = text,
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
-                maxLines = 1,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
         }
@@ -343,11 +345,9 @@ private fun buildRecurrenceEndRuleText(
         EndRuleType.NEVER -> null
         EndRuleType.UNTIL_DATE -> {
             val endDate = model.endRule.endDateMillis ?: return null
-            val compactFormatter = SimpleDateFormat("MMM d ''yy • ${com.ghostgramlabs.speakalert.util.TimeFormat.timePattern}", Locale.getDefault())
-            val fullFormatter = SimpleDateFormat("MMM d, yyyy 'at' ${com.ghostgramlabs.speakalert.util.TimeFormat.timePattern}", Locale.getDefault())
             RecurrenceEndRuleDisplay(
-                text = compactFormatter.format(Date(endDate)),
-                contentDescription = stringResource(R.string.det_ends_by, fullFormatter.format(Date(endDate)))
+                text = "${com.ghostgramlabs.speakalert.util.DateUtils.formatDate(endDate, com.ghostgramlabs.speakalert.util.DateUtils.DateParts.MONTH_DAY_YEAR)} • ${com.ghostgramlabs.speakalert.util.DateUtils.formatTimeOnly(endDate)}",
+                contentDescription = stringResource(R.string.det_ends_by, com.ghostgramlabs.speakalert.ui.util.localizedDateTimeAt(endDate))
             )
         }
         EndRuleType.AFTER_OCCURRENCES -> {

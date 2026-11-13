@@ -5,6 +5,16 @@ User-facing changes to SpeakAlert, newest first. Version numbers match the Googl
 
 ## Unreleased
 
+- Three new app languages, for 15 in all: German (Deutsch), French (Français) and Indonesian
+  (Bahasa Indonesia). Choose one in Settings, Language & appearance, or let the app follow the
+  phone's language. German uses the informal "du"; French uses "vous" and Indonesian "Anda".
+- Dates now follow each language's own order instead of the American one everywhere: German
+  shows "Fr., 13. Nov. 2026" and Spanish "vie, 13 nov 2026", where both used to put the month
+  first. English is unchanged. The word joining a date and a time ("at") is now translated too;
+  it was English in every language on the reminder card, the details screen and the repeat
+  sheet.
+- A repeat's end date on the reminder card shows the full year ("Nov 13, 2026") instead of a
+  two-digit one ("Nov 13 '26").
 - New "Week starts on" choice in Settings, Language & appearance: System, Mon, Sun or Sat. A
   chosen day sets the first column of the date picker. Material's date picker cannot be told
   its first weekday, so with a day chosen the app shows the phone's own date picker instead;

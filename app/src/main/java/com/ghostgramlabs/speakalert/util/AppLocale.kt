@@ -42,6 +42,9 @@ object AppLocale {
         "" to "System",
         "en" to "English",
         "es" to "Español",
+        "de" to "Deutsch",
+        "fr" to "Français",
+        "id" to "Bahasa Indonesia",
         "hi" to "हिन्दी",
         "ar" to "العربية",
         "pt-BR" to "Português (Brasil)",
@@ -76,6 +79,7 @@ object AppLocale {
         supported.firstOrNull { it.first.equals(tag, ignoreCase = true) }?.let { return it.first }
         val language = tag.substringBefore('-')
         if (language == "pt") return "pt-BR" // the only Portuguese the app ships
+        if (language == "in") return "id" // legacy code some Android versions still report for Indonesian
         return language
     }
 

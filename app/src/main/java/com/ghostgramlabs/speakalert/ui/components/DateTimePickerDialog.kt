@@ -64,7 +64,7 @@ fun DateTimePickerDialog(
     var showDateDialog by remember { mutableStateOf(false) }
     var showTimeDialog by remember { mutableStateOf(false) }
 
-    val dateFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault()) }
+    val dateFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { SimpleDateFormat(com.ghostgramlabs.speakalert.util.DateUtils.datePattern(com.ghostgramlabs.speakalert.util.DateUtils.DateParts.WEEKDAY_MONTH_DAY_YEAR), Locale.getDefault()) }
     val timeFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { SimpleDateFormat(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern, Locale.getDefault()) }
 
     ModalBottomSheet(

@@ -1,0 +1,903 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_tagline">Pengingat Suara Offline</string>
+    <string name="widget_quick_caption">Buka Tambah Pengingat seketika</string>
+    <string name="widget_quick_description">Buka formulir pengingat langsung dari layar utama</string>
+    <string name="widget_upcoming_description">Menampilkan pengingat terjadwal berikutnya</string>
+
+    <!-- Settings -->
+    <string name="settings_language">Bahasa aplikasi</string>
+    <string name="settings_language_system">Ikuti bahasa perangkat</string>
+    <string name="settings_language_description">Ikuti bahasa perangkat memakai bahasa ponsel Anda jika didukung aplikasi; jika tidak, bahasa Inggris.\nSuara yang membacakan pengingat diatur terpisah di Saat pengingat berbunyi &gt; Bahasa ucapan.</string>
+
+    <!-- Notification actions -->
+    <string name="notif_action_done">Selesai</string>
+    <string name="notif_action_silence">Senyapkan</string>
+    <string name="notif_action_snooze">Tunda</string>
+    <string name="notif_action_play">Putar</string>
+    <string name="notif_action_speak">Bacakan</string>
+    <string name="notif_default_title">Pengingat suara</string>
+    <string name="notif_default_text">Ketuk untuk memutar pengingat Anda</string>
+    <string name="notif_action_replay">Putar ulang</string>
+    <string name="notif_action_stop">Hentikan</string>
+    <string name="notif_playback_processing">Memproses…</string>
+    <string name="notif_playback_speaking">Membacakan: “%1$s”</string>
+    <string name="notif_reminder_missing">Pengingat ini tidak ditemukan.</string>
+    <string name="notif_missed_title">Terlewat: %1$s</string>
+    <string name="notif_missed_scheduled_tap">Dijadwalkan %1$s - ketuk untuk membuka</string>
+    <string name="notif_missed_scheduled_audio_unavailable">Dijadwalkan %1$s. File audio yang dipilih tidak tersedia.</string>
+    <string name="notif_missed_scheduled">Dijadwalkan: %1$s</string>
+    <string name="fallback_reminder_title">Pengingat</string>
+    <string name="toast_audio_unavailable">File audio yang dipilih tidak tersedia.</string>
+    <string name="tts_voice_hint">Suara %1$s belum terpasang. Tambahkan di setelan Teks ke ucapan ponsel Anda untuk mendengar pengingat yang dibacakan.</string>
+    <string name="tts_voice_hint_this_language">bahasa ini</string>
+
+    <!-- Alert payload (notification / spoken follow-up text) -->
+    <string name="alert_followup_fallback_title">Cek lanjutan</string>
+    <string name="alert_followup_question">Apakah %1$s sudah selesai?</string>
+    <string name="alert_followup_this_reminder">pengingat ini</string>
+    <string name="alert_audio_unavailable_full">File audio yang dipilih tidak tersedia. Ketuk untuk memilih file lain.</string>
+    <string name="alert_tap_to_view">Ketuk untuk melihat</string>
+
+    <!-- Section titles -->
+    <string name="set_section_timing">Tunda &amp; cek lanjutan</string>
+    <string name="set_section_backup">Cadangkan &amp; pulihkan</string>
+    <string name="set_section_about">Bantuan &amp; tentang</string>
+
+    <!-- Backup & restore -->
+    <string name="set_backup_export">Cadangkan pengingat</string>
+    <string name="set_backup_export_desc">Simpan pengingat mendatang, termasuk rekaman, ke sebuah file</string>
+    <string name="set_backup_import">Impor pengingat</string>
+    <string name="set_backup_import_desc">Pulihkan pengingat dari file cadangan</string>
+    <string name="backup_export_none">Tidak ada pengingat mendatang untuk dicadangkan.</string>
+    <string name="backup_export_success">%1$d pengingat dicadangkan.</string>
+    <string name="backup_export_failed">Pencadangan gagal.</string>
+    <string name="backup_import_success">%1$d pengingat diimpor.</string>
+    <string name="backup_import_skipped">%1$d pengingat diimpor (%2$d duplikat, %3$d kedaluwarsa dilewati).</string>
+    <string name="backup_import_failed">Impor gagal. Pilih file cadangan SpeakAlert.</string>
+
+    <!-- Notification channels (visible in system Settings) -->
+    <string name="channel_reminders_name">Pengingat %1$s</string>
+    <string name="channel_reminders_desc">Notifikasi untuk pengingat %1$s</string>
+    <string name="channel_tone_only_name">Peringatan Nada Saja %1$s</string>
+    <string name="channel_tone_only_desc">Notifikasi nada saja dengan getaran saja; nada diputar oleh %1$s</string>
+    <string name="channel_dnd_bypass_name">Pengingat %1$s (lewati Jangan Ganggu)</string>
+    <string name="channel_dnd_bypass_desc">Alarm pengingat yang dapat berbunyi saat Jangan Ganggu jika akses Android diberikan</string>
+    <string name="channel_tone_only_bypass_name">Peringatan Nada Saja %1$s (lewati Jangan Ganggu)</string>
+    <string name="channel_tone_only_bypass_desc">Pengingat nada saja yang dapat berbunyi saat Jangan Ganggu jika akses Android diberikan</string>
+    <string name="pua_sub_reschedule">Jadwalkan ulang pengingat ini</string>
+    <string name="pua_sub_play_now">Dengarkan sekarang tanpa menjadwalkan ulang</string>
+    <string name="pua_sub_keep_done">Tetap tandai selesai</string>
+    <string name="channel_playback_name">Pemutaran Pengingat</string>
+    <string name="channel_playback_desc">Menampilkan kontrol saat memutar pengingat</string>
+    <string name="channel_silent_name">Peringatan Layar Penuh %1$s</string>
+    <string name="channel_silent_desc">Pengingat layar penuh dari %1$s saat pengingat sudah dibacakan</string>
+    <string name="channel_silent_bypass_name">Peringatan Layar Penuh %1$s (lewati Jangan Ganggu)</string>
+    <string name="channel_silent_bypass_desc">Pengingat layar penuh yang dapat muncul saat Jangan Ganggu jika akses Android diberikan</string>
+
+    <!-- Alarm alert screen -->
+    <string name="alert_mark_done">Tandai Selesai</string>
+    <string name="alert_silence">Senyapkan</string>
+    <string name="alert_silence_now">Senyapkan sekarang</string>
+    <string name="alert_snoozed_at">Ditunda • %1$s</string>
+    <string name="alert_play_again">Putar lagi</string>
+    <string name="alert_snooze_minutes">Tunda %1$d mnt</string>
+    <string name="alert_followup_reminder">Pengingat lanjutan</string>
+    <string name="alert_reminder_on_screen">Pengingat di layar</string>
+    <string name="alert_followup_on_this">Cek lanjutan untuk pengingat ini</string>
+    <string name="alert_did_you_complete">Apakah pengingat ini sudah selesai?</string>
+    <string name="alert_reminder_active">Pengingat aktif</string>
+    <string name="alert_voice_reminder">Pengingat suara</string>
+    <string name="alert_text_reminder">Pengingat teks</string>
+    <string name="alert_followup_check">Cek lanjutan</string>
+    <string name="alert_generic">Peringatan</string>
+    <string name="alert_playing_now">Sedang diputar</string>
+    <string name="alert_needs_response">Perlu tanggapan</string>
+    <string name="alert_awaiting_action">Menunggu tindakan</string>
+    <string name="alert_scheduled_for">Dijadwalkan</string>
+    <string name="alert_status">Status peringatan</string>
+    <string name="alert_audio_playing">Audio sedang diputar. Gunakan Senyapkan untuk menghentikannya.</string>
+    <string name="alert_waiting_done_snooze">Menunggu Selesai atau Tunda.</string>
+    <string name="alert_followup_label">Cek lanjutan</string>
+    <string name="alert_hint_with_play">Biarkan pengingat terlihat, hentikan audio, atau putar lagi sebelum bertindak.</string>
+    <string name="alert_hint_no_play">Biarkan pengingat terlihat, atau pilih Selesai atau Tunda saat Anda siap.</string>
+    <string name="alert_dock_hint">Senyapkan menghentikan audio. Selesai atau Tunda menutup peringatan layar kunci.</string>
+    <plurals name="alert_followup_repeats">
+        <item quantity="other">Berulang setiap %1$d menit sampai selesai.</item>
+    </plurals>
+
+    <!-- Home -->
+    <string name="home_greeting_morning">Selamat Pagi</string>
+    <string name="home_greeting_afternoon">Selamat Siang</string>
+    <string name="home_greeting_evening">Selamat Malam</string>
+    <string name="home_all_caught_up">Semua sudah beres!</string>
+    <plurals name="home_active_reminders">
+        <item quantity="other">Anda punya %1$d pengingat aktif</item>
+    </plurals>
+    <string name="home_filter_upcoming">Mendatang</string>
+    <string name="home_filter_today">Hari ini</string>
+    <string name="home_filter_missed">Terlewat</string>
+    <string name="home_filter_done">Selesai</string>
+    <string name="home_cd_settings">Setelan</string>
+    <string name="home_cd_help">Bantuan dan petunjuk</string>
+    <string name="home_cd_add">Tambah Pengingat</string>
+    <string name="home_cd_missed">Pengingat terlewat</string>
+    <string name="home_dismiss_all">Tutup Semua</string>
+    <string name="home_empty_all_caught_up">Semua sudah beres!</string>
+    <string name="home_empty_no_missed">Tidak ada pengingat terlewat</string>
+    <string name="home_empty_nothing_done">Belum ada yang selesai</string>
+    <string name="home_empty_no_upcoming">Tidak ada pengingat mendatang</string>
+    <string name="home_empty_no_reminders">Belum ada pengingat</string>
+    <string name="home_empty_done_sub">Pengingat yang selesai akan muncul di sini.</string>
+    <string name="home_empty_upcoming_sub">Pengingat yang dijadwalkan untuk nanti akan muncul di sini.</string>
+    <string name="home_empty_default_sub">Buat pengingat dengan suara atau teks.</string>
+
+    <!-- Common actions -->
+    <string name="action_cancel">Batal</string>
+    <string name="action_close">Tutup</string>
+    <string name="action_play_now">Putar sekarang</string>
+    <string name="action_stop">Hentikan</string>
+    <string name="action_dismiss">Tutup</string>
+    <string name="action_apply">Terapkan</string>
+    <string name="action_undo">Urungkan</string>
+    <string name="action_open">Buka</string>
+    <string name="common_reminder">Pengingat</string>
+    <string name="time_picker_title">Pilih Waktu</string>
+    <string name="err_date_future">Tanggal harus hari ini atau setelahnya</string>
+    <string name="err_time_future">Pilih waktu yang akan datang</string>
+
+    <!-- Home dialogs -->
+    <string name="home_stop_recurring_title">Hentikan pengingat berulang?</string>
+    <string name="home_stop_recurring_msg">Pengingat ini dan semua jadwal berikutnya akan dihapus. Tindakan ini tidak dapat diurungkan.</string>
+    <string name="home_stop_recurring_action">Hentikan pengulangan</string>
+    <string name="home_stop_recurring_sub">Hapus pengingat ini dan semua jadwal berikutnya</string>
+    <string name="home_keep_reminder">Pertahankan pengingat</string>
+    <string name="home_mark_occurrence_title">Tandai pengingat kali ini selesai?</string>
+    <string name="home_mark_occurrence_msg">Hanya pengingat kali ini yang ditandai selesai. Pengingat tetap berulang pada jadwal berikutnya.</string>
+    <string name="home_mark_occurrence_action">Tandai pengingat kali ini selesai</string>
+    <string name="home_mark_occurrence_sub">Jadwal pengingat berikutnya tetap berlaku</string>
+    <string name="home_mark_done_title">Tandai selesai?</string>
+    <string name="home_mark_done_msg">Pengingat akan dipindahkan ke tab Selesai.</string>
+    <string name="home_move_to_done">Pindahkan ke Selesai</string>
+    <string name="home_move_to_done_sub">Simpan pengingat ini di riwayat selesai</string>
+    <string name="home_created_at">Dibuat pukul %1$s</string>
+    <string name="home_snackbar_deleted">Pengingat dihapus</string>
+    <string name="home_snackbar_duplicated">Pengingat diduplikasi</string>
+    <string name="home_badge_missed">Terlewat</string>
+
+    <!-- Add / Edit reminder -->
+    <string name="ae_saved">Pengingat disimpan!</string>
+    <string name="ae_cannot_past">Tidak dapat membuat pengingat di waktu lampau</string>
+    <string name="ae_record_too_short">Terlalu singkat — tahan sambil berbicara</string>
+    <string name="ae_record_failed">Tidak dapat mulai merekam. Mungkin aplikasi lain sedang memakai mikrofon.</string>
+    <string name="ae_record_silent">Tidak terdengar apa pun. Periksa akses mikrofon untuk SpeakAlert.</string>
+    <string name="ae_unsaved_title">Simpan pengingat?</string>
+    <string name="ae_unsaved_msg">Ada perubahan pengingat yang belum disimpan.</string>
+    <string name="action_save">Simpan</string>
+    <string name="ae_keep_editing">Lanjut mengedit</string>
+    <string name="action_discard">Buang</string>
+    <string name="action_remove">Hapus</string>
+    <string name="action_change">Ubah</string>
+    <string name="ae_title_edit">Edit Pengingat</string>
+    <string name="ae_title_new">Pengingat Baru</string>
+    <string name="action_back">Kembali</string>
+    <string name="ae_header_edit">Edit pengingat</string>
+    <string name="ae_header_create">Buat pengingat</string>
+    <string name="ae_section_content">Isi pengingat</string>
+    <string name="ae_content_desc">Rekam catatan suara, tambahkan file audio, atau ketik pesan pengingat.</string>
+    <string name="ae_tap_to_record">Ketuk untuk merekam pengingat suara</string>
+    <string name="ae_or_choose_audio">Atau pilih file audio</string>
+    <string name="ae_selected_audio">File audio yang dipilih</string>
+    <string name="ae_cd_stop_preview">Hentikan pratinjau audio</string>
+    <string name="ae_cd_play_preview">Putar pratinjau audio</string>
+    <string name="ae_cd_audio_progress">Progres pratinjau audio</string>
+    <string name="ae_choose_audio_file">Pilih File Audio</string>
+    <string name="ae_or_type">Atau ketik pesan pengingat</string>
+    <string name="ae_msg_label">Pesan pengingat</string>
+    <string name="ae_msg_placeholder">mis., Minum obat setelah sarapan</string>
+    <string name="ae_label_placeholder">mis., Obat pagi</string>
+    <string name="ae_msg_help">Ditampilkan di aplikasi dan notifikasi. Hanya dibacakan jika tidak ada suara atau audio yang dipilih.</string>
+    <string name="ae_char_count">%1$d/%2$d</string>
+    <string name="ae_need_content">Tambahkan catatan suara, file audio, atau pesan pengingat.</string>
+    <string name="ae_section_label">Label singkat (opsional)</string>
+    <string name="ae_label_desc">Nama singkat opsional agar pengingat lebih cepat dikenali.</string>
+    <string name="ae_label_hint">Ditampilkan sebagai nama singkat di daftar dan detail</string>
+    <string name="ae_section_schedule">Jadwal</string>
+    <string name="ae_when_fire">Kapan pengingat ini berbunyi?</string>
+    <string name="ae_datetime_at">%1$s pukul %2$s</string>
+    <string name="ae_date">Tanggal</string>
+    <string name="ae_time">Waktu</string>
+    <string name="ae_time_future">Waktu harus di masa mendatang</string>
+    <string name="ae_repeat_never">Tidak pernah</string>
+    <string name="ae_repeat">Ulangi</string>
+    <string name="state_on">Aktif</string>
+    <string name="state_off">Nonaktif</string>
+    <string name="state_active">Aktif</string>
+    <string name="ae_loop">Putar berulang</string>
+    <string name="ae_loop_desc">Terus diputar sampai Anda menutup pengingat.</string>
+    <string name="ae_followup">Cek lanjutan</string>
+    <string name="ae_followup_desc">Bertanya lagi setelah beberapa saat jika pengingat belum ditandai selesai.</string>
+    <string name="ae_cd_saving">Menyimpan pengingat</string>
+    <string name="ae_save_reminder">Simpan Pengingat</string>
+    <plurals name="ae_followup_active">
+        <item quantity="other">Aktif: bertanya setiap %1$d menit sampai ditandai selesai.</item>
+    </plurals>
+
+    <!-- Recurrence type names (shared) -->
+    <string name="rec_every">Setiap %1$d %2$s</string>
+    <string name="rec_ends_never">Berakhir: Tidak pernah</string>
+    <string name="rec_if_off_fire">Jika perangkat mati: Ingatkan saat menyala lagi</string>
+    <string name="rec_if_off_skip">Jika perangkat mati: Ingatkan hanya pada waktu tepatnya</string>
+    <string name="date_today">Hari ini</string>
+    <string name="date_tomorrow">Besok</string>
+    <string name="date_yesterday">Kemarin</string>
+    <plurals name="rec_ends_times">
+        <item quantity="other">Berakhir setelah %1$d kali</item>
+    </plurals>
+    <string name="rec_onetime">Sekali</string>
+    <string name="rec_daily">Harian</string>
+    <string name="rec_weekly">Mingguan</string>
+    <string name="rec_monthly">Bulanan</string>
+    <string name="rec_yearly">Tahunan</string>
+    <string name="rec_custom">Kustom</string>
+    <string name="day_mon">Sen</string>
+    <string name="day_tue">Sel</string>
+    <string name="day_wed">Rab</string>
+    <string name="day_thu">Kam</string>
+    <string name="day_fri">Jum</string>
+    <string name="day_sat">Sab</string>
+    <string name="day_sun">Min</string>
+
+    <!-- Reminder details -->
+    <string name="det_title">Detail pengingat</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Hapus</string>
+    <string name="action_confirm">Konfirmasi</string>
+    <string name="det_audio_file">File audio</string>
+    <string name="det_voice_note">Catatan suara</string>
+    <string name="det_loop_enabled">Putar berulang aktif</string>
+    <string name="det_followup_pill">Cek lanjutan %1$d mnt</string>
+    <string name="det_cd_stop_audio">Hentikan audio</string>
+    <string name="det_cd_play_audio">Putar audio</string>
+    <string name="det_ready_preview">Siap dipratinjau</string>
+    <string name="det_ready_play">Siap diputar</string>
+    <string name="det_voice_recording">Rekaman suara</string>
+    <string name="det_tap_preview">Ketuk putar untuk mendengar pengingat yang direkam.</string>
+    <string name="det_cd_audio_progress">Progres audio pengingat</string>
+    <string name="det_double_tap_edit">Ketuk dua kali untuk mengedit</string>
+    <string name="det_ends_by">Berakhir pada %1$s</string>
+    <string name="det_end_rule">Aturan berakhir</string>
+    <string name="det_missed_handling">Penanganan pengingat terlewat</string>
+    <string name="det_missed_fire">Ingatkan saat perangkat menyala lagi</string>
+    <string name="det_missed_skip">Ingatkan hanya pada waktu tepat berikutnya</string>
+    <string name="det_mark_undone">Tandai Belum Selesai</string>
+    <string name="det_mark_done">Tandai Selesai</string>
+    <string name="det_scheduled_for">Dijadwalkan: %1$s</string>
+    <string name="det_delete_title">Hapus Pengingat?</string>
+    <string name="det_delete_recurring">Semua jadwal berikutnya akan dihentikan. Tindakan ini tidak dapat diurungkan.</string>
+    <string name="det_delete_onetime">Tindakan ini tidak dapat diurungkan.</string>
+    <string name="det_reschedule_title">Jadwalkan Ulang Pengingat?</string>
+    <string name="det_reschedule_to">Jadwalkan ulang ke %1$s?</string>
+    <plurals name="det_ends_after">
+        <item quantity="other">Berakhir setelah %1$d kali</item>
+    </plurals>
+
+    <!-- Recurrence selection sheet -->
+    <string name="rs_subtitle">Pilih cara pengingat ini berulang.</string>
+    <string name="rs_none">Tidak berulang</string>
+    <string name="rs_monthly_settings">Setelan bulanan</string>
+    <string name="rs_monthly_subtitle">Pilih hari atau aturan berakhir yang dipakai.</string>
+    <string name="rs_repeat_on">Ulangi pada</string>
+    <string name="rs_days_of_month">Tanggal dalam Bulan</string>
+    <string name="rs_last_day">Hari Terakhir</string>
+    <string name="rs_select_days_toggle">Pilih tanggal (ketuk untuk beralih)</string>
+    <string name="rs_selected">Dipilih: %1$s</string>
+    <string name="rs_weekly_settings">Setelan mingguan</string>
+    <string name="rs_weekly_subtitle">Pilih hari dalam seminggu untuk pengulangan.</string>
+    <string name="rs_select_days">Pilih Hari</string>
+    <string name="rs_custom_interval">Interval kustom</string>
+    <string name="rs_custom_subtitle">Atur jeda antarpengulangan pengingat.</string>
+    <string name="rs_repeat_every">Ulangi setiap</string>
+    <string name="rs_number">Angka</string>
+    <string name="rs_unit">Satuan</string>
+    <string name="rs_repeats_every">Berulang setiap %1$d %2$s.</string>
+    <string name="rs_interval_min">Interval minimal 1</string>
+    <string name="rs_ends">Berakhir</string>
+    <string name="rs_forever">Selamanya</string>
+    <string name="rs_until_date">Sampai tanggal/waktu</string>
+    <string name="rs_after_count">Setelah jumlah</string>
+    <string name="rs_must_be_after">Paling cepat: %1$s</string>
+    <string name="rs_date_label">Tanggal: %1$s</string>
+    <string name="rs_time_label">Waktu: %1$s</string>
+    <string name="rs_num_occurrences">Jumlah pengulangan</string>
+    <string name="rs_allowed_range">Diizinkan: 1-999</string>
+    <string name="rs_end_before_error">Waktu berakhir tidak boleh sebelum waktu pengingat</string>
+    <string name="rs_select_end_time">Pilih waktu berakhir</string>
+    <plurals name="unit_minutes"><item quantity="other">Menit</item></plurals>
+    <plurals name="unit_hours"><item quantity="other">Jam</item></plurals>
+    <plurals name="unit_days"><item quantity="other">Hari</item></plurals>
+    <plurals name="unit_weeks"><item quantity="other">Minggu</item></plurals>
+    <plurals name="unit_months"><item quantity="other">Bulan</item></plurals>
+    <plurals name="unit_years"><item quantity="other">Tahun</item></plurals>
+
+    <!-- Settings -->
+    <string name="set_appearance">Bahasa &amp; tampilan</string>
+    <string name="set_reminder_form">Formulir pengingat</string>
+    <string name="set_reminder_form_desc">Pilih setiap bagian secara terpisah. Jika semua bagian input disembunyikan, aktifkan salah satunya sebelum membuat pengingat.</string>
+    <string name="ae_no_content_sections">Tidak ada bagian input pengingat yang aktif. Aktifkan Rekaman suara, Pilih file audio, atau Pengingat ketikan di Setelan &gt; Formulir pengingat.</string>
+    <string name="set_show_voice_recording">Rekaman suara</string>
+    <string name="set_show_voice_recording_desc">Tampilkan bagian perekaman mikrofon.</string>
+    <string name="set_experimental_voice_enhancement">Peningkatan suara eksperimental</string>
+    <string name="set_experimental_voice_enhancement_desc">Nonaktif memakai rekaman asli tanpa pemrosesan. Aktif menyalakan pengaman perekam baru, peringatan jika rekaman tidak bersuara, dan pembersihan suara.</string>
+    <string name="set_experimental_voice_enhancement_note">Eksperimental: hasil dan waktu pemrosesan dapat berbeda di tiap perangkat. Nonaktifkan jika rekaman terdengar terdistorsi atau penyimpanan lebih lama.</string>
+    <string name="set_show_audio_file">Pilih file audio</string>
+    <string name="set_show_audio_file_desc">Tampilkan opsi untuk memilih file audio yang sudah ada.</string>
+    <string name="set_show_typed_reminder">Pengingat ketikan</string>
+    <string name="set_show_typed_reminder_desc">Tampilkan kolom pesan pengingat.</string>
+    <string name="set_show_short_label">Label singkat</string>
+    <string name="set_show_short_label_desc">Tampilkan kolom label singkat opsional.</string>
+    <string name="set_app_theme">Tema Aplikasi</string>
+    <string name="theme_system">Sistem</string>
+    <string name="theme_light">Terang</string>
+    <string name="theme_dark">Gelap</string>
+    <string name="set_toast_theme_light">Mode terang diatur</string>
+    <string name="set_toast_theme_dark">Mode gelap diatur</string>
+    <string name="set_toast_theme_system">Mengikuti tema sistem</string>
+    <string name="set_playback">Pemutaran</string>
+    <string name="set_autoplay">Putar otomatis</string>
+    <string name="set_autoplay_desc">Memutar rekaman, file audio, dan teks ucapan yang aktif saat pengingat berbunyi. Jika nonaktif, ketuk Putar untuk mendengarkan.</string>
+    <string name="set_disabled_tone">Nonaktif selama mode Nada saja menyala</string>
+    <string name="set_toast_autoplay_on">Putar otomatis aktif</string>
+    <string name="set_toast_autoplay_off">Putar otomatis nonaktif</string>
+    <string name="set_unlock_only">Hanya saat ponsel tidak terkunci</string>
+    <string name="set_unlock_only_desc">Cegah pemutaran di layar kunci</string>
+    <string name="set_toast_lock_off">Pemutaran layar kunci nonaktif</string>
+    <string name="set_toast_lock_on">Pemutaran layar kunci aktif</string>
+    <string name="set_speak_text">Bacakan pengingat ketikan otomatis</string>
+    <string name="set_speak_text_desc">Hanya untuk pengingat teks tanpa catatan suara atau file audio</string>
+    <string name="set_toast_speak_on">Pembacaan teks otomatis aktif</string>
+    <string name="set_toast_speak_off">Pembacaan teks otomatis nonaktif</string>
+    <string name="set_spoken_language">Bahasa ucapan</string>
+    <string name="set_spoken_language_desc">Suara untuk pengingat yang dibacakan. Deteksi otomatis mengikuti bahasa pengingat itu sendiri. Suara bahasa yang dipilih harus terpasang di setelan Teks ke ucapan ponsel Anda.</string>
+    <string name="tts_auto">Deteksi otomatis</string>
+    <string name="tts_device">Perangkat</string>
+    <string name="tts_english">Inggris</string>
+    <string name="set_toast_tts_device">Bahasa ucapan: bahasa perangkat</string>
+    <string name="set_toast_tts_english">Bahasa ucapan: Inggris</string>
+    <string name="set_toast_tts_auto">Bahasa ucapan: deteksi otomatis</string>
+    <string name="set_private">Pemutaran pribadi</string>
+    <string name="set_private_desc">Utamakan alat bantu dengar, Bluetooth, atau headphone kabel yang terhubung. Jika tidak ada, pakai speaker telinga ponsel, bukan pengeras suara.</string>
+    <string name="set_toast_private_on">Pemutaran pribadi aktif</string>
+    <string name="set_toast_private_off">Pemutaran pribadi nonaktif</string>
+    <string name="set_private_bt">Pemutaran pribadi aktif. Perutean Bluetooth memerlukan izin perangkat di sekitar.</string>
+    <string name="set_tone_only">Mode nada saja</string>
+    <string name="set_tone_only_desc">Memutar nada alarm, bukan rekaman atau ucapan. Berhenti setelah: %1$s. Tunda: %2$d mnt.</string>
+    <string name="set_tone_only_desc_no_snooze">Memutar nada alarm, bukan rekaman atau ucapan. Berhenti setelah: %1$s.</string>
+    <string name="set_snooze_enabled">Izinkan tunda</string>
+    <string name="set_snooze_enabled_desc">Tampilkan Tunda di peringatan dan notifikasi pengingat. Nonaktifkan agar satu-satunya cara melewati pengingat adalah Selesai.</string>
+    <string name="set_toast_tone_on">Mode nada saja aktif</string>
+    <string name="set_toast_tone_off">Mode nada saja nonaktif</string>
+    <string name="set_infinite">Tanpa batas</string>
+    <string name="set_minutes_short">%1$d mnt</string>
+    <string name="set_select_tone">Pilih nada</string>
+    <string name="file_picker_unavailable">Tidak ada aplikasi di perangkat ini yang dapat membuka file. Pasang pengelola file lalu coba lagi.</string>
+    <string name="tone_picker_unavailable">Tidak ada aplikasi di perangkat ini yang dapat memilih nada.</string>
+    <string name="set_toast_default_tone">Memakai nada alarm default</string>
+    <string name="set_toast_tone_updated">Nada diperbarui</string>
+    <string name="set_fullscreen">Peringatan layar penuh di layar kunci</string>
+    <string name="set_fullscreen_desc_granted">Tampilkan tindakan pengingat di atas layar kunci saat pengingat berbunyi</string>
+    <string name="set_fullscreen_desc_denied">Memerlukan akses peringatan layar penuh Android agar muncul di atas layar kunci</string>
+    <string name="set_allow_fullscreen">Izinkan peringatan layar penuh di setelan sistem</string>
+    <string name="set_toast_fs_on">Peringatan layar penuh di layar kunci aktif</string>
+    <string name="set_toast_fs_off">Peringatan layar penuh di layar kunci nonaktif</string>
+    <string name="set_fs_off_title">Akses layar penuh masih nonaktif</string>
+    <string name="set_fs_off_msg">Android 14+ memerlukan izin sistem terpisah untuk peringatan pengingat layar penuh.</string>
+    <string name="set_open_perm">Buka setelan izin</string>
+    <string name="set_fs_note">Anda tetap dapat mengetuk Putar atau Bacakan dari notifikasi.</string>
+    <string name="set_tone_volume_note">Dalam mode Nada saja, volume diatur oleh volume alarm/notifikasi perangkat Anda.</string>
+    <string name="set_loop_duration">Hentikan pemutaran terus-menerus setelah</string>
+    <string name="set_loop_duration_desc">Menghentikan nada atau audio berulang setelah waktu ini. Cek lanjutan adalah peringatan terpisah setelahnya.</string>
+    <string name="set_toast_loop">Durasi putar berulang: %1$d mnt</string>
+    <string name="set_toast_loop_infinite">Durasi putar berulang: Tanpa batas</string>
+    <string name="set_custom">Kustom</string>
+    <string name="set_custom_snooze">Tunda Kustom</string>
+    <string name="set_snooze_desc">Atur berapa lama pengingat ditunda</string>
+    <string name="set_toast_snooze">Tunda: %1$d mnt</string>
+    <string name="set_toast_followup_off">Cek lanjutan default nonaktif</string>
+    <string name="set_toast_followup">Cek lanjutan default: %1$d mnt</string>
+    <string name="set_quiet">Jam tenang</string>
+    <string name="set_quiet_desc">Senyapkan pengingat pada jam yang ditentukan</string>
+    <string name="set_toast_quiet_on">Jam tenang aktif</string>
+    <string name="set_toast_quiet_off">Jam tenang nonaktif</string>
+    <string name="set_start">Mulai</string>
+    <string name="set_end">Selesai</string>
+    <string name="set_toast_quiet_start">Jam tenang mulai pukul %1$s</string>
+    <string name="set_toast_quiet_end">Jam tenang berakhir pukul %1$s</string>
+    <string name="set_toast_test">Pengingat uji dalam 10 detik</string>
+    <string name="set_test_reminder">Pengingat uji</string>
+    <string name="set_cd_granted">Izin diberikan</string>
+    <string name="set_cd_action_required">Perlu tindakan</string>
+    <string name="set_notifications">Notifikasi</string>
+    <string name="set_exact_alarms">Alarm Tepat Waktu</string>
+    <string name="set_microphone">Mikrofon</string>
+    <string name="set_dnd">Ingatkan meski Jangan Ganggu</string>
+    <string name="set_dnd_desc_off">Mengikuti mode suara ponsel. Jangan Ganggu atau rutinitas dapat menyenyapkan pengingat.</string>
+    <string name="set_dnd_desc_active">Aktif: pengingat memakai suara prioritas alarm dan melewati Jangan Ganggu.</string>
+    <string name="set_dnd_unavailable">Setelan akses Jangan Ganggu Android tidak tersedia di perangkat ini.</string>
+    <string name="set_grant_dnd">Beri akses Jangan Ganggu Android</string>
+    <string name="set_dnd_note">Ini tidak mengatur mode Jangan Ganggu ponsel Anda. Ini hanya mengizinkan %1$s meminta izin untuk membunyikan pengingat penting saat mode itu aktif.</string>
+    <string name="set_battery_guide">Pengingat masih terlambat? Langkah untuk ponsel Anda</string>
+    <string name="set_battery_desc">Pengoptimalan baterai dapat menunda atau menghentikan pengingat di beberapa ponsel.</string>
+    <string name="set_wear">Wear OS</string>
+    <string name="set_wear_checking">Memeriksa koneksi Wear OS…</string>
+    <string name="set_wear_connected">Jam Wear OS terhubung</string>
+    <string name="set_wear_supported">Pengingat %1$s di jam hanya didukung pada jam Wear OS.</string>
+    <string name="set_wear_notif_off">Notifikasi aplikasi ponsel nonaktif. Aktifkan agar pengingat tersinkron ke jam.</string>
+    <string name="set_open_notif">Buka setelan notifikasi</string>
+    <string name="set_open_channel">Buka saluran pengingat</string>
+    <string name="set_wear_enabled">Notifikasi ponsel aktif. Jika pengingat masih tidak muncul di jam, aktifkan sinkronisasi notifikasi di aplikasi pendamping Wear OS.</string>
+    <string name="set_refresh">Segarkan status</string>
+    <string name="set_app_guide">Panduan aplikasi</string>
+    <string name="set_toast_no_email">Tidak ada aplikasi email. Anda dapat mengirim email ke ghostgramlabs@gmail.com atau menyalin alamat yang ditampilkan.</string>
+    <string name="set_contact_support">Usulan fitur &amp; dukungan</string>
+    <string name="set_contact_support_desc">Punya ide atau butuh bantuan? Kirimi kami email.</string>
+    <string name="support_email_subject">%1$s — Usulan fitur atau dukungan</string>
+    <string name="feature_request_email_subject">%1$s — Usulan fitur</string>
+    <string name="suggest_feature">Usulkan fitur</string>
+    <string name="set_toast_no_rating">Tidak dapat membuka halaman penilaian di perangkat ini.</string>
+    <string name="set_rate">Beri nilai %1$s</string>
+    <string name="set_developer">Pengembang</string>
+    <string name="set_debug_logging">Log Debug</string>
+    <string name="set_debug_desc">Rekam log terperinci</string>
+    <string name="set_send_logs">Kirim Log</string>
+    <string name="set_fix">Perbaiki</string>
+    <string name="set_cd_collapse">Ciutkan</string>
+    <string name="set_cd_expand">Luaskan</string>
+    <string name="set_tone_sound">Suara peringatan nada saja</string>
+    <string name="set_tone_sound_hint">Aktifkan mode Nada saja untuk memilih suara. Sampai saat itu SpeakAlert memakai nada alarm default.</string>
+    <string name="set_choose_tone">Pilih nada</string>
+    <string name="set_use_default">Pakai default</string>
+    <string name="set_default_alarm_tone">Nada alarm default</string>
+    <string name="set_tone_unavailable">Nada yang dipilih tidak tersedia, memakai nada alarm default</string>
+    <string name="set_select_label_time">%1$s: pilih waktu</string>
+    <string name="set_minutes">Menit</string>
+    <string name="set_max_allowed">Maksimal: %1$d mnt</string>
+    <string name="set_desc_max">%1$s (Maks. %2$d mnt)</string>
+    <string name="set_label_time">%1$s: %2$s</string>
+    <string name="set_volume">Volume</string>
+    <string name="set_cd_volume">Volume Aplikasi: %1$d%%</string>
+    <string name="set_loop_inline_desc">Menghentikan nada atau audio berulang setelah waktu ini. Cek lanjutan adalah peringatan terpisah setelahnya.</string>
+    <string name="set_loop_gap">Jeda antarpengulangan</string>
+    <string name="set_loop_gap_desc">Hening sebelum pengingat berulang diputar lagi. Waktu berhenti di atas tetap mengakhiri pengulangan. Nada berbunyi tanpa jeda.</string>
+    <string name="set_loop_gap_none">Tidak ada</string>
+    <string name="set_seconds_short">%1$d dtk</string>
+    <string name="set_seconds">Detik</string>
+    <string name="set_max_allowed_seconds">Maksimal: %1$d dtk</string>
+    <string name="set_desc_max_seconds">%1$s (Maks. %2$d dtk)</string>
+    <string name="set_default_snooze">Tunda default</string>
+    <string name="set_snooze_inline_desc">Berapa lama pengingat ditunda saat Anda mengetuk Tunda</string>
+    <string name="set_default_followup">Cek lanjutan default</string>
+    <string name="set_followup_off_desc">Nonaktif — pengingat baru dibuat tanpa cek lanjutan. Anda tetap dapat mengaturnya per pengingat.</string>
+    <string name="set_followup_on_desc">Pengingat baru dimulai dengan cek lanjutan %1$d mnt yang mengingatkan lagi jika belum ditandai selesai. Pengingat yang sudah ada tidak berubah.</string>
+    <string name="set_followup_repeat">Batas pengulangan cek lanjutan</string>
+    <string name="set_followup_repeat_desc">Secara default (∞) cek lanjutan terus mengingatkan sampai Anda menandai pengingat selesai. Pilih batas jika ingin berhenti sendiri setelah sejumlah peringatan itu. Jam tenang juga menghentikan cek lanjutan.</string>
+    <string name="set_toast_followup_repeat_until_done">Cek lanjutan berulang sampai ditandai selesai</string>
+    <string name="set_toast_followup_repeat">Batas pengulangan cek lanjutan: %1$d×</string>
+    <string name="set_reliability">Keandalan</string>
+    <string name="set_persist">Pertahankan notifikasi sampai selesai</string>
+    <string name="set_persist_desc">Notifikasi pengingat tetap disematkan dan baru hilang saat Anda mengetuk Selesai atau Tunda. Paling baik dipakai bersama cek lanjutan.</string>
+    <string name="set_toast_persist_on">Pengingat bertahan sampai selesai</string>
+    <string name="set_toast_persist_off">Pengingat dapat digeser untuk ditutup</string>
+    <string name="set_all_granted">Semua izin diberikan</string>
+    <string name="set_some_needed">Beberapa izin diperlukan</string>
+    <string name="set_dnd_desc_needed">Aktif, tetapi akses Jangan Ganggu Android diperlukan agar berfungsi.</string>
+    <string name="set_toast_dnd_on">Lewati Jangan Ganggu aktif</string>
+    <string name="set_toast_dnd_off">Lewati Jangan Ganggu nonaktif</string>
+    <string name="set_battery_desc_ok">%1$s sudah diizinkan berjalan di latar belakang.</string>
+    <string name="set_wear_watches">%1$d jam Wear OS terhubung</string>
+    <string name="set_wear_none">Tidak ada jam Wear OS yang terhubung</string>
+    <string name="set_wear_channel_muted">Saluran pengingat %1$s dibisukan. Aktifkan untuk mengirim pengingat ke jam.</string>
+    <string name="set_rate_desc">Bagikan pengalaman Anda di Google Play.</string>
+    <string name="set_tone_sound_active">%1$s. Jika tidak tersedia lagi, SpeakAlert kembali ke nada alarm default.</string>
+
+    <!-- More apps from the developer -->
+    <string name="set_more_apps_title">Aplikasi lain dari GhostgramLabs</string>
+    <string name="set_more_apps_desc">Aplikasi gratis dari pembuat %1$s</string>
+    <string name="set_app_free_tag">Gratis di Google Play</string>
+    <string name="app_pettibox_name">PettiBox: Pengelola Bookmark</string>
+    <string name="app_pettibox_desc">Gratis • Simpan-untuk-nanti secara pribadi untuk tautan, catatan, file &amp; tangkapan layar, dengan pencarian offline</string>
+    <string name="app_directserve_name">DirectServe: Transfer File</string>
+    <string name="app_directserve_desc">Gratis • Bagikan &amp; streaming file ke perangkat atau TV mana pun — tanpa cloud, tanpa kabel</string>
+    <string name="set_toast_no_store">Tidak dapat membuka Google Play di perangkat ini.</string>
+
+    <!-- In-app rating prompt -->
+    <string name="rate_prompt_title">%1$s gratis. Dukungan Anda berarti.</string>
+    <string name="rate_prompt_message">Ulasan Anda membantu lebih banyak orang menemukan %1$s dan menyemangati kami untuk terus memperbaikinya. Luangkan waktu sejenak untuk membagikan pengalaman Anda di Google Play.</string>
+    <string name="rate_prompt_positive">Beri nilai sekarang</string>
+    <string name="rate_prompt_later">Mungkin nanti</string>
+    <string name="rate_prompt_never">Tidak, terima kasih</string>
+
+    <!-- Help guide -->
+    <string name="help_intro">Semua hal penting tentang membuat, memutar, mengulang, dan memulihkan pengingat di %1$s.</string>
+    <string name="help_s1_title">Saat pengingat berbunyi</string>
+    <string name="help_s1_content">Setiap peringatan — di layar kunci dan di notifikasi — menampilkan tombol yang jelas:\n- Selesai: menandai tugas selesai. Untuk pengingat berulang, hanya kali ini yang ditandai dan pengulangan berikutnya tetap ada.\n- Senyapkan: menghentikan suara alarm tetapi pengingat tetap di layar, agar Anda dapat memutuskan nanti.\n- Tunda: mengingatkan lagi setelah jeda singkat (5 atau 10 menit pada peringatan layar penuh).\n- Putar / Bacakan: muncul saat tidak ada yang diputar, agar Anda dapat mendengar pengingat suara atau teks lagi.\nTips: Hanya Selesai yang menyelesaikan tugas. Senyapkan hanya mematikan suara.</string>
+    <string name="help_s2_title">Membuat pengingat</string>
+    <string name="help_s2_content">- Suara dulu: Ketuk Mikrofon untuk merekam pengingat lisan dengan cepat.\n- File audio: Pilih file audio yang sudah ada di perangkat Anda.\n- Pesan pengingat: Ditampilkan di aplikasi dan notifikasi.\n- Catatan suara dan file audio diutamakan daripada teks ketikan yang dibacakan.\n- Pengingat ketikan dibacakan otomatis hanya untuk pengingat teks saja saat pembacaan teks otomatis aktif.\n- Label singkat: Nama opsional agar lebih mudah dikenali di daftar.\n- Jadwal: Pilih tanggal, waktu, pengulangan, cek lanjutan, lalu simpan.</string>
+    <string name="help_s3_title">Pemutaran dan pratinjau</string>
+    <string name="help_s3_content">- Tambah Pengingat memungkinkan Anda mendengar suara rekaman dan audio pilihan sebelum menyimpan.\n- Detail pengingat memungkinkan Anda memutar, menghentikan, dan menggeser posisi catatan suara dan file audio.\n- Pengingat teks saja tetap dapat dibacakan manual dari aplikasi atau notifikasi.\n- Mode nada saja memakai nada pengingat, bukan pemutaran ucapan.\n- Anda dapat memilih suara peringatan nada saja di Setelan, dan %1$s kembali ke nada alarm default jika suara itu tidak tersedia lagi.</string>
+    <string name="help_s4_title">Beranda dan tindakan cepat</string>
+    <string name="help_s4_content">- Tab Hari ini, Mendatang, Terlewat, dan Selesai mengelompokkan pengingat menurut status.\n- Ketuk kartu untuk membuka detail lengkap pengingat.\n- Gunakan tombol salin untuk menduplikasi pengingat yang ada.\n- Tindakan kartu mencakup Putar pengingat, Selesai, dan menu tiga titik untuk Edit, Tandai selesai, Hentikan pengulangan, atau Hapus.</string>
+    <string name="help_s18_title">Menjeda pengingat dan pemberitahuan Beranda</string>
+    <string name="help_s18_content">- Ketuk tombol jeda di layar Beranda untuk menahan semua pengingat selama satu jam, empat jam, sisa hari ini, atau sampai waktu yang Anda pilih.\n- Setiap jeda punya waktu berakhir. Beranda menampilkannya, dengan Lanjutkan untuk mengakhirinya lebih awal.\n- Pengingat yang dijeda tidak berbunyi, tetapi tetap muncul di tab Terlewat.\n- Jeda juga mengalahkan Ingatkan meski Jangan Ganggu, karena artinya Anda sama sekali tidak menginginkan pengingat saat ini.\n- Beranda memperingatkan Anda saat ponsel ini diizinkan menghentikan %1$s di latar belakang, dan menampilkan jam tenang Anda selama aktif.</string>
+    <string name="help_s5_title">Pengingat berulang</string>
+    <string name="help_s5_content">- Mode pengulangan: Harian, Mingguan, Bulanan, Tahunan, atau Kustom.\n- Tanggal dan waktu yang dipilih menjadi jadwal pertama.\n- Pengulangan dapat berlangsung selamanya, berakhir pada tanggal dan waktu tertentu, atau setelah sejumlah pengulangan.\n- Menandai selesai pada pengingat berulang hanya berlaku untuk pengingat kali ini.</string>
+    <string name="help_s6_title">Notifikasi dan peringatan layar penuh</string>
+    <string name="help_s6_content">- Notifikasi pengingat menampilkan tiga tombol cepat: Selesai, Tunda, dan Senyapkan (saat diputar) atau Putar/Bacakan (untuk mendengarnya lagi).\n- Selesai menandai pengingat selesai; Senyapkan hanya menghentikan suara dan membiarkan pengingat agar Anda dapat bertindak nanti.\n- Menggeser notifikasi juga menandai pengingat kali ini selesai.\n- Jika diaktifkan di Setelan, peringatan layar penuh dapat muncul di layar kunci dengan tindakan yang sama: Selesai, Senyapkan, Tunda, dan Putar lagi.</string>
+    <string name="help_s7_title">Pengingat terlewat dan dipulihkan</string>
+    <string name="help_s7_content">- Pengingat terlewat tetap di tab Terlewat sampai Anda meninjaunya.\n- Saat aplikasi dibuka, lembar pemulihan pengingat terlewat dapat menawarkan pemutaran cepat pengingat terlewat terbaru.\n- Pengingat lampau dapat dipulihkan, dijadwalkan ulang, atau diputar ulang dari lembar tindakannya.</string>
+    <string name="help_s8_title">Setelan pemutaran</string>
+    <string name="help_s8_content">- Putar otomatis memulai catatan suara atau file audio saat pengingat berbunyi.\n- Bacakan pengingat ketikan otomatis hanya mengatur pembacaan untuk pengingat teks saja.\n- Bahasa ucapan mengatur suara untuk pengingat yang dibacakan: Deteksi otomatis mengikuti bahasa pengingat itu sendiri (jadi pengingat berbahasa Hindi dibacakan dalam bahasa Hindi), atau Anda dapat memaksa bahasa Perangkat atau Inggris. Suara bahasa yang dipilih harus terpasang di setelan Teks ke ucapan ponsel Anda.\n- Pemutaran manual tetap berfungsi meski pembacaan teks otomatis nonaktif.\n- Pemutaran pribadi mencoba alat bantu dengar, Bluetooth, atau headphone kabel yang terhubung lebih dulu. Jika tidak ada, speaker telinga ponsel dipakai, bukan pengeras suara.\n- Putar berulang terus mengulang audio sampai Anda menghentikannya atau batas waktunya tercapai.\n- Cek lanjutan bertanya lagi sampai pengingat ditandai selesai.\n- Jam tenang dapat menyenyapkan pemutaran pengingat pada waktu yang dipilih.</string>
+    <string name="help_s9_title">Mode nada saja dan keandalan</string>
+    <string name="help_s9_content">- Mode nada saja memakai nada alarm yang jelas, bukan suara atau TTS.\n- Anda dapat memilih suara peringatan nada saja sendiri, atau tetap memakai nada alarm default.\n- Ingatkan meski Jangan Ganggu membuat %1$s mencoba membunyikan pengingat penting saat Jangan Ganggu aktif.\n- Jika Ingatkan meski Jangan Ganggu nonaktif, pengingat yang diblokir Jangan Ganggu masuk ke Terlewat, bukan diputar.\n- Setelan ini tidak menyalakan atau mematikan mode Jangan Ganggu ponsel Anda. Akses Jangan Ganggu Android diperlukan agar berfungsi.\n- Jika diaktifkan, pengingat memakai audio prioritas alarm. Beberapa rutinitas ponsel masih dapat memblokir alarm jika mode sistem menyenyapkan audio alarm.\n- Jika suara yang dipilih hilang nanti, %1$s otomatis kembali ke nada alarm default.\n- Gunakan mode nada saja jika ponsel Anda menunda, menahan, atau menghentikan pemutaran ucapan.\n- Setelan &gt; Cek pengingat menyediakan bantuan baterai langkah demi langkah untuk ponsel dengan pembatasan latar belakang yang agresif.\n- Biarkan notifikasi, alarm tepat waktu, dan setelan baterai tetap aktif agar pengingat paling andal.</string>
+    <string name="help_s10_title">Widget dan Wear OS</string>
+    <string name="help_s10_content">- Widget Pengingat Cepat membuka Tambah Pengingat secara langsung.\n- Widget Mendatang menampilkan pengingat mendatang dan terlewat.\n- Dukungan Wear OS bergantung pada aktifnya notifikasi ponsel dan sinkronisasi jam.</string>
+    <string name="help_s11_title">Setelah perangkat dimulai ulang</string>
+    <string name="help_s11_content">- Pengingat mendatang dijadwalkan ulang otomatis setelah dimulai ulang.\n- Pengingat yang sudah lewat waktunya masuk ke alur pengingat terlewat, bukan berbunyi tiba-tiba saat perangkat menyala.</string>
+    <string name="help_s13_title">Cek lanjutan</string>
+    <string name="help_s13_content">- Cek lanjutan bertanya “Apakah … sudah selesai?” beberapa menit setelah pengingat berbunyi.\n- Secara default, cek ini terus berulang sampai Anda menandai pengingat selesai. Anda dapat mengatur batas pengulangan di Setelan &gt; Keandalan jika ingin berhenti sendiri.\n- Selesai dan Tunda mengakhiri siklus cek lanjutan saat ini; Jam tenang juga menghentikan cek lanjutan.\n- Cek lanjutan berlanjut setelah perangkat dimulai ulang sampai selesai atau batas tercapai.</string>
+    <string name="help_s14_title">Cadangan dan impor</string>
+    <string name="help_s14_content">- Cadangkan pengingat di Setelan menyimpan semua pengingat mendatang, termasuk rekaman suara, ke satu file pilihan Anda.\n- Impor pengingat memulihkannya di perangkat ini atau perangkat lain.\n- Impor melewati duplikat persis dan pengingat sekali yang kedaluwarsa; pengingat berulang berlanjut dari jadwal berikutnya.\n- Pengingat yang diimpor langsung dijadwalkan.</string>
+    <string name="help_s12_title">Pertahankan pengingat di layar sampai selesai</string>
+    <string name="help_s12_content">- Aktifkan Setelan &gt; Keandalan &gt; Pertahankan notifikasi sampai selesai untuk menyematkan notifikasi pengingat agar tidak tergeser tanpa sengaja.\n- Selama aktif, geseran hanya menyenyapkan suara dan pengingat tetap tertunda — bertahan sampai Anda mengetuk Selesai atau Tunda.\n- Menandai Selesai selalu berfungsi dari notifikasi, peringatan layar penuh, atau kartu pengingat, dan menghentikan cek lanjutan.\n- Padukan dengan cek lanjutan agar pengingat juga berbunyi lagi secara berkala sampai diselesaikan.</string>
+
+    <!-- What's new sheet -->
+    <string name="action_continue">Lanjutkan</string>
+    <string name="wn_title">Yang baru di %1$s</string>
+    <string name="wn_intro">Empat peningkatan, semuanya diusulkan oleh pengguna aplikasi.</string>
+    <string name="wn_check_title">Lihat apa yang dapat menghalangi pengingat</string>
+    <string name="wn_check_desc">Cek pengingat, di bagian atas Setelan, menampilkan apa pun yang dapat membuat pengingat terlambat atau senyap, seperti notifikasi, baterai, atau volume alarm rendah, dengan tombol untuk memperbaiki masing-masing.</string>
+    <string name="wn_reliable_title">Pengingat ekstra andal</string>
+    <string name="wn_reliable_desc">Jika ponsel Anda menunda pengingat untuk menghemat baterai, aktifkan Pengingat ekstra andal di Setelan &gt; Cek pengingat. Pengingat lalu diatur seperti alarm, sehingga berbunyi tepat waktu.</string>
+    <string name="wn_settings_title">Setelan yang lebih mudah ditemukan</string>
+    <string name="wn_settings_desc">Setiap bagian menjelaskan isinya, dan bahasa aplikasi ada di dekat bagian atas, di Bahasa &amp; tampilan.</string>
+    <string name="wn_cards_title">Edit, Selesai, dan Hapus di setiap kartu</string>
+    <string name="wn_cards_desc">Setiap kartu pengingat punya tombol Edit, Selesai, dan Hapus. Penghapusan meminta konfirmasi dan dapat diurungkan.</string>
+    <string name="wn_sound_title">Suara berhenti saat seharusnya</string>
+    <string name="wn_sound_desc">Menandai pengingat selesai, menghapusnya, atau mengubah waktunya langsung menghentikan suaranya. Alarm nada kembali punya tombol Senyapkan.</string>
+    <string name="wn_nthday_title">Ulangi pada Kamis terakhir</string>
+    <string name="wn_nthday_desc">Pengingat bulanan dapat jatuh pada hari tertentu menurut urutannya dalam bulan, seperti Senin pertama atau Kamis terakhir. Pilih Ulangi &gt; Bulanan &gt; Hari dalam minggu.</string>
+    <string name="wn_gap_title">Jeda antarpengulangan</string>
+    <string name="wn_gap_desc">Pengingat berulang dapat menunggu sebelum diputar lagi: “Rapat”, hening 10 detik, “Rapat” lagi, sampai waktu berhentinya. Atur di Setelan &gt; Saat pengingat berbunyi &gt; Jeda antarpengulangan.</string>
+    <string name="wn_colors_title">Warna Anda untuk Selesai dan Hapus</string>
+    <string name="wn_colors_desc">Beri warna sendiri untuk tombol Selesai dan Hapus di kartu pengingat lewat Setelan &gt; Bahasa &amp; tampilan &gt; Tombol kartu pengingat.</string>
+    <string name="wn_notif_title">Notifikasi hilang saat aplikasi dibuka</string>
+    <string name="wn_notif_desc">Setelah pengingat berbunyi, membuka aplikasi atau menyimpan perubahan pada pengingat menghapus notifikasinya. Jika “Pertahankan notifikasi sampai selesai” aktif, membuka aplikasi tidak menghapusnya.</string>
+    <string name="wn_edit_title">Ubah tanggal dan waktu langsung</string>
+    <string name="wn_edit_desc">Buka pengingat dan ketuk Tanggal atau Waktu untuk mengubahnya langsung. Tidak perlu membuka editor dulu.</string>
+    <string name="wn_clear_title">Notifikasi merapikan diri sendiri</string>
+    <string name="wn_clear_desc">Begitu Anda membuka, memutar, menyelesaikan, atau menghapus pengingat di aplikasi, notifikasinya hilang dari panel notifikasi. Jika Pertahankan notifikasi sampai selesai aktif, notifikasi tetap ada sampai Anda menandainya Selesai.</string>
+    <string name="wn_save_title">Pengingat suara tersimpan seketika</string>
+    <string name="wn_save_desc">Dengan peningkatan suara eksperimental aktif, penyimpanan tidak lagi menunggu pembersihan. Prosesnya selesai di latar belakang, dan sementara itu pengingat menampilkan Suara · sedang disempurnakan….</string>
+    <string name="wn_fullscreen_title">Peringatan layar kunci kini berfungsi</string>
+    <string name="wn_fullscreen_desc">Peringatan layar penuh sebelumnya tidak pernah muncul saat pengingat berbunyi, apa pun setelannya. Kini peringatan itu menyalakan layar dan menampilkan pengingat, pada layar peringatan yang dibuat ulang dengan teks lebih besar dan tindakan lebih jelas.</string>
+    <string name="wn_pause_title">Jeda pengingat</string>
+    <string name="wn_pause_desc">Mau rapat? Jeda dari layar Beranda selama satu jam, sisa hari ini, atau sampai waktu yang Anda pilih. Setiap jeda punya akhir, dan pengingat yang dijeda tetap muncul di tab Terlewat.</string>
+    <string name="wn_notices_title">Beranda memberi tahu mengapa pengingat senyap</string>
+    <string name="wn_notices_desc">Jika ponsel ini diizinkan menghentikan %1$s di latar belakang, atau jam tenang Anda aktif, Beranda kini memberitahukannya, alih-alih pengingat diam-diam tidak muncul.</string>
+    <string name="wn_lang_title">Kini dalam bahasa Anda</string>
+    <string name="wn_lang_desc">Seluruh aplikasi tersedia dalam bahasa Inggris, Spanyol, Hindi, Arab, Portugis (Brasil), Rusia, Vietnam, Bengali, Telugu, Tamil, Yunani, dan Malayalam, dengan dukungan kanan-ke-kiri. Pilih di Setelan &gt; Bahasa &amp; tampilan &gt; Bahasa.</string>
+    <string name="wn_missed_title">Jadwalkan ulang pengingat terlewat</string>
+    <string name="wn_missed_desc">Di tab Terlewat, ketuk pensil pada pengingat untuk memberinya tanggal atau waktu baru. Pengingat kembali ke daftar mendatang.</string>
+    <string name="wn_quiet_title">Suara berhenti saat Anda selesai</string>
+    <string name="wn_quiet_desc">Menggeser notifikasi pengingat kini menghentikan suaranya, dan pengingat tidak lagi mulai diputar saat Anda mengedit atau mengubah waktunya.</string>
+    <string name="wn_buttons_title">Tombol alarm yang lebih jelas</string>
+    <string name="wn_buttons_desc">Peringatan dan notifikasi pengingat kini menampilkan Selesai, Senyapkan, dan Tunda. Selesai menyelesaikan tugas; Senyapkan hanya menghentikan suara dan pengingat tetap ada.</string>
+    <string name="wn_spoken_title">Pengingat dengan suara yang tepat</string>
+    <string name="wn_spoken_desc">Pengingat yang dibacakan otomatis memakai bahasanya sendiri — pengingat berbahasa Hindi dibacakan dalam bahasa Hindi meski aplikasi berbahasa Inggris. Atur di Setelan &gt; Saat pengingat berbunyi &gt; Bahasa ucapan.</string>
+    <string name="wn_persist_title">Pertahankan pengingat sampai selesai</string>
+    <string name="wn_persist_desc">Aktifkan Setelan &gt; Keandalan &gt; Pertahankan notifikasi sampai selesai agar pengingat tetap disematkan dan baru hilang saat Anda memilih Selesai atau Tunda.</string>
+    <string name="wn_backup_title">Cadangkan dan pindahkan pengingat Anda</string>
+    <string name="wn_backup_desc">Simpan semua pengingat mendatang — termasuk rekaman — ke sebuah file dan pulihkan kapan saja, bahkan di ponsel baru. Temukan di Setelan.</string>
+    <string name="wn_followup_title">Cek lanjutan, sesuai keinginan Anda</string>
+    <string name="wn_followup_desc">Cek lanjutan terus mengingatkan sampai Anda menandai pengingat selesai, seperti sebelumnya. Baru: atur batas pengulangan di Setelan &gt; Keandalan jika ingin berhenti sendiri.</string>
+
+    <!-- Startup dialogs -->
+    <string name="action_allow">Izinkan</string>
+    <string name="action_later">Nanti</string>
+    <string name="action_open_settings">Buka setelan</string>
+    <string name="batt_prompt_title">Izinkan %1$s berjalan di latar belakang</string>
+    <string name="batt_prompt_message">Beberapa ponsel, terutama model Xiaomi dan POCO, menghentikan aplikasi di latar belakang untuk menghemat baterai. Ini dapat mencegah pengingat berbunyi. Izinkan %1$s mengabaikan pengoptimalan baterai agar pengingat lebih andal.</string>
+    <string name="batt_toast_unavailable">Setelan baterai tidak tersedia di perangkat ini.</string>
+    <string name="home_batt_banner_title">Pengingat mungkin tidak muncul</string>
+    <string name="home_batt_banner_body">Ponsel ini diizinkan menghentikan %1$s di latar belakang. Ketuk untuk mengizinkan penggunaan baterai tanpa batasan.</string>
+    <string name="home_quiet_banner">Jam tenang %1$s – %2$s. Pengingat masuk ke Terlewat.</string>
+    <string name="home_pause_banner">Pengingat dijeda sampai %1$s</string>
+    <string name="home_pause_resume">Lanjutkan</string>
+    <string name="home_pause_title">Jeda pengingat</string>
+    <string name="home_pause_body">Pengingat tidak akan berbunyi sampai jeda berakhir. Pengingat tetap masuk ke tab Terlewat.</string>
+    <string name="home_pause_1h">Selama 1 jam</string>
+    <string name="home_pause_4h">Selama 4 jam</string>
+    <string name="home_pause_today">Sampai akhir hari ini</string>
+    <string name="home_pause_pick">Pilih waktu berakhir…</string>
+    <string name="home_pause_cd">Jeda pengingat</string>
+    <string name="home_pause_also_quiet">Jam tenang juga aktif, %1$s – %2$s.</string>
+    <string name="fsr_title">Izinkan lagi peringatan layar penuh</string>
+    <string name="fsr_message">Peringatan pengingat di layar kunci masih aktif di %1$s, tetapi akses layar penuh Android nonaktif. Ini dapat terjadi setelah pemasangan ulang atau pemulihan.</string>
+    <!-- Version 2.0.34 help and startup highlights -->
+    <string name="help_s15_title">Sesuaikan formulir pengingat</string>
+    <string name="help_s15_content">- Buka Setelan &gt; Formulir pengingat untuk menampilkan atau menyembunyikan Rekaman suara, Pilih file audio, Pengingat ketikan, dan Label singkat.\n- Setiap sakelar bekerja terpisah. Jika ketiga cara input disembunyikan, Tambah Pengingat memberi tahu setelan mana yang perlu diaktifkan lagi.\n- Saat mengedit, bagian yang disembunyikan muncul otomatis jika pengingat itu sudah berisi kontennya.</string>
+    <string name="help_s16_title">Pilih mode rekaman suara Anda</string>
+    <string name="help_s16_content">- Buka Setelan &gt; Formulir pengingat &gt; Peningkatan suara eksperimental.\n- Nonaktif (default) mempertahankan perilaku rekaman MIC/AAC mentah yang asli tanpa pemrosesan lanjutan.\n- Aktif menyalakan pengaman perekam yang lebih baru, peringatan jika rekaman tidak bersuara, pembersihan derau latar, dan normalisasi level suara. Hasil dan waktu pemrosesan dapat berbeda di tiap perangkat.\n- Rekaman yang senyap tetap dapat dipratinjau dan disimpan.</string>
+    <string name="help_s17_title">Pemutaran pengingat yang lebih andal</string>
+    <string name="help_s17_content">- Pemutaran pengingat kini langsung memulai notifikasi latar depan Android yang diwajibkan, termasuk di versi Android yang lebih baru dan ponsel dengan pemulaian latar belakang yang lebih lambat.\n- Ini mencegah batas waktu sistem yang dapat menghentikan pengingat sebelum suara atau ucapannya dimulai.\n- Biarkan izin notifikasi, alarm tepat waktu, dan setelan baterai yang disarankan tetap aktif agar paling andal.</string>
+    <string name="wn_form_title">Formulir pengingat Anda, sesuai keinginan</string>
+    <string name="wn_form_desc">Di Setelan &gt; Formulir pengingat, tampilkan atau sembunyikan secara terpisah Rekaman suara, Pilih file audio, Pengingat ketikan, dan Label singkat.</string>
+    <string name="wn_recording_title">Peningkatan suara eksperimental opsional</string>
+    <string name="wn_recording_desc">Setelan baru memberi Anda pilihan: tetap memakai rekaman asli tanpa pemrosesan (default), atau memilih pengaman perekam yang lebih baru, peringatan jika rekaman tidak bersuara, dan pembersihan derau latar yang meningkatkan volume rekaman yang pelan agar nyaman didengar tanpa memperkuat derau latar. Rekaman senyap selalu disimpan.</string>
+    <string name="wn_reliability_title">Lebih andal di ponsel Android terbaru</string>
+    <string name="wn_reliability_desc">Pemutaran pengingat kini dimulai dengan aman dan langsung di latar depan, mencegah batas waktu pemulaian yang terjadi di beberapa perangkat Android 12 dan Android 16.</string>
+    <string name="settings_24_hour_time">Gunakan format 24 jam</string>
+    <string name="settings_24_hour_time_desc">Tampilkan setiap waktu sebagai 17:30, bukan 5:30 PM.</string>
+    <string name="set_week_start">Minggu dimulai pada</string>
+    <string name="set_week_start_desc">Hari pertama dalam seminggu di pemilih tanggal. Jika hari dipilih, pemilih tanggal bawaan ponsel yang dipakai.</string>
+
+    <!-- Reminder card and actions sheet -->
+    <string name="card_recur_onetime">Pengingat sekali</string>
+    <string name="card_recur_daily">Berulang harian</string>
+    <string name="card_recur_last_day">Hari terakhir setiap bulan</string>
+    <string name="rs_day_of_week">Hari dalam minggu</string>
+    <string name="rs_which_one">Yang ke berapa dalam bulan</string>
+    <string name="rs_weekday">Hari</string>
+    <string name="rec_nth_weekday">%2$s %1$s</string>
+    <string name="card_recur_nth_weekday">%1$s setiap bulan</string>
+    <string-array name="rs_ordinal_labels">
+        <item>Pertama</item>
+        <item>Kedua</item>
+        <item>Ketiga</item>
+        <item>Keempat</item>
+        <item>Terakhir</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>pertama</item>
+        <item>kedua</item>
+        <item>ketiga</item>
+        <item>keempat</item>
+        <item>terakhir</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>pertama</item>
+        <item>kedua</item>
+        <item>ketiga</item>
+        <item>keempat</item>
+        <item>terakhir</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>pertama</item>
+        <item>kedua</item>
+        <item>ketiga</item>
+        <item>keempat</item>
+        <item>terakhir</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+    </string-array>
+    <string name="card_recur_yearly">Berulang tahunan</string>
+    <string name="card_chip_recurring">Berulang</string>
+    <string name="card_days_of_month">Tanggal dalam bulan</string>
+    <string name="card_cd_duplicate">Duplikasi pengingat</string>
+    <string name="card_cd_more">Opsi lainnya</string>
+    <string name="card_cd_looping">Putar berulang</string>
+    <string name="card_cd_followup">Cek lanjutan dalam %1$d menit</string>
+    <string name="card_cd_ends_after">Berakhir setelah %1$d %2$s</string>
+    <string name="sheet_reminder_actions">Tindakan pengingat</string>
+    <string name="sheet_stop_playback">Hentikan pemutaran</string>
+
+    <!-- Custom follow-up dialog -->
+    <string name="fu_custom_title">Cek Lanjutan Kustom</string>
+    <string name="fu_custom_desc">Bertanya lagi setelah jumlah menit yang ditentukan jika pengingat belum ditandai selesai.</string>
+    <string name="fu_allowed_range">Diizinkan: 1-%1$d mnt</string>
+
+    <!-- Voice recorder -->
+    <string name="vr_playing_audio">Memutar Audio</string>
+    <string name="vr_voice_recorded">Suara terekam</string>
+    <string name="vr_text_optional">Teks bersifat opsional</string>
+    <string name="vr_tap_to_stop">Ketuk untuk Berhenti</string>
+    <string name="vr_cd_level">Visualisasi level suara waktu nyata</string>
+    <string name="vr_cd_stop">Hentikan Rekaman</string>
+    <string name="vr_cd_double_tap_stop">Ketuk dua kali untuk menghentikan rekaman</string>
+    <string name="vr_cd_preview_progress">Progres pratinjau suara</string>
+    <string name="vr_cd_start">Mulai Rekaman Suara</string>
+    <string name="vr_cd_restart">Ulangi Rekaman</string>
+
+    <!-- Date and time picker -->
+    <string name="dtp_title">Pilih tanggal dan waktu</string>
+    <string name="dtp_subtitle">Gunakan opsi cepat atau pilih tanggal dan waktu yang tepat.</string>
+    <string name="dtp_quick_date">Pilihan tanggal cepat</string>
+    <string name="dtp_quick_time">Pilihan waktu cepat</string>
+    <string name="dtp_pick_date">Pilih tanggal tertentu</string>
+    <string name="dtp_pick_time">Pilih waktu tertentu</string>
+    <string name="dtp_next_week">Minggu depan</string>
+    <string name="dtp_plus_10">+10 mnt</string>
+    <string name="dtp_plus_30">+30 mnt</string>
+    <string name="dtp_plus_60">+1 jam</string>
+    <string name="dtp_err_future">Waktu harus di masa mendatang</string>
+    <string name="dtp_err_date_future">Tanggal harus hari ini atau setelahnya</string>
+
+    <!-- Recurring completion dialog -->
+    <string name="rcd_title">Ini pengingat berulang</string>
+    <string name="rcd_desc">Pilih untuk menyelesaikan pengingat kali ini saja, mengedit jadwal pengulangan, atau menghentikannya sepenuhnya.</string>
+    <string name="rcd_mark_occurrence">Tandai pengingat kali ini selesai</string>
+    <string name="rcd_edit_schedule">Edit jadwal</string>
+    <string name="rcd_stop_recurring">Hentikan pengulangan</string>
+
+    <!-- Restore reminder dialog -->
+    <string name="rrd_title">Pulihkan pengingat</string>
+    <string name="rrd_desc">Pengingat ini sudah diselesaikan sebelumnya. Pilih cara memulihkannya.</string>
+    <string name="rrd_reschedule">Jadwalkan ulang pengingat</string>
+    <string name="rrd_move_missed">Pindahkan ke Terlewat</string>
+    <string name="rrd_play">Putar pengingat</string>
+    <string name="rrd_keep_done">Tetap tandai selesai</string>
+
+    <!-- Missed reminder sheets -->
+    <string name="pua_title">Pengingat terlewat</string>
+    <string name="pua_scheduled_for">Dijadwalkan %1$s</string>
+    <string name="pua_set_new_time">Atur waktu baru</string>
+    <string name="pua_just_play">Putar saja pengingatnya</string>
+    <string name="mrr_desc">Putar pengingat terlewat terbaru sekarang, atau biarkan semuanya di tab Terlewat dan tinjau nanti.</string>
+    <plurals name="mrr_title">
+        <item quantity="other">Anda melewatkan %1$d pengingat</item>
+    </plurals>
+    <string name="mrr_play_latest">Putar pengingat terlewat terbaru</string>
+    <string name="mrr_keep">Biarkan di tab Terlewat</string>
+
+    <!-- Battery optimization guide -->
+    <string name="bog_title">Panduan Pengoptimalan Baterai</string>
+    <string name="bog_header">Pastikan pengingat berbunyi tepat waktu</string>
+    <string name="bog_header_sub">Beberapa ponsel menjeda atau menghentikan alarm latar belakang kecuali %1$s dikecualikan dari pembatasan baterai.</string>
+    <string name="bog_intro">Beberapa perangkat menghentikan alarm latar belakang untuk menghemat baterai. Ini dapat mencegah pengingat berbunyi.</string>
+    <string name="bog_menu_vary">Nama menu dapat berbeda menurut MIUI, HyperOS, EMUI, versi Android, dan model ponsel.</string>
+    <string name="bog_allow_app">Izinkan %1$s</string>
+    <string name="bog_back_settings">Kembali ke Setelan</string>
+    <string name="bog_brand_xiaomi">Xiaomi / POCO / Redmi (MIUI / HyperOS)</string>
+    <string name="bog_brand_huawei">Huawei (EMUI)</string>
+    <string name="bog_step">Langkah %1$d</string>
+    <string name="bog_optional">Opsional</string>
+    <string name="bog_open_settings">Buka Setelan</string>
+    <string name="bog_find_app">Cari %1$s</string>
+    <string name="bog_xiaomi_battery">Ketuk Baterai</string>
+    <string name="bog_xiaomi_optimization">Ketuk Pengoptimalan Baterai</string>
+    <string name="bog_xiaomi_no_restrictions">Pilih Tanpa Batasan</string>
+    <string name="bog_xiaomi_opt">Kunci aplikasi di layar aplikasi terbaru.</string>
+    <string name="bog_huawei_apps">Buka Aplikasi atau Peluncuran aplikasi</string>
+    <string name="bog_huawei_manage_off">Nonaktifkan Kelola otomatis</string>
+    <string name="bog_huawei_allow">Izinkan peluncuran otomatis, peluncuran sekunder, dan berjalan di latar belakang</string>
+    <string name="bog_huawei_opt">Periksa juga Pengoptimalan baterai dan atur %1$s ke Jangan izinkan.</string>
+    <string name="bog_status_enabled">Pengoptimalan baterai masih aktif untuk %1$s.</string>
+    <string name="bog_status_exempt">%1$s sudah diizinkan berjalan tanpa pengoptimalan baterai.</string>
+    <string name="bog_no_battery_settings">Setelan baterai tidak tersedia di perangkat ini.</string>
+    <string name="bog_why_title">Mengapa ini penting</string>
+    <string name="bog_why_body">Ponsel dari Xiaomi, POCO, Redmi, Huawei, Infinix, Tecno, dan merek sejenis dapat menghentikan aplikasi di latar belakang secara agresif. Gunakan keluarga produsen dan versi perangkat lunak sebagai panduan; jalur persisnya dapat berbeda menurut model perangkat.</string>
+
+    <!-- Reminder card accessibility description -->
+    <string name="a11y_card_reminder">Pengingat: %1$s</string>
+    <string name="a11y_card_at">pukul %1$s</string>
+    <string name="a11y_card_has_audio_file">ada file audio</string>
+    <string name="a11y_card_has_voice">ada catatan suara</string>
+    <string name="a11y_card_recurring">berulang %1$s</string>
+    <string name="a11y_card_completed">selesai</string>
+    <string name="a11y_card_playing">sedang diputar</string>
+    <string name="a11y_card_open_hint">Ketuk dua kali untuk membuka detail.</string>
+
+    <!-- Accessibility states -->
+    <string name="state_completed">Selesai</string>
+    <string name="state_playing">Diputar</string>
+    <string name="a11y_percent">%1$d persen</string>
+    <string name="a11y_destructive">Tindakan menghapus</string>
+    <string name="a11y_recording_in_progress">Sedang merekam</string>
+    <string name="a11y_playing_preview">Memutar pratinjau audio</string>
+    <string name="a11y_voice_recorded">Catatan suara terekam</string>
+    <string name="a11y_no_voice_recorded">Belum ada catatan suara</string>
+    <plurals name="card_occurrences">
+        <item quantity="other">%1$d kali</item>
+    </plurals>
+
+    <!-- Test reminder -->
+    <string name="set_test_reminder_title">Pengingat Uji</string>
+    <string name="set_test_reminder_text">Ini pengingat uji untuk memeriksa pemutaran. Pengingat ini berbunyi 10 detik setelah dibuat.</string>
+    <string name="widget_quick_subtitle">Tambah cepat</string>
+    <string name="widget_upcoming_subtitle">Pengingat mendatang dan terlewat</string>
+    <string name="widget_upcoming_empty">Tidak ada pengingat mendatang atau terlewat</string>
+    <string name="card_type_audio_file">File Audio</string>
+    <string name="card_type_voice_improving">Suara · sedang disempurnakan…</string>
+    <string name="card_type_voice">Suara</string>
+    <string name="card_type_text">Teks</string>
+    <string name="card_voice_recording">Rekaman suara</string>
+    <string name="card_custom_audio_file">File audio kustom</string>
+    <string name="card_text_note">Catatan teks</string>
+    <string name="sheet_mark_this_done">Tandai selesai</string>
+    <string name="sheet_delete_reminder">Hapus pengingat</string>
+    <string name="vr_recording_ellipsis">Merekam…</string>
+    <string name="vr_play_recording">Putar Rekaman</string>
+    <string name="rcd_sub_keep_next">Jadwal pengingat berikutnya tetap berlaku</string>
+    <string name="rcd_sub_change_rules">Ubah aturan pengulangan atau waktunya</string>
+    <string name="rcd_sub_delete_future">Hapus pengingat ini dan jadwal berikutnya</string>
+    <string name="rrd_sub_pick_new">Pilih tanggal dan waktu baru</string>
+    <string name="rrd_sub_keep_missed">Simpan di tab Terlewat untuk nanti</string>
+    <string name="rrd_sub_hear_now">Dengarkan sekarang tanpa memulihkan</string>
+    <string name="rrd_sub_leave_done">Biarkan pengingat tetap selesai</string>
+    <string name="mrr_sub_start_now">Mulai pemutaran sekarang juga</string>
+    <string name="set_tab_form">Formulir</string>
+    <string name="set_tab_play">Suara</string>
+    <string name="set_tab_time">Waktu</string>
+    <string name="set_tab_safe">Andal</string>
+    <string name="set_tab_backup">Cadangan</string>
+    <string name="set_tab_wear">Jam</string>
+    <string name="set_tab_help">Bantuan</string>
+    <string name="battery_guidance_title">Pengingat mungkin terlambat atau terlewat</string>
+    <string name="battery_guidance_body">Ponsel Anda membatasi %1$s di latar belakang untuk menghemat baterai, sehingga pengingat dapat berbunyi terlambat saat aplikasi ditutup. Ketuk Izinkan penggunaan latar belakang, lalu pilih Izinkan. Anda dapat mengubahnya nanti di Setelan &gt; Cek pengingat.</string>
+    <string name="battery_review_settings">Izinkan penggunaan latar belakang</string>
+    <string name="battery_keep_current">Tidak, terima kasih</string>
+    <string name="battery_status_restricted">Akses baterai latar belakang: Dibatasi. Disarankan: Tanpa batasan agar pengingat tepat waktu.</string>
+    <string name="battery_status_allowed">Akses baterai latar belakang: Tanpa batasan.</string>
+    <string name="card_done_occurrence">Selesai kali ini</string>
+    <string name="home_delete_confirm_body">Anda dapat mengurungkannya tepat setelah menghapus.</string>
+    <string name="battery_banner_body">Penghemat baterai ponsel Anda mungkin menahan %1$s.</string>
+    <string name="home_empty_nothing_today">Tidak ada jadwal hari ini</string>
+    <string name="home_empty_today_sub">Pengingat berikutnya ada di “%1$s”.</string>
+    <string name="set_alarm_clock">Pengingat ekstra andal</string>
+    <string name="set_alarm_clock_desc">Membantu pengingat berbunyi tepat waktu di ponsel yang menunda aplikasi untuk menghemat baterai. Selama aktif, beberapa ponsel menampilkan ikon jam atau pesan “alarm disetel”.</string>
+    <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
+    <string name="bog_transsion_autostart">Buka Aplikasi &gt; Mulai otomatis (atau Phone Master &gt; Mulai otomatis) dan aktifkan untuk %1$s</string>
+    <string name="bog_transsion_battery">Buka Aplikasi &gt; %1$s &gt; Baterai dan pilih Tanpa batasan</string>
+    <string name="set_alarm_clock_status_next">Aktif untuk pengingat berikutnya: %1$s</string>
+    <string name="set_alarm_clock_status_none">Pengingat berikutnya akan memakai ini.</string>
+    <string name="home_extra_reliable_on">Pengingat ekstra andal aktif</string>
+    <string name="set_section_check">Cek pengingat</string>
+    <string name="set_section_ringing">Saat pengingat berbunyi</string>
+    <string name="set_sum_check">Izin, baterai, dan volume alarm</string>
+    <string name="set_sum_lang">Bahasa aplikasi, tema, format waktu, warna tombol</string>
+    <string name="set_card_colors">Tombol kartu pengingat</string>
+    <string name="set_card_colors_desc">Pilih warna untuk tombol Selesai dan Hapus di Beranda.</string>
+    <string name="set_card_done_color">Tombol Selesai</string>
+    <string name="set_card_delete_color">Tombol Hapus / Hentikan pengulangan</string>
+    <string name="color_default">Default aplikasi</string>
+    <string name="color_red">Merah</string>
+    <string name="color_orange">Oranye</string>
+    <string name="color_green">Hijau</string>
+    <string name="color_teal">Toska</string>
+    <string name="color_blue">Biru</string>
+    <string name="color_purple">Ungu</string>
+    <string name="color_pink">Merah muda</string>
+    <string name="color_gray">Abu-abu</string>
+    <string name="set_sum_ringing">Suara atau nada, volume, bahasa ucapan, pengingat uji</string>
+    <string name="set_sum_timing">Lama tunda, cek lanjutan, jam tenang</string>
+    <string name="set_sum_form">Opsi yang tampil saat Anda menambah pengingat</string>
+    <string name="set_sum_wear">Pengingat di jam Anda</string>
+    <string name="set_sum_backup">Simpan atau pulihkan pengingat dan rekaman</string>
+    <string name="set_sum_about">Panduan aplikasi, dukungan, aplikasi lain</string>
+    <string name="check_all_good">Izin yang diperlukan sudah aktif.</string>
+    <string name="check_issues">Aktifkan izin yang belum ada di bawah ini agar pengingat dapat ditampilkan dan dijadwalkan.</string>
+    <string name="check_notif_ok">Notifikasi aktif</string>
+    <string name="check_notif_bad">Notifikasi nonaktif</string>
+    <string name="check_exact_ok">Pengingat dapat berbunyi tepat pada menitnya</string>
+    <string name="check_exact_bad">Pengingat mungkin tidak berbunyi tepat pada menitnya</string>
+    <string name="check_battery_ok">Ponsel Anda mengizinkan pengingat berjalan di latar belakang</string>
+    <string name="check_battery_bad">Penghemat baterai mungkin menahan pengingat</string>
+    <string name="check_volume_bad">Volume alarm rendah (%1$d%%), jadi pengingat mungkin sulit terdengar</string>
+    <string name="check_raise">Naikkan</string>
+    <string name="check_fullscreen_bad">Peringatan layar kunci memerlukan izin</string>
+    <string name="check_dnd_bad">Izinkan akses Jangan Ganggu agar tetap diingatkan saat mode itu aktif</string>
+    <string name="check_mic_ok">Mikrofon diizinkan untuk pengingat suara</string>
+    <string name="check_mic_bad">Mikrofon nonaktif, jadi pengingat suara tidak dapat direkam</string>
+    <string name="check_volume_how">Ketuk Naikkan, atau buka setelan suara ponsel Anda dan naikkan volume Alarm.</string>
+    <string name="set_required_permissions">Izin yang diperlukan</string>
+    <string name="set_recommendations">Rekomendasi &amp; fitur opsional</string>
+    <string name="set_playback_mode">Suara pengingat</string>
+    <string name="set_voice_audio_mode">Suara, file audio &amp; teks ucapan</string>
+</resources>

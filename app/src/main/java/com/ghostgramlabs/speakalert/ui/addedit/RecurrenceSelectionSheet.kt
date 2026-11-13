@@ -765,7 +765,9 @@ fun CustomConfigSheet(
 
                 if (isValid) {
                     Text(
-                        text = stringResource(R.string.rs_repeats_every, intervalValue, unitLabel(unit, intervalValue).lowercase()),
+                        text = stringResource(R.string.rs_repeats_every, intervalValue, unitLabel(unit, intervalValue).let {
+                            if (java.util.Locale.getDefault().language == "de") it else it.lowercase(java.util.Locale.getDefault())
+                        }),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(top = 6.dp)
@@ -854,8 +856,7 @@ private fun EndRuleControls(
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
     val context = LocalContext.current
-    val dateTimeFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { java.text.SimpleDateFormat("MMM d, yyyy 'at' ${com.ghostgramlabs.speakalert.util.TimeFormat.timePattern}", java.util.Locale.getDefault()) }
-    val dateFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { java.text.SimpleDateFormat("MMM d, yyyy", java.util.Locale.getDefault()) }
+    val dateFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { java.text.SimpleDateFormat(com.ghostgramlabs.speakalert.util.DateUtils.datePattern(com.ghostgramlabs.speakalert.util.DateUtils.DateParts.MONTH_DAY_YEAR), java.util.Locale.getDefault()) }
     val timeFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { java.text.SimpleDateFormat(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern, java.util.Locale.getDefault()) }
     val clampedEndDate = maxOf(endDate, minEndDateTimeMillis)
 
@@ -914,12 +915,12 @@ private fun EndRuleControls(
             "DATE" -> {
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     Text(
-                        stringResource(R.string.det_ends_by, dateTimeFormatter.format(java.util.Date(clampedEndDate))),
+                        stringResource(R.string.det_ends_by, com.ghostgramlabs.speakalert.ui.util.localizedDateTimeAt(clampedEndDate)),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
-                        stringResource(R.string.rs_must_be_after, dateTimeFormatter.format(java.util.Date(minEndDateTimeMillis))),
+                        stringResource(R.string.rs_must_be_after, com.ghostgramlabs.speakalert.ui.util.localizedDateTimeAt(minEndDateTimeMillis)),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

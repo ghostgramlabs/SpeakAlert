@@ -33,10 +33,33 @@ object DateUtils {
         return TimeUnit.MILLISECONDS.toDays(diffMs).toInt()
     }
 
-    fun formatDateTime(timestamp: Long): String {
-        val sdf = SimpleDateFormat("EEE, MMM d, ${com.ghostgramlabs.speakalert.util.TimeFormat.timePattern}", Locale.getDefault())
-        return sdf.format(Date(timestamp))
+    /**
+     * Which parts of a date to show. The order and punctuation come from the app language
+     * ("Fri, Nov 13, 2026" in English, "Fr., 13. Nov. 2026" in German); [fallback] is the English
+     * layout, used when the platform cannot supply one (plain JVM unit tests).
+     */
+    enum class DateParts(internal val skeleton: String, internal val fallback: String) {
+        WEEKDAY_MONTH_DAY("EEEMMMd", "EEE, MMM d"),
+        WEEKDAY_MONTH_DAY_YEAR("yyyyMMMEEEd", "EEE, MMM d, yyyy"),
+        MONTH_DAY("MMMd", "MMM d"),
+        MONTH_DAY_YEAR("yyyyMMMd", "MMM d, yyyy")
     }
+
+    /** Asks the platform for a language's layout of a skeleton. Replaceable in unit tests. */
+    internal var bestPattern: (Locale, String) -> String? = { locale, skeleton ->
+        runCatching { android.text.format.DateFormat.getBestDateTimePattern(locale, skeleton) }.getOrNull()
+    }
+
+    /** The [SimpleDateFormat] pattern showing [parts] the way [locale] writes dates. */
+    fun datePattern(parts: DateParts, locale: Locale = Locale.getDefault()): String =
+        bestPattern(locale, parts.skeleton)?.takeIf { it.isNotBlank() } ?: parts.fallback
+
+    /** Formats only the date of [timestamp], in the app language's own order. */
+    fun formatDate(timestamp: Long, parts: DateParts): String =
+        SimpleDateFormat(datePattern(parts), Locale.getDefault()).format(Date(timestamp))
+
+    fun formatDateTime(timestamp: Long): String =
+        "${formatDate(timestamp, DateParts.WEEKDAY_MONTH_DAY)}, ${formatTimeOnly(timestamp)}"
 
     fun formatRelativeTime(timestamp: Long): String {
         // e.g. "Today, 10:00 AM" or "Tomorrow, 10:00 AM"
@@ -78,12 +101,10 @@ object DateUtils {
                     "${dayFormat.format(Date(timestamp))} • $timeStr"
                 } else if (nowYear != targetYear) {
                     // Different year — include year
-                    val dateFormat = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
-                    "${dateFormat.format(Date(timestamp))} • $timeStr"
+                    "${formatDate(timestamp, DateParts.MONTH_DAY_YEAR)} • $timeStr"
                 } else {
                     // Same year — month and day
-                    val dateFormat = SimpleDateFormat("MMM d", Locale.getDefault())
-                    "${dateFormat.format(Date(timestamp))} • $timeStr"
+                    "${formatDate(timestamp, DateParts.MONTH_DAY)} • $timeStr"
                 }
             }
         }
@@ -117,9 +138,9 @@ object DateUtils {
             -1 -> relativeDay(R.string.date_yesterday)
             else -> {
                 if (nowYear != targetYear) {
-                    SimpleDateFormat("MMM d, yyyy", Locale.getDefault()).format(Date(timestamp))
+                    formatDate(timestamp, DateParts.MONTH_DAY_YEAR)
                 } else {
-                    SimpleDateFormat("MMM d", Locale.getDefault()).format(Date(timestamp))
+                    formatDate(timestamp, DateParts.MONTH_DAY)
                 }
             }
         }

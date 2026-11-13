@@ -1,0 +1,910 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_tagline">Rappels vocaux hors ligne</string>
+    <string name="widget_quick_caption">Ouvrir « Ajouter un rappel » instantanément</string>
+    <string name="widget_quick_description">Ouvrez le formulaire de rappel directement depuis l’écran d’accueil</string>
+    <string name="widget_upcoming_description">Affiche vos prochains rappels programmés</string>
+
+    <!-- Settings -->
+    <string name="settings_language">Langue de l’application</string>
+    <string name="settings_language_system">Suivre la langue de l’appareil</string>
+    <string name="settings_language_description">« Suivre la langue de l’appareil » utilise la langue de votre téléphone si l’application la prend en charge ; sinon l’anglais.\nLa voix qui lit les rappels se règle séparément dans Quand un rappel sonne &gt; Langue parlée.</string>
+
+    <!-- Notification actions -->
+    <string name="notif_action_done">Terminé</string>
+    <string name="notif_action_silence">Silence</string>
+    <string name="notif_action_snooze">Reporter</string>
+    <string name="notif_action_play">Lire</string>
+    <string name="notif_action_speak">Énoncer</string>
+    <string name="notif_default_title">Rappel vocal</string>
+    <string name="notif_default_text">Touchez pour écouter votre rappel</string>
+    <string name="notif_action_replay">Réécouter</string>
+    <string name="notif_action_stop">Arrêter</string>
+    <string name="notif_playback_processing">Traitement…</string>
+    <string name="notif_playback_speaking">Lecture : « %1$s »</string>
+    <string name="notif_reminder_missing">Ce rappel est introuvable.</string>
+    <string name="notif_missed_title">Manqué : %1$s</string>
+    <string name="notif_missed_scheduled_tap">Prévu pour %1$s - touchez pour ouvrir</string>
+    <string name="notif_missed_scheduled_audio_unavailable">Prévu pour %1$s. Le fichier audio sélectionné est indisponible.</string>
+    <string name="notif_missed_scheduled">Prévu : %1$s</string>
+    <string name="fallback_reminder_title">Rappel</string>
+    <string name="toast_audio_unavailable">Le fichier audio sélectionné est indisponible.</string>
+    <string name="tts_voice_hint">Aucune voix installée pour %1$s. Ajoutez-la dans les paramètres de synthèse vocale de votre téléphone pour entendre les rappels parlés.</string>
+    <string name="tts_voice_hint_this_language">cette langue</string>
+
+    <!-- Alert payload (notification / spoken follow-up text) -->
+    <string name="alert_followup_fallback_title">Relance</string>
+    <string name="alert_followup_question">Avez-vous terminé %1$s ?</string>
+    <string name="alert_followup_this_reminder">ce rappel</string>
+    <string name="alert_audio_unavailable_full">Le fichier audio sélectionné est indisponible. Touchez pour en choisir un autre.</string>
+    <string name="alert_tap_to_view">Touchez pour afficher</string>
+
+    <!-- Section titles -->
+    <string name="set_section_timing">Report et relance</string>
+    <string name="set_section_backup">Sauvegarde et restauration</string>
+    <string name="set_section_about">Aide et à propos</string>
+
+    <!-- Backup & restore -->
+    <string name="set_backup_export">Sauvegarder les rappels</string>
+    <string name="set_backup_export_desc">Enregistrez vos rappels à venir, enregistrements compris, dans un fichier</string>
+    <string name="set_backup_import">Importer des rappels</string>
+    <string name="set_backup_import_desc">Restaurer des rappels depuis un fichier de sauvegarde</string>
+    <string name="backup_export_none">Aucun rappel à venir à sauvegarder.</string>
+    <string name="backup_export_success">%1$d rappels sauvegardés.</string>
+    <string name="backup_export_failed">Échec de la sauvegarde.</string>
+    <string name="backup_import_success">%1$d rappels importés.</string>
+    <string name="backup_import_skipped">%1$d rappels importés (%2$d doublons et %3$d expirés ignorés).</string>
+    <string name="backup_import_failed">Échec de l’importation. Choisissez un fichier de sauvegarde SpeakAlert.</string>
+
+    <!-- Notification channels (visible in system Settings) -->
+    <string name="channel_reminders_name">Rappels %1$s</string>
+    <string name="channel_reminders_desc">Notifications des rappels %1$s</string>
+    <string name="channel_tone_only_name">Alertes sonnerie seule %1$s</string>
+    <string name="channel_tone_only_desc">Notifications sonnerie seule avec vibration uniquement ; la sonnerie est jouée par %1$s</string>
+    <string name="channel_dnd_bypass_name">Rappels %1$s (malgré Ne pas déranger)</string>
+    <string name="channel_dnd_bypass_desc">Alarmes de rappel pouvant sonner en mode Ne pas déranger lorsque l’accès Android est accordé</string>
+    <string name="channel_tone_only_bypass_name">Alertes sonnerie seule %1$s (malgré Ne pas déranger)</string>
+    <string name="channel_tone_only_bypass_desc">Rappels sonnerie seule pouvant sonner en mode Ne pas déranger lorsque l’accès Android est accordé</string>
+    <string name="pua_sub_reschedule">Reprogrammer ce rappel</string>
+    <string name="pua_sub_play_now">Écouter maintenant sans reprogrammer</string>
+    <string name="pua_sub_keep_done">Laisser comme terminé</string>
+    <string name="channel_playback_name">Lecture des rappels</string>
+    <string name="channel_playback_desc">Affiche les commandes pendant la lecture des rappels</string>
+    <string name="channel_silent_name">Alertes plein écran %1$s</string>
+    <string name="channel_silent_desc">Rappels plein écran de %1$s pendant que le rappel est déjà lu à voix haute</string>
+    <string name="channel_silent_bypass_name">Alertes plein écran %1$s (malgré Ne pas déranger)</string>
+    <string name="channel_silent_bypass_desc">Rappels plein écran pouvant s’afficher en mode Ne pas déranger lorsque l’accès Android est accordé</string>
+
+    <!-- Alarm alert screen -->
+    <string name="alert_mark_done">Marquer comme terminé</string>
+    <string name="alert_silence">Silence</string>
+    <string name="alert_silence_now">Couper le son</string>
+    <string name="alert_snoozed_at">Reporté • %1$s</string>
+    <string name="alert_play_again">Réécouter</string>
+    <string name="alert_snooze_minutes">Reporter %1$d min</string>
+    <string name="alert_followup_reminder">Rappel de relance</string>
+    <string name="alert_reminder_on_screen">Rappel à l’écran</string>
+    <string name="alert_followup_on_this">Relance pour ce rappel</string>
+    <string name="alert_did_you_complete">Avez-vous terminé ce rappel ?</string>
+    <string name="alert_reminder_active">Le rappel est actif</string>
+    <string name="alert_voice_reminder">Rappel vocal</string>
+    <string name="alert_text_reminder">Rappel texte</string>
+    <string name="alert_followup_check">Relance</string>
+    <string name="alert_generic">Alerte</string>
+    <string name="alert_playing_now">Lecture en cours</string>
+    <string name="alert_needs_response">Réponse attendue</string>
+    <string name="alert_awaiting_action">En attente d’une action</string>
+    <string name="alert_scheduled_for">Prévu pour</string>
+    <string name="alert_status">État de l’alerte</string>
+    <string name="alert_audio_playing">Lecture audio en cours. Utilisez Silence pour l’arrêter.</string>
+    <string name="alert_waiting_done_snooze">En attente de Terminé ou Reporter.</string>
+    <string name="alert_followup_label">Relance</string>
+    <string name="alert_hint_with_play">Gardez le rappel affiché, arrêtez le son ou réécoutez-le avant d’agir.</string>
+    <string name="alert_hint_no_play">Gardez le rappel affiché, ou choisissez Terminé ou Reporter quand vous êtes prêt.</string>
+    <string name="alert_dock_hint">Silence arrête le son. Terminé ou Reporter ferme l’alerte de l’écran de verrouillage.</string>
+    <plurals name="alert_followup_repeats">
+        <item quantity="one">Se répète chaque minute jusqu’à ce qu’il soit terminé.</item>
+        <item quantity="other">Se répète toutes les %1$d minutes jusqu’à ce qu’il soit terminé.</item>
+    </plurals>
+
+    <!-- Home -->
+    <string name="home_greeting_morning">Bonjour</string>
+    <string name="home_greeting_afternoon">Bon après-midi</string>
+    <string name="home_greeting_evening">Bonsoir</string>
+    <string name="home_all_caught_up">Vous êtes à jour !</string>
+    <plurals name="home_active_reminders">
+        <item quantity="one">Vous avez %1$d rappel actif</item>
+        <item quantity="other">Vous avez %1$d rappels actifs</item>
+    </plurals>
+    <string name="home_filter_upcoming">À venir</string>
+    <string name="home_filter_today">Aujourd’hui</string>
+    <string name="home_filter_missed">Manqués</string>
+    <string name="home_filter_done">Terminés</string>
+    <string name="home_cd_settings">Paramètres</string>
+    <string name="home_cd_help">Aide et instructions</string>
+    <string name="home_cd_add">Ajouter un rappel</string>
+    <string name="home_cd_missed">Rappels manqués</string>
+    <string name="home_dismiss_all">Tout ignorer</string>
+    <string name="home_empty_all_caught_up">Tout est à jour !</string>
+    <string name="home_empty_no_missed">Aucun rappel manqué</string>
+    <string name="home_empty_nothing_done">Rien de terminé pour l’instant</string>
+    <string name="home_empty_no_upcoming">Aucun rappel à venir</string>
+    <string name="home_empty_no_reminders">Aucun rappel pour l’instant</string>
+    <string name="home_empty_done_sub">Les rappels terminés apparaîtront ici.</string>
+    <string name="home_empty_upcoming_sub">Les rappels programmés pour plus tard apparaîtront ici.</string>
+    <string name="home_empty_default_sub">Créez un rappel avec votre voix ou du texte.</string>
+
+    <!-- Common actions -->
+    <string name="action_cancel">Annuler</string>
+    <string name="action_close">Fermer</string>
+    <string name="action_play_now">Lire maintenant</string>
+    <string name="action_stop">Arrêter</string>
+    <string name="action_dismiss">Ignorer</string>
+    <string name="action_apply">Appliquer</string>
+    <string name="action_undo">Annuler</string>
+    <string name="action_open">Ouvrir</string>
+    <string name="common_reminder">Rappel</string>
+    <string name="time_picker_title">Choisir l’heure</string>
+    <string name="err_date_future">La date doit être aujourd’hui ou plus tard</string>
+    <string name="err_time_future">Veuillez choisir une heure à venir</string>
+
+    <!-- Home dialogs -->
+    <string name="home_stop_recurring_title">Arrêter le rappel récurrent ?</string>
+    <string name="home_stop_recurring_msg">Ce rappel et toutes ses occurrences futures seront supprimés. Cette action est irréversible.</string>
+    <string name="home_stop_recurring_action">Arrêter la récurrence</string>
+    <string name="home_stop_recurring_sub">Supprimer ce rappel et toutes ses occurrences futures</string>
+    <string name="home_keep_reminder">Garder le rappel</string>
+    <string name="home_mark_occurrence_title">Marquer l’occurrence comme terminée ?</string>
+    <string name="home_mark_occurrence_msg">Seule l’occurrence d’aujourd’hui est concernée. Le rappel se répétera à sa prochaine heure prévue.</string>
+    <string name="home_mark_occurrence_action">Marquer cette occurrence comme terminée</string>
+    <string name="home_mark_occurrence_sub">Garder les occurrences futures programmées</string>
+    <string name="home_mark_done_title">Marquer comme terminé ?</string>
+    <string name="home_mark_done_msg">Le rappel sera déplacé dans l’onglet Terminés.</string>
+    <string name="home_move_to_done">Déplacer vers Terminés</string>
+    <string name="home_move_to_done_sub">Garder ce rappel dans votre historique</string>
+    <string name="home_created_at">Créé à %1$s</string>
+    <string name="home_snackbar_deleted">Rappel supprimé</string>
+    <string name="home_snackbar_duplicated">Rappel dupliqué</string>
+    <string name="home_badge_missed">Manqué</string>
+
+    <!-- Add / Edit reminder -->
+    <string name="ae_saved">Rappel enregistré !</string>
+    <string name="ae_cannot_past">Impossible de créer un rappel dans le passé</string>
+    <string name="ae_record_too_short">C’était trop court : maintenez pendant que vous parlez</string>
+    <string name="ae_record_failed">Impossible de démarrer l’enregistrement. Une autre application utilise peut-être le micro.</string>
+    <string name="ae_record_silent">Aucun son détecté. Vérifiez l’accès au micro pour SpeakAlert.</string>
+    <string name="ae_unsaved_title">Enregistrer le rappel ?</string>
+    <string name="ae_unsaved_msg">Des modifications du rappel ne sont pas enregistrées.</string>
+    <string name="action_save">Enregistrer</string>
+    <string name="ae_keep_editing">Continuer la modification</string>
+    <string name="action_discard">Abandonner</string>
+    <string name="action_remove">Retirer</string>
+    <string name="action_change">Modifier</string>
+    <string name="ae_title_edit">Modifier le rappel</string>
+    <string name="ae_title_new">Nouveau rappel</string>
+    <string name="action_back">Retour</string>
+    <string name="ae_header_edit">Modifier le rappel</string>
+    <string name="ae_header_create">Créer un rappel</string>
+    <string name="ae_section_content">Contenu du rappel</string>
+    <string name="ae_content_desc">Enregistrez une note vocale, ajoutez un fichier audio ou saisissez un message de rappel.</string>
+    <string name="ae_tap_to_record">Touchez pour enregistrer un rappel vocal</string>
+    <string name="ae_or_choose_audio">Ou choisissez un fichier audio</string>
+    <string name="ae_selected_audio">Fichier audio sélectionné</string>
+    <string name="ae_cd_stop_preview">Arrêter l’aperçu audio</string>
+    <string name="ae_cd_play_preview">Lire l’aperçu audio</string>
+    <string name="ae_cd_audio_progress">Progression de l’aperçu audio</string>
+    <string name="ae_choose_audio_file">Choisir un fichier audio</string>
+    <string name="ae_or_type">Ou saisissez un message de rappel</string>
+    <string name="ae_msg_label">Message du rappel</string>
+    <string name="ae_msg_placeholder">ex. : Prendre le médicament après le petit-déjeuner</string>
+    <string name="ae_label_placeholder">ex. : Médicament du matin</string>
+    <string name="ae_msg_help">Affiché dans l’application et les notifications. Lu à voix haute seulement si aucune voix ni aucun fichier audio n’est sélectionné.</string>
+    <string name="ae_char_count">%1$d/%2$d</string>
+    <string name="ae_need_content">Ajoutez une note vocale, un fichier audio ou un message de rappel.</string>
+    <string name="ae_section_label">Nom court (facultatif)</string>
+    <string name="ae_label_desc">Nom court facultatif pour repérer vos rappels plus vite.</string>
+    <string name="ae_label_hint">Affiché comme nom court dans les listes et les détails</string>
+    <string name="ae_section_schedule">Programmation</string>
+    <string name="ae_when_fire">Quand ce rappel doit-il sonner ?</string>
+    <string name="ae_datetime_at">%1$s à %2$s</string>
+    <string name="ae_date">Date</string>
+    <string name="ae_time">Heure</string>
+    <string name="ae_time_future">L’heure doit être à venir</string>
+    <string name="ae_repeat_never">Jamais</string>
+    <string name="ae_repeat">Répéter</string>
+    <string name="state_on">Activé</string>
+    <string name="state_off">Désactivé</string>
+    <string name="state_active">Actif</string>
+    <string name="ae_loop">Lecture en boucle</string>
+    <string name="ae_loop_desc">Répète la lecture jusqu’à ce que vous fermiez le rappel.</string>
+    <string name="ae_followup">Relance</string>
+    <string name="ae_followup_desc">Vous relance après un délai si le rappel n’est pas marqué comme terminé.</string>
+    <string name="ae_cd_saving">Enregistrement du rappel</string>
+    <string name="ae_save_reminder">Enregistrer le rappel</string>
+    <plurals name="ae_followup_active">
+        <item quantity="one">Activé : vous relance chaque minute jusqu’à ce qu’il soit terminé.</item>
+        <item quantity="other">Activé : vous relance toutes les %1$d minutes jusqu’à ce qu’il soit terminé.</item>
+    </plurals>
+
+    <!-- Recurrence type names (shared) -->
+    <string name="rec_every">Intervalle de %1$d %2$s</string>
+    <string name="rec_ends_never">Fin : jamais</string>
+    <string name="rec_if_off_fire">Si l’appareil est éteint : alerter au rallumage</string>
+    <string name="rec_if_off_skip">Si l’appareil est éteint : rappeler à l’heure exacte seulement</string>
+    <string name="date_today">Aujourd’hui</string>
+    <string name="date_tomorrow">Demain</string>
+    <string name="date_yesterday">Hier</string>
+    <plurals name="rec_ends_times">
+        <item quantity="one">Se termine après %1$d répétition</item>
+        <item quantity="other">Se termine après %1$d répétitions</item>
+    </plurals>
+    <string name="rec_onetime">Une seule fois</string>
+    <string name="rec_daily">Chaque jour</string>
+    <string name="rec_weekly">Chaque semaine</string>
+    <string name="rec_monthly">Chaque mois</string>
+    <string name="rec_yearly">Chaque année</string>
+    <string name="rec_custom">Personnalisé</string>
+    <string name="day_mon">Lun</string>
+    <string name="day_tue">Mar</string>
+    <string name="day_wed">Mer</string>
+    <string name="day_thu">Jeu</string>
+    <string name="day_fri">Ven</string>
+    <string name="day_sat">Sam</string>
+    <string name="day_sun">Dim</string>
+
+    <!-- Reminder details -->
+    <string name="det_title">Détails du rappel</string>
+    <string name="action_edit">Modifier</string>
+    <string name="action_delete">Supprimer</string>
+    <string name="action_confirm">Confirmer</string>
+    <string name="det_audio_file">Fichier audio</string>
+    <string name="det_voice_note">Note vocale</string>
+    <string name="det_loop_enabled">Boucle activée</string>
+    <string name="det_followup_pill">Relance %1$d min</string>
+    <string name="det_cd_stop_audio">Arrêter l’audio</string>
+    <string name="det_cd_play_audio">Lire l’audio</string>
+    <string name="det_ready_preview">Prêt pour l’aperçu</string>
+    <string name="det_ready_play">Prêt à lire</string>
+    <string name="det_voice_recording">Enregistrement vocal</string>
+    <string name="det_tap_preview">Touchez Lire pour écouter le rappel enregistré.</string>
+    <string name="det_cd_audio_progress">Progression de l’audio du rappel</string>
+    <string name="det_double_tap_edit">Touchez deux fois pour modifier</string>
+    <string name="det_ends_by">Se termine le %1$s</string>
+    <string name="det_end_rule">Fin de la répétition</string>
+    <string name="det_missed_handling">Gestion des rappels manqués</string>
+    <string name="det_missed_fire">Alerter au rallumage de l’appareil</string>
+    <string name="det_missed_skip">Rappeler seulement à la prochaine heure exacte</string>
+    <string name="det_mark_undone">Marquer comme non terminé</string>
+    <string name="det_mark_done">Marquer comme terminé</string>
+    <string name="det_scheduled_for">Prévu pour : %1$s</string>
+    <string name="det_delete_title">Supprimer le rappel ?</string>
+    <string name="det_delete_recurring">Toutes les occurrences futures seront arrêtées. Cette action est irréversible.</string>
+    <string name="det_delete_onetime">Cette action est irréversible.</string>
+    <string name="det_reschedule_title">Reprogrammer le rappel ?</string>
+    <string name="det_reschedule_to">Reprogrammer pour %1$s ?</string>
+    <plurals name="det_ends_after">
+        <item quantity="one">Se termine après %1$d occurrence</item>
+        <item quantity="other">Se termine après %1$d occurrences</item>
+    </plurals>
+
+    <!-- Recurrence selection sheet -->
+    <string name="rs_subtitle">Choisissez comment ce rappel doit se répéter.</string>
+    <string name="rs_none">Ne se répète pas</string>
+    <string name="rs_monthly_settings">Réglages mensuels</string>
+    <string name="rs_monthly_subtitle">Choisissez les jours ou la fin de la répétition.</string>
+    <string name="rs_repeat_on">Répéter le</string>
+    <string name="rs_days_of_month">Jour(s) du mois</string>
+    <string name="rs_last_day">Dernier jour</string>
+    <string name="rs_select_days_toggle">Choisir les jours (touchez pour activer ou désactiver)</string>
+    <string name="rs_selected">Sélection : %1$s</string>
+    <string name="rs_weekly_settings">Réglages hebdomadaires</string>
+    <string name="rs_weekly_subtitle">Choisissez les jours de la semaine.</string>
+    <string name="rs_select_days">Choisir les jours</string>
+    <string name="rs_custom_interval">Intervalle personnalisé</string>
+    <string name="rs_custom_subtitle">Définissez l’écart entre les répétitions du rappel.</string>
+    <string name="rs_repeat_every">Intervalle de répétition</string>
+    <string name="rs_number">Nombre</string>
+    <string name="rs_unit">Unité</string>
+    <string name="rs_repeats_every">Se répète à un intervalle de %1$d %2$s.</string>
+    <string name="rs_interval_min">L’intervalle doit être d’au moins 1</string>
+    <string name="rs_ends">Fin</string>
+    <string name="rs_forever">Toujours</string>
+    <string name="rs_until_date">Jusqu’à une date/heure</string>
+    <string name="rs_after_count">Après un nombre</string>
+    <string name="rs_must_be_after">Au plus tôt : %1$s</string>
+    <string name="rs_date_label">Date : %1$s</string>
+    <string name="rs_time_label">Heure : %1$s</string>
+    <string name="rs_num_occurrences">Nombre d’occurrences</string>
+    <string name="rs_allowed_range">Autorisé : 1-999</string>
+    <string name="rs_end_before_error">L’heure de fin ne peut pas précéder l’heure du rappel</string>
+    <string name="rs_select_end_time">Choisir l’heure de fin</string>
+    <plurals name="unit_minutes"><item quantity="one">Minute</item><item quantity="other">Minutes</item></plurals>
+    <plurals name="unit_hours"><item quantity="one">Heure</item><item quantity="other">Heures</item></plurals>
+    <plurals name="unit_days"><item quantity="one">Jour</item><item quantity="other">Jours</item></plurals>
+    <plurals name="unit_weeks"><item quantity="one">Semaine</item><item quantity="other">Semaines</item></plurals>
+    <plurals name="unit_months"><item quantity="one">Mois</item><item quantity="other">Mois</item></plurals>
+    <plurals name="unit_years"><item quantity="one">An</item><item quantity="other">Ans</item></plurals>
+
+    <!-- Settings -->
+    <string name="set_appearance">Langue et apparence</string>
+    <string name="set_reminder_form">Formulaire de rappel</string>
+    <string name="set_reminder_form_desc">Choisissez chaque section séparément. Si vous masquez toutes les sections de saisie, réactivez-en une avant de créer un rappel.</string>
+    <string name="ae_no_content_sections">Aucune section de saisie n’est activée. Activez Enregistrement vocal, Choisir un fichier audio ou Rappel saisi dans Paramètres &gt; Formulaire de rappel.</string>
+    <string name="set_show_voice_recording">Enregistrement vocal</string>
+    <string name="set_show_voice_recording_desc">Afficher la section d’enregistrement au micro.</string>
+    <string name="set_experimental_voice_enhancement">Amélioration vocale expérimentale</string>
+    <string name="set_experimental_voice_enhancement_desc">Désactivé : l’enregistrement brut d’origine. Activé : les nouvelles protections d’enregistrement, l’avertissement en cas d’enregistrement sans son et le nettoyage de la voix.</string>
+    <string name="set_experimental_voice_enhancement_note">Expérimental : le résultat et le temps de traitement varient selon l’appareil. Désactivez cette option si les enregistrements sont déformés ou si l’enregistrement prend plus de temps.</string>
+    <string name="set_show_audio_file">Choisir un fichier audio</string>
+    <string name="set_show_audio_file_desc">Afficher l’option de sélection d’un fichier audio existant.</string>
+    <string name="set_show_typed_reminder">Rappel saisi</string>
+    <string name="set_show_typed_reminder_desc">Afficher le champ du message de rappel.</string>
+    <string name="set_show_short_label">Nom court</string>
+    <string name="set_show_short_label_desc">Afficher le champ facultatif du nom court.</string>
+    <string name="set_app_theme">Thème de l’application</string>
+    <string name="theme_system">Système</string>
+    <string name="theme_light">Clair</string>
+    <string name="theme_dark">Sombre</string>
+    <string name="set_toast_theme_light">Mode clair activé</string>
+    <string name="set_toast_theme_dark">Mode sombre activé</string>
+    <string name="set_toast_theme_system">Suit le thème du système</string>
+    <string name="set_playback">Lecture</string>
+    <string name="set_autoplay">Lire automatiquement</string>
+    <string name="set_autoplay_desc">Lance les enregistrements et les fichiers audio quand un rappel sonne. Lit aussi les rappels texte si la lecture à voix haute est activée. Si la lecture automatique est désactivée, touchez Lire pour écouter.</string>
+    <string name="set_disabled_tone">Désactivé tant que le mode sonnerie seule est actif</string>
+    <string name="set_toast_autoplay_on">Lecture automatique activée</string>
+    <string name="set_toast_autoplay_off">Lecture automatique désactivée</string>
+    <string name="set_unlock_only">Seulement quand le téléphone est déverrouillé</string>
+    <string name="set_unlock_only_desc">Empêcher la lecture sur l’écran de verrouillage</string>
+    <string name="set_toast_lock_off">Lecture sur l’écran de verrouillage désactivée</string>
+    <string name="set_toast_lock_on">Lecture sur l’écran de verrouillage activée</string>
+    <string name="set_speak_text">Lire les rappels saisis automatiquement</string>
+    <string name="set_speak_text_desc">Seulement pour les rappels texte sans note vocale ni fichier audio</string>
+    <string name="set_toast_speak_on">Lecture automatique du texte activée</string>
+    <string name="set_toast_speak_off">Lecture automatique du texte désactivée</string>
+    <string name="set_spoken_language">Langue parlée</string>
+    <string name="set_spoken_language_desc">Voix utilisée pour les rappels parlés. La détection automatique suit la langue du rappel. La voix de la langue choisie doit être installée dans les paramètres de synthèse vocale de votre téléphone.</string>
+    <string name="tts_auto">Détection auto</string>
+    <string name="tts_device">Appareil</string>
+    <string name="tts_english">Anglais</string>
+    <string name="set_toast_tts_device">Langue parlée : langue de l’appareil</string>
+    <string name="set_toast_tts_english">Langue parlée : anglais</string>
+    <string name="set_toast_tts_auto">Langue parlée : détection auto</string>
+    <string name="set_private">Écoute privée</string>
+    <string name="set_private_desc">Utilise d’abord les appareils auditifs, le Bluetooth ou les écouteurs filaires connectés. Sinon, le son sort par l’écouteur du téléphone au lieu du haut-parleur.</string>
+    <string name="set_toast_private_on">Écoute privée activée</string>
+    <string name="set_toast_private_off">Écoute privée désactivée</string>
+    <string name="set_private_bt">Écoute privée activée. Le Bluetooth nécessite l’autorisation Appareils à proximité.</string>
+    <string name="set_tone_only">Mode sonnerie seule</string>
+    <string name="set_tone_only_desc">Joue une sonnerie d’alarme au lieu des enregistrements ou de la voix. Arrêt après : %1$s. Report : %2$d min.</string>
+    <string name="set_tone_only_desc_no_snooze">Joue une sonnerie d’alarme au lieu des enregistrements ou de la voix. Arrêt après : %1$s.</string>
+    <string name="set_snooze_enabled">Autoriser le report</string>
+    <string name="set_snooze_enabled_desc">Affiche Reporter sur les alertes et notifications de rappel. Désactivez-le pour que Terminé soit la seule façon de clore un rappel.</string>
+    <string name="set_toast_tone_on">Mode sonnerie seule activé</string>
+    <string name="set_toast_tone_off">Mode sonnerie seule désactivé</string>
+    <string name="set_infinite">Illimité</string>
+    <string name="set_minutes_short">%1$d min</string>
+    <string name="set_select_tone">Choisir la sonnerie</string>
+    <string name="file_picker_unavailable">Aucune application de cet appareil ne peut ouvrir des fichiers. Installez un gestionnaire de fichiers et réessayez.</string>
+    <string name="tone_picker_unavailable">Aucune application de cet appareil ne peut choisir une sonnerie.</string>
+    <string name="set_toast_default_tone">Sonnerie d’alarme par défaut utilisée</string>
+    <string name="set_toast_tone_updated">Sonnerie mise à jour</string>
+    <string name="set_fullscreen">Alerte plein écran sur l’écran de verrouillage</string>
+    <string name="set_fullscreen_desc_granted">Affiche les actions du rappel par-dessus l’écran de verrouillage quand un rappel sonne</string>
+    <string name="set_fullscreen_desc_denied">Nécessite l’accès Android aux alertes plein écran pour s’afficher sur l’écran de verrouillage</string>
+    <string name="set_allow_fullscreen">Autoriser les alertes plein écran dans les paramètres système</string>
+    <string name="set_toast_fs_on">Alerte plein écran activée</string>
+    <string name="set_toast_fs_off">Alerte plein écran désactivée</string>
+    <string name="set_fs_off_title">L’accès plein écran est toujours désactivé</string>
+    <string name="set_fs_off_msg">Android 14+ exige une autorisation système distincte pour les alertes de rappel en plein écran.</string>
+    <string name="set_open_perm">Ouvrir les paramètres d’autorisation</string>
+    <string name="set_fs_note">Vous pouvez toujours toucher Lire ou Énoncer dans la notification.</string>
+    <string name="set_tone_volume_note">En mode sonnerie seule, le volume dépend du volume d’alarme/de notification de votre appareil.</string>
+    <string name="set_loop_duration">Arrêter la lecture continue après</string>
+    <string name="set_loop_duration_desc">Arrête la sonnerie ou l’audio en boucle après ce délai. Les relances sont des alertes distinctes, plus tard.</string>
+    <string name="set_toast_loop">Durée de la boucle : %1$d min</string>
+    <string name="set_toast_loop_infinite">Durée de la boucle : illimitée</string>
+    <string name="set_custom">Personnalisé</string>
+    <string name="set_custom_snooze">Report personnalisé</string>
+    <string name="set_snooze_desc">Définissez de combien de temps le rappel est reporté</string>
+    <string name="set_toast_snooze">Report : %1$d min</string>
+    <string name="set_toast_followup_off">Relance par défaut désactivée</string>
+    <string name="set_toast_followup">Relance par défaut : %1$d min</string>
+    <string name="set_quiet">Heures calmes</string>
+    <string name="set_quiet_desc">Rendre les rappels silencieux à certaines heures</string>
+    <string name="set_toast_quiet_on">Heures calmes activées</string>
+    <string name="set_toast_quiet_off">Heures calmes désactivées</string>
+    <string name="set_start">Début</string>
+    <string name="set_end">Fin</string>
+    <string name="set_toast_quiet_start">Les heures calmes commencent à %1$s</string>
+    <string name="set_toast_quiet_end">Les heures calmes finissent à %1$s</string>
+    <string name="set_toast_test">Rappel de test dans 10 secondes</string>
+    <string name="set_test_reminder">Rappel de test</string>
+    <string name="set_cd_granted">Autorisation accordée</string>
+    <string name="set_cd_action_required">Action requise</string>
+    <string name="set_notifications">Notifications</string>
+    <string name="set_exact_alarms">Alarmes exactes</string>
+    <string name="set_microphone">Micro</string>
+    <string name="set_dnd">Alerter même en mode Ne pas déranger</string>
+    <string name="set_dnd_desc_off">Suit le mode sonore de votre téléphone. Ne pas déranger ou des routines peuvent rendre les rappels silencieux.</string>
+    <string name="set_dnd_desc_active">Actif : les rappels utilisent le son prioritaire des alarmes et passent outre Ne pas déranger.</string>
+    <string name="set_dnd_unavailable">Les paramètres d’accès Ne pas déranger d’Android ne sont pas disponibles sur cet appareil.</string>
+    <string name="set_grant_dnd">Accorder l’accès Ne pas déranger d’Android</string>
+    <string name="set_dnd_note">Cela ne contrôle pas le mode Ne pas déranger de votre téléphone. Cela permet seulement à %1$s de demander l’autorisation de faire sonner les rappels importants malgré ce mode.</string>
+    <string name="set_battery_guide">Rappels encore en retard ? Étapes pour votre téléphone</string>
+    <string name="set_battery_desc">L’optimisation de la batterie peut retarder ou arrêter les rappels sur certains téléphones.</string>
+    <string name="set_wear">Wear OS</string>
+    <string name="set_wear_checking">Vérification de la connexion Wear OS…</string>
+    <string name="set_wear_connected">Montre Wear OS connectée</string>
+    <string name="set_wear_supported">Les rappels %1$s sur montre ne sont pris en charge que sur les montres Wear OS.</string>
+    <string name="set_wear_notif_off">Les notifications de l’application sont désactivées. Activez-les pour synchroniser les rappels avec la montre.</string>
+    <string name="set_open_notif">Ouvrir les paramètres de notification</string>
+    <string name="set_open_channel">Ouvrir le canal des rappels</string>
+    <string name="set_wear_enabled">Les notifications du téléphone sont activées. Si des rappels manquent encore sur la montre, activez la synchronisation des notifications dans l’application compagnon Wear OS.</string>
+    <string name="set_refresh">Actualiser l’état</string>
+    <string name="set_app_guide">Guide de l’application</string>
+    <string name="set_toast_no_email">Aucune application d’e-mail disponible. Vous pouvez écrire à ghostgramlabs@gmail.com ou copier l’adresse affichée.</string>
+    <string name="set_contact_support">Suggestions et assistance</string>
+    <string name="set_contact_support_desc">Une idée ou besoin d’aide ? Envoyez-nous un e-mail.</string>
+    <string name="support_email_subject">%1$s — Suggestion ou assistance</string>
+    <string name="feature_request_email_subject">%1$s — Suggestion de fonctionnalité</string>
+    <string name="suggest_feature">Suggérer une fonctionnalité</string>
+    <string name="set_toast_no_rating">Impossible d’ouvrir la page de notation sur cet appareil.</string>
+    <string name="set_rate">Noter %1$s</string>
+    <string name="set_developer">Développeur</string>
+    <string name="set_debug_logging">Journal de débogage</string>
+    <string name="set_debug_desc">Enregistrer des journaux détaillés</string>
+    <string name="set_send_logs">Envoyer les journaux</string>
+    <string name="set_fix">Corriger</string>
+    <string name="set_cd_collapse">Réduire</string>
+    <string name="set_cd_expand">Développer</string>
+    <string name="set_tone_sound">Son du mode sonnerie seule</string>
+    <string name="set_tone_sound_hint">Activez le mode sonnerie seule pour choisir un son. En attendant, SpeakAlert utilise la sonnerie d’alarme par défaut.</string>
+    <string name="set_choose_tone">Choisir la sonnerie</string>
+    <string name="set_use_default">Utiliser par défaut</string>
+    <string name="set_default_alarm_tone">Sonnerie d’alarme par défaut</string>
+    <string name="set_tone_unavailable">Sonnerie sélectionnée indisponible, sonnerie d’alarme par défaut utilisée</string>
+    <string name="set_select_label_time">%1$s : choisir l’heure</string>
+    <string name="set_minutes">Minutes</string>
+    <string name="set_max_allowed">Maximum autorisé : %1$d min</string>
+    <string name="set_desc_max">%1$s (max. %2$d min)</string>
+    <string name="set_label_time">%1$s : %2$s</string>
+    <string name="set_volume">Volume</string>
+    <string name="set_cd_volume">Volume de l’application : %1$d %%</string>
+    <string name="set_loop_inline_desc">Arrête la sonnerie ou l’audio en boucle après ce délai. Les relances sont des alertes distinctes, plus tard.</string>
+    <string name="set_loop_gap">Pause entre les répétitions</string>
+    <string name="set_loop_gap_desc">Silence avant qu’un rappel en boucle soit rejoué. Le délai d’arrêt ci-dessus met toujours fin à la boucle. Les sonneries jouent sans pause.</string>
+    <string name="set_loop_gap_none">Aucune</string>
+    <string name="set_seconds_short">%1$d s</string>
+    <string name="set_seconds">Secondes</string>
+    <string name="set_max_allowed_seconds">Maximum autorisé : %1$d s</string>
+    <string name="set_desc_max_seconds">%1$s (max. %2$d s)</string>
+    <string name="set_default_snooze">Report par défaut</string>
+    <string name="set_snooze_inline_desc">De combien de temps le rappel est reporté quand vous touchez Reporter</string>
+    <string name="set_default_followup">Relance par défaut</string>
+    <string name="set_followup_off_desc">Désactivé : les nouveaux rappels sont créés sans relance. Vous pouvez toujours en définir une par rappel.</string>
+    <string name="set_followup_on_desc">Les nouveaux rappels commencent avec une relance de %1$d min qui alerte de nouveau tant qu’ils ne sont pas marqués comme terminés. Les rappels existants ne changent pas.</string>
+    <string name="set_followup_repeat">Limite de répétition des relances</string>
+    <string name="set_followup_repeat_desc">Par défaut (∞), une relance continue d’alerter jusqu’à ce que vous marquiez le rappel comme terminé. Choisissez une limite pour qu’elle s’arrête d’elle-même après ce nombre d’alertes. Les heures calmes arrêtent aussi les relances.</string>
+    <string name="set_toast_followup_repeat_until_done">La relance se répète jusqu’à ce que ce soit terminé</string>
+    <string name="set_toast_followup_repeat">Limite de répétition des relances : %1$d×</string>
+    <string name="set_reliability">Fiabilité</string>
+    <string name="set_persist">Garder la notification jusqu’à la fin</string>
+    <string name="set_persist_desc">La notification du rappel reste épinglée et ne disparaît que lorsque vous touchez Terminé ou Reporter. Fonctionne mieux avec une relance.</string>
+    <string name="set_toast_persist_on">Les rappels restent jusqu’à ce qu’ils soient terminés</string>
+    <string name="set_toast_persist_off">Les rappels peuvent être balayés</string>
+    <string name="set_all_granted">Toutes les autorisations sont accordées</string>
+    <string name="set_some_needed">Des autorisations sont nécessaires</string>
+    <string name="set_dnd_desc_needed">Activé, mais l’accès Ne pas déranger d’Android est nécessaire pour que cela fonctionne.</string>
+    <string name="set_toast_dnd_on">Alerte malgré Ne pas déranger activée</string>
+    <string name="set_toast_dnd_off">Alerte malgré Ne pas déranger désactivée</string>
+    <string name="set_battery_desc_ok">%1$s est déjà autorisé à fonctionner en arrière-plan.</string>
+    <string name="set_wear_watches">%1$d montres Wear OS connectées</string>
+    <string name="set_wear_none">Aucune montre Wear OS connectée</string>
+    <string name="set_wear_channel_muted">Le canal des rappels %1$s est coupé. Activez-le pour envoyer les rappels à la montre.</string>
+    <string name="set_rate_desc">Partagez votre expérience sur Google Play.</string>
+    <string name="set_tone_sound_active">%1$s. Si elle devient indisponible, SpeakAlert utilise la sonnerie d’alarme par défaut.</string>
+
+    <!-- More apps from the developer -->
+    <string name="set_more_apps_title">Autres applications de GhostgramLabs</string>
+    <string name="set_more_apps_desc">Applications gratuites par les créateurs de %1$s</string>
+    <string name="set_app_free_tag">Gratuit sur Google Play</string>
+    <string name="app_pettibox_name">PettiBox : gestionnaire de favoris</string>
+    <string name="app_pettibox_desc">Gratuit • Gardez en privé liens, notes, fichiers et captures d’écran pour plus tard, avec recherche hors ligne</string>
+    <string name="app_directserve_name">DirectServe : transfert de fichiers</string>
+    <string name="app_directserve_desc">Gratuit • Partagez et diffusez des fichiers vers n’importe quel appareil ou téléviseur, sans cloud ni câble</string>
+    <string name="set_toast_no_store">Impossible d’ouvrir Google Play sur cet appareil.</string>
+
+    <!-- In-app rating prompt -->
+    <string name="rate_prompt_title">%1$s est gratuit. Votre soutien compte.</string>
+    <string name="rate_prompt_message">Votre avis aide d’autres personnes à découvrir %1$s et nous encourage à continuer de l’améliorer. Prenez un instant pour partager votre expérience sur Google Play.</string>
+    <string name="rate_prompt_positive">Noter maintenant</string>
+    <string name="rate_prompt_later">Plus tard</string>
+    <string name="rate_prompt_never">Non merci</string>
+
+    <!-- Help guide -->
+    <string name="help_intro">Tout ce qu’il faut savoir pour créer, écouter, répéter et récupérer des rappels dans %1$s.</string>
+    <string name="help_s1_title">Quand un rappel sonne</string>
+    <string name="help_s1_content">Chaque alerte, sur l’écran de verrouillage comme dans la notification, affiche des boutons clairs :\n- Terminé : marque la tâche comme accomplie. Pour un rappel récurrent, seule cette fois est concernée et les répétitions futures sont conservées.\n- Silence : arrête le son de l’alarme mais garde le rappel à l’écran, pour décider plus tard.\n- Reporter : vous rappelle de nouveau après un court délai (5 ou 10 minutes sur l’alerte plein écran).\n- Lire / Énoncer : apparaît quand rien n’est en lecture, pour réentendre un rappel vocal ou texte.\nAstuce : seul Terminé clôt une tâche. Silence ne fait que couper le son.</string>
+    <string name="help_s2_title">Créer des rappels</string>
+    <string name="help_s2_content">- La voix d’abord : touchez le micro pour enregistrer rapidement un rappel parlé.\n- Fichier audio : choisissez un fichier audio existant sur votre appareil.\n- Message du rappel : affiché dans l’application et les notifications.\n- Les notes vocales et les fichiers audio sont prioritaires sur le texte lu à voix haute.\n- Les rappels saisis ne sont lus automatiquement que s’ils ne contiennent que du texte et que la lecture automatique du texte est activée.\n- Nom court : nom facultatif pour mieux s’y retrouver dans les listes.\n- Programmation : choisissez la date, l’heure, la répétition et la relance, puis enregistrez.</string>
+    <string name="help_s3_title">Lecture et aperçu</string>
+    <string name="help_s3_content">- Ajouter un rappel permet d’écouter la voix enregistrée et l’audio sélectionné avant d’enregistrer.\n- Les détails du rappel permettent de lire, d’arrêter et de parcourir les notes vocales et les fichiers audio.\n- Les rappels texte peuvent toujours être lus manuellement depuis l’application ou la notification.\n- Le mode sonnerie seule utilise la sonnerie du rappel au lieu de la lecture parlée.\n- Vous pouvez choisir le son du mode sonnerie seule dans les Paramètres, et %1$s revient à la sonnerie d’alarme par défaut si ce son devient indisponible.</string>
+    <string name="help_s4_title">Accueil et actions rapides</string>
+    <string name="help_s4_content">- Les onglets Aujourd’hui, À venir, Manqués et Terminés regroupent les rappels par état.\n- Touchez une carte pour ouvrir tous les détails du rappel.\n- Utilisez le bouton de copie pour dupliquer un rappel existant.\n- Les actions de la carte comprennent Lire le rappel, Terminé et le menu à trois points pour Modifier, Marquer comme terminé, Arrêter la récurrence ou Supprimer.</string>
+    <string name="help_s18_title">Mettre les rappels en pause et avis de l’accueil</string>
+    <string name="help_s18_content">- Touchez le bouton pause de l’écran d’accueil pour suspendre tous les rappels pendant une heure, quatre heures, le reste de la journée ou jusqu’à l’heure de votre choix.\n- Chaque pause a une heure de fin. L’accueil l’affiche, avec Reprendre pour y mettre fin plus tôt.\n- Un rappel en pause n’alerte pas, mais il apparaît quand même dans l’onglet Manqués.\n- Une pause prend aussi le pas sur Alerter même en mode Ne pas déranger, car elle signifie que vous ne voulez pas du rappel pour l’instant.\n- L’accueil vous prévient quand ce téléphone est autorisé à arrêter %1$s en arrière-plan, et affiche vos heures calmes tant qu’elles sont actives.</string>
+    <string name="help_s5_title">Rappels récurrents</string>
+    <string name="help_s5_content">- Modes de répétition : Chaque jour, Chaque semaine, Chaque mois, Chaque année ou Personnalisé.\n- La date et l’heure choisies deviennent la première occurrence.\n- Les répétitions peuvent durer toujours, se terminer à une date et une heure précises ou après un nombre d’occurrences.\n- Marquer un rappel récurrent comme terminé ne concerne que l’occurrence en cours.</string>
+    <string name="help_s6_title">Notifications et alertes plein écran</string>
+    <string name="help_s6_content">- La notification du rappel affiche trois boutons rapides : Terminé, Reporter et soit Silence (pendant la lecture), soit Lire/Énoncer (pour le réentendre).\n- Terminé clôt le rappel ; Silence ne fait qu’arrêter le son et laisse le rappel pour agir plus tard.\n- Balayer la notification marque aussi l’occurrence en cours comme terminée.\n- Si l’option est activée dans les Paramètres, une alerte plein écran peut apparaître sur l’écran de verrouillage avec les mêmes actions Terminé, Silence, Reporter et Réécouter.</string>
+    <string name="help_s7_title">Rappels manqués et restaurés</string>
+    <string name="help_s7_content">- Les rappels manqués restent dans l’onglet Manqués jusqu’à ce que vous les passiez en revue.\n- À l’ouverture de l’application, une fenêtre de récupération peut proposer d’écouter rapidement le dernier rappel manqué.\n- Les rappels passés peuvent être restaurés, reprogrammés ou réécoutés depuis leurs menus d’actions.</string>
+    <string name="help_s8_title">Paramètres de lecture</string>
+    <string name="help_s8_content">- La lecture automatique lance la note vocale ou le fichier audio quand un rappel sonne.\n- Lire les rappels saisis automatiquement ne concerne que les rappels texte.\n- Langue parlée définit la voix des rappels parlés : la détection automatique suit la langue du rappel (un rappel en hindi est donc lu en hindi), ou vous pouvez imposer la langue de l’appareil ou l’anglais. La voix de la langue choisie doit être installée dans les paramètres de synthèse vocale de votre téléphone.\n- La lecture manuelle fonctionne même si la lecture automatique du texte est désactivée.\n- L’écoute privée essaie d’abord les appareils auditifs, le Bluetooth ou les écouteurs filaires connectés. Sinon, elle utilise l’écouteur du téléphone au lieu du haut-parleur.\n- La lecture en boucle répète l’audio jusqu’à ce que vous l’arrêtiez ou que la durée limite soit atteinte.\n- La relance se répète jusqu’à ce que le rappel soit marqué comme terminé.\n- Les heures calmes peuvent rendre la lecture des rappels silencieuse aux heures choisies.</string>
+    <string name="help_s9_title">Mode sonnerie seule et fiabilité</string>
+    <string name="help_s9_content">- Le mode sonnerie seule utilise une sonnerie d’alarme nette au lieu de la voix ou de la synthèse vocale.\n- Vous pouvez choisir un son personnalisé pour ce mode ou garder la sonnerie d’alarme par défaut.\n- Alerter même en mode Ne pas déranger permet à %1$s d’essayer de faire sonner les rappels importants pendant que Ne pas déranger est actif.\n- Quand cette option est désactivée, les rappels bloqués par Ne pas déranger vont dans Manqués au lieu de sonner.\n- Ce réglage n’active ni ne désactive le mode Ne pas déranger de votre téléphone. L’accès Ne pas déranger d’Android est requis pour que cela fonctionne.\n- Quand l’option est activée, les rappels utilisent le son prioritaire des alarmes. Certaines routines du téléphone peuvent encore bloquer les alarmes si le mode système coupe leur son.\n- Si le son sélectionné vient à manquer, %1$s revient automatiquement à la sonnerie d’alarme par défaut.\n- Utilisez le mode sonnerie seule si votre téléphone retarde, bloque ou arrête la lecture parlée.\n- Paramètres &gt; Vérification des rappels propose une aide batterie pas à pas pour les téléphones aux restrictions d’arrière-plan sévères.\n- Gardez les notifications, les alarmes exactes et les réglages de batterie activés pour des rappels aussi fiables que possible.</string>
+    <string name="help_s10_title">Widgets et Wear OS</string>
+    <string name="help_s10_content">- Le widget Rappel rapide ouvre directement Ajouter un rappel.\n- Le widget À venir affiche les rappels à venir et manqués.\n- La prise en charge de Wear OS dépend de l’activation des notifications du téléphone et de la synchronisation avec la montre.</string>
+    <string name="help_s11_title">Après un redémarrage de l’appareil</string>
+    <string name="help_s11_content">- Les rappels futurs sont reprogrammés automatiquement après le redémarrage.\n- Les rappels dont l’heure est passée suivent le parcours des rappels manqués au lieu de sonner à l’improviste au démarrage.</string>
+    <string name="help_s13_title">Relances</string>
+    <string name="help_s13_content">- Une relance demande « Avez-vous terminé … ? » quelques minutes après qu’un rappel a sonné.\n- Par défaut, elle se répète jusqu’à ce que vous marquiez le rappel comme terminé. Vous pouvez définir une limite de répétition dans Paramètres &gt; Fiabilité pour qu’elle s’arrête d’elle-même.\n- Terminé et Reporter mettent fin au cycle de relance en cours ; les heures calmes arrêtent aussi les relances.\n- Les relances continuent après un redémarrage de l’appareil, jusqu’à ce que ce soit terminé ou que la limite soit atteinte.</string>
+    <string name="help_s14_title">Sauvegarde et importation</string>
+    <string name="help_s14_content">- Sauvegarder les rappels, dans les Paramètres, enregistre tous les rappels à venir, enregistrements vocaux compris, dans un seul fichier de votre choix.\n- Importer des rappels les restaure sur cet appareil ou sur un autre.\n- L’importation ignore les doublons exacts et les rappels ponctuels expirés ; les rappels récurrents reprennent à leur prochaine occurrence.\n- Les rappels importés sont programmés immédiatement.</string>
+    <string name="help_s12_title">Garder les rappels à l’écran jusqu’à la fin</string>
+    <string name="help_s12_content">- Activez Paramètres &gt; Fiabilité &gt; Garder la notification jusqu’à la fin pour épingler la notification du rappel et éviter de la balayer par erreur.\n- Tant que l’option est activée, un balayage coupe seulement le son et laisse le rappel en attente : il reste jusqu’à ce que vous touchiez Terminé ou Reporter.\n- Marquer comme terminé fonctionne toujours depuis la notification, l’alerte plein écran ou la carte du rappel, et arrête toute relance.\n- Associez-la à une relance pour que le rappel sonne aussi de nouveau à intervalles réguliers jusqu’à ce qu’il soit terminé.</string>
+
+    <!-- What's new sheet -->
+    <string name="action_continue">Continuer</string>
+    <string name="wn_title">Nouveautés de %1$s</string>
+    <string name="wn_intro">Quatre améliorations, toutes suggérées par des personnes qui utilisent l’application.</string>
+    <string name="wn_check_title">Voyez ce qui pourrait bloquer un rappel</string>
+    <string name="wn_check_desc">Vérification des rappels, en haut des Paramètres, montre tout ce qui pourrait retarder ou rendre muets les rappels, comme les notifications, la batterie ou un volume d’alarme faible, avec un bouton pour corriger chaque point.</string>
+    <string name="wn_reliable_title">Rappels ultra-fiables</string>
+    <string name="wn_reliable_desc">Si votre téléphone retarde les rappels pour économiser la batterie, activez Rappels ultra-fiables dans Paramètres &gt; Vérification des rappels. Les rappels sont alors réglés comme des alarmes et sonnent à l’heure.</string>
+    <string name="wn_settings_title">Des paramètres plus faciles à trouver</string>
+    <string name="wn_settings_desc">Chaque section indique ce qu’elle contient, et la langue de l’application est en haut, sous Langue et apparence.</string>
+    <string name="wn_cards_title">Modifier, Terminé et Supprimer sur chaque carte</string>
+    <string name="wn_cards_desc">Chaque carte de rappel a des boutons Modifier, Terminé et Supprimer. La suppression demande confirmation et peut être annulée.</string>
+    <string name="wn_sound_title">Le son s’arrête quand il le faut</string>
+    <string name="wn_sound_desc">Marquer un rappel comme terminé, le supprimer ou changer son heure arrête son son aussitôt. Les alarmes à sonnerie ont de nouveau un bouton Silence.</string>
+    <string name="wn_nthday_title">Répéter le dernier jeudi</string>
+    <string name="wn_nthday_desc">Les rappels mensuels peuvent tomber un jour de la semaine selon sa position dans le mois, comme le premier lundi ou le dernier jeudi. Choisissez Répéter &gt; Chaque mois &gt; Jour de la semaine.</string>
+    <string name="wn_gap_title">Une pause entre les répétitions</string>
+    <string name="wn_gap_desc">Un rappel en boucle peut attendre avant d’être rejoué : « Réunion », 10 secondes de silence, « Réunion » de nouveau, jusqu’à son heure d’arrêt. Réglez-le dans Paramètres &gt; Quand un rappel sonne &gt; Pause entre les répétitions.</string>
+    <string name="wn_colors_title">Vos couleurs pour Terminé et Supprimer</string>
+    <string name="wn_colors_desc">Donnez vos propres couleurs aux boutons Terminé et Supprimer des cartes de rappel dans Paramètres &gt; Langue et apparence &gt; Boutons des cartes de rappel.</string>
+    <string name="wn_notif_title">Les notifications s’effacent à l’ouverture de l’application</string>
+    <string name="wn_notif_desc">Après qu’un rappel a sonné, ouvrir l’application ou enregistrer une modification du rappel efface sa notification. Avec « Garder la notification jusqu’à la fin » activé, l’ouverture de l’application la laisse en place.</string>
+    <string name="wn_edit_title">Changez la date et l’heure sur place</string>
+    <string name="wn_edit_desc">Ouvrez un rappel et touchez Date ou Heure pour les changer directement. Inutile d’ouvrir l’éditeur d’abord.</string>
+    <string name="wn_clear_title">Les notifications se rangent toutes seules</string>
+    <string name="wn_clear_desc">Dès que vous ouvrez, écoutez, terminez ou supprimez un rappel dans l’application, sa notification disparaît du volet de notifications. Avec Garder la notification jusqu’à la fin activé, elle reste jusqu’à ce que vous marquiez le rappel comme terminé.</string>
+    <string name="wn_save_title">Les rappels vocaux s’enregistrent instantanément</string>
+    <string name="wn_save_desc">Avec l’amélioration vocale expérimentale activée, l’enregistrement n’attend plus le nettoyage. Il se termine en arrière-plan, et le rappel affiche Voix · amélioration… entre-temps.</string>
+    <string name="wn_fullscreen_title">L’alerte de l’écran de verrouillage fonctionne enfin</string>
+    <string name="wn_fullscreen_desc">L’alerte plein écran n’apparaissait jamais quand un rappel sonnait, quel que soit le réglage. Elle réveille désormais l’écran et affiche le rappel, sur un écran d’alerte refait avec un texte plus grand et des actions plus claires.</string>
+    <string name="wn_pause_title">Mettre les rappels en pause</string>
+    <string name="wn_pause_desc">Vous entrez en réunion ? Mettez en pause depuis l’écran d’accueil pour une heure, le reste de la journée ou jusqu’à l’heure de votre choix. Chaque pause a une fin, et les rappels en pause apparaissent quand même dans l’onglet Manqués.</string>
+    <string name="wn_notices_title">L’accueil dit pourquoi un rappel est resté muet</string>
+    <string name="wn_notices_desc">Si ce téléphone est autorisé à arrêter %1$s en arrière-plan, ou si vos heures calmes sont actives, l’accueil le dit désormais, au lieu de laisser les rappels ne pas arriver en silence.</string>
+    <string name="wn_lang_title">Maintenant dans votre langue</string>
+    <string name="wn_lang_desc">Toute l’application est disponible en anglais, espagnol, hindi, arabe, portugais (Brésil), russe, vietnamien, bengali, télougou, tamoul, grec et malayalam, avec prise en charge de l’écriture de droite à gauche. Choisissez-la dans Paramètres &gt; Langue et apparence &gt; Langue.</string>
+    <string name="wn_missed_title">Reprogrammer les rappels manqués</string>
+    <string name="wn_missed_desc">Dans l’onglet Manqués, touchez le crayon d’un rappel pour lui donner une nouvelle date ou heure. Il retourne dans vos rappels à venir.</string>
+    <string name="wn_quiet_title">Le son s’arrête quand vous avez fini</string>
+    <string name="wn_quiet_desc">Balayer la notification d’un rappel arrête désormais son son, et un rappel ne se met plus à jouer pendant que vous le modifiez ou changez son heure.</string>
+    <string name="wn_buttons_title">Des boutons d’alarme plus clairs</string>
+    <string name="wn_buttons_desc">Les alertes et notifications de rappel affichent désormais Terminé, Silence et Reporter. Terminé clôt la tâche ; Silence ne fait qu’arrêter le son et garde le rappel.</string>
+    <string name="wn_spoken_title">Des rappels avec la bonne voix</string>
+    <string name="wn_spoken_desc">Les rappels parlés sont lus automatiquement dans leur propre langue : un rappel en hindi est lu en hindi même si l’application est en anglais. Réglez-le dans Paramètres &gt; Quand un rappel sonne &gt; Langue parlée.</string>
+    <string name="wn_persist_title">Garder les rappels jusqu’à la fin</string>
+    <string name="wn_persist_desc">Activez Paramètres &gt; Fiabilité &gt; Garder la notification jusqu’à la fin pour qu’un rappel reste épinglé et ne disparaisse que lorsque vous choisissez Terminé ou Reporter.</string>
+    <string name="wn_backup_title">Sauvegardez et transférez vos rappels</string>
+    <string name="wn_backup_desc">Enregistrez tous vos rappels à venir, enregistrements compris, dans un fichier et restaurez-les à tout moment, même sur un nouveau téléphone. À retrouver dans les Paramètres.</string>
+    <string name="wn_followup_title">Des relances à votre façon</string>
+    <string name="wn_followup_desc">Les relances continuent d’alerter jusqu’à ce que vous marquiez le rappel comme terminé, comme avant. Nouveau : définissez une limite de répétition dans Paramètres &gt; Fiabilité pour qu’elles s’arrêtent d’elles-mêmes.</string>
+
+    <!-- Startup dialogs -->
+    <string name="action_allow">Autoriser</string>
+    <string name="action_later">Plus tard</string>
+    <string name="action_open_settings">Ouvrir les paramètres</string>
+    <string name="batt_prompt_title">Autoriser %1$s à fonctionner en arrière-plan</string>
+    <string name="batt_prompt_message">Certains téléphones, en particulier les modèles Xiaomi et POCO, arrêtent les applications en arrière-plan pour économiser la batterie. Cela peut empêcher les rappels de sonner. Autorisez %1$s à ignorer l’optimisation de la batterie pour des rappels plus fiables.</string>
+    <string name="batt_toast_unavailable">Les paramètres de batterie ne sont pas disponibles sur cet appareil.</string>
+    <string name="home_batt_banner_title">Les rappels risquent de ne pas arriver</string>
+    <string name="home_batt_banner_body">Ce téléphone est autorisé à arrêter %1$s en arrière-plan. Touchez pour autoriser une utilisation illimitée de la batterie.</string>
+    <string name="home_quiet_banner">Heures calmes %1$s – %2$s. Les rappels vont dans Manqués.</string>
+    <string name="home_pause_banner">Rappels en pause jusqu’à %1$s</string>
+    <string name="home_pause_resume">Reprendre</string>
+    <string name="home_pause_title">Mettre les rappels en pause</string>
+    <string name="home_pause_body">Les rappels ne sonneront pas avant la fin de la pause. Ils vont quand même dans l’onglet Manqués.</string>
+    <string name="home_pause_1h">Pendant 1 heure</string>
+    <string name="home_pause_4h">Pendant 4 heures</string>
+    <string name="home_pause_today">Pour le reste de la journée</string>
+    <string name="home_pause_pick">Choisir une heure de fin…</string>
+    <string name="home_pause_cd">Mettre les rappels en pause</string>
+    <string name="home_pause_also_quiet">Les heures calmes sont aussi actives, %1$s – %2$s.</string>
+    <string name="fsr_title">Autoriser de nouveau les alertes plein écran</string>
+    <string name="fsr_message">Les alertes de rappel sur l’écran de verrouillage sont toujours activées dans %1$s, mais l’accès plein écran d’Android est désactivé. Cela peut arriver après une réinstallation ou une restauration.</string>
+    <!-- Version 2.0.34 help and startup highlights -->
+    <string name="help_s15_title">Personnaliser le formulaire de rappel</string>
+    <string name="help_s15_content">- Ouvrez Paramètres &gt; Formulaire de rappel pour afficher ou masquer Enregistrement vocal, Choisir un fichier audio, Rappel saisi et Nom court.\n- Chaque interrupteur fonctionne séparément. Si les trois modes de saisie sont masqués, Ajouter un rappel vous indique quel réglage réactiver.\n- En modification, une section masquée apparaît automatiquement si le rappel en contient déjà le contenu.</string>
+    <string name="help_s16_title">Choisissez votre mode d’enregistrement vocal</string>
+    <string name="help_s16_content">- Ouvrez Paramètres &gt; Formulaire de rappel &gt; Amélioration vocale expérimentale.\n- Désactivé (par défaut) conserve l’enregistrement MIC/AAC brut d’origine, sans post-traitement.\n- Activé ajoute les nouvelles protections d’enregistrement, l’avertissement en cas d’enregistrement sans son, le nettoyage du bruit de fond et la normalisation du niveau de la voix. Le résultat et le temps de traitement varient selon l’appareil.\n- Les prises silencieuses peuvent toujours être écoutées et enregistrées.</string>
+    <string name="help_s17_title">Une lecture des rappels plus fiable</string>
+    <string name="help_s17_content">- La lecture des rappels lance désormais immédiatement sa notification de premier plan Android obligatoire, y compris sur les versions récentes d’Android et les téléphones au démarrage en arrière-plan plus lent.\n- Cela évite le délai d’expiration du système qui pouvait arrêter un rappel avant le début du son ou de la voix.\n- Gardez l’autorisation de notification, les alarmes exactes et les réglages de batterie recommandés activés pour une fiabilité maximale.</string>
+    <string name="wn_form_title">Votre formulaire de rappel, à votre façon</string>
+    <string name="wn_form_desc">Dans Paramètres &gt; Formulaire de rappel, affichez ou masquez séparément Enregistrement vocal, Choisir un fichier audio, Rappel saisi et Nom court.</string>
+    <string name="wn_recording_title">Amélioration vocale expérimentale facultative</string>
+    <string name="wn_recording_desc">Un nouveau réglage vous laisse le choix : garder l’enregistrement brut d’origine (par défaut) ou activer les nouvelles protections d’enregistrement, les avertissements en cas d’enregistrement sans son et le nettoyage du bruit de fond, qui remonte les enregistrements faibles à un niveau confortable sans amplifier le bruit de fond. Les prises silencieuses sont toujours conservées.</string>
+    <string name="wn_reliability_title">Plus fiable sur les téléphones Android récents</string>
+    <string name="wn_reliability_desc">La lecture des rappels démarre désormais immédiatement et en toute sécurité au premier plan, ce qui évite les délais d’expiration au démarrage constatés sur certains appareils Android 12 et Android 16.</string>
+    <string name="settings_24_hour_time">Utiliser le format 24 heures</string>
+    <string name="settings_24_hour_time_desc">Afficher chaque heure sous la forme 17:30 au lieu de 5:30 PM.</string>
+    <string name="set_week_start">La semaine commence le</string>
+    <string name="set_week_start_desc">Le premier jour de la semaine dans le sélecteur de date. Avec un jour choisi, c’est le sélecteur de date du téléphone qui est utilisé.</string>
+
+    <!-- Reminder card and actions sheet -->
+    <string name="card_recur_onetime">Rappel ponctuel</string>
+    <string name="card_recur_daily">Se répète chaque jour</string>
+    <string name="card_recur_last_day">Dernier jour de chaque mois</string>
+    <string name="rs_day_of_week">Jour de la semaine</string>
+    <string name="rs_which_one">Position dans le mois</string>
+    <string name="rs_weekday">Jour de la semaine</string>
+    <string name="rec_nth_weekday">%1$s %2$s</string>
+    <string name="card_recur_nth_weekday">%1$s de chaque mois</string>
+    <string-array name="rs_ordinal_labels">
+        <item>Premier</item>
+        <item>Deuxième</item>
+        <item>Troisième</item>
+        <item>Quatrième</item>
+        <item>Dernier</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>Premier</item>
+        <item>Deuxième</item>
+        <item>Troisième</item>
+        <item>Quatrième</item>
+        <item>Dernier</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>Première</item>
+        <item>Deuxième</item>
+        <item>Troisième</item>
+        <item>Quatrième</item>
+        <item>Dernière</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>Premier</item>
+        <item>Deuxième</item>
+        <item>Troisième</item>
+        <item>Quatrième</item>
+        <item>Dernier</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+    </string-array>
+    <string name="card_recur_yearly">Se répète chaque année</string>
+    <string name="card_chip_recurring">Récurrent</string>
+    <string name="card_days_of_month">Jours du mois</string>
+    <string name="card_cd_duplicate">Dupliquer le rappel</string>
+    <string name="card_cd_more">Plus d’options</string>
+    <string name="card_cd_looping">En boucle</string>
+    <string name="card_cd_followup">Relance dans %1$d minutes</string>
+    <string name="card_cd_ends_after">Se termine après %1$d %2$s</string>
+    <string name="sheet_reminder_actions">Actions du rappel</string>
+    <string name="sheet_stop_playback">Arrêter la lecture</string>
+
+    <!-- Custom follow-up dialog -->
+    <string name="fu_custom_title">Relance personnalisée</string>
+    <string name="fu_custom_desc">Vous relance après le nombre de minutes indiqué si le rappel n’est pas marqué comme terminé.</string>
+    <string name="fu_allowed_range">Autorisé : 1-%1$d min</string>
+
+    <!-- Voice recorder -->
+    <string name="vr_playing_audio">Lecture audio</string>
+    <string name="vr_voice_recorded">Voix enregistrée</string>
+    <string name="vr_text_optional">Le texte est facultatif</string>
+    <string name="vr_tap_to_stop">Touchez pour arrêter</string>
+    <string name="vr_cd_level">Niveau sonore en temps réel</string>
+    <string name="vr_cd_stop">Arrêter l’enregistrement</string>
+    <string name="vr_cd_double_tap_stop">Touchez deux fois pour arrêter l’enregistrement</string>
+    <string name="vr_cd_preview_progress">Progression de l’aperçu vocal</string>
+    <string name="vr_cd_start">Démarrer l’enregistrement vocal</string>
+    <string name="vr_cd_restart">Recommencer l’enregistrement</string>
+
+    <!-- Date and time picker -->
+    <string name="dtp_title">Choisir la date et l’heure</string>
+    <string name="dtp_subtitle">Utilisez les options rapides ou choisissez la date et l’heure exactes.</string>
+    <string name="dtp_quick_date">Date rapide</string>
+    <string name="dtp_quick_time">Heure rapide</string>
+    <string name="dtp_pick_date">Choisir la date exacte</string>
+    <string name="dtp_pick_time">Choisir l’heure exacte</string>
+    <string name="dtp_next_week">Semaine prochaine</string>
+    <string name="dtp_plus_10">+10 min</string>
+    <string name="dtp_plus_30">+30 min</string>
+    <string name="dtp_plus_60">+1 heure</string>
+    <string name="dtp_err_future">L’heure doit être à venir</string>
+    <string name="dtp_err_date_future">La date doit être aujourd’hui ou plus tard</string>
+
+    <!-- Recurring completion dialog -->
+    <string name="rcd_title">Ceci est un rappel récurrent</string>
+    <string name="rcd_desc">Choisissez de clore seulement cette occurrence, de modifier la répétition ou de l’arrêter complètement.</string>
+    <string name="rcd_mark_occurrence">Marquer cette occurrence comme terminée</string>
+    <string name="rcd_edit_schedule">Modifier la programmation</string>
+    <string name="rcd_stop_recurring">Arrêter la récurrence</string>
+
+    <!-- Restore reminder dialog -->
+    <string name="rrd_title">Restaurer le rappel</string>
+    <string name="rrd_desc">Ce rappel a déjà été terminé. Choisissez comment le restaurer.</string>
+    <string name="rrd_reschedule">Reprogrammer le rappel</string>
+    <string name="rrd_move_missed">Déplacer vers Manqués</string>
+    <string name="rrd_play">Lire le rappel</string>
+    <string name="rrd_keep_done">Laisser comme terminé</string>
+
+    <!-- Missed reminder sheets -->
+    <string name="pua_title">Rappel manqué</string>
+    <string name="pua_scheduled_for">Prévu pour %1$s</string>
+    <string name="pua_set_new_time">Définir une nouvelle heure</string>
+    <string name="pua_just_play">Seulement écouter le rappel</string>
+    <string name="mrr_desc">Écoutez le dernier rappel manqué maintenant, ou gardez tout dans l’onglet Manqués pour y revenir plus tard.</string>
+    <plurals name="mrr_title">
+        <item quantity="one">Vous avez manqué %1$d rappel</item>
+        <item quantity="other">Vous avez manqué %1$d rappels</item>
+    </plurals>
+    <string name="mrr_play_latest">Écouter le dernier rappel manqué</string>
+    <string name="mrr_keep">Garder dans l’onglet Manqués</string>
+
+    <!-- Battery optimization guide -->
+    <string name="bog_title">Guide d’optimisation de la batterie</string>
+    <string name="bog_header">Pour des rappels fiables</string>
+    <string name="bog_header_sub">Certains téléphones suspendent ou arrêtent les alarmes en arrière-plan si %1$s n’est pas exempté des restrictions de batterie.</string>
+    <string name="bog_intro">Certains appareils arrêtent les alarmes en arrière-plan pour économiser la batterie. Cela peut empêcher les rappels de sonner.</string>
+    <string name="bog_menu_vary">Les noms des menus peuvent varier selon MIUI, HyperOS, EMUI, la version d’Android et le modèle du téléphone.</string>
+    <string name="bog_allow_app">Autoriser %1$s</string>
+    <string name="bog_back_settings">Retour aux paramètres</string>
+    <string name="bog_brand_xiaomi">Xiaomi / POCO / Redmi (MIUI / HyperOS)</string>
+    <string name="bog_brand_huawei">Huawei (EMUI)</string>
+    <string name="bog_step">Étape %1$d</string>
+    <string name="bog_optional">Facultatif</string>
+    <string name="bog_open_settings">Ouvrez les Paramètres</string>
+    <string name="bog_find_app">Trouvez %1$s</string>
+    <string name="bog_xiaomi_battery">Touchez Batterie</string>
+    <string name="bog_xiaomi_optimization">Touchez Optimisation de la batterie</string>
+    <string name="bog_xiaomi_no_restrictions">Sélectionnez Aucune restriction</string>
+    <string name="bog_xiaomi_opt">Verrouillez l’application dans l’écran des applications récentes.</string>
+    <string name="bog_huawei_apps">Ouvrez Applications ou Lancement d’applications</string>
+    <string name="bog_huawei_manage_off">Désactivez Gérer automatiquement</string>
+    <string name="bog_huawei_allow">Autorisez le lancement automatique, le lancement secondaire et l’exécution en arrière-plan</string>
+    <string name="bog_huawei_opt">Vérifiez aussi l’optimisation de la batterie et réglez %1$s sur Ne pas autoriser.</string>
+    <string name="bog_status_enabled">L’optimisation de la batterie est toujours activée pour %1$s.</string>
+    <string name="bog_status_exempt">%1$s est déjà autorisé à fonctionner sans optimisation de la batterie.</string>
+    <string name="bog_no_battery_settings">Les paramètres de batterie ne sont pas disponibles sur cet appareil.</string>
+    <string name="bog_why_title">Pourquoi c’est important</string>
+    <string name="bog_why_body">Les téléphones Xiaomi, POCO, Redmi, Huawei, Infinix, Tecno et de marques similaires peuvent arrêter très vite les applications en arrière-plan. Servez-vous de la famille du fabricant et de la version logicielle comme repères ; les chemins exacts peuvent différer selon le modèle.</string>
+
+    <!-- Reminder card accessibility description -->
+    <string name="a11y_card_reminder">Rappel : %1$s</string>
+    <string name="a11y_card_at">à %1$s</string>
+    <string name="a11y_card_has_audio_file">avec fichier audio</string>
+    <string name="a11y_card_has_voice">avec note vocale</string>
+    <string name="a11y_card_recurring">récurrent %1$s</string>
+    <string name="a11y_card_completed">terminé</string>
+    <string name="a11y_card_playing">en cours de lecture</string>
+    <string name="a11y_card_open_hint">Touchez deux fois pour ouvrir les détails.</string>
+
+    <!-- Accessibility states -->
+    <string name="state_completed">Terminé</string>
+    <string name="state_playing">En lecture</string>
+    <string name="a11y_percent">%1$d pour cent</string>
+    <string name="a11y_destructive">Action de suppression</string>
+    <string name="a11y_recording_in_progress">Enregistrement en cours</string>
+    <string name="a11y_playing_preview">Lecture de l’aperçu audio</string>
+    <string name="a11y_voice_recorded">Note vocale enregistrée</string>
+    <string name="a11y_no_voice_recorded">Aucune note vocale enregistrée</string>
+    <plurals name="card_occurrences">
+        <item quantity="one">%1$d occurrence</item>
+        <item quantity="other">%1$d occurrences</item>
+    </plurals>
+
+    <!-- Test reminder -->
+    <string name="set_test_reminder_title">Rappel de test</string>
+    <string name="set_test_reminder_text">Ceci est un rappel de test pour vérifier la lecture. Il sonne 10 secondes après sa création.</string>
+    <string name="widget_quick_subtitle">Ajout rapide</string>
+    <string name="widget_upcoming_subtitle">Rappels à venir et manqués</string>
+    <string name="widget_upcoming_empty">Aucun rappel à venir ou manqué</string>
+    <string name="card_type_audio_file">Fichier audio</string>
+    <string name="card_type_voice_improving">Voix · amélioration…</string>
+    <string name="card_type_voice">Voix</string>
+    <string name="card_type_text">Texte</string>
+    <string name="card_voice_recording">Enregistrement vocal</string>
+    <string name="card_custom_audio_file">Fichier audio personnalisé</string>
+    <string name="card_text_note">Note texte</string>
+    <string name="sheet_mark_this_done">Marquer comme terminé</string>
+    <string name="sheet_delete_reminder">Supprimer le rappel</string>
+    <string name="vr_recording_ellipsis">Enregistrement…</string>
+    <string name="vr_play_recording">Lire l’enregistrement</string>
+    <string name="rcd_sub_keep_next">Garder la prochaine occurrence programmée</string>
+    <string name="rcd_sub_change_rules">Modifier les règles de répétition ou l’horaire</string>
+    <string name="rcd_sub_delete_future">Supprimer ce rappel et ses occurrences futures</string>
+    <string name="rrd_sub_pick_new">Choisir une nouvelle date et heure</string>
+    <string name="rrd_sub_keep_missed">Le garder dans l’onglet Manqués pour plus tard</string>
+    <string name="rrd_sub_hear_now">L’écouter maintenant sans le restaurer</string>
+    <string name="rrd_sub_leave_done">Laisser le rappel terminé</string>
+    <string name="mrr_sub_start_now">Lancer la lecture tout de suite</string>
+    <string name="set_tab_form">Saisie</string>
+    <string name="set_tab_play">Son</string>
+    <string name="set_tab_time">Délais</string>
+    <string name="set_tab_safe">Fiabilité</string>
+    <string name="set_tab_backup">Sauvegarde</string>
+    <string name="set_tab_wear">Montre</string>
+    <string name="set_tab_help">Aide</string>
+    <string name="battery_guidance_title">Les rappels peuvent être en retard ou manqués</string>
+    <string name="battery_guidance_body">Votre téléphone limite %1$s en arrière-plan pour économiser la batterie, donc les rappels peuvent sonner en retard quand l’application est fermée. Touchez Autoriser l’arrière-plan, puis choisissez Autoriser. Vous pourrez modifier ce choix plus tard dans Paramètres &gt; Vérification des rappels.</string>
+    <string name="battery_review_settings">Autoriser l’arrière-plan</string>
+    <string name="battery_keep_current">Non merci</string>
+    <string name="battery_status_restricted">Accès à la batterie en arrière-plan : restreint. Recommandé : sans restriction, pour des rappels à l’heure.</string>
+    <string name="battery_status_allowed">Accès à la batterie en arrière-plan : sans restriction.</string>
+    <string name="card_done_occurrence">Terminé cette fois</string>
+    <string name="home_delete_confirm_body">Vous pourrez annuler juste après la suppression.</string>
+    <string name="battery_banner_body">L’économiseur de batterie de votre téléphone peut freiner %1$s.</string>
+    <string name="home_empty_nothing_today">Rien de prévu aujourd’hui</string>
+    <string name="home_empty_today_sub">Votre prochain rappel est dans « %1$s ».</string>
+    <string name="set_alarm_clock">Rappels ultra-fiables</string>
+    <string name="set_alarm_clock_desc">Aide les rappels à sonner à l’heure sur les téléphones qui retardent les applications pour économiser la batterie. Tant que l’option est activée, certains téléphones affichent une icône d’horloge ou un message « alarme réglée ».</string>
+    <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
+    <string name="bog_transsion_autostart">Ouvrez Applications &gt; Démarrage automatique (ou Phone Master &gt; Démarrage automatique) et activez-le pour %1$s</string>
+    <string name="bog_transsion_battery">Ouvrez Applications &gt; %1$s &gt; Batterie et choisissez Sans restriction</string>
+    <string name="set_alarm_clock_status_next">Activé pour votre prochain rappel : %1$s</string>
+    <string name="set_alarm_clock_status_none">Cette option sera utilisée pour votre prochain rappel.</string>
+    <string name="home_extra_reliable_on">Rappels ultra-fiables activés</string>
+    <string name="set_section_check">Vérification des rappels</string>
+    <string name="set_section_ringing">Quand un rappel sonne</string>
+    <string name="set_sum_check">Autorisations, batterie et volume d’alarme</string>
+    <string name="set_sum_lang">Langue, thème, format de l’heure, couleurs des boutons</string>
+    <string name="set_card_colors">Boutons des cartes de rappel</string>
+    <string name="set_card_colors_desc">Choisissez les couleurs des boutons Terminé et Supprimer de l’accueil.</string>
+    <string name="set_card_done_color">Bouton Terminé</string>
+    <string name="set_card_delete_color">Bouton Supprimer / Arrêter la récurrence</string>
+    <string name="color_default">Par défaut</string>
+    <string name="color_red">Rouge</string>
+    <string name="color_orange">Orange</string>
+    <string name="color_green">Vert</string>
+    <string name="color_teal">Bleu sarcelle</string>
+    <string name="color_blue">Bleu</string>
+    <string name="color_purple">Violet</string>
+    <string name="color_pink">Rose</string>
+    <string name="color_gray">Gris</string>
+    <string name="set_sum_ringing">Voix ou sonnerie, volume, langue parlée, rappel de test</string>
+    <string name="set_sum_timing">Durée du report, relances, heures calmes</string>
+    <string name="set_sum_form">Les options affichées quand vous ajoutez un rappel</string>
+    <string name="set_sum_wear">Les rappels sur votre montre</string>
+    <string name="set_sum_backup">Enregistrer ou restaurer rappels et enregistrements</string>
+    <string name="set_sum_about">Guide, assistance, autres applications</string>
+    <string name="check_all_good">Les autorisations requises sont activées.</string>
+    <string name="check_issues">Activez les autorisations manquantes ci-dessous pour afficher et programmer les rappels.</string>
+    <string name="check_notif_ok">Les notifications sont activées</string>
+    <string name="check_notif_bad">Les notifications sont désactivées</string>
+    <string name="check_exact_ok">Les rappels peuvent sonner à la minute exacte</string>
+    <string name="check_exact_bad">Les rappels risquent de ne pas sonner à la minute exacte</string>
+    <string name="check_battery_ok">Votre téléphone laisse les rappels fonctionner en arrière-plan</string>
+    <string name="check_battery_bad">L’économiseur de batterie peut freiner les rappels</string>
+    <string name="check_volume_bad">Le volume d’alarme est faible (%1$d %%), les rappels peuvent être difficiles à entendre</string>
+    <string name="check_raise">Monter</string>
+    <string name="check_fullscreen_bad">Les alertes de l’écran de verrouillage nécessitent une autorisation</string>
+    <string name="check_dnd_bad">Autorisez l’accès Ne pas déranger pour alerter dans ce mode</string>
+    <string name="check_mic_ok">Micro autorisé pour les rappels vocaux</string>
+    <string name="check_mic_bad">Micro désactivé, impossible d’enregistrer des rappels vocaux</string>
+    <string name="check_volume_how">Touchez Monter, ou ouvrez les paramètres de son de votre téléphone et augmentez le volume d’alarme.</string>
+    <string name="set_required_permissions">Autorisations requises</string>
+    <string name="set_recommendations">Recommandations et fonctions facultatives</string>
+    <string name="set_playback_mode">Son du rappel</string>
+    <string name="set_voice_audio_mode">Voix, fichiers audio et texte parlé</string>
+</resources>

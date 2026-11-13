@@ -37,7 +37,7 @@ class TranslationParityTest {
 
     @Test
     fun `there are translations to check`() {
-        assertTrue(locales().size >= 11)
+        assertTrue(locales().size >= 14)
     }
 
     @Test
