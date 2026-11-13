@@ -142,6 +142,7 @@ class ReminderAlertActivity : ComponentActivity() {
         val playbackTextOverride = intent.getStringExtra(EXTRA_PLAYBACK_TEXT)
         val isFollowUpAlert = intent.getBooleanExtra(EXTRA_IS_FOLLOW_UP_ALERT, false)
         val snoozedRingTime = intent.getLongExtra(EXTRA_SNOOZED_RING_TIME, -1L).takeIf { it > 0L }
+        val snoozeEnabled = com.ghostgramlabs.speakalert.util.SnoozePreferences.snoozeEnabled(this)
         if (reminderId == -1L) {
             finish()
             return
@@ -206,7 +207,8 @@ class ReminderAlertActivity : ComponentActivity() {
                         playbackAudioPath = playbackAudioPathOverride,
                         playbackText = playbackTextOverride,
                         isFollowUpAlert = isFollowUpAlert,
-                        snoozedRingTime = snoozedRingTime
+                        snoozedRingTime = snoozedRingTime,
+                        snoozeEnabled = snoozeEnabled
                     )
                 }
             }
@@ -262,7 +264,8 @@ private fun ReminderAlertContent(
     playbackAudioPath: String?,
     playbackText: String?,
     isFollowUpAlert: Boolean,
-    snoozedRingTime: Long? = null
+    snoozedRingTime: Long? = null,
+    snoozeEnabled: Boolean = true
 ) {
     val context = LocalContext.current
     // Sound may have started before this screen existed, so ask rather than wait for a broadcast.
@@ -492,6 +495,7 @@ private fun ReminderAlertContent(
                 onPlayAgain = onPlayAgain,
                 onSnoozeFive = onSnoozeFive,
                 onSnoozeTen = onSnoozeTen,
+                snoozeEnabled = snoozeEnabled,
                 modifier = Modifier.entering(4)
             )
         }
@@ -664,6 +668,7 @@ private fun AlertActionDock(
     onPlayAgain: () -> Unit,
     onSnoozeFive: () -> Unit,
     onSnoozeTen: () -> Unit,
+    snoozeEnabled: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     // Done is the only thing that ends the alert, so it is the only filled button and the
@@ -722,7 +727,8 @@ private fun AlertActionDock(
             }
         }
 
-        Row(
+        // "Allow snooze" off: Done is the only way past the reminder.
+        if (snoozeEnabled) Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {

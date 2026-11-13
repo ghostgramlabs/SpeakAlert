@@ -244,6 +244,23 @@ class HomeViewModelTest {
     }
 
     @Test
+    fun `opening the app clears seen alerts but not one that just fired`() = runTest {
+        val now = System.currentTimeMillis()
+        remindersFlow.value = listOf(
+            ReminderEntity(id = 1, lastFiredAt = now - 120_000L, nextTriggerAt = now - 120_000L),
+            ReminderEntity(id = 2, lastFiredAt = now - 2_000L, nextTriggerAt = now - 2_000L),
+            ReminderEntity(id = 3, nextTriggerAt = now + 3_600_000L)
+        )
+        val alerts = mock<com.ghostgramlabs.speakalert.alarm.ReminderAlertNotifications>()
+        val vm = HomeViewModel(repository, missedRepository, scheduler, settingsRepository, alerts)
+
+        vm.onAppOpened()
+        advanceUntilIdle()
+
+        verify(alerts).onAppOpened(listOf(1L, 3L))
+    }
+
+    @Test
     fun `done this time on a snoozed fired occurrence keeps the next occurrence`() = runTest {
         val now = System.currentTimeMillis()
         val tomorrow = now + 86_400_000L - 600_000L

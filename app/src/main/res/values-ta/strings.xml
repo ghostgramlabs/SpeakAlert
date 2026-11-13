@@ -377,6 +377,9 @@
     <string name="set_private_bt">தனிப்பட்ட இயக்கம் ஆன். புளூடூத் வழியாக அனுப்ப அருகிலுள்ள சாதனங்கள் அனுமதி தேவை.</string>
     <string name="set_tone_only">டோன்-மட்டும் பயன்முறை</string>
     <string name="set_tone_only_desc">பதிவுகள் அல்லது பேச்சுக்குப் பதிலாக அலாரம் ஒலிக்கும். நிறுத்தம்: %1$sக்குப் பிறகு. ஒத்திவைப்பு: %2$d நிமிடம்.</string>
+    <string name="set_tone_only_desc_no_snooze">பதிவுகள் அல்லது பேச்சுக்குப் பதிலாக அலாரம் ஒலிக்கும். நிறுத்தம்: %1$sக்குப் பிறகு.</string>
+    <string name="set_snooze_enabled">ஒத்திவைக்க அனுமதி</string>
+    <string name="set_snooze_enabled_desc">நினைவூட்டல் எச்சரிக்கைகளிலும் அறிவிப்புகளிலும் ஒத்திவை பொத்தானைக் காட்டும். அணைத்தால் நினைவூட்டலைக் கடக்க ஒரே வழி முடிந்தது.</string>
     <string name="set_toast_tone_on">டோன்-மட்டும் பயன்முறை ஆன்</string>
     <string name="set_toast_tone_off">டோன்-மட்டும் பயன்முறை ஆஃப்</string>
     <string name="set_infinite">வரம்பற்றது</string>
@@ -469,6 +472,13 @@
     <string name="set_volume">ஒலியளவு</string>
     <string name="set_cd_volume">ஆப் ஒலியளவு: %1$d%%</string>
     <string name="set_loop_inline_desc">இந்த நேரத்திற்குப் பிறகு டோன் அல்லது மீண்டும் மீண்டும் இயங்கும் ஆடியோ நிற்கும். தொடர்நினைவூட்டல்கள் பின்னர் வரும் தனி எச்சரிக்கைகள்.</string>
+    <string name="set_loop_gap">மீண்டும் ஒலிப்பதற்கு இடையே இடைவெளி</string>
+    <string name="set_loop_gap_desc">மீண்டும் மீண்டும் இயங்கும் நினைவூட்டல் மறுபடி ஒலிக்கும் முன் அமைதி. மேலே உள்ள நிறுத்தும் நேரம் இன்னும் சுழற்சியை முடிக்கும். டோன்கள் இடைவெளியின்றி ஒலிக்கும்.</string>
+    <string name="set_loop_gap_none">இல்லை</string>
+    <string name="set_seconds_short">%1$d வி</string>
+    <string name="set_seconds">விநாடிகள்</string>
+    <string name="set_max_allowed_seconds">அதிகபட்ச அனுமதி: %1$d விநா</string>
+    <string name="set_desc_max_seconds">%1$s (அதிகபட்சம் %2$d வி)</string>
     <string name="set_default_snooze">இயல்புநிலை ஒத்திவைப்பு</string>
     <string name="set_snooze_inline_desc">“ஒத்திவை” என்பதைத் தட்டிய எவ்வளவு நேரத்திற்குப் பிறகு மீண்டும் நினைவூட்ட வேண்டும்</string>
     <string name="set_default_followup">இயல்புநிலைப் பின்தொடர் சரிபார்ப்பு</string>
@@ -548,7 +558,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">தொடர்</string>
     <string name="wn_title">%1$s இல் புதியவை</string>
-    <string name="wn_intro">ஒவ்வொரு நினைவூட்டலும் நேரத்தில் ஒலிப்பதை உறுதிசெய்ய இந்தப் புதுப்பிப்பு உதவுகிறது.</string>
+    <string name="wn_intro">நான்கு மேம்பாடுகள், அனைத்தும் ஆப் பயனர்களின் பரிந்துரைகள்.</string>
     <string name="wn_check_title">நினைவூட்டலை எது தடுக்கலாம் என்று பாருங்கள்</string>
     <string name="wn_check_desc">அமைப்புகள் மேலே உள்ள “நினைவூட்டல் சரிபார்ப்பு” நினைவூட்டல்களைத் தாமதமாக்கவோ ஒலியில்லாமல் செய்யவோ கூடியவற்றை, அதாவது அறிவிப்புகள், பேட்டரி அல்லது குறைந்த அலாரம் ஒலியளவு போன்றவற்றைக் காட்டி, ஒவ்வொன்றையும் சரிசெய்ய ஒரு பொத்தானைத் தருகிறது.</string>
     <string name="wn_reliable_title">கூடுதல் நம்பகமான நினைவூட்டல்கள்</string>
@@ -559,6 +569,14 @@
     <string name="wn_cards_desc">ஒவ்வொரு நினைவூட்டல் அட்டையிலும் திருத்த, முடிக்க, நீக்க பொத்தான்கள் உள்ளன. நீக்கும் முன் கேட்கும், அதைச் செயல்தவிர்க்கவும் முடியும்.</string>
     <string name="wn_sound_title">சரியான நேரத்தில் ஒலி நிற்கும்</string>
     <string name="wn_sound_desc">நினைவூட்டலை முடித்தாலும், நீக்கினாலும் அல்லது நேரத்தை மாற்றினாலும் அதன் ஒலி உடனே நிற்கும். டோன் அலாரங்களில் அமைதியாக்கு பொத்தான் மீண்டும் உள்ளது.</string>
+    <string name="wn_nthday_title">கடைசி வியாழனில் மீண்டும்</string>
+    <string name="wn_nthday_desc">மாதாந்திர நினைவூட்டல்கள் இப்போது மாதத்தில் ஒரு வார நாளின் இடத்தைப் பொறுத்து அமையலாம், எ.கா. முதல் திங்கள் அல்லது கடைசி வியாழன். மீண்டும் &gt; மாதந்தோறும் &gt; வார நாள் என்பதைத் தேர்வுசெய்யவும்.</string>
+    <string name="wn_gap_title">மீண்டும் ஒலிப்பதற்கு இடையே இடைவெளி</string>
+    <string name="wn_gap_desc">மீண்டும் மீண்டும் இயங்கும் நினைவூட்டல் மறுபடி ஒலிக்கும் முன் காத்திருக்கலாம்: “கூட்டம்”, 10 வினாடி அமைதி, மீண்டும் “கூட்டம்”, நிறுத்தும் நேரம் வரை. அமைப்புகள் &gt; நினைவூட்டல் ஒலிக்கும்போது &gt; மீண்டும் ஒலிப்பதற்கு இடையே இடைவெளி என்பதில் அமைக்கவும்.</string>
+    <string name="wn_colors_title">முடிந்தது, நீக்கு பொத்தான்களுக்கு உங்கள் நிறங்கள்</string>
+    <string name="wn_colors_desc">நினைவூட்டல் அட்டைகளின் முடிந்தது, நீக்கு பொத்தான்களுக்கு அமைப்புகள் &gt; மொழி &amp; தோற்றம் &gt; நினைவூட்டல் அட்டை பொத்தான்கள் என்பதில் உங்கள் நிறங்களைக் கொடுக்கவும்.</string>
+    <string name="wn_notif_title">ஆப்பைத் திறந்தால் அறிவிப்பு மறையும்</string>
+    <string name="wn_notif_desc">நினைவூட்டல் ஒலித்த பிறகு ஆப்பைத் திறந்தாலோ அதில் மாற்றத்தைச் சேமித்தாலோ அதன் அறிவிப்பு மறையும். “முடிக்கும் வரை அறிவிப்பை வைத்திரு” இயக்கத்தில் இருந்தால், ஆப்பைத் திறந்தாலும் அது இருக்கும்.</string>
     <string name="wn_edit_title">இருந்த இடத்திலேயே தேதியையும் நேரத்தையும் மாற்றுங்கள்</string>
     <string name="wn_edit_desc">நினைவூட்டலைத் திறந்து நேரடியாக மாற்ற தேதி அல்லது நேரத்தைத் தட்டவும். முதலில் திருத்தியைத் திறக்கத் தேவையில்லை.</string>
     <string name="wn_clear_title">அறிவிப்புகள் தாமாகவே அகலும்</string>
@@ -625,11 +643,55 @@
     <string name="wn_reliability_desc">நினைவூட்டல் இயக்கம் இப்போது பாதுகாப்பாகவும் உடனடியாகவும் முன்புலத்தில் தொடங்கும், சில Android 12, Android 16 சாதனங்களில் காணப்பட்ட தொடக்க நேரமுடிவுகளைத் தடுக்கும்.</string>
     <string name="settings_24_hour_time">24-மணிநேர நேரத்தைப் பயன்படுத்து</string>
     <string name="settings_24_hour_time_desc">எல்லா நேரங்களையும் 5:30 PM க்குப் பதிலாக 17:30 எனக் காட்டு.</string>
+    <string name="set_week_start">வாரம் தொடங்கும் நாள்</string>
+    <string name="set_week_start_desc">தேதி தேர்வில் வாரத்தின் முதல் நாள். ஒரு நாளைத் தேர்ந்தெடுத்தால் உங்கள் போனின் சொந்த தேதி தேர்வி பயன்படும்.</string>
 
     <!-- Reminder card and actions sheet -->
     <string name="card_recur_onetime">ஒருமுறை நினைவூட்டல்</string>
     <string name="card_recur_daily">தினமும் மீண்டும் வரும்</string>
     <string name="card_recur_last_day">ஒவ்வொரு மாதத்தின் கடைசி நாள்</string>
+    <string name="rs_day_of_week">வார நாள்</string>
+    <string name="rs_which_one">மாதத்தில் எது</string>
+    <string name="rs_weekday">நாள்</string>
+    <string name="rec_nth_weekday">%1$s %2$s</string>
+    <string name="card_recur_nth_weekday">ஒவ்வொரு மாதத்தின் %1$s</string>
+    <string-array name="rs_ordinal_labels">
+        <item>முதல்</item>
+        <item>இரண்டாவது</item>
+        <item>மூன்றாவது</item>
+        <item>நான்காவது</item>
+        <item>கடைசி</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>முதல்</item>
+        <item>இரண்டாவது</item>
+        <item>மூன்றாவது</item>
+        <item>நான்காவது</item>
+        <item>கடைசி</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>முதல்</item>
+        <item>இரண்டாவது</item>
+        <item>மூன்றாவது</item>
+        <item>நான்காவது</item>
+        <item>கடைசி</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>முதல்</item>
+        <item>இரண்டாவது</item>
+        <item>மூன்றாவது</item>
+        <item>நான்காவது</item>
+        <item>கடைசி</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+    </string-array>
     <string name="card_recur_yearly">ஆண்டுதோறும் மீண்டும் வரும்</string>
     <string name="card_chip_recurring">மீண்டும் வருவது</string>
     <string name="card_days_of_month">மாதத்தின் நாட்கள்</string>
@@ -806,7 +868,20 @@
     <string name="set_section_check">நினைவூட்டல் சரிபார்ப்பு</string>
     <string name="set_section_ringing">நினைவூட்டல் ஒலிக்கும்போது</string>
     <string name="set_sum_check">அனுமதிகள், பேட்டரி, அலாரம் ஒலியளவு</string>
-    <string name="set_sum_lang">ஆப் மொழி, தீம், நேர வடிவம்</string>
+    <string name="set_sum_lang">ஆப் மொழி, தீம், நேர வடிவம், பொத்தான் நிறங்கள்</string>
+    <string name="set_card_colors">நினைவூட்டல் அட்டை பொத்தான்கள்</string>
+    <string name="set_card_colors_desc">முகப்பில் முடிந்தது, நீக்கு பொத்தான்களின் நிறங்களைத் தேர்வுசெய்யவும்.</string>
+    <string name="set_card_done_color">முடிந்தது பொத்தான்</string>
+    <string name="set_card_delete_color">நீக்கு / மீண்டும் வருவதை நிறுத்து பொத்தான்</string>
+    <string name="color_default">ஆப் இயல்புநிலை</string>
+    <string name="color_red">சிவப்பு</string>
+    <string name="color_orange">ஆரஞ்சு</string>
+    <string name="color_green">பச்சை</string>
+    <string name="color_teal">டீல்</string>
+    <string name="color_blue">நீலம்</string>
+    <string name="color_purple">ஊதா</string>
+    <string name="color_pink">இளஞ்சிவப்பு</string>
+    <string name="color_gray">சாம்பல்</string>
     <string name="set_sum_ringing">குரல் அல்லது டோன், ஒலியளவு, வாசிக்கும் மொழி, சோதனை நினைவூட்டல்</string>
     <string name="set_sum_timing">ஒத்திவைக்கும் நேரம், பின்தொடர், அமைதி நேரம்</string>
     <string name="set_sum_form">நினைவூட்டல் சேர்க்கும்போது எந்த விருப்பங்கள் தெரிய வேண்டும்</string>

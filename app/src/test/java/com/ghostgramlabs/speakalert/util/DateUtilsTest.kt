@@ -75,4 +75,48 @@ class DateUtilsTest {
         assertTrue(DateUtils.formatDateTime(ts).isNotBlank())
         assertTrue(DateUtils.formatTimeOnly(ts).isNotBlank())
     }
+
+    private fun withPlatformPattern(pattern: (java.util.Locale, String) -> String?, block: () -> Unit) {
+        val savedPattern = DateUtils.bestPattern
+        val savedLocale = java.util.Locale.getDefault()
+        DateUtils.bestPattern = pattern
+        try {
+            block()
+        } finally {
+            DateUtils.bestPattern = savedPattern
+            java.util.Locale.setDefault(savedLocale)
+        }
+    }
+
+    private val nov13 = Calendar.getInstance().apply { set(2026, Calendar.NOVEMBER, 13, 9, 5, 0) }.timeInMillis
+
+    @Test
+    fun `date order comes from the language when the platform supplies one`() {
+        withPlatformPattern({ _, skeleton -> if (skeleton == "yyyyMMMd") "d. MMM yyyy" else null }) {
+            java.util.Locale.setDefault(java.util.Locale.GERMANY)
+            assertEquals("d. MMM yyyy", DateUtils.datePattern(DateUtils.DateParts.MONTH_DAY_YEAR))
+            assertTrue(DateUtils.formatDate(nov13, DateUtils.DateParts.MONTH_DAY_YEAR).startsWith("13. "))
+        }
+    }
+
+    @Test
+    fun `date falls back to the English layout without a platform pattern`() {
+        for (missing in listOf<String?>(null, "", "  ")) {
+            withPlatformPattern({ _, _ -> missing }) {
+                java.util.Locale.setDefault(java.util.Locale.US)
+                assertEquals("Fri, Nov 13, 2026", DateUtils.formatDate(nov13, DateUtils.DateParts.WEEKDAY_MONTH_DAY_YEAR))
+                assertEquals("Nov 13", DateUtils.formatDate(nov13, DateUtils.DateParts.MONTH_DAY))
+            }
+        }
+    }
+
+    @Test
+    fun `date and time keep the date first and the time last`() {
+        withPlatformPattern({ _, _ -> "EEE, d. MMM" }) {
+            java.util.Locale.setDefault(java.util.Locale.US)
+            val text = DateUtils.formatDateTime(nov13)
+            assertTrue(text, text.startsWith("Fri, 13. Nov, "))
+            assertTrue(text, text.endsWith(DateUtils.formatTimeOnly(nov13)))
+        }
+    }
 }

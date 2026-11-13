@@ -1,0 +1,10 @@
+<resources>
+    <string name="unnamed_title_setting">Judul pengingat tanpa nama</string>
+    <string name="unnamed_title_description">Pilih judul pengganti di daftar dan detail pengingat Anda. Label dan pesan ketikan Anda selalu terlihat. Tanggal dan waktu tetap ditampilkan meski tanpa judul.</string>
+    <string name="unnamed_creation_time">Waktu pembuatan</string>
+    <string name="unnamed_reminder_type">Jenis pengingat</string>
+    <string name="unnamed_no_title">Tanpa judul</string>
+    <string name="unnamed_voice_reminder">Pengingat suara</string>
+    <string name="unnamed_audio_reminder">Pengingat audio</string>
+    <string name="unnamed_generic_reminder">Pengingat</string>
+</resources>

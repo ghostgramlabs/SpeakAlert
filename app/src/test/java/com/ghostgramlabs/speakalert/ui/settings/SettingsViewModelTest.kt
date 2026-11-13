@@ -51,6 +51,8 @@ class SettingsViewModelTest {
         whenever(settingsRepository.speakTextIfNoVoice).thenReturn(MutableStateFlow(true))
         whenever(settingsRepository.toneOnlyMode).thenReturn(MutableStateFlow(false))
         whenever(settingsRepository.themeMode).thenReturn(MutableStateFlow(0))
+        whenever(settingsRepository.cardDoneColor).thenReturn(MutableStateFlow(null))
+        whenever(settingsRepository.cardDeleteColor).thenReturn(MutableStateFlow(null))
         whenever(settingsRepository.fullScreenAlertEnabled).thenReturn(MutableStateFlow(false))
         whenever(settingsRepository.showVoiceRecordingSection).thenReturn(MutableStateFlow(true))
         whenever(settingsRepository.experimentalVoiceEnhancementEnabled).thenReturn(MutableStateFlow(false))
@@ -66,6 +68,7 @@ class SettingsViewModelTest {
         whenever(settingsRepository.debugLoggingEnabled).thenReturn(MutableStateFlow(false))
         whenever(settingsRepository.appVolume).thenReturn(MutableStateFlow(1.0f))
         whenever(settingsRepository.loopTimeoutMinutes).thenReturn(MutableStateFlow(10))
+        whenever(settingsRepository.loopGapSeconds).thenReturn(MutableStateFlow(0))
 
         viewModel = SettingsViewModel(settingsRepository, reminderRepository, alarmScheduler)
     }

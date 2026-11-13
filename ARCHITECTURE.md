@@ -53,7 +53,10 @@ The database (`AppDatabase`) has two tables.
   `nextTriggerAt`.
 - Recurrence: `recurrenceType` (`NONE`, `DAILY`, `WEEKLY`, `MONTHLY`, `YEARLY`, `CUSTOM`) plus
   `recurrenceJson`, a serialised `RecurrenceModel` with the interval, weekdays, end rule and
-  missed policy
+  missed policy. Monthly rules use days of the month, the last day, or a weekday by position
+  (`DAY_OF_WEEK`: first to fourth or last, such as the last Thursday). New fields are added with
+  defaults, so stored JSON needs no database migration. The localized "Last Thursday" phrase
+  reads ordinals per grammatical gender from each locale's `weekday_gender` array.
 - State: `isCompleted`, `completedAt`, `lastFiredAt`
 - Follow-up check: `followUpCheckMinutes`, `pendingFollowUpAt`, `followUpFireCount`
 
@@ -65,7 +68,13 @@ back to a destructive rebuild when no migration path exists, which would wipe us
 so always add the migration.
 
 Settings (playback, quiet hours, snooze length, language, theme and so on) live in DataStore
-and are read through `SettingsRepository`.
+and are read through `SettingsRepository`. Colors for Home's card buttons are stored as
+`CardButtonColor` keys and provided to the UI through `LocalCardActionColors`, resolved to the
+light or dark shade in `MainActivity`. "Allow snooze" is the exception: it lives in
+SharedPreferences (`SnoozePreferences`), like Extra-reliable reminders, because the notifications
+and the lock-screen alert that hide Snooze are built synchronously. "Week starts on"
+(`WeekStartPreferences`) is stored the same way; a chosen day makes `shouldUseSystemDatePicker`
+pick the platform date dialog, the only one whose first weekday can be set.
 
 ## Life of a reminder
 
@@ -121,12 +130,20 @@ holds most of the delivery rules. In order, it:
 6. Schedules the next follow-up check if one is configured.
 
 Notification buttons (Done, Snooze, Play, Stop) are handled by `ReminderActionReceiver`.
+When the user deals with a reminder in the app instead, `ReminderAlertNotifications` clears its
+alert: on Done or delete (`onResolved`), on opening it or Home coming to the front (`onSeen`,
+`onAppOpened`; skipped while it is still sounding or with "Keep notification until done"), and on
+saving an edit (`onRescheduled`). Cancelling from code never fires the delete intent, so none of
+these marks anything Done.
 
 ### 3. Playback
 
 [ReminderPlaybackService](app/src/main/java/com/ghostgramlabs/speakalert/service/ReminderPlaybackService.kt)
 is a `mediaPlayback` foreground service. It plays the recording with ExoPlayer or speaks the
-text with TTS, optionally looping until a timeout, and requests transient audio focus. By default
+text with TTS, optionally looping until a timeout, and requests transient audio focus. Between
+loop repeats, [LoopGap](app/src/main/java/com/ghostgramlabs/speakalert/service/LoopGap.kt) waits
+the "Pause between repeats" setting (0 = back-to-back); a new request, replay or stop cancels the
+pending repeat, and audio focus is held through the pause. Tone-only alerts ignore it. By default
 it uses the alarm stream. With private playback on, it uses the media stream, or the earpiece
 (voice-call stream) when the proximity sensor says the phone is at the user's ear.
 
@@ -156,7 +173,7 @@ backups must still import.
 ## Localisation
 
 User-facing text belongs in `res/values/strings.xml`, with translations in `res/values-<code>/`
-(currently ar, bn, el, es, hi, ml, pt-rBR, ru, ta, te, vi). Arabic is right-to-left; use
+(currently ar, bn, de, el, es, fr, in (Indonesian), hi, ml, pt-rBR, ru, ta, te, vi). Arabic is right-to-left; use
 `RtlMirror` and start/end rather than left/right. The in-app language picker uses
 `AppCompatDelegate.setApplicationLocales`.
 

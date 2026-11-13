@@ -1,0 +1,910 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_tagline">Offline-Spracherinnerungen</string>
+    <string name="widget_quick_caption">„Erinnerung hinzufügen“ sofort öffnen</string>
+    <string name="widget_quick_description">Öffne das Erinnerungsformular direkt vom Startbildschirm</string>
+    <string name="widget_upcoming_description">Zeigt deine nächsten geplanten Erinnerungen</string>
+
+    <!-- Settings -->
+    <string name="settings_language">App-Sprache</string>
+    <string name="settings_language_system">Gerätesprache verwenden</string>
+    <string name="settings_language_description">„Gerätesprache verwenden“ nutzt die Sprache deines Telefons, wenn die App sie unterstützt; sonst Englisch.\nDie Stimme, die Erinnerungen vorliest, wird separat unter Wenn eine Erinnerung klingelt &gt; Gesprochene Sprache eingestellt.</string>
+
+    <!-- Notification actions -->
+    <string name="notif_action_done">Erledigt</string>
+    <string name="notif_action_silence">Stumm</string>
+    <string name="notif_action_snooze">Schlummern</string>
+    <string name="notif_action_play">Abspielen</string>
+    <string name="notif_action_speak">Vorlesen</string>
+    <string name="notif_default_title">Spracherinnerung</string>
+    <string name="notif_default_text">Tippe, um deine Erinnerung abzuspielen</string>
+    <string name="notif_action_replay">Nochmal</string>
+    <string name="notif_action_stop">Stopp</string>
+    <string name="notif_playback_processing">Wird verarbeitet…</string>
+    <string name="notif_playback_speaking">Wird vorgelesen: „%1$s“</string>
+    <string name="notif_reminder_missing">Diese Erinnerung wurde nicht gefunden.</string>
+    <string name="notif_missed_title">Verpasst: %1$s</string>
+    <string name="notif_missed_scheduled_tap">Geplant für %1$s – zum Öffnen tippen</string>
+    <string name="notif_missed_scheduled_audio_unavailable">Geplant für %1$s. Die ausgewählte Audiodatei ist nicht verfügbar.</string>
+    <string name="notif_missed_scheduled">Geplant: %1$s</string>
+    <string name="fallback_reminder_title">Erinnerung</string>
+    <string name="toast_audio_unavailable">Die ausgewählte Audiodatei ist nicht verfügbar.</string>
+    <string name="tts_voice_hint">Keine Stimme für %1$s installiert. Füge sie in den Sprachausgabe-Einstellungen deines Telefons hinzu, um gesprochene Erinnerungen zu hören.</string>
+    <string name="tts_voice_hint_this_language">diese Sprache</string>
+
+    <!-- Alert payload (notification / spoken follow-up text) -->
+    <string name="alert_followup_fallback_title">Nachfrage</string>
+    <string name="alert_followup_question">Hast du %1$s erledigt?</string>
+    <string name="alert_followup_this_reminder">diese Erinnerung</string>
+    <string name="alert_audio_unavailable_full">Die ausgewählte Audiodatei ist nicht verfügbar. Tippe, um eine andere Datei auszuwählen.</string>
+    <string name="alert_tap_to_view">Zum Ansehen tippen</string>
+
+    <!-- Section titles -->
+    <string name="set_section_timing">Schlummern &amp; Nachfragen</string>
+    <string name="set_section_backup">Sichern &amp; Wiederherstellen</string>
+    <string name="set_section_about">Hilfe &amp; Info</string>
+
+    <!-- Backup & restore -->
+    <string name="set_backup_export">Erinnerungen sichern</string>
+    <string name="set_backup_export_desc">Speichere deine anstehenden Erinnerungen samt Aufnahmen in einer Datei</string>
+    <string name="set_backup_import">Erinnerungen importieren</string>
+    <string name="set_backup_import_desc">Erinnerungen aus einer Sicherungsdatei wiederherstellen</string>
+    <string name="backup_export_none">Keine anstehenden Erinnerungen zum Sichern.</string>
+    <string name="backup_export_success">%1$d Erinnerungen gesichert.</string>
+    <string name="backup_export_failed">Sicherung fehlgeschlagen.</string>
+    <string name="backup_import_success">%1$d Erinnerungen importiert.</string>
+    <string name="backup_import_skipped">%1$d Erinnerungen importiert (%2$d Duplikate, %3$d abgelaufene übersprungen).</string>
+    <string name="backup_import_failed">Import fehlgeschlagen. Wähle eine SpeakAlert-Sicherungsdatei.</string>
+
+    <!-- Notification channels (visible in system Settings) -->
+    <string name="channel_reminders_name">%1$s-Erinnerungen</string>
+    <string name="channel_reminders_desc">Benachrichtigungen für Erinnerungen von %1$s</string>
+    <string name="channel_tone_only_name">%1$s: Nur-Ton-Alarme</string>
+    <string name="channel_tone_only_desc">Nur-Ton-Benachrichtigungen nur mit Vibration; den Alarmton spielt %1$s ab</string>
+    <string name="channel_dnd_bypass_name">%1$s-Erinnerungen (trotz „Nicht stören“)</string>
+    <string name="channel_dnd_bypass_desc">Erinnerungsalarme, die auch bei „Nicht stören“ klingeln können, wenn der Android-Zugriff erteilt wurde</string>
+    <string name="channel_tone_only_bypass_name">%1$s: Nur-Ton-Alarme (trotz „Nicht stören“)</string>
+    <string name="channel_tone_only_bypass_desc">Nur-Ton-Erinnerungen, die auch bei „Nicht stören“ klingeln können, wenn der Android-Zugriff erteilt wurde</string>
+    <string name="pua_sub_reschedule">Diese Erinnerung neu planen</string>
+    <string name="pua_sub_play_now">Jetzt anhören, ohne neu zu planen</string>
+    <string name="pua_sub_keep_done">Als erledigt belassen</string>
+    <string name="channel_playback_name">Erinnerungswiedergabe</string>
+    <string name="channel_playback_desc">Zeigt Steuerelemente, während Erinnerungen abgespielt werden</string>
+    <string name="channel_silent_name">%1$s: Vollbild-Alarme</string>
+    <string name="channel_silent_desc">Vollbild-Erinnerungen von %1$s, während die Erinnerung bereits vorgelesen wird</string>
+    <string name="channel_silent_bypass_name">%1$s: Vollbild-Alarme (trotz „Nicht stören“)</string>
+    <string name="channel_silent_bypass_desc">Vollbild-Erinnerungen, die auch bei „Nicht stören“ erscheinen können, wenn der Android-Zugriff erteilt wurde</string>
+
+    <!-- Alarm alert screen -->
+    <string name="alert_mark_done">Als erledigt markieren</string>
+    <string name="alert_silence">Stumm</string>
+    <string name="alert_silence_now">Jetzt stumm schalten</string>
+    <string name="alert_snoozed_at">Schlummert • %1$s</string>
+    <string name="alert_play_again">Erneut abspielen</string>
+    <string name="alert_snooze_minutes">Schlummern %1$d Min.</string>
+    <string name="alert_followup_reminder">Nachfrage-Erinnerung</string>
+    <string name="alert_reminder_on_screen">Erinnerung auf dem Bildschirm</string>
+    <string name="alert_followup_on_this">Nachfrage zu dieser Erinnerung</string>
+    <string name="alert_did_you_complete">Hast du diese Erinnerung erledigt?</string>
+    <string name="alert_reminder_active">Erinnerung ist aktiv</string>
+    <string name="alert_voice_reminder">Spracherinnerung</string>
+    <string name="alert_text_reminder">Texterinnerung</string>
+    <string name="alert_followup_check">Nachfrage</string>
+    <string name="alert_generic">Alarm</string>
+    <string name="alert_playing_now">Wird abgespielt</string>
+    <string name="alert_needs_response">Antwort nötig</string>
+    <string name="alert_awaiting_action">Wartet auf Aktion</string>
+    <string name="alert_scheduled_for">Geplant für</string>
+    <string name="alert_status">Alarmstatus</string>
+    <string name="alert_audio_playing">Audio wird abgespielt. Mit „Stumm“ stoppst du es.</string>
+    <string name="alert_waiting_done_snooze">Wartet auf „Erledigt“ oder „Schlummern“.</string>
+    <string name="alert_followup_label">Nachfrage</string>
+    <string name="alert_hint_with_play">Lass die Erinnerung sichtbar, stoppe das Audio oder spiele es erneut ab, bevor du handelst.</string>
+    <string name="alert_hint_no_play">Lass die Erinnerung sichtbar oder wähle „Erledigt“ oder „Schlummern“, wenn du so weit bist.</string>
+    <string name="alert_dock_hint">„Stumm“ stoppt das Audio. „Erledigt“ oder „Schlummern“ schließt den Sperrbildschirm-Alarm.</string>
+    <plurals name="alert_followup_repeats">
+        <item quantity="one">Wiederholt sich jede Minute, bis sie erledigt ist.</item>
+        <item quantity="other">Wiederholt sich alle %1$d Minuten, bis sie erledigt ist.</item>
+    </plurals>
+
+    <!-- Home -->
+    <string name="home_greeting_morning">Guten Morgen</string>
+    <string name="home_greeting_afternoon">Guten Tag</string>
+    <string name="home_greeting_evening">Guten Abend</string>
+    <string name="home_all_caught_up">Alles erledigt!</string>
+    <plurals name="home_active_reminders">
+        <item quantity="one">Du hast %1$d aktive Erinnerung</item>
+        <item quantity="other">Du hast %1$d aktive Erinnerungen</item>
+    </plurals>
+    <string name="home_filter_upcoming">Anstehend</string>
+    <string name="home_filter_today">Heute</string>
+    <string name="home_filter_missed">Verpasst</string>
+    <string name="home_filter_done">Erledigt</string>
+    <string name="home_cd_settings">Einstellungen</string>
+    <string name="home_cd_help">Hilfe und Anleitung</string>
+    <string name="home_cd_add">Erinnerung hinzufügen</string>
+    <string name="home_cd_missed">Verpasste Erinnerungen</string>
+    <string name="home_dismiss_all">Alle verwerfen</string>
+    <string name="home_empty_all_caught_up">Alles erledigt!</string>
+    <string name="home_empty_no_missed">Keine verpassten Erinnerungen</string>
+    <string name="home_empty_nothing_done">Noch nichts erledigt</string>
+    <string name="home_empty_no_upcoming">Keine anstehenden Erinnerungen</string>
+    <string name="home_empty_no_reminders">Noch keine Erinnerungen</string>
+    <string name="home_empty_done_sub">Erledigte Erinnerungen erscheinen hier.</string>
+    <string name="home_empty_upcoming_sub">Für später geplante Erinnerungen erscheinen hier.</string>
+    <string name="home_empty_default_sub">Erstelle eine Erinnerung per Stimme oder Text.</string>
+
+    <!-- Common actions -->
+    <string name="action_cancel">Abbrechen</string>
+    <string name="action_close">Schließen</string>
+    <string name="action_play_now">Jetzt abspielen</string>
+    <string name="action_stop">Stopp</string>
+    <string name="action_dismiss">Verwerfen</string>
+    <string name="action_apply">Übernehmen</string>
+    <string name="action_undo">Rückgängig</string>
+    <string name="action_open">Öffnen</string>
+    <string name="common_reminder">Erinnerung</string>
+    <string name="time_picker_title">Uhrzeit auswählen</string>
+    <string name="err_date_future">Das Datum muss heute oder später sein</string>
+    <string name="err_time_future">Bitte wähle eine Uhrzeit in der Zukunft</string>
+
+    <!-- Home dialogs -->
+    <string name="home_stop_recurring_title">Wiederkehrende Erinnerung beenden?</string>
+    <string name="home_stop_recurring_msg">Dadurch werden diese Erinnerung und alle künftigen Termine gelöscht. Das kann nicht rückgängig gemacht werden.</string>
+    <string name="home_stop_recurring_action">Wiederholung beenden</string>
+    <string name="home_stop_recurring_sub">Diese Erinnerung und alle künftigen Termine löschen</string>
+    <string name="home_keep_reminder">Erinnerung behalten</string>
+    <string name="home_mark_occurrence_title">Termin als erledigt markieren?</string>
+    <string name="home_mark_occurrence_msg">Das betrifft nur den heutigen Termin. Die Erinnerung wiederholt sich weiterhin zum nächsten geplanten Zeitpunkt.</string>
+    <string name="home_mark_occurrence_action">Diesen Termin als erledigt markieren</string>
+    <string name="home_mark_occurrence_sub">Künftige Termine bleiben geplant</string>
+    <string name="home_mark_done_title">Als erledigt markieren?</string>
+    <string name="home_mark_done_msg">Die Erinnerung wird in den Tab „Erledigt“ verschoben.</string>
+    <string name="home_move_to_done">Nach „Erledigt“ verschieben</string>
+    <string name="home_move_to_done_sub">Diese Erinnerung im Verlauf der erledigten Erinnerungen behalten</string>
+    <string name="home_created_at">Erstellt um %1$s</string>
+    <string name="home_snackbar_deleted">Erinnerung gelöscht</string>
+    <string name="home_snackbar_duplicated">Erinnerung dupliziert</string>
+    <string name="home_badge_missed">Verpasst</string>
+
+    <!-- Add / Edit reminder -->
+    <string name="ae_saved">Erinnerung gespeichert!</string>
+    <string name="ae_cannot_past">Erinnerungen können nicht in der Vergangenheit liegen</string>
+    <string name="ae_record_too_short">Das war zu kurz – halte gedrückt, während du sprichst</string>
+    <string name="ae_record_failed">Die Aufnahme konnte nicht gestartet werden. Vielleicht nutzt eine andere App das Mikrofon.</string>
+    <string name="ae_record_silent">Es war nichts zu hören. Prüfe den Mikrofonzugriff für SpeakAlert.</string>
+    <string name="ae_unsaved_title">Erinnerung speichern?</string>
+    <string name="ae_unsaved_msg">Du hast ungespeicherte Änderungen an der Erinnerung.</string>
+    <string name="action_save">Speichern</string>
+    <string name="ae_keep_editing">Weiter bearbeiten</string>
+    <string name="action_discard">Verwerfen</string>
+    <string name="action_remove">Entfernen</string>
+    <string name="action_change">Ändern</string>
+    <string name="ae_title_edit">Erinnerung bearbeiten</string>
+    <string name="ae_title_new">Neue Erinnerung</string>
+    <string name="action_back">Zurück</string>
+    <string name="ae_header_edit">Erinnerung bearbeiten</string>
+    <string name="ae_header_create">Erinnerung erstellen</string>
+    <string name="ae_section_content">Inhalt der Erinnerung</string>
+    <string name="ae_content_desc">Nimm eine Sprachnotiz auf, füge eine Audiodatei hinzu oder tippe eine Erinnerungsnachricht.</string>
+    <string name="ae_tap_to_record">Tippe, um eine Spracherinnerung aufzunehmen</string>
+    <string name="ae_or_choose_audio">Oder wähle eine Audiodatei</string>
+    <string name="ae_selected_audio">Ausgewählte Audiodatei</string>
+    <string name="ae_cd_stop_preview">Audiovorschau stoppen</string>
+    <string name="ae_cd_play_preview">Audiovorschau abspielen</string>
+    <string name="ae_cd_audio_progress">Fortschritt der Audiovorschau</string>
+    <string name="ae_choose_audio_file">Audiodatei auswählen</string>
+    <string name="ae_or_type">Oder tippe eine Erinnerungsnachricht</string>
+    <string name="ae_msg_label">Erinnerungsnachricht</string>
+    <string name="ae_msg_placeholder">z. B. Medikament nach dem Frühstück nehmen</string>
+    <string name="ae_label_placeholder">z. B. Medikament morgens</string>
+    <string name="ae_msg_help">Wird in der App und in Benachrichtigungen angezeigt. Wird nur vorgelesen, wenn keine Sprachnotiz oder Audiodatei ausgewählt ist.</string>
+    <string name="ae_char_count">%1$d/%2$d</string>
+    <string name="ae_need_content">Füge eine Sprachnotiz, eine Audiodatei oder eine Erinnerungsnachricht hinzu.</string>
+    <string name="ae_section_label">Kurzname (optional)</string>
+    <string name="ae_label_desc">Optionaler kurzer Name, damit du Erinnerungen schneller überblickst.</string>
+    <string name="ae_label_hint">Wird als kurzer Name in Listen und Details angezeigt</string>
+    <string name="ae_section_schedule">Zeitplan</string>
+    <string name="ae_when_fire">Wann soll diese Erinnerung klingeln?</string>
+    <string name="ae_datetime_at">%1$s um %2$s</string>
+    <string name="ae_date">Datum</string>
+    <string name="ae_time">Uhrzeit</string>
+    <string name="ae_time_future">Die Uhrzeit muss in der Zukunft liegen</string>
+    <string name="ae_repeat_never">Nie</string>
+    <string name="ae_repeat">Wiederholen</string>
+    <string name="state_on">An</string>
+    <string name="state_off">Aus</string>
+    <string name="state_active">Aktiv</string>
+    <string name="ae_loop">Wiedergabe in Schleife</string>
+    <string name="ae_loop_desc">Spielt weiter, bis du die Erinnerung schließt.</string>
+    <string name="ae_followup">Nachfrage</string>
+    <string name="ae_followup_desc">Fragt nach einer Weile erneut, wenn die Erinnerung nicht als erledigt markiert wurde.</string>
+    <string name="ae_cd_saving">Erinnerung wird gespeichert</string>
+    <string name="ae_save_reminder">Erinnerung speichern</string>
+    <plurals name="ae_followup_active">
+        <item quantity="one">Aktiv: fragt jede Minute nach, bis sie als erledigt markiert ist.</item>
+        <item quantity="other">Aktiv: fragt alle %1$d Minuten nach, bis sie als erledigt markiert ist.</item>
+    </plurals>
+
+    <!-- Recurrence type names (shared) -->
+    <string name="rec_every">Intervall: %1$d %2$s</string>
+    <string name="rec_ends_never">Endet: Nie</string>
+    <string name="rec_if_off_fire">Wenn Gerät aus: Beim Einschalten erinnern</string>
+    <string name="rec_if_off_skip">Wenn Gerät aus: Nur zur genauen Zeit erinnern</string>
+    <string name="date_today">Heute</string>
+    <string name="date_tomorrow">Morgen</string>
+    <string name="date_yesterday">Gestern</string>
+    <plurals name="rec_ends_times">
+        <item quantity="one">Endet nach %1$d Wiederholung</item>
+        <item quantity="other">Endet nach %1$d Wiederholungen</item>
+    </plurals>
+    <string name="rec_onetime">Einmalig</string>
+    <string name="rec_daily">Täglich</string>
+    <string name="rec_weekly">Wöchentlich</string>
+    <string name="rec_monthly">Monatlich</string>
+    <string name="rec_yearly">Jährlich</string>
+    <string name="rec_custom">Benutzerdefiniert</string>
+    <string name="day_mon">Mo</string>
+    <string name="day_tue">Di</string>
+    <string name="day_wed">Mi</string>
+    <string name="day_thu">Do</string>
+    <string name="day_fri">Fr</string>
+    <string name="day_sat">Sa</string>
+    <string name="day_sun">So</string>
+
+    <!-- Reminder details -->
+    <string name="det_title">Erinnerungsdetails</string>
+    <string name="action_edit">Bearbeiten</string>
+    <string name="action_delete">Löschen</string>
+    <string name="action_confirm">Bestätigen</string>
+    <string name="det_audio_file">Audiodatei</string>
+    <string name="det_voice_note">Sprachnotiz</string>
+    <string name="det_loop_enabled">Schleife aktiv</string>
+    <string name="det_followup_pill">Nachfrage %1$d Min.</string>
+    <string name="det_cd_stop_audio">Audio stoppen</string>
+    <string name="det_cd_play_audio">Audio abspielen</string>
+    <string name="det_ready_preview">Bereit zur Vorschau</string>
+    <string name="det_ready_play">Bereit zum Abspielen</string>
+    <string name="det_voice_recording">Sprachaufnahme</string>
+    <string name="det_tap_preview">Tippe auf Abspielen, um die aufgenommene Erinnerung anzuhören.</string>
+    <string name="det_cd_audio_progress">Fortschritt des Erinnerungsaudios</string>
+    <string name="det_double_tap_edit">Zum Bearbeiten doppeltippen</string>
+    <string name="det_ends_by">Endet am %1$s</string>
+    <string name="det_end_rule">Ende der Wiederholung</string>
+    <string name="det_missed_handling">Umgang mit verpassten Erinnerungen</string>
+    <string name="det_missed_fire">Erinnern, sobald das Gerät wieder an ist</string>
+    <string name="det_missed_skip">Nur zur nächsten genauen Zeit erinnern</string>
+    <string name="det_mark_undone">Als nicht erledigt markieren</string>
+    <string name="det_mark_done">Als erledigt markieren</string>
+    <string name="det_scheduled_for">Geplant für: %1$s</string>
+    <string name="det_delete_title">Erinnerung löschen?</string>
+    <string name="det_delete_recurring">Dadurch werden alle künftigen Termine beendet. Das kann nicht rückgängig gemacht werden.</string>
+    <string name="det_delete_onetime">Das kann nicht rückgängig gemacht werden.</string>
+    <string name="det_reschedule_title">Erinnerung neu planen?</string>
+    <string name="det_reschedule_to">Auf %1$s verschieben?</string>
+    <plurals name="det_ends_after">
+        <item quantity="one">Endet nach %1$d Termin</item>
+        <item quantity="other">Endet nach %1$d Terminen</item>
+    </plurals>
+
+    <!-- Recurrence selection sheet -->
+    <string name="rs_subtitle">Wähle, wie sich diese Erinnerung wiederholen soll.</string>
+    <string name="rs_none">Keine Wiederholung</string>
+    <string name="rs_monthly_settings">Monatliche Einstellungen</string>
+    <string name="rs_monthly_subtitle">Wähle die Tage oder das Ende der Wiederholung.</string>
+    <string name="rs_repeat_on">Wiederholen am</string>
+    <string name="rs_days_of_month">Tag(e) des Monats</string>
+    <string name="rs_last_day">Letzter Tag</string>
+    <string name="rs_select_days_toggle">Tage auswählen (zum Umschalten tippen)</string>
+    <string name="rs_selected">Ausgewählt: %1$s</string>
+    <string name="rs_weekly_settings">Wöchentliche Einstellungen</string>
+    <string name="rs_weekly_subtitle">Wähle die Wochentage für die Wiederholung.</string>
+    <string name="rs_select_days">Tage auswählen</string>
+    <string name="rs_custom_interval">Eigenes Intervall</string>
+    <string name="rs_custom_subtitle">Lege den Abstand zwischen den Wiederholungen fest.</string>
+    <string name="rs_repeat_every">Wiederholen alle</string>
+    <string name="rs_number">Anzahl</string>
+    <string name="rs_unit">Einheit</string>
+    <string name="rs_repeats_every">Wiederholungsintervall: %1$d %2$s.</string>
+    <string name="rs_interval_min">Das Intervall muss mindestens 1 sein</string>
+    <string name="rs_ends">Endet</string>
+    <string name="rs_forever">Für immer</string>
+    <string name="rs_until_date">Bis Datum/Uhrzeit</string>
+    <string name="rs_after_count">Nach Anzahl</string>
+    <string name="rs_must_be_after">Frühestens: %1$s</string>
+    <string name="rs_date_label">Datum: %1$s</string>
+    <string name="rs_time_label">Uhrzeit: %1$s</string>
+    <string name="rs_num_occurrences">Anzahl der Termine</string>
+    <string name="rs_allowed_range">Erlaubt: 1–999</string>
+    <string name="rs_end_before_error">Die Endzeit darf nicht vor der Erinnerungszeit liegen</string>
+    <string name="rs_select_end_time">Endzeit auswählen</string>
+    <plurals name="unit_minutes"><item quantity="one">Minute</item><item quantity="other">Minuten</item></plurals>
+    <plurals name="unit_hours"><item quantity="one">Stunde</item><item quantity="other">Stunden</item></plurals>
+    <plurals name="unit_days"><item quantity="one">Tag</item><item quantity="other">Tage</item></plurals>
+    <plurals name="unit_weeks"><item quantity="one">Woche</item><item quantity="other">Wochen</item></plurals>
+    <plurals name="unit_months"><item quantity="one">Monat</item><item quantity="other">Monate</item></plurals>
+    <plurals name="unit_years"><item quantity="one">Jahr</item><item quantity="other">Jahre</item></plurals>
+
+    <!-- Settings -->
+    <string name="set_appearance">Sprache &amp; Darstellung</string>
+    <string name="set_reminder_form">Erinnerungsformular</string>
+    <string name="set_reminder_form_desc">Wähle jeden Bereich einzeln. Wenn du alle Eingabebereiche ausblendest, schalte einen wieder ein, bevor du eine Erinnerung erstellst.</string>
+    <string name="ae_no_content_sections">Es sind keine Eingabebereiche aktiviert. Schalte Sprachaufnahme, Audiodatei auswählen oder Getippte Erinnerung unter Einstellungen &gt; Erinnerungsformular ein.</string>
+    <string name="set_show_voice_recording">Sprachaufnahme</string>
+    <string name="set_show_voice_recording_desc">Den Bereich für die Mikrofonaufnahme anzeigen.</string>
+    <string name="set_experimental_voice_enhancement">Experimentelle Sprachverbesserung</string>
+    <string name="set_experimental_voice_enhancement_desc">Aus: die ursprüngliche, unbearbeitete Aufnahme. An: die neuen Aufnahme-Schutzfunktionen, der Hinweis auf Aufnahmen ohne Ton und die Stimmbereinigung.</string>
+    <string name="set_experimental_voice_enhancement_note">Experimentell: Ergebnis und Verarbeitungszeit hängen vom Gerät ab. Schalte dies aus, wenn Aufnahmen verzerrt klingen oder das Speichern länger dauert.</string>
+    <string name="set_show_audio_file">Audiodatei auswählen</string>
+    <string name="set_show_audio_file_desc">Die Option zum Auswählen einer vorhandenen Audiodatei anzeigen.</string>
+    <string name="set_show_typed_reminder">Getippte Erinnerung</string>
+    <string name="set_show_typed_reminder_desc">Das Feld für die Erinnerungsnachricht anzeigen.</string>
+    <string name="set_show_short_label">Kurzname</string>
+    <string name="set_show_short_label_desc">Das optionale Feld für den Kurznamen anzeigen.</string>
+    <string name="set_app_theme">App-Design</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Hell</string>
+    <string name="theme_dark">Dunkel</string>
+    <string name="set_toast_theme_light">Helles Design aktiviert</string>
+    <string name="set_toast_theme_dark">Dunkles Design aktiviert</string>
+    <string name="set_toast_theme_system">Folgt dem Systemdesign</string>
+    <string name="set_playback">Wiedergabe</string>
+    <string name="set_autoplay">Automatisch abspielen</string>
+    <string name="set_autoplay_desc">Spielt Aufnahmen, Audiodateien und aktivierten gesprochenen Text ab, wenn eine Erinnerung klingelt. Wenn aus, tippe zum Anhören auf Abspielen.</string>
+    <string name="set_disabled_tone">Deaktiviert, solange der Nur-Ton-Modus an ist</string>
+    <string name="set_toast_autoplay_on">Automatische Wiedergabe an</string>
+    <string name="set_toast_autoplay_off">Automatische Wiedergabe aus</string>
+    <string name="set_unlock_only">Nur wenn das Telefon entsperrt ist</string>
+    <string name="set_unlock_only_desc">Wiedergabe auf dem Sperrbildschirm verhindern</string>
+    <string name="set_toast_lock_off">Wiedergabe auf dem Sperrbildschirm aus</string>
+    <string name="set_toast_lock_on">Wiedergabe auf dem Sperrbildschirm an</string>
+    <string name="set_speak_text">Getippte Erinnerungen automatisch vorlesen</string>
+    <string name="set_speak_text_desc">Nur für reine Texterinnerungen ohne Sprachnotiz oder Audiodatei</string>
+    <string name="set_toast_speak_on">Automatisches Vorlesen an</string>
+    <string name="set_toast_speak_off">Automatisches Vorlesen aus</string>
+    <string name="set_spoken_language">Gesprochene Sprache</string>
+    <string name="set_spoken_language_desc">Stimme für gesprochene Erinnerungen. Die automatische Erkennung richtet sich nach der Sprache der Erinnerung. Die Stimme der gewählten Sprache muss in den Sprachausgabe-Einstellungen deines Telefons installiert sein.</string>
+    <string name="tts_auto">Automatisch</string>
+    <string name="tts_device">Gerät</string>
+    <string name="tts_english">Englisch</string>
+    <string name="set_toast_tts_device">Gesprochene Sprache: Gerätesprache</string>
+    <string name="set_toast_tts_english">Gesprochene Sprache: Englisch</string>
+    <string name="set_toast_tts_auto">Gesprochene Sprache: automatisch</string>
+    <string name="set_private">Private Wiedergabe</string>
+    <string name="set_private_desc">Nutzt zuerst verbundene Hörgeräte, Bluetooth-Geräte oder kabelgebundene Kopfhörer. Ist nichts verbunden, wird die Hörmuschel des Telefons statt des Lautsprechers verwendet.</string>
+    <string name="set_toast_private_on">Private Wiedergabe an</string>
+    <string name="set_toast_private_off">Private Wiedergabe aus</string>
+    <string name="set_private_bt">Private Wiedergabe an. Für Bluetooth wird die Berechtigung „Geräte in der Nähe“ benötigt.</string>
+    <string name="set_tone_only">Nur-Ton-Modus</string>
+    <string name="set_tone_only_desc">Spielt einen Alarmton statt Aufnahmen oder Sprache. Stoppt nach: %1$s. Schlummern: %2$d Min.</string>
+    <string name="set_tone_only_desc_no_snooze">Spielt einen Alarmton statt Aufnahmen oder Sprache. Stoppt nach: %1$s.</string>
+    <string name="set_snooze_enabled">Schlummern erlauben</string>
+    <string name="set_snooze_enabled_desc">Zeigt „Schlummern“ bei Erinnerungsalarmen und Benachrichtigungen. Schalte es aus, damit nur „Erledigt“ eine Erinnerung beendet.</string>
+    <string name="set_toast_tone_on">Nur-Ton-Modus an</string>
+    <string name="set_toast_tone_off">Nur-Ton-Modus aus</string>
+    <string name="set_infinite">Unbegrenzt</string>
+    <string name="set_minutes_short">%1$d Min.</string>
+    <string name="set_select_tone">Ton auswählen</string>
+    <string name="file_picker_unavailable">Keine App auf diesem Gerät kann Dateien öffnen. Installiere einen Dateimanager und versuche es erneut.</string>
+    <string name="tone_picker_unavailable">Keine App auf diesem Gerät kann einen Ton auswählen.</string>
+    <string name="set_toast_default_tone">Standard-Alarmton wird verwendet</string>
+    <string name="set_toast_tone_updated">Ton aktualisiert</string>
+    <string name="set_fullscreen">Vollbild-Alarm auf dem Sperrbildschirm</string>
+    <string name="set_fullscreen_desc_granted">Zeigt die Erinnerungsaktionen über dem Sperrbildschirm, wenn eine Erinnerung klingelt</string>
+    <string name="set_fullscreen_desc_denied">Benötigt den Android-Zugriff für Vollbild-Alarme, um über dem Sperrbildschirm zu erscheinen</string>
+    <string name="set_allow_fullscreen">Vollbild-Alarme in den Systemeinstellungen erlauben</string>
+    <string name="set_toast_fs_on">Vollbild-Alarm auf dem Sperrbildschirm an</string>
+    <string name="set_toast_fs_off">Vollbild-Alarm auf dem Sperrbildschirm aus</string>
+    <string name="set_fs_off_title">Der Vollbild-Zugriff ist noch aus</string>
+    <string name="set_fs_off_msg">Android 14+ verlangt eine eigene Systemberechtigung für Vollbild-Erinnerungsalarme.</string>
+    <string name="set_open_perm">Berechtigungseinstellungen öffnen</string>
+    <string name="set_fs_note">Du kannst in der Benachrichtigung weiterhin auf „Abspielen“ oder „Vorlesen“ tippen.</string>
+    <string name="set_tone_volume_note">Im Nur-Ton-Modus bestimmt die Wecker-/Benachrichtigungslautstärke deines Geräts die Lautstärke.</string>
+    <string name="set_loop_duration">Dauerwiedergabe stoppen nach</string>
+    <string name="set_loop_duration_desc">Stoppt den Ton oder das Audio in Schleife nach dieser Zeit. Nachfragen sind eigene, spätere Alarme.</string>
+    <string name="set_toast_loop">Schleifendauer: %1$d Min.</string>
+    <string name="set_toast_loop_infinite">Schleifendauer: unbegrenzt</string>
+    <string name="set_custom">Eigene</string>
+    <string name="set_custom_snooze">Eigene Schlummerzeit</string>
+    <string name="set_snooze_desc">Lege fest, wie lange die Erinnerung verschoben wird</string>
+    <string name="set_toast_snooze">Schlummern: %1$d Min.</string>
+    <string name="set_toast_followup_off">Standard-Nachfrage aus</string>
+    <string name="set_toast_followup">Standard-Nachfrage: %1$d Min.</string>
+    <string name="set_quiet">Ruhezeiten</string>
+    <string name="set_quiet_desc">Erinnerungen zu festgelegten Zeiten stumm schalten</string>
+    <string name="set_toast_quiet_on">Ruhezeiten an</string>
+    <string name="set_toast_quiet_off">Ruhezeiten aus</string>
+    <string name="set_start">Beginn</string>
+    <string name="set_end">Ende</string>
+    <string name="set_toast_quiet_start">Ruhezeit beginnt um %1$s</string>
+    <string name="set_toast_quiet_end">Ruhezeit endet um %1$s</string>
+    <string name="set_toast_test">Testerinnerung in 10 Sekunden</string>
+    <string name="set_test_reminder">Testerinnerung</string>
+    <string name="set_cd_granted">Berechtigung erteilt</string>
+    <string name="set_cd_action_required">Aktion erforderlich</string>
+    <string name="set_notifications">Benachrichtigungen</string>
+    <string name="set_exact_alarms">Exakte Alarme</string>
+    <string name="set_microphone">Mikrofon</string>
+    <string name="set_dnd">Auch bei „Nicht stören“ erinnern</string>
+    <string name="set_dnd_desc_off">Folgt dem Tonmodus deines Telefons. „Nicht stören“ oder Routinen können Erinnerungen stumm schalten.</string>
+    <string name="set_dnd_desc_active">Aktiv: Erinnerungen nutzen Weckerpriorität und umgehen „Nicht stören“.</string>
+    <string name="set_dnd_unavailable">Die Android-Einstellungen für den „Nicht stören“-Zugriff sind auf diesem Gerät nicht verfügbar.</string>
+    <string name="set_grant_dnd">Android-Zugriff auf „Nicht stören“ erteilen</string>
+    <string name="set_dnd_note">Das steuert nicht den „Nicht stören“-Modus deines Telefons. Es erlaubt %1$s nur, die Berechtigung anzufragen, wichtige Erinnerungen trotzdem abzuspielen.</string>
+    <string name="set_battery_guide">Erinnerungen kommen noch zu spät? Schritte für dein Telefon</string>
+    <string name="set_battery_desc">Die Akkuoptimierung kann Erinnerungen auf manchen Telefonen verzögern oder stoppen.</string>
+    <string name="set_wear">Wear OS</string>
+    <string name="set_wear_checking">Wear OS-Verbindung wird geprüft…</string>
+    <string name="set_wear_connected">Wear OS-Uhr verbunden</string>
+    <string name="set_wear_supported">Erinnerungen von %1$s auf der Uhr werden nur auf Wear OS-Uhren unterstützt.</string>
+    <string name="set_wear_notif_off">Die Benachrichtigungen der Telefon-App sind aus. Schalte sie ein, damit Erinnerungen mit der Uhr synchronisiert werden.</string>
+    <string name="set_open_notif">Benachrichtigungseinstellungen öffnen</string>
+    <string name="set_open_channel">Erinnerungskanal öffnen</string>
+    <string name="set_wear_enabled">Die Telefon-Benachrichtigungen sind aktiviert. Wenn Erinnerungen auf der Uhr weiterhin fehlen, aktiviere die Benachrichtigungssynchronisierung in deiner Wear OS-Begleit-App.</string>
+    <string name="set_refresh">Status aktualisieren</string>
+    <string name="set_app_guide">App-Anleitung</string>
+    <string name="set_toast_no_email">Keine E-Mail-App verfügbar. Du kannst an ghostgramlabs@gmail.com schreiben oder die angezeigte Adresse kopieren.</string>
+    <string name="set_contact_support">Funktionswünsche &amp; Support</string>
+    <string name="set_contact_support_desc">Hast du eine Idee oder brauchst Hilfe? Schreib uns eine E-Mail.</string>
+    <string name="support_email_subject">%1$s – Funktionswunsch oder Support</string>
+    <string name="feature_request_email_subject">%1$s – Funktionswunsch</string>
+    <string name="suggest_feature">Funktion vorschlagen</string>
+    <string name="set_toast_no_rating">Die Bewertungsseite kann auf diesem Gerät nicht geöffnet werden.</string>
+    <string name="set_rate">%1$s bewerten</string>
+    <string name="set_developer">Entwickler</string>
+    <string name="set_debug_logging">Debug-Protokollierung</string>
+    <string name="set_debug_desc">Detaillierte Protokolle aufzeichnen</string>
+    <string name="set_send_logs">Protokolle senden</string>
+    <string name="set_fix">Beheben</string>
+    <string name="set_cd_collapse">Einklappen</string>
+    <string name="set_cd_expand">Ausklappen</string>
+    <string name="set_tone_sound">Alarmton im Nur-Ton-Modus</string>
+    <string name="set_tone_sound_hint">Aktiviere den Nur-Ton-Modus, um einen Ton zu wählen. Bis dahin verwendet SpeakAlert den Standard-Alarmton.</string>
+    <string name="set_choose_tone">Ton wählen</string>
+    <string name="set_use_default">Standard verwenden</string>
+    <string name="set_default_alarm_tone">Standard-Alarmton</string>
+    <string name="set_tone_unavailable">Ausgewählter Ton nicht verfügbar, Standard-Alarmton wird verwendet</string>
+    <string name="set_select_label_time">%1$s: Uhrzeit auswählen</string>
+    <string name="set_minutes">Minuten</string>
+    <string name="set_max_allowed">Maximal erlaubt: %1$d Min.</string>
+    <string name="set_desc_max">%1$s (max. %2$d Min.)</string>
+    <string name="set_label_time">%1$s: %2$s</string>
+    <string name="set_volume">Lautstärke</string>
+    <string name="set_cd_volume">App-Lautstärke: %1$d %%</string>
+    <string name="set_loop_inline_desc">Stoppt den Ton oder das Audio in Schleife nach dieser Zeit. Nachfragen sind eigene, spätere Alarme.</string>
+    <string name="set_loop_gap">Pause zwischen Wiederholungen</string>
+    <string name="set_loop_gap_desc">Stille, bevor eine Erinnerung in Schleife erneut abgespielt wird. Die Stoppzeit oben beendet die Schleife weiterhin. Töne klingeln ohne Pause.</string>
+    <string name="set_loop_gap_none">Keine</string>
+    <string name="set_seconds_short">%1$d s</string>
+    <string name="set_seconds">Sekunden</string>
+    <string name="set_max_allowed_seconds">Maximal erlaubt: %1$d Sek.</string>
+    <string name="set_desc_max_seconds">%1$s (max. %2$d s)</string>
+    <string name="set_default_snooze">Standard-Schlummerzeit</string>
+    <string name="set_snooze_inline_desc">Wie lange die Erinnerung verschoben wird, wenn du auf Schlummern tippst</string>
+    <string name="set_default_followup">Standard-Nachfrage</string>
+    <string name="set_followup_off_desc">Aus – neue Erinnerungen werden ohne Nachfrage erstellt. Du kannst sie weiterhin pro Erinnerung einstellen.</string>
+    <string name="set_followup_on_desc">Neue Erinnerungen starten mit einer Nachfrage nach %1$d Min., die erneut erinnert, solange die Erinnerung nicht als erledigt markiert ist. Bestehende Erinnerungen bleiben unverändert.</string>
+    <string name="set_followup_repeat">Limit für Nachfrage-Wiederholungen</string>
+    <string name="set_followup_repeat_desc">Standardmäßig (∞) erinnert eine Nachfrage so lange, bis du die Erinnerung als erledigt markierst. Wähle ein Limit, wenn sie nach so vielen Wiederholungen von selbst aufhören soll. Auch Ruhezeiten stoppen Nachfragen.</string>
+    <string name="set_toast_followup_repeat_until_done">Nachfrage wiederholt sich, bis erledigt</string>
+    <string name="set_toast_followup_repeat">Limit für Nachfrage-Wiederholungen: %1$d×</string>
+    <string name="set_reliability">Zuverlässigkeit</string>
+    <string name="set_persist">Benachrichtigung bis zur Erledigung behalten</string>
+    <string name="set_persist_desc">Die Erinnerungsbenachrichtigung bleibt angeheftet und verschwindet erst, wenn du auf Erledigt oder Schlummern tippst. Funktioniert am besten mit einer Nachfrage.</string>
+    <string name="set_toast_persist_on">Erinnerungen bleiben, bis sie erledigt sind</string>
+    <string name="set_toast_persist_off">Erinnerungen können weggewischt werden</string>
+    <string name="set_all_granted">Alle Berechtigungen erteilt</string>
+    <string name="set_some_needed">Einige Berechtigungen fehlen</string>
+    <string name="set_dnd_desc_needed">An, aber der Android-Zugriff auf „Nicht stören“ fehlt noch, damit das Umgehen funktioniert.</string>
+    <string name="set_toast_dnd_on">Erinnern trotz „Nicht stören“ an</string>
+    <string name="set_toast_dnd_off">Erinnern trotz „Nicht stören“ aus</string>
+    <string name="set_battery_desc_ok">%1$s darf bereits im Hintergrund laufen.</string>
+    <string name="set_wear_watches">%1$d Wear OS-Uhren verbunden</string>
+    <string name="set_wear_none">Keine Wear OS-Uhr verbunden</string>
+    <string name="set_wear_channel_muted">Der Erinnerungskanal von %1$s ist stumm. Aktiviere ihn, um Erinnerungen an die Uhr zu senden.</string>
+    <string name="set_rate_desc">Teile deine Erfahrung bei Google Play.</string>
+    <string name="set_tone_sound_active">%1$s. Ist er nicht mehr verfügbar, verwendet SpeakAlert den Standard-Alarmton.</string>
+
+    <!-- More apps from the developer -->
+    <string name="set_more_apps_title">Weitere Apps von GhostgramLabs</string>
+    <string name="set_more_apps_desc">Kostenlose Apps von den Machern von %1$s</string>
+    <string name="set_app_free_tag">Kostenlos bei Google Play</string>
+    <string name="app_pettibox_name">PettiBox: Lesezeichen-Manager</string>
+    <string name="app_pettibox_desc">Kostenlos • Privates Später-Speichern für Links, Notizen, Dateien &amp; Screenshots, mit Offline-Suche</string>
+    <string name="app_directserve_name">DirectServe: Dateiübertragung</string>
+    <string name="app_directserve_desc">Kostenlos • Dateien auf jedes Gerät oder jeden Fernseher teilen &amp; streamen – ohne Cloud, ohne Kabel</string>
+    <string name="set_toast_no_store">Google Play kann auf diesem Gerät nicht geöffnet werden.</string>
+
+    <!-- In-app rating prompt -->
+    <string name="rate_prompt_title">%1$s ist kostenlos. Deine Unterstützung zählt.</string>
+    <string name="rate_prompt_message">Deine Bewertung hilft mehr Menschen, %1$s zu entdecken, und spornt uns an, die App weiter zu verbessern. Nimm dir einen Moment und teile deine Erfahrung bei Google Play.</string>
+    <string name="rate_prompt_positive">Jetzt bewerten</string>
+    <string name="rate_prompt_later">Vielleicht später</string>
+    <string name="rate_prompt_never">Nein danke</string>
+
+    <!-- Help guide -->
+    <string name="help_intro">Alles Wichtige zum Erstellen, Abspielen, Wiederholen und Wiederherstellen von Erinnerungen in %1$s.</string>
+    <string name="help_s1_title">Wenn eine Erinnerung klingelt</string>
+    <string name="help_s1_content">Jeder Alarm – auf dem Sperrbildschirm und in der Benachrichtigung – zeigt klare Schaltflächen:\n- Erledigt: markiert die Aufgabe als abgeschlossen. Bei einer wiederkehrenden Erinnerung gilt das nur für dieses Mal, künftige Wiederholungen bleiben.\n- Stumm: stoppt den Alarmton, lässt die Erinnerung aber auf dem Bildschirm, damit du später entscheiden kannst.\n- Schlummern: erinnert dich nach kurzer Zeit erneut (5 oder 10 Minuten im Vollbild-Alarm).\n- Abspielen / Vorlesen: erscheint, wenn nichts abgespielt wird, damit du eine Sprach- oder Texterinnerung noch einmal hören kannst.\nTipp: Nur „Erledigt“ schließt eine Aufgabe ab. „Stumm“ schaltet lediglich den Ton aus.</string>
+    <string name="help_s2_title">Erinnerungen erstellen</string>
+    <string name="help_s2_content">- Stimme zuerst: Tippe auf das Mikrofon, um schnell eine gesprochene Erinnerung aufzunehmen.\n- Audiodatei: Wähle eine vorhandene Audiodatei von deinem Gerät.\n- Erinnerungsnachricht: Wird in der App und in Benachrichtigungen angezeigt.\n- Sprachnotizen und Audiodateien haben Vorrang vor vorgelesenem Text.\n- Getippte Erinnerungen werden nur dann automatisch vorgelesen, wenn es reine Texterinnerungen sind und das automatische Vorlesen aktiviert ist.\n- Kurzname: Optionaler Name für mehr Übersicht in Listen.\n- Zeitplan: Wähle Datum, Uhrzeit, Wiederholung und Nachfrage und speichere.</string>
+    <string name="help_s3_title">Wiedergabe und Vorschau</string>
+    <string name="help_s3_content">- Unter „Erinnerung hinzufügen“ kannst du aufgenommene Sprache und ausgewählte Audiodateien vor dem Speichern anhören.\n- In den Erinnerungsdetails kannst du Sprachnotizen und Audiodateien abspielen, stoppen und vor- oder zurückspulen.\n- Reine Texterinnerungen lassen sich weiterhin manuell aus der App oder der Benachrichtigung vorlesen.\n- Der Nur-Ton-Modus verwendet den Erinnerungston statt gesprochener Wiedergabe.\n- In den Einstellungen kannst du einen Alarmton für den Nur-Ton-Modus wählen; ist dieser Ton nicht mehr verfügbar, verwendet %1$s den Standard-Alarmton.</string>
+    <string name="help_s4_title">Startseite und Schnellaktionen</string>
+    <string name="help_s4_content">- Die Tabs Heute, Anstehend, Verpasst und Erledigt gruppieren Erinnerungen nach Status.\n- Tippe auf eine Karte, um alle Details der Erinnerung zu öffnen.\n- Mit der Kopieren-Schaltfläche duplizierst du eine vorhandene Erinnerung.\n- Die Kartenaktionen umfassen Erinnerung abspielen, Erledigt und das Drei-Punkte-Menü für Bearbeiten, Als erledigt markieren, Wiederholung beenden oder Löschen.</string>
+    <string name="help_s18_title">Erinnerungen pausieren und Hinweise auf der Startseite</string>
+    <string name="help_s18_content">- Tippe auf der Startseite auf die Pause-Schaltfläche, um alle Erinnerungen für eine Stunde, vier Stunden, den Rest des Tages oder bis zu einer gewählten Uhrzeit anzuhalten.\n- Jede Pause hat ein Ende. Die Startseite zeigt es an; mit Fortsetzen beendest du sie früher.\n- Eine pausierte Erinnerung klingelt nicht, erscheint aber trotzdem im Tab „Verpasst“.\n- Eine Pause hat auch Vorrang vor „Auch bei ‚Nicht stören‘ erinnern“, denn sie bedeutet, dass du die Erinnerung gerade gar nicht möchtest.\n- Die Startseite warnt dich, wenn dieses Telefon %1$s im Hintergrund beenden darf, und zeigt deine Ruhezeiten an, solange sie aktiv sind.</string>
+    <string name="help_s5_title">Wiederkehrende Erinnerungen</string>
+    <string name="help_s5_content">- Wiederholungsarten: Täglich, Wöchentlich, Monatlich, Jährlich oder Benutzerdefiniert.\n- Das gewählte Datum und die Uhrzeit sind der erste Termin.\n- Wiederholungen können für immer laufen, zu einem genauen Datum und einer Uhrzeit enden oder nach einer Anzahl von Terminen.\n- „Erledigt“ bei einer wiederkehrenden Erinnerung betrifft nur den aktuellen Termin.</string>
+    <string name="help_s6_title">Benachrichtigungen und Vollbild-Alarme</string>
+    <string name="help_s6_content">- Die Erinnerungsbenachrichtigung zeigt drei Schnellschaltflächen: Erledigt, Schlummern und entweder Stumm (während sie abgespielt wird) oder Abspielen/Vorlesen (um sie noch einmal zu hören).\n- Erledigt schließt die Erinnerung ab; Stumm stoppt nur den Ton und lässt die Erinnerung stehen, damit du später handeln kannst.\n- Das Wegwischen der Benachrichtigung markiert den aktuellen Termin ebenfalls als erledigt.\n- Wenn in den Einstellungen aktiviert, kann auf dem Sperrbildschirm ein Vollbild-Alarm mit denselben Aktionen erscheinen: Erledigt, Stumm, Schlummern und Erneut abspielen.</string>
+    <string name="help_s7_title">Verpasste und wiederhergestellte Erinnerungen</string>
+    <string name="help_s7_content">- Verpasste Erinnerungen bleiben im Tab „Verpasst“, bis du sie durchgesehen hast.\n- Beim Öffnen der App kann ein Fenster für verpasste Erinnerungen anbieten, die zuletzt verpasste Erinnerung schnell abzuspielen.\n- Vergangene Erinnerungen lassen sich über ihre Aktionsmenüs wiederherstellen, neu planen oder erneut abspielen.</string>
+    <string name="help_s8_title">Wiedergabe-Einstellungen</string>
+    <string name="help_s8_content">- Die automatische Wiedergabe startet die Sprachnotiz oder Audiodatei, wenn eine Erinnerung klingelt.\n- „Getippte Erinnerungen automatisch vorlesen“ steuert das Vorlesen nur für reine Texterinnerungen.\n- „Gesprochene Sprache“ legt die Stimme für gesprochene Erinnerungen fest: Die automatische Erkennung richtet sich nach der Sprache der Erinnerung (eine Hindi-Erinnerung wird also auf Hindi vorgelesen), oder du erzwingst die Gerätesprache oder Englisch. Die Stimme der gewählten Sprache muss in den Sprachausgabe-Einstellungen deines Telefons installiert sein.\n- Die manuelle Wiedergabe funktioniert auch, wenn das automatische Vorlesen aus ist.\n- Die private Wiedergabe nutzt zuerst verbundene Hörgeräte, Bluetooth-Geräte oder kabelgebundene Kopfhörer. Ist nichts verbunden, wird die Hörmuschel des Telefons statt des Lautsprechers verwendet.\n- Die Wiedergabe in Schleife wiederholt das Audio, bis du es stoppst oder das Zeitlimit der Schleife erreicht ist.\n- Die Nachfrage fragt so lange erneut, bis die Erinnerung als erledigt markiert ist.\n- Ruhezeiten können die Wiedergabe von Erinnerungen zu gewählten Zeiten stumm schalten.</string>
+    <string name="help_s9_title">Nur-Ton-Modus und Zuverlässigkeit</string>
+    <string name="help_s9_content">- Der Nur-Ton-Modus verwendet einen klaren Alarmton statt Stimme oder Sprachausgabe.\n- Du kannst einen eigenen Alarmton für den Nur-Ton-Modus wählen oder den Standard-Alarmton behalten.\n- Mit „Auch bei ‚Nicht stören‘ erinnern“ versucht %1$s, wichtige Erinnerungen abzuspielen, während „Nicht stören“ aktiv ist.\n- Ist „Auch bei ‚Nicht stören‘ erinnern“ aus, landen von „Nicht stören“ blockierte Erinnerungen unter „Verpasst“, statt abgespielt zu werden.\n- Diese Einstellung schaltet den „Nicht stören“-Modus deines Telefons weder ein noch aus. Der Android-Zugriff auf „Nicht stören“ ist nötig, bevor das Umgehen aktiv wird.\n- Wenn aktiviert, nutzen Erinnerungen Audio mit Weckerpriorität. Manche Telefonroutinen können Wecker trotzdem blockieren, wenn der Systemmodus Weckertöne stumm schaltet.\n- Fehlt der ausgewählte Ton später, verwendet %1$s automatisch den Standard-Alarmton.\n- Nutze den Nur-Ton-Modus, wenn dein Telefon die gesprochene Wiedergabe verzögert, unterdrückt oder stoppt.\n- Unter Einstellungen &gt; Erinnerungs-Check findest du eine Schritt-für-Schritt-Akkuhilfe für Telefone mit strengen Hintergrundbeschränkungen.\n- Lass Benachrichtigungen, exakte Alarme und die Akkueinstellungen aktiviert, damit Erinnerungen möglichst zuverlässig sind.</string>
+    <string name="help_s10_title">Widgets und Wear OS</string>
+    <string name="help_s10_content">- Das Widget „Schnellerinnerung“ öffnet „Erinnerung hinzufügen“ direkt.\n- Das Widget „Anstehend“ zeigt anstehende und verpasste Erinnerungen.\n- Die Wear OS-Unterstützung setzt voraus, dass Telefon-Benachrichtigungen und die Synchronisierung mit der Uhr aktiviert sind.</string>
+    <string name="help_s11_title">Nach einem Geräteneustart</string>
+    <string name="help_s11_content">- Künftige Erinnerungen werden nach dem Neustart automatisch neu geplant.\n- Überfällige Erinnerungen durchlaufen den Ablauf für verpasste Erinnerungen, statt beim Hochfahren unerwartet zu klingeln.</string>
+    <string name="help_s13_title">Nachfragen</string>
+    <string name="help_s13_content">- Eine Nachfrage fragt einige Minuten nach einer Erinnerung: „Hast du … erledigt?“\n- Standardmäßig wiederholt sie sich, bis du die Erinnerung als erledigt markierst. Unter Einstellungen &gt; Zuverlässigkeit kannst du ein Wiederholungslimit festlegen, wenn sie von selbst aufhören soll.\n- Erledigt und Schlummern beenden den aktuellen Nachfrage-Zyklus; auch Ruhezeiten stoppen Nachfragen.\n- Nachfragen laufen nach einem Geräteneustart weiter, bis die Erinnerung erledigt oder das Limit erreicht ist.</string>
+    <string name="help_s14_title">Sichern und Importieren</string>
+    <string name="help_s14_content">- „Erinnerungen sichern“ in den Einstellungen speichert alle anstehenden Erinnerungen samt Sprachaufnahmen in einer einzigen Datei deiner Wahl.\n- „Erinnerungen importieren“ stellt sie auf diesem oder einem anderen Gerät wieder her.\n- Beim Import werden exakte Duplikate und abgelaufene einmalige Erinnerungen übersprungen; wiederkehrende Erinnerungen laufen ab ihrem nächsten Termin weiter.\n- Importierte Erinnerungen werden sofort geplant.</string>
+    <string name="help_s12_title">Erinnerungen bis zur Erledigung auf dem Bildschirm behalten</string>
+    <string name="help_s12_content">- Aktiviere Einstellungen &gt; Zuverlässigkeit &gt; Benachrichtigung bis zur Erledigung behalten, um die Erinnerungsbenachrichtigung anzuheften, damit sie nicht versehentlich weggewischt wird.\n- Solange das an ist, schaltet ein Wischen nur den Ton stumm und lässt die Erinnerung offen – sie bleibt, bis du auf Erledigt oder Schlummern tippst.\n- Als erledigt markieren funktioniert immer: aus der Benachrichtigung, dem Vollbild-Alarm oder der Erinnerungskarte – und es stoppt alle weiteren Nachfragen.\n- Kombiniere es mit einer Nachfrage, damit die Erinnerung zusätzlich in Abständen erneut klingelt, bis sie erledigt ist.</string>
+
+    <!-- What's new sheet -->
+    <string name="action_continue">Weiter</string>
+    <string name="wn_title">Neu in %1$s</string>
+    <string name="wn_intro">Vier Verbesserungen, alle von Menschen vorgeschlagen, die die App nutzen.</string>
+    <string name="wn_check_title">Sieh, was eine Erinnerung aufhalten könnte</string>
+    <string name="wn_check_desc">Der Erinnerungs-Check ganz oben in den Einstellungen zeigt alles, was Erinnerungen verspäten oder stumm machen könnte, etwa Benachrichtigungen, Akku oder eine leise Weckerlautstärke – jeweils mit einer Schaltfläche zum Beheben.</string>
+    <string name="wn_reliable_title">Besonders zuverlässige Erinnerungen</string>
+    <string name="wn_reliable_desc">Wenn dein Telefon Erinnerungen verzögert, um Akku zu sparen, aktiviere „Besonders zuverlässige Erinnerungen“ unter Einstellungen &gt; Erinnerungs-Check. Erinnerungen werden dann wie Wecker gestellt und klingeln pünktlich.</string>
+    <string name="wn_settings_title">Einstellungen, die leichter zu finden sind</string>
+    <string name="wn_settings_desc">Jeder Bereich sagt, was er enthält, und die App-Sprache steht weit oben unter Sprache &amp; Darstellung.</string>
+    <string name="wn_cards_title">Bearbeiten, Erledigt und Löschen auf jeder Karte</string>
+    <string name="wn_cards_desc">Jede Erinnerungskarte hat Schaltflächen für Bearbeiten, Erledigt und Löschen. Vor dem Löschen wird gefragt, und es lässt sich rückgängig machen.</string>
+    <string name="wn_sound_title">Der Ton stoppt, wenn er soll</string>
+    <string name="wn_sound_desc">Wenn du eine Erinnerung als erledigt markierst, löschst oder ihre Zeit änderst, stoppt ihr Ton sofort. Tonalarme haben wieder eine Stumm-Schaltfläche.</string>
+    <string name="wn_nthday_title">Am letzten Donnerstag wiederholen</string>
+    <string name="wn_nthday_desc">Monatliche Erinnerungen können auf einen Wochentag nach seiner Position im Monat fallen, etwa den ersten Montag oder den letzten Donnerstag. Wähle Wiederholen &gt; Monatlich &gt; Wochentag.</string>
+    <string name="wn_gap_title">Eine Pause zwischen Wiederholungen</string>
+    <string name="wn_gap_desc">Eine Erinnerung in Schleife kann warten, bevor sie erneut abgespielt wird: „Meeting“, 10 Sekunden Stille, wieder „Meeting“, bis zur Stoppzeit. Stelle es unter Einstellungen &gt; Wenn eine Erinnerung klingelt &gt; Pause zwischen Wiederholungen ein.</string>
+    <string name="wn_colors_title">Deine Farben für Erledigt und Löschen</string>
+    <string name="wn_colors_desc">Gib den Schaltflächen Erledigt und Löschen auf den Erinnerungskarten deine eigenen Farben: Einstellungen &gt; Sprache &amp; Darstellung &gt; Schaltflächen der Erinnerungskarten.</string>
+    <string name="wn_notif_title">Benachrichtigungen verschwinden, wenn du die App öffnest</string>
+    <string name="wn_notif_desc">Nachdem eine Erinnerung geklingelt hat, entfernt das Öffnen der App oder das Speichern einer Änderung an der Erinnerung ihre Benachrichtigung. Ist „Benachrichtigung bis zur Erledigung behalten“ an, bleibt sie beim Öffnen der App stehen.</string>
+    <string name="wn_edit_title">Datum und Uhrzeit direkt ändern</string>
+    <string name="wn_edit_desc">Öffne eine Erinnerung und tippe auf Datum oder Uhrzeit, um sie direkt zu ändern. Du musst nicht erst den Editor öffnen.</string>
+    <string name="wn_clear_title">Benachrichtigungen räumen sich selbst auf</string>
+    <string name="wn_clear_desc">Sobald du eine Erinnerung in der App öffnest, abspielst, erledigst oder löschst, verschwindet ihre Benachrichtigung aus der Benachrichtigungsleiste. Ist „Benachrichtigung bis zur Erledigung behalten“ aktiviert, bleibt sie, bis du sie als erledigt markierst.</string>
+    <string name="wn_save_title">Spracherinnerungen werden sofort gespeichert</string>
+    <string name="wn_save_desc">Mit aktivierter experimenteller Sprachverbesserung wartet das Speichern nicht mehr auf die Bereinigung. Sie läuft im Hintergrund fertig, und die Erinnerung zeigt so lange „Stimme · wird verbessert…“.</string>
+    <string name="wn_fullscreen_title">Der Sperrbildschirm-Alarm funktioniert jetzt</string>
+    <string name="wn_fullscreen_desc">Der Vollbild-Alarm erschien bisher nie, wenn eine Erinnerung klingelte, egal wie die Einstellung gesetzt war. Jetzt weckt er den Bildschirm und zeigt die Erinnerung – auf einem neu gebauten Alarmbildschirm mit größerem Text und klareren Aktionen.</string>
+    <string name="wn_pause_title">Erinnerungen pausieren</string>
+    <string name="wn_pause_desc">Du gehst in ein Meeting? Pausiere von der Startseite aus für eine Stunde, für den Rest des Tages oder bis zu einer Uhrzeit deiner Wahl. Jede Pause hat ein Ende, und pausierte Erinnerungen erscheinen trotzdem im Tab „Verpasst“.</string>
+    <string name="wn_notices_title">Die Startseite sagt, warum eine Erinnerung stumm blieb</string>
+    <string name="wn_notices_desc">Wenn dieses Telefon %1$s im Hintergrund beenden darf oder deine Ruhezeiten an sind, sagt die Startseite das jetzt, statt dass Erinnerungen stillschweigend ausbleiben.</string>
+    <string name="wn_lang_title">Jetzt in deiner Sprache</string>
+    <string name="wn_lang_desc">Die ganze App gibt es auf Englisch, Spanisch, Hindi, Arabisch, Portugiesisch (Brasilien), Russisch, Vietnamesisch, Bengalisch, Telugu, Tamil, Griechisch und Malayalam, mit Unterstützung für Rechts-nach-links-Schrift. Wähle sie unter Einstellungen &gt; Sprache &amp; Darstellung &gt; Sprache.</string>
+    <string name="wn_missed_title">Verpasste Erinnerungen neu planen</string>
+    <string name="wn_missed_desc">Tippe im Tab „Verpasst“ auf den Stift einer Erinnerung, um ihr ein neues Datum oder eine neue Uhrzeit zu geben. Sie wandert zurück zu deinen anstehenden Erinnerungen.</string>
+    <string name="wn_quiet_title">Der Ton stoppt, wenn du fertig bist</string>
+    <string name="wn_quiet_desc">Das Wegwischen der Benachrichtigung einer Erinnerung stoppt jetzt ihren Ton, und eine Erinnerung beginnt nicht mehr zu spielen, während du sie bearbeitest oder ihre Zeit änderst.</string>
+    <string name="wn_buttons_title">Klarere Alarm-Schaltflächen</string>
+    <string name="wn_buttons_desc">Erinnerungsalarme und Benachrichtigungen zeigen jetzt Erledigt, Stumm und Schlummern. Erledigt schließt die Aufgabe ab; Stumm stoppt nur den Ton und behält die Erinnerung.</string>
+    <string name="wn_spoken_title">Erinnerungen in der richtigen Stimme</string>
+    <string name="wn_spoken_desc">Gesprochene Erinnerungen werden automatisch in ihrer eigenen Sprache vorgelesen – eine Hindi-Erinnerung wird auf Hindi vorgelesen, auch wenn die App auf Englisch ist. Passe es unter Einstellungen &gt; Wenn eine Erinnerung klingelt &gt; Gesprochene Sprache an.</string>
+    <string name="wn_persist_title">Erinnerungen bis zur Erledigung behalten</string>
+    <string name="wn_persist_desc">Aktiviere Einstellungen &gt; Zuverlässigkeit &gt; Benachrichtigung bis zur Erledigung behalten, damit eine Erinnerung angeheftet bleibt und erst verschwindet, wenn du Erledigt oder Schlummern wählst.</string>
+    <string name="wn_backup_title">Erinnerungen sichern und übertragen</string>
+    <string name="wn_backup_desc">Speichere alle anstehenden Erinnerungen – samt Aufnahmen – in einer Datei und stelle sie jederzeit wieder her, auch auf einem neuen Telefon. Du findest es in den Einstellungen.</string>
+    <string name="wn_followup_title">Nachfragen nach deinen Wünschen</string>
+    <string name="wn_followup_desc">Nachfragen erinnern wie bisher so lange, bis du die Erinnerung als erledigt markierst. Neu: Lege unter Einstellungen &gt; Zuverlässigkeit ein Wiederholungslimit fest, wenn sie von selbst aufhören sollen.</string>
+
+    <!-- Startup dialogs -->
+    <string name="action_allow">Erlauben</string>
+    <string name="action_later">Später</string>
+    <string name="action_open_settings">Einstellungen öffnen</string>
+    <string name="batt_prompt_title">%1$s im Hintergrund laufen lassen</string>
+    <string name="batt_prompt_message">Manche Telefone, besonders Modelle von Xiaomi und POCO, beenden Apps im Hintergrund, um Akku zu sparen. Dadurch können Erinnerungen ausbleiben. Erlaube %1$s, die Akkuoptimierung zu ignorieren, damit Erinnerungen zuverlässiger sind.</string>
+    <string name="batt_toast_unavailable">Die Akkueinstellungen sind auf diesem Gerät nicht verfügbar.</string>
+    <string name="home_batt_banner_title">Erinnerungen kommen vielleicht nicht an</string>
+    <string name="home_batt_banner_body">Dieses Telefon darf %1$s im Hintergrund beenden. Tippe, um die uneingeschränkte Akkunutzung zu erlauben.</string>
+    <string name="home_quiet_banner">Ruhezeiten %1$s – %2$s. Erinnerungen landen unter „Verpasst“.</string>
+    <string name="home_pause_banner">Erinnerungen pausiert bis %1$s</string>
+    <string name="home_pause_resume">Fortsetzen</string>
+    <string name="home_pause_title">Erinnerungen pausieren</string>
+    <string name="home_pause_body">Erinnerungen klingeln nicht, bis die Pause endet. Sie landen trotzdem im Tab „Verpasst“.</string>
+    <string name="home_pause_1h">Für 1 Stunde</string>
+    <string name="home_pause_4h">Für 4 Stunden</string>
+    <string name="home_pause_today">Für den Rest des Tages</string>
+    <string name="home_pause_pick">Endzeit wählen…</string>
+    <string name="home_pause_cd">Erinnerungen pausieren</string>
+    <string name="home_pause_also_quiet">Ruhezeiten sind ebenfalls an, %1$s – %2$s.</string>
+    <string name="fsr_title">Vollbild-Alarme wieder erlauben</string>
+    <string name="fsr_message">Sperrbildschirm-Alarme sind in %1$s noch eingeschaltet, aber der Android-Vollbildzugriff ist aus. Das kann nach einer Neuinstallation oder Wiederherstellung passieren.</string>
+    <!-- Version 2.0.34 help and startup highlights -->
+    <string name="help_s15_title">Das Erinnerungsformular anpassen</string>
+    <string name="help_s15_content">- Öffne Einstellungen &gt; Erinnerungsformular, um Sprachaufnahme, Audiodatei auswählen, Getippte Erinnerung und Kurzname ein- oder auszublenden.\n- Jeder Schalter funktioniert unabhängig. Sind alle drei Eingabearten ausgeblendet, sagt dir „Erinnerung hinzufügen“, welche Einstellung du wieder einschalten musst.\n- Beim Bearbeiten erscheint ein ausgeblendeter Bereich automatisch, wenn die Erinnerung dort bereits Inhalt hat.</string>
+    <string name="help_s16_title">Wähle deinen Sprachaufnahme-Modus</string>
+    <string name="help_s16_content">- Öffne Einstellungen &gt; Erinnerungsformular &gt; Experimentelle Sprachverbesserung.\n- Aus (Standard) behält die ursprüngliche, unbearbeitete MIC/AAC-Aufnahme ohne Nachbearbeitung.\n- An aktiviert die neueren Aufnahme-Schutzfunktionen, den Hinweis auf Aufnahmen ohne Ton, die Bereinigung von Hintergrundgeräuschen und die Angleichung der Stimmlautstärke. Ergebnis und Verarbeitungszeit hängen vom Gerät ab.\n- Stille Aufnahmen lassen sich weiterhin anhören und speichern.</string>
+    <string name="help_s17_title">Zuverlässigere Erinnerungswiedergabe</string>
+    <string name="help_s17_content">- Die Erinnerungswiedergabe startet ihre erforderliche Android-Vordergrundbenachrichtigung jetzt sofort, auch auf neueren Android-Versionen und Telefonen mit langsamerem Hintergrundstart.\n- Das verhindert das System-Zeitlimit, das eine Erinnerung stoppen konnte, bevor ihr Ton oder ihre Stimme begann.\n- Lass die Benachrichtigungsberechtigung, exakte Alarme und die empfohlenen Akkueinstellungen aktiviert, damit alles möglichst zuverlässig läuft.</string>
+    <string name="wn_form_title">Dein Erinnerungsformular nach deinen Wünschen</string>
+    <string name="wn_form_desc">Unter Einstellungen &gt; Erinnerungsformular kannst du Sprachaufnahme, Audiodatei auswählen, Getippte Erinnerung und Kurzname unabhängig voneinander ein- oder ausblenden.</string>
+    <string name="wn_recording_title">Optionale experimentelle Sprachverbesserung</string>
+    <string name="wn_recording_desc">Eine neue Einstellung lässt dir die Wahl: Behalte die ursprüngliche, unbearbeitete Aufnahme (Standard) oder aktiviere die neueren Aufnahme-Schutzfunktionen, Hinweise auf Aufnahmen ohne Ton und die Bereinigung von Hintergrundgeräuschen, die leise Aufnahmen auf eine angenehme Lautstärke hebt, ohne die Hintergrundgeräusche zu verstärken. Stille Aufnahmen bleiben immer erhalten.</string>
+    <string name="wn_reliability_title">Zuverlässiger auf neueren Android-Telefonen</string>
+    <string name="wn_reliability_desc">Die Erinnerungswiedergabe startet jetzt sicher und sofort im Vordergrund und verhindert so Start-Zeitüberschreitungen, die auf einigen Geräten mit Android 12 und Android 16 auftraten.</string>
+    <string name="settings_24_hour_time">24-Stunden-Format verwenden</string>
+    <string name="settings_24_hour_time_desc">Jede Uhrzeit als 17:30 statt 5:30 PM anzeigen.</string>
+    <string name="set_week_start">Woche beginnt am</string>
+    <string name="set_week_start_desc">Der erste Wochentag in der Datumsauswahl. Bei einem gewählten Tag wird die Datumsauswahl des Telefons verwendet.</string>
+
+    <!-- Reminder card and actions sheet -->
+    <string name="card_recur_onetime">Einmalige Erinnerung</string>
+    <string name="card_recur_daily">Wiederholt sich täglich</string>
+    <string name="card_recur_last_day">Letzter Tag jedes Monats</string>
+    <string name="rs_day_of_week">Wochentag</string>
+    <string name="rs_which_one">Der wievielte im Monat</string>
+    <string name="rs_weekday">Wochentag</string>
+    <string name="rec_nth_weekday">%1$s %2$s</string>
+    <string name="card_recur_nth_weekday">%1$s jedes Monats</string>
+    <string-array name="rs_ordinal_labels">
+        <item>Erster</item>
+        <item>Zweiter</item>
+        <item>Dritter</item>
+        <item>Vierter</item>
+        <item>Letzter</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>Erster</item>
+        <item>Zweiter</item>
+        <item>Dritter</item>
+        <item>Vierter</item>
+        <item>Letzter</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>Erste</item>
+        <item>Zweite</item>
+        <item>Dritte</item>
+        <item>Vierte</item>
+        <item>Letzte</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>Erstes</item>
+        <item>Zweites</item>
+        <item>Drittes</item>
+        <item>Viertes</item>
+        <item>Letztes</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+    </string-array>
+    <string name="card_recur_yearly">Wiederholt sich jährlich</string>
+    <string name="card_chip_recurring">Wiederkehrend</string>
+    <string name="card_days_of_month">Tage des Monats</string>
+    <string name="card_cd_duplicate">Erinnerung duplizieren</string>
+    <string name="card_cd_more">Weitere Optionen</string>
+    <string name="card_cd_looping">In Schleife</string>
+    <string name="card_cd_followup">Nachfrage in %1$d Minuten</string>
+    <string name="card_cd_ends_after">Endet nach %1$d %2$s</string>
+    <string name="sheet_reminder_actions">Erinnerungsaktionen</string>
+    <string name="sheet_stop_playback">Wiedergabe stoppen</string>
+
+    <!-- Custom follow-up dialog -->
+    <string name="fu_custom_title">Eigene Nachfrage</string>
+    <string name="fu_custom_desc">Fragt nach der eingestellten Anzahl von Minuten erneut, wenn die Erinnerung nicht als erledigt markiert wurde.</string>
+    <string name="fu_allowed_range">Erlaubt: 1–%1$d Min.</string>
+
+    <!-- Voice recorder -->
+    <string name="vr_playing_audio">Audio wird abgespielt</string>
+    <string name="vr_voice_recorded">Stimme aufgenommen</string>
+    <string name="vr_text_optional">Text ist optional</string>
+    <string name="vr_tap_to_stop">Zum Stoppen tippen</string>
+    <string name="vr_cd_level">Anzeige des Tonpegels in Echtzeit</string>
+    <string name="vr_cd_stop">Aufnahme stoppen</string>
+    <string name="vr_cd_double_tap_stop">Doppeltippen, um die Aufnahme zu stoppen</string>
+    <string name="vr_cd_preview_progress">Fortschritt der Sprachvorschau</string>
+    <string name="vr_cd_start">Sprachaufnahme starten</string>
+    <string name="vr_cd_restart">Aufnahme neu starten</string>
+
+    <!-- Date and time picker -->
+    <string name="dtp_title">Datum und Uhrzeit wählen</string>
+    <string name="dtp_subtitle">Nutze die Schnelloptionen oder wähle das genaue Datum und die genaue Uhrzeit.</string>
+    <string name="dtp_quick_date">Schnellauswahl Datum</string>
+    <string name="dtp_quick_time">Schnellauswahl Uhrzeit</string>
+    <string name="dtp_pick_date">Genaues Datum wählen</string>
+    <string name="dtp_pick_time">Genaue Uhrzeit wählen</string>
+    <string name="dtp_next_week">Nächste Woche</string>
+    <string name="dtp_plus_10">+10 Min.</string>
+    <string name="dtp_plus_30">+30 Min.</string>
+    <string name="dtp_plus_60">+1 Stunde</string>
+    <string name="dtp_err_future">Die Uhrzeit muss in der Zukunft liegen</string>
+    <string name="dtp_err_date_future">Das Datum muss heute oder in der Zukunft liegen</string>
+
+    <!-- Recurring completion dialog -->
+    <string name="rcd_title">Das ist eine wiederkehrende Erinnerung</string>
+    <string name="rcd_desc">Wähle, ob du nur diesen Termin abschließen, den Wiederholungsplan bearbeiten oder sie ganz beenden möchtest.</string>
+    <string name="rcd_mark_occurrence">Diesen Termin als erledigt markieren</string>
+    <string name="rcd_edit_schedule">Zeitplan bearbeiten</string>
+    <string name="rcd_stop_recurring">Wiederholung beenden</string>
+
+    <!-- Restore reminder dialog -->
+    <string name="rrd_title">Erinnerung wiederherstellen</string>
+    <string name="rrd_desc">Diese Erinnerung wurde bereits erledigt. Wähle, wie du sie wiederherstellen möchtest.</string>
+    <string name="rrd_reschedule">Erinnerung neu planen</string>
+    <string name="rrd_move_missed">Nach „Verpasst“ verschieben</string>
+    <string name="rrd_play">Erinnerung abspielen</string>
+    <string name="rrd_keep_done">Als erledigt belassen</string>
+
+    <!-- Missed reminder sheets -->
+    <string name="pua_title">Erinnerung verpasst</string>
+    <string name="pua_scheduled_for">Geplant für %1$s</string>
+    <string name="pua_set_new_time">Neue Zeit festlegen</string>
+    <string name="pua_just_play">Erinnerung nur abspielen</string>
+    <string name="mrr_desc">Spiele die zuletzt verpasste Erinnerung jetzt ab oder lass alles im Tab „Verpasst“ und sieh es dir später an.</string>
+    <plurals name="mrr_title">
+        <item quantity="one">Du hast %1$d Erinnerung verpasst</item>
+        <item quantity="other">Du hast %1$d Erinnerungen verpasst</item>
+    </plurals>
+    <string name="mrr_play_latest">Zuletzt verpasste Erinnerung abspielen</string>
+    <string name="mrr_keep">Im Tab „Verpasst“ lassen</string>
+
+    <!-- Battery optimization guide -->
+    <string name="bog_title">Anleitung zur Akkuoptimierung</string>
+    <string name="bog_header">Damit Erinnerungen zuverlässig klingeln</string>
+    <string name="bog_header_sub">Manche Telefone pausieren oder stoppen Alarme im Hintergrund, wenn %1$s nicht von den Akkubeschränkungen ausgenommen ist.</string>
+    <string name="bog_intro">Manche Geräte stoppen Alarme im Hintergrund, um Akku zu sparen. Dadurch können Erinnerungen ausbleiben.</string>
+    <string name="bog_menu_vary">Die Menünamen können je nach MIUI, HyperOS, EMUI, Android-Version und Telefonmodell abweichen.</string>
+    <string name="bog_allow_app">%1$s erlauben</string>
+    <string name="bog_back_settings">Zurück zu den Einstellungen</string>
+    <string name="bog_brand_xiaomi">Xiaomi / POCO / Redmi (MIUI / HyperOS)</string>
+    <string name="bog_brand_huawei">Huawei (EMUI)</string>
+    <string name="bog_step">Schritt %1$d</string>
+    <string name="bog_optional">Optional</string>
+    <string name="bog_open_settings">Einstellungen öffnen</string>
+    <string name="bog_find_app">%1$s suchen</string>
+    <string name="bog_xiaomi_battery">Auf Akku tippen</string>
+    <string name="bog_xiaomi_optimization">Auf Akkuoptimierung tippen</string>
+    <string name="bog_xiaomi_no_restrictions">Keine Beschränkungen auswählen</string>
+    <string name="bog_xiaomi_opt">Die App in der Übersicht der letzten Apps sperren.</string>
+    <string name="bog_huawei_apps">Apps oder App-Start öffnen</string>
+    <string name="bog_huawei_manage_off">Automatisch verwalten ausschalten</string>
+    <string name="bog_huawei_allow">Automatischen Start, sekundären Start und Ausführung im Hintergrund erlauben</string>
+    <string name="bog_huawei_opt">Prüfe außerdem die Akkuoptimierung und stelle %1$s auf Nicht zulassen.</string>
+    <string name="bog_status_enabled">Die Akkuoptimierung ist für %1$s noch aktiviert.</string>
+    <string name="bog_status_exempt">%1$s darf bereits ohne Akkuoptimierung laufen.</string>
+    <string name="bog_no_battery_settings">Die Akkueinstellungen sind auf diesem Gerät nicht verfügbar.</string>
+    <string name="bog_why_title">Warum das wichtig ist</string>
+    <string name="bog_why_body">Telefone von Xiaomi, POCO, Redmi, Huawei, Infinix, Tecno und ähnlichen Marken können Apps im Hintergrund rigoros beenden. Nimm Herstellerfamilie und Softwareversion als Orientierung; die genauen Pfade können je nach Gerätemodell abweichen.</string>
+
+    <!-- Reminder card accessibility description -->
+    <string name="a11y_card_reminder">Erinnerung: %1$s</string>
+    <string name="a11y_card_at">um %1$s</string>
+    <string name="a11y_card_has_audio_file">mit Audiodatei</string>
+    <string name="a11y_card_has_voice">mit Sprachnotiz</string>
+    <string name="a11y_card_recurring">wiederkehrend %1$s</string>
+    <string name="a11y_card_completed">erledigt</string>
+    <string name="a11y_card_playing">wird gerade abgespielt</string>
+    <string name="a11y_card_open_hint">Doppeltippen, um die Details zu öffnen.</string>
+
+    <!-- Accessibility states -->
+    <string name="state_completed">Erledigt</string>
+    <string name="state_playing">Wird abgespielt</string>
+    <string name="a11y_percent">%1$d Prozent</string>
+    <string name="a11y_destructive">Löschaktion</string>
+    <string name="a11y_recording_in_progress">Aufnahme läuft</string>
+    <string name="a11y_playing_preview">Audiovorschau wird abgespielt</string>
+    <string name="a11y_voice_recorded">Sprachnotiz aufgenommen</string>
+    <string name="a11y_no_voice_recorded">Keine Sprachnotiz aufgenommen</string>
+    <plurals name="card_occurrences">
+        <item quantity="one">%1$d Termin</item>
+        <item quantity="other">%1$d Termine</item>
+    </plurals>
+
+    <!-- Test reminder -->
+    <string name="set_test_reminder_title">Testerinnerung</string>
+    <string name="set_test_reminder_text">Dies ist eine Testerinnerung, um die Wiedergabe zu prüfen. Sie klingelt 10 Sekunden nach dem Erstellen.</string>
+    <string name="widget_quick_subtitle">Schnell hinzufügen</string>
+    <string name="widget_upcoming_subtitle">Anstehende und verpasste Erinnerungen</string>
+    <string name="widget_upcoming_empty">Keine anstehenden oder verpassten Erinnerungen</string>
+    <string name="card_type_audio_file">Audiodatei</string>
+    <string name="card_type_voice_improving">Stimme · wird verbessert…</string>
+    <string name="card_type_voice">Stimme</string>
+    <string name="card_type_text">Text</string>
+    <string name="card_voice_recording">Sprachaufnahme</string>
+    <string name="card_custom_audio_file">Eigene Audiodatei</string>
+    <string name="card_text_note">Textnotiz</string>
+    <string name="sheet_mark_this_done">Als erledigt markieren</string>
+    <string name="sheet_delete_reminder">Erinnerung löschen</string>
+    <string name="vr_recording_ellipsis">Aufnahme läuft…</string>
+    <string name="vr_play_recording">Aufnahme abspielen</string>
+    <string name="rcd_sub_keep_next">Der nächste Termin bleibt geplant</string>
+    <string name="rcd_sub_change_rules">Wiederholungsregeln oder Zeiten ändern</string>
+    <string name="rcd_sub_delete_future">Diese Erinnerung und künftige Termine löschen</string>
+    <string name="rrd_sub_pick_new">Neues Datum und neue Uhrzeit wählen</string>
+    <string name="rrd_sub_keep_missed">Für später im Tab „Verpasst“ behalten</string>
+    <string name="rrd_sub_hear_now">Jetzt anhören, ohne wiederherzustellen</string>
+    <string name="rrd_sub_leave_done">Die Erinnerung erledigt lassen</string>
+    <string name="mrr_sub_start_now">Wiedergabe sofort starten</string>
+    <string name="set_tab_form">Formular</string>
+    <string name="set_tab_play">Ton</string>
+    <string name="set_tab_time">Zeit</string>
+    <string name="set_tab_safe">Sicherheit</string>
+    <string name="set_tab_backup">Backup</string>
+    <string name="set_tab_wear">Uhr</string>
+    <string name="set_tab_help">Hilfe</string>
+    <string name="battery_guidance_title">Erinnerungen können zu spät kommen oder ausbleiben</string>
+    <string name="battery_guidance_body">Dein Telefon schränkt %1$s im Hintergrund ein, um Akku zu sparen. Deshalb können Erinnerungen bei geschlossener App zu spät klingeln. Tippe auf Hintergrundnutzung erlauben und wähle dann Erlauben. Du kannst das später unter Einstellungen &gt; Erinnerungs-Check ändern.</string>
+    <string name="battery_review_settings">Hintergrundnutzung erlauben</string>
+    <string name="battery_keep_current">Nein danke</string>
+    <string name="battery_status_restricted">Akkuzugriff im Hintergrund: Eingeschränkt. Empfohlen: Uneingeschränkt, damit Erinnerungen pünktlich kommen.</string>
+    <string name="battery_status_allowed">Akkuzugriff im Hintergrund: Uneingeschränkt.</string>
+    <string name="card_done_occurrence">Diesmal erledigt</string>
+    <string name="home_delete_confirm_body">Direkt nach dem Löschen kannst du es rückgängig machen.</string>
+    <string name="battery_banner_body">Der Energiesparmodus deines Telefons kann %1$s ausbremsen.</string>
+    <string name="home_empty_nothing_today">Heute steht nichts an</string>
+    <string name="home_empty_today_sub">Deine nächste Erinnerung steht unter „%1$s“.</string>
+    <string name="set_alarm_clock">Besonders zuverlässige Erinnerungen</string>
+    <string name="set_alarm_clock_desc">Hilft, dass Erinnerungen pünktlich klingeln, wenn das Telefon Apps verzögert, um Akku zu sparen. Solange das an ist, zeigen manche Telefone ein Uhrsymbol oder den Hinweis „Wecker gestellt“.</string>
+    <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
+    <string name="bog_transsion_autostart">Öffne Apps &gt; Autostart (oder Phone Master &gt; Autostart) und schalte ihn für %1$s ein</string>
+    <string name="bog_transsion_battery">Öffne Apps &gt; %1$s &gt; Akku und wähle Uneingeschränkt</string>
+    <string name="set_alarm_clock_status_next">An für deine nächste Erinnerung: %1$s</string>
+    <string name="set_alarm_clock_status_none">Für deine nächste Erinnerung ist diese Funktion aktiviert.</string>
+    <string name="home_extra_reliable_on">Besonders zuverlässige Erinnerungen an</string>
+    <string name="set_section_check">Erinnerungs-Check</string>
+    <string name="set_section_ringing">Wenn eine Erinnerung klingelt</string>
+    <string name="set_sum_check">Berechtigungen, Akku und Weckerlautstärke</string>
+    <string name="set_sum_lang">App-Sprache, Design, Zeitformat, Schaltflächenfarben</string>
+    <string name="set_card_colors">Schaltflächen der Erinnerungskarten</string>
+    <string name="set_card_colors_desc">Wähle Farben für die Schaltflächen Erledigt und Löschen auf der Startseite.</string>
+    <string name="set_card_done_color">Schaltfläche „Erledigt“</string>
+    <string name="set_card_delete_color">Schaltfläche „Löschen / Wiederholung beenden“</string>
+    <string name="color_default">App-Standard</string>
+    <string name="color_red">Rot</string>
+    <string name="color_orange">Orange</string>
+    <string name="color_green">Grün</string>
+    <string name="color_teal">Türkis</string>
+    <string name="color_blue">Blau</string>
+    <string name="color_purple">Lila</string>
+    <string name="color_pink">Rosa</string>
+    <string name="color_gray">Grau</string>
+    <string name="set_sum_ringing">Stimme oder Ton, Lautstärke, gesprochene Sprache, Testerinnerung</string>
+    <string name="set_sum_timing">Schlummerdauer, Nachfragen, Ruhezeiten</string>
+    <string name="set_sum_form">Welche Optionen beim Hinzufügen einer Erinnerung erscheinen</string>
+    <string name="set_sum_wear">Erinnerungen auf deiner Uhr</string>
+    <string name="set_sum_backup">Erinnerungen und Aufnahmen sichern oder wiederherstellen</string>
+    <string name="set_sum_about">App-Anleitung, Support, weitere Apps</string>
+    <string name="check_all_good">Die erforderlichen Berechtigungen sind aktiviert.</string>
+    <string name="check_issues">Aktiviere die fehlenden Berechtigungen unten, damit Erinnerungen angezeigt und geplant werden können.</string>
+    <string name="check_notif_ok">Benachrichtigungen sind an</string>
+    <string name="check_notif_bad">Benachrichtigungen sind aus</string>
+    <string name="check_exact_ok">Erinnerungen können auf die Minute genau klingeln</string>
+    <string name="check_exact_bad">Erinnerungen klingeln vielleicht nicht auf die Minute genau</string>
+    <string name="check_battery_ok">Dein Telefon lässt Erinnerungen im Hintergrund laufen</string>
+    <string name="check_battery_bad">Der Energiesparmodus kann Erinnerungen ausbremsen</string>
+    <string name="check_volume_bad">Die Weckerlautstärke ist niedrig (%1$d %%), Erinnerungen sind daher vielleicht schwer zu hören</string>
+    <string name="check_raise">Lauter</string>
+    <string name="check_fullscreen_bad">Sperrbildschirm-Alarme brauchen eine Berechtigung</string>
+    <string name="check_dnd_bad">Erlaube den Zugriff auf „Nicht stören“, um auch dann zu erinnern</string>
+    <string name="check_mic_ok">Mikrofon für Spracherinnerungen erlaubt</string>
+    <string name="check_mic_bad">Mikrofon aus, Spracherinnerungen können nicht aufgenommen werden</string>
+    <string name="check_volume_how">Tippe auf Lauter oder öffne die Toneinstellungen deines Telefons und erhöhe die Weckerlautstärke.</string>
+    <string name="set_required_permissions">Erforderliche Berechtigungen</string>
+    <string name="set_recommendations">Empfehlungen &amp; optionale Funktionen</string>
+    <string name="set_playback_mode">Erinnerungston</string>
+    <string name="set_voice_audio_mode">Stimme, Audiodateien &amp; gesprochener Text</string>
+</resources>

@@ -377,6 +377,9 @@
     <string name="set_private_bt">Ιδιωτική αναπαραγωγή ενεργή. Η δρομολόγηση μέσω Bluetooth χρειάζεται την άδεια Συσκευές σε κοντινή απόσταση.</string>
     <string name="set_tone_only">Λειτουργία μόνο ήχου</string>
     <string name="set_tone_only_desc">Παίζει ήχο ξυπνητηριού αντί για ηχογραφήσεις ή ομιλία. Διακοπή μετά από: %1$s. Αναβολή: %2$d λεπ.</string>
+    <string name="set_tone_only_desc_no_snooze">Παίζει ήχο ξυπνητηριού αντί για ηχογραφήσεις ή ομιλία. Διακοπή μετά από: %1$s.</string>
+    <string name="set_snooze_enabled">Να επιτρέπεται η αναβολή</string>
+    <string name="set_snooze_enabled_desc">Εμφανίζει το κουμπί Αναβολή στις ειδοποιήσεις υπενθυμίσεων. Απενεργοποιήστε το ώστε ο μόνος τρόπος να προχωρήσετε να είναι το Ολοκληρώθηκε.</string>
     <string name="set_toast_tone_on">Λειτουργία μόνο ήχου ενεργή</string>
     <string name="set_toast_tone_off">Λειτουργία μόνο ήχου ανενεργή</string>
     <string name="set_infinite">Άπειρο</string>
@@ -469,6 +472,13 @@
     <string name="set_volume">Ένταση</string>
     <string name="set_cd_volume">Ένταση εφαρμογής: %1$d%%</string>
     <string name="set_loop_inline_desc">Σταματά τον ήχο ή την επαναλαμβανόμενη αναπαραγωγή μετά από αυτό το διάστημα. Οι υπενθυμίσεις ελέγχου είναι ξεχωριστές ειδοποιήσεις αργότερα.</string>
+    <string name="set_loop_gap">Παύση μεταξύ επαναλήψεων</string>
+    <string name="set_loop_gap_desc">Σιωπή πριν η επαναλαμβανόμενη υπενθύμιση παίξει ξανά. Ο χρόνος διακοπής παραπάνω εξακολουθεί να τερματίζει την επανάληψη. Οι ήχοι κουδουνίσματος παίζουν χωρίς παύση.</string>
+    <string name="set_loop_gap_none">Καμία</string>
+    <string name="set_seconds_short">%1$d δ.</string>
+    <string name="set_seconds">Δευτερόλεπτα</string>
+    <string name="set_max_allowed_seconds">Μέγιστο επιτρεπτό: %1$d δευτ.</string>
+    <string name="set_desc_max_seconds">%1$s (Μέγ. %2$d δ.)</string>
     <string name="set_default_snooze">Προεπιλεγμένη αναβολή</string>
     <string name="set_snooze_inline_desc">Πόση ώρα μετά την «Αναβολή» θα ειδοποιηθείτε ξανά</string>
     <string name="set_default_followup">Προεπιλεγμένος επανέλεγχος</string>
@@ -548,7 +558,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">Συνέχεια</string>
     <string name="wn_title">Τι νέο υπάρχει στο %1$s</string>
-    <string name="wn_intro">Αυτή η ενημέρωση βοηθά κάθε υπενθύμιση να χτυπά στην ώρα της.</string>
+    <string name="wn_intro">Τέσσερις βελτιώσεις, όλες από προτάσεις χρηστών της εφαρμογής.</string>
     <string name="wn_check_title">Δείτε τι μπορεί να σταματήσει μια υπενθύμιση</string>
     <string name="wn_check_desc">Ο «Έλεγχος υπενθυμίσεων», στην κορυφή των Ρυθμίσεις, δείχνει ό,τι μπορεί να καθυστερήσει ή να βουβάνει τις υπενθυμίσεις, όπως ειδοποιήσεις, μπαταρία ή χαμηλή ένταση ξυπνητηριού, με ένα κουμπί για να διορθώσετε το καθένα.</string>
     <string name="wn_reliable_title">Εξαιρετικά αξιόπιστες υπενθυμίσεις</string>
@@ -559,6 +569,14 @@
     <string name="wn_cards_desc">Κάθε κάρτα υπενθύμισης έχει κουμπιά για επεξεργασία, ολοκλήρωση και διαγραφή. Η διαγραφή ζητά επιβεβαίωση και μπορεί να αναιρεθεί.</string>
     <string name="wn_sound_title">Ο ήχος σταματά όταν πρέπει</string>
     <string name="wn_sound_desc">Όταν ολοκληρώνετε, διαγράφετε ή αλλάζετε την ώρα μιας υπενθύμισης, ο ήχος σταματά αμέσως. Τα ξυπνητήρια με ήχο έχουν ξανά κουμπί Σίγαση.</string>
+    <string name="wn_nthday_title">Επανάληψη την τελευταία Πέμπτη</string>
+    <string name="wn_nthday_desc">Οι μηνιαίες υπενθυμίσεις μπορούν να πέφτουν σε μια ημέρα της εβδομάδας ανάλογα με τη θέση της στον μήνα, όπως την πρώτη Δευτέρα ή την τελευταία Πέμπτη. Επιλέξτε Επανάληψη &gt; Μηνιαία &gt; Ημέρα εβδομάδας.</string>
+    <string name="wn_gap_title">Παύση μεταξύ επαναλήψεων</string>
+    <string name="wn_gap_desc">Μια επαναλαμβανόμενη υπενθύμιση μπορεί να περιμένει πριν παίξει ξανά: «Σύσκεψη», 10 δευτερόλεπτα ησυχίας, ξανά «Σύσκεψη», μέχρι την ώρα διακοπής. Ρυθμίστε το στο Ρυθμίσεις &gt; Όταν χτυπά μια υπενθύμιση &gt; Παύση μεταξύ επαναλήψεων.</string>
+    <string name="wn_colors_title">Δικά σας χρώματα για Ολοκληρώθηκε και Διαγραφή</string>
+    <string name="wn_colors_desc">Δώστε δικά σας χρώματα στα κουμπιά Ολοκληρώθηκε και Διαγραφή των καρτών στο Ρυθμίσεις &gt; Γλώσσα και εμφάνιση &gt; Κουμπιά καρτών.</string>
+    <string name="wn_notif_title">Οι ειδοποιήσεις καθαρίζουν όταν ανοίγετε την εφαρμογή</string>
+    <string name="wn_notif_desc">Αφού χτυπήσει μια υπενθύμιση, το άνοιγμα της εφαρμογής ή η αποθήκευση μιας αλλαγής σε αυτήν καθαρίζει την ειδοποίησή της. Με ενεργό το «Διατήρηση ειδοποίησης μέχρι την ολοκλήρωση», το άνοιγμα της εφαρμογής την αφήνει.</string>
     <string name="wn_edit_title">Αλλαγή ημερομηνίας και ώρας επιτόπου</string>
     <string name="wn_edit_desc">Ανοίξτε μια υπενθύμιση και πατήστε Ημερομηνία ή Ώρα για να την αλλάξετε απευθείας. Δεν χρειάζεται να ανοίξετε πρώτα τον επεξεργαστή.</string>
     <string name="wn_clear_title">Οι ειδοποιήσεις καθαρίζουν μόνες τους</string>
@@ -625,11 +643,55 @@
     <string name="wn_reliability_desc">Η αναπαραγωγή υπενθυμίσεων ξεκινά πλέον με ασφάλεια και αμέσως στο προσκήνιο, αποτρέποντας τα χρονικά όρια εκκίνησης που εμφανίζονταν σε ορισμένες συσκευές Android 12 και Android 16.</string>
     <string name="settings_24_hour_time">Χρήση 24ωρης μορφής</string>
     <string name="settings_24_hour_time_desc">Εμφάνιση κάθε ώρας ως 17:30 αντί για 5:30 μ.μ.</string>
+    <string name="set_week_start">Η εβδομάδα ξεκινά</string>
+    <string name="set_week_start_desc">Η πρώτη ημέρα της εβδομάδας στην επιλογή ημερομηνίας. Αν επιλέξετε ημέρα, χρησιμοποιείται η επιλογή ημερομηνίας του τηλεφώνου σας.</string>
 
     <!-- Reminder card and actions sheet -->
     <string name="card_recur_onetime">Εφάπαξ υπενθύμιση</string>
     <string name="card_recur_daily">Επαναλαμβάνεται καθημερινά</string>
     <string name="card_recur_last_day">Τελευταία ημέρα κάθε μήνα</string>
+    <string name="rs_day_of_week">Ημέρα εβδομάδας</string>
+    <string name="rs_which_one">Ποια του μήνα</string>
+    <string name="rs_weekday">Ημέρα</string>
+    <string name="rec_nth_weekday">%1$s %2$s</string>
+    <string name="card_recur_nth_weekday">%1$s κάθε μήνα</string>
+    <string-array name="rs_ordinal_labels">
+        <item>Πρώτη</item>
+        <item>Δεύτερη</item>
+        <item>Τρίτη</item>
+        <item>Τέταρτη</item>
+        <item>Τελευταία</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>Πρώτος</item>
+        <item>Δεύτερος</item>
+        <item>Τρίτος</item>
+        <item>Τέταρτος</item>
+        <item>Τελευταίος</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>Πρώτη</item>
+        <item>Δεύτερη</item>
+        <item>Τρίτη</item>
+        <item>Τέταρτη</item>
+        <item>Τελευταία</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>Πρώτο</item>
+        <item>Δεύτερο</item>
+        <item>Τρίτο</item>
+        <item>Τέταρτο</item>
+        <item>Τελευταίο</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>f</item>
+        <item>f</item>
+        <item>f</item>
+        <item>f</item>
+        <item>f</item>
+        <item>n</item>
+        <item>f</item>
+    </string-array>
     <string name="card_recur_yearly">Επαναλαμβάνεται ετήσια</string>
     <string name="card_chip_recurring">Επαναλαμβανόμενη</string>
     <string name="card_days_of_month">Ημέρες του μήνα</string>
@@ -806,7 +868,20 @@
     <string name="set_section_check">Έλεγχος υπενθυμίσεων</string>
     <string name="set_section_ringing">Όταν χτυπά μια υπενθύμιση</string>
     <string name="set_sum_check">Άδειες, μπαταρία και ένταση ξυπνητηριού</string>
-    <string name="set_sum_lang">Γλώσσα εφαρμογής, θέμα, μορφή ώρας</string>
+    <string name="set_sum_lang">Γλώσσα εφαρμογής, θέμα, μορφή ώρας, χρώματα κουμπιών</string>
+    <string name="set_card_colors">Κουμπιά καρτών</string>
+    <string name="set_card_colors_desc">Επιλέξτε χρώματα για τα κουμπιά Ολοκληρώθηκε και Διαγραφή στην αρχική οθόνη.</string>
+    <string name="set_card_done_color">Κουμπί Ολοκληρώθηκε</string>
+    <string name="set_card_delete_color">Κουμπί Διαγραφή / Διακοπή επανάληψης</string>
+    <string name="color_default">Προεπιλογή εφαρμογής</string>
+    <string name="color_red">Κόκκινο</string>
+    <string name="color_orange">Πορτοκαλί</string>
+    <string name="color_green">Πράσινο</string>
+    <string name="color_teal">Γαλαζοπράσινο</string>
+    <string name="color_blue">Μπλε</string>
+    <string name="color_purple">Μωβ</string>
+    <string name="color_pink">Ροζ</string>
+    <string name="color_gray">Γκρι</string>
     <string name="set_sum_ringing">Φωνή ή ήχος, ένταση, γλώσσα εκφώνησης, δοκιμή</string>
     <string name="set_sum_timing">Διάρκεια αναβολής, επανέλεγχοι, ώρες ησυχίας</string>
     <string name="set_sum_form">Ποιες επιλογές εμφανίζονται όταν προσθέτετε υπενθύμιση</string>

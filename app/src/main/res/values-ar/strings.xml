@@ -381,6 +381,9 @@
     <string name="set_private_bt">التشغيل الخاص مفعّل. توجيه البلوتوث يحتاج إذن الأجهزة القريبة.</string>
     <string name="set_tone_only">وضع النغمة فقط</string>
     <string name="set_tone_only_desc">يشغّل نغمة منبّه بدلًا من التسجيلات أو الكلام. يتوقف بعد: %1$s. غفوة: %2$d دقيقة.</string>
+    <string name="set_tone_only_desc_no_snooze">يشغّل نغمة منبّه بدلًا من التسجيلات أو الكلام. يتوقف بعد: %1$s.</string>
+    <string name="set_snooze_enabled">السماح بالغفوة</string>
+    <string name="set_snooze_enabled_desc">يعرض زر غفوة في تنبيهات التذكير والإشعارات. أوقفه لتكون الطريقة الوحيدة لتجاوز التذكير هي تم.</string>
     <string name="set_toast_tone_on">وضع النغمة فقط مفعّل</string>
     <string name="set_toast_tone_off">وضع النغمة فقط معطّل</string>
     <string name="set_infinite">غير محدود</string>
@@ -473,6 +476,13 @@
     <string name="set_volume">مستوى الصوت</string>
     <string name="set_cd_volume">مستوى صوت التطبيق: %1$d%%</string>
     <string name="set_loop_inline_desc">يوقف النغمة أو الصوت المتكرر بعد هذه المدة. تذكيرات المتابعة تنبيهات منفصلة تأتي لاحقًا.</string>
+    <string name="set_loop_gap">توقف بين التكرارات</string>
+    <string name="set_loop_gap_desc">صمت قبل أن يُعاد تشغيل التذكير المتكرر. وقت الإيقاف أعلاه لا يزال يُنهي التكرار. النغمات ترن دون توقف.</string>
+    <string name="set_loop_gap_none">بلا</string>
+    <string name="set_seconds_short">%1$d ث</string>
+    <string name="set_seconds">ثوانٍ</string>
+    <string name="set_max_allowed_seconds">الحد الأقصى المسموح: %1$d ثانية</string>
+    <string name="set_desc_max_seconds">%1$s (بحد أقصى %2$d ث)</string>
     <string name="set_default_snooze">الغفوة الافتراضية</string>
     <string name="set_snooze_inline_desc">المدة حتى ينبهك التذكير مجددًا بعد الضغط على «غفوة»</string>
     <string name="set_default_followup">فحص المتابعة الافتراضي</string>
@@ -550,7 +560,7 @@
 
     <string name="action_continue">متابعة</string>
     <string name="wn_title">الجديد في %1$s</string>
-    <string name="wn_intro">يساعد هذا التحديث على أن يرن كل تذكير في وقته.</string>
+    <string name="wn_intro">أربعة تحسينات، كلها اقترحها مستخدمو التطبيق.</string>
     <string name="wn_check_title">اعرف ما قد يمنع التذكير</string>
     <string name="wn_check_desc">يعرض «فحص التذكيرات» في أعلى الإعدادات كل ما قد يؤخر التذكيرات أو يجعلها صامتة، مثل الإشعارات أو البطارية أو انخفاض صوت المنبه، مع زر لإصلاح كل منها.</string>
     <string name="wn_reliable_title">تذكيرات موثوقة أكثر</string>
@@ -561,6 +571,14 @@
     <string name="wn_cards_desc">تحتوي كل بطاقة تذكير على أزرار التعديل والإنجاز والحذف. يطلب الحذف تأكيدًا ويمكن التراجع عنه.</string>
     <string name="wn_sound_title">يتوقف الصوت عندما يجب</string>
     <string name="wn_sound_desc">عند إنجاز التذكير أو حذفه أو تغيير وقته يتوقف صوته فورًا. وعاد زر الإسكات إلى منبهات النغمة.</string>
+    <string name="wn_nthday_title">التكرار في آخر خميس</string>
+    <string name="wn_nthday_desc">يمكن أن تقع التذكيرات الشهرية في يوم من الأسبوع بحسب ترتيبه في الشهر، مثل أول اثنين أو آخر خميس. اختر تكرار &gt; شهري &gt; يوم من الأسبوع.</string>
+    <string name="wn_gap_title">توقف بين التكرارات</string>
+    <string name="wn_gap_desc">يمكن للتذكير المتكرر أن ينتظر قبل أن يُشغَّل مرة أخرى: “اجتماع”، ثم 10 ثوانٍ من الهدوء، ثم “اجتماع” مجددًا، حتى وقت الإيقاف. اضبطه من الإعدادات &gt; عند رنين التذكير &gt; توقف بين التكرارات.</string>
+    <string name="wn_colors_title">ألوانك لزرَّي تم وحذف</string>
+    <string name="wn_colors_desc">اختر ألوانك الخاصة لزرَّي تم وحذف في بطاقات التذكير من الإعدادات &gt; اللغة والمظهر &gt; أزرار بطاقات التذكير.</string>
+    <string name="wn_notif_title">تختفي الإشعارات عند فتح التطبيق</string>
+    <string name="wn_notif_desc">بعد أن يرن التذكير، يؤدي فتح التطبيق أو حفظ تعديل عليه إلى إزالة إشعاره. عند تشغيل “إبقاء الإشعار حتى الإكمال” يبقى الإشعار عند فتح التطبيق.</string>
     <string name="wn_edit_title">غيّر التاريخ والوقت في مكانهما</string>
     <string name="wn_edit_desc">افتح تذكيرًا واضغط على التاريخ أو الوقت لتغييره مباشرةً، دون الحاجة إلى فتح المحرر أولًا.</string>
     <string name="wn_clear_title">تختفي الإشعارات من تلقاء نفسها</string>
@@ -628,11 +646,55 @@
     <string name="wn_reliability_desc">يبدأ تشغيل التذكير الآن بأمان وفورًا في الواجهة الأمامية، مما يمنع مهلة البدء التي ظهرت على بعض أجهزة Android 12 وAndroid 16.</string>
     <string name="settings_24_hour_time">استخدام نظام 24 ساعة</string>
     <string name="settings_24_hour_time_desc">عرض جميع الأوقات بصيغة 17:30 بدلاً من 5:30 م.</string>
+    <string name="set_week_start">يبدأ الأسبوع يوم</string>
+    <string name="set_week_start_desc">أول يوم في الأسبوع في منتقي التاريخ. عند اختيار يوم يُستخدم منتقي التاريخ الخاص بهاتفك.</string>
 
     <!-- بطاقة التذكير والإجراءات -->
     <string name="card_recur_onetime">تذكير لمرة واحدة</string>
     <string name="card_recur_daily">يتكرر يوميًا</string>
     <string name="card_recur_last_day">آخر يوم من كل شهر</string>
+    <string name="rs_day_of_week">يوم من الأسبوع</string>
+    <string name="rs_which_one">أيّها في الشهر</string>
+    <string name="rs_weekday">اليوم</string>
+    <string name="rec_nth_weekday">%2$s %1$s</string>
+    <string name="card_recur_nth_weekday">%1$s من كل شهر</string>
+    <string-array name="rs_ordinal_labels">
+        <item>الأول</item>
+        <item>الثاني</item>
+        <item>الثالث</item>
+        <item>الرابع</item>
+        <item>الأخير</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>الأول</item>
+        <item>الثاني</item>
+        <item>الثالث</item>
+        <item>الرابع</item>
+        <item>الأخير</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>الأول</item>
+        <item>الثاني</item>
+        <item>الثالث</item>
+        <item>الرابع</item>
+        <item>الأخير</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>الأول</item>
+        <item>الثاني</item>
+        <item>الثالث</item>
+        <item>الرابع</item>
+        <item>الأخير</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+    </string-array>
     <string name="card_recur_yearly">يتكرر سنويًا</string>
     <string name="card_chip_recurring">متكرر</string>
     <string name="card_days_of_month">أيام الشهر</string>
@@ -817,7 +879,20 @@
     <string name="set_section_check">فحص التذكيرات</string>
     <string name="set_section_ringing">عند رنين التذكير</string>
     <string name="set_sum_check">الأذونات والبطارية ومستوى صوت المنبه</string>
-    <string name="set_sum_lang">لغة التطبيق والسمة وتنسيق الوقت</string>
+    <string name="set_sum_lang">لغة التطبيق والسمة وتنسيق الوقت وألوان الأزرار</string>
+    <string name="set_card_colors">أزرار بطاقات التذكير</string>
+    <string name="set_card_colors_desc">اختر ألوان زرَّي تم وحذف في الشاشة الرئيسية.</string>
+    <string name="set_card_done_color">زر تم</string>
+    <string name="set_card_delete_color">زر حذف / إيقاف التكرار</string>
+    <string name="color_default">افتراضي التطبيق</string>
+    <string name="color_red">أحمر</string>
+    <string name="color_orange">برتقالي</string>
+    <string name="color_green">أخضر</string>
+    <string name="color_teal">أزرق مخضر</string>
+    <string name="color_blue">أزرق</string>
+    <string name="color_purple">بنفسجي</string>
+    <string name="color_pink">وردي</string>
+    <string name="color_gray">رمادي</string>
     <string name="set_sum_ringing">الصوت أو النغمة، مستوى الصوت، لغة النطق، تذكير تجريبي</string>
     <string name="set_sum_timing">مدة الغفوة، المتابعة، ساعات الهدوء</string>
     <string name="set_sum_form">الخيارات التي تظهر عند إضافة تذكير</string>

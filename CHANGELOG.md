@@ -3,6 +3,56 @@
 User-facing changes to SpeakAlert, newest first. Version numbers match the Google Play release
 (`versionName` in `app/build.gradle.kts`).
 
+## Unreleased
+
+- Three new app languages, for 15 in all: German (Deutsch), French (Français) and Indonesian
+  (Bahasa Indonesia). Choose one in Settings, Language & appearance, or let the app follow the
+  phone's language. German uses the informal "du"; French uses "vous" and Indonesian "Anda".
+- Dates now follow each language's own order instead of the American one everywhere: German
+  shows "Fr., 13. Nov. 2026" and Spanish "vie, 13 nov 2026", where both used to put the month
+  first. English is unchanged. The word joining a date and a time ("at") is now translated too;
+  it was English in every language on the reminder card, the details screen and the repeat
+  sheet.
+- A repeat's end date on the reminder card shows the full year ("Nov 13, 2026") instead of a
+  two-digit one ("Nov 13 '26").
+- New "Week starts on" choice in Settings, Language & appearance: System, Mon, Sun or Sat. A
+  chosen day sets the first column of the date picker. Material's date picker cannot be told
+  its first weekday, so with a day chosen the app shows the phone's own date picker instead;
+  "System" keeps the Material picker and the region's week start.
+- The phone's own date picker, used for a chosen week start and for languages with their own
+  digits, now uses the app's color in light and dark theme instead of the platform teal.
+- Fixed the date picker opening on the wrong day in the evening in time zones west of UTC (and
+  early morning east of it) on the reminder details screen, Home's reschedule, and the combined
+  date and time dialog. On details and Home it also refused today's date at those hours.
+- New "Allow snooze" switch in Settings, Snooze & follow-up, on by default. Turned off, reminder
+  notifications, the speaking notification and the lock-screen alert no longer offer Snooze, so
+  Done is the only way past a reminder, and the snooze length setting is hidden. Asked for by a
+  user who kept snoozing instead of doing the task.
+
+## 2.0.46 - 2026-10-31
+
+- The "What's new" sheet lists the four changes below that users asked for.
+- Fixed a crash on some phones (seen on an Oppo with Android 10) when a reminder stopped while
+  the phone's speech engine was still starting up. The engine now connects only for spoken
+  reminders, is never shut down mid-connect, and a spoken reminder whose engine never starts
+  gives up after 20 seconds instead of waiting silently.
+- Choose your own colors for the Done and Delete (Stop recurring) buttons on Home's reminder
+  cards: Settings, Language & appearance, Reminder card buttons. Eight colors plus the app
+  default, each with a readable shade in dark theme, and a preview as you pick.
+- A reminder's notification now clears when you open the app after it rings, and when you edit
+  and save the reminder. Before, it only cleared when you tapped the notification itself. One that
+  is still sounding stays, so its Silence and Stop buttons remain. With "Keep notification until
+  done" on, opening the app leaves it as before; saving an edit still clears it, since the edit
+  replaces the time it was about.
+- Monthly repeats can now fall on a weekday by its place in the month: the first, second, third,
+  fourth or last Monday to Sunday, such as "Last Thursday of each month". Choose Repeat, then
+  Monthly, then "Day of week". It starts from the reminder's own date (Saturday the 31st offers
+  the last Saturday), and the reminder card shows the rule.
+- New "Pause between repeats" setting, under "Stop continuous playback after". A looping
+  reminder can now wait 5, 10 or 30 seconds, or a custom time up to 10 minutes, before it plays
+  again, so a short message like "Meeting" becomes a periodic nudge instead of nonstop speech.
+  The stop time still ends the loop. The default stays back-to-back; tones are not affected.
+
 ## 2.0.45 - 2026-10-24
 
 - The "What's new" sheet describes what changed since 2.0.40, the last production release:

@@ -372,6 +372,9 @@
     <string name="set_private_bt">Đã bật phát riêng tư. Định tuyến Bluetooth cần quyền thiết bị ở gần.</string>
     <string name="set_tone_only">Chế độ chỉ chuông</string>
     <string name="set_tone_only_desc">Phát tiếng báo thức thay cho bản ghi hoặc giọng đọc. Dừng sau: %1$s. Báo lại: %2$d phút.</string>
+    <string name="set_tone_only_desc_no_snooze">Phát tiếng báo thức thay cho bản ghi hoặc giọng đọc. Dừng sau: %1$s.</string>
+    <string name="set_snooze_enabled">Cho phép báo lại</string>
+    <string name="set_snooze_enabled_desc">Hiện nút Báo lại trên cảnh báo và thông báo nhắc nhở. Tắt đi để cách duy nhất bỏ qua nhắc nhở là Xong.</string>
     <string name="set_toast_tone_on">Đã bật chế độ chỉ chuông</string>
     <string name="set_toast_tone_off">Đã tắt chế độ chỉ chuông</string>
     <string name="set_infinite">Vô hạn</string>
@@ -464,6 +467,13 @@
     <string name="set_volume">Âm lượng</string>
     <string name="set_cd_volume">Âm lượng ứng dụng: %1$d%%</string>
     <string name="set_loop_inline_desc">Dừng tiếng chuông hoặc âm thanh lặp sau khoảng thời gian này. Lời nhắc kiểm tra là các cảnh báo riêng gửi sau đó.</string>
+    <string name="set_loop_gap">Khoảng nghỉ giữa các lần lặp</string>
+    <string name="set_loop_gap_desc">Khoảng im lặng trước khi lời nhắc lặp phát lại. Thời gian dừng ở trên vẫn kết thúc vòng lặp. Tiếng chuông reo không có khoảng nghỉ.</string>
+    <string name="set_loop_gap_none">Không</string>
+    <string name="set_seconds_short">%1$d giây</string>
+    <string name="set_seconds">Giây</string>
+    <string name="set_max_allowed_seconds">Tối đa cho phép: %1$d giây</string>
+    <string name="set_desc_max_seconds">%1$s (Tối đa %2$d giây)</string>
     <string name="set_default_snooze">Báo lại mặc định</string>
     <string name="set_snooze_inline_desc">Chờ bao lâu trước khi nhắc tiếp sau khi bạn nhấn “Báo lại”</string>
     <string name="set_default_followup">Kiểm tra nhắc lại mặc định</string>
@@ -543,7 +553,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">Tiếp tục</string>
     <string name="wn_title">Có gì mới trong %1$s</string>
-    <string name="wn_intro">Bản cập nhật này giúp mọi lời nhắc đều reo đúng giờ.</string>
+    <string name="wn_intro">Bốn cải tiến, tất cả đều do người dùng ứng dụng đề xuất.</string>
     <string name="wn_check_title">Xem điều gì có thể chặn lời nhắc</string>
     <string name="wn_check_desc">“Kiểm tra lời nhắc” ở đầu Cài đặt cho biết mọi thứ có thể làm lời nhắc đến muộn hoặc không có tiếng, như thông báo, pin hoặc âm lượng báo thức thấp, kèm nút để sửa từng mục.</string>
     <string name="wn_reliable_title">Lời nhắc siêu tin cậy</string>
@@ -554,6 +564,14 @@
     <string name="wn_cards_desc">Mỗi thẻ lời nhắc có nút Sửa, Xong và Xóa. Xóa sẽ hỏi trước và có thể hoàn tác.</string>
     <string name="wn_sound_title">Âm thanh dừng đúng lúc</string>
     <string name="wn_sound_desc">Đánh dấu xong, xóa hoặc đổi giờ một lời nhắc sẽ dừng âm thanh ngay. Báo thức bằng chuông có lại nút Tắt tiếng.</string>
+    <string name="wn_nthday_title">Lặp lại vào Thứ Năm cuối cùng</string>
+    <string name="wn_nthday_desc">Lời nhắc hằng tháng giờ có thể rơi vào một ngày trong tuần theo vị trí của nó trong tháng, như Thứ Hai đầu tiên hoặc Thứ Năm cuối cùng. Chọn Lặp lại &gt; Hằng tháng &gt; Ngày trong tuần.</string>
+    <string name="wn_gap_title">Khoảng nghỉ giữa các lần lặp</string>
+    <string name="wn_gap_desc">Lời nhắc lặp có thể chờ trước khi phát lại: “Họp”, 10 giây im lặng, rồi “Họp” lần nữa, cho đến giờ dừng. Đặt trong Cài đặt &gt; Khi lời nhắc reo &gt; Khoảng nghỉ giữa các lần lặp.</string>
+    <string name="wn_colors_title">Màu của bạn cho Xong và Xóa</string>
+    <string name="wn_colors_desc">Đặt màu riêng cho nút Xong và Xóa trên thẻ nhắc nhở trong Cài đặt &gt; Ngôn ngữ và giao diện &gt; Nút trên thẻ nhắc nhở.</string>
+    <string name="wn_notif_title">Thông báo tự xóa khi mở ứng dụng</string>
+    <string name="wn_notif_desc">Sau khi lời nhắc reo, mở ứng dụng hoặc lưu thay đổi cho lời nhắc sẽ xóa thông báo của nó. Khi bật “Giữ thông báo đến khi hoàn tất”, mở ứng dụng vẫn giữ thông báo.</string>
     <string name="wn_edit_title">Đổi ngày giờ ngay tại chỗ</string>
     <string name="wn_edit_desc">Mở lời nhắc và nhấn Ngày hoặc Giờ để đổi trực tiếp. Không cần mở trình chỉnh sửa trước.</string>
     <string name="wn_clear_title">Thông báo tự dọn dẹp</string>
@@ -620,11 +638,55 @@
     <string name="wn_reliability_desc">Việc phát lời nhắc giờ khởi động an toàn và ngay lập tức ở nền trước, ngăn lỗi hết thời gian khởi động trên một số thiết bị Android 12 và Android 16.</string>
     <string name="settings_24_hour_time">Dùng định dạng 24 giờ</string>
     <string name="settings_24_hour_time_desc">Hiển thị giờ dạng 17:30 thay vì 5:30 PM.</string>
+    <string name="set_week_start">Tuần bắt đầu vào</string>
+    <string name="set_week_start_desc">Ngày đầu tuần trong bộ chọn ngày. Khi chọn một ngày, ứng dụng dùng bộ chọn ngày của điện thoại.</string>
 
     <!-- Reminder card and actions sheet -->
     <string name="card_recur_onetime">Lời nhắc một lần</string>
     <string name="card_recur_daily">Lặp lại hằng ngày</string>
     <string name="card_recur_last_day">Ngày cuối mỗi tháng</string>
+    <string name="rs_day_of_week">Ngày trong tuần</string>
+    <string name="rs_which_one">Lần nào trong tháng</string>
+    <string name="rs_weekday">Thứ</string>
+    <string name="rec_nth_weekday">%2$s %1$s</string>
+    <string name="card_recur_nth_weekday">%1$s mỗi tháng</string>
+    <string-array name="rs_ordinal_labels">
+        <item>Lần 1</item>
+        <item>Lần 2</item>
+        <item>Lần 3</item>
+        <item>Lần 4</item>
+        <item>Cuối cùng</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>đầu tiên</item>
+        <item>thứ 2</item>
+        <item>thứ 3</item>
+        <item>thứ 4</item>
+        <item>cuối cùng</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>đầu tiên</item>
+        <item>thứ 2</item>
+        <item>thứ 3</item>
+        <item>thứ 4</item>
+        <item>cuối cùng</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>đầu tiên</item>
+        <item>thứ 2</item>
+        <item>thứ 3</item>
+        <item>thứ 4</item>
+        <item>cuối cùng</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+    </string-array>
     <string name="card_recur_yearly">Lặp lại hằng năm</string>
     <string name="card_chip_recurring">Lặp lại</string>
     <string name="card_days_of_month">Ngày trong tháng</string>
@@ -799,7 +861,20 @@
     <string name="set_section_check">Kiểm tra lời nhắc</string>
     <string name="set_section_ringing">Khi lời nhắc reo</string>
     <string name="set_sum_check">Quyền, pin và âm lượng báo thức</string>
-    <string name="set_sum_lang">Ngôn ngữ ứng dụng, giao diện màu, định dạng giờ</string>
+    <string name="set_sum_lang">Ngôn ngữ ứng dụng, giao diện màu, định dạng giờ, màu nút</string>
+    <string name="set_card_colors">Nút trên thẻ nhắc nhở</string>
+    <string name="set_card_colors_desc">Chọn màu cho nút Xong và Xóa trên màn hình chính.</string>
+    <string name="set_card_done_color">Nút Xong</string>
+    <string name="set_card_delete_color">Nút Xóa / Dừng lặp lại</string>
+    <string name="color_default">Mặc định của ứng dụng</string>
+    <string name="color_red">Đỏ</string>
+    <string name="color_orange">Cam</string>
+    <string name="color_green">Xanh lá</string>
+    <string name="color_teal">Xanh mòng két</string>
+    <string name="color_blue">Xanh dương</string>
+    <string name="color_purple">Tím</string>
+    <string name="color_pink">Hồng</string>
+    <string name="color_gray">Xám</string>
     <string name="set_sum_ringing">Giọng nói hoặc chuông, âm lượng, ngôn ngữ đọc, lời nhắc thử</string>
     <string name="set_sum_timing">Thời gian báo lại, nhắc lại, giờ yên lặng</string>
     <string name="set_sum_form">Các tùy chọn hiện khi thêm lời nhắc</string>

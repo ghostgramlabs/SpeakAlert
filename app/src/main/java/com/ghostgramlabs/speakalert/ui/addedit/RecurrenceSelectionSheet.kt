@@ -35,6 +35,7 @@ import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
 import com.ghostgramlabs.speakalert.ui.components.SystemDatePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.SystemTimePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDateTimePickers
+import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDatePicker
 import com.ghostgramlabs.speakalert.util.normalizeLocalizedDigitsOrNull
 import com.ghostgramlabs.speakalert.util.toLocalizedIntOrNull
 import java.util.Calendar
@@ -227,7 +228,26 @@ fun MonthlyConfigSheet(
             // Default to empty - user must select
         }
     }
-    
+
+    // Weekday by position, defaulting to the reminder's own date: Thursday the 30th -> last Thursday
+    val startCal = remember { Calendar.getInstance().apply { timeInMillis = minEndDateTimeMillis } }
+    var weekOfMonth by remember {
+        mutableIntStateOf(
+            initialModel?.weekOfMonth?.takeIf { it in 1..4 || it == LAST_WEEK_OF_MONTH } ?: run {
+                val day = startCal.get(Calendar.DAY_OF_MONTH)
+                if (day + 7 > startCal.getActualMaximum(Calendar.DAY_OF_MONTH)) LAST_WEEK_OF_MONTH else (day - 1) / 7 + 1
+            }
+        )
+    }
+    var dayOfWeek by remember {
+        mutableIntStateOf(
+            initialModel?.dayOfWeek?.takeIf { it in 1..7 } ?: run {
+                val calDay = startCal.get(Calendar.DAY_OF_WEEK)
+                if (calDay == Calendar.SUNDAY) 7 else calDay - 1
+            }
+        )
+    }
+
     // End Rule
     var endRuleType by remember { 
         mutableStateOf(when(initialModel?.endRule?.type) {
@@ -303,8 +323,82 @@ fun MonthlyConfigSheet(
                             selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     )
+                    FilterChip(
+                        selected = variant == MonthlyVariant.DAY_OF_WEEK,
+                        onClick = { variant = MonthlyVariant.DAY_OF_WEEK },
+                        label = { Text(stringResource(R.string.rs_day_of_week)) },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    )
                 }
-                
+
+                if (variant == MonthlyVariant.DAY_OF_WEEK) {
+                    val ordinalLabels = LocalContext.current.resources.getStringArray(R.array.rs_ordinal_labels)
+                    val weekOptions = listOf(1, 2, 3, 4, LAST_WEEK_OF_MONTH)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(stringResource(R.string.rs_which_one), style = MaterialTheme.typography.labelMedium)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    FlowRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        weekOptions.forEachIndexed { index, week ->
+                            FilterChip(
+                                selected = weekOfMonth == week,
+                                onClick = { weekOfMonth = week },
+                                label = { Text(ordinalLabels.getOrElse(index) { "" }) },
+                                colors = FilterChipDefaults.filterChipColors(
+                                    selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                    selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
+                                )
+                            )
+                        }
+                    }
+
+                    val weekdays = listOf(
+                        1 to stringResource(R.string.day_mon),
+                        2 to stringResource(R.string.day_tue),
+                        3 to stringResource(R.string.day_wed),
+                        4 to stringResource(R.string.day_thu),
+                        5 to stringResource(R.string.day_fri),
+                        6 to stringResource(R.string.day_sat),
+                        7 to stringResource(R.string.day_sun)
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(stringResource(R.string.rs_weekday), style = MaterialTheme.typography.labelMedium)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    FlowRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        weekdays.forEach { (day, name) ->
+                            FilterChip(
+                                selected = dayOfWeek == day,
+                                onClick = { dayOfWeek = day },
+                                label = { Text(name) },
+                                colors = FilterChipDefaults.filterChipColors(
+                                    selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                    selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
+                                )
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        stringResource(
+                            R.string.card_recur_nth_weekday,
+                            com.ghostgramlabs.speakalert.ui.util.nthWeekdayPhrase(weekOfMonth, dayOfWeek)
+                        ),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+
                 if (variant == MonthlyVariant.DAY_OF_MONTH) {
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(stringResource(R.string.rs_select_days_toggle), style = MaterialTheme.typography.labelMedium)
@@ -387,12 +481,14 @@ fun MonthlyConfigSheet(
                         onSave(RecurrenceModel.Monthly(
                             variant = variant,
                             daysOfMonth = if (variant == MonthlyVariant.DAY_OF_MONTH) selectedDays.toSet() else emptySet(),
+                            weekOfMonth = if (variant == MonthlyVariant.DAY_OF_WEEK) weekOfMonth else 0,
+                            dayOfWeek = if (variant == MonthlyVariant.DAY_OF_WEEK) dayOfWeek else 0,
                             endRule = endRule,
                             missedPolicy = missedPolicy
                         ))
                     },
                     modifier = Modifier.weight(1f),
-                    enabled = variant == MonthlyVariant.LAST_DAY || selectedDays.isNotEmpty(),
+                    enabled = variant != MonthlyVariant.DAY_OF_MONTH || selectedDays.isNotEmpty(),
                     shape = RoundedCornerShape(16.dp)
                 ) { Text(stringResource(R.string.action_save)) }
             }
@@ -669,7 +765,9 @@ fun CustomConfigSheet(
 
                 if (isValid) {
                     Text(
-                        text = stringResource(R.string.rs_repeats_every, intervalValue, unitLabel(unit, intervalValue).lowercase()),
+                        text = stringResource(R.string.rs_repeats_every, intervalValue, unitLabel(unit, intervalValue).let {
+                            if (java.util.Locale.getDefault().language == "de") it else it.lowercase(java.util.Locale.getDefault())
+                        }),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(top = 6.dp)
@@ -758,8 +856,7 @@ private fun EndRuleControls(
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
     val context = LocalContext.current
-    val dateTimeFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { java.text.SimpleDateFormat("MMM d, yyyy 'at' ${com.ghostgramlabs.speakalert.util.TimeFormat.timePattern}", java.util.Locale.getDefault()) }
-    val dateFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { java.text.SimpleDateFormat("MMM d, yyyy", java.util.Locale.getDefault()) }
+    val dateFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { java.text.SimpleDateFormat(com.ghostgramlabs.speakalert.util.DateUtils.datePattern(com.ghostgramlabs.speakalert.util.DateUtils.DateParts.MONTH_DAY_YEAR), java.util.Locale.getDefault()) }
     val timeFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { java.text.SimpleDateFormat(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern, java.util.Locale.getDefault()) }
     val clampedEndDate = maxOf(endDate, minEndDateTimeMillis)
 
@@ -818,12 +915,12 @@ private fun EndRuleControls(
             "DATE" -> {
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     Text(
-                        stringResource(R.string.det_ends_by, dateTimeFormatter.format(java.util.Date(clampedEndDate))),
+                        stringResource(R.string.det_ends_by, com.ghostgramlabs.speakalert.ui.util.localizedDateTimeAt(clampedEndDate)),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
-                        stringResource(R.string.rs_must_be_after, dateTimeFormatter.format(java.util.Date(minEndDateTimeMillis))),
+                        stringResource(R.string.rs_must_be_after, com.ghostgramlabs.speakalert.ui.util.localizedDateTimeAt(minEndDateTimeMillis)),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -911,7 +1008,7 @@ private fun EndRuleControls(
             }
             showDatePicker = false
         }
-        if (shouldUseSystemDateTimePickers()) {
+        if (shouldUseSystemDatePicker(LocalContext.current)) {
             SystemDatePickerDialog(
                 initialSelectedDateMillisUtc = initialUtc,
                 onDismiss = { showDatePicker = false },
