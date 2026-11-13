@@ -377,6 +377,9 @@
     <string name="set_private_bt">ব্যক্তিগত প্লেব্যাক চালু। ব্লুটুথ রাউটিংয়ের জন্য কাছাকাছি ডিভাইসের অনুমতি দরকার।</string>
     <string name="set_tone_only">শুধু-টোন মোড</string>
     <string name="set_tone_only_desc">রেকর্ডিং বা কথার বদলে অ্যালার্ম বাজায়। বন্ধ হবে: %1$s পরে। স্নুজ: %2$d মিনিট।</string>
+    <string name="set_tone_only_desc_no_snooze">রেকর্ডিং বা কথার বদলে অ্যালার্ম বাজায়। বন্ধ হবে: %1$s পরে।</string>
+    <string name="set_snooze_enabled">স্নুজ করতে দিন</string>
+    <string name="set_snooze_enabled_desc">রিমাইন্ডার অ্যালার্ট ও বিজ্ঞপ্তিতে স্নুজ দেখায়। বন্ধ করলে রিমাইন্ডার পার হওয়ার একমাত্র উপায় হবে সম্পন্ন।</string>
     <string name="set_toast_tone_on">শুধু-টোন মোড চালু</string>
     <string name="set_toast_tone_off">শুধু-টোন মোড বন্ধ</string>
     <string name="set_infinite">অসীম</string>
@@ -640,6 +643,8 @@
     <string name="wn_reliability_desc">রিমাইন্ডার প্লেব্যাক এখন নিরাপদে ও সঙ্গে সঙ্গে ফোরগ্রাউন্ডে শুরু হয়, যা কিছু Android 12 ও Android 16 ডিভাইসে দেখা স্টার্টআপ টাইমআউট এড়ায়।</string>
     <string name="settings_24_hour_time">24-ঘণ্টার সময় ব্যবহার করুন</string>
     <string name="settings_24_hour_time_desc">সব সময় 5:30 PM-এর বদলে 17:30 হিসেবে দেখান।</string>
+    <string name="set_week_start">সপ্তাহ শুরু হয়</string>
+    <string name="set_week_start_desc">তারিখ বাছাইয়ে সপ্তাহের প্রথম দিন। কোনো দিন বেছে নিলে আপনার ফোনের নিজস্ব তারিখ বাছাই ব্যবহার হয়।</string>
 
     <!-- Reminder card and actions sheet -->
     <string name="card_recur_onetime">একবারের রিমাইন্ডার</string>

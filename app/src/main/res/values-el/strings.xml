@@ -377,6 +377,9 @@
     <string name="set_private_bt">Ιδιωτική αναπαραγωγή ενεργή. Η δρομολόγηση μέσω Bluetooth χρειάζεται την άδεια Συσκευές σε κοντινή απόσταση.</string>
     <string name="set_tone_only">Λειτουργία μόνο ήχου</string>
     <string name="set_tone_only_desc">Παίζει ήχο ξυπνητηριού αντί για ηχογραφήσεις ή ομιλία. Διακοπή μετά από: %1$s. Αναβολή: %2$d λεπ.</string>
+    <string name="set_tone_only_desc_no_snooze">Παίζει ήχο ξυπνητηριού αντί για ηχογραφήσεις ή ομιλία. Διακοπή μετά από: %1$s.</string>
+    <string name="set_snooze_enabled">Να επιτρέπεται η αναβολή</string>
+    <string name="set_snooze_enabled_desc">Εμφανίζει το κουμπί Αναβολή στις ειδοποιήσεις υπενθυμίσεων. Απενεργοποιήστε το ώστε ο μόνος τρόπος να προχωρήσετε να είναι το Ολοκληρώθηκε.</string>
     <string name="set_toast_tone_on">Λειτουργία μόνο ήχου ενεργή</string>
     <string name="set_toast_tone_off">Λειτουργία μόνο ήχου ανενεργή</string>
     <string name="set_infinite">Άπειρο</string>
@@ -640,6 +643,8 @@
     <string name="wn_reliability_desc">Η αναπαραγωγή υπενθυμίσεων ξεκινά πλέον με ασφάλεια και αμέσως στο προσκήνιο, αποτρέποντας τα χρονικά όρια εκκίνησης που εμφανίζονταν σε ορισμένες συσκευές Android 12 και Android 16.</string>
     <string name="settings_24_hour_time">Χρήση 24ωρης μορφής</string>
     <string name="settings_24_hour_time_desc">Εμφάνιση κάθε ώρας ως 17:30 αντί για 5:30 μ.μ.</string>
+    <string name="set_week_start">Η εβδομάδα ξεκινά</string>
+    <string name="set_week_start_desc">Η πρώτη ημέρα της εβδομάδας στην επιλογή ημερομηνίας. Αν επιλέξετε ημέρα, χρησιμοποιείται η επιλογή ημερομηνίας του τηλεφώνου σας.</string>
 
     <!-- Reminder card and actions sheet -->
     <string name="card_recur_onetime">Εφάπαξ υπενθύμιση</string>

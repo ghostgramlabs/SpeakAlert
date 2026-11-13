@@ -83,6 +83,7 @@ import com.ghostgramlabs.speakalert.ui.settings.HelpDialog
 import com.ghostgramlabs.speakalert.ui.components.SystemDatePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.SystemTimePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDateTimePickers
+import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDatePicker
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -312,7 +313,7 @@ fun HomeScreen(
                 Toast.makeText(context, context.getString(R.string.err_date_future), Toast.LENGTH_SHORT).show()
             }
         }
-        if (shouldUseSystemDateTimePickers()) {
+        if (shouldUseSystemDatePicker(LocalContext.current)) {
             SystemDatePickerDialog(
                 initialSelectedDateMillisUtc = homeUtcStartOfTodayMillis(
                     pendingRescheduleTimeMillis ?: System.currentTimeMillis()
@@ -1379,12 +1380,12 @@ private fun homeMergeTimeWithCurrentDate(currentTime: Long, hour: Int, minute: I
 }
 
 private fun homeUtcStartOfTodayMillis(time: Long = System.currentTimeMillis()): Long {
+    // The pickers work in UTC days, so pass the local calendar date as a UTC midnight.
+    // Truncating the instant in UTC showed the wrong day in the evening west of UTC.
+    val local = java.util.Calendar.getInstance().apply { timeInMillis = time }
     return java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone("UTC")).apply {
-        timeInMillis = time
-        set(java.util.Calendar.HOUR_OF_DAY, 0)
-        set(java.util.Calendar.MINUTE, 0)
-        set(java.util.Calendar.SECOND, 0)
-        set(java.util.Calendar.MILLISECOND, 0)
+        clear()
+        set(local.get(java.util.Calendar.YEAR), local.get(java.util.Calendar.MONTH), local.get(java.util.Calendar.DAY_OF_MONTH))
     }.timeInMillis
 }
 

@@ -388,6 +388,9 @@
     <string name="set_private_bt">Приватное воспроизведение включено. Для вывода через Bluetooth нужно разрешение «Устройства поблизости».</string>
     <string name="set_tone_only">Режим «Только сигнал»</string>
     <string name="set_tone_only_desc">Сигнал будильника вместо записей и речи. Остановка через: %1$s. Отложить: %2$d мин.</string>
+    <string name="set_tone_only_desc_no_snooze">Сигнал будильника вместо записей и речи. Остановка через: %1$s.</string>
+    <string name="set_snooze_enabled">Разрешить откладывать</string>
+    <string name="set_snooze_enabled_desc">Показывает «Отложить» в оповещениях и уведомлениях. Выключите, чтобы закрыть напоминание можно было только кнопкой «Готово».</string>
     <string name="set_toast_tone_on">Режим «Только сигнал» включён</string>
     <string name="set_toast_tone_off">Режим «Только сигнал» выключен</string>
     <string name="set_infinite">Бесконечно</string>
@@ -651,6 +654,8 @@
     <string name="wn_reliability_desc">Воспроизведение напоминаний теперь безопасно и сразу запускается на переднем плане, что предотвращает тайм-ауты запуска, замеченные на некоторых устройствах с Android 12 и Android 16.</string>
     <string name="settings_24_hour_time">24-часовой формат</string>
     <string name="settings_24_hour_time_desc">Показывать время как 17:30 вместо 5:30 PM.</string>
+    <string name="set_week_start">Неделя начинается с</string>
+    <string name="set_week_start_desc">Первый день недели в выборе даты. Если выбрать день, используется системный выбор даты телефона.</string>
 
     <!-- Reminder card and actions sheet -->
     <string name="card_recur_onetime">Разовое напоминание</string>

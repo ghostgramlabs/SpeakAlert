@@ -1077,13 +1077,16 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
 
         val strings = com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(this)
         val spokenPreview = text.take(50) + if (text.length > 50) "…" else ""
-        return NotificationCompat.Builder(this, CHANNEL_ID)
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(title)
             .setContentText(strings.getString(R.string.notif_playback_speaking, spokenPreview))
             .setSmallIcon(R.drawable.ic_notification)
             .addAction(android.R.drawable.ic_media_play, strings.getString(R.string.notif_action_replay), replayPendingIntent)
             .addAction(android.R.drawable.ic_media_pause, strings.getString(R.string.notif_action_stop), stopPendingIntent)
-            .addAction(android.R.drawable.ic_lock_idle_alarm, strings.getString(R.string.notif_action_snooze), snoozePendingIntent)
+        if (com.ghostgramlabs.speakalert.util.SnoozePreferences.snoozeEnabled(this)) {
+            builder.addAction(android.R.drawable.ic_lock_idle_alarm, strings.getString(R.string.notif_action_snooze), snoozePendingIntent)
+        }
+        return builder
             .setOngoing(true)
             .setDeleteIntent(stopPendingIntent)
             .build()

@@ -60,6 +60,7 @@ import com.ghostgramlabs.speakalert.ui.components.PrimaryActionButton
 import com.ghostgramlabs.speakalert.ui.components.SystemDatePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.SystemTimePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDateTimePickers
+import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDatePicker
 import com.ghostgramlabs.speakalert.util.DateUtils
 import com.ghostgramlabs.speakalert.util.ReminderAudioSource
 import com.ghostgramlabs.speakalert.util.sanitizeUnitFloat
@@ -704,7 +705,7 @@ fun ReminderDetailsScreen(
                 Toast.makeText(context, context.getString(R.string.err_date_future), Toast.LENGTH_SHORT).show()
             }
         }
-        if (shouldUseSystemDateTimePickers()) {
+        if (shouldUseSystemDatePicker(LocalContext.current)) {
             SystemDatePickerDialog(
                 initialSelectedDateMillisUtc = detailsUtcStartOfTodayMillis(
                     pendingRescheduleTime ?: System.currentTimeMillis()
@@ -984,7 +985,7 @@ private fun DetailsDatePicker(
     onDismiss: () -> Unit,
     onPicked: (selectedDateUtcMillis: Long) -> Unit
 ) {
-    if (shouldUseSystemDateTimePickers()) {
+    if (shouldUseSystemDatePicker(LocalContext.current)) {
         SystemDatePickerDialog(
             initialSelectedDateMillisUtc = detailsUtcStartOfTodayMillis(initialMillis),
             onDismiss = onDismiss,
@@ -1042,12 +1043,12 @@ private fun detailsMergeTimeWithCurrentDate(currentTime: Long, hour: Int, minute
 }
 
 private fun detailsUtcStartOfTodayMillis(time: Long = System.currentTimeMillis()): Long {
+    // The pickers work in UTC days, so pass the local calendar date as a UTC midnight.
+    // Truncating the instant in UTC showed the wrong day in the evening west of UTC.
+    val local = java.util.Calendar.getInstance().apply { timeInMillis = time }
     return java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone("UTC")).apply {
-        timeInMillis = time
-        set(java.util.Calendar.HOUR_OF_DAY, 0)
-        set(java.util.Calendar.MINUTE, 0)
-        set(java.util.Calendar.SECOND, 0)
-        set(java.util.Calendar.MILLISECOND, 0)
+        clear()
+        set(local.get(java.util.Calendar.YEAR), local.get(java.util.Calendar.MONTH), local.get(java.util.Calendar.DAY_OF_MONTH))
     }.timeInMillis
 }
 

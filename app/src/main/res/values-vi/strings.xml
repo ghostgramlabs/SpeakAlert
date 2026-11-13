@@ -372,6 +372,9 @@
     <string name="set_private_bt">Đã bật phát riêng tư. Định tuyến Bluetooth cần quyền thiết bị ở gần.</string>
     <string name="set_tone_only">Chế độ chỉ chuông</string>
     <string name="set_tone_only_desc">Phát tiếng báo thức thay cho bản ghi hoặc giọng đọc. Dừng sau: %1$s. Báo lại: %2$d phút.</string>
+    <string name="set_tone_only_desc_no_snooze">Phát tiếng báo thức thay cho bản ghi hoặc giọng đọc. Dừng sau: %1$s.</string>
+    <string name="set_snooze_enabled">Cho phép báo lại</string>
+    <string name="set_snooze_enabled_desc">Hiện nút Báo lại trên cảnh báo và thông báo nhắc nhở. Tắt đi để cách duy nhất bỏ qua nhắc nhở là Xong.</string>
     <string name="set_toast_tone_on">Đã bật chế độ chỉ chuông</string>
     <string name="set_toast_tone_off">Đã tắt chế độ chỉ chuông</string>
     <string name="set_infinite">Vô hạn</string>
@@ -635,6 +638,8 @@
     <string name="wn_reliability_desc">Việc phát lời nhắc giờ khởi động an toàn và ngay lập tức ở nền trước, ngăn lỗi hết thời gian khởi động trên một số thiết bị Android 12 và Android 16.</string>
     <string name="settings_24_hour_time">Dùng định dạng 24 giờ</string>
     <string name="settings_24_hour_time_desc">Hiển thị giờ dạng 17:30 thay vì 5:30 PM.</string>
+    <string name="set_week_start">Tuần bắt đầu vào</string>
+    <string name="set_week_start_desc">Ngày đầu tuần trong bộ chọn ngày. Khi chọn một ngày, ứng dụng dùng bộ chọn ngày của điện thoại.</string>
 
     <!-- Reminder card and actions sheet -->
     <string name="card_recur_onetime">Lời nhắc một lần</string>

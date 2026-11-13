@@ -378,6 +378,9 @@
     <string name="set_private_bt">Private playback on. Bluetooth routing needs nearby devices permission.</string>
     <string name="set_tone_only">Tone-only mode</string>
     <string name="set_tone_only_desc">Play an alarm tone instead of recordings or speech. Stops after: %1$s. Snooze: %2$dm.</string>
+    <string name="set_tone_only_desc_no_snooze">Play an alarm tone instead of recordings or speech. Stops after: %1$s.</string>
+    <string name="set_snooze_enabled">Allow snooze</string>
+    <string name="set_snooze_enabled_desc">Show Snooze on reminder alerts and notifications. Turn it off so the only way past a reminder is Done.</string>
     <string name="set_toast_tone_on">Tone-only mode on</string>
     <string name="set_toast_tone_off">Tone-only mode off</string>
     <string name="set_infinite">Infinite</string>
@@ -642,6 +645,8 @@
     <string name="wn_reliability_desc">Reminder playback now starts safely and immediately in the foreground, preventing startup timeouts seen on some Android 12 and Android 16 devices.</string>
     <string name="settings_24_hour_time">Use 24-hour time</string>
     <string name="settings_24_hour_time_desc">Show every time as 17:30 instead of 5:30 PM.</string>
+    <string name="set_week_start">Week starts on</string>
+    <string name="set_week_start_desc">The first day of the week in the date picker. A chosen day uses the phone\'s own date picker.</string>
 
     <!-- Reminder card and actions sheet -->
     <string name="card_recur_onetime">One-time reminder</string>

@@ -150,7 +150,14 @@ fun SettingsScreen(
     val showTypedReminderSection by viewModel.showTypedReminderSection.collectAsState()
     val showShortLabelSection by viewModel.showShortLabelSection.collectAsState()
     val toneAutoStopLabel = if (loopTimeoutMinutes == 0) stringResource(R.string.set_infinite) else stringResource(R.string.set_minutes_short, loopTimeoutMinutes)
-    val toneOnlySubtitle = stringResource(R.string.set_tone_only_desc, toneAutoStopLabel, defaultSnoozeDuration)
+    var snoozeEnabled by remember {
+        mutableStateOf(com.ghostgramlabs.speakalert.util.SnoozePreferences.snoozeEnabled(context))
+    }
+    val toneOnlySubtitle = if (snoozeEnabled) {
+        stringResource(R.string.set_tone_only_desc, toneAutoStopLabel, defaultSnoozeDuration)
+    } else {
+        stringResource(R.string.set_tone_only_desc_no_snooze, toneAutoStopLabel)
+    }
     val tonePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -464,6 +471,39 @@ fun SettingsScreen(
                     checked = use24HourTime,
                     onCheckedChange = viewModel::setUse24HourTime
                 )
+
+                // Week starts on: the first weekday column in date pickers.
+                Spacer(Modifier.height(16.dp))
+                var weekStart by remember {
+                    mutableStateOf(com.ghostgramlabs.speakalert.util.WeekStartPreferences.firstDayOfWeek(context))
+                }
+                Text(stringResource(R.string.set_week_start), style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    stringResource(R.string.set_week_start_desc),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Row(
+                    modifier = Modifier.padding(top = 4.dp).fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    listOf(
+                        0 to R.string.theme_system,
+                        java.util.Calendar.MONDAY to R.string.day_mon,
+                        java.util.Calendar.SUNDAY to R.string.day_sun,
+                        java.util.Calendar.SATURDAY to R.string.day_sat
+                    ).forEach { (day, label) ->
+                        SnoozeOptionChip(
+                            text = stringResource(label),
+                            isSelected = weekStart == day,
+                            onClick = {
+                                weekStart = day
+                                com.ghostgramlabs.speakalert.util.WeekStartPreferences.setFirstDayOfWeek(context, day)
+                            },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
                 Spacer(Modifier.height(16.dp))
                 UnnamedReminderTitleSetting()
             }
@@ -908,7 +948,20 @@ fun SettingsScreen(
                 summary = stringResource(R.string.set_sum_timing),
                 initiallyExpanded = false
             ) {
+                // Allow snooze: off removes Snooze from every alert, so only Done moves past one.
+                SwitchRow(
+                    text = stringResource(R.string.set_snooze_enabled),
+                    description = stringResource(R.string.set_snooze_enabled_desc),
+                    checked = snoozeEnabled,
+                    onCheckedChange = {
+                        snoozeEnabled = it
+                        com.ghostgramlabs.speakalert.util.SnoozePreferences.setSnoozeEnabled(context, it)
+                    }
+                )
+
                 // Snooze Duration
+                if (snoozeEnabled) {
+                Spacer(modifier = Modifier.height(12.dp))
                 Text(stringResource(R.string.set_default_snooze), style = MaterialTheme.typography.bodyMedium)
                 Text(
                     stringResource(R.string.set_snooze_inline_desc),
@@ -953,6 +1006,7 @@ fun SettingsScreen(
                             }
                         )
                     }
+                }
                 }
 
                 Divider(modifier = Modifier.padding(vertical = 12.dp))

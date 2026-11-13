@@ -38,7 +38,8 @@ hear it even when the phone is in your pocket or across the room.
   Thursday), yearly, or custom intervals (every 30 minutes, every 3 days). Repeats can end never,
   on a date, or after a number of times.
 - **Reminds until done.** An optional follow-up check re-alerts until you mark the reminder Done.
-  Full-screen lock-screen alerts have Done, Silence and Snooze buttons. A looping reminder can
+  Full-screen lock-screen alerts have Done, Silence and Snooze buttons; turn off "Allow snooze"
+  to leave Done as the only way past a reminder. A looping reminder can
   pause between repeats ("Meeting", 10 seconds of quiet, "Meeting" again) until its stop time.
 - **Reliable delivery.** Exact alarms, rescheduling after reboot, a missed-reminder inbox,
   tone-only mode, optional Do Not Disturb bypass, and battery-optimisation guidance for

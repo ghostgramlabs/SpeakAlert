@@ -377,6 +377,9 @@
     <string name="set_private_bt">സ്വകാര്യ പ്ലേബാക്ക് ഓൺ. ബ്ലൂടൂത്ത് റൂട്ടിംഗിന് സമീപത്തുള്ള ഉപകരണങ്ങളുടെ അനുമതി വേണം.</string>
     <string name="set_tone_only">ടോൺ മാത്രം മോഡ്</string>
     <string name="set_tone_only_desc">റെക്കോർഡിങ്ങുകൾക്കും സംസാരത്തിനും പകരം അലാറം മുഴക്കും. നിർത്തുന്നത്: %1$s കഴിഞ്ഞ്. സ്‌നൂസ്: %2$d മിനിറ്റ്.</string>
+    <string name="set_tone_only_desc_no_snooze">റെക്കോർഡിങ്ങുകൾക്കും സംസാരത്തിനും പകരം അലാറം മുഴക്കും. നിർത്തുന്നത്: %1$s കഴിഞ്ഞ്.</string>
+    <string name="set_snooze_enabled">സ്‌നൂസ് അനുവദിക്കുക</string>
+    <string name="set_snooze_enabled_desc">റിമൈൻഡർ അലേർട്ടുകളിലും അറിയിപ്പുകളിലും സ്‌നൂസ് കാണിക്കും. ഓഫാക്കിയാൽ റിമൈൻഡർ കടന്നുപോകാനുള്ള ഏക വഴി പൂർത്തിയായി ആയിരിക്കും.</string>
     <string name="set_toast_tone_on">ടോൺ മാത്രം മോഡ് ഓൺ</string>
     <string name="set_toast_tone_off">ടോൺ മാത്രം മോഡ് ഓഫ്</string>
     <string name="set_infinite">പരിധിയില്ല</string>
@@ -640,6 +643,8 @@
     <string name="wn_reliability_desc">റിമൈൻഡർ പ്ലേബാക്ക് ഇപ്പോൾ സുരക്ഷിതമായും ഉടനടിയും ഫോർഗ്രൗണ്ടിൽ ആരംഭിക്കും, ചില Android 12, Android 16 ഉപകരണങ്ങളിൽ കണ്ട സ്റ്റാർട്ടപ്പ് ടൈംഔട്ടുകൾ തടയും.</string>
     <string name="settings_24_hour_time">24 മണിക്കൂർ സമയം ഉപയോഗിക്കുക</string>
     <string name="settings_24_hour_time_desc">എല്ലാ സമയവും 5:30 PM എന്നതിനു പകരം 17:30 എന്ന് കാണിക്കുക.</string>
+    <string name="set_week_start">ആഴ്ച തുടങ്ങുന്നത്</string>
+    <string name="set_week_start_desc">തീയതി തിരഞ്ഞെടുക്കുമ്പോൾ ആഴ്ചയിലെ ആദ്യ ദിവസം. ഒരു ദിവസം തിരഞ്ഞെടുത്താൽ നിങ്ങളുടെ ഫോണിന്റെ സ്വന്തം തീയതി പിക്കർ ഉപയോഗിക്കും.</string>
 
     <!-- Reminder card and actions sheet -->
     <string name="card_recur_onetime">ഒറ്റത്തവണ റിമൈൻഡർ</string>

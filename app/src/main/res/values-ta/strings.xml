@@ -377,6 +377,9 @@
     <string name="set_private_bt">தனிப்பட்ட இயக்கம் ஆன். புளூடூத் வழியாக அனுப்ப அருகிலுள்ள சாதனங்கள் அனுமதி தேவை.</string>
     <string name="set_tone_only">டோன்-மட்டும் பயன்முறை</string>
     <string name="set_tone_only_desc">பதிவுகள் அல்லது பேச்சுக்குப் பதிலாக அலாரம் ஒலிக்கும். நிறுத்தம்: %1$sக்குப் பிறகு. ஒத்திவைப்பு: %2$d நிமிடம்.</string>
+    <string name="set_tone_only_desc_no_snooze">பதிவுகள் அல்லது பேச்சுக்குப் பதிலாக அலாரம் ஒலிக்கும். நிறுத்தம்: %1$sக்குப் பிறகு.</string>
+    <string name="set_snooze_enabled">ஒத்திவைக்க அனுமதி</string>
+    <string name="set_snooze_enabled_desc">நினைவூட்டல் எச்சரிக்கைகளிலும் அறிவிப்புகளிலும் ஒத்திவை பொத்தானைக் காட்டும். அணைத்தால் நினைவூட்டலைக் கடக்க ஒரே வழி முடிந்தது.</string>
     <string name="set_toast_tone_on">டோன்-மட்டும் பயன்முறை ஆன்</string>
     <string name="set_toast_tone_off">டோன்-மட்டும் பயன்முறை ஆஃப்</string>
     <string name="set_infinite">வரம்பற்றது</string>
@@ -640,6 +643,8 @@
     <string name="wn_reliability_desc">நினைவூட்டல் இயக்கம் இப்போது பாதுகாப்பாகவும் உடனடியாகவும் முன்புலத்தில் தொடங்கும், சில Android 12, Android 16 சாதனங்களில் காணப்பட்ட தொடக்க நேரமுடிவுகளைத் தடுக்கும்.</string>
     <string name="settings_24_hour_time">24-மணிநேர நேரத்தைப் பயன்படுத்து</string>
     <string name="settings_24_hour_time_desc">எல்லா நேரங்களையும் 5:30 PM க்குப் பதிலாக 17:30 எனக் காட்டு.</string>
+    <string name="set_week_start">வாரம் தொடங்கும் நாள்</string>
+    <string name="set_week_start_desc">தேதி தேர்வில் வாரத்தின் முதல் நாள். ஒரு நாளைத் தேர்ந்தெடுத்தால் உங்கள் போனின் சொந்த தேதி தேர்வி பயன்படும்.</string>
 
     <!-- Reminder card and actions sheet -->
     <string name="card_recur_onetime">ஒருமுறை நினைவூட்டல்</string>

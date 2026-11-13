@@ -382,6 +382,9 @@
     <string name="set_private_bt">Reprodução privada ativada. O roteamento por Bluetooth precisa da permissão de dispositivos por perto.</string>
     <string name="set_tone_only">Modo só toque</string>
     <string name="set_tone_only_desc">Toca um alarme em vez de gravações ou fala. Para após: %1$s. Adiar: %2$d min.</string>
+    <string name="set_tone_only_desc_no_snooze">Toca um alarme em vez de gravações ou fala. Para após: %1$s.</string>
+    <string name="set_snooze_enabled">Permitir adiar</string>
+    <string name="set_snooze_enabled_desc">Mostra Adiar nos alertas e notificações de lembretes. Desative para que a única forma de passar por um lembrete seja Concluído.</string>
     <string name="set_toast_tone_on">Modo só toque ativado</string>
     <string name="set_toast_tone_off">Modo só toque desativado</string>
     <string name="set_infinite">Infinito</string>
@@ -645,6 +648,8 @@
     <string name="wn_reliability_desc">A reprodução de lembretes agora começa com segurança e imediatamente em primeiro plano, evitando os tempos limite de inicialização vistos em alguns aparelhos com Android 12 e Android 16.</string>
     <string name="settings_24_hour_time">Usar formato de 24 horas</string>
     <string name="settings_24_hour_time_desc">Mostrar todos os horários como 17:30 em vez de 5:30 PM.</string>
+    <string name="set_week_start">A semana começa em</string>
+    <string name="set_week_start_desc">O primeiro dia da semana no seletor de data. Ao escolher um dia, é usado o seletor de data do seu celular.</string>
 
     <!-- Reminder card and actions sheet -->
     <string name="card_recur_onetime">Lembrete único</string>

@@ -381,6 +381,9 @@
     <string name="set_private_bt">التشغيل الخاص مفعّل. توجيه البلوتوث يحتاج إذن الأجهزة القريبة.</string>
     <string name="set_tone_only">وضع النغمة فقط</string>
     <string name="set_tone_only_desc">يشغّل نغمة منبّه بدلًا من التسجيلات أو الكلام. يتوقف بعد: %1$s. غفوة: %2$d دقيقة.</string>
+    <string name="set_tone_only_desc_no_snooze">يشغّل نغمة منبّه بدلًا من التسجيلات أو الكلام. يتوقف بعد: %1$s.</string>
+    <string name="set_snooze_enabled">السماح بالغفوة</string>
+    <string name="set_snooze_enabled_desc">يعرض زر غفوة في تنبيهات التذكير والإشعارات. أوقفه لتكون الطريقة الوحيدة لتجاوز التذكير هي تم.</string>
     <string name="set_toast_tone_on">وضع النغمة فقط مفعّل</string>
     <string name="set_toast_tone_off">وضع النغمة فقط معطّل</string>
     <string name="set_infinite">غير محدود</string>
@@ -643,6 +646,8 @@
     <string name="wn_reliability_desc">يبدأ تشغيل التذكير الآن بأمان وفورًا في الواجهة الأمامية، مما يمنع مهلة البدء التي ظهرت على بعض أجهزة Android 12 وAndroid 16.</string>
     <string name="settings_24_hour_time">استخدام نظام 24 ساعة</string>
     <string name="settings_24_hour_time_desc">عرض جميع الأوقات بصيغة 17:30 بدلاً من 5:30 م.</string>
+    <string name="set_week_start">يبدأ الأسبوع يوم</string>
+    <string name="set_week_start_desc">أول يوم في الأسبوع في منتقي التاريخ. عند اختيار يوم يُستخدم منتقي التاريخ الخاص بهاتفك.</string>
 
     <!-- بطاقة التذكير والإجراءات -->
     <string name="card_recur_onetime">تذكير لمرة واحدة</string>

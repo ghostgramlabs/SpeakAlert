@@ -35,6 +35,7 @@ import com.ghostgramlabs.speakalert.domain.RecurrenceUtils
 import com.ghostgramlabs.speakalert.ui.components.SystemDatePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.SystemTimePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDateTimePickers
+import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDatePicker
 import com.ghostgramlabs.speakalert.util.normalizeLocalizedDigitsOrNull
 import com.ghostgramlabs.speakalert.util.toLocalizedIntOrNull
 import java.util.Calendar
@@ -1006,7 +1007,7 @@ private fun EndRuleControls(
             }
             showDatePicker = false
         }
-        if (shouldUseSystemDateTimePickers()) {
+        if (shouldUseSystemDatePicker(LocalContext.current)) {
             SystemDatePickerDialog(
                 initialSelectedDateMillisUtc = initialUtc,
                 onDismiss = { showDatePicker = false },

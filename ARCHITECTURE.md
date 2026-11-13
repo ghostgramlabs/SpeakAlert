@@ -70,7 +70,11 @@ so always add the migration.
 Settings (playback, quiet hours, snooze length, language, theme and so on) live in DataStore
 and are read through `SettingsRepository`. Colors for Home's card buttons are stored as
 `CardButtonColor` keys and provided to the UI through `LocalCardActionColors`, resolved to the
-light or dark shade in `MainActivity`.
+light or dark shade in `MainActivity`. "Allow snooze" is the exception: it lives in
+SharedPreferences (`SnoozePreferences`), like Extra-reliable reminders, because the notifications
+and the lock-screen alert that hide Snooze are built synchronously. "Week starts on"
+(`WeekStartPreferences`) is stored the same way; a chosen day makes `shouldUseSystemDatePicker`
+pick the platform date dialog, the only one whose first weekday can be set.
 
 ## Life of a reminder
 

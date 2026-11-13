@@ -362,6 +362,9 @@
     <string name="set_private_bt">निजी प्लेबैक चालू। ब्लूटूथ रूटिंग के लिए आस-पास के डिवाइस की अनुमति चाहिए।</string>
     <string name="set_tone_only">टोन-ओनली मोड</string>
     <string name="set_tone_only_desc">रिकॉर्डिंग या बोलने के बजाय अलार्म टोन बजाता है। बंद होने का समय: %1$s। स्नूज़: %2$d मिनट।</string>
+    <string name="set_tone_only_desc_no_snooze">रिकॉर्डिंग या बोलने के बजाय अलार्म टोन बजाता है। बंद होने का समय: %1$s।</string>
+    <string name="set_snooze_enabled">स्नूज़ की अनुमति दें</string>
+    <string name="set_snooze_enabled_desc">रिमाइंडर अलर्ट और नोटिफ़िकेशन में स्नूज़ दिखाता है। बंद करें ताकि रिमाइंडर से आगे बढ़ने का एक ही तरीका हो: हो गया।</string>
     <string name="set_toast_tone_on">टोन-ओनली मोड चालू</string>
     <string name="set_toast_tone_off">टोन-ओनली मोड बंद</string>
     <string name="set_infinite">असीमित</string>
@@ -624,6 +627,8 @@
     <string name="wn_reliability_desc">रिमाइंडर प्लेबैक अब सुरक्षित रूप से और तुरंत फ़ोरग्राउंड में शुरू होता है, जिससे कुछ Android 12 और Android 16 डिवाइस पर देखा गया स्टार्टअप टाइमआउट नहीं होता।</string>
     <string name="settings_24_hour_time">24-घंटे का समय प्रारूप</string>
     <string name="settings_24_hour_time_desc">सभी समय 5:30 PM के बजाय 17:30 के रूप में दिखाएँ।</string>
+    <string name="set_week_start">सप्ताह की शुरुआत</string>
+    <string name="set_week_start_desc">तारीख चुनने वाले कैलेंडर में सप्ताह का पहला दिन। कोई दिन चुनने पर आपके फ़ोन का अपना तारीख पिकर इस्तेमाल होता है।</string>
 
     <!-- रिमाइंडर कार्ड और क्रियाएँ -->
     <string name="card_recur_onetime">एक बार का रिमाइंडर</string>

@@ -377,6 +377,9 @@
     <string name="set_private_bt">ప్రైవేట్ ప్లేబ్యాక్ ఆన్. బ్లూటూత్ రూటింగ్‌కు సమీప పరికరాల అనుమతి అవసరం.</string>
     <string name="set_tone_only">టోన్-మాత్రమే మోడ్</string>
     <string name="set_tone_only_desc">రికార్డింగ్‌లు లేదా మాటలకు బదులుగా అలారం మోగుతుంది. ఆగే సమయం: %1$s తర్వాత. స్నూజ్: %2$d నిమి.</string>
+    <string name="set_tone_only_desc_no_snooze">రికార్డింగ్‌లు లేదా మాటలకు బదులుగా అలారం మోగుతుంది. ఆగే సమయం: %1$s తర్వాత.</string>
+    <string name="set_snooze_enabled">స్నూజ్‌ను అనుమతించు</string>
+    <string name="set_snooze_enabled_desc">రిమైండర్ అలర్ట్‌లు, నోటిఫికేషన్‌లలో స్నూజ్ చూపిస్తుంది. ఆఫ్ చేస్తే రిమైండర్ దాటడానికి ఒకే మార్గం పూర్తయింది.</string>
     <string name="set_toast_tone_on">టోన్-మాత్రమే మోడ్ ఆన్</string>
     <string name="set_toast_tone_off">టోన్-మాత్రమే మోడ్ ఆఫ్</string>
     <string name="set_infinite">అనంతం</string>
@@ -640,6 +643,8 @@
     <string name="wn_reliability_desc">రిమైండర్ ప్లేబ్యాక్ ఇప్పుడు సురక్షితంగా, వెంటనే ఫోర్‌గ్రౌండ్‌లో ప్రారంభమవుతుంది, కొన్ని Android 12, Android 16 పరికరాల్లో కనిపించిన స్టార్టప్ టైమ్‌అవుట్‌లను నివారిస్తుంది.</string>
     <string name="settings_24_hour_time">24-గంటల సమయం ఉపయోగించు</string>
     <string name="settings_24_hour_time_desc">ప్రతి సమయాన్ని 5:30 PMకి బదులు 17:30గా చూపు.</string>
+    <string name="set_week_start">వారం మొదలయ్యే రోజు</string>
+    <string name="set_week_start_desc">తేదీ ఎంపికలో వారంలో మొదటి రోజు. ఒక రోజును ఎంచుకుంటే మీ ఫోన్ సొంత తేదీ పికర్ వాడబడుతుంది.</string>
 
     <!-- Reminder card and actions sheet -->
     <string name="card_recur_onetime">ఒక్కసారి రిమైండర్</string>

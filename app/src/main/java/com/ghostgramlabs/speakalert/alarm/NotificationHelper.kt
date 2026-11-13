@@ -356,7 +356,9 @@ class NotificationHelper(private val context: Context) {
                 builder.addAction(android.R.drawable.ic_lock_silent_mode, strings.getString(R.string.notif_action_silence), silencePendingIntent)
         }
         builder.addAction(android.R.drawable.checkbox_on_background, strings.getString(R.string.notif_action_done), donePendingIntent)
-        builder.addAction(android.R.drawable.ic_lock_idle_alarm, strings.getString(R.string.notif_action_snooze), snoozePendingIntent)
+        if (com.ghostgramlabs.speakalert.util.SnoozePreferences.snoozeEnabled(context)) {
+            builder.addAction(android.R.drawable.ic_lock_idle_alarm, strings.getString(R.string.notif_action_snooze), snoozePendingIntent)
+        }
 
         return try {
             NotificationManagerCompat.from(context).notify(reminderId.toInt(), builder.build())

@@ -15,4 +15,14 @@
     <style name="Theme.SpeakAlert.Dark" parent="android:Theme.Material.NoActionBar">
         <item name="android:windowBackground">@color/window_background_dark</item>
     </style>
+    <!-- The platform date and time dialogs (used for a chosen week start and for languages with
+         their own digits) in the app's primary color instead of the platform teal. The colors
+         match PrimaryLight and PrimaryDark in Color.kt. -->
+    <style name="SpeakAlertPicker.Light" parent="android:Theme.Material.Light.Dialog.Alert">
+        <item name="android:colorAccent">#4759C7</item>
+    </style>
+
+    <style name="SpeakAlertPicker.Dark" parent="android:Theme.Material.Dialog.Alert">
+        <item name="android:colorAccent">#B8C3FF</item>
+    </style>
 </resources>

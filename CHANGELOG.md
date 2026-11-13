@@ -3,6 +3,22 @@
 User-facing changes to SpeakAlert, newest first. Version numbers match the Google Play release
 (`versionName` in `app/build.gradle.kts`).
 
+## Unreleased
+
+- New "Week starts on" choice in Settings, Language & appearance: System, Mon, Sun or Sat. A
+  chosen day sets the first column of the date picker. Material's date picker cannot be told
+  its first weekday, so with a day chosen the app shows the phone's own date picker instead;
+  "System" keeps the Material picker and the region's week start.
+- The phone's own date picker, used for a chosen week start and for languages with their own
+  digits, now uses the app's color in light and dark theme instead of the platform teal.
+- Fixed the date picker opening on the wrong day in the evening in time zones west of UTC (and
+  early morning east of it) on the reminder details screen, Home's reschedule, and the combined
+  date and time dialog. On details and Home it also refused today's date at those hours.
+- New "Allow snooze" switch in Settings, Snooze & follow-up, on by default. Turned off, reminder
+  notifications, the speaking notification and the lock-screen alert no longer offer Snooze, so
+  Done is the only way past a reminder, and the snooze length setting is hidden. Asked for by a
+  user who kept snoozing instead of doing the task.
+
 ## 2.0.46 - 2026-10-31
 
 - The "What's new" sheet lists the four changes below that users asked for.

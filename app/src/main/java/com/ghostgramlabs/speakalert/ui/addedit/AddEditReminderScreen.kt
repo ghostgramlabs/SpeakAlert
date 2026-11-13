@@ -62,6 +62,7 @@ import com.ghostgramlabs.speakalert.ui.components.SectionCard
 import com.ghostgramlabs.speakalert.ui.components.SystemDatePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.SystemTimePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDateTimePickers
+import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDatePicker
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.sanitizeUnitFloat
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -817,7 +818,7 @@ fun AddEditReminderScreen(
                     }
                     showDatePickerDialog = false
                 }
-                if (shouldUseSystemDateTimePickers()) {
+                if (shouldUseSystemDatePicker(LocalContext.current)) {
                     SystemDatePickerDialog(
                         initialSelectedDateMillisUtc = addEditDatePickerSelectionMillis(uiState.triggerTime),
                         onDismiss = { showDatePickerDialog = false },

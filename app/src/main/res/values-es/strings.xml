@@ -366,6 +366,9 @@
     <string name="set_private_bt">Reproducción privada activada. El enrutamiento Bluetooth necesita permiso de dispositivos cercanos.</string>
     <string name="set_tone_only">Modo Solo tono</string>
     <string name="set_tone_only_desc">Reproduce un tono de alarma en lugar de grabaciones o voz. Se detiene tras: %1$s. Posponer: %2$d min.</string>
+    <string name="set_tone_only_desc_no_snooze">Reproduce un tono de alarma en lugar de grabaciones o voz. Se detiene tras: %1$s.</string>
+    <string name="set_snooze_enabled">Permitir posponer</string>
+    <string name="set_snooze_enabled_desc">Muestra Posponer en las alertas y notificaciones de recordatorios. Desactívalo para que la única forma de cerrar un recordatorio sea Hecho.</string>
     <string name="set_toast_tone_on">Modo Solo tono activado</string>
     <string name="set_toast_tone_off">Modo Solo tono desactivado</string>
     <string name="set_infinite">Infinito</string>
@@ -628,6 +631,8 @@
     <string name="wn_reliability_desc">La reproducción del recordatorio ahora se inicia de forma segura e inmediata en primer plano, evitando tiempos de espera observados en algunos dispositivos con Android 12 y Android 16.</string>
     <string name="settings_24_hour_time">Usar formato de 24 horas</string>
     <string name="settings_24_hour_time_desc">Muestra todas las horas como 17:30 en lugar de 5:30 p. m.</string>
+    <string name="set_week_start">La semana empieza el</string>
+    <string name="set_week_start_desc">El primer día de la semana en el selector de fecha. Si eliges un día, se usa el selector de fecha de tu teléfono.</string>
 
     <!-- Tarjeta de recordatorio y acciones -->
     <string name="card_recur_onetime">Recordatorio único</string>

@@ -246,7 +246,7 @@ fun DateTimePickerDialog(
                 showDateDialog = false
             }
         }
-        if (shouldUseSystemDateTimePickers()) {
+        if (shouldUseSystemDatePicker(androidx.compose.ui.platform.LocalContext.current)) {
             SystemDatePickerDialog(
                 initialSelectedDateMillisUtc = startOfUtcDay(draftTime),
                 onDismiss = { showDateDialog = false },
@@ -451,11 +451,11 @@ private fun startOfDay(timeMillis: Long): Long {
 }
 
 private fun startOfUtcDay(timeMillis: Long): Long {
+    // The pickers work in UTC days, so pass the local calendar date as a UTC midnight.
+    // Truncating the instant in UTC showed the wrong day in the evening west of UTC.
+    val local = Calendar.getInstance().apply { timeInMillis = timeMillis }
     return Calendar.getInstance(java.util.TimeZone.getTimeZone("UTC")).apply {
-        timeInMillis = timeMillis
-        set(Calendar.HOUR_OF_DAY, 0)
-        set(Calendar.MINUTE, 0)
-        set(Calendar.SECOND, 0)
-        set(Calendar.MILLISECOND, 0)
+        clear()
+        set(local.get(Calendar.YEAR), local.get(Calendar.MONTH), local.get(Calendar.DAY_OF_MONTH))
     }.timeInMillis
 }
