@@ -45,6 +45,8 @@ object AppLocale {
         "de" to "Deutsch",
         "fr" to "Français",
         "id" to "Bahasa Indonesia",
+        "tr" to "Türkçe",
+        "ja" to "日本語",
         "hi" to "हिन्दी",
         "ar" to "العربية",
         "pt-BR" to "Português (Brasil)",

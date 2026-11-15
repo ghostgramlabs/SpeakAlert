@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_tagline">Rappels vocaux hors ligne</string>
     <string name="widget_quick_caption">Ouvrir « Ajouter un rappel » instantanément</string>
     <string name="widget_quick_description">Ouvrez le formulaire de rappel directement depuis l’écran d’accueil</string>
@@ -103,7 +103,7 @@
     <string name="alert_hint_no_play">Gardez le rappel affiché, ou choisissez Terminé ou Reporter quand vous êtes prêt.</string>
     <string name="alert_dock_hint">Silence arrête le son. Terminé ou Reporter ferme l’alerte de l’écran de verrouillage.</string>
     <plurals name="alert_followup_repeats">
-        <item quantity="one">Se répète chaque minute jusqu’à ce qu’il soit terminé.</item>
+        <item quantity="one">Se répète toutes les %1$d minute jusqu’à ce qu’il soit terminé.</item>
         <item quantity="other">Se répète toutes les %1$d minutes jusqu’à ce qu’il soit terminé.</item>
     </plurals>
 
@@ -222,7 +222,7 @@
     <string name="ae_cd_saving">Enregistrement du rappel</string>
     <string name="ae_save_reminder">Enregistrer le rappel</string>
     <plurals name="ae_followup_active">
-        <item quantity="one">Activé : vous relance chaque minute jusqu’à ce qu’il soit terminé.</item>
+        <item quantity="one">Activé : vous relance toutes les %1$d minute jusqu’à ce qu’il soit terminé.</item>
         <item quantity="other">Activé : vous relance toutes les %1$d minutes jusqu’à ce qu’il soit terminé.</item>
     </plurals>
 
@@ -318,12 +318,13 @@
     <string name="rs_allowed_range">Autorisé : 1-999</string>
     <string name="rs_end_before_error">L’heure de fin ne peut pas précéder l’heure du rappel</string>
     <string name="rs_select_end_time">Choisir l’heure de fin</string>
-    <plurals name="unit_minutes"><item quantity="one">Minute</item><item quantity="other">Minutes</item></plurals>
-    <plurals name="unit_hours"><item quantity="one">Heure</item><item quantity="other">Heures</item></plurals>
-    <plurals name="unit_days"><item quantity="one">Jour</item><item quantity="other">Jours</item></plurals>
-    <plurals name="unit_weeks"><item quantity="one">Semaine</item><item quantity="other">Semaines</item></plurals>
-    <plurals name="unit_months"><item quantity="one">Mois</item><item quantity="other">Mois</item></plurals>
-    <plurals name="unit_years"><item quantity="one">An</item><item quantity="other">Ans</item></plurals>
+    <!-- Unit labels only: the caller displays the count separately. -->
+    <plurals name="unit_minutes" tools:ignore="ImpliedQuantity"><item quantity="one">Minute</item><item quantity="other">Minutes</item></plurals>
+    <plurals name="unit_hours" tools:ignore="ImpliedQuantity"><item quantity="one">Heure</item><item quantity="other">Heures</item></plurals>
+    <plurals name="unit_days" tools:ignore="ImpliedQuantity"><item quantity="one">Jour</item><item quantity="other">Jours</item></plurals>
+    <plurals name="unit_weeks" tools:ignore="ImpliedQuantity"><item quantity="one">Semaine</item><item quantity="other">Semaines</item></plurals>
+    <plurals name="unit_months" tools:ignore="ImpliedQuantity"><item quantity="one">Mois</item><item quantity="other">Mois</item></plurals>
+    <plurals name="unit_years" tools:ignore="ImpliedQuantity"><item quantity="one">An</item><item quantity="other">Ans</item></plurals>
 
     <!-- Settings -->
     <string name="set_appearance">Langue et apparence</string>
@@ -549,11 +550,11 @@
     <string name="help_s11_title">Après un redémarrage de l’appareil</string>
     <string name="help_s11_content">- Les rappels futurs sont reprogrammés automatiquement après le redémarrage.\n- Les rappels dont l’heure est passée suivent le parcours des rappels manqués au lieu de sonner à l’improviste au démarrage.</string>
     <string name="help_s13_title">Relances</string>
-    <string name="help_s13_content">- Une relance demande « Avez-vous terminé … ? » quelques minutes après qu’un rappel a sonné.\n- Par défaut, elle se répète jusqu’à ce que vous marquiez le rappel comme terminé. Vous pouvez définir une limite de répétition dans Paramètres &gt; Fiabilité pour qu’elle s’arrête d’elle-même.\n- Terminé et Reporter mettent fin au cycle de relance en cours ; les heures calmes arrêtent aussi les relances.\n- Les relances continuent après un redémarrage de l’appareil, jusqu’à ce que ce soit terminé ou que la limite soit atteinte.</string>
+    <string name="help_s13_content">- Une relance demande « Avez-vous terminé … ? » quelques minutes après qu’un rappel a sonné.\n- Par défaut, elle se répète jusqu’à ce que vous marquiez le rappel comme terminé. Vous pouvez définir une limite de répétition dans Paramètres &gt; Report et relance pour qu’elle s’arrête d’elle-même.\n- Terminé et Reporter mettent fin au cycle de relance en cours ; les heures calmes arrêtent aussi les relances.\n- Les relances continuent après un redémarrage de l’appareil, jusqu’à ce que ce soit terminé ou que la limite soit atteinte.</string>
     <string name="help_s14_title">Sauvegarde et importation</string>
     <string name="help_s14_content">- Sauvegarder les rappels, dans les Paramètres, enregistre tous les rappels à venir, enregistrements vocaux compris, dans un seul fichier de votre choix.\n- Importer des rappels les restaure sur cet appareil ou sur un autre.\n- L’importation ignore les doublons exacts et les rappels ponctuels expirés ; les rappels récurrents reprennent à leur prochaine occurrence.\n- Les rappels importés sont programmés immédiatement.</string>
     <string name="help_s12_title">Garder les rappels à l’écran jusqu’à la fin</string>
-    <string name="help_s12_content">- Activez Paramètres &gt; Fiabilité &gt; Garder la notification jusqu’à la fin pour épingler la notification du rappel et éviter de la balayer par erreur.\n- Tant que l’option est activée, un balayage coupe seulement le son et laisse le rappel en attente : il reste jusqu’à ce que vous touchiez Terminé ou Reporter.\n- Marquer comme terminé fonctionne toujours depuis la notification, l’alerte plein écran ou la carte du rappel, et arrête toute relance.\n- Associez-la à une relance pour que le rappel sonne aussi de nouveau à intervalles réguliers jusqu’à ce qu’il soit terminé.</string>
+    <string name="help_s12_content">- Activez Paramètres &gt; Quand un rappel sonne &gt; Garder la notification jusqu’à la fin pour épingler la notification du rappel et éviter de la balayer par erreur.\n- Tant que l’option est activée, un balayage coupe seulement le son et laisse le rappel en attente : il reste jusqu’à ce que vous touchiez Terminé ou Reporter.\n- Marquer comme terminé fonctionne toujours depuis la notification, l’alerte plein écran ou la carte du rappel, et arrête toute relance.\n- Associez-la à une relance pour que le rappel sonne aussi de nouveau à intervalles réguliers jusqu’à ce qu’il soit terminé.</string>
 
     <!-- What's new sheet -->
     <string name="action_continue">Continuer</string>
@@ -907,4 +908,18 @@
     <string name="set_recommendations">Recommandations et fonctions facultatives</string>
     <string name="set_playback_mode">Son du rappel</string>
     <string name="set_voice_audio_mode">Voix, fichiers audio et texte parlé</string>
+    <string name="set_voice_check_checking">Vérification de la voix pour : %1$s…</string>
+    <string name="set_voice_check_ok">La voix pour %1$s fonctionne.</string>
+    <string name="set_voice_check_alternative">La voix par défaut pour %1$s ne fonctionne pas, mais une autre voix est disponible dans cette langue. Vous pouvez gérer les voix ci-dessous.</string>
+    <string name="set_voice_check_missing">Impossible de lire le texte avec une voix pour %1$s. Vérifiez votre connexion ou téléchargez une voix dans cette langue, puis réessayez.</string>
+    <string name="set_voice_check_no_engine">La synthèse vocale est indisponible. Vérifiez les paramètres de synthèse vocale de votre téléphone, puis réessayez.</string>
+    <string name="set_voice_download">Télécharger des voix</string>
+    <string name="set_voice_check_again">Vérifier à nouveau</string>
+    <string name="set_voice_settings_unavailable">Impossible d\'ouvrir les paramètres de synthèse vocale du téléphone.</string>
+    <string name="set_reset_defaults">Rétablir les paramètres par défaut</string>
+    <string name="set_reset_defaults_desc">Remet chaque paramètre comme à l’installation de l’app. Les rappels ne sont pas modifiés.</string>
+    <string name="set_reset_defaults_title">Réinitialiser tous les paramètres ?</string>
+    <string name="set_reset_defaults_body">Chaque paramètre revient à sa valeur par défaut. Vos rappels, enregistrements, la langue de l’app et les autorisations du téléphone restent inchangés.</string>
+    <string name="set_reset_defaults_confirm">Réinitialiser</string>
+    <string name="set_reset_defaults_done">Paramètres par défaut rétablis</string>
 </resources>

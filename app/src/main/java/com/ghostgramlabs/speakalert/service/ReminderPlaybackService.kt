@@ -99,6 +99,18 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     // Spoken-language preference: 0 = Auto-detect, 1 = Device language, 2 = English.
     @Volatile
     private var ttsLanguageMode = 0
+    // Language tags whose voice failed to synthesise, and the one the current utterance uses
+    // (null = the engine's own default). Written on the engine thread, read on the main thread.
+    private val ttsFailedLanguages: MutableSet<String> = java.util.concurrent.ConcurrentHashMap.newKeySet()
+    @Volatile
+    private var ttsSpokenLanguage: String? = null
+    // Voices that failed, the voice the current utterance uses, and the language being retried.
+    private val ttsFailedVoices: MutableSet<String> = java.util.concurrent.ConcurrentHashMap.newKeySet()
+    @Volatile
+    private var ttsSpokenVoice: String? = null
+    @Volatile
+    private var ttsRetryLanguage: String? = null
+    private var ttsSpeechAttempts = 0
     
     // For TTS replay
     private var currentTtsText: String? = null
@@ -137,11 +149,42 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
                 stopSelf()
             }
         },
-        onError = {
-            broadcastPlaybackStatus(isPlaying = false)
-            stopSelf()
-        }
+        onError = { onSpeechFailed() }
     )
+
+    /**
+     * The engine could not speak the reminder. Engines report a language as available when its
+     * voice is merely downloadable, then fail at synthesis, so try the next voice, then the
+     * engine's own default, and only then give up on speech. A reminder that cannot be spoken
+     * still has to be heard, so it ends with the alarm tone rather than silence.
+     */
+    private fun onSpeechFailed() {
+        val text = currentTtsText
+        val failedLanguage = ttsSpokenLanguage
+        if (isTtsMode && text != null && failedLanguage != null && ttsSpeechAttempts < MAX_SPEECH_ATTEMPTS) {
+            ttsSpeechAttempts++
+            // Stay in the same language while it has another voice to offer; the voice picker
+            // moves on to the next language once this one runs out.
+            val failedVoice = ttsSpokenVoice
+            if (failedVoice != null) ttsFailedVoices.add(failedVoice) else ttsFailedLanguages.add(failedLanguage)
+            ttsRetryLanguage = failedLanguage
+            FileLogger.log("SERVICE: TTS failed in $failedLanguage (voice=$failedVoice), retrying with the next voice")
+            speakNow(text)
+            return
+        }
+        FileLogger.log("SERVICE: TTS failed with no voice left to try")
+        broadcastPlaybackStatus(isPlaying = false)
+        // Private listening must never turn into a loud tone on the speaker.
+        if (isTtsMode && !privatePlaybackEnabled && currentReminderId > 0L) {
+            ToneAlertPlayer.start(
+                applicationContext,
+                SPEECH_FAILURE_TONE_MINUTES,
+                dndBypass = dndBypassEnabled,
+                reminderId = currentReminderId
+            )
+        }
+        stopSelf()
+    }
     private val playbackTimeout = PlaybackTimeout(
         scope = scope,
         readTimeoutMinutes = {
@@ -711,7 +754,8 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
 
     private fun speakAfterPrivateRouteWarmup(text: String) {
         runAfterPrivateRouteWarmup("tts") {
-            speakNow(text)
+            ttsSpeechAttempts = 0
+            speakNow(text, resetVoices = true)
         }
     }
 
@@ -733,7 +777,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         routeWarmupHandler.postDelayed(runnable, PRIVATE_ROUTE_WARMUP_MS)
     }
 
-    private fun speakNow(text: String) {
+    private fun speakNow(text: String, resetVoices: Boolean = false) {
         if (readyTts == null) {
             FileLogger.log("SERVICE: TTS not ready in speakNow")
             stopSelf()
@@ -753,6 +797,14 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         val utteranceId = ttsCallbacks.begin()
         
         onTtsThread("speak") { engine ->
+            if (!ttsCallbacks.isActive(utteranceId)) return@onTtsThread
+            if (resetVoices) {
+                ttsFailedLanguages.clear()
+                ttsFailedVoices.clear()
+                ttsRetryLanguage = null
+                ttsSpokenLanguage = null
+                ttsSpokenVoice = null
+            }
             // Pick the voice that matches the reminder's own language (with fallback) right before
             // speaking, so e.g. a Hindi reminder is read correctly even on an English phone.
             applyTtsLanguageForText(engine, text)
@@ -760,12 +812,9 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             val speakResult = engine.speak(text, TextToSpeech.QUEUE_FLUSH, params, utteranceId)
             FileLogger.log("SERVICE: tts.speak() called, result=$speakResult")
             if (speakResult == TextToSpeech.ERROR) {
-                scope.launch {
-                    // A newer request may have replaced this utterance while it was queued.
-                    if (!ttsCallbacks.isActive(utteranceId)) return@launch
-                    FileLogger.log("SERVICE: tts.speak() failed with ERROR")
-                    stopSelf()
-                }
+                FileLogger.log("SERVICE: tts.speak() failed with ERROR")
+                // Same recovery as an utterance error; the guard ignores a replaced utterance.
+                ttsCallbacks.complete(utteranceId, failed = true)
             }
         }
     }
@@ -779,24 +828,39 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         // Honor the user's "Spoken language" preference; Auto-detect also keeps device/English as
         // graceful fallbacks.
         val detected = if (ttsLanguageMode == 0) TtsLanguageSupport.detectLocale(text) else null
-        val candidates = LinkedHashSet<Locale>().apply {
-            when (ttsLanguageMode) {
-                1 -> { add(Locale.getDefault()); add(Locale.ENGLISH) }          // Device language
-                2 -> { add(Locale.ENGLISH); add(Locale.getDefault()) }          // English
-                else -> {                                                       // Auto-detect
-                    detected?.let { add(it) }
-                    add(Locale.getDefault())
-                    add(Locale.ENGLISH)
-                }
-            }
-        }
+        val candidates = TtsLanguageSupport.candidateLocales(
+            ttsLanguageMode, detected, Locale.getDefault(), ttsFailedLanguages
+        )
         for (locale in candidates) {
             val res = engine.setLanguage(locale)
-            if (res >= TextToSpeech.LANG_AVAILABLE) {
-                FileLogger.log("SERVICE: TTS language set to ${locale.toLanguageTag()} (res=$res)")
+            if (res < TextToSpeech.LANG_AVAILABLE) continue
+            val tag = locale.toLanguageTag()
+            ttsSpokenLanguage = tag
+            if (ttsFailedVoices.isEmpty() || tag != ttsRetryLanguage) {
+                // First attempt in this language: the engine's own choice of voice.
+                ttsSpokenVoice = runCatching { engine.voice?.name }.getOrNull()
+                FileLogger.log("SERVICE: TTS language set to $tag (res=$res, voice=$ttsSpokenVoice)")
                 return
             }
+            // The engine's choice could not speak. Another voice of the same language often can.
+            val alternative = TtsLanguageSupport.nextVoice(
+                com.ghostgramlabs.speakalert.util.TtsVoiceCheck.voiceOptions(engine), locale, ttsFailedVoices
+            )
+            val voice = alternative?.let { option ->
+                runCatching { engine.voices?.firstOrNull { it.name == option.name } }.getOrNull()
+            }
+            if (voice != null && engine.setVoice(voice) == TextToSpeech.SUCCESS) {
+                ttsSpokenVoice = voice.name
+                FileLogger.log("SERVICE: TTS retrying $tag with voice ${voice.name}")
+                maybeShowVoiceDataHint(locale)
+                return
+            }
+            FileLogger.log("SERVICE: No working TTS voice for $tag")
+            ttsFailedLanguages.add(tag)
+            maybeShowVoiceDataHint(locale)
         }
+        ttsSpokenLanguage = null
+        ttsSpokenVoice = null
         FileLogger.log("SERVICE: No TTS voice data for text language; using engine default")
         maybeShowVoiceDataHint(detected ?: Locale.getDefault())
     }
@@ -1241,6 +1305,10 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         const val EXTRA_DND_BYPASS = "extra_dnd_bypass"
         private const val PRIVATE_ROUTE_WARMUP_MS = 350L
         private const val TTS_INIT_TIMEOUT_MS = 20_000L
+        // How long the alarm tone stands in for a reminder that could not be spoken.
+        private const val SPEECH_FAILURE_TONE_MINUTES = 1
+        // Voices tried for one reminder before giving up on speech.
+        private const val MAX_SPEECH_ATTEMPTS = 10
         private const val TTS_CONNECT_GRACE_MS = 30_000L
         
         /** Returns launch acceptance only; decoding and speech initialization happen asynchronously. */

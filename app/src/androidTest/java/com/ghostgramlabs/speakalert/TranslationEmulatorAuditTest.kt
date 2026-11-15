@@ -22,7 +22,7 @@ import org.junit.Assert.*
 import java.io.File
 import java.util.Locale
 
-/** Run once per app locale (de, fr, id). Restores settings and removes its temporary reminder. */
+/** Run once per app locale (de, fr, id, tr, ja).Restores settings and removes its temporary reminder. */
 class TranslationEmulatorAuditTest {
     @get:Rule val compose = createEmptyComposeRule()
     private val app = ApplicationProvider.getApplicationContext<VoiceReminderApp>()
@@ -86,18 +86,22 @@ class TranslationEmulatorAuditTest {
                 shot("interval_$count")
             }
             compose.onNodeWithText(text(R.string.rs_until_date)).performScrollTo().performClick()
-            compose.onNodeWithText(text(R.string.rs_must_be_after).substringBefore("%1"), substring = true).performScrollTo().assertIsDisplayed()
+            // Some locales (ja) put the date first, so use whichever side of the placeholder has text.
+            val mustBeAfter = text(R.string.rs_must_be_after).split("%1\$s").map { it.trim() }.first { it.isNotEmpty() }
+            compose.onNodeWithText(mustBeAfter, substring = true).performScrollTo().assertIsDisplayed()
             shot("end_date")
         }
     }
 
     @Test fun platformDateOrderAndTranslatedResources() {
         ActivityScenario.launch<MainActivity>(Intent(app, MainActivity::class.java)).use {
-            assertTrue("Expected a new locale, got $language", language in listOf("de", "fr", "id", "in"))
+            assertTrue("Expected a new locale, got $language", language in listOf("de", "fr", "id", "in", "tr", "ja"))
             assertEquals(language, Locale.getDefault().language)
             for (parts in DateUtils.DateParts.values()) {
                 val pattern = DateUtils.datePattern(parts)
-                assertTrue("Day must precede month: $pattern", pattern.indexOf('d') < pattern.indexOf('M'))
+                // Japanese dates run year, month, day; the other new locales are day-first.
+                if (language == "ja") assertTrue("Month must precede day: $pattern", pattern.indexOf('M') < pattern.indexOf('d'))
+                else assertTrue("Day must precede month: $pattern", pattern.indexOf('d') < pattern.indexOf('M'))
             }
             assertNotEquals("Voice · improving…", text(R.string.card_type_voice_improving))
             assertNotEquals("Backup", text(R.string.set_section_backup))

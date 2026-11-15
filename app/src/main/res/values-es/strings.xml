@@ -537,11 +537,11 @@
     <string name="help_s10_content">- El widget Recordatorio rápido abre Añadir recordatorio directamente.\n- El widget Próximos muestra los próximos recordatorios y los perdidos.\n- La compatibilidad con Wear OS depende de que las notificaciones del teléfono y la sincronización del reloj estén activadas.</string>
     <string name="help_s11_content">- Los recordatorios futuros se reprograman automáticamente tras reiniciar.\n- Los recordatorios vencidos pasan por el flujo de recordatorios perdidos en lugar de sonar inesperadamente al arrancar.</string>
     <string name="help_s13_title">Comprobaciones de seguimiento</string>
-    <string name="help_s13_content">- Una comprobación de seguimiento pregunta \"¿Completaste …?\" unos minutos después de que suene un recordatorio.\n- De forma predeterminada se repite hasta que marcas el recordatorio como hecho. Puedes establecer un límite de repetición en Ajustes &gt; Fiabilidad si quieres que se detenga sola.\n- Hecho y Posponer terminan el ciclo actual; el Tiempo de silencio también detiene los seguimientos.\n- Las comprobaciones de seguimiento continúan tras reiniciar el teléfono hasta completarse o alcanzar el límite.</string>
+    <string name="help_s13_content">- Una comprobación de seguimiento pregunta \"¿Completaste …?\" unos minutos después de que suene un recordatorio.\n- De forma predeterminada se repite hasta que marcas el recordatorio como hecho. Puedes establecer un límite de repetición en Ajustes &gt; Posponer y seguimiento si quieres que se detenga sola.\n- Hecho y Posponer terminan el ciclo actual; el Tiempo de silencio también detiene los seguimientos.\n- Las comprobaciones de seguimiento continúan tras reiniciar el teléfono hasta completarse o alcanzar el límite.</string>
     <string name="help_s14_title">Copia de seguridad e importación</string>
     <string name="help_s14_content">- Copia de seguridad de recordatorios, en Ajustes, guarda todos los próximos recordatorios, incluidas las grabaciones de voz, en un solo archivo que tú eliges.\n- Importar recordatorios los restaura en este u otro dispositivo.\n- La importación omite duplicados exactos y recordatorios únicos vencidos; los recurrentes continúan desde su próxima repetición.\n- Los recordatorios importados se programan de inmediato.</string>
     <string name="help_s12_title">Mantener recordatorios en pantalla hasta completarlos</string>
-    <string name="help_s12_content">- Activa Ajustes &gt; Fiabilidad &gt; Mantener el recordatorio en pantalla hasta completarlo para fijar la notificación y que no se descarte por accidente.\n- Mientras está activo, deslizar solo silencia el sonido y deja el recordatorio pendiente: permanece hasta que toques Hecho o Posponer.\n- Marcar Hecho siempre funciona desde la notificación, la alerta a pantalla completa o la tarjeta del recordatorio, y detiene los reavisos de seguimiento.\n- Combínalo con una comprobación de seguimiento para que el recordatorio también reavise por temporizador hasta completarse.</string>
+    <string name="help_s12_content">- Activa Ajustes &gt; Cuando suena un recordatorio &gt; Mantener el recordatorio en pantalla hasta completarlo para fijar la notificación y que no se descarte por accidente.\n- Mientras está activo, deslizar solo silencia el sonido y deja el recordatorio pendiente: permanece hasta que toques Hecho o Posponer.\n- Marcar Hecho siempre funciona desde la notificación, la alerta a pantalla completa o la tarjeta del recordatorio, y detiene los reavisos de seguimiento.\n- Combínalo con una comprobación de seguimiento para que el recordatorio también reavise por temporizador hasta completarse.</string>
 
     <string name="action_continue">Continuar</string>
     <string name="wn_title">Novedades en %1$s</string>
@@ -897,4 +897,18 @@
     <string name="set_recommendations">Recomendaciones y funciones opcionales</string>
     <string name="set_playback_mode">Sonido del recordatorio</string>
     <string name="set_voice_audio_mode">Voz, archivos de audio y texto hablado</string>
+    <string name="set_voice_check_checking">Comprobando la voz para %1$s…</string>
+    <string name="set_voice_check_ok">La voz para %1$s funciona.</string>
+    <string name="set_voice_check_alternative">La voz predeterminada para %1$s no funcionó, pero hay otra voz disponible en ese idioma. Puedes gestionar las voces con el botón de abajo.</string>
+    <string name="set_voice_check_missing">No se pudo reproducir la voz para %1$s. Comprueba la conexión o descarga una voz en ese idioma y vuelve a intentarlo.</string>
+    <string name="set_voice_check_no_engine">La función de texto a voz no está disponible. Revisa los ajustes de texto a voz del teléfono y vuelve a intentarlo.</string>
+    <string name="set_voice_download">Descargar voces</string>
+    <string name="set_voice_check_again">Comprobar de nuevo</string>
+    <string name="set_voice_settings_unavailable">No se pudieron abrir los ajustes de texto a voz del teléfono.</string>
+    <string name="set_reset_defaults">Restablecer ajustes predeterminados</string>
+    <string name="set_reset_defaults_desc">Devuelve cada ajuste a como estaba al instalar la app. Los recordatorios no cambian.</string>
+    <string name="set_reset_defaults_title">¿Restablecer todos los ajustes?</string>
+    <string name="set_reset_defaults_body">Cada ajuste vuelve a su valor predeterminado. Tus recordatorios, grabaciones, el idioma de la app y los permisos del teléfono se mantienen.</string>
+    <string name="set_reset_defaults_confirm">Restablecer</string>
+    <string name="set_reset_defaults_done">Ajustes restablecidos</string>
 </resources>

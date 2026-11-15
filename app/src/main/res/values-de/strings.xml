@@ -549,11 +549,11 @@
     <string name="help_s11_title">Nach einem Geräteneustart</string>
     <string name="help_s11_content">- Künftige Erinnerungen werden nach dem Neustart automatisch neu geplant.\n- Überfällige Erinnerungen durchlaufen den Ablauf für verpasste Erinnerungen, statt beim Hochfahren unerwartet zu klingeln.</string>
     <string name="help_s13_title">Nachfragen</string>
-    <string name="help_s13_content">- Eine Nachfrage fragt einige Minuten nach einer Erinnerung: „Hast du … erledigt?“\n- Standardmäßig wiederholt sie sich, bis du die Erinnerung als erledigt markierst. Unter Einstellungen &gt; Zuverlässigkeit kannst du ein Wiederholungslimit festlegen, wenn sie von selbst aufhören soll.\n- Erledigt und Schlummern beenden den aktuellen Nachfrage-Zyklus; auch Ruhezeiten stoppen Nachfragen.\n- Nachfragen laufen nach einem Geräteneustart weiter, bis die Erinnerung erledigt oder das Limit erreicht ist.</string>
+    <string name="help_s13_content">- Eine Nachfrage fragt einige Minuten nach einer Erinnerung: „Hast du … erledigt?“\n- Standardmäßig wiederholt sie sich, bis du die Erinnerung als erledigt markierst. Unter Einstellungen &gt; Schlummern &amp; Nachfragen kannst du ein Wiederholungslimit festlegen, wenn sie von selbst aufhören soll.\n- Erledigt und Schlummern beenden den aktuellen Nachfrage-Zyklus; auch Ruhezeiten stoppen Nachfragen.\n- Nachfragen laufen nach einem Geräteneustart weiter, bis die Erinnerung erledigt oder das Limit erreicht ist.</string>
     <string name="help_s14_title">Sichern und Importieren</string>
     <string name="help_s14_content">- „Erinnerungen sichern“ in den Einstellungen speichert alle anstehenden Erinnerungen samt Sprachaufnahmen in einer einzigen Datei deiner Wahl.\n- „Erinnerungen importieren“ stellt sie auf diesem oder einem anderen Gerät wieder her.\n- Beim Import werden exakte Duplikate und abgelaufene einmalige Erinnerungen übersprungen; wiederkehrende Erinnerungen laufen ab ihrem nächsten Termin weiter.\n- Importierte Erinnerungen werden sofort geplant.</string>
     <string name="help_s12_title">Erinnerungen bis zur Erledigung auf dem Bildschirm behalten</string>
-    <string name="help_s12_content">- Aktiviere Einstellungen &gt; Zuverlässigkeit &gt; Benachrichtigung bis zur Erledigung behalten, um die Erinnerungsbenachrichtigung anzuheften, damit sie nicht versehentlich weggewischt wird.\n- Solange das an ist, schaltet ein Wischen nur den Ton stumm und lässt die Erinnerung offen – sie bleibt, bis du auf Erledigt oder Schlummern tippst.\n- Als erledigt markieren funktioniert immer: aus der Benachrichtigung, dem Vollbild-Alarm oder der Erinnerungskarte – und es stoppt alle weiteren Nachfragen.\n- Kombiniere es mit einer Nachfrage, damit die Erinnerung zusätzlich in Abständen erneut klingelt, bis sie erledigt ist.</string>
+    <string name="help_s12_content">- Aktiviere Einstellungen &gt; Wenn eine Erinnerung klingelt &gt; Benachrichtigung bis zur Erledigung behalten, um die Erinnerungsbenachrichtigung anzuheften, damit sie nicht versehentlich weggewischt wird.\n- Solange das an ist, schaltet ein Wischen nur den Ton stumm und lässt die Erinnerung offen – sie bleibt, bis du auf Erledigt oder Schlummern tippst.\n- Als erledigt markieren funktioniert immer: aus der Benachrichtigung, dem Vollbild-Alarm oder der Erinnerungskarte – und es stoppt alle weiteren Nachfragen.\n- Kombiniere es mit einer Nachfrage, damit die Erinnerung zusätzlich in Abständen erneut klingelt, bis sie erledigt ist.</string>
 
     <!-- What's new sheet -->
     <string name="action_continue">Weiter</string>
@@ -907,4 +907,18 @@
     <string name="set_recommendations">Empfehlungen &amp; optionale Funktionen</string>
     <string name="set_playback_mode">Erinnerungston</string>
     <string name="set_voice_audio_mode">Stimme, Audiodateien &amp; gesprochener Text</string>
+    <string name="set_voice_check_checking">Stimme für %1$s wird geprüft …</string>
+    <string name="set_voice_check_ok">Die Stimme für %1$s funktioniert.</string>
+    <string name="set_voice_check_alternative">Die Standardstimme für %1$s hat nicht funktioniert, aber eine andere Stimme für diese Sprache ist verfügbar. Über die Schaltfläche unten kannst du die Stimmen verwalten.</string>
+    <string name="set_voice_check_missing">Die Stimme für %1$s konnte nicht abgespielt werden. Prüfe deine Verbindung oder lade eine Stimme für diese Sprache herunter und versuche es erneut.</string>
+    <string name="set_voice_check_no_engine">Die Sprachausgabe ist nicht verfügbar. Prüfe die Sprachausgabe-Einstellungen deines Telefons und versuche es erneut.</string>
+    <string name="set_voice_download">Stimmen herunterladen</string>
+    <string name="set_voice_check_again">Erneut prüfen</string>
+    <string name="set_voice_settings_unavailable">Die Sprachausgabe-Einstellungen des Handys konnten nicht geöffnet werden.</string>
+    <string name="set_reset_defaults">Einstellungen zurücksetzen</string>
+    <string name="set_reset_defaults_desc">Alle Einstellungen auf den Stand nach der Installation zurücksetzen. Erinnerungen bleiben unverändert.</string>
+    <string name="set_reset_defaults_title">Alle Einstellungen zurücksetzen?</string>
+    <string name="set_reset_defaults_body">Alle Einstellungen werden auf ihre Standardwerte zurückgesetzt. Erinnerungen, Aufnahmen, App-Sprache und Telefonberechtigungen bleiben erhalten.</string>
+    <string name="set_reset_defaults_confirm">Zurücksetzen</string>
+    <string name="set_reset_defaults_done">Einstellungen zurückgesetzt</string>
 </resources>

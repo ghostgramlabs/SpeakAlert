@@ -31,6 +31,8 @@ class AppLocaleTest {
         assertEquals("de", AppLocale.matchSupported("de-AT"))
         assertEquals("fr", AppLocale.matchSupported("fr-CA"))
         assertEquals("id", AppLocale.matchSupported("id-ID"))
+        assertEquals("tr", AppLocale.matchSupported("tr-TR"))
+        assertEquals("ja", AppLocale.matchSupported("ja-JP"))
         assertEquals("ml", AppLocale.matchSupported("ml-IN"))
     }
 

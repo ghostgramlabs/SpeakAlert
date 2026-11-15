@@ -404,6 +404,49 @@ class AddEditViewModelTest {
     }
 
     @Test
+    fun `reinitializing an editor preserves its unsaved draft`() = runTest {
+        whenever(repository.getReminder(1)).thenReturn(ReminderEntity(
+            id = 1, reminderText = "Saved text", nextTriggerAt = System.currentTimeMillis() + 600_000
+        ))
+        viewModel.loadReminder(1)
+        advanceUntilIdle()
+        viewModel.updateReminderText("Unsaved edit")
+        viewModel.loadReminder(1)
+        advanceUntilIdle()
+        assertEquals("Unsaved edit", viewModel.uiState.value.reminderText)
+        assertTrue(viewModel.uiState.value.hasUnsavedChanges)
+        verify(repository, times(1)).getReminder(1)
+    }
+
+    @Test
+    fun `reapplying defaults does not mark a new draft as saved`() = runTest {
+        whenever(settingsRepository.defaultFollowUpMinutes).thenReturn(MutableStateFlow(5))
+        viewModel.applyDefaultsForNewReminder()
+        advanceUntilIdle()
+        viewModel.updateReminderText("New draft")
+        viewModel.applyDefaultsForNewReminder()
+        advanceUntilIdle()
+        assertEquals("New draft", viewModel.uiState.value.reminderText)
+        assertTrue(viewModel.uiState.value.hasUnsavedChanges)
+    }
+
+    @Test
+    fun `editing preserves original creation timestamp`() = runTest {
+        whenever(repository.getReminder(1)).thenReturn(ReminderEntity(
+            id = 1, reminderText = "Saved text", createdAt = 1234L,
+            nextTriggerAt = System.currentTimeMillis() + 600_000
+        ))
+        viewModel.loadReminder(1)
+        advanceUntilIdle()
+        viewModel.updateReminderText("Edited text")
+        viewModel.saveReminder()
+        advanceUntilIdle()
+        val saved = argumentCaptor<ReminderEntity>()
+        verify(repository).updateReminder(saved.capture())
+        assertEquals(1234L, saved.firstValue.createdAt)
+    }
+
+    @Test
     fun `playRecording calls player play`() = runTest {
         // Arrange
         val audioFile = File.createTempFile("test", ".aac")

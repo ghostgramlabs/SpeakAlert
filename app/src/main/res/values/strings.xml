@@ -551,11 +551,11 @@
     <string name="help_s11_title">After device restart</string>
     <string name="help_s11_content">- Future reminders are rescheduled automatically after restart.\n- Past-due reminders go through the missed reminder flow instead of firing unexpectedly on boot.</string>
     <string name="help_s13_title">Follow-up checks</string>
-    <string name="help_s13_content">- A follow-up check asks \"Did you complete …?\" a few minutes after a reminder fires.\n- By default it keeps repeating until you mark the reminder done. You can set a repeat limit in Settings &gt; Reliability if you want it to stop on its own.\n- Done and Snooze end the current follow-up cycle; Quiet Time also stops follow-ups.\n- Follow-up checks continue after a device restart until done or the limit is reached.</string>
+    <string name="help_s13_content">- A follow-up check asks \"Did you complete …?\" a few minutes after a reminder fires.\n- By default it keeps repeating until you mark the reminder done. You can set a repeat limit in Settings &gt; Snooze &amp; follow-up if you want it to stop on its own.\n- Done and Snooze end the current follow-up cycle; Quiet Time also stops follow-ups.\n- Follow-up checks continue after a device restart until done or the limit is reached.</string>
     <string name="help_s14_title">Backup and import</string>
     <string name="help_s14_content">- Back up reminders in Settings saves all upcoming reminders, including voice recordings, to a single file you choose.\n- Import reminders restores them on this or another device.\n- Imports skip exact duplicates and expired one-time reminders; recurring reminders continue from their next occurrence.\n- Imported reminders are scheduled immediately.</string>
     <string name="help_s12_title">Keep reminders on screen until done</string>
-    <string name="help_s12_content">- Turn on Settings &gt; Reliability &gt; Keep reminder on screen until done to pin the reminder notification so it isn\'t swiped away by accident.\n- While it is on, a swipe only silences the sound and leaves the reminder pending — it stays until you tap Done or Snooze.\n- Marking Done always works from the notification, the full-screen alert, or the reminder card, and it stops any follow-up re-alerts.\n- Pair it with a follow-up check so the reminder also re-alerts on a timer until it is completed.</string>
+    <string name="help_s12_content">- Turn on Settings &gt; When a reminder rings &gt; Keep reminder on screen until done to pin the reminder notification so it isn\'t swiped away by accident.\n- While it is on, a swipe only silences the sound and leaves the reminder pending — it stays until you tap Done or Snooze.\n- Marking Done always works from the notification, the full-screen alert, or the reminder card, and it stops any follow-up re-alerts.\n- Pair it with a follow-up check so the reminder also re-alerts on a timer until it is completed.</string>
 
     <!-- What's new sheet -->
     <string name="action_continue">Continue</string>
@@ -909,4 +909,19 @@
     <string name="set_recommendations">Recommendations &amp; optional features</string>
     <string name="set_playback_mode">Reminder sound</string>
     <string name="set_voice_audio_mode">Voice, audio files &amp; spoken text</string>
+    <!-- Spoken language voice check (Settings) -->
+    <string name="set_voice_check_checking">Checking the voice for %1$s…</string>
+    <string name="set_voice_check_ok">The voice for %1$s is working.</string>
+    <string name="set_voice_check_alternative">The default voice for %1$s did not work, but another voice in this language is available. You can manage voices below.</string>
+    <string name="set_voice_check_missing">Could not play a voice for %1$s. Check your connection or download a voice for this language, then try again.</string>
+    <string name="set_voice_check_no_engine">Text-to-speech is unavailable. Check your phone’s text-to-speech settings, then try again.</string>
+    <string name="set_voice_download">Download voices</string>
+    <string name="set_voice_check_again">Check again</string>
+    <string name="set_voice_settings_unavailable">Couldn\'t open the phone\'s text-to-speech settings.</string>
+    <string name="set_reset_defaults">Reset settings to defaults</string>
+    <string name="set_reset_defaults_desc">Put every setting back to how it was when the app was installed. Reminders are not changed.</string>
+    <string name="set_reset_defaults_title">Reset all settings?</string>
+    <string name="set_reset_defaults_body">Every setting goes back to its default. Your reminders, recordings, app language and phone permissions stay as they are.</string>
+    <string name="set_reset_defaults_confirm">Reset</string>
+    <string name="set_reset_defaults_done">Settings reset to defaults</string>
 </resources>

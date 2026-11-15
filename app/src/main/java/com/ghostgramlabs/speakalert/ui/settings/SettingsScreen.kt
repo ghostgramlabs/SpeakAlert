@@ -94,6 +94,8 @@ fun SettingsScreen(
     var isCheckingWearStatus by remember { mutableStateOf(true) }
     var wearRefreshTick by remember { mutableIntStateOf(0) }
     var appNotificationStatus by remember { mutableStateOf(readAppNotificationStatus(context)) }
+    // Bumped by "Reset settings to defaults" so switches backed by SharedPreferences re-read.
+    var settingsResetCount by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(context, wearRefreshTick) {
         isCheckingWearStatus = true
@@ -150,7 +152,7 @@ fun SettingsScreen(
     val showTypedReminderSection by viewModel.showTypedReminderSection.collectAsState()
     val showShortLabelSection by viewModel.showShortLabelSection.collectAsState()
     val toneAutoStopLabel = if (loopTimeoutMinutes == 0) stringResource(R.string.set_infinite) else stringResource(R.string.set_minutes_short, loopTimeoutMinutes)
-    var snoozeEnabled by remember {
+    var snoozeEnabled by remember(settingsResetCount) {
         mutableStateOf(com.ghostgramlabs.speakalert.util.SnoozePreferences.snoozeEnabled(context))
     }
     val toneOnlySubtitle = if (snoozeEnabled) {
@@ -361,7 +363,7 @@ fun SettingsScreen(
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
-                var alarmClockDelivery by remember {
+                var alarmClockDelivery by remember(settingsResetCount) {
                     mutableStateOf(com.ghostgramlabs.speakalert.util.AlarmDeliveryPreferences.useAlarmClock(context))
                 }
                 val nextReminderAt by viewModel.nextReminderAt.collectAsState()
@@ -474,7 +476,7 @@ fun SettingsScreen(
 
                 // Week starts on: the first weekday column in date pickers.
                 Spacer(Modifier.height(16.dp))
-                var weekStart by remember {
+                var weekStart by remember(settingsResetCount) {
                     mutableStateOf(com.ghostgramlabs.speakalert.util.WeekStartPreferences.firstDayOfWeek(context))
                 }
                 Text(stringResource(R.string.set_week_start), style = MaterialTheme.typography.bodyMedium)
@@ -600,6 +602,7 @@ fun SettingsScreen(
                         )
                     }
                 }
+                SpokenVoiceCheck(ttsLanguageMode = ttsLanguageMode, modifier = Modifier.padding(top = 8.dp))
 
                 SwitchRow(
                     text = stringResource(R.string.set_private),
@@ -1529,6 +1532,57 @@ fun SettingsScreen(
                         Icons.Default.ChevronRight,
                         contentDescription = null,
                         modifier = Modifier.mirrorInRtl()
+                    )
+                }
+                Divider()
+                var showResetDialog by remember { mutableStateOf(false) }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { showResetDialog = true }
+                        .padding(vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.RestartAlt,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(Modifier.width(16.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            stringResource(R.string.set_reset_defaults),
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.Medium
+                        )
+                        Text(
+                            stringResource(R.string.set_reset_defaults_desc),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+                if (showResetDialog) {
+                    val resetDone = stringResource(R.string.set_reset_defaults_done)
+                    AlertDialog(
+                        onDismissRequest = { showResetDialog = false },
+                        title = { Text(stringResource(R.string.set_reset_defaults_title)) },
+                        text = { Text(stringResource(R.string.set_reset_defaults_body)) },
+                        confirmButton = {
+                            TextButton(onClick = {
+                                showResetDialog = false
+                                viewModel.resetToDefaults(context) {
+                                    settingsResetCount++
+                                    android.widget.Toast.makeText(context, resetDone, android.widget.Toast.LENGTH_SHORT).show()
+                                }
+                            }) { Text(stringResource(R.string.set_reset_defaults_confirm)) }
+                        },
+                        dismissButton = {
+                            TextButton(onClick = { showResetDialog = false }) {
+                                Text(stringResource(R.string.action_cancel))
+                            }
+                        }
                     )
                 }
             }

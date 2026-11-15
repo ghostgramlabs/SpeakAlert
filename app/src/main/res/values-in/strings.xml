@@ -544,11 +544,11 @@
     <string name="help_s11_title">Setelah perangkat dimulai ulang</string>
     <string name="help_s11_content">- Pengingat mendatang dijadwalkan ulang otomatis setelah dimulai ulang.\n- Pengingat yang sudah lewat waktunya masuk ke alur pengingat terlewat, bukan berbunyi tiba-tiba saat perangkat menyala.</string>
     <string name="help_s13_title">Cek lanjutan</string>
-    <string name="help_s13_content">- Cek lanjutan bertanya “Apakah … sudah selesai?” beberapa menit setelah pengingat berbunyi.\n- Secara default, cek ini terus berulang sampai Anda menandai pengingat selesai. Anda dapat mengatur batas pengulangan di Setelan &gt; Keandalan jika ingin berhenti sendiri.\n- Selesai dan Tunda mengakhiri siklus cek lanjutan saat ini; Jam tenang juga menghentikan cek lanjutan.\n- Cek lanjutan berlanjut setelah perangkat dimulai ulang sampai selesai atau batas tercapai.</string>
+    <string name="help_s13_content">- Cek lanjutan bertanya “Apakah … sudah selesai?” beberapa menit setelah pengingat berbunyi.\n- Secara default, cek ini terus berulang sampai Anda menandai pengingat selesai. Anda dapat mengatur batas pengulangan di Setelan &gt; Tunda &amp; cek lanjutan jika ingin berhenti sendiri.\n- Selesai dan Tunda mengakhiri siklus cek lanjutan saat ini; Jam tenang juga menghentikan cek lanjutan.\n- Cek lanjutan berlanjut setelah perangkat dimulai ulang sampai selesai atau batas tercapai.</string>
     <string name="help_s14_title">Cadangan dan impor</string>
     <string name="help_s14_content">- Cadangkan pengingat di Setelan menyimpan semua pengingat mendatang, termasuk rekaman suara, ke satu file pilihan Anda.\n- Impor pengingat memulihkannya di perangkat ini atau perangkat lain.\n- Impor melewati duplikat persis dan pengingat sekali yang kedaluwarsa; pengingat berulang berlanjut dari jadwal berikutnya.\n- Pengingat yang diimpor langsung dijadwalkan.</string>
     <string name="help_s12_title">Pertahankan pengingat di layar sampai selesai</string>
-    <string name="help_s12_content">- Aktifkan Setelan &gt; Keandalan &gt; Pertahankan notifikasi sampai selesai untuk menyematkan notifikasi pengingat agar tidak tergeser tanpa sengaja.\n- Selama aktif, geseran hanya menyenyapkan suara dan pengingat tetap tertunda — bertahan sampai Anda mengetuk Selesai atau Tunda.\n- Menandai Selesai selalu berfungsi dari notifikasi, peringatan layar penuh, atau kartu pengingat, dan menghentikan cek lanjutan.\n- Padukan dengan cek lanjutan agar pengingat juga berbunyi lagi secara berkala sampai diselesaikan.</string>
+    <string name="help_s12_content">- Aktifkan Setelan &gt; Saat pengingat berbunyi &gt; Pertahankan notifikasi sampai selesai untuk menyematkan notifikasi pengingat agar tidak tergeser tanpa sengaja.\n- Selama aktif, geseran hanya menyenyapkan suara dan pengingat tetap tertunda — bertahan sampai Anda mengetuk Selesai atau Tunda.\n- Menandai Selesai selalu berfungsi dari notifikasi, peringatan layar penuh, atau kartu pengingat, dan menghentikan cek lanjutan.\n- Padukan dengan cek lanjutan agar pengingat juga berbunyi lagi secara berkala sampai diselesaikan.</string>
 
     <!-- What's new sheet -->
     <string name="action_continue">Lanjutkan</string>
@@ -900,4 +900,18 @@
     <string name="set_recommendations">Rekomendasi &amp; fitur opsional</string>
     <string name="set_playback_mode">Suara pengingat</string>
     <string name="set_voice_audio_mode">Suara, file audio &amp; teks ucapan</string>
+    <string name="set_voice_check_checking">Memeriksa suara untuk %1$s…</string>
+    <string name="set_voice_check_ok">Suara untuk %1$s berfungsi.</string>
+    <string name="set_voice_check_alternative">Suara bawaan untuk %1$s tidak berfungsi, tetapi suara lain dalam bahasa ini tersedia. Anda dapat mengelola suara melalui tombol di bawah.</string>
+    <string name="set_voice_check_missing">Suara untuk %1$s tidak dapat diputar. Periksa koneksi atau unduh suara untuk bahasa ini, lalu coba lagi.</string>
+    <string name="set_voice_check_no_engine">Fitur teks ke ucapan tidak tersedia. Periksa setelan teks ke ucapan ponsel, lalu coba lagi.</string>
+    <string name="set_voice_download">Unduh suara</string>
+    <string name="set_voice_check_again">Periksa lagi</string>
+    <string name="set_voice_settings_unavailable">Tidak dapat membuka setelan text-to-speech ponsel.</string>
+    <string name="set_reset_defaults">Setel ulang setelan ke default</string>
+    <string name="set_reset_defaults_desc">Kembalikan semua setelan seperti saat aplikasi baru dipasang. Pengingat tidak diubah.</string>
+    <string name="set_reset_defaults_title">Setel ulang semua setelan?</string>
+    <string name="set_reset_defaults_body">Semua setelan kembali ke default. Pengingat, rekaman, bahasa aplikasi, dan izin ponsel tetap seperti sekarang.</string>
+    <string name="set_reset_defaults_confirm">Setel ulang</string>
+    <string name="set_reset_defaults_done">Setelan dikembalikan ke default</string>
 </resources>

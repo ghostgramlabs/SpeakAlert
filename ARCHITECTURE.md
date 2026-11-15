@@ -76,6 +76,13 @@ and the lock-screen alert that hide Snooze are built synchronously. "Week starts
 (`WeekStartPreferences`) is stored the same way; a chosen day makes `shouldUseSystemDatePicker`
 pick the platform date dialog, the only one whose first weekday can be set.
 
+"Reset settings to defaults" (Settings, Backup & restore) calls
+`SettingsRepository.resetToDefaults()`, which removes the keys in `USER_SETTING_KEYS` so every
+flow falls back to its declared default, then resets the SharedPreferences settings above and,
+if Extra-reliable reminders was on, reschedules reminders without it. App bookkeeping (first-run
+prompts, release notes, rating pacing, boot guard), an active pause, the app language and
+reminders are kept. Add any new user-facing DataStore key to `USER_SETTING_KEYS`.
+
 ## Life of a reminder
 
 ```
@@ -150,6 +157,21 @@ it uses the alarm stream. With private playback on, it uses the media stream, or
 All `TextToSpeech` calls run on a dedicated single thread. The engine can block for seconds,
 and calling it on the main thread caused ANRs.
 
+The voice is picked per reminder from `TtsLanguageSupport.candidateLocales` (text language,
+device language, English, ordered by the "Spoken language" setting). An engine can report a
+language as available and select a default voice whose data was never downloaded (Google's
+engine does this for Japanese), then fail at synthesis. A failed utterance is therefore retried
+with another voice of the same language from `TtsLanguageSupport.nextVoice` (up to three
+offline voices, then one network voice), then with the next candidate language, then the
+engine's own default. The engine's "not installed" voice flag only orders that list; it is not
+reliable enough to exclude a voice. If nothing can speak, `ToneAlertPlayer` sounds the alarm
+tone for a minute so the reminder is still heard; private playback skips the tone.
+
+`TtsVoiceCheck` answers the same question ahead of time for Settings (`SpokenVoiceCheck`): it
+synthesises one word to a file, silently, with the default voice and then the alternatives,
+and reports working / alternative voice / not working / no engine. Its download button sends
+`ACTION_INSTALL_TTS_DATA` to the engine, falling back to the system text-to-speech settings.
+
 ### 4. Reboot and clock changes
 
 Alarms do not survive a reboot. `BootReceiver` handles `BOOT_COMPLETED`, `TIME_CHANGED` and
@@ -173,7 +195,7 @@ backups must still import.
 ## Localisation
 
 User-facing text belongs in `res/values/strings.xml`, with translations in `res/values-<code>/`
-(currently ar, bn, de, el, es, fr, in (Indonesian), hi, ml, pt-rBR, ru, ta, te, vi). Arabic is right-to-left; use
+(currently ar, bn, de, el, es, fr, in (Indonesian), hi, ja, ml, pt-rBR, ru, ta, te, tr, vi). Arabic is right-to-left; use
 `RtlMirror` and start/end rather than left/right. The in-app language picker uses
 `AppCompatDelegate.setApplicationLocales`.
 

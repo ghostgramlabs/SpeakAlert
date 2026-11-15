@@ -86,6 +86,20 @@ class SettingsRepository internal constructor(
         val LAST_BOOT_TIMESTAMP = longPreferencesKey("last_boot_timestamp")
 
         const val MAX_LOOP_GAP_SECONDS = 600
+
+        /** Everything "Reset settings to defaults" clears. Add new user-facing settings here. */
+        internal val USER_SETTING_KEYS: List<Preferences.Key<*>> = listOf(
+            UNNAMED_REMINDER_TITLE, AUTO_PLAY_ENABLED, AUTO_PLAY_ON_UNLOCK_ONLY, SPEAK_TEXT_IF_NO_VOICE,
+            PRIVATE_PLAYBACK_ENABLED, DND_BYPASS_ENABLED, TONE_ONLY_MODE, TONE_ONLY_ALERT_TONE_URI,
+            DEFAULT_SNOOZE_DURATION, DEFAULT_FOLLOW_UP_MINUTES, DEFAULT_MISSED_POLICY,
+            DEBUG_LOGGING_ENABLED, USE_24_HOUR_TIME, APP_VOLUME, LOOP_TIMEOUT_MINUTES, LOOP_GAP_SECONDS,
+            QUIET_TIME_ENABLED, QUIET_TIME_START_HOUR, QUIET_TIME_START_MINUTE,
+            QUIET_TIME_END_HOUR, QUIET_TIME_END_MINUTE, TTS_LANGUAGE_MODE, PERSIST_UNTIL_DONE,
+            FOLLOW_UP_MAX_REPEATS, THEME_MODE, CARD_DONE_COLOR, CARD_DELETE_COLOR,
+            FULL_SCREEN_ALERT_ENABLED, SHOW_VOICE_RECORDING_SECTION,
+            EXPERIMENTAL_VOICE_ENHANCEMENT_ENABLED, SHOW_AUDIO_FILE_SECTION,
+            SHOW_TYPED_REMINDER_SECTION, SHOW_SHORT_LABEL_SECTION
+        )
     }
 
     val autoPlayEnabled: Flow<Boolean> = dataStore.data.map { it[AUTO_PLAY_ENABLED] ?: true }
@@ -379,6 +393,17 @@ class SettingsRepository internal constructor(
 
     suspend fun setRatingPromptLastOpen(openCount: Int) {
         dataStore.edit { it[RATING_PROMPT_LAST_OPEN] = openCount }
+    }
+
+    /**
+     * "Reset settings to defaults": removes every choice the user makes in Settings so each one
+     * falls back to the default its flow declares. App bookkeeping is kept - first-run prompts,
+     * release notes, rating pacing, the boot guard - and so is an active pause, which is a
+     * temporary action rather than a preference. Reminders are never touched.
+     */
+    suspend fun resetToDefaults() {
+        dataStore.edit { prefs -> USER_SETTING_KEYS.forEach { prefs.remove(it) } }
+        cacheClockOverride(null)
     }
 
     val lastBootTimestamp: Flow<Long> = dataStore.data.map { it[LAST_BOOT_TIMESTAMP] ?: 0L }

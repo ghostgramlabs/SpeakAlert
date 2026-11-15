@@ -151,6 +151,26 @@ class SettingsViewModel(
         }
     }
 
+    /**
+     * Puts every setting back to its default, including the ones kept outside DataStore for
+     * synchronous readers. App language and Android permissions are left alone. Reminders are
+     * rescheduled only if "Extra-reliable reminders" was on, since that changes how they are set.
+     */
+    fun resetToDefaults(context: android.content.Context, onDone: () -> Unit) {
+        val appContext = context.applicationContext
+        viewModelScope.launch {
+            settingsRepository.resetToDefaults()
+            com.ghostgramlabs.speakalert.util.SnoozePreferences.setSnoozeEnabled(appContext, true)
+            com.ghostgramlabs.speakalert.util.WeekStartPreferences.setFirstDayOfWeek(appContext, 0)
+            if (com.ghostgramlabs.speakalert.util.AlarmDeliveryPreferences.useAlarmClock(appContext)) {
+                com.ghostgramlabs.speakalert.alarm.setAlarmClockDelivery(
+                    appContext, false, reminderRepository, alarmScheduler
+                )
+            }
+            onDone()
+        }
+    }
+
     fun setPersistUntilDone(enabled: Boolean) {
         viewModelScope.launch {
             settingsRepository.setPersistUntilDone(enabled)

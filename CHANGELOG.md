@@ -5,9 +5,41 @@ User-facing changes to SpeakAlert, newest first. Version numbers match the Googl
 
 ## Unreleased
 
-- Three new app languages, for 15 in all: German (Deutsch), French (Français) and Indonesian
-  (Bahasa Indonesia). Choose one in Settings, Language & appearance, or let the app follow the
-  phone's language. German uses the informal "du"; French uses "vous" and Indonesian "Anda".
+- New "Reset settings to defaults" in Settings, Backup & restore. After a confirmation it puts
+  every setting back to how it was when the app was installed. Reminders, recordings, the app
+  language and phone permissions are kept, and so is a pause that is running.
+- Fixed a reminder draft being lost when the app was recreated (for example after a theme or
+  display change) while the editor had been opened from the quick-add widget or a notification:
+  the launch was replayed and replaced the restored editor.
+- Improved translated voice-check messages and corrected outdated help paths. Fixed French
+  plural validation and polished Japanese and Turkish wording.
+- Unsaved reminder edits and the exit warning now survive activity recreation. Editing a
+  reminder preserves its original creation time.
+- Japanese reminders containing both kanji and kana now select a Japanese voice even when
+  kanji outnumber kana. Voice checks ignore late callbacks and isolate temporary audio files;
+  each new reminder playback starts with a fresh voice retry history.
+
+- New voice check in Settings, When a reminder rings, under Spoken language. It tests whether
+  the phone can really speak the language reminders are read in and says so: working, using
+  another voice because the default one failed, or not available. When there is a
+  problem, "Download voices" opens the speech engine's voice download screen and "Check again"
+  re-tests; the check also re-runs when you come back to the app.
+
+- Fixed a spoken reminder going silent when the speech engine's default voice for a language
+  had no voice data, seen with Japanese on Google's engine: it reported Japanese as available,
+  picked a voice that was never downloaded, and failed. The app now tries the language's other
+  voices (offline first, then an online one), so the reminder is still read in that language.
+  Only if none works does it move on to the next language. If synthesis still fails after the
+  retries, the alarm tone sounds for up to a minute, except in private listening mode, which
+  stays quiet. Engine initialization failures do not use this tone fallback.
+
+## 2.0.47 - 2026-11-13
+
+- Five new app languages, for 17 in all: German (Deutsch), French (Français), Indonesian
+  (Bahasa Indonesia), Turkish (Türkçe) and Japanese (日本語). Choose one in Settings, Language &
+  appearance, or let the app follow the phone's language. German uses the informal "du"; French
+  uses "vous", Indonesian "Anda", Turkish the polite "siz" form and Japanese the polite
+  です/ます style.
 - Dates now follow each language's own order instead of the American one everywhere: German
   shows "Fr., 13. Nov. 2026" and Spanish "vie, 13 nov 2026", where both used to put the month
   first. English is unchanged. The word joining a date and a time ("at") is now translated too;

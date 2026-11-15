@@ -554,11 +554,11 @@
     <string name="help_s11_title">Depois de reiniciar o aparelho</string>
     <string name="help_s11_content">- Os lembretes futuros são reagendados automaticamente após reiniciar.\n- Lembretes que já passaram do horário seguem o fluxo de lembretes perdidos em vez de tocar inesperadamente na inicialização.</string>
     <string name="help_s13_title">Verificações de acompanhamento</string>
-    <string name="help_s13_content">- Uma verificação de acompanhamento pergunta \"Você concluiu …?\" alguns minutos depois que um lembrete toca.\n- Por padrão, ela continua se repetindo até você marcar o lembrete como concluído. Você pode definir um limite de repetições em Configurações &gt; Confiabilidade se quiser que ela pare sozinha.\n- Concluído e Adiar encerram o ciclo de acompanhamento atual; o Horário de silêncio também interrompe os acompanhamentos.\n- As verificações de acompanhamento continuam após reiniciar o aparelho até serem concluídas ou o limite ser atingido.</string>
+    <string name="help_s13_content">- Uma verificação de acompanhamento pergunta \"Você concluiu …?\" alguns minutos depois que um lembrete toca.\n- Por padrão, ela continua se repetindo até você marcar o lembrete como concluído. Você pode definir um limite de repetições em Configurações &gt; Adiamento e acompanhamento se quiser que ela pare sozinha.\n- Concluído e Adiar encerram o ciclo de acompanhamento atual; o Horário de silêncio também interrompe os acompanhamentos.\n- As verificações de acompanhamento continuam após reiniciar o aparelho até serem concluídas ou o limite ser atingido.</string>
     <string name="help_s14_title">Backup e importação</string>
     <string name="help_s14_content">- Fazer backup dos lembretes, em Configurações, salva todos os próximos lembretes, incluindo gravações de voz, em um único arquivo que você escolhe.\n- Importar lembretes os restaura neste ou em outro aparelho.\n- A importação ignora duplicatas exatas e lembretes únicos expirados; lembretes recorrentes continuam a partir da próxima ocorrência.\n- Os lembretes importados são agendados imediatamente.</string>
     <string name="help_s12_title">Manter lembretes na tela até concluir</string>
-    <string name="help_s12_content">- Ative Configurações &gt; Confiabilidade &gt; Manter o lembrete na tela até concluir para fixar a notificação do lembrete e evitar que ela seja deslizada para fora por engano.\n- Com isso ativado, deslizar só silencia o som e mantém o lembrete pendente — ele fica até você tocar em Concluído ou Adiar.\n- Marcar como Concluído sempre funciona pela notificação, pelo alerta em tela cheia ou pelo cartão do lembrete, e interrompe qualquer novo alerta de acompanhamento.\n- Combine com uma verificação de acompanhamento para que o lembrete também alerte de novo periodicamente até ser concluído.</string>
+    <string name="help_s12_content">- Ative Configurações &gt; Quando um lembrete toca &gt; Manter o lembrete na tela até concluir para fixar a notificação do lembrete e evitar que ela seja deslizada para fora por engano.\n- Com isso ativado, deslizar só silencia o som e mantém o lembrete pendente — ele fica até você tocar em Concluído ou Adiar.\n- Marcar como Concluído sempre funciona pela notificação, pelo alerta em tela cheia ou pelo cartão do lembrete, e interrompe qualquer novo alerta de acompanhamento.\n- Combine com uma verificação de acompanhamento para que o lembrete também alerte de novo periodicamente até ser concluído.</string>
 
     <!-- What's new sheet -->
     <string name="action_continue">Continuar</string>
@@ -914,4 +914,18 @@
     <string name="set_recommendations">Recomendações e recursos opcionais</string>
     <string name="set_playback_mode">Som do lembrete</string>
     <string name="set_voice_audio_mode">Voz, arquivos de áudio e texto falado</string>
+    <string name="set_voice_check_checking">Verificando a voz para %1$s…</string>
+    <string name="set_voice_check_ok">A voz para %1$s está funcionando.</string>
+    <string name="set_voice_check_alternative">A voz padrão para %1$s não funcionou, mas outra voz nesse idioma está disponível. Você pode gerenciar as vozes abaixo.</string>
+    <string name="set_voice_check_missing">Não foi possível reproduzir a voz para %1$s. Verifique sua conexão ou baixe uma voz nesse idioma e tente novamente.</string>
+    <string name="set_voice_check_no_engine">A conversão de texto em fala está indisponível. Verifique as configurações de texto em fala do celular e tente novamente.</string>
+    <string name="set_voice_download">Baixar vozes</string>
+    <string name="set_voice_check_again">Verificar novamente</string>
+    <string name="set_voice_settings_unavailable">Não foi possível abrir as configurações de conversão de texto em voz do telefone.</string>
+    <string name="set_reset_defaults">Restaurar configurações padrão</string>
+    <string name="set_reset_defaults_desc">Volta cada configuração ao estado da instalação do app. Os lembretes não são alterados.</string>
+    <string name="set_reset_defaults_title">Restaurar todas as configurações?</string>
+    <string name="set_reset_defaults_body">Cada configuração volta ao padrão. Seus lembretes, gravações, idioma do app e permissões do celular continuam como estão.</string>
+    <string name="set_reset_defaults_confirm">Restaurar</string>
+    <string name="set_reset_defaults_done">Configurações restauradas ao padrão</string>
 </resources>
