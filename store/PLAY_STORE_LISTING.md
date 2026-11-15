@@ -78,7 +78,22 @@ Most reminder apps rely on silent notifications. SpeakAlert is a talking reminde
 
 ## "What's new" (release notes, max 500 chars)
 
-### 2.0.45 (build 66) — current (covers everything since 2.0.40, the last production release)
+### 2.0.48 (build 69) — current (covers everything since 2.0.45, the production release; all 17 languages in `store/play-release-notes/2.0.48.txt`)
+
+```
+New since the last update, many suggested by people who use the app:
+• Repeat on the last Thursday and other weekday-of-month repeats
+• A pause between repeats for looping reminders
+• Your own colors for Done and Delete
+• Notifications clear when you open the app
+• Turn off Snooze, so Done is the only way past a reminder
+• Check that your phone can speak reminders
+• Choose the first day of the week
+• Reset all settings in one step
+• 5 new languages: German, French, Indonesian, Turkish, Japanese
+```
+
+### 2.0.45 (build 66) — previous
 
 ```
 • Reminder check in Settings shows anything that could stop reminders ringing on time, with a fix button
