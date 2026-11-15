@@ -553,7 +553,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">Tiếp tục</string>
     <string name="wn_title">Có gì mới trong %1$s</string>
-    <string name="wn_intro">Bốn cải tiến, tất cả đều do người dùng ứng dụng đề xuất.</string>
+    <string name="wn_intro">Những điểm mới kể từ lần cập nhật trước. Nhiều ý tưởng đến từ chính người dùng ứng dụng.</string>
     <string name="wn_check_title">Xem điều gì có thể chặn lời nhắc</string>
     <string name="wn_check_desc">“Kiểm tra lời nhắc” ở đầu Cài đặt cho biết mọi thứ có thể làm lời nhắc đến muộn hoặc không có tiếng, như thông báo, pin hoặc âm lượng báo thức thấp, kèm nút để sửa từng mục.</string>
     <string name="wn_reliable_title">Lời nhắc siêu tin cậy</string>
@@ -914,4 +914,14 @@
     <string name="set_reset_defaults_body">Mọi cài đặt sẽ trở về mặc định. Lời nhắc, bản ghi âm, ngôn ngữ ứng dụng và quyền của điện thoại vẫn giữ nguyên.</string>
     <string name="set_reset_defaults_confirm">Đặt lại</string>
     <string name="set_reset_defaults_done">Đã đặt lại cài đặt mặc định</string>
+    <string name="wn_newlang_title">Năm ngôn ngữ mới</string>
+    <string name="wn_newlang_desc">Ứng dụng nay có 17 ngôn ngữ, thêm Deutsch, Français, Bahasa Indonesia, Türkçe và 日本語. Ngày tháng cũng theo thứ tự của từng ngôn ngữ. Chọn trong Cài đặt &gt; Ngôn ngữ và giao diện.</string>
+    <string name="wn_snooze_title">Tắt “Báo lại”</string>
+    <string name="wn_snooze_desc">Nếu báo lại khiến bạn dễ trì hoãn, hãy tắt Cài đặt &gt; Báo lại và nhắc lại &gt; Cho phép báo lại. Khi đó chỉ có “Xong” mới đóng được lời nhắc.</string>
+    <string name="wn_week_title">Chọn ngày đầu tuần</string>
+    <string name="wn_week_desc">Chọn Thứ Hai, Chủ Nhật hoặc Thứ Bảy làm cột đầu tiên của bộ chọn ngày trong Cài đặt &gt; Ngôn ngữ và giao diện &gt; Tuần bắt đầu vào.</string>
+    <string name="wn_voice_title">Kiểm tra lời nhắc có đọc được không</string>
+    <string name="wn_voice_desc">Cài đặt &gt; Khi lời nhắc reo &gt; Ngôn ngữ đọc nay kiểm tra xem điện thoại có thực sự đọc được ngôn ngữ đó không và giúp bạn tải giọng nói nếu cần. Nếu giọng thường dùng bị lỗi, lời nhắc sẽ thử giọng khác cùng ngôn ngữ.</string>
+    <string name="wn_reset_title">Đặt lại cài đặt trong một bước</string>
+    <string name="wn_reset_desc">Cài đặt &gt; Sao lưu và khôi phục &gt; Đặt lại cài đặt mặc định đưa mọi cài đặt về như khi mới cài ứng dụng. Lời nhắc của bạn vẫn giữ nguyên.</string>
 </resources>

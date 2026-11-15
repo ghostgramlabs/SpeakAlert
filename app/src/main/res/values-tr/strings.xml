@@ -558,7 +558,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">Devam</string>
     <string name="wn_title">%1$s sürümündeki yenilikler</string>
-    <string name="wn_intro">Dört iyileştirme; hepsi uygulamayı kullananların önerisi.</string>
+    <string name="wn_intro">Son güncellemenizden bu yana yenilikler. Birçoğu uygulamayı kullananların önerisi.</string>
     <string name="wn_check_title">Bir hatırlatıcıyı neyin engelleyebileceğini görün</string>
     <string name="wn_check_desc">Ayarlar bölümünün en üstündeki Hatırlatıcı kontrolü; bildirimler, pil veya düşük alarm sesi gibi hatırlatıcıları geciktirebilecek ya da susturabilecek her şeyi, her biri için bir düzeltme düğmesiyle gösterir.</string>
     <string name="wn_reliable_title">Ekstra güvenilir hatırlatıcılar</string>
@@ -921,4 +921,14 @@
     <string name="set_reset_defaults_body">Her ayar varsayılan değerine döner. Hatırlatıcılarınız, kayıtlarınız, uygulama dili ve telefon izinleri olduğu gibi kalır.</string>
     <string name="set_reset_defaults_confirm">Sıfırla</string>
     <string name="set_reset_defaults_done">Ayarlar varsayılana sıfırlandı</string>
+    <string name="wn_newlang_title">Beş yeni dil</string>
+    <string name="wn_newlang_desc">Uygulama artık 17 dilde; yeni diller Deutsch, Français, Bahasa Indonesia, Türkçe ve 日本語. Tarihler de her dilin kendi sırasına uyar. Ayarlar &gt; Dil ve görünüm bölümünden seçin.</string>
+    <string name="wn_snooze_title">Ertele özelliğini kapatın</string>
+    <string name="wn_snooze_desc">Ertelemek işleri savsaklamayı kolaylaştırıyorsa Ayarlar &gt; Erteleme ve takip &gt; Ertelemeye izin ver seçeneğini kapatın. Bir hatırlatıcıyı geçmenin tek yolu artık “Tamam” düğmesi olur.</string>
+    <string name="wn_week_title">Haftanın ilk gününü seçin</string>
+    <string name="wn_week_desc">Ayarlar &gt; Dil ve görünüm &gt; Haftanın ilk günü bölümünde tarih seçicinin ilk sütunu olarak Pazartesi, Pazar veya Cumartesi\'yi seçin.</string>
+    <string name="wn_voice_title">Hatırlatıcıların seslendirilebildiğini kontrol edin</string>
+    <string name="wn_voice_desc">Ayarlar &gt; Hatırlatıcı çaldığında &gt; Konuşma dili artık telefonunuzun o dili gerçekten konuşup konuşamadığını test eder ve gerekirse ses indirmenize yardım eder. Alışılmış ses çalışmazsa hatırlatıcılar aynı dilde başka bir ses dener.</string>
+    <string name="wn_reset_title">Ayarları tek adımda sıfırlayın</string>
+    <string name="wn_reset_desc">Ayarlar &gt; Yedekleme ve geri yükleme &gt; Ayarları varsayılana sıfırla, tüm ayarları uygulamanın ilk yüklendiği hale döndürür. Hatırlatıcılarınız olduğu gibi kalır.</string>
 </resources>

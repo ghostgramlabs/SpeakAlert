@@ -558,7 +558,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">চালিয়ে যান</string>
     <string name="wn_title">%1$s-এ নতুন কী</string>
-    <string name="wn_intro">চারটি উন্নতি, সবগুলোই অ্যাপ ব্যবহারকারীদের পরামর্শে।</string>
+    <string name="wn_intro">আপনার শেষ আপডেটের পর থেকে যা নতুন। এর অনেকগুলোই অ্যাপ ব্যবহারকারীদের পরামর্শে।</string>
     <string name="wn_check_title">দেখুন কী রিমাইন্ডার আটকাতে পারে</string>
     <string name="wn_check_desc">সেটিংস-এর একদম উপরে “রিমাইন্ডার পরীক্ষা” দেখায় কী কী রিমাইন্ডার দেরিতে বা নীরবে আসার কারণ হতে পারে, যেমন নোটিফিকেশন, ব্যাটারি বা কম অ্যালার্ম ভলিউম, আর প্রতিটি ঠিক করার বোতাম দেয়।</string>
     <string name="wn_reliable_title">অতিরিক্ত নির্ভরযোগ্য রিমাইন্ডার</string>
@@ -921,4 +921,14 @@
     <string name="set_reset_defaults_body">প্রতিটি সেটিং ডিফল্টে ফিরে যাবে। আপনার রিমাইন্ডার, রেকর্ডিং, অ্যাপের ভাষা ও ফোনের অনুমতি যেমন আছে তেমনই থাকবে।</string>
     <string name="set_reset_defaults_confirm">রিসেট</string>
     <string name="set_reset_defaults_done">সেটিংস ডিফল্টে ফেরানো হয়েছে</string>
+    <string name="wn_newlang_title">পাঁচটি নতুন ভাষা</string>
+    <string name="wn_newlang_desc">অ্যাপটি এখন 17টি ভাষায় পাওয়া যায়; নতুন যোগ হয়েছে Deutsch, Français, Bahasa Indonesia, Türkçe ও 日本語। তারিখও প্রতিটি ভাষার নিজস্ব ক্রমে দেখায়। সেটিংস &gt; ভাষা ও সাজসজ্জা থেকে বেছে নিন।</string>
+    <string name="wn_snooze_title">“স্নুজ” বন্ধ করুন</string>
+    <string name="wn_snooze_desc">স্নুজ যদি কাজ ফেলে রাখা সহজ করে দেয়, তাহলে সেটিংস &gt; স্নুজ ও ফলো-আপ &gt; স্নুজ করতে দিন বন্ধ করুন। তখন রিমাইন্ডার পার হওয়ার একমাত্র উপায় হবে “সম্পন্ন”।</string>
+    <string name="wn_week_title">সপ্তাহের প্রথম দিন বেছে নিন</string>
+    <string name="wn_week_desc">সেটিংস &gt; ভাষা ও সাজসজ্জা &gt; সপ্তাহ শুরু হয় থেকে তারিখ বাছাইয়ের প্রথম কলাম হিসেবে সোমবার, রবিবার বা শনিবার বেছে নিন।</string>
+    <string name="wn_voice_title">রিমাইন্ডার পড়ে শোনানো যায় কিনা দেখুন</string>
+    <string name="wn_voice_desc">সেটিংস &gt; রিমাইন্ডার বাজলে &gt; পড়ে শোনানোর ভাষা এখন পরীক্ষা করে আপনার ফোন সত্যিই ভাষাটি বলতে পারে কিনা, আর দরকার হলে ভয়েস ডাউনলোড করতে সাহায্য করে। সাধারণ ভয়েস কাজ না করলে রিমাইন্ডার একই ভাষার অন্য ভয়েস চেষ্টা করে।</string>
+    <string name="wn_reset_title">এক ধাপে সেটিংস রিসেট</string>
+    <string name="wn_reset_desc">সেটিংস &gt; ব্যাকআপ ও পুনরুদ্ধার &gt; সেটিংস ডিফল্টে ফেরান প্রতিটি সেটিং অ্যাপ ইনস্টলের সময়ের মতো করে দেয়। আপনার রিমাইন্ডার যেমন আছে তেমনই থাকে।</string>
 </resources>

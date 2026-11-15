@@ -415,8 +415,8 @@ class MainActivity : ComponentActivity() {
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
-                                    // 2.0.46, for people coming from 2.0.45 (in production): the four
-                                    // changes users asked for.
+                                    // For people coming from 2.0.45 (in production): 2.0.46's four
+                                    // user-requested changes, then 2.0.47 and 2.0.48.
                                     WhatsNewFeatureCard(
                                         title = stringResource(R.string.wn_nthday_title),
                                         description = stringResource(R.string.wn_nthday_desc)
@@ -432,6 +432,26 @@ class MainActivity : ComponentActivity() {
                                     WhatsNewFeatureCard(
                                         title = stringResource(R.string.wn_colors_title),
                                         description = stringResource(R.string.wn_colors_desc)
+                                    )
+                                    WhatsNewFeatureCard(
+                                        title = stringResource(R.string.wn_snooze_title),
+                                        description = stringResource(R.string.wn_snooze_desc)
+                                    )
+                                    WhatsNewFeatureCard(
+                                        title = stringResource(R.string.wn_voice_title),
+                                        description = stringResource(R.string.wn_voice_desc)
+                                    )
+                                    WhatsNewFeatureCard(
+                                        title = stringResource(R.string.wn_week_title),
+                                        description = stringResource(R.string.wn_week_desc)
+                                    )
+                                    WhatsNewFeatureCard(
+                                        title = stringResource(R.string.wn_reset_title),
+                                        description = stringResource(R.string.wn_reset_desc)
+                                    )
+                                    WhatsNewFeatureCard(
+                                        title = stringResource(R.string.wn_newlang_title),
+                                        description = stringResource(R.string.wn_newlang_desc)
                                     )
                                 }
                                 Button(

@@ -541,7 +541,7 @@
 
     <string name="action_continue">जारी रखें</string>
     <string name="wn_title">%1$s में नया</string>
-    <string name="wn_intro">चार सुधार, सभी ऐप इस्तेमाल करने वालों के सुझाव पर।</string>
+    <string name="wn_intro">आपके पिछले अपडेट के बाद क्या नया है। इनमें से कई सुझाव ऐप इस्तेमाल करने वालों से आए हैं।</string>
     <string name="wn_check_title">देखें कि रिमाइंडर को क्या रोक सकता है</string>
     <string name="wn_check_desc">सेटिंग्स में सबसे ऊपर “रिमाइंडर जांच” वह सब दिखाता है जिससे रिमाइंडर देर से या बिना आवाज़ के आ सकते हैं, जैसे सूचनाएं, बैटरी या कम अलार्म वॉल्यूम, और हर एक को ठीक करने का बटन देता है।</string>
     <string name="wn_reliable_title">अतिरिक्त भरोसेमंद रिमाइंडर</string>
@@ -905,4 +905,14 @@
     <string name="set_reset_defaults_body">हर सेटिंग अपने डिफ़ॉल्ट पर लौट जाएगी। आपके रिमाइंडर, रिकॉर्डिंग, ऐप की भाषा और फ़ोन की अनुमतियाँ जैसी हैं वैसी रहेंगी।</string>
     <string name="set_reset_defaults_confirm">रीसेट करें</string>
     <string name="set_reset_defaults_done">सेटिंग्स डिफ़ॉल्ट पर रीसेट हो गईं</string>
+    <string name="wn_newlang_title">पाँच नई भाषाएँ</string>
+    <string name="wn_newlang_desc">ऐप अब 17 भाषाओं में है; नई भाषाएँ हैं Deutsch, Français, Bahasa Indonesia, Türkçe और 日本語। तारीखें भी हर भाषा के अपने क्रम में दिखती हैं। सेटिंग्स &gt; भाषा और दिखावट में चुनें।</string>
+    <string name="wn_snooze_title">“स्नूज़” बंद करें</string>
+    <string name="wn_snooze_desc">अगर स्नूज़ से काम टालना आसान हो जाता है, तो सेटिंग्स &gt; स्नूज़ और फ़ॉलो-अप &gt; स्नूज़ की अनुमति दें बंद करें। तब रिमाइंडर से आगे बढ़ने का एकमात्र तरीका “हो गया” होगा।</string>
+    <string name="wn_week_title">हफ़्ते का पहला दिन चुनें</string>
+    <string name="wn_week_desc">सेटिंग्स &gt; भाषा और दिखावट &gt; सप्ताह की शुरुआत में तारीख चुनने वाले के पहले कॉलम के लिए सोमवार, रविवार या शनिवार चुनें।</string>
+    <string name="wn_voice_title">जाँचें कि रिमाइंडर बोले जा सकते हैं</string>
+    <string name="wn_voice_desc">सेटिंग्स &gt; जब रिमाइंडर बजता है &gt; पढ़कर सुनाने की भाषा अब जाँचता है कि आपका फ़ोन वह भाषा सच में बोल सकता है या नहीं, और ज़रूरत हो तो आवाज़ डाउनलोड करने में मदद करता है। सामान्य आवाज़ काम न करे तो रिमाइंडर उसी भाषा की दूसरी आवाज़ आज़माता है।</string>
+    <string name="wn_reset_title">एक बार में सेटिंग्स रीसेट करें</string>
+    <string name="wn_reset_desc">सेटिंग्स &gt; बैकअप और पुनर्स्थापना &gt; सेटिंग्स डिफ़ॉल्ट पर रीसेट करें हर सेटिंग को ऐप इंस्टॉल होने के समय जैसा कर देता है। आपके रिमाइंडर वैसे ही रहते हैं।</string>
 </resources>

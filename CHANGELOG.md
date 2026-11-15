@@ -5,6 +5,9 @@ User-facing changes to SpeakAlert, newest first. Version numbers match the Googl
 
 ## 2.0.48 - 2026-11-14
 
+- What's new now covers everything since 2.0.45, the production release: the four 2.0.46
+  items plus Allow snooze, the voice check, Week starts on, Reset settings to defaults and the
+  five new languages, in all 17 languages with each one's own Settings names.
 - New "Reset settings to defaults" in Settings, Backup & restore. After a confirmation it puts
   every setting back to how it was when the app was installed. Reminders, recordings, the app
   language and phone permissions are kept, and so is a pause that is running.

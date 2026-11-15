@@ -560,7 +560,7 @@
 
     <string name="action_continue">متابعة</string>
     <string name="wn_title">الجديد في %1$s</string>
-    <string name="wn_intro">أربعة تحسينات، كلها اقترحها مستخدمو التطبيق.</string>
+    <string name="wn_intro">الجديد منذ آخر تحديث لك. اقترح كثيرًا منه أشخاص يستخدمون التطبيق.</string>
     <string name="wn_check_title">اعرف ما قد يمنع التذكير</string>
     <string name="wn_check_desc">يعرض «فحص التذكيرات» في أعلى الإعدادات كل ما قد يؤخر التذكيرات أو يجعلها صامتة، مثل الإشعارات أو البطارية أو انخفاض صوت المنبه، مع زر لإصلاح كل منها.</string>
     <string name="wn_reliable_title">تذكيرات موثوقة أكثر</string>
@@ -932,4 +932,14 @@
     <string name="set_reset_defaults_body">سيعود كل إعداد إلى قيمته الافتراضية. تبقى تذكيراتك وتسجيلاتك ولغة التطبيق وأذونات الهاتف كما هي.</string>
     <string name="set_reset_defaults_confirm">إعادة الضبط</string>
     <string name="set_reset_defaults_done">تمت استعادة الإعدادات الافتراضية</string>
+    <string name="wn_newlang_title">خمس لغات جديدة</string>
+    <string name="wn_newlang_desc">أصبح التطبيق متاحًا بـ 17 لغة، والجديد منها Deutsch, Français, Bahasa Indonesia, Türkçe و日本語. وتتبع التواريخ أيضًا ترتيب كل لغة. اخترها من الإعدادات &gt; اللغة والمظهر.</string>
+    <string name="wn_snooze_title">إيقاف “غفوة”</string>
+    <string name="wn_snooze_desc">إذا كان التأجيل يجعل المماطلة سهلة، فأوقف الإعدادات &gt; الغفوة والمتابعة &gt; السماح بالغفوة. عندها يصبح “تم” الطريقة الوحيدة لتجاوز التذكير.</string>
+    <string name="wn_week_title">اختيار أول أيام الأسبوع</string>
+    <string name="wn_week_desc">اختر الاثنين أو الأحد أو السبت ليكون العمود الأول في منتقي التاريخ من الإعدادات &gt; اللغة والمظهر &gt; يبدأ الأسبوع يوم.</string>
+    <string name="wn_voice_title">التحقق من إمكانية نطق التذكيرات</string>
+    <string name="wn_voice_desc">يختبر الإعدادات &gt; عند رنين التذكير &gt; لغة النطق الآن ما إذا كان هاتفك قادرًا فعلًا على نطق هذه اللغة، ويساعدك على تنزيل صوت عند الحاجة. وإذا تعطل الصوت المعتاد، يجرب التذكير صوتًا آخر من اللغة نفسها.</string>
+    <string name="wn_reset_title">إعادة ضبط الإعدادات بخطوة واحدة</string>
+    <string name="wn_reset_desc">يعيد الإعدادات &gt; النسخ الاحتياطي والاستعادة &gt; استعادة الإعدادات الافتراضية كل إعداد إلى ما كان عليه عند تثبيت التطبيق. تبقى تذكيراتك كما هي.</string>
 </resources>

@@ -545,7 +545,7 @@
 
     <string name="action_continue">Continuar</string>
     <string name="wn_title">Novedades en %1$s</string>
-    <string name="wn_intro">Cuatro mejoras, todas sugeridas por quienes usan la app.</string>
+    <string name="wn_intro">Novedades desde tu última actualización. Muchas las sugirieron personas que usan la app.</string>
     <string name="wn_check_title">Mira qué podría impedir un recordatorio</string>
     <string name="wn_check_desc">«Comprobación de recordatorios», arriba del todo en Ajustes, muestra lo que podría retrasar o silenciar los recordatorios, como las notificaciones, la batería o un volumen de alarma bajo, con un botón para corregir cada cosa.</string>
     <string name="wn_reliable_title">Recordatorios extra fiables</string>
@@ -911,4 +911,14 @@
     <string name="set_reset_defaults_body">Cada ajuste vuelve a su valor predeterminado. Tus recordatorios, grabaciones, el idioma de la app y los permisos del teléfono se mantienen.</string>
     <string name="set_reset_defaults_confirm">Restablecer</string>
     <string name="set_reset_defaults_done">Ajustes restablecidos</string>
+    <string name="wn_newlang_title">Cinco idiomas nuevos</string>
+    <string name="wn_newlang_desc">La app ya está disponible en 17 idiomas, con Deutsch, Français, Bahasa Indonesia, Türkçe y 日本語 como novedad. Las fechas también siguen el orden de cada idioma. Elígelo en Ajustes &gt; Idioma y apariencia.</string>
+    <string name="wn_snooze_title">Desactiva «Posponer»</string>
+    <string name="wn_snooze_desc">Si posponer te facilita dejar las cosas para después, desactiva Ajustes &gt; Posponer y seguimiento &gt; Permitir posponer. Así, «Hecho» será la única forma de cerrar un recordatorio.</string>
+    <string name="wn_week_title">Elige el primer día de la semana</string>
+    <string name="wn_week_desc">Elige lunes, domingo o sábado como primera columna del selector de fecha en Ajustes &gt; Idioma y apariencia &gt; La semana empieza el.</string>
+    <string name="wn_voice_title">Comprueba que los recordatorios se puedan leer en voz alta</string>
+    <string name="wn_voice_desc">Ajustes &gt; Cuando suena un recordatorio &gt; Idioma hablado ahora comprueba si tu teléfono puede hablar de verdad ese idioma y te ayuda a descargar una voz si hace falta. Si la voz habitual falla, los recordatorios prueban otra voz del mismo idioma.</string>
+    <string name="wn_reset_title">Restablece los ajustes de una vez</string>
+    <string name="wn_reset_desc">Ajustes &gt; Copia de seguridad y restauración &gt; Restablecer ajustes predeterminados devuelve cada ajuste a como estaba al instalar la app. Tus recordatorios no cambian.</string>
 </resources>

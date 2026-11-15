@@ -553,7 +553,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">Lanjutkan</string>
     <string name="wn_title">Yang baru di %1$s</string>
-    <string name="wn_intro">Empat peningkatan, semuanya diusulkan oleh pengguna aplikasi.</string>
+    <string name="wn_intro">Yang baru sejak pembaruan terakhir Anda. Banyak di antaranya usulan dari pengguna aplikasi.</string>
     <string name="wn_check_title">Lihat apa yang dapat menghalangi pengingat</string>
     <string name="wn_check_desc">Cek pengingat, di bagian atas Setelan, menampilkan apa pun yang dapat membuat pengingat terlambat atau senyap, seperti notifikasi, baterai, atau volume alarm rendah, dengan tombol untuk memperbaiki masing-masing.</string>
     <string name="wn_reliable_title">Pengingat ekstra andal</string>
@@ -914,4 +914,14 @@
     <string name="set_reset_defaults_body">Semua setelan kembali ke default. Pengingat, rekaman, bahasa aplikasi, dan izin ponsel tetap seperti sekarang.</string>
     <string name="set_reset_defaults_confirm">Setel ulang</string>
     <string name="set_reset_defaults_done">Setelan dikembalikan ke default</string>
+    <string name="wn_newlang_title">Lima bahasa baru</string>
+    <string name="wn_newlang_desc">Aplikasi kini tersedia dalam 17 bahasa, termasuk Deutsch, Français, Bahasa Indonesia, Türkçe, dan 日本語. Tanggal juga mengikuti urutan masing-masing bahasa. Pilih di Setelan &gt; Bahasa &amp; tampilan.</string>
+    <string name="wn_snooze_title">Matikan Tunda</string>
+    <string name="wn_snooze_desc">Jika menunda membuat Anda terlalu mudah mengulur waktu, matikan Setelan &gt; Tunda &amp; cek lanjutan &gt; Izinkan tunda. Setelah itu hanya Selesai yang dapat menutup pengingat.</string>
+    <string name="wn_week_title">Pilih hari pertama dalam seminggu</string>
+    <string name="wn_week_desc">Pilih Senin, Minggu, atau Sabtu sebagai kolom pertama pemilih tanggal di Setelan &gt; Bahasa &amp; tampilan &gt; Minggu dimulai pada.</string>
+    <string name="wn_voice_title">Periksa apakah pengingat bisa diucapkan</string>
+    <string name="wn_voice_desc">Setelan &gt; Saat pengingat berbunyi &gt; Bahasa ucapan kini memeriksa apakah ponsel Anda benar-benar bisa mengucapkan bahasa itu, dan membantu mengunduh suara jika belum bisa. Jika suara biasa gagal, pengingat mencoba suara lain dalam bahasa yang sama.</string>
+    <string name="wn_reset_title">Setel ulang setelan sekaligus</string>
+    <string name="wn_reset_desc">Setelan &gt; Cadangkan &amp; pulihkan &gt; Setel ulang setelan ke default mengembalikan semua setelan seperti saat aplikasi dipasang. Pengingat Anda tetap seperti sekarang.</string>
 </resources>

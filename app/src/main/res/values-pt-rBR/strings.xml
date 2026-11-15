@@ -563,7 +563,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">Continuar</string>
     <string name="wn_title">Novidades do %1$s</string>
-    <string name="wn_intro">Quatro melhorias, todas sugeridas por quem usa o app.</string>
+    <string name="wn_intro">Novidades desde a sua última atualização. Muitas foram sugeridas por quem usa o app.</string>
     <string name="wn_check_title">Veja o que pode impedir um lembrete</string>
     <string name="wn_check_desc">A “Verificação de lembretes”, no topo das Configurações, mostra tudo o que pode atrasar ou silenciar os lembretes, como notificações, bateria ou volume de alarme baixo, com um botão para corrigir cada item.</string>
     <string name="wn_reliable_title">Lembretes extraconfiáveis</string>
@@ -928,4 +928,14 @@
     <string name="set_reset_defaults_body">Cada configuração volta ao padrão. Seus lembretes, gravações, idioma do app e permissões do celular continuam como estão.</string>
     <string name="set_reset_defaults_confirm">Restaurar</string>
     <string name="set_reset_defaults_done">Configurações restauradas ao padrão</string>
+    <string name="wn_newlang_title">Cinco novos idiomas</string>
+    <string name="wn_newlang_desc">O app agora está disponível em 17 idiomas, incluindo Deutsch, Français, Bahasa Indonesia, Türkçe e 日本語. As datas também seguem a ordem de cada idioma. Escolha em Configurações &gt; Idioma e aparência.</string>
+    <string name="wn_snooze_title">Desative “Adiar”</string>
+    <string name="wn_snooze_desc">Se adiar facilita deixar as coisas para depois, desative Configurações &gt; Adiamento e acompanhamento &gt; Permitir adiar. Assim, “Concluído” passa a ser a única forma de encerrar um lembrete.</string>
+    <string name="wn_week_title">Escolha o primeiro dia da semana</string>
+    <string name="wn_week_desc">Escolha segunda, domingo ou sábado como primeira coluna do seletor de data em Configurações &gt; Idioma e aparência &gt; A semana começa em.</string>
+    <string name="wn_voice_title">Confira se os lembretes podem ser falados</string>
+    <string name="wn_voice_desc">Configurações &gt; Quando um lembrete toca &gt; Idioma falado agora testa se o celular consegue mesmo falar esse idioma e ajuda a baixar uma voz se precisar. Se a voz de sempre falhar, os lembretes tentam outra voz do mesmo idioma.</string>
+    <string name="wn_reset_title">Restaure as configurações de uma vez</string>
+    <string name="wn_reset_desc">Configurações &gt; Backup e restauração &gt; Restaurar configurações padrão volta cada configuração ao estado da instalação do app. Seus lembretes continuam como estão.</string>
 </resources>

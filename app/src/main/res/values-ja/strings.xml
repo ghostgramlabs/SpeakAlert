@@ -553,7 +553,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">続ける</string>
     <string name="wn_title">%1$s の新機能</string>
-    <string name="wn_intro">4つの改善点です。すべて、アプリを使っている皆さんからの提案です。</string>
+    <string name="wn_intro">前回のアップデート以降の新機能です。多くはアプリを使っている方からのご提案です。</string>
     <string name="wn_check_title">リマインダーを妨げる原因を確認</string>
     <string name="wn_check_desc">設定の一番上にある「リマインダーチェック」は、通知、電池、小さいアラーム音量など、リマインダーが遅れたり鳴らなかったりする原因を表示し、それぞれを修正するボタンも用意しています。</string>
     <string name="wn_reliable_title">高信頼リマインダー</string>
@@ -914,4 +914,14 @@
     <string name="set_reset_defaults_body">すべての設定が初期値に戻ります。リマインダー、録音、アプリの言語、スマートフォンの権限はそのまま残ります。</string>
     <string name="set_reset_defaults_confirm">リセット</string>
     <string name="set_reset_defaults_done">設定を初期状態に戻しました</string>
+    <string name="wn_newlang_title">5つの新しい言語</string>
+    <string name="wn_newlang_desc">アプリが17言語に対応しました。新たにDeutsch、Français、Bahasa Indonesia、Türkçe、日本語が加わりました。日付も各言語の順序で表示されます。設定 &gt; 言語と外観 で選べます。</string>
+    <string name="wn_snooze_title">「スヌーズ」をオフにする</string>
+    <string name="wn_snooze_desc">スヌーズでつい先延ばしにしてしまう場合は、設定 &gt; スヌーズと再確認 &gt; スヌーズを許可 をオフにしてください。リマインダーを止めるには「完了」だけになります。</string>
+    <string name="wn_week_title">週の始まりの曜日を選ぶ</string>
+    <string name="wn_week_desc">設定 &gt; 言語と外観 &gt; 週の始まり で、日付選択の最初の列を月曜日・日曜日・土曜日から選べます。</string>
+    <string name="wn_voice_title">リマインダーを読み上げられるか確認</string>
+    <string name="wn_voice_desc">設定 &gt; リマインダーが鳴るとき &gt; 読み上げ言語 で、スマートフォンがその言語を実際に話せるかを確認し、必要なら音声のダウンロードを手伝います。いつもの音声が使えないときは、同じ言語の別の音声を試します。</string>
+    <string name="wn_reset_title">設定をまとめてリセット</string>
+    <string name="wn_reset_desc">設定 &gt; バックアップと復元 &gt; 設定を初期状態に戻す で、すべての設定をインストール直後の状態に戻せます。リマインダーはそのまま残ります。</string>
 </resources>

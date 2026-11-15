@@ -560,7 +560,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">Continue</string>
     <string name="wn_title">What\'s new in %1$s</string>
-    <string name="wn_intro">Four improvements, all suggested by people who use the app.</string>
+    <string name="wn_intro">New since your last update. Many of these were suggested by people who use the app.</string>
     <string name="wn_check_title">See what could stop a reminder</string>
     <string name="wn_check_desc">Reminder check, at the top of Settings, shows anything that could make reminders late or silent, such as notifications, battery or a low alarm volume, with a button to fix each one.</string>
     <string name="wn_reliable_title">Extra-reliable reminders</string>
@@ -924,4 +924,14 @@
     <string name="set_reset_defaults_body">Every setting goes back to its default. Your reminders, recordings, app language and phone permissions stay as they are.</string>
     <string name="set_reset_defaults_confirm">Reset</string>
     <string name="set_reset_defaults_done">Settings reset to defaults</string>
+    <string name="wn_newlang_title">Five new languages</string>
+    <string name="wn_newlang_desc">The app is now in 17 languages, adding Deutsch, Français, Bahasa Indonesia, Türkçe and 日本語. Dates follow each language\'s own order too. Choose one in Settings &gt; Language &amp; appearance.</string>
+    <string name="wn_snooze_title">Turn off Snooze</string>
+    <string name="wn_snooze_desc">If snoozing makes it too easy to put things off, turn off Settings &gt; Snooze &amp; follow-up &gt; Allow snooze. Then Done is the only way past a reminder.</string>
+    <string name="wn_week_title">Choose the first day of the week</string>
+    <string name="wn_week_desc">Make Monday, Sunday or Saturday the first column of the date picker in Settings &gt; Language &amp; appearance &gt; Week starts on.</string>
+    <string name="wn_voice_title">Check that reminders can be spoken</string>
+    <string name="wn_voice_desc">Settings &gt; When a reminder rings &gt; Spoken language now tests whether your phone can really speak that language, and helps you download a voice if it can\'t. If the usual voice fails, reminders try another voice in the same language.</string>
+    <string name="wn_reset_title">Reset settings in one step</string>
+    <string name="wn_reset_desc">Settings &gt; Backup &amp; restore &gt; Reset settings to defaults puts every setting back to how it was when the app was installed. Your reminders stay as they are.</string>
 </resources>

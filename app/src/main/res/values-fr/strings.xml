@@ -559,7 +559,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">Continuer</string>
     <string name="wn_title">Nouveautés de %1$s</string>
-    <string name="wn_intro">Quatre améliorations, toutes suggérées par des personnes qui utilisent l’application.</string>
+    <string name="wn_intro">Les nouveautés depuis votre dernière mise à jour. Beaucoup ont été suggérées par des personnes qui utilisent l’app.</string>
     <string name="wn_check_title">Voyez ce qui pourrait bloquer un rappel</string>
     <string name="wn_check_desc">Vérification des rappels, en haut des Paramètres, montre tout ce qui pourrait retarder ou rendre muets les rappels, comme les notifications, la batterie ou un volume d’alarme faible, avec un bouton pour corriger chaque point.</string>
     <string name="wn_reliable_title">Rappels ultra-fiables</string>
@@ -922,4 +922,14 @@
     <string name="set_reset_defaults_body">Chaque paramètre revient à sa valeur par défaut. Vos rappels, enregistrements, la langue de l’app et les autorisations du téléphone restent inchangés.</string>
     <string name="set_reset_defaults_confirm">Réinitialiser</string>
     <string name="set_reset_defaults_done">Paramètres par défaut rétablis</string>
+    <string name="wn_newlang_title">Cinq nouvelles langues</string>
+    <string name="wn_newlang_desc">L’app est désormais disponible en 17 langues, dont Deutsch, Français, Bahasa Indonesia, Türkçe et 日本語. Les dates suivent aussi l’ordre propre à chaque langue. Choisissez-la dans Paramètres &gt; Langue et apparence.</string>
+    <string name="wn_snooze_title">Désactiver « Reporter »</string>
+    <string name="wn_snooze_desc">Si reporter rend la procrastination trop facile, désactivez Paramètres &gt; Report et relance &gt; Autoriser le report. Seul « Terminé » permet alors de passer un rappel.</string>
+    <string name="wn_week_title">Choisir le premier jour de la semaine</string>
+    <string name="wn_week_desc">Choisissez lundi, dimanche ou samedi comme première colonne du sélecteur de date dans Paramètres &gt; Langue et apparence &gt; La semaine commence le.</string>
+    <string name="wn_voice_title">Vérifier que les rappels peuvent être lus</string>
+    <string name="wn_voice_desc">Paramètres &gt; Quand un rappel sonne &gt; Langue parlée vérifie désormais si votre téléphone peut vraiment parler cette langue et vous aide à télécharger une voix si besoin. Si la voix habituelle échoue, les rappels essaient une autre voix de la même langue.</string>
+    <string name="wn_reset_title">Réinitialiser les paramètres en une fois</string>
+    <string name="wn_reset_desc">Paramètres &gt; Sauvegarde et restauration &gt; Rétablir les paramètres par défaut remet chaque paramètre comme à l’installation de l’app. Vos rappels restent intacts.</string>
 </resources>

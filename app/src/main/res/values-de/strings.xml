@@ -558,7 +558,7 @@
     <!-- What's new sheet -->
     <string name="action_continue">Weiter</string>
     <string name="wn_title">Neu in %1$s</string>
-    <string name="wn_intro">Vier Verbesserungen, alle von Menschen vorgeschlagen, die die App nutzen.</string>
+    <string name="wn_intro">Neu seit deinem letzten Update. Viele Ideen stammen von Menschen, die die App nutzen.</string>
     <string name="wn_check_title">Sieh, was eine Erinnerung aufhalten könnte</string>
     <string name="wn_check_desc">Der Erinnerungs-Check ganz oben in den Einstellungen zeigt alles, was Erinnerungen verspäten oder stumm machen könnte, etwa Benachrichtigungen, Akku oder eine leise Weckerlautstärke – jeweils mit einer Schaltfläche zum Beheben.</string>
     <string name="wn_reliable_title">Besonders zuverlässige Erinnerungen</string>
@@ -921,4 +921,14 @@
     <string name="set_reset_defaults_body">Alle Einstellungen werden auf ihre Standardwerte zurückgesetzt. Erinnerungen, Aufnahmen, App-Sprache und Telefonberechtigungen bleiben erhalten.</string>
     <string name="set_reset_defaults_confirm">Zurücksetzen</string>
     <string name="set_reset_defaults_done">Einstellungen zurückgesetzt</string>
+    <string name="wn_newlang_title">Fünf neue Sprachen</string>
+    <string name="wn_newlang_desc">Die App gibt es jetzt in 17 Sprachen, neu sind Deutsch, Français, Bahasa Indonesia, Türkçe und 日本語. Datumsangaben folgen der Reihenfolge der jeweiligen Sprache. Wähle sie unter Einstellungen &gt; Sprache &amp; Darstellung.</string>
+    <string name="wn_snooze_title">Schlummern ausschalten</string>
+    <string name="wn_snooze_desc">Wenn Schlummern das Aufschieben zu leicht macht, schalte Einstellungen &gt; Schlummern &amp; Nachfragen &gt; Schlummern erlauben aus. Dann kommst du nur noch mit „Erledigt“ an einer Erinnerung vorbei.</string>
+    <string name="wn_week_title">Ersten Wochentag wählen</string>
+    <string name="wn_week_desc">Lege unter Einstellungen &gt; Sprache &amp; Darstellung &gt; Woche beginnt am Montag, Sonntag oder Samstag als erste Spalte der Datumsauswahl fest.</string>
+    <string name="wn_voice_title">Prüfen, ob Erinnerungen gesprochen werden können</string>
+    <string name="wn_voice_desc">Einstellungen &gt; Wenn eine Erinnerung klingelt &gt; Gesprochene Sprache prüft jetzt, ob dein Telefon diese Sprache wirklich sprechen kann, und hilft dir, eine Stimme herunterzuladen. Fällt die übliche Stimme aus, versuchen Erinnerungen eine andere Stimme derselben Sprache.</string>
+    <string name="wn_reset_title">Einstellungen in einem Schritt zurücksetzen</string>
+    <string name="wn_reset_desc">Einstellungen &gt; Sichern &amp; Wiederherstellen &gt; Einstellungen zurücksetzen setzt alle Einstellungen auf den Stand nach der Installation zurück. Deine Erinnerungen bleiben erhalten.</string>
 </resources>
