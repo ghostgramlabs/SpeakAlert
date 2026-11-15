@@ -3,7 +3,7 @@
 User-facing changes to SpeakAlert, newest first. Version numbers match the Google Play release
 (`versionName` in `app/build.gradle.kts`).
 
-## Unreleased
+## 2.0.48 - 2026-11-14
 
 - New "Reset settings to defaults" in Settings, Backup & restore. After a confirmation it puts
   every setting back to how it was when the app was installed. Reminders, recordings, the app
