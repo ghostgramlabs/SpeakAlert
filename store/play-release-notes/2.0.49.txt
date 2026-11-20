@@ -1,0 +1,204 @@
+<en-US>
+• No alarm tone during phone calls
+• Reminder check warns when reminder notifications are off
+• Repeat on the last Thursday and other weekday-of-month repeats
+• A pause between repeats for looping reminders
+• Your own colors for Done and Delete
+• Notifications clear when you open the app
+• Turn off Snooze, so Done is the only way past a reminder
+• Check that your phone can speak reminders
+• Choose the first day of the week
+• 5 new languages: German, French, Indonesian, Turkish, Japanese
+</en-US>
+<ar>
+• لا يرنّ صوت المنبّه أثناء المكالمات
+• فحص التذكيرات ينبّهك إذا كانت إشعارات التذكير متوقفة
+• التكرار في آخر خميس وأيام أسبوع أخرى من الشهر
+• توقف بين التكرارات للتذكيرات المتكررة
+• ألوانك لزرَّي تم وحذف
+• تختفي الإشعارات عند فتح التطبيق
+• إيقاف التأجيل ليصبح تم الطريقة الوحيدة لتجاوز التذكير
+• تحقق من قدرة هاتفك على نطق التذكيرات
+• اختر أول أيام الأسبوع
+• 5 لغات جديدة: الألمانية والفرنسية والإندونيسية والتركية واليابانية
+</ar>
+<bn-BD>
+• ফোন কলের সময় অ্যালার্ম টোন বাজে না
+• রিমাইন্ডার বিজ্ঞপ্তি বন্ধ থাকলে রিমাইন্ডার পরীক্ষা সতর্ক করে
+• শেষ বৃহস্পতিবার ও মাসের অন্য সপ্তাহদিনে পুনরাবৃত্তি
+• লুপ রিমাইন্ডারে পুনরাবৃত্তির মাঝে বিরতি
+• সম্পন্ন ও মুছুন বোতামে আপনার রং
+• অ্যাপ খুললে বিজ্ঞপ্তি সরে যায়
+• স্নুজ বন্ধ করুন, তখন সম্পন্নই একমাত্র উপায়
+• ফোন রিমাইন্ডার পড়ে শোনাতে পারে কিনা যাচাই করুন
+• সপ্তাহের প্রথম দিন বেছে নিন
+• ৫টি নতুন ভাষা: জার্মান, ফরাসি, ইন্দোনেশীয়, তুর্কি, জাপানি
+</bn-BD>
+<de-DE>
+• Kein Alarmton während Telefonaten
+• Erinnerungs-Check warnt, wenn Erinnerungsbenachrichtigungen aus sind
+• Wiederholung am letzten Donnerstag und anderen Wochentagen im Monat
+• Pause zwischen Wiederholungen bei Schleifen
+• Eigene Farben für Erledigt und Löschen
+• Benachrichtigungen verschwinden beim Öffnen der App
+• Schlummern ausschalten, dann hilft nur noch Erledigt
+• Prüfen, ob dein Telefon Erinnerungen sprechen kann
+• Ersten Wochentag wählen
+• 5 neue Sprachen, darunter Deutsch
+</de-DE>
+<el-GR>
+• Χωρίς ήχο ξυπνητηριού στις κλήσεις
+• Ο Έλεγχος υπενθυμίσεων προειδοποιεί αν οι ειδοποιήσεις είναι ανενεργές
+• Επανάληψη την τελευταία Πέμπτη και άλλες ημέρες του μήνα
+• Παύση μεταξύ επαναλήψεων
+• Δικά σας χρώματα για Ολοκληρώθηκε και Διαγραφή
+• Οι ειδοποιήσεις καθαρίζουν όταν ανοίγετε την εφαρμογή
+• Απενεργοποίηση αναβολής
+• Έλεγχος εκφώνησης υπενθυμίσεων
+• Επιλογή πρώτης ημέρας της εβδομάδας
+• 5 νέες γλώσσες: γερμανικά, γαλλικά, ινδονησιακά, τουρκικά, ιαπωνικά
+</el-GR>
+<es-ES>
+• Sin tono de alarma durante las llamadas
+• Comprobación de recordatorios avisa si sus notificaciones están desactivadas
+• Repetir el último jueves y otros días de la semana del mes
+• Pausa entre repeticiones en recordatorios en bucle
+• Tus colores para Hecho y Eliminar
+• Las notificaciones se borran al abrir la app
+• Desactiva posponer
+• Comprueba que tu teléfono pueda leer los recordatorios
+• Elige el primer día de la semana
+• 5 idiomas nuevos: alemán, francés, indonesio, turco y japonés
+</es-ES>
+<fr-FR>
+• Pas de sonnerie pendant les appels
+• Vérification des rappels signale les notifications de rappel désactivées
+• Répétition le dernier jeudi et d’autres jours du mois
+• Pause entre les répétitions des rappels en boucle
+• Vos couleurs pour Terminé et Supprimer
+• Les notifications disparaissent à l’ouverture de l’app
+• Désactivez le report
+• Vérifiez que votre téléphone peut lire les rappels
+• Choisissez le premier jour de la semaine
+• 5 nouvelles langues, dont le français
+</fr-FR>
+<hi-IN>
+• फ़ोन कॉल के दौरान अलार्म टोन नहीं बजती
+• रिमाइंडर सूचनाएं बंद हों तो रिमाइंडर जांच चेतावनी देती है
+• आखिरी गुरुवार और महीने के अन्य सप्ताह-दिनों पर दोहराव
+• लूप रिमाइंडर में दोहरावों के बीच विराम
+• पूरा और हटाएँ बटन के लिए आपके रंग
+• ऐप खोलने पर सूचनाएँ हट जाती हैं
+• स्नूज़ बंद करें, तब सिर्फ़ पूरा ही रास्ता है
+• जाँचें कि फ़ोन रिमाइंडर बोल सकता है
+• हफ़्ते का पहला दिन चुनें
+• 5 नई भाषाएँ: जर्मन, फ़्रेंच, इंडोनेशियाई, तुर्की, जापानी
+</hi-IN>
+<id>
+• Nada alarm tidak berbunyi saat telepon
+• Cek pengingat memberi tahu jika notifikasi pengingat nonaktif
+• Ulangi pada Kamis terakhir dan hari lain dalam bulan
+• Jeda antar-pengulangan untuk pengingat berulang
+• Warna Anda untuk Selesai dan Hapus
+• Notifikasi hilang saat aplikasi dibuka
+• Matikan Tunda agar hanya Selesai yang menutup pengingat
+• Periksa apakah ponsel bisa mengucapkan pengingat
+• Pilih hari pertama dalam seminggu
+• 5 bahasa baru, termasuk Bahasa Indonesia
+</id>
+<ja-JP>
+• 通話中はアラーム音が鳴りません
+• 通知がオフのときはリマインダーチェックで警告
+• 最終木曜日など、月の何番目かの曜日で繰り返し
+• ループ再生の間に休止を入れる
+• 完了・削除ボタンの色を変更
+• アプリを開くと通知が消える
+• スヌーズをオフにして「完了」だけで止める
+• スマートフォンが読み上げられるか確認
+• 週の始まりの曜日を選択
+• 日本語を含む5つの新しい言語
+</ja-JP>
+<ml-IN>
+• ഫോൺ കോളിനിടെ അലാറം ടോൺ മുഴങ്ങില്ല
+• അറിയിപ്പുകൾ ഓഫാണെങ്കിൽ ഓർമ്മപ്പെടുത്തൽ പരിശോധന മുന്നറിയിപ്പ് നൽകും
+• അവസാന വ്യാഴാഴ്ചയും മാസത്തിലെ മറ്റ് ആഴ്ചദിനങ്ങളിലും ആവർത്തനം
+• ലൂപ്പ് ഓർമ്മപ്പെടുത്തലുകളിൽ ഇടവേള
+• പൂർത്തിയായി, ഇല്ലാതാക്കുക ബട്ടണുകൾക്ക് നിങ്ങളുടെ നിറം
+• ആപ്പ് തുറക്കുമ്പോൾ അറിയിപ്പുകൾ മായും
+• സ്നൂസ് ഓഫാക്കാം
+• ഫോണിന് ഓർമ്മപ്പെടുത്തൽ വായിക്കാനാകുമോ എന്ന് പരിശോധിക്കാം
+• ആഴ്ചയിലെ ആദ്യ ദിവസം തിരഞ്ഞെടുക്കാം
+• 5 പുതിയ ഭാഷകൾ
+</ml-IN>
+<pt-BR>
+• Sem toque de alarme durante ligações
+• Verificação de lembretes avisa se as notificações estiverem desativadas
+• Repetir na última quinta-feira e em outros dias da semana do mês
+• Pausa entre repetições em lembretes em loop
+• Suas cores para Concluído e Excluir
+• Notificações somem ao abrir o app
+• Desative o adiar
+• Confira se o celular consegue falar os lembretes
+• Escolha o primeiro dia da semana
+• 5 novos idiomas: alemão, francês, indonésio, turco e japonês
+</pt-BR>
+<ru-RU>
+• Сигнал не звучит во время звонка
+• Проверка напоминаний предупреждает, если уведомления выключены
+• Повтор в последний четверг и другие дни недели месяца
+• Пауза между повторами зацикленных напоминаний
+• Свои цвета для кнопок «Готово» и «Удалить»
+• Уведомления исчезают при открытии приложения
+• Отключение откладывания
+• Проверка, может ли телефон озвучить напоминания
+• Выбор первого дня недели
+• 5 новых языков: немецкий, французский, индонезийский, турецкий, японский
+</ru-RU>
+<ta-IN>
+• அழைப்பின்போது அலாரம் ஒலி ஒலிக்காது
+• அறிவிப்புகள் முடக்கப்பட்டிருந்தால் நினைவூட்டல் சரிபார்ப்பு எச்சரிக்கும்
+• கடைசி வியாழன் மற்றும் மாதத்தின் பிற வார நாட்களில் மீண்டும்
+• லூப் நினைவூட்டல்களில் இடைவெளி
+• முடிந்தது, நீக்கு பொத்தான்களுக்கு உங்கள் நிறம்
+• ஆப்பைத் திறந்தால் அறிவிப்புகள் அழியும்
+• உறக்கநிலையை அணைக்கலாம்
+• தொலைபேசி நினைவூட்டல்களைப் பேசுமா எனச் சரிபார்க்கலாம்
+• வாரத்தின் முதல் நாளைத் தேர்வுசெய்யலாம்
+• 5 புதிய மொழிகள்
+</ta-IN>
+<te-IN>
+• ఫోన్ కాల్ సమయంలో అలారం టోన్ మోగదు
+• నోటిఫికేషన్లు ఆఫ్‌లో ఉంటే రిమైండర్ తనిఖీ హెచ్చరిస్తుంది
+• చివరి గురువారం, నెలలోని ఇతర వారపు రోజుల్లో పునరావృతం
+• లూప్ రిమైండర్‌లలో విరామం
+• పూర్తయింది, తొలగించు బటన్‌లకు మీ రంగులు
+• యాప్ తెరిస్తే నోటిఫికేషన్‌లు తొలగుతాయి
+• స్నూజ్‌ను ఆఫ్ చేయవచ్చు
+• ఫోన్ రిమైండర్‌లను చదవగలదో పరీక్షించవచ్చు
+• వారంలో మొదటి రోజును ఎంచుకోవచ్చు
+• 5 కొత్త భాషలు
+</te-IN>
+<tr-TR>
+• Telefon görüşmesinde alarm sesi çalmaz
+• Hatırlatıcı kontrolü, bildirimler kapalıysa uyarır
+• Son perşembe gibi ayın belirli haftanın günlerinde tekrar
+• Döngüdeki hatırlatıcılarda tekrarlar arası duraklama
+• Tamam ve Sil düğmeleri için kendi renkleriniz
+• Uygulamayı açınca bildirimler temizlenir
+• Ertelemeyi kapatın: hatırlatıcıyı yalnızca Tamam geçer
+• Telefonunuzun hatırlatıcıları okuyabildiğini kontrol edin
+• Haftanın ilk gününü seçin
+• Türkçe dahil 5 yeni dil
+</tr-TR>
+<vi>
+• Không reo âm báo khi đang gọi điện
+• Kiểm tra lời nhắc cảnh báo khi thông báo nhắc nhở bị tắt
+• Lặp lại vào Thứ Năm cuối và các thứ khác trong tháng
+• Khoảng nghỉ giữa các lần lặp
+• Màu riêng cho nút Xong và Xóa
+• Thông báo tự xóa khi mở ứng dụng
+• Tắt báo lại: chỉ Xong mới đóng được lời nhắc
+• Kiểm tra điện thoại có đọc được lời nhắc không
+• Chọn ngày đầu tuần
+• 5 ngôn ngữ mới: Đức, Pháp, Indonesia, Thổ Nhĩ Kỳ, Nhật
+</vi>

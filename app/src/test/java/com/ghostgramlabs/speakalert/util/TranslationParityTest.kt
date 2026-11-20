@@ -36,8 +36,26 @@ class TranslationParityTest {
     private fun args(text: String) = placeholder.findAll(text).map { it.value }.toSet()
 
     @Test
+    fun `translations contain no replacement characters or corrupted question mark runs`() {
+        for (dir in locales()) for (name in files) {
+            val text = File(dir, name).readText()
+            assertTrue("${dir.name}/$name contains corrupted text", '\uFFFD' !in text && "???" !in text)
+        }
+    }
+
+    @Test
+    fun `translated arrays preserve keys and item counts`() {
+        fun arrays(file: File) = Regex("<string-array name=\"([^\"]+)\"[^>]*>(.*?)</string-array>", RegexOption.DOT_MATCHES_ALL)
+            .findAll(file.readText()).associate { match ->
+                match.groupValues[1] to Regex("<item>").findAll(match.groupValues[2]).count()
+            }
+        val english = arrays(File(res, "values/strings.xml"))
+        for (dir in locales()) assertEquals(dir.name, english, arrays(File(dir, "strings.xml")))
+    }
+
+    @Test
     fun `there are translations to check`() {
-        assertTrue(locales().size >= 11)
+        assertTrue(locales().size >= 16)
     }
 
     @Test

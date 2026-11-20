@@ -151,6 +151,26 @@ class SettingsViewModel(
         }
     }
 
+    /**
+     * Puts every setting back to its default, including the ones kept outside DataStore for
+     * synchronous readers. App language and Android permissions are left alone. Reminders are
+     * rescheduled only if "Extra-reliable reminders" was on, since that changes how they are set.
+     */
+    fun resetToDefaults(context: android.content.Context, onDone: () -> Unit) {
+        val appContext = context.applicationContext
+        viewModelScope.launch {
+            settingsRepository.resetToDefaults()
+            com.ghostgramlabs.speakalert.util.SnoozePreferences.setSnoozeEnabled(appContext, true)
+            com.ghostgramlabs.speakalert.util.WeekStartPreferences.setFirstDayOfWeek(appContext, 0)
+            if (com.ghostgramlabs.speakalert.util.AlarmDeliveryPreferences.useAlarmClock(appContext)) {
+                com.ghostgramlabs.speakalert.alarm.setAlarmClockDelivery(
+                    appContext, false, reminderRepository, alarmScheduler
+                )
+            }
+            onDone()
+        }
+    }
+
     fun setPersistUntilDone(enabled: Boolean) {
         viewModelScope.launch {
             settingsRepository.setPersistUntilDone(enabled)
@@ -161,6 +181,19 @@ class SettingsViewModel(
         viewModelScope.launch {
             settingsRepository.setThemeMode(mode)
         }
+    }
+
+    val cardDoneColor = settingsRepository.cardDoneColor
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+    val cardDeleteColor = settingsRepository.cardDeleteColor
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+
+    fun setCardDoneColor(key: String?) {
+        viewModelScope.launch { settingsRepository.setCardDoneColor(key) }
+    }
+
+    fun setCardDeleteColor(key: String?) {
+        viewModelScope.launch { settingsRepository.setCardDeleteColor(key) }
     }
 
     fun setFullScreenAlertEnabled(enabled: Boolean) {
@@ -238,6 +271,15 @@ class SettingsViewModel(
     fun setLoopTimeoutMinutes(minutes: Int) {
         viewModelScope.launch {
             settingsRepository.setLoopTimeoutMinutes(minutes)
+        }
+    }
+
+    val loopGapSeconds = settingsRepository.loopGapSeconds
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+
+    fun setLoopGapSeconds(seconds: Int) {
+        viewModelScope.launch {
+            settingsRepository.setLoopGapSeconds(seconds)
         }
     }
     

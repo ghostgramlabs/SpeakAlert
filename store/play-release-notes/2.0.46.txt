@@ -1,0 +1,96 @@
+<en-US>
+Four improvements, all suggested by people who use the app:
+• Repeat on the last Thursday: monthly reminders on a weekday by its place in the month
+• A pause between repeats for looping reminders
+• Your colors for the Done and Delete buttons
+• Notifications clear when you open the app
+Also fixed a crash on some phones when a reminder stopped while the speech engine was starting.
+</en-US>
+<ar>
+أربعة تحسينات، كلها اقترحها مستخدمو التطبيق:
+• التكرار في آخر خميس: تذكيرات شهرية في يوم أسبوع حسب ترتيبه في الشهر
+• توقف بين التكرارات للتذكيرات المتكررة
+• ألوانك لزرَّي تم وحذف
+• تختفي الإشعارات عند فتح التطبيق
+كما أصلحنا تعطلًا على بعض الهواتف عند إيقاف تذكير أثناء بدء محرك الكلام.
+</ar>
+<bn-BD>
+চারটি উন্নতি, সবগুলোই অ্যাপ ব্যবহারকারীদের পরামর্শে:
+• শেষ বৃহস্পতিবারে পুনরাবৃত্তি: মাসের নির্দিষ্ট সপ্তাহের দিনে মাসিক রিমাইন্ডার
+• লুপ রিমাইন্ডারে পুনরাবৃত্তির মাঝে বিরতি
+• সম্পন্ন ও মুছুন বোতামে আপনার রং
+• অ্যাপ খুললে বিজ্ঞপ্তি সরে যায়
+এছাড়া স্পিচ ইঞ্জিন চালু হওয়ার সময় রিমাইন্ডার থামলে কিছু ফোনে যে ক্র্যাশ হতো তা ঠিক করা হয়েছে।
+</bn-BD>
+<el-GR>
+Τέσσερις βελτιώσεις, όλες από προτάσεις χρηστών της εφαρμογής:
+• Επανάληψη την τελευταία Πέμπτη: μηνιαίες υπενθυμίσεις σε ημέρα της εβδομάδας με βάση τη θέση της στον μήνα
+• Παύση μεταξύ επαναλήψεων για υπενθυμίσεις σε επανάληψη
+• Δικά σας χρώματα για Ολοκληρώθηκε και Διαγραφή
+• Οι ειδοποιήσεις καθαρίζουν όταν ανοίγετε την εφαρμογή
+Διορθώθηκε επίσης ένα σφάλμα σε ορισμένα τηλέφωνα όταν μια υπενθύμιση σταματούσε ενώ ξεκινούσε η μηχανή ομιλίας.
+</el-GR>
+<es-ES>
+Cuatro mejoras, todas sugeridas por quienes usan la app:
+• Repetir el último jueves: recordatorios mensuales en un día de la semana según su posición en el mes
+• Una pausa entre repeticiones para recordatorios en bucle
+• Tus colores para Hecho y Eliminar
+• Las notificaciones se borran al abrir la app
+También corregimos un cierre inesperado en algunos teléfonos al detener un recordatorio mientras se iniciaba el motor de voz.
+</es-ES>
+<hi-IN>
+चार सुधार, सभी ऐप इस्तेमाल करने वालों के सुझाव पर:
+• आखिरी गुरुवार को दोहराएं: महीने में स्थान के हिसाब से किसी वार पर मासिक रिमाइंडर
+• लूप वाले रिमाइंडर के लिए दोहराव के बीच विराम
+• हो गया और हटाएं के लिए आपके रंग
+• ऐप खोलने पर नोटिफ़िकेशन हट जाता है
+साथ ही, स्पीच इंजन शुरू होते समय रिमाइंडर रुकने पर कुछ फ़ोन पर होने वाला क्रैश ठीक किया गया।
+</hi-IN>
+<ml-IN>
+നാല് മെച്ചപ്പെടുത്തലുകൾ, എല്ലാം ആപ്പ് ഉപയോഗിക്കുന്നവരുടെ നിർദ്ദേശങ്ങൾ:
+• അവസാന വ്യാഴാഴ്ച ആവർത്തിക്കുക: മാസത്തിലെ സ്ഥാനം അനുസരിച്ച് ഒരു ആഴ്ചദിവസം പ്രതിമാസ റിമൈൻഡർ
+• ലൂപ്പ് റിമൈൻഡറുകൾക്ക് ആവർത്തനങ്ങൾക്കിടയിലെ ഇടവേള
+• പൂർത്തിയായി, ഇല്ലാതാക്കുക ബട്ടണുകൾക്ക് നിങ്ങളുടെ നിറങ്ങൾ
+• ആപ്പ് തുറക്കുമ്പോൾ അറിയിപ്പ് മായും
+സ്പീച്ച് എഞ്ചിൻ തുടങ്ങുമ്പോൾ റിമൈൻഡർ നിർത്തിയാൽ ചില ഫോണുകളിൽ ഉണ്ടായിരുന്ന ക്രാഷും പരിഹരിച്ചു.
+</ml-IN>
+<pt-BR>
+Quatro melhorias, todas sugeridas por quem usa o app:
+• Repetir na última quinta-feira: lembretes mensais em um dia da semana pela posição no mês
+• Uma pausa entre repetições para lembretes em loop
+• Suas cores para Concluído e Excluir
+• Notificações somem ao abrir o app
+Também corrigimos uma falha em alguns celulares ao parar um lembrete enquanto o mecanismo de voz iniciava.
+</pt-BR>
+<ru-RU>
+Четыре улучшения — все предложены пользователями приложения:
+• Повтор в последний четверг: ежемесячные напоминания в день недели по его месту в месяце
+• Пауза между повторами для зацикленных напоминаний
+• Свои цвета для «Готово» и «Удалить»
+• Уведомления исчезают при открытии приложения
+Также исправлен сбой на некоторых телефонах, когда напоминание останавливалось во время запуска синтезатора речи.
+</ru-RU>
+<ta-IN>
+நான்கு மேம்பாடுகள், அனைத்தும் ஆப் பயனர்களின் பரிந்துரைகள்:
+• கடைசி வியாழனில் மீண்டும்: மாதத்தில் உள்ள இடத்தின்படி ஒரு கிழமையில் மாதாந்திர நினைவூட்டல்
+• லூப் நினைவூட்டல்களுக்கு மீண்டும் ஒலிப்பதற்கு இடையே இடைவெளி
+• முடிந்தது, நீக்கு பொத்தான்களுக்கு உங்கள் நிறங்கள்
+• ஆப்பைத் திறந்தால் அறிவிப்பு மறையும்
+பேச்சு இயந்திரம் தொடங்கும்போது நினைவூட்டல் நின்றால் சில போன்களில் ஏற்பட்ட செயலிழப்பும் சரிசெய்யப்பட்டது.
+</ta-IN>
+<te-IN>
+నాలుగు మెరుగుదలలు, అన్నీ యాప్ వాడేవారి సూచనలే:
+• చివరి గురువారం పునరావృతం: నెలలో స్థానం ప్రకారం ఒక వారం రోజున నెలవారీ రిమైండర్
+• లూప్ రిమైండర్‌లకు పునరావృతాల మధ్య విరామం
+• పూర్తయింది, తొలగించు బటన్‌లకు మీ రంగులు
+• యాప్ తెరిస్తే నోటిఫికేషన్ పోతుంది
+స్పీచ్ ఇంజిన్ మొదలవుతున్నప్పుడు రిమైండర్ ఆగితే కొన్ని ఫోన్‌లలో వచ్చే క్రాష్ కూడా సరిచేయబడింది.
+</te-IN>
+<vi>
+Bốn cải tiến, tất cả đều do người dùng ứng dụng đề xuất:
+• Lặp lại vào Thứ Năm cuối cùng: nhắc nhở hằng tháng vào một thứ trong tuần theo vị trí trong tháng
+• Khoảng nghỉ giữa các lần lặp cho nhắc nhở lặp liên tục
+• Màu của bạn cho Xong và Xóa
+• Thông báo tự xóa khi mở ứng dụng
+Đồng thời sửa lỗi ứng dụng bị dừng trên một số điện thoại khi nhắc nhở dừng lúc công cụ đọc giọng nói đang khởi động.
+</vi>

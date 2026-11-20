@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quick_title">Schnellstart</string>
+    <string name="quick_progress">Schritt %1$d von %2$d</string>
+    <string name="quick_back">Zurück</string>
+    <string name="quick_next">Weiter</string>
+    <string name="quick_finish">Loslegen</string>
+    <string name="quick_later">Schließen – du findest das wieder in der Hilfe</string>
+    <string name="quick_create_title">Erstelle deine erste Erinnerung</string>
+    <string name="quick_create_body">Tippe auf +, um eine Erinnerung hinzuzufügen. Nimm deine Stimme auf, wähle eine Audiodatei oder tippe eine Nachricht, die vorgelesen wird. Der Mikrofonzugriff ist nur zum Aufnehmen nötig.\n\nWähle ein Datum und eine Uhrzeit in der Zukunft. Bei einer wiederkehrenden Erinnerung wählst du, wie oft sie sich wiederholt. Höre dir deine Aufnahme an und tippe dann auf Speichern.\n\n„Heute“ zeigt die Erinnerungen von heute. „Anstehend“ zeigt spätere Termine.</string>
+    <string name="quick_ready_title">Stell sicher, dass du sie hörst</string>
+    <string name="quick_ready_body">Erlaube Benachrichtigungen, wenn du gefragt wirst. Prüfe in den Einstellungen den Zugriff auf exakte Alarme und die Akkueinstellungen für den Hintergrund, damit Android Erinnerungen zuverlässig zustellen kann.\n\nFür Sprachalarme lass die automatische Wiedergabe an und den Nur-Ton-Modus aus. Getippte Nachrichten brauchen zusätzlich das aktivierte Vorlesen. Dreh die Weckerlautstärke auf; die private Wiedergabe nutzt Kopfhörer oder die Hörmuschel.\n\nRuhezeiten und die Einstellungen zur Wiedergabe auf dem Sperrbildschirm können ändern, wann du Sprache hörst. Du kannst das in den Einstellungen prüfen.</string>
+    <string name="quick_actions_title">Erledigt, Schlummern oder Stumm?</string>
+    <string name="quick_actions_body">Schlummern verschiebt den aktuellen Alarm; ein Wiederholungsplan läuft danach weiter. Stumm stoppt den Ton, lässt die Erinnerung aber offen.\n\nErledigt bei einem Alarm schließt diesen Termin ab und stoppt seine Nachfragen. Wiederkehrende Erinnerungen laufen zu ihrer nächsten Zeit weiter.\n\nWenn du unter „Anstehend“ einen wiederkehrenden Termin als erledigt markierst, wird dieser künftige Termin übersprungen. Der gesamte Plan wird dadurch nicht pausiert. Eine einmalige Erinnerung wandert nach „Erledigt“, wo du sie neu planen kannst.</string>
+    <string name="quick_try_title">Probiere es aus, bevor du dich darauf verlässt</string>
+    <string name="quick_try_body">Erstelle eine Erinnerung in zwei Minuten. Sperre dein Telefon und warte auf die Benachrichtigung und die Stimme. Probiere dann Schlummern und Erledigt aus.\n\nErscheint eine Benachrichtigung ohne Stimme, versuche Abspielen oder Nochmal. Prüfe die Wiedergabe-Einstellungen, die Lautstärke und verbundene Kopfhörer. „Verpasst“ zeigt Erinnerungen, die nicht normal zugestellt werden konnten; bei einer verspäteten Erinnerung musst du eventuell auf Abspielen tippen.\n\nÜber die Hilfe auf der Startseite oder die App-Anleitung in den Einstellungen öffnest du diese Schritte jederzeit wieder.</string>
+    <string name="quick_settings_title">Richte die Einstellungen für dich ein</string>
+    <string name="quick_review_settings">Einstellungen ansehen</string>
+    <string name="quick_settings_body">Nimm dir einen Moment für die Einstellungen. Du kannst die Standardwerte behalten und später etwas ändern.\n\nDer Erinnerungs-Check ganz oben zeigt, ob Erinnerungen pünktlich klingeln können. Behebe alles, was er markiert.\n\nSprache &amp; Darstellung legt App-Sprache, Design und Zeitformat fest.\n\nWenn eine Erinnerung klingelt: Wähle Stimme oder Ton, Lautstärke, gesprochene Sprache und private Wiedergabe und spiele dann eine Testerinnerung ab.\n\nSchlummern &amp; Nachfragen legt Schlummerdauer, Nachfragen und Ruhezeiten fest. Das Erinnerungsformular bestimmt, welche Eingaben du siehst, und die Sicherung speichert deine Erinnerungen und Aufnahmen.</string>
+</resources>

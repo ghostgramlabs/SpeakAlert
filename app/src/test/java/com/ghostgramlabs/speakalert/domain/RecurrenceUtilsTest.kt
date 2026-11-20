@@ -3,6 +3,7 @@ package com.ghostgramlabs.speakalert.domain
 import com.ghostgramlabs.speakalert.data.model.ReminderEntity
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceEndRule
 import com.ghostgramlabs.speakalert.domain.models.EndRuleType
+import com.ghostgramlabs.speakalert.domain.models.LAST_WEEK_OF_MONTH
 import com.ghostgramlabs.speakalert.domain.models.MonthlyVariant
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceModel
 import com.ghostgramlabs.speakalert.domain.models.RecurrenceType
@@ -514,5 +515,75 @@ class RecurrenceUtilsTest {
         expectedCal.add(Calendar.DAY_OF_YEAR, 1)
         
         assertEquals("Should advance to tomorrow even at exact time", expectedCal.timeInMillis, nextTrigger)
+    }
+
+    // --- Monthly by weekday position. October 2026 starts on a Thursday. ---
+
+    private fun at(year: Int, month: Int, day: Int): Long = Calendar.getInstance().apply {
+        set(year, month, day, 10, 0, 0)
+        set(Calendar.MILLISECOND, 0)
+    }.timeInMillis
+
+    private fun nthWeekdayReminder(trigger: Long, week: Int, day: Int) = ReminderEntity(
+        nextTriggerAt = trigger,
+        recurrenceType = RecurrenceType.MONTHLY,
+        recurrenceJson = RecurrenceUtils.toJson(
+            RecurrenceModel.Monthly(variant = MonthlyVariant.DAY_OF_WEEK, weekOfMonth = week, dayOfWeek = day)
+        )
+    )
+
+    @Test
+    fun testLastThursdayAdvancesMonthByMonth() {
+        val oct29 = at(2026, Calendar.OCTOBER, 29)
+        val reminder = nthWeekdayReminder(oct29, LAST_WEEK_OF_MONTH, 4)
+        val nov26 = RecurrenceUtils.computeNextTrigger(reminder, oct29)
+        assertEquals("Last Thursday of November", at(2026, Calendar.NOVEMBER, 26), nov26)
+        // December 2026 has five Thursdays; the last is the 31st
+        val dec31 = RecurrenceUtils.computeNextTrigger(reminder.copy(nextTriggerAt = nov26!!), nov26)
+        assertEquals("Last Thursday of December", at(2026, Calendar.DECEMBER, 31), dec31)
+    }
+
+    @Test
+    fun testLastThursdayAlignsFromAnotherDay() {
+        // Picked Saturday Oct 31; the first occurrence is the next last Thursday
+        val oct31 = at(2026, Calendar.OCTOBER, 31)
+        val next = RecurrenceUtils.computeNextTrigger(nthWeekdayReminder(oct31, LAST_WEEK_OF_MONTH, 4), oct31 - 1)
+        assertEquals(at(2026, Calendar.NOVEMBER, 26), next)
+    }
+
+    @Test
+    fun testSecondMondayAndFirstSunday() {
+        val oct31 = at(2026, Calendar.OCTOBER, 31)
+        assertEquals(
+            at(2026, Calendar.NOVEMBER, 9),
+            RecurrenceUtils.computeNextTrigger(nthWeekdayReminder(oct31, 2, 1), oct31)
+        )
+        assertEquals(
+            at(2026, Calendar.NOVEMBER, 1),
+            RecurrenceUtils.computeNextTrigger(nthWeekdayReminder(oct31, 1, 7), oct31)
+        )
+    }
+
+    @Test
+    fun testFourthFridayIsNotTheLastWhenMonthHasFive() {
+        // January 2027 Fridays: 1, 8, 15, 22, 29
+        val jan = Calendar.getInstance().apply { set(2027, Calendar.JANUARY, 1) }
+        assertEquals(22, RecurrenceUtils.nthWeekdayOfMonth(jan, 4, 5))
+        assertEquals(29, RecurrenceUtils.nthWeekdayOfMonth(jan, LAST_WEEK_OF_MONTH, 5))
+    }
+
+    @Test
+    fun testLastWeekdayInFebruary() {
+        // February 2027 has 28 days and starts on a Monday: last Sunday is the 28th, last Monday the 22nd
+        val feb = Calendar.getInstance().apply { set(2027, Calendar.FEBRUARY, 1) }
+        assertEquals(28, RecurrenceUtils.nthWeekdayOfMonth(feb, LAST_WEEK_OF_MONTH, 7))
+        assertEquals(22, RecurrenceUtils.nthWeekdayOfMonth(feb, LAST_WEEK_OF_MONTH, 1))
+    }
+
+    @Test
+    fun testInvalidWeekdayRuleEndsRecurrence() {
+        val oct31 = at(2026, Calendar.OCTOBER, 31)
+        assertEquals(null, RecurrenceUtils.computeNextTrigger(nthWeekdayReminder(oct31, 0, 4), oct31))
+        assertEquals(null, RecurrenceUtils.computeNextTrigger(nthWeekdayReminder(oct31, 2, 9), oct31))
     }
 }

@@ -1,0 +1,10 @@
+<resources>
+    <string name="unnamed_title_setting">Titel für unbenannte Erinnerungen</string>
+    <string name="unnamed_title_description">Wähle den Ersatztitel in deiner Erinnerungsliste und den Details. Deine Kurznamen und getippten Nachrichten bleiben immer sichtbar. Datum und Uhrzeit werden auch ohne Titel angezeigt.</string>
+    <string name="unnamed_creation_time">Erstellungszeit</string>
+    <string name="unnamed_reminder_type">Art der Erinnerung</string>
+    <string name="unnamed_no_title">Kein Titel</string>
+    <string name="unnamed_voice_reminder">Spracherinnerung</string>
+    <string name="unnamed_audio_reminder">Audioerinnerung</string>
+    <string name="unnamed_generic_reminder">Erinnerung</string>
+</resources>

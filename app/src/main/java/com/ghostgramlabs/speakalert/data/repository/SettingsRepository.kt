@@ -43,7 +43,8 @@ class SettingsRepository internal constructor(
         val USE_24_HOUR_TIME = booleanPreferencesKey("use_24_hour_time")
         val APP_VOLUME = floatPreferencesKey("app_volume")
         val LOOP_TIMEOUT_MINUTES = intPreferencesKey("loop_timeout_minutes") // 0 = never, 1/2/5/10 minutes
-        
+        val LOOP_GAP_SECONDS = intPreferencesKey("loop_gap_seconds") // Silence between loop repeats; 0 = none
+
         // Quiet Time Keys
         val QUIET_TIME_ENABLED = booleanPreferencesKey("quiet_time_enabled")
         val QUIET_TIME_START_HOUR = intPreferencesKey("quiet_time_start_hour")
@@ -57,6 +58,9 @@ class SettingsRepository internal constructor(
         val PERSIST_UNTIL_DONE = booleanPreferencesKey("persist_until_done")
         val FOLLOW_UP_MAX_REPEATS = intPreferencesKey("follow_up_max_repeats") // How many times a follow-up check repeats before stopping
         val THEME_MODE = intPreferencesKey("theme_mode") // 0 = System, 1 = Light, 2 = Dark
+        // CardButtonColor keys for Home's card buttons; absent = the app's own colors
+        val CARD_DONE_COLOR = stringPreferencesKey("card_done_color")
+        val CARD_DELETE_COLOR = stringPreferencesKey("card_delete_color")
         val FULL_SCREEN_ALERT_ENABLED = booleanPreferencesKey("full_screen_alert_enabled")
         val SHOW_VOICE_RECORDING_SECTION = booleanPreferencesKey("show_voice_recording_section")
         val EXPERIMENTAL_VOICE_ENHANCEMENT_ENABLED =
@@ -80,6 +84,22 @@ class SettingsRepository internal constructor(
 
         // Android 15 FGS Boot Guard
         val LAST_BOOT_TIMESTAMP = longPreferencesKey("last_boot_timestamp")
+
+        const val MAX_LOOP_GAP_SECONDS = 600
+
+        /** Everything "Reset settings to defaults" clears. Add new user-facing settings here. */
+        internal val USER_SETTING_KEYS: List<Preferences.Key<*>> = listOf(
+            UNNAMED_REMINDER_TITLE, AUTO_PLAY_ENABLED, AUTO_PLAY_ON_UNLOCK_ONLY, SPEAK_TEXT_IF_NO_VOICE,
+            PRIVATE_PLAYBACK_ENABLED, DND_BYPASS_ENABLED, TONE_ONLY_MODE, TONE_ONLY_ALERT_TONE_URI,
+            DEFAULT_SNOOZE_DURATION, DEFAULT_FOLLOW_UP_MINUTES, DEFAULT_MISSED_POLICY,
+            DEBUG_LOGGING_ENABLED, USE_24_HOUR_TIME, APP_VOLUME, LOOP_TIMEOUT_MINUTES, LOOP_GAP_SECONDS,
+            QUIET_TIME_ENABLED, QUIET_TIME_START_HOUR, QUIET_TIME_START_MINUTE,
+            QUIET_TIME_END_HOUR, QUIET_TIME_END_MINUTE, TTS_LANGUAGE_MODE, PERSIST_UNTIL_DONE,
+            FOLLOW_UP_MAX_REPEATS, THEME_MODE, CARD_DONE_COLOR, CARD_DELETE_COLOR,
+            FULL_SCREEN_ALERT_ENABLED, SHOW_VOICE_RECORDING_SECTION,
+            EXPERIMENTAL_VOICE_ENHANCEMENT_ENABLED, SHOW_AUDIO_FILE_SECTION,
+            SHOW_TYPED_REMINDER_SECTION, SHOW_SHORT_LABEL_SECTION
+        )
     }
 
     val autoPlayEnabled: Flow<Boolean> = dataStore.data.map { it[AUTO_PLAY_ENABLED] ?: true }
@@ -115,7 +135,9 @@ class SettingsRepository internal constructor(
     val debugLoggingEnabled: Flow<Boolean> = dataStore.data.map { it[DEBUG_LOGGING_ENABLED] ?: false }
     val appVolume: Flow<Float> = dataStore.data.map { it[APP_VOLUME] ?: 1.0f }
     val loopTimeoutMinutes: Flow<Int> = dataStore.data.map { it[LOOP_TIMEOUT_MINUTES] ?: 10 } // Default 10 min, 0 = never
-    
+    // 0 keeps the back-to-back loop that shipped before this setting existed.
+    val loopGapSeconds: Flow<Int> = dataStore.data.map { (it[LOOP_GAP_SECONDS] ?: 0).coerceIn(0, MAX_LOOP_GAP_SECONDS) }
+
     // Quiet Time Flows (Default: 10 PM to 7 AM)
     /**
      * When reminders are paused until, as an absolute instant.
@@ -137,6 +159,21 @@ class SettingsRepository internal constructor(
     // up to 2.0.31; a finite limit is an opt-in guardrail, never a silent downgrade.
     val followUpMaxRepeats: Flow<Int> = dataStore.data.map { (it[FOLLOW_UP_MAX_REPEATS] ?: 0).coerceIn(0, 10) }
     val themeMode: Flow<Int> = dataStore.data.map { it[THEME_MODE] ?: 0 }
+    val cardDoneColor: Flow<String?> = dataStore.data.map { it[CARD_DONE_COLOR] }
+    val cardDeleteColor: Flow<String?> = dataStore.data.map { it[CARD_DELETE_COLOR] }
+
+    suspend fun setCardDoneColor(key: String?) = setOrRemove(CARD_DONE_COLOR, key)
+    suspend fun setCardDeleteColor(key: String?) = setOrRemove(CARD_DELETE_COLOR, key)
+
+    private suspend fun setOrRemove(prefKey: Preferences.Key<String>, value: String?) {
+        dataStore.edit {
+            if (value == null) {
+                it.remove(prefKey)
+            } else {
+                it[prefKey] = value
+            }
+        }
+    }
     val fullScreenAlertEnabled: Flow<Boolean> = dataStore.data.map { it[FULL_SCREEN_ALERT_ENABLED] ?: false }
     val showVoiceRecordingSection: Flow<Boolean> = dataStore.data.map { it[SHOW_VOICE_RECORDING_SECTION] ?: true }
     // Software denoising uses the device codec stack and can vary by manufacturer. Keep it
@@ -229,6 +266,10 @@ class SettingsRepository internal constructor(
     
     suspend fun setLoopTimeoutMinutes(minutes: Int) {
         dataStore.edit { it[LOOP_TIMEOUT_MINUTES] = minutes }
+    }
+
+    suspend fun setLoopGapSeconds(seconds: Int) {
+        dataStore.edit { it[LOOP_GAP_SECONDS] = seconds.coerceIn(0, MAX_LOOP_GAP_SECONDS) }
     }
     
     suspend fun setPauseRemindersUntil(until: Long) {
@@ -352,6 +393,17 @@ class SettingsRepository internal constructor(
 
     suspend fun setRatingPromptLastOpen(openCount: Int) {
         dataStore.edit { it[RATING_PROMPT_LAST_OPEN] = openCount }
+    }
+
+    /**
+     * "Reset settings to defaults": removes every choice the user makes in Settings so each one
+     * falls back to the default its flow declares. App bookkeeping is kept - first-run prompts,
+     * release notes, rating pacing, the boot guard - and so is an active pause, which is a
+     * temporary action rather than a preference. Reminders are never touched.
+     */
+    suspend fun resetToDefaults() {
+        dataStore.edit { prefs -> USER_SETTING_KEYS.forEach { prefs.remove(it) } }
+        cacheClockOverride(null)
     }
 
     val lastBootTimestamp: Flow<Long> = dataStore.data.map { it[LAST_BOOT_TIMESTAMP] ?: 0L }

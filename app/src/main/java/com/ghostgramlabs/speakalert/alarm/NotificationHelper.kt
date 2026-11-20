@@ -170,7 +170,12 @@ class NotificationHelper(private val context: Context) {
             canBypassDnd -> DND_BYPASS_CHANNEL_ID
             else -> CHANNEL_ID
         }
-        
+        // The system drops a post to a switched-off channel without any error, so say so in the
+        // log: otherwise "it rang but showed nothing" cannot be told apart from a missed alarm.
+        AlertChannelHealth.problemOf(context, channelId)?.let { problem ->
+            com.ghostgramlabs.speakalert.util.FileLogger.log("NOTIFY: channel $channelId has user setting $problem")
+        }
+
         // Check permission on Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val hasPermission = ContextCompat.checkSelfPermission(
@@ -356,7 +361,9 @@ class NotificationHelper(private val context: Context) {
                 builder.addAction(android.R.drawable.ic_lock_silent_mode, strings.getString(R.string.notif_action_silence), silencePendingIntent)
         }
         builder.addAction(android.R.drawable.checkbox_on_background, strings.getString(R.string.notif_action_done), donePendingIntent)
-        builder.addAction(android.R.drawable.ic_lock_idle_alarm, strings.getString(R.string.notif_action_snooze), snoozePendingIntent)
+        if (com.ghostgramlabs.speakalert.util.SnoozePreferences.snoozeEnabled(context)) {
+            builder.addAction(android.R.drawable.ic_lock_idle_alarm, strings.getString(R.string.notif_action_snooze), snoozePendingIntent)
+        }
 
         return try {
             NotificationManagerCompat.from(context).notify(reminderId.toInt(), builder.build())

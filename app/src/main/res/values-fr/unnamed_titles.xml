@@ -1,0 +1,10 @@
+<resources>
+    <string name="unnamed_title_setting">Titre des rappels sans nom</string>
+    <string name="unnamed_title_description">Choisissez le titre de remplacement dans la liste et les détails de vos rappels. Vos noms courts et vos messages saisis restent toujours visibles. La date et l’heure s’affichent même sans titre.</string>
+    <string name="unnamed_creation_time">Heure de création</string>
+    <string name="unnamed_reminder_type">Type de rappel</string>
+    <string name="unnamed_no_title">Aucun titre</string>
+    <string name="unnamed_voice_reminder">Rappel vocal</string>
+    <string name="unnamed_audio_reminder">Rappel audio</string>
+    <string name="unnamed_generic_reminder">Rappel</string>
+</resources>

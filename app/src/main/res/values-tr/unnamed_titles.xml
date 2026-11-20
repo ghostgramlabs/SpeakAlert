@@ -1,0 +1,10 @@
+<resources>
+    <string name="unnamed_title_setting">Adsız hatırlatıcı başlığı</string>
+    <string name="unnamed_title_description">Hatırlatıcı listenizde ve ayrıntılarda kullanılacak yedek başlığı seçin. Kısa adlarınız ve yazdığınız mesajlar her zaman görünür kalır. Başlık olmasa bile tarih ve saat gösterilir.</string>
+    <string name="unnamed_creation_time">Oluşturulma saati</string>
+    <string name="unnamed_reminder_type">Hatırlatıcı türü</string>
+    <string name="unnamed_no_title">Başlık yok</string>
+    <string name="unnamed_voice_reminder">Sesli hatırlatıcı</string>
+    <string name="unnamed_audio_reminder">Ses dosyalı hatırlatıcı</string>
+    <string name="unnamed_generic_reminder">Hatırlatıcı</string>
+</resources>

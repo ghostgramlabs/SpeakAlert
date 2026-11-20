@@ -31,6 +31,12 @@ object ToneAlertPlayer {
     ) {
         stop()
 
+        // Never ring over a phone call; the reminder's notification is still posted.
+        if (com.ghostgramlabs.speakalert.util.PhoneCallState.isInCall(context)) {
+            FileLogger.log("TONE: Skipped - phone call in progress")
+            return
+        }
+
         val uri = resolveToneUri(context, selectedToneUri) ?: run {
             FileLogger.log("TONE: No alarm/notification/ringtone URI available")
             return

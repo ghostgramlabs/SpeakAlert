@@ -350,6 +350,38 @@ class AddEditViewModelTest {
     }
 
     @Test
+    fun `saving an edited reminder clears its old alert, a new one does not`() = runTest {
+        val alerts = mock<com.ghostgramlabs.speakalert.alarm.ReminderAlertNotifications>()
+        val editor = AddEditViewModel(
+            repository, scheduler, settingsRepository, context, recorder, player, enhancer,
+            UnconfinedTestDispatcher(), alertNotifications = alerts
+        )
+        val reminder = ReminderEntity(
+            id = 4,
+            reminderText = "Call the bank",
+            nextTriggerAt = System.currentTimeMillis() + 3_600_000L
+        )
+        whenever(repository.getReminder(4)).thenReturn(reminder)
+
+        editor.loadReminder(4)
+        advanceUntilIdle()
+        editor.saveReminder()
+        advanceUntilIdle()
+        verify(alerts).onRescheduled(4)
+
+        whenever(repository.insertReminder(any())).thenReturn(5L)
+        val creator = AddEditViewModel(
+            repository, scheduler, settingsRepository, context, recorder, player, enhancer,
+            UnconfinedTestDispatcher(), alertNotifications = alerts
+        )
+        creator.updateReminderText("Something new")
+        creator.saveReminder()
+        advanceUntilIdle()
+        verify(repository).insertReminder(any())
+        verify(alerts, never()).onRescheduled(5)
+    }
+
+    @Test
     fun `loadReminder populates ui state`() = runTest {
         // Arrange
         val reminder = ReminderEntity(
@@ -369,6 +401,49 @@ class AddEditViewModelTest {
         assertEquals("Existing Task", viewModel.uiState.value.title)
         assertEquals("Notes", viewModel.uiState.value.reminderText)
         assertEquals(RecurrenceType.DAILY, viewModel.uiState.value.recurrenceType)
+    }
+
+    @Test
+    fun `reinitializing an editor preserves its unsaved draft`() = runTest {
+        whenever(repository.getReminder(1)).thenReturn(ReminderEntity(
+            id = 1, reminderText = "Saved text", nextTriggerAt = System.currentTimeMillis() + 600_000
+        ))
+        viewModel.loadReminder(1)
+        advanceUntilIdle()
+        viewModel.updateReminderText("Unsaved edit")
+        viewModel.loadReminder(1)
+        advanceUntilIdle()
+        assertEquals("Unsaved edit", viewModel.uiState.value.reminderText)
+        assertTrue(viewModel.uiState.value.hasUnsavedChanges)
+        verify(repository, times(1)).getReminder(1)
+    }
+
+    @Test
+    fun `reapplying defaults does not mark a new draft as saved`() = runTest {
+        whenever(settingsRepository.defaultFollowUpMinutes).thenReturn(MutableStateFlow(5))
+        viewModel.applyDefaultsForNewReminder()
+        advanceUntilIdle()
+        viewModel.updateReminderText("New draft")
+        viewModel.applyDefaultsForNewReminder()
+        advanceUntilIdle()
+        assertEquals("New draft", viewModel.uiState.value.reminderText)
+        assertTrue(viewModel.uiState.value.hasUnsavedChanges)
+    }
+
+    @Test
+    fun `editing preserves original creation timestamp`() = runTest {
+        whenever(repository.getReminder(1)).thenReturn(ReminderEntity(
+            id = 1, reminderText = "Saved text", createdAt = 1234L,
+            nextTriggerAt = System.currentTimeMillis() + 600_000
+        ))
+        viewModel.loadReminder(1)
+        advanceUntilIdle()
+        viewModel.updateReminderText("Edited text")
+        viewModel.saveReminder()
+        advanceUntilIdle()
+        val saved = argumentCaptor<ReminderEntity>()
+        verify(repository).updateReminder(saved.capture())
+        assertEquals(1234L, saved.firstValue.createdAt)
     }
 
     @Test

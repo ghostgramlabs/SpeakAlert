@@ -20,6 +20,7 @@ class VoiceReminderApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        com.ghostgramlabs.speakalert.util.TtsSetupCrashGuard.install()
         com.ghostgramlabs.speakalert.util.DateUtils.init(this)
         // Keep cold process startup short. A foreground service's promotion deadline includes
         // application startup on some devices, so create its channel before any disk work.

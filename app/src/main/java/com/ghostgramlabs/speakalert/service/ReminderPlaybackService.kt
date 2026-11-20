@@ -66,6 +66,11 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     private var isTtsInitialized = false
     private var ttsInitializationFailed = false
     private var isTtsMode = false
+    private var ttsInitTimeoutJob: Job? = null
+    // Set once onDestroy has run; a connection that completes afterwards is shut down in onInit.
+    private var destroyed = false
+    // An engine still connecting when the service was destroyed, waiting to be shut down.
+    private var connectingEngine: TextToSpeech? = null
     // Every TextToSpeech call takes the engine's internal lock and most make a synchronous binder
     // call into the engine process, which can stall for seconds on a slow or cold engine (and
     // before onInit the setup task holds that lock the whole time). Doing any of that on the main
@@ -94,6 +99,18 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     // Spoken-language preference: 0 = Auto-detect, 1 = Device language, 2 = English.
     @Volatile
     private var ttsLanguageMode = 0
+    // Language tags whose voice failed to synthesise, and the one the current utterance uses
+    // (null = the engine's own default). Written on the engine thread, read on the main thread.
+    private val ttsFailedLanguages: MutableSet<String> = java.util.concurrent.ConcurrentHashMap.newKeySet()
+    @Volatile
+    private var ttsSpokenLanguage: String? = null
+    // Voices that failed, the voice the current utterance uses, and the language being retried.
+    private val ttsFailedVoices: MutableSet<String> = java.util.concurrent.ConcurrentHashMap.newKeySet()
+    @Volatile
+    private var ttsSpokenVoice: String? = null
+    @Volatile
+    private var ttsRetryLanguage: String? = null
+    private var ttsSpeechAttempts = 0
     
     // For TTS replay
     private var currentTtsText: String? = null
@@ -123,17 +140,51 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
     private val ttsCallbacks = TtsCallbackGuard(scope,
         onDone = {
             if (loopEnabled && isTtsMode && currentTtsText != null) {
-                performSpeak(currentTtsText!!)
+                loopGap.schedule {
+                    val text = currentTtsText
+                    if (loopEnabled && isTtsMode && text != null) performSpeak(text)
+                }
             } else {
                 broadcastPlaybackStatus(isPlaying = false)
                 stopSelf()
             }
         },
-        onError = {
-            broadcastPlaybackStatus(isPlaying = false)
-            stopSelf()
-        }
+        onError = { onSpeechFailed() }
     )
+
+    /**
+     * The engine could not speak the reminder. Engines report a language as available when its
+     * voice is merely downloadable, then fail at synthesis, so try the next voice, then the
+     * engine's own default, and only then give up on speech. A reminder that cannot be spoken
+     * still has to be heard, so it ends with the alarm tone rather than silence.
+     */
+    private fun onSpeechFailed() {
+        val text = currentTtsText
+        val failedLanguage = ttsSpokenLanguage
+        if (isTtsMode && text != null && failedLanguage != null && ttsSpeechAttempts < MAX_SPEECH_ATTEMPTS) {
+            ttsSpeechAttempts++
+            // Stay in the same language while it has another voice to offer; the voice picker
+            // moves on to the next language once this one runs out.
+            val failedVoice = ttsSpokenVoice
+            if (failedVoice != null) ttsFailedVoices.add(failedVoice) else ttsFailedLanguages.add(failedLanguage)
+            ttsRetryLanguage = failedLanguage
+            FileLogger.log("SERVICE: TTS failed in $failedLanguage (voice=$failedVoice), retrying with the next voice")
+            speakNow(text)
+            return
+        }
+        FileLogger.log("SERVICE: TTS failed with no voice left to try")
+        broadcastPlaybackStatus(isPlaying = false)
+        // Private listening must never turn into a loud tone on the speaker.
+        if (isTtsMode && !privatePlaybackEnabled && currentReminderId > 0L) {
+            ToneAlertPlayer.start(
+                applicationContext,
+                SPEECH_FAILURE_TONE_MINUTES,
+                dndBypass = dndBypassEnabled,
+                reminderId = currentReminderId
+            )
+        }
+        stopSelf()
+    }
     private val playbackTimeout = PlaybackTimeout(
         scope = scope,
         readTimeoutMinutes = {
@@ -150,6 +201,19 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             FileLogger.log("SERVICE: Loop timeout reached ($minutes minutes), auto-stopping")
             loopEnabled = false
             stopSelf()
+        }
+    )
+    private val loopGap = LoopGap(
+        scope = scope,
+        readGapSeconds = {
+            try {
+                (application as VoiceReminderApp).container.settingsRepository.loopGapSeconds.first()
+            } catch (e: kotlinx.coroutines.CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                FileLogger.logError("SERVICE", "Failed to read loop pause", e)
+                0
+            }
         }
     )
     private var currentVolume: Float = 1.0f
@@ -242,9 +306,13 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
                         stopProgressUpdates()
                         FileLogger.log("SERVICE: ExoPlayer playback ended, loop=$loopEnabled")
                         if (loopEnabled) {
-                            // Restart playback from beginning
-                            player.seekTo(0)
-                            player.play()
+                            // Restart from the beginning after the configured pause
+                            loopGap.schedule {
+                                if (loopEnabled && !isTtsMode) {
+                                    player.seekTo(0)
+                                    player.play()
+                                }
+                            }
                         } else {
 
                             // User request: Playback from home is PREVIEW ONLY.
@@ -263,10 +331,10 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             mediaSession = MediaSession.Builder(this, player).build()
 
             initPlayerNotificationManager()
-            
-            // Initialize TTS
-            tts = TextToSpeech(this, this)
-            
+
+            // The speech engine is connected on the first spoken request (ensureTts), not here:
+            // recorded reminders never need it, and stopping while it connects is unsafe.
+
             // Observe Volume Setting
             try {
                 val repository = (application as VoiceReminderApp).container.settingsRepository
@@ -487,6 +555,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             
             if (intent?.action == ACTION_REPLAY) {
                 FileLogger.log("SERVICE: Received REPLAY action")
+                loopGap.cancel()
                 // Re-speak the current TTS text
                 scope.launch {
                     privatePlaybackEnabled = readLatestPrivatePlaybackSetting(privatePlaybackEnabled)
@@ -505,6 +574,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             val title = intent?.getStringExtra(EXTRA_TITLE) ?: "Reminder"
             val id = intent?.getLongExtra(EXTRA_ID, -1L) ?: -1L
             playbackRequestJob?.cancel()
+            loopGap.cancel()
             ttsCallbacks.invalidate()
             pendingTtsText = null
             pendingSpeakAfterFocusGain = null
@@ -629,10 +699,33 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             } else {
                 FileLogger.log("SERVICE: TTS not initialized, queuing text")
                 pendingTtsText = text
+                ensureTts()
+                watchTtsInit()
             }
         } catch (e: Exception) {
             FileLogger.logError("SERVICE", "Error in speakTts", e)
             stopSelf()
+        }
+    }
+
+    private fun ensureTts() {
+        if (tts == null) tts = TextToSpeech(this, this)
+    }
+
+    /**
+     * A queued speech request must not wait forever. Some engines never call onInit (the setup
+     * task can die inside the framework, see TtsSetupCrashGuard), which would leave the service
+     * running silently.
+     */
+    private fun watchTtsInit() {
+        ttsInitTimeoutJob?.cancel()
+        ttsInitTimeoutJob = scope.launch {
+            delay(TTS_INIT_TIMEOUT_MS)
+            if (!isTtsInitialized && pendingTtsText != null) {
+                FileLogger.log("SERVICE: TTS did not initialize within ${TTS_INIT_TIMEOUT_MS}ms, stopping")
+                pendingTtsText = null
+                stopSelf()
+            }
         }
     }
 
@@ -661,7 +754,8 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
 
     private fun speakAfterPrivateRouteWarmup(text: String) {
         runAfterPrivateRouteWarmup("tts") {
-            speakNow(text)
+            ttsSpeechAttempts = 0
+            speakNow(text, resetVoices = true)
         }
     }
 
@@ -683,7 +777,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         routeWarmupHandler.postDelayed(runnable, PRIVATE_ROUTE_WARMUP_MS)
     }
 
-    private fun speakNow(text: String) {
+    private fun speakNow(text: String, resetVoices: Boolean = false) {
         if (readyTts == null) {
             FileLogger.log("SERVICE: TTS not ready in speakNow")
             stopSelf()
@@ -703,6 +797,14 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         val utteranceId = ttsCallbacks.begin()
         
         onTtsThread("speak") { engine ->
+            if (!ttsCallbacks.isActive(utteranceId)) return@onTtsThread
+            if (resetVoices) {
+                ttsFailedLanguages.clear()
+                ttsFailedVoices.clear()
+                ttsRetryLanguage = null
+                ttsSpokenLanguage = null
+                ttsSpokenVoice = null
+            }
             // Pick the voice that matches the reminder's own language (with fallback) right before
             // speaking, so e.g. a Hindi reminder is read correctly even on an English phone.
             applyTtsLanguageForText(engine, text)
@@ -710,12 +812,9 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             val speakResult = engine.speak(text, TextToSpeech.QUEUE_FLUSH, params, utteranceId)
             FileLogger.log("SERVICE: tts.speak() called, result=$speakResult")
             if (speakResult == TextToSpeech.ERROR) {
-                scope.launch {
-                    // A newer request may have replaced this utterance while it was queued.
-                    if (!ttsCallbacks.isActive(utteranceId)) return@launch
-                    FileLogger.log("SERVICE: tts.speak() failed with ERROR")
-                    stopSelf()
-                }
+                FileLogger.log("SERVICE: tts.speak() failed with ERROR")
+                // Same recovery as an utterance error; the guard ignores a replaced utterance.
+                ttsCallbacks.complete(utteranceId, failed = true)
             }
         }
     }
@@ -729,24 +828,39 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         // Honor the user's "Spoken language" preference; Auto-detect also keeps device/English as
         // graceful fallbacks.
         val detected = if (ttsLanguageMode == 0) TtsLanguageSupport.detectLocale(text) else null
-        val candidates = LinkedHashSet<Locale>().apply {
-            when (ttsLanguageMode) {
-                1 -> { add(Locale.getDefault()); add(Locale.ENGLISH) }          // Device language
-                2 -> { add(Locale.ENGLISH); add(Locale.getDefault()) }          // English
-                else -> {                                                       // Auto-detect
-                    detected?.let { add(it) }
-                    add(Locale.getDefault())
-                    add(Locale.ENGLISH)
-                }
-            }
-        }
+        val candidates = TtsLanguageSupport.candidateLocales(
+            ttsLanguageMode, detected, Locale.getDefault(), ttsFailedLanguages
+        )
         for (locale in candidates) {
             val res = engine.setLanguage(locale)
-            if (res >= TextToSpeech.LANG_AVAILABLE) {
-                FileLogger.log("SERVICE: TTS language set to ${locale.toLanguageTag()} (res=$res)")
+            if (res < TextToSpeech.LANG_AVAILABLE) continue
+            val tag = locale.toLanguageTag()
+            ttsSpokenLanguage = tag
+            if (ttsFailedVoices.isEmpty() || tag != ttsRetryLanguage) {
+                // First attempt in this language: the engine's own choice of voice.
+                ttsSpokenVoice = runCatching { engine.voice?.name }.getOrNull()
+                FileLogger.log("SERVICE: TTS language set to $tag (res=$res, voice=$ttsSpokenVoice)")
                 return
             }
+            // The engine's choice could not speak. Another voice of the same language often can.
+            val alternative = TtsLanguageSupport.nextVoice(
+                com.ghostgramlabs.speakalert.util.TtsVoiceCheck.voiceOptions(engine), locale, ttsFailedVoices
+            )
+            val voice = alternative?.let { option ->
+                runCatching { engine.voices?.firstOrNull { it.name == option.name } }.getOrNull()
+            }
+            if (voice != null && engine.setVoice(voice) == TextToSpeech.SUCCESS) {
+                ttsSpokenVoice = voice.name
+                FileLogger.log("SERVICE: TTS retrying $tag with voice ${voice.name}")
+                maybeShowVoiceDataHint(locale)
+                return
+            }
+            FileLogger.log("SERVICE: No working TTS voice for $tag")
+            ttsFailedLanguages.add(tag)
+            maybeShowVoiceDataHint(locale)
         }
+        ttsSpokenLanguage = null
+        ttsSpokenVoice = null
         FileLogger.log("SERVICE: No TTS voice data for text language; using engine default")
         maybeShowVoiceDataHint(detected ?: Locale.getDefault())
     }
@@ -1027,13 +1141,16 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
 
         val strings = com.ghostgramlabs.speakalert.util.AppLocale.localizedContext(this)
         val spokenPreview = text.take(50) + if (text.length > 50) "…" else ""
-        return NotificationCompat.Builder(this, CHANNEL_ID)
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(title)
             .setContentText(strings.getString(R.string.notif_playback_speaking, spokenPreview))
             .setSmallIcon(R.drawable.ic_notification)
             .addAction(android.R.drawable.ic_media_play, strings.getString(R.string.notif_action_replay), replayPendingIntent)
             .addAction(android.R.drawable.ic_media_pause, strings.getString(R.string.notif_action_stop), stopPendingIntent)
-            .addAction(android.R.drawable.ic_lock_idle_alarm, strings.getString(R.string.notif_action_snooze), snoozePendingIntent)
+        if (com.ghostgramlabs.speakalert.util.SnoozePreferences.snoozeEnabled(this)) {
+            builder.addAction(android.R.drawable.ic_lock_idle_alarm, strings.getString(R.string.notif_action_snooze), snoozePendingIntent)
+        }
+        return builder
             .setOngoing(true)
             .setDeleteIntent(stopPendingIntent)
             .build()
@@ -1041,6 +1158,12 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
 
     override fun onInit(status: Int) {
         FileLogger.log("SERVICE: TTS onInit called with status=$status")
+        if (destroyed) {
+            // Connected after the service stopped: now it is safe to let go of the engine.
+            shutDownConnectingEngine()
+            return
+        }
+        ttsInitTimeoutJob?.cancel()
         if (status == TextToSpeech.SUCCESS) {
             ttsInitializationFailed = false
             isTtsInitialized = true
@@ -1088,8 +1211,17 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         }
     }
 
+    private fun shutDownConnectingEngine() {
+        val engine = connectingEngine ?: return
+        connectingEngine = null
+        // ttsExecutor is already shut down; shutdown() makes a binder call, so not on main.
+        Thread({ runCatching { engine.shutdown() } }, "tts-shutdown").start()
+    }
+
     override fun onDestroy() {
         FileLogger.log("SERVICE: onDestroy called")
+        destroyed = true
+        ttsInitTimeoutJob?.cancel()
         ttsCallbacks.invalidate()
         try {
             stopProgressUpdates()
@@ -1098,6 +1230,7 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
 
             // Cancel loop timeout if active
             playbackTimeout.cancel()
+            loopGap.cancel()
             pendingSpeakAfterFocusGain = null
             routeWarmupRunnable?.let { routeWarmupHandler.removeCallbacks(it) }
             routeWarmupRunnable = null
@@ -1112,17 +1245,24 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
             val engineReady = isTtsInitialized
             tts = null
             isTtsInitialized = false
-            if (engine != null) {
-                // Off the main thread: both calls wait on the engine (and, while it is still
-                // connecting, on the setup task's lock). Queued after any pending engine work.
+            if (engine != null && engineReady) {
+                // Off the main thread: both calls wait on the engine. Queued after any pending
+                // engine work.
                 runCatching {
                     ttsExecutor.execute {
                         runCatching {
-                            if (engineReady) engine.stop()
+                            engine.stop()
                             engine.shutdown()
                         }
                     }
                 }
+            } else if (engine != null) {
+                // Still connecting. Shutting down now makes some engines cancel the framework's
+                // setup call, which then throws on its AsyncTask thread and kills the app
+                // ("Task was cancelled", seen on Android 10). onInit shuts it down once
+                // connected; the delay is a backstop for an engine that never answers.
+                connectingEngine = engine
+                routeWarmupHandler.postDelayed({ shutDownConnectingEngine() }, TTS_CONNECT_GRACE_MS)
             }
             ttsExecutor.shutdown()
             abandonAudioFocus()
@@ -1164,6 +1304,12 @@ class ReminderPlaybackService : Service(), TextToSpeech.OnInitListener, SensorEv
         const val EXTRA_PRIVATE_PLAYBACK = "extra_private_playback"
         const val EXTRA_DND_BYPASS = "extra_dnd_bypass"
         private const val PRIVATE_ROUTE_WARMUP_MS = 350L
+        private const val TTS_INIT_TIMEOUT_MS = 20_000L
+        // How long the alarm tone stands in for a reminder that could not be spoken.
+        private const val SPEECH_FAILURE_TONE_MINUTES = 1
+        // Voices tried for one reminder before giving up on speech.
+        private const val MAX_SPEECH_ATTEMPTS = 10
+        private const val TTS_CONNECT_GRACE_MS = 30_000L
         
         /** Returns launch acceptance only; decoding and speech initialization happen asynchronously. */
         fun start(

@@ -2,6 +2,10 @@ package com.ghostgramlabs.speakalert.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -25,9 +29,13 @@ fun VoiceReminderNavGraph(
     allowHomeStartupOverlays: Boolean = true,
     allowNotificationPrompt: Boolean = allowHomeStartupOverlays
 ) {
-    // If launched from notification, navigate to details screen
+    // Consume launch destinations once. Replaying them on recreation discards the restored
+    // editor back stack (and its ViewModel), losing drafts opened from a widget/notification.
+    var reminderLaunchHandled by rememberSaveable(startReminderId) { mutableStateOf(false) }
+    var addLaunchHandled by rememberSaveable(startAddEdit) { mutableStateOf(false) }
     LaunchedEffect(startReminderId) {
-        if (startReminderId != null) {
+        if (startReminderId != null && !reminderLaunchHandled) {
+            reminderLaunchHandled = true
             navController.navigate(NavigationDestination.Details.createRoute(startReminderId, autoplay)) {
                 // Clear backstack so back button goes home
                 popUpTo(NavigationDestination.Home.route) { inclusive = false }
@@ -35,7 +43,8 @@ fun VoiceReminderNavGraph(
         }
     }
     LaunchedEffect(startAddEdit) {
-        if (startAddEdit) {
+        if (startAddEdit && !addLaunchHandled) {
+            addLaunchHandled = true
             navController.navigate(NavigationDestination.AddEdit.createRoute()) {
                 popUpTo(NavigationDestination.Home.route) { inclusive = false }
             }

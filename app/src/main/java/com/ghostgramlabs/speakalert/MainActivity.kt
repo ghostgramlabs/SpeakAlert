@@ -266,7 +266,17 @@ class MainActivity : ComponentActivity() {
                     fullScreenAlertEnabled && !fullScreenAccessGranted
             }
 
+            val cardDoneColor by settingsRepository.cardDoneColor.collectAsState(initial = null)
+            val cardDeleteColor by settingsRepository.cardDeleteColor.collectAsState(initial = null)
+            val cardActionColors = com.ghostgramlabs.speakalert.ui.theme.CardActionColors(
+                done = com.ghostgramlabs.speakalert.ui.theme.CardButtonColor.fromKey(cardDoneColor)?.shade(isDarkTheme),
+                delete = com.ghostgramlabs.speakalert.ui.theme.CardButtonColor.fromKey(cardDeleteColor)?.shade(isDarkTheme)
+            )
+
             VoiceReminderTheme(darkTheme = isDarkTheme) {
+              androidx.compose.runtime.CompositionLocalProvider(
+                  com.ghostgramlabs.speakalert.ui.theme.LocalCardActionColors provides cardActionColors
+              ) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -405,27 +415,19 @@ class MainActivity : ComponentActivity() {
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
-                                    // Ordered by how much it matters to someone coming from 2.0.40, the last
-                                    // production release: first, whether reminders will ring at all.
+                                    // For people coming from 2.0.48 (in production): 2.0.49's two
+                                    // changes, then 2.0.50.
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_check_title),
-                                        description = stringResource(R.string.wn_check_desc)
+                                        title = stringResource(R.string.wn_call_title),
+                                        description = stringResource(R.string.wn_call_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_reliable_title),
-                                        description = stringResource(R.string.wn_reliable_desc)
+                                        title = stringResource(R.string.wn_notifcat_title),
+                                        description = stringResource(R.string.wn_notifcat_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_settings_title),
-                                        description = stringResource(R.string.wn_settings_desc)
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_cards_title),
-                                        description = stringResource(R.string.wn_cards_desc)
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_sound_title),
-                                        description = stringResource(R.string.wn_sound_desc)
+                                        title = stringResource(R.string.wn_pasttime_title),
+                                        description = stringResource(R.string.wn_pasttime_desc)
                                     )
                                 }
                                 Button(
@@ -572,6 +574,7 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 }
+              }
             }
         }
     }

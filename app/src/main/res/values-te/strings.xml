@@ -377,6 +377,9 @@
     <string name="set_private_bt">ప్రైవేట్ ప్లేబ్యాక్ ఆన్. బ్లూటూత్ రూటింగ్‌కు సమీప పరికరాల అనుమతి అవసరం.</string>
     <string name="set_tone_only">టోన్-మాత్రమే మోడ్</string>
     <string name="set_tone_only_desc">రికార్డింగ్‌లు లేదా మాటలకు బదులుగా అలారం మోగుతుంది. ఆగే సమయం: %1$s తర్వాత. స్నూజ్: %2$d నిమి.</string>
+    <string name="set_tone_only_desc_no_snooze">రికార్డింగ్‌లు లేదా మాటలకు బదులుగా అలారం మోగుతుంది. ఆగే సమయం: %1$s తర్వాత.</string>
+    <string name="set_snooze_enabled">స్నూజ్‌ను అనుమతించు</string>
+    <string name="set_snooze_enabled_desc">రిమైండర్ అలర్ట్‌లు, నోటిఫికేషన్‌లలో స్నూజ్ చూపిస్తుంది. ఆఫ్ చేస్తే రిమైండర్ దాటడానికి ఒకే మార్గం పూర్తయింది.</string>
     <string name="set_toast_tone_on">టోన్-మాత్రమే మోడ్ ఆన్</string>
     <string name="set_toast_tone_off">టోన్-మాత్రమే మోడ్ ఆఫ్</string>
     <string name="set_infinite">అనంతం</string>
@@ -469,6 +472,13 @@
     <string name="set_volume">వాల్యూమ్</string>
     <string name="set_cd_volume">యాప్ వాల్యూమ్: %1$d%%</string>
     <string name="set_loop_inline_desc">ఈ సమయం తర్వాత టోన్ లేదా పదేపదే ప్లే అయ్యే ఆడియో ఆగుతుంది. ఫాలో-అప్ రిమైండర్లు తర్వాత వచ్చే వేర్వేరు అలర్ట్‌లు.</string>
+    <string name="set_loop_gap">పునరావృతాల మధ్య విరామం</string>
+    <string name="set_loop_gap_desc">పదేపదే ప్లే అయ్యే రిమైండర్ మళ్లీ ప్లే అయ్యే ముందు నిశ్శబ్దం. పైన ఉన్న ఆపే సమయమే ఇంకా లూప్‌ను ముగిస్తుంది. టోన్‌లు విరామం లేకుండా మోగుతాయి.</string>
+    <string name="set_loop_gap_none">ఏదీ లేదు</string>
+    <string name="set_seconds_short">%1$d సె</string>
+    <string name="set_seconds">సెకన్లు</string>
+    <string name="set_max_allowed_seconds">గరిష్టంగా అనుమతి: %1$d సెక</string>
+    <string name="set_desc_max_seconds">%1$s (గరిష్టం %2$d సె)</string>
     <string name="set_default_snooze">డిఫాల్ట్ స్నూజ్</string>
     <string name="set_snooze_inline_desc">“స్నూజ్” నొక్కిన ఎంతసేపటి తర్వాత మళ్లీ గుర్తుచేయాలి</string>
     <string name="set_default_followup">డిఫాల్ట్ ఫాలో-అప్ చెక్</string>
@@ -539,16 +549,16 @@
     <string name="help_s11_title">పరికరం రీస్టార్ట్ తర్వాత</string>
     <string name="help_s11_content">- రీస్టార్ట్ తర్వాత భవిష్యత్తు రిమైండర్‌లు ఆటోమేటిక్‌గా మళ్లీ షెడ్యూల్ అవుతాయి.\n- గడువు దాటిన రిమైండర్‌లు బూట్ సమయంలో అనుకోకుండా మోగకుండా మిస్ అయిన రిమైండర్ ప్రవాహం ద్వారా వెళ్తాయి.</string>
     <string name="help_s13_title">ఫాలో-అప్ చెక్‌లు</string>
-    <string name="help_s13_content">- రిమైండర్ మోగిన కొన్ని నిమిషాల తర్వాత ఫాలో-అప్ చెక్ \"మీరు … పూర్తి చేశారా?\" అని అడుగుతుంది.\n- డిఫాల్ట్‌గా మీరు రిమైండర్‌ను పూర్తయినట్లు గుర్తించే వరకు ఇది పునరావృతమవుతుంది. అదే ఆగాలంటే సెట్టింగ్‌లు &gt; విశ్వసనీయతలో పునరావృత పరిమితి సెట్ చేయవచ్చు.\n- పూర్తయింది, స్నూజ్ ప్రస్తుత ఫాలో-అప్ చక్రాన్ని ముగిస్తాయి; నిశ్శబ్ద సమయం కూడా ఫాలో-అప్‌లను ఆపుతుంది.\n- పూర్తయ్యే వరకు లేదా పరిమితి చేరే వరకు పరికరం రీస్టార్ట్ తర్వాత కూడా ఫాలో-అప్ చెక్‌లు కొనసాగుతాయి.</string>
+    <string name="help_s13_content">- రిమైండర్ మోగిన కొన్ని నిమిషాల తర్వాత ఫాలో-అప్ చెక్ \"మీరు … పూర్తి చేశారా?\" అని అడుగుతుంది.\n- డిఫాల్ట్‌గా మీరు రిమైండర్‌ను పూర్తయినట్లు గుర్తించే వరకు ఇది పునరావృతమవుతుంది. అదే ఆగాలంటే సెట్టింగ్‌లు &gt; స్నూజ్ &amp; ఫాలో-అప్లో పునరావృత పరిమితి సెట్ చేయవచ్చు.\n- పూర్తయింది, స్నూజ్ ప్రస్తుత ఫాలో-అప్ చక్రాన్ని ముగిస్తాయి; నిశ్శబ్ద సమయం కూడా ఫాలో-అప్‌లను ఆపుతుంది.\n- పూర్తయ్యే వరకు లేదా పరిమితి చేరే వరకు పరికరం రీస్టార్ట్ తర్వాత కూడా ఫాలో-అప్ చెక్‌లు కొనసాగుతాయి.</string>
     <string name="help_s14_title">బ్యాకప్, దిగుమతి</string>
     <string name="help_s14_content">- సెట్టింగ్‌లలో రిమైండర్‌లను బ్యాకప్ చేయండి వాయిస్ రికార్డింగ్‌లతో సహా అన్ని రాబోయే రిమైండర్‌లను మీరు ఎంచుకున్న ఒకే ఫైల్‌లో సేవ్ చేస్తుంది.\n- రిమైండర్‌లను దిగుమతి చేయండి వాటిని ఈ లేదా మరో పరికరంలో పునరుద్ధరిస్తుంది.\n- దిగుమతి ఖచ్చితమైన నకళ్లను, గడువు ముగిసిన ఒక్కసారి రిమైండర్‌లను దాటవేస్తుంది; పునరావృత రిమైండర్‌లు తదుపరి సారి నుండి కొనసాగుతాయి.\n- దిగుమతి చేసిన రిమైండర్‌లు వెంటనే షెడ్యూల్ అవుతాయి.</string>
     <string name="help_s12_title">పూర్తయ్యే వరకు రిమైండర్‌లను స్క్రీన్‌పై ఉంచండి</string>
-    <string name="help_s12_content">- పొరపాటున స్వైప్ కాకుండా రిమైండర్ నోటిఫికేషన్‌ను పిన్ చేయడానికి సెట్టింగ్‌లు &gt; విశ్వసనీయత &gt; పూర్తయ్యే వరకు రిమైండర్‌ను స్క్రీన్‌పై ఉంచును ఆన్ చేయండి.\n- ఇది ఆన్‌లో ఉన్నప్పుడు, స్వైప్ ధ్వనిని మాత్రమే నిశ్శబ్దం చేసి రిమైండర్‌ను పెండింగ్‌లో ఉంచుతుంది — మీరు పూర్తయింది లేదా స్నూజ్ నొక్కే వరకు అది ఉంటుంది.\n- నోటిఫికేషన్, ఫుల్-స్క్రీన్ అలర్ట్ లేదా రిమైండర్ కార్డ్ నుండి పూర్తయినట్లు గుర్తించడం ఎల్లప్పుడూ పని చేస్తుంది, అది ఏవైనా ఫాలో-అప్ అలర్ట్‌లను ఆపుతుంది.\n- పూర్తయ్యే వరకు రిమైండర్ టైమర్‌పై మళ్లీ అలర్ట్ చేసేలా ఫాలో-అప్ చెక్‌తో జత చేయండి.</string>
+    <string name="help_s12_content">- పొరపాటున స్వైప్ కాకుండా రిమైండర్ నోటిఫికేషన్‌ను పిన్ చేయడానికి సెట్టింగ్‌లు &gt; రిమైండర్ మోగినప్పుడు &gt; పూర్తయ్యే వరకు రిమైండర్‌ను స్క్రీన్‌పై ఉంచును ఆన్ చేయండి.\n- ఇది ఆన్‌లో ఉన్నప్పుడు, స్వైప్ ధ్వనిని మాత్రమే నిశ్శబ్దం చేసి రిమైండర్‌ను పెండింగ్‌లో ఉంచుతుంది — మీరు పూర్తయింది లేదా స్నూజ్ నొక్కే వరకు అది ఉంటుంది.\n- నోటిఫికేషన్, ఫుల్-స్క్రీన్ అలర్ట్ లేదా రిమైండర్ కార్డ్ నుండి పూర్తయినట్లు గుర్తించడం ఎల్లప్పుడూ పని చేస్తుంది, అది ఏవైనా ఫాలో-అప్ అలర్ట్‌లను ఆపుతుంది.\n- పూర్తయ్యే వరకు రిమైండర్ టైమర్‌పై మళ్లీ అలర్ట్ చేసేలా ఫాలో-అప్ చెక్‌తో జత చేయండి.</string>
 
     <!-- What's new sheet -->
     <string name="action_continue">కొనసాగించు</string>
     <string name="wn_title">%1$sలో కొత్తవి</string>
-    <string name="wn_intro">ప్రతి రిమైండర్ సమయానికి మోగేలా చూసుకోవడానికి ఈ అప్‌డేట్ సహాయపడుతుంది.</string>
+    <string name="wn_intro">మీ చివరి అప్‌డేట్ తర్వాత వచ్చిన కొత్తవి. వీటిలో చాలా యాప్ వాడేవారి సూచనలే.</string>
     <string name="wn_check_title">రిమైండర్‌ను ఏది ఆపగలదో చూడండి</string>
     <string name="wn_check_desc">సెట్టింగ్‌లు పైభాగంలో ఉన్న “రిమైండర్ తనిఖీ” రిమైండర్‌లు ఆలస్యం కావడానికి లేదా శబ్దం లేకుండా రావడానికి కారణమయ్యే వాటిని, అంటే నోటిఫికేషన్‌లు, బ్యాటరీ లేదా తక్కువ అలారం వాల్యూమ్ వంటివాటిని చూపిస్తుంది, ప్రతిదాన్ని సరిచేసే బటన్‌తో.</string>
     <string name="wn_reliable_title">అదనపు నమ్మకమైన రిమైండర్లు</string>
@@ -559,6 +569,14 @@
     <string name="wn_cards_desc">ప్రతి రిమైండర్ కార్డ్‌పై సవరించడానికి, పూర్తి చేయడానికి, తొలగించడానికి బటన్‌లు ఉన్నాయి. తొలగించే ముందు అడుగుతుంది, దాన్ని రద్దు కూడా చేయవచ్చు.</string>
     <string name="wn_sound_title">శబ్దం సరైన సమయంలో ఆగుతుంది</string>
     <string name="wn_sound_desc">రిమైండర్‌ను పూర్తి చేసినా, తొలగించినా లేదా దాని సమయం మార్చినా దాని శబ్దం వెంటనే ఆగుతుంది. టోన్ అలారాలకు నిశ్శబ్దం బటన్ మళ్లీ వచ్చింది.</string>
+    <string name="wn_nthday_title">చివరి గురువారం పునరావృతం</string>
+    <string name="wn_nthday_desc">నెలవారీ రిమైండర్‌లు ఇప్పుడు నెలలో వారంలోని రోజు స్థానం ఆధారంగా రావచ్చు, ఉదా. మొదటి సోమవారం లేదా చివరి గురువారం. పునరావృతం &gt; ప్రతి నెల &gt; వారంలో రోజు ఎంచుకోండి.</string>
+    <string name="wn_gap_title">పునరావృతాల మధ్య విరామం</string>
+    <string name="wn_gap_desc">పదేపదే ప్లే అయ్యే రిమైండర్ మళ్లీ ప్లే అయ్యే ముందు ఆగవచ్చు: “మీటింగ్”, 10 సెకన్ల నిశ్శబ్దం, మళ్లీ “మీటింగ్”, ఆపే సమయం వరకు. సెట్టింగ్‌లు &gt; రిమైండర్ మోగినప్పుడు &gt; పునరావృతాల మధ్య విరామంలో సెట్ చేయండి.</string>
+    <string name="wn_colors_title">పూర్తయింది, తొలగించు బటన్‌లకు మీ రంగులు</string>
+    <string name="wn_colors_desc">సెట్టింగ్‌లు &gt; భాష &amp; రూపం &gt; రిమైండర్ కార్డ్ బటన్‌లులో రిమైండర్ కార్డ్‌లపై పూర్తయింది, తొలగించు బటన్‌లకు మీ సొంత రంగులు ఇవ్వండి.</string>
+    <string name="wn_notif_title">యాప్ తెరిస్తే నోటిఫికేషన్ పోతుంది</string>
+    <string name="wn_notif_desc">రిమైండర్ మోగిన తర్వాత యాప్ తెరిచినా లేదా దానిలో మార్పు సేవ్ చేసినా దాని నోటిఫికేషన్ పోతుంది. “పూర్తయ్యే వరకు నోటిఫికేషన్ ఉంచండి” ఆన్‌లో ఉంటే, యాప్ తెరిచినా అది ఉంటుంది.</string>
     <string name="wn_edit_title">అక్కడికక్కడే తేదీ, సమయం మార్చండి</string>
     <string name="wn_edit_desc">రిమైండర్‌ను తెరిచి నేరుగా మార్చడానికి తేదీ లేదా సమయం నొక్కండి. ముందుగా ఎడిటర్ తెరవాల్సిన అవసరం లేదు.</string>
     <string name="wn_clear_title">నోటిఫికేషన్‌లు వాటంతట అవే తొలగిపోతాయి</string>
@@ -625,11 +643,55 @@
     <string name="wn_reliability_desc">రిమైండర్ ప్లేబ్యాక్ ఇప్పుడు సురక్షితంగా, వెంటనే ఫోర్‌గ్రౌండ్‌లో ప్రారంభమవుతుంది, కొన్ని Android 12, Android 16 పరికరాల్లో కనిపించిన స్టార్టప్ టైమ్‌అవుట్‌లను నివారిస్తుంది.</string>
     <string name="settings_24_hour_time">24-గంటల సమయం ఉపయోగించు</string>
     <string name="settings_24_hour_time_desc">ప్రతి సమయాన్ని 5:30 PMకి బదులు 17:30గా చూపు.</string>
+    <string name="set_week_start">వారం మొదలయ్యే రోజు</string>
+    <string name="set_week_start_desc">తేదీ ఎంపికలో వారంలో మొదటి రోజు. ఒక రోజును ఎంచుకుంటే మీ ఫోన్ సొంత తేదీ పికర్ వాడబడుతుంది.</string>
 
     <!-- Reminder card and actions sheet -->
     <string name="card_recur_onetime">ఒక్కసారి రిమైండర్</string>
     <string name="card_recur_daily">ప్రతిరోజూ పునరావృతం</string>
     <string name="card_recur_last_day">ప్రతి నెల చివరి రోజు</string>
+    <string name="rs_day_of_week">వారంలో రోజు</string>
+    <string name="rs_which_one">నెలలో ఏది</string>
+    <string name="rs_weekday">రోజు</string>
+    <string name="rec_nth_weekday">%1$s %2$s</string>
+    <string name="card_recur_nth_weekday">ప్రతి నెల %1$s</string>
+    <string-array name="rs_ordinal_labels">
+        <item>మొదటి</item>
+        <item>రెండవ</item>
+        <item>మూడవ</item>
+        <item>నాలుగవ</item>
+        <item>చివరి</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>మొదటి</item>
+        <item>రెండవ</item>
+        <item>మూడవ</item>
+        <item>నాలుగవ</item>
+        <item>చివరి</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>మొదటి</item>
+        <item>రెండవ</item>
+        <item>మూడవ</item>
+        <item>నాలుగవ</item>
+        <item>చివరి</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>మొదటి</item>
+        <item>రెండవ</item>
+        <item>మూడవ</item>
+        <item>నాలుగవ</item>
+        <item>చివరి</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+    </string-array>
     <string name="card_recur_yearly">ప్రతి సంవత్సరం పునరావృతం</string>
     <string name="card_chip_recurring">పునరావృతం</string>
     <string name="card_days_of_month">నెలలోని రోజులు</string>
@@ -806,7 +868,20 @@
     <string name="set_section_check">రిమైండర్ తనిఖీ</string>
     <string name="set_section_ringing">రిమైండర్ మోగినప్పుడు</string>
     <string name="set_sum_check">అనుమతులు, బ్యాటరీ, అలారం వాల్యూమ్</string>
-    <string name="set_sum_lang">యాప్ భాష, థీమ్, సమయ ఫార్మాట్</string>
+    <string name="set_sum_lang">యాప్ భాష, థీమ్, సమయ ఫార్మాట్, బటన్ రంగులు</string>
+    <string name="set_card_colors">రిమైండర్ కార్డ్ బటన్‌లు</string>
+    <string name="set_card_colors_desc">హోమ్‌లో పూర్తయింది, తొలగించు బటన్‌ల రంగులను ఎంచుకోండి.</string>
+    <string name="set_card_done_color">పూర్తయింది బటన్</string>
+    <string name="set_card_delete_color">తొలగించు / పునరావృతం ఆపు బటన్</string>
+    <string name="color_default">యాప్ డిఫాల్ట్</string>
+    <string name="color_red">ఎరుపు</string>
+    <string name="color_orange">నారింజ</string>
+    <string name="color_green">ఆకుపచ్చ</string>
+    <string name="color_teal">టీల్</string>
+    <string name="color_blue">నీలం</string>
+    <string name="color_purple">ఊదా</string>
+    <string name="color_pink">గులాబీ</string>
+    <string name="color_gray">బూడిద</string>
     <string name="set_sum_ringing">వాయిస్ లేదా టోన్, వాల్యూమ్, చదివి వినిపించే భాష, టెస్ట్ రిమైండర్</string>
     <string name="set_sum_timing">స్నూజ్ వ్యవధి, ఫాలో-అప్, నిశ్శబ్ద సమయం</string>
     <string name="set_sum_form">రిమైండర్ జోడించేటప్పుడు ఏ ఎంపికలు కనిపించాలి</string>
@@ -824,6 +899,12 @@
     <string name="check_volume_bad">అలారం వాల్యూమ్ తక్కువగా ఉంది (%1$d%%), కాబట్టి రిమైండర్లు వినడం కష్టం కావచ్చు</string>
     <string name="check_raise">పెంచండి</string>
     <string name="check_fullscreen_bad">లాక్ స్క్రీన్ అలర్ట్‌లకు అనుమతి కావాలి</string>
+    <string name="check_alert_off">రిమైండర్ అలర్ట్‌లు ఆఫ్‌లో ఉన్నాయి</string>
+    <string name="check_alert_off_how">రిమైండర్‌లు ఇంకా మోగుతాయి, కానీ ఏమీ చూపించవు. “%1$s” నోటిఫికేషన్ వర్గాన్ని ఆన్ చేయండి.</string>
+    <string name="check_alert_popup">రిమైండర్ వచనం స్క్రీన్‌పై పాప్-అప్ కాకపోవచ్చు</string>
+    <string name="check_alert_popup_how">“%1$s” వర్గానికి పాప్-అప్ (బ్యానర్) నోటిఫికేషన్లను అనుమతించండి. కొన్ని ఫోన్లు వీటిని ఫ్లోటింగ్ నోటిఫికేషన్లు అంటాయి.</string>
+    <string name="check_alert_lock">లాక్ స్క్రీన్‌పై రిమైండర్ వచనం దాచబడింది</string>
+    <string name="check_alert_lock_how">“%1$s” వర్గాన్ని లాక్ స్క్రీన్‌పై చూపించడానికి అనుమతించండి.</string>
     <string name="check_dnd_bad">అంతరాయం కలిగించవద్దు మోడ్‌లోనూ అలర్ట్‌ల కోసం ఆ మోడ్‌కు అనుమతి ఇవ్వండి</string>
     <string name="check_mic_ok">వాయిస్ రిమైండర్ల కోసం మైక్రోఫోన్‌కు అనుమతి ఉంది</string>
     <string name="check_mic_bad">మైక్రోఫోన్ ఆఫ్‌లో ఉంది, కాబట్టి వాయిస్ రిమైండర్లు రికార్డ్ చేయలేరు</string>
@@ -832,4 +913,34 @@
     <string name="set_recommendations">సూచనలు మరియు ఐచ్ఛిక సదుపాయాలు</string>
     <string name="set_playback_mode">రిమైండర్ శబ్దం</string>
     <string name="set_voice_audio_mode">రికార్డింగ్‌లు, ఆడియో ఫైల్‌లు మరియు వచన పఠనం</string>
+    <string name="set_voice_check_checking">%1$s భాష వాయిస్‌ను తనిఖీ చేస్తోంది…</string>
+    <string name="set_voice_check_ok">%1$s భాష వాయిస్ పని చేస్తోంది.</string>
+    <string name="set_voice_check_alternative">%1$s భాష డిఫాల్ట్ వాయిస్ పని చేయలేదు, కానీ ఇదే భాషలో మరో వాయిస్ అందుబాటులో ఉంది. కింది బటన్ ద్వారా వాయిస్ సెట్టింగ్‌లను మార్చవచ్చు.</string>
+    <string name="set_voice_check_missing">%1$s భాష వాయిస్‌ను ప్లే చేయలేకపోయాం. కనెక్షన్‌ను తనిఖీ చేయండి లేదా ఈ భాష వాయిస్‌ను డౌన్‌లోడ్ చేసి మళ్లీ ప్రయత్నించండి.</string>
+    <string name="set_voice_check_no_engine">టెక్స్ట్‌ను చదివి వినిపించే సదుపాయం అందుబాటులో లేదు. ఫోన్‌లోని టెక్స్ట్-టు-స్పీచ్ సెట్టింగ్‌లను తనిఖీ చేసి మళ్లీ ప్రయత్నించండి.</string>
+    <string name="set_voice_download">వాయిస్‌లను డౌన్‌లోడ్ చేయండి</string>
+    <string name="set_voice_check_again">మళ్లీ తనిఖీ చేయండి</string>
+    <string name="set_voice_settings_unavailable">ఫోన్ టెక్స్ట్-టు-స్పీచ్ సెట్టింగ్‌లను తెరవడం సాధ్యపడలేదు.</string>
+    <string name="set_reset_defaults">సెట్టింగ్‌లను డిఫాల్ట్‌కు రీసెట్ చేయండి</string>
+    <string name="set_reset_defaults_desc">ప్రతి సెట్టింగ్‌ను యాప్ ఇన్‌స్టాల్ చేసినప్పటి స్థితికి తీసుకువస్తుంది. రిమైండర్‌లు మారవు.</string>
+    <string name="set_reset_defaults_title">అన్ని సెట్టింగ్‌లను రీసెట్ చేయాలా?</string>
+    <string name="set_reset_defaults_body">ప్రతి సెట్టింగ్ డిఫాల్ట్‌కు తిరిగి వెళ్తుంది. మీ రిమైండర్‌లు, రికార్డింగ్‌లు, యాప్ భాష మరియు ఫోన్ అనుమతులు అలాగే ఉంటాయి.</string>
+    <string name="set_reset_defaults_confirm">రీసెట్ చేయండి</string>
+    <string name="set_reset_defaults_done">సెట్టింగ్‌లు డిఫాల్ట్‌కు రీసెట్ అయ్యాయి</string>
+    <string name="wn_newlang_title">ఐదు కొత్త భాషలు</string>
+    <string name="wn_newlang_desc">యాప్ ఇప్పుడు 17 భాషల్లో ఉంది; కొత్తగా Deutsch, Français, Bahasa Indonesia, Türkçe, 日本語 చేరాయి. తేదీలు కూడా ప్రతి భాష క్రమంలోనే కనిపిస్తాయి. సెట్టింగ్‌లు &gt; భాష &amp; రూపంలో ఎంచుకోండి.</string>
+    <string name="wn_snooze_title">“స్నూజ్”ను ఆఫ్ చేయండి</string>
+    <string name="wn_snooze_desc">స్నూజ్ వల్ల పనులు వాయిదా వేయడం సులువైతే, సెట్టింగ్‌లు &gt; స్నూజ్ &amp; ఫాలో-అప్ &gt; స్నూజ్‌ను అనుమతించును ఆఫ్ చేయండి. అప్పుడు రిమైండర్‌ను దాటడానికి “పూర్తయింది” ఒక్కటే మార్గం.</string>
+    <string name="wn_week_title">వారంలో మొదటి రోజును ఎంచుకోండి</string>
+    <string name="wn_week_desc">సెట్టింగ్‌లు &gt; భాష &amp; రూపం &gt; వారం మొదలయ్యే రోజులో తేదీ ఎంపికలో మొదటి నిలువు వరుసగా సోమవారం, ఆదివారం లేదా శనివారం ఎంచుకోండి.</string>
+    <string name="wn_voice_title">రిమైండర్‌లు వినిపిస్తాయో లేదో చూడండి</string>
+    <string name="wn_voice_desc">సెట్టింగ్‌లు &gt; రిమైండర్ మోగినప్పుడు &gt; చదివి వినిపించే భాష ఇప్పుడు మీ ఫోన్ ఆ భాషను నిజంగా మాట్లాడగలదో పరీక్షిస్తుంది, అవసరమైతే వాయిస్ డౌన్‌లోడ్ చేయడంలో సహాయపడుతుంది. సాధారణ వాయిస్ పని చేయకపోతే, రిమైండర్ అదే భాషలోని మరో వాయిస్‌ను ప్రయత్నిస్తుంది.</string>
+    <string name="wn_reset_title">ఒకే దశలో సెట్టింగ్‌లు రీసెట్</string>
+    <string name="wn_reset_desc">సెట్టింగ్‌లు &gt; బ్యాకప్ &amp; పునరుద్ధరణ &gt; సెట్టింగ్‌లను డిఫాల్ట్‌కు రీసెట్ చేయండి ప్రతి సెట్టింగ్‌ను యాప్ ఇన్‌స్టాల్ చేసినప్పటి స్థితికి తీసుకువస్తుంది. మీ రిమైండర్‌లు అలాగే ఉంటాయి.</string>
+    <string name="wn_call_title">కాల్ సమయంలో నిశ్శబ్దం</string>
+    <string name="wn_call_desc">టోన్-మాత్రమే రిమైండర్ ఇకపై ఫోన్ కాల్ సమయంలో మోగదు. మాట్లాడే రిమైండర్‌ల లాగే, అది నోటిఫికేషన్ చూపిస్తుంది, వైబ్రేట్ అవుతుంది.</string>
+    <string name="wn_notifcat_title">రిమైండర్ తనిఖీ దాగిన నోటిఫికేషన్‌లను కనుగొంటుంది</string>
+    <string name="wn_notifcat_desc">కొన్ని ఫోన్‌లు ఒక రకమైన నోటిఫికేషన్‌ను తమంతట తామే ఆఫ్ చేస్తాయి, దాంతో రిమైండర్ మోగినా ఏమీ కనిపించలేదు. ఇప్పుడు సెట్టింగ్‌లు &gt; రిమైండర్ తనిఖీ దీని గురించి హెచ్చరిస్తుంది, సరిచేయి సరైన సెట్టింగ్‌ను తెరుస్తుంది.</string>
+    <string name="wn_pasttime_title">రోజువారీ రిమైండర్‌ను ముందు సమయానికి మార్చండి</string>
+    <string name="wn_pasttime_desc">పునరావృతమయ్యే రిమైండర్‌ను తెరిచి సమయం నొక్కి, ఈ రోజు ఇప్పటికే గడిచిన సమయాన్ని ఎంచుకోండి. భవిష్యత్ సమయం అడగకుండా, అది ఇప్పుడు తదుపరి సారి (ఉదా. రేపు) నుండి మొదలవుతుంది.</string>
 </resources>

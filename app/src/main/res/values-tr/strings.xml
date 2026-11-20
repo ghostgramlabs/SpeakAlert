@@ -1,0 +1,946 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_tagline">Çevrimdışı Sesli Hatırlatıcılar</string>
+    <string name="widget_quick_caption">Hatırlatıcı Ekle ekranını anında açın</string>
+    <string name="widget_quick_description">Hatırlatıcı formunu doğrudan ana ekranınızdan açın</string>
+    <string name="widget_upcoming_description">Sıradaki planlanmış hatırlatıcılarınızı gösterir</string>
+
+    <!-- Settings -->
+    <string name="settings_language">Uygulama dili</string>
+    <string name="settings_language_system">Cihaz dilini kullan</string>
+    <string name="settings_language_description">Cihaz dilini kullan seçeneği, uygulama destekliyorsa telefonunuzun dilini, desteklemiyorsa İngilizceyi kullanır.\nHatırlatıcıları sesli okuyan ses ayrıca Hatırlatıcı çaldığında &gt; Konuşma dili bölümünden ayarlanır.</string>
+
+    <!-- Notification actions -->
+    <string name="notif_action_done">Tamam</string>
+    <string name="notif_action_silence">Sustur</string>
+    <string name="notif_action_snooze">Ertele</string>
+    <string name="notif_action_play">Oynat</string>
+    <string name="notif_action_speak">Seslendir</string>
+    <string name="notif_default_title">Sesli hatırlatıcı</string>
+    <string name="notif_default_text">Hatırlatıcınızı oynatmak için dokunun</string>
+    <string name="notif_action_replay">Tekrar oynat</string>
+    <string name="notif_action_stop">Durdur</string>
+    <string name="notif_playback_processing">İşleniyor…</string>
+    <string name="notif_playback_speaking">Seslendiriliyor: “%1$s”</string>
+    <string name="notif_reminder_missing">Bu hatırlatıcı bulunamadı.</string>
+    <string name="notif_missed_title">Kaçırıldı: %1$s</string>
+    <string name="notif_missed_scheduled_tap">Planlanan zaman: %1$s - açmak için dokunun</string>
+    <string name="notif_missed_scheduled_audio_unavailable">Planlanan zaman: %1$s. Seçilen ses dosyası kullanılamıyor.</string>
+    <string name="notif_missed_scheduled">Planlanan zaman: %1$s</string>
+    <string name="fallback_reminder_title">Hatırlatıcı</string>
+    <string name="toast_audio_unavailable">Seçilen ses dosyası kullanılamıyor.</string>
+    <string name="tts_voice_hint">%1$s için yüklü ses yok. Sesli hatırlatıcıları duymak için telefonunuzun Metin okuma ayarlarından ekleyin.</string>
+    <string name="tts_voice_hint_this_language">bu dil</string>
+
+    <!-- Alert payload (notification / spoken follow-up text) -->
+    <string name="alert_followup_fallback_title">Takip kontrolü</string>
+    <string name="alert_followup_question">%1$s tamamlandı mı?</string>
+    <string name="alert_followup_this_reminder">Bu hatırlatıcı</string>
+    <string name="alert_audio_unavailable_full">Seçilen ses dosyası kullanılamıyor. Başka bir dosya seçmek için dokunun.</string>
+    <string name="alert_tap_to_view">Görüntülemek için dokunun</string>
+
+    <!-- Section titles -->
+    <string name="set_section_timing">Erteleme ve takip</string>
+    <string name="set_section_backup">Yedekleme ve geri yükleme</string>
+    <string name="set_section_about">Yardım ve hakkında</string>
+
+    <!-- Backup & restore -->
+    <string name="set_backup_export">Hatırlatıcıları yedekle</string>
+    <string name="set_backup_export_desc">Yaklaşan hatırlatıcılarınızı kayıtlarıyla birlikte bir dosyaya kaydedin</string>
+    <string name="set_backup_import">Hatırlatıcıları içe aktar</string>
+    <string name="set_backup_import_desc">Hatırlatıcıları bir yedek dosyasından geri yükleyin</string>
+    <string name="backup_export_none">Yedeklenecek yaklaşan hatırlatıcı yok.</string>
+    <string name="backup_export_success">%1$d hatırlatıcı yedeklendi.</string>
+    <string name="backup_export_failed">Yedekleme başarısız oldu.</string>
+    <string name="backup_import_success">%1$d hatırlatıcı içe aktarıldı.</string>
+    <string name="backup_import_skipped">%1$d hatırlatıcı içe aktarıldı (%2$d yinelenen, %3$d süresi dolmuş atlandı).</string>
+    <string name="backup_import_failed">İçe aktarma başarısız oldu. Bir SpeakAlert yedek dosyası seçin.</string>
+
+    <!-- Notification channels (visible in system Settings) -->
+    <string name="channel_reminders_name">%1$s Hatırlatıcıları</string>
+    <string name="channel_reminders_desc">%1$s hatırlatıcıları için bildirimler</string>
+    <string name="channel_tone_only_name">%1$s Yalnızca Ton Uyarıları</string>
+    <string name="channel_tone_only_desc">Yalnızca titreşimli, yalnızca ton bildirimleri; uyarı tonunu %1$s çalar</string>
+    <string name="channel_dnd_bypass_name">%1$s Hatırlatıcıları (Rahatsız Etmeyin’i aşar)</string>
+    <string name="channel_dnd_bypass_desc">Android erişimi verildiğinde Rahatsız Etmeyin sırasında da çalabilen hatırlatıcı alarmları</string>
+    <string name="channel_tone_only_bypass_name">%1$s Yalnızca Ton Uyarıları (Rahatsız Etmeyin’i aşar)</string>
+    <string name="channel_tone_only_bypass_desc">Android erişimi verildiğinde Rahatsız Etmeyin sırasında da çalabilen yalnızca ton hatırlatıcıları</string>
+    <string name="pua_sub_reschedule">Bu hatırlatıcıyı yeniden planlayın</string>
+    <string name="pua_sub_play_now">Yeniden planlamadan şimdi dinleyin</string>
+    <string name="pua_sub_keep_done">Tamamlanmış olarak bırakın</string>
+    <string name="channel_playback_name">Hatırlatıcı Oynatma</string>
+    <string name="channel_playback_desc">Hatırlatıcılar oynatılırken kontrolleri gösterir</string>
+    <string name="channel_silent_name">%1$s Tam Ekran Uyarıları</string>
+    <string name="channel_silent_desc">Hatırlatıcı zaten sesli okunurken gösterilen %1$s tam ekran hatırlatıcıları</string>
+    <string name="channel_silent_bypass_name">%1$s Tam Ekran Uyarıları (Rahatsız Etmeyin’i aşar)</string>
+    <string name="channel_silent_bypass_desc">Android erişimi verildiğinde Rahatsız Etmeyin sırasında da görünebilen tam ekran hatırlatıcıları</string>
+
+    <!-- Alarm alert screen -->
+    <string name="alert_mark_done">Tamamlandı Olarak İşaretle</string>
+    <string name="alert_silence">Sustur</string>
+    <string name="alert_silence_now">Şimdi sustur</string>
+    <string name="alert_snoozed_at">Ertelendi • %1$s</string>
+    <string name="alert_play_again">Tekrar oynat</string>
+    <string name="alert_snooze_minutes">Ertele %1$d dk</string>
+    <string name="alert_followup_reminder">Takip hatırlatıcısı</string>
+    <string name="alert_reminder_on_screen">Hatırlatıcı ekranda</string>
+    <string name="alert_followup_on_this">Bu hatırlatıcı için takip</string>
+    <string name="alert_did_you_complete">Bu hatırlatıcıyı tamamladınız mı?</string>
+    <string name="alert_reminder_active">Hatırlatıcı etkin</string>
+    <string name="alert_voice_reminder">Sesli hatırlatıcı</string>
+    <string name="alert_text_reminder">Metin hatırlatıcı</string>
+    <string name="alert_followup_check">Takip kontrolü</string>
+    <string name="alert_generic">Uyarı</string>
+    <string name="alert_playing_now">Şimdi oynatılıyor</string>
+    <string name="alert_needs_response">Yanıt gerekiyor</string>
+    <string name="alert_awaiting_action">İşlem bekleniyor</string>
+    <string name="alert_scheduled_for">Planlanan zaman</string>
+    <string name="alert_status">Uyarı durumu</string>
+    <string name="alert_audio_playing">Ses oynatılıyor. Durdurmak için Sustur seçeneğini kullanın.</string>
+    <string name="alert_waiting_done_snooze">Tamam veya Ertele bekleniyor.</string>
+    <string name="alert_followup_label">Takip</string>
+    <string name="alert_hint_with_play">Hatırlatıcıyı ekranda tutun, sesi durdurun veya işlem yapmadan önce tekrar oynatın.</string>
+    <string name="alert_hint_no_play">Hatırlatıcıyı ekranda tutun veya hazır olduğunuzda Tamam ya da Ertele seçeneğini kullanın.</string>
+    <string name="alert_dock_hint">Sustur sesi durdurur. Tamam veya Ertele kilit ekranı uyarısını kapatır.</string>
+    <plurals name="alert_followup_repeats">
+        <item quantity="one">Tamamlanana kadar her dakika tekrarlanır.</item>
+        <item quantity="other">Tamamlanana kadar %1$d dakikada bir tekrarlanır.</item>
+    </plurals>
+
+    <!-- Home -->
+    <string name="home_greeting_morning">Günaydın</string>
+    <string name="home_greeting_afternoon">İyi Günler</string>
+    <string name="home_greeting_evening">İyi Akşamlar</string>
+    <string name="home_all_caught_up">Her şey tamam!</string>
+    <plurals name="home_active_reminders">
+        <item quantity="one">%1$d etkin hatırlatıcınız var</item>
+        <item quantity="other">%1$d etkin hatırlatıcınız var</item>
+    </plurals>
+    <string name="home_filter_upcoming">Yaklaşan</string>
+    <string name="home_filter_today">Bugün</string>
+    <string name="home_filter_missed">Kaçırılan</string>
+    <string name="home_filter_done">Tamamlanan</string>
+    <string name="home_cd_settings">Ayarlar</string>
+    <string name="home_cd_help">Yardım ve talimatlar</string>
+    <string name="home_cd_add">Hatırlatıcı Ekle</string>
+    <string name="home_cd_missed">Kaçırılan hatırlatıcılar</string>
+    <string name="home_dismiss_all">Tümünü Kapat</string>
+    <string name="home_empty_all_caught_up">Her şey tamam!</string>
+    <string name="home_empty_no_missed">Kaçırılan hatırlatıcı yok</string>
+    <string name="home_empty_nothing_done">Henüz tamamlanan bir şey yok</string>
+    <string name="home_empty_no_upcoming">Yaklaşan hatırlatıcı yok</string>
+    <string name="home_empty_no_reminders">Henüz hatırlatıcı yok</string>
+    <string name="home_empty_done_sub">Tamamlanan hatırlatıcılar burada görünür.</string>
+    <string name="home_empty_upcoming_sub">Daha sonrası için planlanan hatırlatıcılar burada görünür.</string>
+    <string name="home_empty_default_sub">Sesle veya metinle bir hatırlatıcı oluşturun.</string>
+
+    <!-- Common actions -->
+    <string name="action_cancel">İptal</string>
+    <string name="action_close">Kapat</string>
+    <string name="action_play_now">Şimdi oynat</string>
+    <string name="action_stop">Durdur</string>
+    <string name="action_dismiss">Kapat</string>
+    <string name="action_apply">Uygula</string>
+    <string name="action_undo">Geri al</string>
+    <string name="action_open">Aç</string>
+    <string name="common_reminder">Hatırlatıcı</string>
+    <string name="time_picker_title">Saat Seçin</string>
+    <string name="err_date_future">Tarih bugün veya daha sonrası olmalıdır</string>
+    <string name="err_time_future">Lütfen ileri bir saat seçin</string>
+
+    <!-- Home dialogs -->
+    <string name="home_stop_recurring_title">Yinelenen hatırlatıcı durdurulsun mu?</string>
+    <string name="home_stop_recurring_msg">Bu hatırlatıcı ve gelecekteki tüm tekrarları silinir. Bu işlem geri alınamaz.</string>
+    <string name="home_stop_recurring_action">Yinelemeyi durdur</string>
+    <string name="home_stop_recurring_sub">Bu hatırlatıcıyı ve gelecekteki tüm tekrarlarını silin</string>
+    <string name="home_keep_reminder">Hatırlatıcıyı koru</string>
+    <string name="home_mark_occurrence_title">Bu tekrar tamamlandı olarak işaretlensin mi?</string>
+    <string name="home_mark_occurrence_msg">Yalnızca bugünkü tekrar işaretlenir. Hatırlatıcı bir sonraki planlı zamanında yinelenmeye devam eder.</string>
+    <string name="home_mark_occurrence_action">Bu tekrarı tamamlandı olarak işaretle</string>
+    <string name="home_mark_occurrence_sub">Gelecekteki tekrarlar planlı kalır</string>
+    <string name="home_mark_done_title">Tamamlandı olarak işaretlensin mi?</string>
+    <string name="home_mark_done_msg">Hatırlatıcı Tamamlanan sekmesine taşınır.</string>
+    <string name="home_move_to_done">Tamamlanan sekmesine taşı</string>
+    <string name="home_move_to_done_sub">Bu hatırlatıcıyı tamamlananlar geçmişinizde tutun</string>
+    <string name="home_created_at">Oluşturulma: %1$s</string>
+    <string name="home_snackbar_deleted">Hatırlatıcı silindi</string>
+    <string name="home_snackbar_duplicated">Hatırlatıcı çoğaltıldı</string>
+    <string name="home_badge_missed">Kaçırıldı</string>
+
+    <!-- Add / Edit reminder -->
+    <string name="ae_saved">Hatırlatıcı kaydedildi!</string>
+    <string name="ae_cannot_past">Geçmiş bir zamana hatırlatıcı ayarlanamaz</string>
+    <string name="ae_record_too_short">Çok kısa oldu; konuşurken basılı tutun</string>
+    <string name="ae_record_failed">Kayıt başlatılamadı. Mikrofonu başka bir uygulama kullanıyor olabilir.</string>
+    <string name="ae_record_silent">Hiçbir şey duyulmadı. SpeakAlert için mikrofon erişimini kontrol edin.</string>
+    <string name="ae_unsaved_title">Hatırlatıcı kaydedilsin mi?</string>
+    <string name="ae_unsaved_msg">Kaydedilmemiş hatırlatıcı değişiklikleriniz var.</string>
+    <string name="action_save">Kaydet</string>
+    <string name="ae_keep_editing">Düzenlemeye devam et</string>
+    <string name="action_discard">Vazgeç</string>
+    <string name="action_remove">Kaldır</string>
+    <string name="action_change">Değiştir</string>
+    <string name="ae_title_edit">Hatırlatıcıyı Düzenle</string>
+    <string name="ae_title_new">Yeni Hatırlatıcı</string>
+    <string name="action_back">Geri</string>
+    <string name="ae_header_edit">Hatırlatıcıyı düzenle</string>
+    <string name="ae_header_create">Hatırlatıcı oluştur</string>
+    <string name="ae_section_content">Hatırlatıcı içeriği</string>
+    <string name="ae_content_desc">Sesli not kaydedin, ses dosyası ekleyin veya bir hatırlatıcı mesajı yazın.</string>
+    <string name="ae_tap_to_record">Sesli hatırlatıcı kaydetmek için dokunun</string>
+    <string name="ae_or_choose_audio">Veya bir ses dosyası seçin</string>
+    <string name="ae_selected_audio">Seçilen ses dosyası</string>
+    <string name="ae_cd_stop_preview">Ses önizlemesini durdur</string>
+    <string name="ae_cd_play_preview">Ses önizlemesini oynat</string>
+    <string name="ae_cd_audio_progress">Ses önizlemesi ilerlemesi</string>
+    <string name="ae_choose_audio_file">Ses Dosyası Seç</string>
+    <string name="ae_or_type">Veya bir hatırlatıcı mesajı yazın</string>
+    <string name="ae_msg_label">Hatırlatıcı mesajı</string>
+    <string name="ae_msg_placeholder">örn. Kahvaltıdan sonra ilacı al</string>
+    <string name="ae_label_placeholder">örn. Sabah ilacı</string>
+    <string name="ae_msg_help">Uygulamada ve bildirimlerde gösterilir. Yalnızca ses veya ses dosyası seçilmemişse sesli okunur.</string>
+    <string name="ae_char_count">%1$d/%2$d</string>
+    <string name="ae_need_content">Sesli not, ses dosyası veya hatırlatıcı mesajı ekleyin.</string>
+    <string name="ae_section_label">Kısa ad (isteğe bağlı)</string>
+    <string name="ae_label_desc">Hatırlatıcıları daha hızlı ayırt etmenize yardımcı olan isteğe bağlı kısa ad.</string>
+    <string name="ae_label_hint">Listelerde ve ayrıntılarda kısa ad olarak gösterilir</string>
+    <string name="ae_section_schedule">Zamanlama</string>
+    <string name="ae_when_fire">Bu hatırlatıcı ne zaman çalsın?</string>
+    <string name="ae_datetime_at">%1$s, %2$s</string>
+    <string name="ae_date">Tarih</string>
+    <string name="ae_time">Saat</string>
+    <string name="ae_time_future">Saat ileri bir zaman olmalıdır</string>
+    <string name="ae_repeat_never">Hiçbir zaman</string>
+    <string name="ae_repeat">Yinele</string>
+    <string name="state_on">Açık</string>
+    <string name="state_off">Kapalı</string>
+    <string name="state_active">Etkin</string>
+    <string name="ae_loop">Döngüde oynat</string>
+    <string name="ae_loop_desc">Hatırlatıcıyı kapatana kadar çalmaya devam eder.</string>
+    <string name="ae_followup">Takip kontrolü</string>
+    <string name="ae_followup_desc">Hatırlatıcı tamamlandı olarak işaretlenmezse bir süre sonra tekrar sorar.</string>
+    <string name="ae_cd_saving">Hatırlatıcı kaydediliyor</string>
+    <string name="ae_save_reminder">Hatırlatıcıyı Kaydet</string>
+    <plurals name="ae_followup_active">
+        <item quantity="one">Etkin: tamamlandı olarak işaretlenene kadar her dakika sorar.</item>
+        <item quantity="other">Etkin: tamamlandı olarak işaretlenene kadar %1$d dakikada bir sorar.</item>
+    </plurals>
+
+    <!-- Recurrence type names (shared) -->
+    <string name="rec_every">Her %1$d %2$s</string>
+    <string name="rec_ends_never">Bitiş: Yok</string>
+    <string name="rec_if_off_fire">Cihaz kapalıysa: Açıldığında uyar</string>
+    <string name="rec_if_off_skip">Cihaz kapalıysa: Yalnızca tam zamanında hatırlat</string>
+    <string name="date_today">Bugün</string>
+    <string name="date_tomorrow">Yarın</string>
+    <string name="date_yesterday">Dün</string>
+    <plurals name="rec_ends_times">
+        <item quantity="one">%1$d tekrardan sonra biter</item>
+        <item quantity="other">%1$d tekrardan sonra biter</item>
+    </plurals>
+    <string name="rec_onetime">Tek seferlik</string>
+    <string name="rec_daily">Günlük</string>
+    <string name="rec_weekly">Haftalık</string>
+    <string name="rec_monthly">Aylık</string>
+    <string name="rec_yearly">Yıllık</string>
+    <string name="rec_custom">Özel</string>
+    <string name="day_mon">Pzt</string>
+    <string name="day_tue">Sal</string>
+    <string name="day_wed">Çar</string>
+    <string name="day_thu">Per</string>
+    <string name="day_fri">Cum</string>
+    <string name="day_sat">Cmt</string>
+    <string name="day_sun">Paz</string>
+
+    <!-- Reminder details -->
+    <string name="det_title">Hatırlatıcı ayrıntıları</string>
+    <string name="action_edit">Düzenle</string>
+    <string name="action_delete">Sil</string>
+    <string name="action_confirm">Onayla</string>
+    <string name="det_audio_file">Ses dosyası</string>
+    <string name="det_voice_note">Sesli not</string>
+    <string name="det_loop_enabled">Döngü açık</string>
+    <string name="det_followup_pill">Takip %1$d dk</string>
+    <string name="det_cd_stop_audio">Sesi durdur</string>
+    <string name="det_cd_play_audio">Sesi oynat</string>
+    <string name="det_ready_preview">Önizlemeye hazır</string>
+    <string name="det_ready_play">Oynatmaya hazır</string>
+    <string name="det_voice_recording">Ses kaydı</string>
+    <string name="det_tap_preview">Kaydedilen hatırlatıcıyı dinlemek için oynat düğmesine dokunun.</string>
+    <string name="det_cd_audio_progress">Hatırlatıcı sesi ilerlemesi</string>
+    <string name="det_double_tap_edit">Düzenlemek için iki kez dokunun</string>
+    <string name="det_ends_by">Bitiş: %1$s</string>
+    <string name="det_end_rule">Bitiş kuralı</string>
+    <string name="det_missed_handling">Kaçırılan hatırlatıcıların işlenmesi</string>
+    <string name="det_missed_fire">Cihaz yeniden açıldığında uyar</string>
+    <string name="det_missed_skip">Yalnızca bir sonraki tam zamanda hatırlat</string>
+    <string name="det_mark_undone">Tamamlanmadı Olarak İşaretle</string>
+    <string name="det_mark_done">Tamamlandı Olarak İşaretle</string>
+    <string name="det_scheduled_for">Planlanan zaman: %1$s</string>
+    <string name="det_delete_title">Hatırlatıcı silinsin mi?</string>
+    <string name="det_delete_recurring">Gelecekteki tüm tekrarlar durdurulur. Bu işlem geri alınamaz.</string>
+    <string name="det_delete_onetime">Bu işlem geri alınamaz.</string>
+    <string name="det_reschedule_title">Hatırlatıcı yeniden planlansın mı?</string>
+    <string name="det_reschedule_to">Yeni zaman: %1$s. Yeniden planlansın mı?</string>
+    <plurals name="det_ends_after">
+        <item quantity="one">%1$d tekrardan sonra biter</item>
+        <item quantity="other">%1$d tekrardan sonra biter</item>
+    </plurals>
+
+    <!-- Recurrence selection sheet -->
+    <string name="rs_subtitle">Bu hatırlatıcının nasıl yineleneceğini seçin.</string>
+    <string name="rs_none">Yinelenmez</string>
+    <string name="rs_monthly_settings">Aylık ayarlar</string>
+    <string name="rs_monthly_subtitle">Kullanılacak günleri veya bitiş kuralını seçin.</string>
+    <string name="rs_repeat_on">Yineleme günü</string>
+    <string name="rs_days_of_month">Ayın Günleri</string>
+    <string name="rs_last_day">Son Gün</string>
+    <string name="rs_select_days_toggle">Günleri seçin (değiştirmek için dokunun)</string>
+    <string name="rs_selected">Seçilen: %1$s</string>
+    <string name="rs_weekly_settings">Haftalık ayarlar</string>
+    <string name="rs_weekly_subtitle">Yinelenecek haftanın günlerini seçin.</string>
+    <string name="rs_select_days">Günleri Seçin</string>
+    <string name="rs_custom_interval">Özel aralık</string>
+    <string name="rs_custom_subtitle">Hatırlatıcı yinelemeleri arasındaki süreyi ayarlayın.</string>
+    <string name="rs_repeat_every">Yineleme aralığı</string>
+    <string name="rs_number">Sayı</string>
+    <string name="rs_unit">Birim</string>
+    <string name="rs_repeats_every">Her %1$d %2$s yinelenir.</string>
+    <string name="rs_interval_min">Aralık en az 1 olmalıdır</string>
+    <string name="rs_ends">Bitiş</string>
+    <string name="rs_forever">Süresiz</string>
+    <string name="rs_until_date">Tarihe/saate kadar</string>
+    <string name="rs_after_count">Belirli sayıdan sonra</string>
+    <string name="rs_must_be_after">En erken: %1$s</string>
+    <string name="rs_date_label">Tarih: %1$s</string>
+    <string name="rs_time_label">Saat: %1$s</string>
+    <string name="rs_num_occurrences">Tekrar sayısı</string>
+    <string name="rs_allowed_range">İzin verilen: 1-999</string>
+    <string name="rs_end_before_error">Bitiş zamanı hatırlatıcı zamanından önce olamaz</string>
+    <string name="rs_select_end_time">Bitiş saatini seçin</string>
+    <plurals name="unit_minutes"><item quantity="one">Dakika</item><item quantity="other">Dakika</item></plurals>
+    <plurals name="unit_hours"><item quantity="one">Saat</item><item quantity="other">Saat</item></plurals>
+    <plurals name="unit_days"><item quantity="one">Gün</item><item quantity="other">Gün</item></plurals>
+    <plurals name="unit_weeks"><item quantity="one">Hafta</item><item quantity="other">Hafta</item></plurals>
+    <plurals name="unit_months"><item quantity="one">Ay</item><item quantity="other">Ay</item></plurals>
+    <plurals name="unit_years"><item quantity="one">Yıl</item><item quantity="other">Yıl</item></plurals>
+
+    <!-- Settings -->
+    <string name="set_appearance">Dil ve görünüm</string>
+    <string name="set_reminder_form">Hatırlatıcı formu</string>
+    <string name="set_reminder_form_desc">Her bölümü ayrı ayrı seçin. Tüm giriş bölümlerini gizlerseniz hatırlatıcı oluşturmadan önce birini yeniden açın.</string>
+    <string name="ae_no_content_sections">Etkin hatırlatıcı giriş bölümü yok. Ayarlar &gt; Hatırlatıcı formu bölümünden Ses kaydı, Ses dosyası seç veya Yazılı hatırlatıcı seçeneğini açın.</string>
+    <string name="set_show_voice_recording">Ses kaydı</string>
+    <string name="set_show_voice_recording_desc">Mikrofonla kayıt bölümünü gösterir.</string>
+    <string name="set_experimental_voice_enhancement">Deneysel ses iyileştirme</string>
+    <string name="set_experimental_voice_enhancement_desc">Kapalıyken özgün ham kayıt davranışı kullanılır. Açıkken yeni kayıt korumaları, sessizlik bildirimi ve ses temizleme etkinleşir.</string>
+    <string name="set_experimental_voice_enhancement_note">Deneysel: sonuçlar ve işlem süresi cihaza göre değişebilir. Kayıtlar bozuk geliyorsa veya kaydetme uzun sürüyorsa bunu kapatın.</string>
+    <string name="set_show_audio_file">Ses dosyası seç</string>
+    <string name="set_show_audio_file_desc">Mevcut bir ses dosyasını seçme seçeneğini gösterir.</string>
+    <string name="set_show_typed_reminder">Yazılı hatırlatıcı</string>
+    <string name="set_show_typed_reminder_desc">Hatırlatıcı mesajı alanını gösterir.</string>
+    <string name="set_show_short_label">Kısa ad</string>
+    <string name="set_show_short_label_desc">İsteğe bağlı kısa ad alanını gösterir.</string>
+    <string name="set_app_theme">Uygulama Teması</string>
+    <string name="theme_system">Sistem</string>
+    <string name="theme_light">Açık</string>
+    <string name="theme_dark">Koyu</string>
+    <string name="set_toast_theme_light">Açık mod ayarlandı</string>
+    <string name="set_toast_theme_dark">Koyu mod ayarlandı</string>
+    <string name="set_toast_theme_system">Sistem teması izleniyor</string>
+    <string name="set_playback">Oynatma</string>
+    <string name="set_autoplay">Otomatik oynat</string>
+    <string name="set_autoplay_desc">Hatırlatıcı çaldığında kayıtları, ses dosyalarını ve etkinleştirilmiş sesli metni oynatır. Kapalıyken dinlemek için Oynat düğmesine dokunun.</string>
+    <string name="set_disabled_tone">Yalnızca ton modu açıkken devre dışıdır</string>
+    <string name="set_toast_autoplay_on">Otomatik oynatma açık</string>
+    <string name="set_toast_autoplay_off">Otomatik oynatma kapalı</string>
+    <string name="set_unlock_only">Yalnızca telefonun kilidi açıkken</string>
+    <string name="set_unlock_only_desc">Kilit ekranında oynatmayı engeller</string>
+    <string name="set_toast_lock_off">Kilit ekranında oynatma kapalı</string>
+    <string name="set_toast_lock_on">Kilit ekranında oynatma açık</string>
+    <string name="set_speak_text">Yazılı hatırlatıcıları otomatik seslendir</string>
+    <string name="set_speak_text_desc">Yalnızca sesli notu veya ses dosyası olmayan, salt metin hatırlatıcılar için</string>
+    <string name="set_toast_speak_on">Otomatik metin seslendirme açık</string>
+    <string name="set_toast_speak_off">Otomatik metin seslendirme kapalı</string>
+    <string name="set_spoken_language">Konuşma dili</string>
+    <string name="set_spoken_language_desc">Sesli hatırlatıcılar için kullanılan ses. Otomatik algılama, hatırlatıcının kendi diline uyar. Seçilen dilin sesi telefonunuzun Metin okuma ayarlarında yüklü olmalıdır.</string>
+    <string name="tts_auto">Otomatik algıla</string>
+    <string name="tts_device">Cihaz</string>
+    <string name="tts_english">İngilizce</string>
+    <string name="set_toast_tts_device">Konuşma dili: cihaz dili</string>
+    <string name="set_toast_tts_english">Konuşma dili: İngilizce</string>
+    <string name="set_toast_tts_auto">Konuşma dili: otomatik algıla</string>
+    <string name="set_private">Özel dinleme</string>
+    <string name="set_private_desc">Önce bağlı işitme cihazlarını, Bluetooth cihazlarını veya kablolu kulaklıkları kullanır. Hiçbiri bağlı değilse hoparlör yerine telefonun ahizesini kullanır.</string>
+    <string name="set_toast_private_on">Özel dinleme açık</string>
+    <string name="set_toast_private_off">Özel dinleme kapalı</string>
+    <string name="set_private_bt">Özel dinleme açık. Bluetooth yönlendirmesi için yakındaki cihazlar izni gerekir.</string>
+    <string name="set_tone_only">Yalnızca ton modu</string>
+    <string name="set_tone_only_desc">Kayıt veya konuşma yerine alarm tonu çalar. Durma süresi: %1$s. Erteleme: %2$d dk.</string>
+    <string name="set_tone_only_desc_no_snooze">Kayıt veya konuşma yerine alarm tonu çalar. Durma süresi: %1$s.</string>
+    <string name="set_snooze_enabled">Ertelemeye izin ver</string>
+    <string name="set_snooze_enabled_desc">Hatırlatıcı uyarılarında ve bildirimlerinde Ertele seçeneğini gösterir. Bir hatırlatıcıyı geçmenin tek yolu Tamam olsun istiyorsanız kapatın.</string>
+    <string name="set_toast_tone_on">Yalnızca ton modu açık</string>
+    <string name="set_toast_tone_off">Yalnızca ton modu kapalı</string>
+    <string name="set_infinite">Süresiz</string>
+    <string name="set_minutes_short">%1$d dk</string>
+    <string name="set_select_tone">Ton seçin</string>
+    <string name="file_picker_unavailable">Bu cihazda dosya açabilen bir uygulama yok. Bir dosya yöneticisi yükleyip tekrar deneyin.</string>
+    <string name="tone_picker_unavailable">Bu cihazda ton seçebilen bir uygulama yok.</string>
+    <string name="set_toast_default_tone">Varsayılan alarm tonu kullanılıyor</string>
+    <string name="set_toast_tone_updated">Ton güncellendi</string>
+    <string name="set_fullscreen">Kilit ekranında tam ekran uyarı</string>
+    <string name="set_fullscreen_desc_granted">Hatırlatıcı çaldığında işlemleri kilit ekranının üzerinde gösterir</string>
+    <string name="set_fullscreen_desc_denied">Kilit ekranının üzerinde görünmek için Android tam ekran uyarı erişimi gerekir</string>
+    <string name="set_allow_fullscreen">Sistem ayarlarında tam ekran uyarılara izin ver</string>
+    <string name="set_toast_fs_on">Kilit ekranında tam ekran uyarı açık</string>
+    <string name="set_toast_fs_off">Kilit ekranında tam ekran uyarı kapalı</string>
+    <string name="set_fs_off_title">Tam ekran erişimi hâlâ kapalı</string>
+    <string name="set_fs_off_msg">Android 14 ve sonrası, tam ekran hatırlatıcı uyarıları için ayrı bir sistem izni ister.</string>
+    <string name="set_open_perm">İzin ayarlarını aç</string>
+    <string name="set_fs_note">Bildirimdeki Oynat veya Seslendir düğmesine yine de dokunabilirsiniz.</string>
+    <string name="set_tone_volume_note">Yalnızca ton modunda ses düzeyi, cihazınızın alarm/bildirim ses düzeyiyle belirlenir.</string>
+    <string name="set_loop_duration">Sürekli oynatmayı şu süreden sonra durdur</string>
+    <string name="set_loop_duration_desc">Bu süreden sonra tonu veya döngüdeki sesi durdurur. Takip hatırlatıcıları daha sonra gelen ayrı uyarılardır.</string>
+    <string name="set_toast_loop">Döngü süresi: %1$d dk</string>
+    <string name="set_toast_loop_infinite">Döngü süresi: Süresiz</string>
+    <string name="set_custom">Özel</string>
+    <string name="set_custom_snooze">Özel Erteleme</string>
+    <string name="set_snooze_desc">Hatırlatıcının ne kadar erteleneceğini ayarlayın</string>
+    <string name="set_toast_snooze">Erteleme: %1$d dk</string>
+    <string name="set_toast_followup_off">Varsayılan takip kapalı</string>
+    <string name="set_toast_followup">Varsayılan takip: %1$d dk</string>
+    <string name="set_quiet">Sessiz saatler</string>
+    <string name="set_quiet_desc">Belirlenen saatlerde hatırlatıcıları susturur</string>
+    <string name="set_toast_quiet_on">Sessiz saatler açık</string>
+    <string name="set_toast_quiet_off">Sessiz saatler kapalı</string>
+    <string name="set_start">Başlangıç</string>
+    <string name="set_end">Bitiş</string>
+    <string name="set_toast_quiet_start">Sessiz saatler başlangıcı: %1$s</string>
+    <string name="set_toast_quiet_end">Sessiz saatler bitişi: %1$s</string>
+    <string name="set_toast_test">10 saniye içinde test hatırlatıcısı</string>
+    <string name="set_test_reminder">Test hatırlatıcısı</string>
+    <string name="set_cd_granted">İzin verildi</string>
+    <string name="set_cd_action_required">İşlem gerekli</string>
+    <string name="set_notifications">Bildirimler</string>
+    <string name="set_exact_alarms">Tam zamanında çalan alarmlar</string>
+    <string name="set_microphone">Mikrofon</string>
+    <string name="set_dnd">Rahatsız Etmeyin sırasında da uyar</string>
+    <string name="set_dnd_desc_off">Telefonunuzun ses modunu izler. Rahatsız Etmeyin veya rutinler hatırlatıcıları susturabilir.</string>
+    <string name="set_dnd_desc_active">Etkin: hatırlatıcılar alarm öncelikli sesi kullanır ve Rahatsız Etmeyin modunu aşar.</string>
+    <string name="set_dnd_unavailable">Android Rahatsız Etmeyin erişim ayarları bu cihazda kullanılamıyor.</string>
+    <string name="set_grant_dnd">Android Rahatsız Etmeyin erişimi ver</string>
+    <string name="set_dnd_note">Bu ayar telefonunuzun Rahatsız Etmeyin modunu denetlemez. Yalnızca %1$s uygulamasının, önemli hatırlatıcıları bu mod açıkken de çalmak için izin istemesini sağlar.</string>
+    <string name="set_battery_guide">Hatırlatıcılar hâlâ geç mi geliyor? Telefonunuz için adımlar</string>
+    <string name="set_battery_desc">Pil optimizasyonu bazı telefonlarda hatırlatıcıları geciktirebilir veya durdurabilir.</string>
+    <string name="set_wear">Wear OS</string>
+    <string name="set_wear_checking">Wear OS bağlantısı kontrol ediliyor…</string>
+    <string name="set_wear_connected">Wear OS saat bağlı</string>
+    <string name="set_wear_supported">%1$s saat hatırlatıcıları yalnızca Wear OS saatlerde desteklenir.</string>
+    <string name="set_wear_notif_off">Telefon uygulaması bildirimleri kapalı. Hatırlatıcıların saate eşitlenmesi için açın.</string>
+    <string name="set_open_notif">Bildirim ayarlarını aç</string>
+    <string name="set_open_channel">Hatırlatıcı kanalını aç</string>
+    <string name="set_wear_enabled">Telefon bildirimleri açık. Hatırlatıcılar saatte hâlâ görünmüyorsa Wear OS yardımcı uygulamanızda bildirim eşitlemeyi açın.</string>
+    <string name="set_refresh">Durumu yenile</string>
+    <string name="set_app_guide">Uygulama rehberi</string>
+    <string name="set_toast_no_email">E-posta uygulaması yok. ghostgramlabs@gmail.com adresine e-posta gönderebilir veya gösterilen adresi kopyalayabilirsiniz.</string>
+    <string name="set_contact_support">Özellik istekleri ve destek</string>
+    <string name="set_contact_support_desc">Bir fikriniz mi var, yardım mı gerekiyor? Bize e-posta gönderin.</string>
+    <string name="support_email_subject">%1$s — Özellik isteği veya destek</string>
+    <string name="feature_request_email_subject">%1$s — Özellik isteği</string>
+    <string name="suggest_feature">Özellik önerin</string>
+    <string name="set_toast_no_rating">Puanlama sayfası bu cihazda açılamıyor.</string>
+    <string name="set_rate">%1$s uygulamasını puanlayın</string>
+    <string name="set_developer">Geliştirici</string>
+    <string name="set_debug_logging">Hata Ayıklama Günlüğü</string>
+    <string name="set_debug_desc">Ayrıntılı günlük kaydı tutar</string>
+    <string name="set_send_logs">Günlükleri Gönder</string>
+    <string name="set_fix">Düzelt</string>
+    <string name="set_cd_collapse">Daralt</string>
+    <string name="set_cd_expand">Genişlet</string>
+    <string name="set_tone_sound">Yalnızca ton uyarı sesi</string>
+    <string name="set_tone_sound_hint">Ses seçmek için Yalnızca ton modunu açın. O zamana kadar SpeakAlert varsayılan alarm tonunu kullanır.</string>
+    <string name="set_choose_tone">Ton seç</string>
+    <string name="set_use_default">Varsayılanı kullan</string>
+    <string name="set_default_alarm_tone">Varsayılan alarm tonu</string>
+    <string name="set_tone_unavailable">Seçilen ton kullanılamıyor, varsayılan alarm tonu kullanılıyor</string>
+    <string name="set_select_label_time">%1$s: saat seçin</string>
+    <string name="set_minutes">Dakika</string>
+    <string name="set_max_allowed">En fazla: %1$d dk</string>
+    <string name="set_desc_max">%1$s (En fazla %2$d dk)</string>
+    <string name="set_label_time">%1$s: %2$s</string>
+    <string name="set_volume">Ses düzeyi</string>
+    <string name="set_cd_volume">Uygulama Ses Düzeyi: %%%1$d</string>
+    <string name="set_loop_inline_desc">Bu süreden sonra tonu veya döngüdeki sesi durdurur. Takip hatırlatıcıları daha sonra gelen ayrı uyarılardır.</string>
+    <string name="set_loop_gap">Yinelemeler arasında duraklama</string>
+    <string name="set_loop_gap_desc">Döngüdeki hatırlatıcı yeniden çalmadan önceki sessizlik. Yukarıdaki durma süresi döngüyü yine sonlandırır. Tonlar duraklamadan çalar.</string>
+    <string name="set_loop_gap_none">Yok</string>
+    <string name="set_seconds_short">%1$d sn</string>
+    <string name="set_seconds">Saniye</string>
+    <string name="set_max_allowed_seconds">En fazla: %1$d sn</string>
+    <string name="set_desc_max_seconds">%1$s (En fazla %2$d sn)</string>
+    <string name="set_default_snooze">Varsayılan erteleme</string>
+    <string name="set_snooze_inline_desc">Ertele düğmesine dokunduğunuzda hatırlatıcının ne kadar erteleneceği</string>
+    <string name="set_default_followup">Varsayılan takip kontrolü</string>
+    <string name="set_followup_off_desc">Kapalı — yeni hatırlatıcılar takip olmadan oluşturulur. Yine de her hatırlatıcı için ayrı ayarlayabilirsiniz.</string>
+    <string name="set_followup_on_desc">Yeni hatırlatıcılar, tamamlandı olarak işaretlenmezse yeniden uyaran %1$d dakikalık bir takiple başlar. Mevcut hatırlatıcılar değişmez.</string>
+    <string name="set_followup_repeat">Takip yineleme sınırı</string>
+    <string name="set_followup_repeat_desc">Varsayılan olarak (∞) takip, siz hatırlatıcıyı tamamlandı olarak işaretleyene kadar uyarmaya devam eder. Belirli sayıda uyarıdan sonra kendiliğinden durmasını istiyorsanız bir sınır seçin. Sessiz saatler de takipleri durdurur.</string>
+    <string name="set_toast_followup_repeat_until_done">Takip, tamamlandı olarak işaretlenene kadar yinelenir</string>
+    <string name="set_toast_followup_repeat">Takip yineleme sınırı: %1$d×</string>
+    <string name="set_reliability">Güvenilirlik</string>
+    <string name="set_persist">Tamamlanana kadar bildirimi tut</string>
+    <string name="set_persist_desc">Hatırlatıcı bildirimi sabit kalır ve yalnızca Tamam veya Ertele düğmesine dokunduğunuzda kaybolur. Takip kontrolüyle birlikte en iyi sonucu verir.</string>
+    <string name="set_toast_persist_on">Hatırlatıcılar tamamlanana kadar kalır</string>
+    <string name="set_toast_persist_off">Hatırlatıcılar kaydırılarak kapatılabilir</string>
+    <string name="set_all_granted">Tüm izinler verildi</string>
+    <string name="set_some_needed">Bazı izinler gerekli</string>
+    <string name="set_dnd_desc_needed">Açık, ancak çalışması için Android Rahatsız Etmeyin erişimi gerekiyor.</string>
+    <string name="set_toast_dnd_on">Rahatsız Etmeyin sırasında uyarı açık</string>
+    <string name="set_toast_dnd_off">Rahatsız Etmeyin sırasında uyarı kapalı</string>
+    <string name="set_battery_desc_ok">%1$s uygulamasının arka planda çalışmasına zaten izin veriliyor.</string>
+    <string name="set_wear_watches">%1$d Wear OS saat bağlı</string>
+    <string name="set_wear_none">Bağlı Wear OS saat yok</string>
+    <string name="set_wear_channel_muted">%1$s hatırlatıcı kanalı sessize alınmış. Hatırlatıcıları saate göndermek için etkinleştirin.</string>
+    <string name="set_rate_desc">Deneyiminizi Google Play’de paylaşın.</string>
+    <string name="set_tone_sound_active">%1$s. Kullanılamaz hâle gelirse SpeakAlert varsayılan alarm tonuna döner.</string>
+
+    <!-- More apps from the developer -->
+    <string name="set_more_apps_title">GhostgramLabs’ten diğer uygulamalar</string>
+    <string name="set_more_apps_desc">%1$s yapımcılarından ücretsiz uygulamalar</string>
+    <string name="set_app_free_tag">Google Play’de ücretsiz</string>
+    <string name="app_pettibox_name">PettiBox: Yer İşareti Yöneticisi</string>
+    <string name="app_pettibox_desc">Ücretsiz • Bağlantılar, notlar, dosyalar ve ekran görüntüleri için gizli “sonra bak” alanı, çevrimdışı aramayla</string>
+    <string name="app_directserve_name">DirectServe: Dosya Aktarımı</string>
+    <string name="app_directserve_desc">Ücretsiz • Dosyaları herhangi bir cihaza veya TV’ye paylaşın ve aktarın — bulut yok, kablo yok</string>
+    <string name="set_toast_no_store">Google Play bu cihazda açılamıyor.</string>
+
+    <!-- In-app rating prompt -->
+    <string name="rate_prompt_title">%1$s ücretsizdir. Desteğiniz önemli.</string>
+    <string name="rate_prompt_message">Yorumunuz daha fazla kişinin %1$s uygulamasını keşfetmesine yardımcı olur ve bizi geliştirmeye devam etmeye teşvik eder. Deneyiminizi Google Play’de paylaşmak için bir dakikanızı ayırın.</string>
+    <string name="rate_prompt_positive">Şimdi puanla</string>
+    <string name="rate_prompt_later">Belki sonra</string>
+    <string name="rate_prompt_never">Hayır, teşekkürler</string>
+
+    <!-- Help guide -->
+    <string name="help_intro">%1$s uygulamasında hatırlatıcı oluşturma, oynatma, yineleme ve geri getirme hakkında önemli olan her şey.</string>
+    <string name="help_s1_title">Hatırlatıcı çaldığında</string>
+    <string name="help_s1_content">Her uyarı — kilit ekranında ve bildirimde — net düğmeler gösterir:\n- Tamam: görevi tamamlandı olarak işaretler. Yinelenen bir hatırlatıcıda yalnızca bu seferi kapatır, gelecekteki yinelemeler kalır.\n- Sustur: alarm sesini durdurur ama hatırlatıcıyı ekranda tutar; böylece sonra karar verebilirsiniz.\n- Ertele: kısa bir süre sonra yeniden hatırlatır (tam ekran uyarıda 5 veya 10 dakika).\n- Oynat / Seslendir: hiçbir şey çalmıyorken görünür; sesli veya metin hatırlatıcıyı yeniden duyabilirsiniz.\nİpucu: Bir görevi yalnızca Tamam tamamlar. Sustur yalnızca sesi keser.</string>
+    <string name="help_s2_title">Hatırlatıcı oluşturma</string>
+    <string name="help_s2_content">- Önce ses: Hızlıca sözlü bir hatırlatıcı kaydetmek için Mikrofona dokunun.\n- Ses dosyası: Cihazınızdaki mevcut bir ses dosyasını seçin.\n- Hatırlatıcı mesajı: Uygulamada ve bildirimlerde gösterilir.\n- Sesli notlar ve ses dosyaları, seslendirilen yazılı metne göre önceliklidir.\n- Yazılı hatırlatıcılar, yalnızca salt metin olduklarında ve otomatik metin seslendirme açıkken otomatik seslendirilir.\n- Kısa ad: Listelerde daha kolay ayırt etmek için isteğe bağlı ad.\n- Zamanlama: Tarih, saat, yineleme ve takip kontrolünü seçip kaydedin.</string>
+    <string name="help_s3_title">Oynatma ve önizleme</string>
+    <string name="help_s3_content">- Hatırlatıcı Ekle, kaydetmeden önce kaydedilen sesi ve seçilen ses dosyasını dinlemenizi sağlar.\n- Hatırlatıcı ayrıntıları, sesli notları ve ses dosyalarını oynatmanızı, durdurmanızı ve içinde ilerlemenizi sağlar.\n- Salt metin hatırlatıcılar, uygulamadan veya bildirimden elle seslendirilebilir.\n- Yalnızca ton modu, sesli oynatma yerine hatırlatıcı tonunu kullanır.\n- Ayarlar bölümünden yalnızca ton uyarı sesini seçebilirsiniz; bu ses kullanılamaz hâle gelirse %1$s varsayılan alarm tonuna döner.</string>
+    <string name="help_s4_title">Ana ekran ve hızlı işlemler</string>
+    <string name="help_s4_content">- Bugün, Yaklaşan, Kaçırılan ve Tamamlanan sekmeleri hatırlatıcıları durumlarına göre gruplar.\n- Hatırlatıcının tüm ayrıntılarını açmak için bir karta dokunun.\n- Mevcut bir hatırlatıcıyı çoğaltmak için kopyala düğmesini kullanın.\n- Kart işlemleri arasında Hatırlatıcıyı oynat, Tamam ve Düzenle, Tamamlandı olarak işaretle, Yinelemeyi durdur veya Sil seçeneklerini içeren üç nokta menüsü bulunur.</string>
+    <string name="help_s18_title">Hatırlatıcıları duraklatma ve Ana ekran bildirimleri</string>
+    <string name="help_s18_content">- Tüm hatırlatıcıları bir saat, dört saat, günün geri kalanı veya seçtiğiniz bir saate kadar bekletmek için Ana ekrandaki duraklat düğmesine dokunun.\n- Her duraklatmanın bir bitiş zamanı vardır. Ana ekran bunu gösterir; erken bitirmek için Sürdür seçeneğini kullanın.\n- Duraklatılmış bir hatırlatıcı uyarı vermez ama yine de Kaçırılan sekmesinde görünür.\n- Duraklatma, Rahatsız Etmeyin sırasında da uyar ayarını da geçersiz kılar; çünkü şu anda hatırlatıcıyı hiç istemediğiniz anlamına gelir.\n- Ana ekran, bu telefonun %1$s uygulamasını arka planda durdurmasına izin verildiğinde sizi uyarır ve sessiz saatleriniz açıkken bu aralığı gösterir.</string>
+    <string name="help_s5_title">Yinelenen hatırlatıcılar</string>
+    <string name="help_s5_content">- Yineleme türleri: Günlük, Haftalık, Aylık, Yıllık veya Özel.\n- Seçilen tarih ve saat ilk tekrar olur.\n- Yinelemeler süresiz devam edebilir, belirli bir tarih ve saatte veya belirli sayıda tekrardan sonra bitebilir.\n- Yinelenen bir hatırlatıcıyı tamamlandı olarak işaretlemek yalnızca geçerli tekrarı kapatır.</string>
+    <string name="help_s6_title">Bildirimler ve tam ekran uyarılar</string>
+    <string name="help_s6_content">- Hatırlatıcı bildirimi üç hızlı düğme gösterir: Tamam, Ertele ve Sustur (çalarken) ya da Oynat/Seslendir (yeniden duymak için).\n- Tamam hatırlatıcıyı tamamlandı olarak işaretler; Sustur yalnızca sesi durdurur ve sonra işlem yapabilmeniz için hatırlatıcıyı bırakır.\n- Bildirimi kaydırarak kapatmak da geçerli tekrarı tamamlandı olarak işaretler.\n- Ayarlar bölümünde açıldığında, kilit ekranında aynı Tamam, Sustur, Ertele ve Tekrar oynat işlemleriyle tam ekran bir uyarı görünebilir.</string>
+    <string name="help_s7_title">Kaçırılan ve geri yüklenen hatırlatıcılar</string>
+    <string name="help_s7_content">- Kaçırılan hatırlatıcılar, siz gözden geçirene kadar Kaçırılan sekmesinde kalır.\n- Uygulama açıldığında, kaçırılan hatırlatıcı sayfası en son kaçırılan hatırlatıcıyı hızlıca oynatmayı önerebilir.\n- Geçmiş hatırlatıcılar işlem sayfalarından geri yüklenebilir, yeniden planlanabilir veya tekrar oynatılabilir.</string>
+    <string name="help_s8_title">Oynatma ayarları</string>
+    <string name="help_s8_content">- Otomatik oynatma, hatırlatıcı çaldığında sesli notu veya ses dosyasını başlatır.\n- Yazılı hatırlatıcıları otomatik seslendir ayarı, yalnızca salt metin hatırlatıcıların seslendirilmesini denetler.\n- Konuşma dili, sesli hatırlatıcılar için sesi belirler: Otomatik algılama hatırlatıcının kendi diline uyar (böylece Hintçe bir hatırlatıcı Hintçe okunur) veya Cihaz dilini ya da İngilizceyi zorunlu kılabilirsiniz. Seçilen dilin sesi telefonunuzun Metin okuma ayarlarında yüklü olmalıdır.\n- Otomatik metin seslendirme kapalı olsa bile elle oynatma çalışır.\n- Özel dinleme önce bağlı işitme cihazlarını, Bluetooth cihazlarını veya kablolu kulaklıkları dener. Hiçbiri bağlı değilse hoparlör yerine telefonun ahizesini kullanır.\n- Döngüde oynatma, siz durdurana veya döngü süresi dolana kadar sesi yineler.\n- Takip kontrolü, hatırlatıcı tamamlandı olarak işaretlenene kadar yeniden sorar.\n- Sessiz saatler, seçilen zamanlarda hatırlatıcı oynatmayı susturabilir.</string>
+    <string name="help_s9_title">Yalnızca ton modu ve güvenilirlik</string>
+    <string name="help_s9_content">- Yalnızca ton modu, ses veya metin okuma yerine net bir alarm tonu kullanır.\n- Özel bir yalnızca ton uyarı sesi seçebilir veya varsayılan alarm tonunu koruyabilirsiniz.\n- Rahatsız Etmeyin sırasında da uyar ayarı, Rahatsız Etmeyin açıkken %1$s uygulamasının önemli hatırlatıcıları çalmayı denemesini sağlar.\n- Bu ayar kapalıyken Rahatsız Etmeyin tarafından engellenen hatırlatıcılar çalmak yerine Kaçırılan sekmesine gider.\n- Bu ayar telefonunuzun Rahatsız Etmeyin modunu açıp kapatmaz. Çalışması için Android Rahatsız Etmeyin erişimi gerekir.\n- Açıkken hatırlatıcılar alarm öncelikli ses kullanır. Sistem modu alarm sesini susturuyorsa bazı telefon rutinleri alarmları yine de engelleyebilir.\n- Seçilen ses sonradan bulunamazsa %1$s otomatik olarak varsayılan alarm tonuna döner.\n- Telefonunuz sesli oynatmayı geciktiriyor, bastırıyor veya durduruyorsa yalnızca ton modunu kullanın.\n- Ayarlar &gt; Hatırlatıcı kontrolü bölümünde, arka plan kısıtlamaları katı olan telefonlar için adım adım pil yardımı bulunur.\n- En güvenilir hatırlatıcılar için bildirimleri, tam zamanında alarm çalma iznini ve pil ayarlarını açık tutun.</string>
+    <string name="help_s10_title">Widget’lar ve Wear OS</string>
+    <string name="help_s10_content">- Hızlı Hatırlatıcı widget’ı Hatırlatıcı Ekle ekranını doğrudan açar.\n- Yaklaşan widget’ı yaklaşan ve kaçırılan hatırlatıcıları gösterir.\n- Wear OS desteği, telefon bildirimlerinin ve saat eşitlemesinin açık olmasına bağlıdır.</string>
+    <string name="help_s11_title">Cihaz yeniden başlatıldıktan sonra</string>
+    <string name="help_s11_content">- Gelecekteki hatırlatıcılar yeniden başlatmadan sonra otomatik olarak yeniden planlanır.\n- Zamanı geçmiş hatırlatıcılar, açılışta beklenmedik şekilde çalmak yerine kaçırılan hatırlatıcı akışına girer.</string>
+    <string name="help_s13_title">Takip kontrolleri</string>
+    <string name="help_s13_content">- Takip kontrolü, hatırlatıcı çaldıktan birkaç dakika sonra “… tamamlandı mı?” diye sorar.\n- Varsayılan olarak, siz hatırlatıcıyı tamamlandı olarak işaretleyene kadar yinelenir. Kendiliğinden durmasını istiyorsanız Ayarlar &gt; Erteleme ve takip bölümünden bir yineleme sınırı belirleyebilirsiniz.\n- Tamam ve Ertele geçerli takip döngüsünü sonlandırır; Sessiz saatler de takipleri durdurur.\n- Takip kontrolleri, tamamlanana veya sınıra ulaşılana kadar cihaz yeniden başlatıldıktan sonra da devam eder.</string>
+    <string name="help_s14_title">Yedekleme ve içe aktarma</string>
+    <string name="help_s14_content">- Ayarlar bölümündeki Hatırlatıcıları yedekle seçeneği, yaklaşan tüm hatırlatıcıları ses kayıtlarıyla birlikte seçtiğiniz tek bir dosyaya kaydeder.\n- Hatırlatıcıları içe aktar seçeneği bunları bu cihaza veya başka bir cihaza geri yükler.\n- İçe aktarma, birebir yinelenenleri ve süresi dolmuş tek seferlik hatırlatıcıları atlar; yinelenen hatırlatıcılar bir sonraki tekrarlarından devam eder.\n- İçe aktarılan hatırlatıcılar hemen planlanır.</string>
+    <string name="help_s12_title">Hatırlatıcıları tamamlanana kadar ekranda tutun</string>
+    <string name="help_s12_content">- Hatırlatıcı bildirimini sabitlemek ve yanlışlıkla kaydırılıp kapatılmasını önlemek için Ayarlar &gt; Hatırlatıcı çaldığında &gt; Tamamlanana kadar bildirimi tut seçeneğini açın.\n- Açıkken kaydırma yalnızca sesi susturur ve hatırlatıcıyı beklemede bırakır; siz Tamam veya Ertele düğmesine dokunana kadar kalır.\n- Tamamlandı olarak işaretleme; bildirimden, tam ekran uyarıdan veya hatırlatıcı kartından her zaman çalışır ve takip uyarılarını durdurur.\n- Hatırlatıcının tamamlanana kadar belirli aralıklarla yeniden uyarması için bunu bir takip kontrolüyle birlikte kullanın.</string>
+
+    <!-- What's new sheet -->
+    <string name="action_continue">Devam</string>
+    <string name="wn_title">%1$s sürümündeki yenilikler</string>
+    <string name="wn_intro">Son güncellemenizden bu yana yenilikler. Birçoğu uygulamayı kullananların önerisi.</string>
+    <string name="wn_check_title">Bir hatırlatıcıyı neyin engelleyebileceğini görün</string>
+    <string name="wn_check_desc">Ayarlar bölümünün en üstündeki Hatırlatıcı kontrolü; bildirimler, pil veya düşük alarm sesi gibi hatırlatıcıları geciktirebilecek ya da susturabilecek her şeyi, her biri için bir düzeltme düğmesiyle gösterir.</string>
+    <string name="wn_reliable_title">Ekstra güvenilir hatırlatıcılar</string>
+    <string name="wn_reliable_desc">Telefonunuz pil tasarrufu için hatırlatıcıları geciktiriyorsa Ayarlar &gt; Hatırlatıcı kontrolü bölümünden Ekstra güvenilir hatırlatıcılar seçeneğini açın. Hatırlatıcılar alarm gibi kurulur ve zamanında çalar.</string>
+    <string name="wn_settings_title">Bulması daha kolay ayarlar</string>
+    <string name="wn_settings_desc">Her bölüm içinde ne olduğunu söyler ve uygulama dili üst tarafta, Dil ve görünüm bölümündedir.</string>
+    <string name="wn_cards_title">Her kartta Düzenle, Tamam ve Sil</string>
+    <string name="wn_cards_desc">Her hatırlatıcı kartında Düzenle, Tamam ve Sil düğmeleri bulunur. Silme önce onay ister ve geri alınabilir.</string>
+    <string name="wn_sound_title">Ses durması gerektiğinde durur</string>
+    <string name="wn_sound_desc">Bir hatırlatıcıyı tamamlandı olarak işaretlemek, silmek veya zamanını değiştirmek sesini hemen durdurur. Ton alarmlarında yeniden Sustur düğmesi var.</string>
+    <string name="wn_nthday_title">Son perşembe günü yinele</string>
+    <string name="wn_nthday_desc">Aylık hatırlatıcılar, ilk pazartesi veya son perşembe gibi, ay içindeki sırasına göre bir haftanın gününe denk gelebilir. Yinele &gt; Aylık &gt; Haftanın günü seçeneğini kullanın.</string>
+    <string name="wn_gap_title">Yinelemeler arasında duraklama</string>
+    <string name="wn_gap_desc">Döngüdeki bir hatırlatıcı yeniden çalmadan önce bekleyebilir: “Toplantı”, 10 saniye sessizlik, yeniden “Toplantı”; durma süresine kadar böyle devam eder. Ayarlar &gt; Hatırlatıcı çaldığında &gt; Yinelemeler arasında duraklama bölümünden ayarlayın.</string>
+    <string name="wn_colors_title">Tamam ve Sil için kendi renkleriniz</string>
+    <string name="wn_colors_desc">Ayarlar &gt; Dil ve görünüm &gt; Hatırlatıcı kartı düğmeleri bölümünden hatırlatıcı kartlarındaki Tamam ve Sil düğmelerine kendi renklerinizi verin.</string>
+    <string name="wn_notif_title">Uygulamayı açtığınızda bildirimler temizlenir</string>
+    <string name="wn_notif_desc">Bir hatırlatıcı çaldıktan sonra uygulamayı açmak veya hatırlatıcıdaki bir değişikliği kaydetmek bildirimini temizler. “Tamamlanana kadar bildirimi tut” açıksa uygulamayı açmak bildirimi yerinde bırakır.</string>
+    <string name="wn_edit_title">Tarihi ve saati yerinde değiştirin</string>
+    <string name="wn_edit_desc">Bir hatırlatıcıyı açın ve doğrudan değiştirmek için Tarih veya Saat alanına dokunun. Önce düzenleyiciyi açmanız gerekmez.</string>
+    <string name="wn_clear_title">Bildirimler kendiliğinden toparlanır</string>
+    <string name="wn_clear_desc">Uygulamada bir hatırlatıcıyı açtığınızda, oynattığınızda, tamamladığınızda veya sildiğinizde bildirimi bildirim panelinden kalkar. Tamamlanana kadar bildirimi tut açıksa siz tamamlandı olarak işaretleyene kadar kalır.</string>
+    <string name="wn_save_title">Sesli hatırlatıcılar anında kaydedilir</string>
+    <string name="wn_save_desc">Deneysel ses iyileştirme açıkken kaydetme artık temizlemeyi beklemez. İşlem arka planda tamamlanır ve bu sırada hatırlatıcıda Ses · iyileştiriliyor… görünür.</string>
+    <string name="wn_fullscreen_title">Kilit ekranı uyarısı artık çalışıyor</string>
+    <string name="wn_fullscreen_desc">Ayar nasıl yapılmış olursa olsun, hatırlatıcı çaldığında tam ekran uyarı hiç görünmüyordu. Artık ekranı uyandırıyor ve hatırlatıcıyı, daha büyük metinli ve daha net işlemli yeniden tasarlanmış bir uyarı ekranında gösteriyor.</string>
+    <string name="wn_pause_title">Hatırlatıcıları duraklatın</string>
+    <string name="wn_pause_desc">Toplantıya mı giriyorsunuz? Ana ekrandan bir saat, günün geri kalanı veya seçtiğiniz bir saate kadar duraklatın. Her duraklatmanın bir sonu vardır ve duraklatılan hatırlatıcılar yine de Kaçırılan sekmesinde görünür.</string>
+    <string name="wn_notices_title">Ana ekran, hatırlatıcının neden sessiz kaldığını söyler</string>
+    <string name="wn_notices_desc">Telefonunuzun %1$s uygulamasını arka planda durdurmasına izin veriliyorsa veya sessiz saatler etkinse artık Ana ekranda bir uyarı gösterilir. Böylece hatırlatıcıların neden çalmadığını görebilirsiniz.</string>
+    <string name="wn_lang_title">Artık sizin dilinizde</string>
+    <string name="wn_lang_desc">Uygulamanın tamamı İngilizce, İspanyolca, Hintçe, Arapça, Portekizce (Brezilya), Rusça, Vietnamca, Bengalce, Telugu dili, Tamilce, Yunanca ve Malayalam dilinde, sağdan sola desteğiyle kullanılabilir. Ayarlar &gt; Dil ve görünüm &gt; Dil bölümünden seçin.</string>
+    <string name="wn_missed_title">Kaçırılan hatırlatıcıları yeniden planlayın</string>
+    <string name="wn_missed_desc">Kaçırılan sekmesinde, yeni bir tarih veya saat vermek için hatırlatıcıdaki kaleme dokunun. Hatırlatıcı yaklaşanlar arasına geri döner.</string>
+    <string name="wn_quiet_title">İşiniz bittiğinde ses durur</string>
+    <string name="wn_quiet_desc">Bir hatırlatıcının bildirimini kaydırarak kapatmak artık sesini durdurur ve siz düzenlerken veya zamanını değiştirirken hatırlatıcı çalmaya başlamaz.</string>
+    <string name="wn_buttons_title">Daha net alarm düğmeleri</string>
+    <string name="wn_buttons_desc">Hatırlatıcı uyarıları ve bildirimleri artık Tamam, Sustur ve Ertele düğmelerini gösterir. Tamam görevi tamamlar; Sustur yalnızca sesi durdurur ve hatırlatıcıyı tutar.</string>
+    <string name="wn_spoken_title">Doğru sesle hatırlatıcılar</string>
+    <string name="wn_spoken_desc">Sesli hatırlatıcılar otomatik olarak kendi dillerinde okunur — uygulama İngilizce olsa bile Hintçe bir hatırlatıcı Hintçe okunur. Ayarlar &gt; Hatırlatıcı çaldığında &gt; Konuşma dili bölümünden ayarlayın.</string>
+    <string name="wn_persist_title">Hatırlatıcıları tamamlanana kadar tutun</string>
+    <string name="wn_persist_desc">Hatırlatıcının sabit kalması ve yalnızca Tamam veya Ertele seçildiğinde kaybolması için Ayarlar &gt; Güvenilirlik &gt; Tamamlanana kadar bildirimi tut seçeneğini açın.</string>
+    <string name="wn_backup_title">Hatırlatıcılarınızı yedekleyin ve taşıyın</string>
+    <string name="wn_backup_desc">Yaklaşan tüm hatırlatıcıları — kayıtlar dahil — bir dosyaya kaydedin ve yeni bir telefonda bile istediğiniz zaman geri yükleyin. Ayarlar bölümünde bulabilirsiniz.</string>
+    <string name="wn_followup_title">Takip kontrolleri, istediğiniz gibi</string>
+    <string name="wn_followup_desc">Takip kontrolleri, daha önce olduğu gibi siz hatırlatıcıyı tamamlandı olarak işaretleyene kadar uyarmaya devam eder. Yeni: kendiliğinden durmalarını istiyorsanız Ayarlar &gt; Güvenilirlik bölümünden bir yineleme sınırı belirleyin.</string>
+
+    <!-- Startup dialogs -->
+    <string name="action_allow">İzin ver</string>
+    <string name="action_later">Sonra</string>
+    <string name="action_open_settings">Ayarları aç</string>
+    <string name="batt_prompt_title">%1$s uygulamasının arka planda çalışmasına izin verin</string>
+    <string name="batt_prompt_message">Bazı telefonlar, özellikle Xiaomi ve POCO modelleri, pil tasarrufu için uygulamaların arka planda çalışmasını durdurur. Bu, hatırlatıcıların çalmasını engelleyebilir. Daha güvenilir hatırlatıcılar için %1$s uygulamasının pil optimizasyonunu yok saymasına izin verin.</string>
+    <string name="batt_toast_unavailable">Pil ayarları bu cihazda kullanılamıyor.</string>
+    <string name="home_batt_banner_title">Hatırlatıcılar gelmeyebilir</string>
+    <string name="home_batt_banner_body">Bu telefonun %1$s uygulamasını arka planda durdurmasına izin veriliyor. Kısıtlamasız pil kullanımına izin vermek için dokunun.</string>
+    <string name="home_quiet_banner">Sessiz saatler %1$s – %2$s. Hatırlatıcılar Kaçırılan sekmesine gider.</string>
+    <string name="home_pause_banner">Hatırlatıcılar duraklatıldı. Bitiş: %1$s</string>
+    <string name="home_pause_resume">Sürdür</string>
+    <string name="home_pause_title">Hatırlatıcıları duraklat</string>
+    <string name="home_pause_body">Duraklatma bitene kadar hatırlatıcılar uyarı vermez. Yine de Kaçırılan sekmesine gider.</string>
+    <string name="home_pause_1h">1 saat boyunca</string>
+    <string name="home_pause_4h">4 saat boyunca</string>
+    <string name="home_pause_today">Günün geri kalanı boyunca</string>
+    <string name="home_pause_pick">Bitiş saati seçin…</string>
+    <string name="home_pause_cd">Hatırlatıcıları duraklat</string>
+    <string name="home_pause_also_quiet">Sessiz saatler de açık, %1$s – %2$s.</string>
+    <string name="fsr_title">Tam ekran uyarılara yeniden izin verin</string>
+    <string name="fsr_message">Kilit ekranı hatırlatıcı uyarıları %1$s uygulamasında hâlâ açık, ancak Android tam ekran erişimi kapalı. Bu, yeniden yükleme veya geri yüklemeden sonra olabilir.</string>
+    <!-- Version 2.0.34 help and startup highlights -->
+    <string name="help_s15_title">Hatırlatıcı formunu özelleştirin</string>
+    <string name="help_s15_content">- Ses kaydı, Ses dosyası seç, Yazılı hatırlatıcı ve Kısa ad bölümlerini göstermek veya gizlemek için Ayarlar &gt; Hatırlatıcı formu bölümünü açın.\n- Her anahtar bağımsız çalışır. Üç giriş yöntemi de gizlenmişse Hatırlatıcı Ekle hangi ayarı yeniden açmanız gerektiğini söyler.\n- Düzenlerken, hatırlatıcı zaten o içeriği barındırıyorsa gizli bölüm otomatik olarak görünür.</string>
+    <string name="help_s16_title">Ses kayıt modunuzu seçin</string>
+    <string name="help_s16_content">- Ayarlar &gt; Hatırlatıcı formu &gt; Deneysel ses iyileştirme bölümünü açın.\n- Kapalı (varsayılan), sonradan işleme olmadan özgün ham MIC/AAC kayıt davranışını korur.\n- Açık; daha yeni kayıt korumalarını, sessizlik bildirimini, arka plan gürültüsü temizlemeyi ve ses düzeyi dengelemeyi etkinleştirir. Sonuçlar ve işlem süresi cihaza göre değişebilir.\n- Sessiz kayıtlar yine de önizlenebilir ve kaydedilebilir.</string>
+    <string name="help_s17_title">Daha güvenilir hatırlatıcı oynatma</string>
+    <string name="help_s17_content">- Hatırlatıcı oynatma artık, yeni Android sürümleri ve arka planda yavaş başlayan telefonlar dahil, gerekli Android ön plan bildirimini hemen başlatır.\n- Bu, bir hatırlatıcıyı sesi veya konuşması başlamadan durdurabilen sistem zaman aşımını önler.\n- En iyi güvenilirlik için bildirim iznini, tam zamanında alarm çalma iznini ve önerilen pil ayarlarını açık tutun.</string>
+    <string name="wn_form_title">Hatırlatıcı formunuz, istediğiniz gibi</string>
+    <string name="wn_form_desc">Ayarlar &gt; Hatırlatıcı formu bölümünde Ses kaydı, Ses dosyası seç, Yazılı hatırlatıcı ve Kısa ad bölümlerini birbirinden bağımsız gösterin veya gizleyin.</string>
+    <string name="wn_recording_title">İsteğe bağlı deneysel ses iyileştirme</string>
+    <string name="wn_recording_desc">Yeni bir ayar seçim yapmanızı sağlar: özgün ham kayıt davranışını koruyun (varsayılan) ya da daha yeni kayıt korumalarını, sessizlik bildirimlerini ve kısık kayıtları ortam sesini yükseltmeden rahat bir düzeye çıkaran arka plan gürültüsü temizlemeyi açın. Sessiz kayıtlar her zaman saklanır.</string>
+    <string name="wn_reliability_title">Yeni Android telefonlarda daha güvenilir</string>
+    <string name="wn_reliability_desc">Hatırlatıcı oynatma artık ön planda güvenli ve hemen başlar; bazı Android 12 ve Android 16 cihazlarda görülen başlatma zaman aşımlarını önler.</string>
+    <string name="settings_24_hour_time">24 saat biçimini kullan</string>
+    <string name="settings_24_hour_time_desc">Her saati 5:30 PM yerine 17:30 olarak gösterir.</string>
+    <string name="set_week_start">Haftanın ilk günü</string>
+    <string name="set_week_start_desc">Tarih seçicide haftanın ilk günü. Bir gün seçildiğinde telefonun kendi tarih seçicisi kullanılır.</string>
+
+    <!-- Reminder card and actions sheet -->
+    <string name="card_recur_onetime">Tek seferlik hatırlatıcı</string>
+    <string name="card_recur_daily">Her gün yinelenir</string>
+    <string name="card_recur_last_day">Her ayın son günü</string>
+    <string name="rs_day_of_week">Haftanın günü</string>
+    <string name="rs_which_one">Ayın kaçıncısı</string>
+    <string name="rs_weekday">Gün</string>
+    <string name="rec_nth_weekday">%1$s %2$s</string>
+    <string name="card_recur_nth_weekday">Her ayın %1$s günü</string>
+    <string-array name="rs_ordinal_labels">
+        <item>İlk</item>
+        <item>İkinci</item>
+        <item>Üçüncü</item>
+        <item>Dördüncü</item>
+        <item>Son</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>ilk</item>
+        <item>ikinci</item>
+        <item>üçüncü</item>
+        <item>dördüncü</item>
+        <item>son</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>ilk</item>
+        <item>ikinci</item>
+        <item>üçüncü</item>
+        <item>dördüncü</item>
+        <item>son</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>ilk</item>
+        <item>ikinci</item>
+        <item>üçüncü</item>
+        <item>dördüncü</item>
+        <item>son</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+    </string-array>
+    <string name="card_recur_yearly">Her yıl yinelenir</string>
+    <string name="card_chip_recurring">Yinelenen</string>
+    <string name="card_days_of_month">Ayın günleri</string>
+    <string name="card_cd_duplicate">Hatırlatıcıyı çoğalt</string>
+    <string name="card_cd_more">Diğer seçenekler</string>
+    <string name="card_cd_looping">Döngüde</string>
+    <string name="card_cd_followup">%1$d dakika sonra takip</string>
+    <string name="card_cd_ends_after">Bitiş: %1$d %2$s sonra</string>
+    <string name="sheet_reminder_actions">Hatırlatıcı işlemleri</string>
+    <string name="sheet_stop_playback">Oynatmayı durdur</string>
+
+    <!-- Custom follow-up dialog -->
+    <string name="fu_custom_title">Özel Takip</string>
+    <string name="fu_custom_desc">Hatırlatıcı tamamlandı olarak işaretlenmezse bu kadar dakika sonra yeniden sorar.</string>
+    <string name="fu_allowed_range">İzin verilen: 1-%1$d dk</string>
+
+    <!-- Voice recorder -->
+    <string name="vr_playing_audio">Ses Oynatılıyor</string>
+    <string name="vr_voice_recorded">Ses kaydedildi</string>
+    <string name="vr_text_optional">Metin isteğe bağlıdır</string>
+    <string name="vr_tap_to_stop">Durdurmak için Dokunun</string>
+    <string name="vr_cd_level">Gerçek zamanlı ses düzeyi göstergesi</string>
+    <string name="vr_cd_stop">Kaydı Durdur</string>
+    <string name="vr_cd_double_tap_stop">Kaydı durdurmak için iki kez dokunun</string>
+    <string name="vr_cd_preview_progress">Ses önizlemesi ilerlemesi</string>
+    <string name="vr_cd_start">Ses Kaydını Başlat</string>
+    <string name="vr_cd_restart">Kaydı Yeniden Başlat</string>
+
+    <!-- Date and time picker -->
+    <string name="dtp_title">Tarih ve saat seçin</string>
+    <string name="dtp_subtitle">Hızlı seçenekleri kullanın veya tam tarihi ve saati seçin.</string>
+    <string name="dtp_quick_date">Hızlı tarih</string>
+    <string name="dtp_quick_time">Hızlı saat</string>
+    <string name="dtp_pick_date">Tam tarihi seç</string>
+    <string name="dtp_pick_time">Tam saati seç</string>
+    <string name="dtp_next_week">Gelecek hafta</string>
+    <string name="dtp_plus_10">+10 dk</string>
+    <string name="dtp_plus_30">+30 dk</string>
+    <string name="dtp_plus_60">+1 saat</string>
+    <string name="dtp_err_future">Gelecekte bir saat seçin</string>
+    <string name="dtp_err_date_future">Tarih bugün veya daha sonrası olmalıdır</string>
+
+    <!-- Recurring completion dialog -->
+    <string name="rcd_title">Bu yinelenen bir hatırlatıcı</string>
+    <string name="rcd_desc">Yalnızca bu tekrarı kapatmayı, yineleme zamanlamasını düzenlemeyi veya tamamen durdurmayı seçin.</string>
+    <string name="rcd_mark_occurrence">Bu tekrarı tamamlandı olarak işaretle</string>
+    <string name="rcd_edit_schedule">Zamanlamayı düzenle</string>
+    <string name="rcd_stop_recurring">Yinelemeyi durdur</string>
+
+    <!-- Restore reminder dialog -->
+    <string name="rrd_title">Hatırlatıcıyı geri yükle</string>
+    <string name="rrd_desc">Bu hatırlatıcı daha önce tamamlandı. Nasıl geri yüklemek istediğinizi seçin.</string>
+    <string name="rrd_reschedule">Hatırlatıcıyı yeniden planla</string>
+    <string name="rrd_move_missed">Kaçırılan sekmesine taşı</string>
+    <string name="rrd_play">Hatırlatıcıyı oynat</string>
+    <string name="rrd_keep_done">Tamamlanmış Olarak Bırak</string>
+
+    <!-- Missed reminder sheets -->
+    <string name="pua_title">Hatırlatıcı kaçırıldı</string>
+    <string name="pua_scheduled_for">Planlanan zaman: %1$s</string>
+    <string name="pua_set_new_time">Yeni bir zaman ayarla</string>
+    <string name="pua_just_play">Yalnızca hatırlatıcıyı oynat</string>
+    <string name="mrr_desc">En son kaçırılan hatırlatıcıyı şimdi oynatın veya her şeyi Kaçırılan sekmesinde tutup sonra gözden geçirin.</string>
+    <plurals name="mrr_title">
+        <item quantity="one">%1$d hatırlatıcı kaçırdınız</item>
+        <item quantity="other">%1$d hatırlatıcı kaçırdınız</item>
+    </plurals>
+    <string name="mrr_play_latest">En son kaçırılan hatırlatıcıyı oynat</string>
+    <string name="mrr_keep">Kaçırılan sekmesinde tut</string>
+
+    <!-- Battery optimization guide -->
+    <string name="bog_title">Pil Optimizasyonu Rehberi</string>
+    <string name="bog_header">Hatırlatıcıların zamanında çalmasını sağlayın</string>
+    <string name="bog_header_sub">%1$s pil kısıtlamalarından muaf tutulmadıkça bazı telefonlar arka plandaki alarmları duraklatır veya durdurur.</string>
+    <string name="bog_intro">Bazı cihazlar pil tasarrufu için arka plandaki alarmları durdurur. Bu, hatırlatıcıların çalmasını engelleyebilir.</string>
+    <string name="bog_menu_vary">Menü adları MIUI, HyperOS, EMUI, Android sürümü ve telefon modeline göre değişebilir.</string>
+    <string name="bog_allow_app">%1$s uygulamasına izin ver</string>
+    <string name="bog_back_settings">Ayarlara Dön</string>
+    <string name="bog_brand_xiaomi">Xiaomi / POCO / Redmi (MIUI / HyperOS)</string>
+    <string name="bog_brand_huawei">Huawei (EMUI)</string>
+    <string name="bog_step">Adım %1$d</string>
+    <string name="bog_optional">İsteğe bağlı</string>
+    <string name="bog_open_settings">Ayarları açın</string>
+    <string name="bog_find_app">%1$s uygulamasını bulun</string>
+    <string name="bog_xiaomi_battery">Pil seçeneğine dokunun</string>
+    <string name="bog_xiaomi_optimization">Pil Optimizasyonu seçeneğine dokunun</string>
+    <string name="bog_xiaomi_no_restrictions">Kısıtlama Yok seçeneğini belirleyin</string>
+    <string name="bog_xiaomi_opt">Uygulamayı son uygulamalar ekranında kilitleyin.</string>
+    <string name="bog_huawei_apps">Uygulamalar veya Uygulama başlatma bölümünü açın</string>
+    <string name="bog_huawei_manage_off">Otomatik yönet seçeneğini kapatın</string>
+    <string name="bog_huawei_allow">Otomatik başlatmaya, ikincil başlatmaya ve arka planda çalışmaya izin verin</string>
+    <string name="bog_huawei_opt">Pil optimizasyonunu da kontrol edin ve %1$s için İzin verme seçeneğini belirleyin.</string>
+    <string name="bog_status_enabled">%1$s için pil optimizasyonu hâlâ açık.</string>
+    <string name="bog_status_exempt">%1$s uygulamasının pil optimizasyonu olmadan çalışmasına zaten izin veriliyor.</string>
+    <string name="bog_no_battery_settings">Pil ayarları bu cihazda kullanılamıyor.</string>
+    <string name="bog_why_title">Bu neden önemli</string>
+    <string name="bog_why_body">Xiaomi, POCO, Redmi, Huawei, Infinix, Tecno ve benzeri markaların telefonları arka plandaki uygulamaları agresif biçimde durdurabilir. Üretici ailesini ve yazılım sürümünü kılavuz olarak kullanın; tam yollar cihaz modeline göre değişebilir.</string>
+
+    <!-- Reminder card accessibility description -->
+    <string name="a11y_card_reminder">Hatırlatıcı: %1$s</string>
+    <string name="a11y_card_at">saat %1$s</string>
+    <string name="a11y_card_has_audio_file">ses dosyası var</string>
+    <string name="a11y_card_has_voice">sesli not var</string>
+    <string name="a11y_card_recurring">yinelenen %1$s</string>
+    <string name="a11y_card_completed">tamamlandı</string>
+    <string name="a11y_card_playing">şu anda oynatılıyor</string>
+    <string name="a11y_card_open_hint">Ayrıntıları açmak için iki kez dokunun.</string>
+
+    <!-- Accessibility states -->
+    <string name="state_completed">Tamamlandı</string>
+    <string name="state_playing">Oynatılıyor</string>
+    <string name="a11y_percent">yüzde %1$d</string>
+    <string name="a11y_destructive">Silme işlemi</string>
+    <string name="a11y_recording_in_progress">Kayıt sürüyor</string>
+    <string name="a11y_playing_preview">Ses önizlemesi oynatılıyor</string>
+    <string name="a11y_voice_recorded">Sesli not kaydedildi</string>
+    <string name="a11y_no_voice_recorded">Kaydedilmiş sesli not yok</string>
+    <plurals name="card_occurrences">
+        <item quantity="one">%1$d tekrar</item>
+        <item quantity="other">%1$d tekrar</item>
+    </plurals>
+
+    <!-- Test reminder -->
+    <string name="set_test_reminder_title">Test Hatırlatıcısı</string>
+    <string name="set_test_reminder_text">Bu, oynatmayı doğrulamak için bir test hatırlatıcısıdır. Oluşturulduktan 10 saniye sonra çalar.</string>
+    <string name="widget_quick_subtitle">Hızlı ekle</string>
+    <string name="widget_upcoming_subtitle">Yaklaşan ve kaçırılan hatırlatıcılar</string>
+    <string name="widget_upcoming_empty">Yaklaşan veya kaçırılan hatırlatıcı yok</string>
+    <string name="card_type_audio_file">Ses Dosyası</string>
+    <string name="card_type_voice_improving">Ses · iyileştiriliyor…</string>
+    <string name="card_type_voice">Ses</string>
+    <string name="card_type_text">Metin</string>
+    <string name="card_voice_recording">Ses kaydı</string>
+    <string name="card_custom_audio_file">Özel ses dosyası</string>
+    <string name="card_text_note">Metin notu</string>
+    <string name="sheet_mark_this_done">Tamamlandı olarak işaretle</string>
+    <string name="sheet_delete_reminder">Hatırlatıcıyı sil</string>
+    <string name="vr_recording_ellipsis">Kaydediliyor…</string>
+    <string name="vr_play_recording">Kaydı Oynat</string>
+    <string name="rcd_sub_keep_next">Bir sonraki tekrar planlı kalır</string>
+    <string name="rcd_sub_change_rules">Yineleme kurallarını veya zamanını değiştirin</string>
+    <string name="rcd_sub_delete_future">Bu hatırlatıcıyı ve gelecekteki tekrarlarını silin</string>
+    <string name="rrd_sub_pick_new">Yeni bir tarih ve saat seçin</string>
+    <string name="rrd_sub_keep_missed">Sonrası için Kaçırılan sekmesinde tutun</string>
+    <string name="rrd_sub_hear_now">Geri yüklemeden şimdi dinleyin</string>
+    <string name="rrd_sub_leave_done">Hatırlatıcıyı tamamlanmış bırakın</string>
+    <string name="mrr_sub_start_now">Oynatmayı hemen başlatın</string>
+    <string name="set_tab_form">Form</string>
+    <string name="set_tab_play">Ses</string>
+    <string name="set_tab_time">Süre</string>
+    <string name="set_tab_safe">Güvenlik</string>
+    <string name="set_tab_backup">Yedek</string>
+    <string name="set_tab_wear">Saat</string>
+    <string name="set_tab_help">Yardım</string>
+    <string name="battery_guidance_title">Hatırlatıcılar gecikebilir veya kaçabilir</string>
+    <string name="battery_guidance_body">Telefonunuz pil tasarrufu için %1$s uygulamasını arka planda kısıtlıyor; bu yüzden uygulama kapalıyken hatırlatıcılar geç çalabilir. Arka plan kullanımına izin ver düğmesine dokunun, ardından İzin ver seçeneğini belirleyin. Bunu daha sonra Ayarlar &gt; Hatırlatıcı kontrolü bölümünden değiştirebilirsiniz.</string>
+    <string name="battery_review_settings">Arka plan kullanımına izin ver</string>
+    <string name="battery_keep_current">Hayır, teşekkürler</string>
+    <string name="battery_status_restricted">Arka plan pil erişimi: Kısıtlı. Zamanında hatırlatıcılar için önerilen: Kısıtlamasız.</string>
+    <string name="battery_status_allowed">Arka plan pil erişimi: Kısıtlamasız.</string>
+    <string name="card_done_occurrence">Bu sefer tamam</string>
+    <string name="home_delete_confirm_body">Sildikten hemen sonra geri alabilirsiniz.</string>
+    <string name="battery_banner_body">Telefonunuzun pil tasarrufu %1$s uygulamasını engelliyor olabilir.</string>
+    <string name="home_empty_nothing_today">Bugün için bir şey yok</string>
+    <string name="home_empty_today_sub">Sıradaki hatırlatıcınız “%1$s” sekmesinde.</string>
+    <string name="set_alarm_clock">Ekstra güvenilir hatırlatıcılar</string>
+    <string name="set_alarm_clock_desc">Pil tasarrufu için uygulamaları geciktiren telefonlarda hatırlatıcıların zamanında çalmasına yardımcı olur. Açıkken bazı telefonlar saat simgesi veya “alarm kuruldu” mesajı gösterir.</string>
+    <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
+    <string name="bog_transsion_autostart">Uygulamalar &gt; Otomatik başlatma (veya Phone Master &gt; Otomatik başlatma) bölümünü açın ve %1$s için etkinleştirin</string>
+    <string name="bog_transsion_battery">Uygulamalar &gt; %1$s &gt; Pil bölümünü açın ve Kısıtlamasız seçeneğini belirleyin</string>
+    <string name="set_alarm_clock_status_next">Sıradaki hatırlatıcınız için açık: %1$s</string>
+    <string name="set_alarm_clock_status_none">Sıradaki hatırlatıcınız bunu kullanacak.</string>
+    <string name="home_extra_reliable_on">Ekstra güvenilir hatırlatıcılar açık</string>
+    <string name="set_section_check">Hatırlatıcı kontrolü</string>
+    <string name="set_section_ringing">Hatırlatıcı çaldığında</string>
+    <string name="set_sum_check">İzinler, pil ve alarm sesi</string>
+    <string name="set_sum_lang">Uygulama dili, tema, saat biçimi, düğme renkleri</string>
+    <string name="set_card_colors">Hatırlatıcı kartı düğmeleri</string>
+    <string name="set_card_colors_desc">Ana ekrandaki Tamam ve Sil düğmeleri için renk seçin.</string>
+    <string name="set_card_done_color">Tamam düğmesi</string>
+    <string name="set_card_delete_color">Sil / Yinelemeyi durdur düğmesi</string>
+    <string name="color_default">Uygulama varsayılanı</string>
+    <string name="color_red">Kırmızı</string>
+    <string name="color_orange">Turuncu</string>
+    <string name="color_green">Yeşil</string>
+    <string name="color_teal">Camgöbeği</string>
+    <string name="color_blue">Mavi</string>
+    <string name="color_purple">Mor</string>
+    <string name="color_pink">Pembe</string>
+    <string name="color_gray">Gri</string>
+    <string name="set_sum_ringing">Ses veya ton, ses düzeyi, konuşma dili, test hatırlatıcısı</string>
+    <string name="set_sum_timing">Erteleme süresi, takip kontrolleri, sessiz saatler</string>
+    <string name="set_sum_form">Hatırlatıcı eklerken görünen seçenekler</string>
+    <string name="set_sum_wear">Saatinizdeki hatırlatıcılar</string>
+    <string name="set_sum_backup">Hatırlatıcıları ve kayıtları kaydedin veya geri yükleyin</string>
+    <string name="set_sum_about">Uygulama rehberi, destek, diğer uygulamalar</string>
+    <string name="check_all_good">Gerekli izinler açık.</string>
+    <string name="check_issues">Hatırlatıcıları göstermek ve planlamak için aşağıdaki eksik izinleri açın.</string>
+    <string name="check_notif_ok">Bildirimler açık</string>
+    <string name="check_notif_bad">Bildirimler kapalı</string>
+    <string name="check_exact_ok">Hatırlatıcılar tam dakikasında çalabilir</string>
+    <string name="check_exact_bad">Hatırlatıcılar tam dakikasında çalmayabilir</string>
+    <string name="check_battery_ok">Telefonunuz hatırlatıcıların arka planda çalışmasına izin veriyor</string>
+    <string name="check_battery_bad">Pil tasarrufu hatırlatıcıları engelleyebilir</string>
+    <string name="check_volume_bad">Alarm sesi düşük (%%%1$d), hatırlatıcıları duymak zor olabilir</string>
+    <string name="check_raise">Yükselt</string>
+    <string name="check_fullscreen_bad">Kilit ekranı uyarıları için izin gerekiyor</string>
+    <string name="check_alert_off">Hatırlatıcı uyarıları kapalı</string>
+    <string name="check_alert_off_how">Hatırlatıcılar yine çalar ama hiçbir şey göstermez. “%1$s” bildirim kategorisini açın.</string>
+    <string name="check_alert_popup">Hatırlatıcı metni ekranda açılır olarak görünmeyebilir</string>
+    <string name="check_alert_popup_how">“%1$s” kategorisi için açılır (banner) bildirimlere izin verin. Bazı telefonlar bunlara kayan bildirimler der.</string>
+    <string name="check_alert_lock">Hatırlatıcı metni kilit ekranında gizli</string>
+    <string name="check_alert_lock_how">“%1$s” kategorisinin kilit ekranında gösterilmesine izin verin.</string>
+    <string name="check_dnd_bad">Rahatsız Etmeyin sırasında uyarmak için Rahatsız Etmeyin erişimine izin verin</string>
+    <string name="check_mic_ok">Sesli hatırlatıcılar için mikrofona izin verildi</string>
+    <string name="check_mic_bad">Mikrofon kapalı, sesli hatırlatıcı kaydedilemez</string>
+    <string name="check_volume_how">Yükselt düğmesine dokunun veya telefonunuzun ses ayarlarını açıp Alarm ses düzeyini artırın.</string>
+    <string name="set_required_permissions">Gerekli izinler</string>
+    <string name="set_recommendations">Öneriler ve isteğe bağlı özellikler</string>
+    <string name="set_playback_mode">Hatırlatıcı sesi</string>
+    <string name="set_voice_audio_mode">Ses, ses dosyaları ve sesli metin</string>
+    <string name="set_voice_check_checking">%1$s için ses kontrol ediliyor…</string>
+    <string name="set_voice_check_ok">%1$s için ses çalışıyor.</string>
+    <string name="set_voice_check_alternative">%1$s için varsayılan ses çalışmadı, ancak aynı dilde başka bir ses kullanılabiliyor. Sesleri aşağıdaki düğmeden yönetebilirsiniz.</string>
+    <string name="set_voice_check_missing">%1$s için ses çalınamadı. Bağlantınızı kontrol edin veya bu dil için bir ses indirin, ardından yeniden deneyin.</string>
+    <string name="set_voice_check_no_engine">Metin okuma kullanılamıyor. Telefonunuzun metin okuma ayarlarını kontrol edip yeniden deneyin.</string>
+    <string name="set_voice_download">Ses indir</string>
+    <string name="set_voice_check_again">Yeniden kontrol et</string>
+    <string name="set_voice_settings_unavailable">Telefonun metin okuma ayarları açılamadı.</string>
+    <string name="set_reset_defaults">Ayarları varsayılana sıfırla</string>
+    <string name="set_reset_defaults_desc">Tüm ayarları uygulama ilk yüklendiğindeki haline döndürür. Hatırlatıcılar değişmez.</string>
+    <string name="set_reset_defaults_title">Tüm ayarlar sıfırlansın mı?</string>
+    <string name="set_reset_defaults_body">Her ayar varsayılan değerine döner. Hatırlatıcılarınız, kayıtlarınız, uygulama dili ve telefon izinleri olduğu gibi kalır.</string>
+    <string name="set_reset_defaults_confirm">Sıfırla</string>
+    <string name="set_reset_defaults_done">Ayarlar varsayılana sıfırlandı</string>
+    <string name="wn_newlang_title">Beş yeni dil</string>
+    <string name="wn_newlang_desc">Uygulama artık 17 dilde; yeni diller Deutsch, Français, Bahasa Indonesia, Türkçe ve 日本語. Tarihler de her dilin kendi sırasına uyar. Ayarlar &gt; Dil ve görünüm bölümünden seçin.</string>
+    <string name="wn_snooze_title">Ertele özelliğini kapatın</string>
+    <string name="wn_snooze_desc">Ertelemek işleri savsaklamayı kolaylaştırıyorsa Ayarlar &gt; Erteleme ve takip &gt; Ertelemeye izin ver seçeneğini kapatın. Bir hatırlatıcıyı geçmenin tek yolu artık “Tamam” düğmesi olur.</string>
+    <string name="wn_week_title">Haftanın ilk gününü seçin</string>
+    <string name="wn_week_desc">Ayarlar &gt; Dil ve görünüm &gt; Haftanın ilk günü bölümünde tarih seçicinin ilk sütunu olarak Pazartesi, Pazar veya Cumartesi\'yi seçin.</string>
+    <string name="wn_voice_title">Hatırlatıcıların seslendirilebildiğini kontrol edin</string>
+    <string name="wn_voice_desc">Ayarlar &gt; Hatırlatıcı çaldığında &gt; Konuşma dili artık telefonunuzun o dili gerçekten konuşup konuşamadığını test eder ve gerekirse ses indirmenize yardım eder. Alışılmış ses çalışmazsa hatırlatıcılar aynı dilde başka bir ses dener.</string>
+    <string name="wn_reset_title">Ayarları tek adımda sıfırlayın</string>
+    <string name="wn_reset_desc">Ayarlar &gt; Yedekleme ve geri yükleme &gt; Ayarları varsayılana sıfırla, tüm ayarları uygulamanın ilk yüklendiği hale döndürür. Hatırlatıcılarınız olduğu gibi kalır.</string>
+    <string name="wn_call_title">Aramalarda sessiz</string>
+    <string name="wn_call_desc">Yalnızca ton hatırlatıcısı artık telefon görüşmesi sırasında çalmıyor. Sesli hatırlatıcılarda olduğu gibi bildirimini yine gösterir ve titreşir.</string>
+    <string name="wn_notifcat_title">Hatırlatıcı kontrolü gizli bildirimleri bulur</string>
+    <string name="wn_notifcat_desc">Bazı telefonlar bir bildirim türünü kendiliğinden kapatır; hatırlatıcı çalar ama hiçbir şey göstermezdi. Ayarlar &gt; Hatırlatıcı kontrolü artık bu durumda uyarır ve Düzelt doğru ayarı açar.</string>
+    <string name="wn_pasttime_title">Günlük hatırlatıcıyı daha erken bir saate alın</string>
+    <string name="wn_pasttime_desc">Tekrarlanan bir hatırlatıcıyı açın ve bugün geçmiş bir saati seçmek için Saat\'e dokunun. Artık gelecekte bir saat istemek yerine bir sonraki seferde, örneğin yarın, başlar.</string>
+</resources>
