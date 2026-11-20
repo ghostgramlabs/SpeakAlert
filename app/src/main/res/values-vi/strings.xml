@@ -892,6 +892,12 @@
     <string name="check_volume_bad">Âm lượng báo thức thấp (%1$d%%) nên có thể khó nghe lời nhắc</string>
     <string name="check_raise">Tăng</string>
     <string name="check_fullscreen_bad">Cảnh báo trên màn hình khóa cần quyền</string>
+    <string name="check_alert_off">Cảnh báo nhắc nhở đang tắt</string>
+    <string name="check_alert_off_how">Lời nhắc vẫn đổ chuông nhưng không hiển thị gì. Hãy bật danh mục thông báo “%1$s”.</string>
+    <string name="check_alert_popup">Nội dung lời nhắc có thể không bật lên trên màn hình</string>
+    <string name="check_alert_popup_how">Cho phép thông báo bật lên (biểu ngữ) cho danh mục “%1$s”. Một số điện thoại gọi là thông báo nổi.</string>
+    <string name="check_alert_lock">Nội dung lời nhắc bị ẩn trên màn hình khóa</string>
+    <string name="check_alert_lock_how">Cho phép danh mục “%1$s” hiển thị trên màn hình khóa.</string>
     <string name="check_dnd_bad">Cấp quyền Không làm phiền để phát cảnh báo trong chế độ này</string>
     <string name="check_mic_ok">Đã cho phép micrô cho lời nhắc bằng giọng nói</string>
     <string name="check_mic_bad">Micrô đang tắt nên không thể ghi lời nhắc bằng giọng nói</string>

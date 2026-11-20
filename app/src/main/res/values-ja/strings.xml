@@ -892,6 +892,12 @@
     <string name="check_volume_bad">アラーム音量が小さい(%1$d%%)ため、リマインダーが聞こえにくい可能性があります</string>
     <string name="check_raise">上げる</string>
     <string name="check_fullscreen_bad">ロック画面のアラートには権限が必要です</string>
+    <string name="check_alert_off">リマインダーの通知がオフになっています</string>
+    <string name="check_alert_off_how">リマインダーは鳴りますが、何も表示されません。通知カテゴリ「%1$s」をオンにしてください。</string>
+    <string name="check_alert_popup">リマインダーの内容が画面にポップアップ表示されない可能性があります</string>
+    <string name="check_alert_popup_how">カテゴリ「%1$s」のポップアップ通知（バナー）を許可してください。機種によってはフローティング通知と呼ばれます。</string>
+    <string name="check_alert_lock">リマインダーの内容がロック画面で非表示になっています</string>
+    <string name="check_alert_lock_how">カテゴリ「%1$s」をロック画面に表示するよう許可してください。</string>
     <string name="check_dnd_bad">サイレントモード中も通知するには、サイレントモードへのアクセスを許可してください</string>
     <string name="check_mic_ok">音声リマインダー用のマイクは許可済みです</string>
     <string name="check_mic_bad">マイクがオフのため、音声リマインダーを録音できません</string>

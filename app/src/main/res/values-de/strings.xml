@@ -899,6 +899,12 @@
     <string name="check_volume_bad">Die Weckerlautstärke ist niedrig (%1$d %%), Erinnerungen sind daher vielleicht schwer zu hören</string>
     <string name="check_raise">Lauter</string>
     <string name="check_fullscreen_bad">Sperrbildschirm-Alarme brauchen eine Berechtigung</string>
+    <string name="check_alert_off">Erinnerungsalarme sind ausgeschaltet</string>
+    <string name="check_alert_off_how">Erinnerungen klingeln weiter, zeigen aber nichts an. Schalte die Benachrichtigungskategorie „%1$s“ ein.</string>
+    <string name="check_alert_popup">Der Erinnerungstext erscheint eventuell nicht auf dem Bildschirm</string>
+    <string name="check_alert_popup_how">Erlaube Pop-up-Benachrichtigungen (Banner) für die Kategorie „%1$s“. Manche Telefone nennen sie schwebende Benachrichtigungen.</string>
+    <string name="check_alert_lock">Der Erinnerungstext ist auf dem Sperrbildschirm verborgen</string>
+    <string name="check_alert_lock_how">Erlaube, dass die Kategorie „%1$s“ auf dem Sperrbildschirm angezeigt wird.</string>
     <string name="check_dnd_bad">Erlaube den Zugriff auf „Nicht stören“, um auch dann zu erinnern</string>
     <string name="check_mic_ok">Mikrofon für Spracherinnerungen erlaubt</string>
     <string name="check_mic_bad">Mikrofon aus, Spracherinnerungen können nicht aufgenommen werden</string>

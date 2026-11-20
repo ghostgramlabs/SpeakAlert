@@ -899,6 +899,12 @@
     <string name="check_volume_bad">அலாரம் ஒலியளவு குறைவு (%1$d%%), அதனால் நினைவூட்டல்களைக் கேட்பது கடினமாக இருக்கலாம்</string>
     <string name="check_raise">அதிகரி</string>
     <string name="check_fullscreen_bad">பூட்டுத் திரை விழிப்பூட்டல்களுக்கு அனுமதி தேவை</string>
+    <string name="check_alert_off">நினைவூட்டல் விழிப்பூட்டல்கள் முடக்கத்தில் உள்ளன</string>
+    <string name="check_alert_off_how">நினைவூட்டல்கள் இன்னும் ஒலிக்கும், ஆனால் எதையும் காட்டாது. “%1$s” அறிவிப்பு வகையை இயக்கவும்.</string>
+    <string name="check_alert_popup">நினைவூட்டல் உரை திரையில் பாப்-அப் ஆகாமல் போகலாம்</string>
+    <string name="check_alert_popup_how">“%1$s” வகைக்கு பாப்-அப் (பேனர்) அறிவிப்புகளை அனுமதிக்கவும். சில தொலைபேசிகள் இவற்றை மிதக்கும் அறிவிப்புகள் என்று அழைக்கின்றன.</string>
+    <string name="check_alert_lock">பூட்டுத் திரையில் நினைவூட்டல் உரை மறைக்கப்பட்டுள்ளது</string>
+    <string name="check_alert_lock_how">“%1$s” வகையைப் பூட்டுத் திரையில் காட்ட அனுமதிக்கவும்.</string>
     <string name="check_dnd_bad">தொந்தரவு செய்ய வேண்டாம் பயன்முறையிலும் எச்சரிக்க அதற்கான அணுகலை அனுமதிக்கவும்</string>
     <string name="check_mic_ok">குரல் நினைவூட்டல்களுக்கு மைக்ரோஃபோன் அனுமதிக்கப்பட்டுள்ளது</string>
     <string name="check_mic_bad">மைக்ரோஃபோன் முடக்கத்தில் உள்ளதால் குரல் நினைவூட்டல்களைப் பதிவு செய்ய முடியாது</string>

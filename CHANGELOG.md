@@ -3,6 +3,20 @@
 User-facing changes to SpeakAlert, newest first. Version numbers match the Google Play release
 (`versionName` in `app/build.gradle.kts`).
 
+## 2.0.49 - 2026-11-19
+
+- The alarm tone no longer rings during a phone call. Spoken reminders already stayed quiet
+  during a call; a tone-only reminder now does the same and only posts its notification, which
+  still vibrates. This applies to every way the tone can start (on time, catching up after a
+  missed alarm, after a restart).
+- Reminder check now looks at the notification categories reminders are actually posted to.
+  Android, and phones such as Realme, OPPO and Xiaomi, can switch one category off on its own;
+  the reminder then still rang but showed nothing, with no banner and nothing on the lock
+  screen, while the check said notifications were on. It now warns when the category in use is
+  switched off (under Required), will not pop up on screen, or is hidden on the lock screen,
+  names the category, and Fix opens that category's settings. Before Android 13 it also notices
+  when all of the app's notifications are off. In all 17 languages.
+
 ## 2.0.48 - 2026-11-14
 
 - What's new now covers everything since 2.0.45, the production release: the four 2.0.46

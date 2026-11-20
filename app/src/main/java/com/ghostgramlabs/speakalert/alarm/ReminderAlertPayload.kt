@@ -94,6 +94,17 @@ internal fun buildFollowUpMessage(
     return strings.followUpQuestion.format(subject)
 }
 
+/**
+ * Whether a tone-only reminder rings its looping alarm tone. Not during a phone call: like a
+ * spoken reminder, it then only posts its notification (which still vibrates) instead of
+ * sounding over the call.
+ */
+internal fun shouldStartAlarmTone(
+    toneOnlyMode: Boolean,
+    notificationShown: Boolean,
+    inCall: Boolean
+): Boolean = toneOnlyMode && notificationShown && !inCall
+
 internal fun shouldAutoPlayReminder(
     autoPlayEnabled: Boolean,
     inCall: Boolean,

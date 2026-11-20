@@ -901,6 +901,12 @@
     <string name="check_volume_bad">Alarm volume is low (%1$d%%), so reminders may be hard to hear</string>
     <string name="check_raise">Raise</string>
     <string name="check_fullscreen_bad">Lock-screen alerts need permission</string>
+    <string name="check_alert_off">Reminder alerts are switched off</string>
+    <string name="check_alert_off_how">Reminders still ring but show nothing. Turn on the “%1$s” notification category.</string>
+    <string name="check_alert_popup">Reminder text may not pop up on screen</string>
+    <string name="check_alert_popup_how">Allow pop-up (banner) notifications for the “%1$s” category. Some phones call them floating notifications.</string>
+    <string name="check_alert_lock">Reminder text is hidden on the lock screen</string>
+    <string name="check_alert_lock_how">Allow the “%1$s” category to show on the lock screen.</string>
     <string name="check_dnd_bad">Allow DND access to alert during Do Not Disturb</string>
     <string name="check_mic_ok">Microphone allowed for voice reminders</string>
     <string name="check_mic_bad">Microphone off, so voice reminders can\'t be recorded</string>

@@ -899,6 +899,12 @@
     <string name="check_volume_bad">Alarm sesi düşük (%%%1$d), hatırlatıcıları duymak zor olabilir</string>
     <string name="check_raise">Yükselt</string>
     <string name="check_fullscreen_bad">Kilit ekranı uyarıları için izin gerekiyor</string>
+    <string name="check_alert_off">Hatırlatıcı uyarıları kapalı</string>
+    <string name="check_alert_off_how">Hatırlatıcılar yine çalar ama hiçbir şey göstermez. “%1$s” bildirim kategorisini açın.</string>
+    <string name="check_alert_popup">Hatırlatıcı metni ekranda açılır olarak görünmeyebilir</string>
+    <string name="check_alert_popup_how">“%1$s” kategorisi için açılır (banner) bildirimlere izin verin. Bazı telefonlar bunlara kayan bildirimler der.</string>
+    <string name="check_alert_lock">Hatırlatıcı metni kilit ekranında gizli</string>
+    <string name="check_alert_lock_how">“%1$s” kategorisinin kilit ekranında gösterilmesine izin verin.</string>
     <string name="check_dnd_bad">Rahatsız Etmeyin sırasında uyarmak için Rahatsız Etmeyin erişimine izin verin</string>
     <string name="check_mic_ok">Sesli hatırlatıcılar için mikrofona izin verildi</string>
     <string name="check_mic_bad">Mikrofon kapalı, sesli hatırlatıcı kaydedilemez</string>

@@ -914,6 +914,12 @@
     <string name="check_volume_bad">Громкость будильника низкая (%1$d%%), напоминания может быть плохо слышно</string>
     <string name="check_raise">Увеличить</string>
     <string name="check_fullscreen_bad">Для оповещений на экране блокировки нужно разрешение</string>
+    <string name="check_alert_off">Оповещения о напоминаниях выключены</string>
+    <string name="check_alert_off_how">Напоминания звучат, но ничего не показывают. Включите категорию уведомлений «%1$s».</string>
+    <string name="check_alert_popup">Текст напоминания может не появляться на экране</string>
+    <string name="check_alert_popup_how">Разрешите всплывающие уведомления (баннеры) для категории «%1$s». На некоторых телефонах они называются плавающими уведомлениями.</string>
+    <string name="check_alert_lock">Текст напоминания скрыт на экране блокировки</string>
+    <string name="check_alert_lock_how">Разрешите показ категории «%1$s» на экране блокировки.</string>
     <string name="check_dnd_bad">Разрешите доступ к режиму «Не беспокоить», чтобы получать сигналы в этом режиме</string>
     <string name="check_mic_ok">Микрофон разрешён для голосовых напоминаний</string>
     <string name="check_mic_bad">Микрофон выключен, поэтому голосовые напоминания нельзя записать</string>

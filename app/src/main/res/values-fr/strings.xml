@@ -900,6 +900,12 @@
     <string name="check_volume_bad">Le volume d’alarme est faible (%1$d %%), les rappels peuvent être difficiles à entendre</string>
     <string name="check_raise">Monter</string>
     <string name="check_fullscreen_bad">Les alertes de l’écran de verrouillage nécessitent une autorisation</string>
+    <string name="check_alert_off">Les alertes de rappel sont désactivées</string>
+    <string name="check_alert_off_how">Les rappels sonnent toujours mais n’affichent rien. Activez la catégorie de notifications « %1$s ».</string>
+    <string name="check_alert_popup">Le texte du rappel risque de ne pas s’afficher à l’écran</string>
+    <string name="check_alert_popup_how">Autorisez les notifications contextuelles (bannières) pour la catégorie « %1$s ». Certains téléphones parlent de notifications flottantes.</string>
+    <string name="check_alert_lock">Le texte du rappel est masqué sur l’écran de verrouillage</string>
+    <string name="check_alert_lock_how">Autorisez la catégorie « %1$s » à s’afficher sur l’écran de verrouillage.</string>
     <string name="check_dnd_bad">Autorisez l’accès Ne pas déranger pour alerter dans ce mode</string>
     <string name="check_mic_ok">Micro autorisé pour les rappels vocaux</string>
     <string name="check_mic_bad">Micro désactivé, impossible d’enregistrer des rappels vocaux</string>

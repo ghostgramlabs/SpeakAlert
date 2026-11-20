@@ -910,6 +910,12 @@
     <string name="check_volume_bad">صوت المنبّه منخفض (%1$d%%)، لذا قد يصعب سماع التذكيرات</string>
     <string name="check_raise">رفع</string>
     <string name="check_fullscreen_bad">تنبيهات شاشة القفل تحتاج إلى إذن</string>
+    <string name="check_alert_off">تنبيهات التذكير متوقفة</string>
+    <string name="check_alert_off_how">لا تزال التذكيرات ترنّ لكنها لا تُظهر شيئًا. شغّل فئة الإشعارات «%1$s».</string>
+    <string name="check_alert_popup">قد لا يظهر نص التذكير منبثقًا على الشاشة</string>
+    <string name="check_alert_popup_how">اسمح بالإشعارات المنبثقة (اللافتات) لفئة «%1$s». تسميها بعض الهواتف الإشعارات العائمة.</string>
+    <string name="check_alert_lock">نص التذكير مخفي على شاشة القفل</string>
+    <string name="check_alert_lock_how">اسمح بعرض فئة «%1$s» على شاشة القفل.</string>
     <string name="check_dnd_bad">اسمح بالوصول إلى عدم الإزعاج لإصدار تنبيهات أثناء هذا الوضع</string>
     <string name="check_mic_ok">الميكروفون مسموح للتذكيرات الصوتية</string>
     <string name="check_mic_bad">الميكروفون متوقف، لذا لا يمكن تسجيل التذكيرات الصوتية</string>

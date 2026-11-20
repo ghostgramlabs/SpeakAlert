@@ -892,6 +892,12 @@
     <string name="check_volume_bad">Volume alarm rendah (%1$d%%), jadi pengingat mungkin sulit terdengar</string>
     <string name="check_raise">Naikkan</string>
     <string name="check_fullscreen_bad">Peringatan layar kunci memerlukan izin</string>
+    <string name="check_alert_off">Peringatan pengingat dinonaktifkan</string>
+    <string name="check_alert_off_how">Pengingat tetap berbunyi tetapi tidak menampilkan apa pun. Aktifkan kategori notifikasi “%1$s”.</string>
+    <string name="check_alert_popup">Teks pengingat mungkin tidak muncul di layar</string>
+    <string name="check_alert_popup_how">Izinkan notifikasi pop-up (banner) untuk kategori “%1$s”. Beberapa ponsel menyebutnya notifikasi mengambang.</string>
+    <string name="check_alert_lock">Teks pengingat disembunyikan di layar kunci</string>
+    <string name="check_alert_lock_how">Izinkan kategori “%1$s” ditampilkan di layar kunci.</string>
     <string name="check_dnd_bad">Izinkan akses Jangan Ganggu agar tetap diingatkan saat mode itu aktif</string>
     <string name="check_mic_ok">Mikrofon diizinkan untuk pengingat suara</string>
     <string name="check_mic_bad">Mikrofon nonaktif, jadi pengingat suara tidak dapat direkam</string>

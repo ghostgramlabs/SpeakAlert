@@ -906,6 +906,12 @@
     <string name="check_volume_bad">O volume do alarme está baixo (%1$d%%), então os lembretes podem ficar difíceis de ouvir</string>
     <string name="check_raise">Aumentar</string>
     <string name="check_fullscreen_bad">Os alertas na tela de bloqueio precisam de permissão</string>
+    <string name="check_alert_off">Os alertas de lembrete estão desativados</string>
+    <string name="check_alert_off_how">Os lembretes ainda tocam, mas não mostram nada. Ative a categoria de notificação “%1$s”.</string>
+    <string name="check_alert_popup">O texto do lembrete pode não aparecer na tela</string>
+    <string name="check_alert_popup_how">Permita notificações pop-up (banners) para a categoria “%1$s”. Alguns celulares chamam de notificações flutuantes.</string>
+    <string name="check_alert_lock">O texto do lembrete está oculto na tela de bloqueio</string>
+    <string name="check_alert_lock_how">Permita que a categoria “%1$s” apareça na tela de bloqueio.</string>
     <string name="check_dnd_bad">Permita o acesso ao Não perturbe para receber alertas nesse modo</string>
     <string name="check_mic_ok">Microfone permitido para lembretes de voz</string>
     <string name="check_mic_bad">Microfone desativado, então não dá para gravar lembretes de voz</string>

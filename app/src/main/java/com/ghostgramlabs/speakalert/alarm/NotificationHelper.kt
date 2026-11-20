@@ -170,7 +170,12 @@ class NotificationHelper(private val context: Context) {
             canBypassDnd -> DND_BYPASS_CHANNEL_ID
             else -> CHANNEL_ID
         }
-        
+        // The system drops a post to a switched-off channel without any error, so say so in the
+        // log: otherwise "it rang but showed nothing" cannot be told apart from a missed alarm.
+        AlertChannelHealth.problemOf(context, channelId)?.let { problem ->
+            com.ghostgramlabs.speakalert.util.FileLogger.log("NOTIFY: channel $channelId has user setting $problem")
+        }
+
         // Check permission on Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val hasPermission = ContextCompat.checkSelfPermission(

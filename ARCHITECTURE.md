@@ -32,7 +32,7 @@ All paths are under `app/src/main/java/com/ghostgramlabs/speakalert/`.
 
 | Package | Responsibility |
 | --- | --- |
-| `alarm/` | Scheduling and firing reminders: `AlarmScheduler`, `ReminderAlarmReceiver`, follow-up alarms, notification actions, boot handling, notification channels, tone-only player |
+| `alarm/` | Scheduling and firing reminders: `AlarmScheduler`, `ReminderAlarmReceiver`, follow-up alarms, notification actions, boot handling, notification channels and the `AlertChannelHealth` check of them (shown in Settings > Reminder check), tone-only player (silent during a phone call, via `util/PhoneCallState`) |
 | `audio/` | Recording (`AudioRecorder`), clean-up and enhancement of recordings (`VoiceProcessor`, `AudioEnhancer`), in-app preview playback |
 | `data/` | Room database and DAOs, entities, repositories, `SettingsRepository` (DataStore), backup/restore |
 | `domain/` | Recurrence model and maths (`RecurrenceUtils`): next occurrence, end rules, summaries |

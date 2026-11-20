@@ -224,11 +224,42 @@ fun SettingsScreen(
             val hasMicPerm = androidx.core.content.ContextCompat.checkSelfPermission(
                 context, Manifest.permission.RECORD_AUDIO
             ) == android.content.pm.PackageManager.PERMISSION_GRANTED
-            val hasNotifPerm = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Before Android 13 there is no permission, but the app's notifications can still be
+            // switched off; re-read whenever the screen resumes from the system settings.
+            val appNotificationsOn = remember(wearRefreshTick) {
+                NotificationManagerCompat.from(context).areNotificationsEnabled()
+            }
+            val hasNotifPerm = appNotificationsOn && if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 androidx.core.content.ContextCompat.checkSelfPermission(
                     context, Manifest.permission.POST_NOTIFICATIONS
                 ) == android.content.pm.PackageManager.PERMISSION_GRANTED
             } else true
+            // The categories alerts are posted to can be switched off one by one. A reminder
+            // then rings but shows nothing, which reads as "the app has no banner".
+            val alertChannelIssue = remember(
+                wearRefreshTick, toneOnlyMode, dndBypassEnabled, dndPolicyAccessGranted, fullScreenAlertEnabled
+            ) {
+                com.ghostgramlabs.speakalert.alarm.AlertChannelHealth.check(
+                    context,
+                    toneOnlyMode = toneOnlyMode,
+                    dndBypassEnabled = dndBypassEnabled,
+                    fullScreenAlertEnabled = fullScreenAlertEnabled
+                )
+            }
+            val openAlertChannel: (String) -> Unit = { channelId ->
+                runCatching {
+                    context.startActivity(Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
+                        putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                        putExtra(Settings.EXTRA_CHANNEL_ID, channelId)
+                    })
+                }.onFailure {
+                    context.startActivity(Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                        putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                    })
+                }
+            }
+            val alertsBlocked = hasNotifPerm &&
+                alertChannelIssue?.problem == com.ghostgramlabs.speakalert.alarm.AlertChannelProblem.BLOCKED
             val canScheduleAlarms = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 context.getSystemService(AlarmManager::class.java).canScheduleExactAlarms()
             } else true
@@ -249,7 +280,7 @@ fun SettingsScreen(
             val alarmVolumeLow = (toneOnlyMode || !privatePlaybackEnabled) && alarmVolumePercent < 50
             val fullScreenNeedsAccess = fullScreenAlertEnabled && !fullScreenAccessGranted
             val dndNeedsAccess = dndBypassEnabled && !dndPolicyAccessGranted
-            val reminderCheckOk = hasNotifPerm && canScheduleAlarms
+            val reminderCheckOk = hasNotifPerm && canScheduleAlarms && !alertsBlocked
             val noBatterySettings = stringResource(R.string.bog_no_battery_settings)
 
             CollapsibleSettingsSection(
@@ -280,6 +311,16 @@ fun SettingsScreen(
                         })
                     }
                 )
+                if (alertsBlocked && alertChannelIssue != null) {
+                    CheckRow(
+                        ok = false,
+                        required = true,
+                        text = stringResource(R.string.check_alert_off),
+                        detail = stringResource(R.string.check_alert_off_how, alertChannelIssue.channelName),
+                        actionLabel = stringResource(R.string.set_fix),
+                        onAction = { openAlertChannel(alertChannelIssue.channelId) }
+                    )
+                }
                 CheckRow(
                     ok = canScheduleAlarms,
                     required = true,
@@ -306,6 +347,20 @@ fun SettingsScreen(
                         }
                     }
                 )
+                // Shows nothing when fine: most phones never change these.
+                if (hasNotifPerm && alertChannelIssue != null && !alertsBlocked) {
+                    val popup = alertChannelIssue.problem == com.ghostgramlabs.speakalert.alarm.AlertChannelProblem.NO_POPUP
+                    CheckRow(
+                        ok = false,
+                        text = stringResource(if (popup) R.string.check_alert_popup else R.string.check_alert_lock),
+                        detail = stringResource(
+                            if (popup) R.string.check_alert_popup_how else R.string.check_alert_lock_how,
+                            alertChannelIssue.channelName
+                        ),
+                        actionLabel = stringResource(R.string.set_fix),
+                        onAction = { openAlertChannel(alertChannelIssue.channelId) }
+                    )
+                }
                 // Only when it is a problem: "loud enough (85%)" raised more questions than it
                 // answered, and the summary line already says when everything is fine.
                 if (alarmVolumeLow) {

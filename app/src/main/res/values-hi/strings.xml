@@ -883,6 +883,12 @@
     <string name="check_volume_bad">अलार्म वॉल्यूम कम है (%1$d%%), इसलिए रिमाइंडर सुनने में मुश्किल हो सकती है</string>
     <string name="check_raise">बढ़ाएं</string>
     <string name="check_fullscreen_bad">लॉक स्क्रीन अलर्ट के लिए अनुमति चाहिए</string>
+    <string name="check_alert_off">रिमाइंडर अलर्ट बंद हैं</string>
+    <string name="check_alert_off_how">रिमाइंडर अब भी बजते हैं, पर कुछ दिखाते नहीं। “%1$s” सूचना श्रेणी चालू करें।</string>
+    <string name="check_alert_popup">रिमाइंडर का टेक्स्ट शायद स्क्रीन पर पॉप-अप न हो</string>
+    <string name="check_alert_popup_how">“%1$s” श्रेणी के लिए पॉप-अप (बैनर) सूचनाओं की अनुमति दें। कुछ फ़ोन इन्हें फ़्लोटिंग सूचनाएं कहते हैं।</string>
+    <string name="check_alert_lock">लॉक स्क्रीन पर रिमाइंडर का टेक्स्ट छिपा है</string>
+    <string name="check_alert_lock_how">“%1$s” श्रेणी को लॉक स्क्रीन पर दिखाने की अनुमति दें।</string>
     <string name="check_dnd_bad">परेशान न करें मोड में अलर्ट पाने के लिए उसकी अनुमति दें</string>
     <string name="check_mic_ok">वॉइस रिमाइंडर के लिए माइक्रोफ़ोन की अनुमति है</string>
     <string name="check_mic_bad">माइक्रोफ़ोन बंद है, इसलिए वॉइस रिमाइंडर रिकॉर्ड नहीं हो सकते</string>

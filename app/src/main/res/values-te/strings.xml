@@ -899,6 +899,12 @@
     <string name="check_volume_bad">అలారం వాల్యూమ్ తక్కువగా ఉంది (%1$d%%), కాబట్టి రిమైండర్లు వినడం కష్టం కావచ్చు</string>
     <string name="check_raise">పెంచండి</string>
     <string name="check_fullscreen_bad">లాక్ స్క్రీన్ అలర్ట్‌లకు అనుమతి కావాలి</string>
+    <string name="check_alert_off">రిమైండర్ అలర్ట్‌లు ఆఫ్‌లో ఉన్నాయి</string>
+    <string name="check_alert_off_how">రిమైండర్‌లు ఇంకా మోగుతాయి, కానీ ఏమీ చూపించవు. “%1$s” నోటిఫికేషన్ వర్గాన్ని ఆన్ చేయండి.</string>
+    <string name="check_alert_popup">రిమైండర్ వచనం స్క్రీన్‌పై పాప్-అప్ కాకపోవచ్చు</string>
+    <string name="check_alert_popup_how">“%1$s” వర్గానికి పాప్-అప్ (బ్యానర్) నోటిఫికేషన్లను అనుమతించండి. కొన్ని ఫోన్లు వీటిని ఫ్లోటింగ్ నోటిఫికేషన్లు అంటాయి.</string>
+    <string name="check_alert_lock">లాక్ స్క్రీన్‌పై రిమైండర్ వచనం దాచబడింది</string>
+    <string name="check_alert_lock_how">“%1$s” వర్గాన్ని లాక్ స్క్రీన్‌పై చూపించడానికి అనుమతించండి.</string>
     <string name="check_dnd_bad">అంతరాయం కలిగించవద్దు మోడ్‌లోనూ అలర్ట్‌ల కోసం ఆ మోడ్‌కు అనుమతి ఇవ్వండి</string>
     <string name="check_mic_ok">వాయిస్ రిమైండర్ల కోసం మైక్రోఫోన్‌కు అనుమతి ఉంది</string>
     <string name="check_mic_bad">మైక్రోఫోన్ ఆఫ్‌లో ఉంది, కాబట్టి వాయిస్ రిమైండర్లు రికార్డ్ చేయలేరు</string>

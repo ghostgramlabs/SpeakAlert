@@ -889,6 +889,12 @@
     <string name="check_volume_bad">El volumen de alarma está bajo (%1$d %%) y los recordatorios pueden oírse poco</string>
     <string name="check_raise">Subir</string>
     <string name="check_fullscreen_bad">Las alertas en pantalla bloqueada necesitan permiso</string>
+    <string name="check_alert_off">Las alertas de recordatorio están desactivadas</string>
+    <string name="check_alert_off_how">Los recordatorios siguen sonando, pero no muestran nada. Activa la categoría de notificaciones «%1$s».</string>
+    <string name="check_alert_popup">Puede que el texto del recordatorio no aparezca en pantalla</string>
+    <string name="check_alert_popup_how">Permite las notificaciones emergentes (banners) para la categoría «%1$s». Algunos teléfonos las llaman notificaciones flotantes.</string>
+    <string name="check_alert_lock">El texto del recordatorio está oculto en la pantalla de bloqueo</string>
+    <string name="check_alert_lock_how">Permite que la categoría «%1$s» se muestre en la pantalla de bloqueo.</string>
     <string name="check_dnd_bad">Permite el acceso a No molestar para recibir alertas durante ese modo</string>
     <string name="check_mic_ok">Micrófono permitido para recordatorios de voz</string>
     <string name="check_mic_bad">Micrófono desactivado: no se pueden grabar recordatorios de voz</string>

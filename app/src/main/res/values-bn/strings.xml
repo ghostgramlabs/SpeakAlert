@@ -899,6 +899,12 @@
     <string name="check_volume_bad">অ্যালার্ম ভলিউম কম (%1$d%%), তাই রিমাইন্ডার শুনতে অসুবিধা হতে পারে</string>
     <string name="check_raise">বাড়ান</string>
     <string name="check_fullscreen_bad">লক স্ক্রিন সতর্কতার জন্য অনুমতি দরকার</string>
+    <string name="check_alert_off">রিমাইন্ডার সতর্কতা বন্ধ আছে</string>
+    <string name="check_alert_off_how">রিমাইন্ডার এখনও বাজে কিন্তু কিছু দেখায় না। “%1$s” বিজ্ঞপ্তি বিভাগটি চালু করুন।</string>
+    <string name="check_alert_popup">রিমাইন্ডারের লেখা হয়তো স্ক্রিনে পপ-আপ হবে না</string>
+    <string name="check_alert_popup_how">“%1$s” বিভাগের জন্য পপ-আপ (ব্যানার) বিজ্ঞপ্তি চালু করুন। কিছু ফোনে এটিকে ফ্লোটিং বিজ্ঞপ্তি বলে।</string>
+    <string name="check_alert_lock">লক স্ক্রিনে রিমাইন্ডারের লেখা লুকানো আছে</string>
+    <string name="check_alert_lock_how">“%1$s” বিভাগটি লক স্ক্রিনে দেখানোর অনুমতি দিন।</string>
     <string name="check_dnd_bad">বিরক্ত করবেন না মোডেও অ্যালার্ট পেতে সেই মোডে অ্যাক্সেস দিন</string>
     <string name="check_mic_ok">ভয়েস রিমাইন্ডারের জন্য মাইক্রোফোন অনুমোদিত</string>
     <string name="check_mic_bad">মাইক্রোফোন বন্ধ, তাই ভয়েস রিমাইন্ডার রেকর্ড করা যাবে না</string>
