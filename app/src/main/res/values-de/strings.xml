@@ -937,4 +937,10 @@
     <string name="wn_voice_desc">Einstellungen &gt; Wenn eine Erinnerung klingelt &gt; Gesprochene Sprache prüft jetzt, ob dein Telefon diese Sprache wirklich sprechen kann, und hilft dir, eine Stimme herunterzuladen. Fällt die übliche Stimme aus, versuchen Erinnerungen eine andere Stimme derselben Sprache.</string>
     <string name="wn_reset_title">Einstellungen in einem Schritt zurücksetzen</string>
     <string name="wn_reset_desc">Einstellungen &gt; Sichern &amp; Wiederherstellen &gt; Einstellungen zurücksetzen setzt alle Einstellungen auf den Stand nach der Installation zurück. Deine Erinnerungen bleiben erhalten.</string>
+    <string name="wn_call_title">Ruhe während Telefonaten</string>
+    <string name="wn_call_desc">Eine Nur-Ton-Erinnerung klingelt nicht mehr während eines Telefonats. Sie zeigt trotzdem ihre Benachrichtigung und vibriert, wie es gesprochene Erinnerungen schon taten.</string>
+    <string name="wn_notifcat_title">Erinnerungs-Check findet versteckte Benachrichtigungen</string>
+    <string name="wn_notifcat_desc">Manche Telefone schalten eine Art von Benachrichtigung von selbst aus, sodass eine Erinnerung klingelte, aber nichts anzeigte. Einstellungen &gt; Erinnerungs-Check warnt jetzt davor, und Beheben öffnet die richtige Einstellung.</string>
+    <string name="wn_pasttime_title">Tägliche Erinnerung auf eine frühere Uhrzeit legen</string>
+    <string name="wn_pasttime_desc">Öffne eine wiederkehrende Erinnerung und tippe auf Uhrzeit, um eine Zeit zu wählen, die heute schon vorbei ist. Sie beginnt jetzt beim nächsten Mal, etwa morgen, statt eine Zeit in der Zukunft zu verlangen.</string>
 </resources>

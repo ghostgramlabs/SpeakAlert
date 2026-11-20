@@ -940,4 +940,10 @@
     <string name="wn_voice_desc">Settings &gt; When a reminder rings &gt; Spoken language now tests whether your phone can really speak that language, and helps you download a voice if it can\'t. If the usual voice fails, reminders try another voice in the same language.</string>
     <string name="wn_reset_title">Reset settings in one step</string>
     <string name="wn_reset_desc">Settings &gt; Backup &amp; restore &gt; Reset settings to defaults puts every setting back to how it was when the app was installed. Your reminders stay as they are.</string>
+    <string name="wn_call_title">Quiet during phone calls</string>
+    <string name="wn_call_desc">A tone-only reminder no longer rings over a phone call. It still shows its notification and vibrates, as spoken reminders already did.</string>
+    <string name="wn_notifcat_title">Reminder check finds hidden notifications</string>
+    <string name="wn_notifcat_desc">Some phones switch off one kind of notification on their own, so a reminder rang but showed nothing. Settings &gt; Reminder check now warns when that happens, and Fix opens the right setting.</string>
+    <string name="wn_pasttime_title">Move a daily reminder to an earlier time</string>
+    <string name="wn_pasttime_desc">Open a repeating reminder and tap Time to pick a time that has already passed today. It now starts at its next turn, such as tomorrow, instead of asking for a time in the future.</string>
 </resources>

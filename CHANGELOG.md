@@ -3,8 +3,11 @@
 User-facing changes to SpeakAlert, newest first. Version numbers match the Google Play release
 (`versionName` in `app/build.gradle.kts`).
 
-## Unreleased
+## 2.0.50 - 2026-11-20
 
+- What's new now covers what changed since 2.0.48, the production release: no alarm tone during
+  phone calls, Reminder check finding hidden notification categories, and the fix below, in all
+  17 languages with each one's own Settings names.
 - Fixed changing a repeating reminder's time on its details screen to a time already gone by
   today. It said to pick a time in the future and refused, although the editor accepted the same
   time. It now starts at the next occurrence (a daily 11:00 set at 11:05 rings tomorrow at 11:00),

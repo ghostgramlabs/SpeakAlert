@@ -944,4 +944,10 @@
     <string name="wn_voice_desc">Configurações &gt; Quando um lembrete toca &gt; Idioma falado agora testa se o celular consegue mesmo falar esse idioma e ajuda a baixar uma voz se precisar. Se a voz de sempre falhar, os lembretes tentam outra voz do mesmo idioma.</string>
     <string name="wn_reset_title">Restaure as configurações de uma vez</string>
     <string name="wn_reset_desc">Configurações &gt; Backup e restauração &gt; Restaurar configurações padrão volta cada configuração ao estado da instalação do app. Seus lembretes continuam como estão.</string>
+    <string name="wn_call_title">Silêncio durante as ligações</string>
+    <string name="wn_call_desc">Um lembrete só com toque não toca mais durante uma ligação. Ele continua mostrando a notificação e vibrando, como os lembretes falados já faziam.</string>
+    <string name="wn_notifcat_title">A verificação encontra notificações ocultas</string>
+    <string name="wn_notifcat_desc">Alguns celulares desativam sozinhos um tipo de notificação, então o lembrete tocava sem mostrar nada. Configurações &gt; Verificação de lembretes agora avisa quando isso acontece, e Corrigir abre o ajuste certo.</string>
+    <string name="wn_pasttime_title">Mude um lembrete diário para mais cedo</string>
+    <string name="wn_pasttime_desc">Abra um lembrete que se repete e toque em Horário para escolher um horário que já passou hoje. Agora ele começa na próxima vez, como amanhã, em vez de pedir um horário no futuro.</string>
 </resources>

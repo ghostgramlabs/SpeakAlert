@@ -937,4 +937,10 @@
     <string name="wn_voice_desc">Ayarlar &gt; Hatırlatıcı çaldığında &gt; Konuşma dili artık telefonunuzun o dili gerçekten konuşup konuşamadığını test eder ve gerekirse ses indirmenize yardım eder. Alışılmış ses çalışmazsa hatırlatıcılar aynı dilde başka bir ses dener.</string>
     <string name="wn_reset_title">Ayarları tek adımda sıfırlayın</string>
     <string name="wn_reset_desc">Ayarlar &gt; Yedekleme ve geri yükleme &gt; Ayarları varsayılana sıfırla, tüm ayarları uygulamanın ilk yüklendiği hale döndürür. Hatırlatıcılarınız olduğu gibi kalır.</string>
+    <string name="wn_call_title">Aramalarda sessiz</string>
+    <string name="wn_call_desc">Yalnızca ton hatırlatıcısı artık telefon görüşmesi sırasında çalmıyor. Sesli hatırlatıcılarda olduğu gibi bildirimini yine gösterir ve titreşir.</string>
+    <string name="wn_notifcat_title">Hatırlatıcı kontrolü gizli bildirimleri bulur</string>
+    <string name="wn_notifcat_desc">Bazı telefonlar bir bildirim türünü kendiliğinden kapatır; hatırlatıcı çalar ama hiçbir şey göstermezdi. Ayarlar &gt; Hatırlatıcı kontrolü artık bu durumda uyarır ve Düzelt doğru ayarı açar.</string>
+    <string name="wn_pasttime_title">Günlük hatırlatıcıyı daha erken bir saate alın</string>
+    <string name="wn_pasttime_desc">Tekrarlanan bir hatırlatıcıyı açın ve bugün geçmiş bir saati seçmek için Saat\'e dokunun. Artık gelecekte bir saat istemek yerine bir sonraki seferde, örneğin yarın, başlar.</string>
 </resources>

@@ -927,4 +927,10 @@
     <string name="wn_voice_desc">Ajustes &gt; Cuando suena un recordatorio &gt; Idioma hablado ahora comprueba si tu teléfono puede hablar de verdad ese idioma y te ayuda a descargar una voz si hace falta. Si la voz habitual falla, los recordatorios prueban otra voz del mismo idioma.</string>
     <string name="wn_reset_title">Restablece los ajustes de una vez</string>
     <string name="wn_reset_desc">Ajustes &gt; Copia de seguridad y restauración &gt; Restablecer ajustes predeterminados devuelve cada ajuste a como estaba al instalar la app. Tus recordatorios no cambian.</string>
+    <string name="wn_call_title">Silencio durante las llamadas</string>
+    <string name="wn_call_desc">Un recordatorio de solo tono ya no suena durante una llamada. Sigue mostrando su notificación y vibrando, como ya hacían los recordatorios hablados.</string>
+    <string name="wn_notifcat_title">La comprobación detecta notificaciones ocultas</string>
+    <string name="wn_notifcat_desc">Algunos teléfonos desactivan por su cuenta un tipo de notificación, así que un recordatorio sonaba sin mostrar nada. Ajustes &gt; Comprobación de recordatorios ahora avisa cuando ocurre, y Corregir abre el ajuste adecuado.</string>
+    <string name="wn_pasttime_title">Pasa un recordatorio diario a una hora anterior</string>
+    <string name="wn_pasttime_desc">Abre un recordatorio que se repite y toca Hora para elegir una hora que ya pasó hoy. Ahora empieza en su siguiente turno, por ejemplo mañana, en lugar de pedir una hora futura.</string>
 </resources>

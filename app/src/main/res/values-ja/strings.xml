@@ -930,4 +930,10 @@
     <string name="wn_voice_desc">設定 &gt; リマインダーが鳴るとき &gt; 読み上げ言語 で、スマートフォンがその言語を実際に話せるかを確認し、必要なら音声のダウンロードを手伝います。いつもの音声が使えないときは、同じ言語の別の音声を試します。</string>
     <string name="wn_reset_title">設定をまとめてリセット</string>
     <string name="wn_reset_desc">設定 &gt; バックアップと復元 &gt; 設定を初期状態に戻す で、すべての設定をインストール直後の状態に戻せます。リマインダーはそのまま残ります。</string>
+    <string name="wn_call_title">通話中は鳴らしません</string>
+    <string name="wn_call_desc">アラーム音のみのリマインダーは、通話中に鳴らなくなりました。読み上げのリマインダーと同じく、通知は表示され、バイブレーションもします。</string>
+    <string name="wn_notifcat_title">リマインダーチェックが隠れた通知を見つけます</string>
+    <string name="wn_notifcat_desc">一部のスマートフォンでは通知の種類が勝手にオフになり、リマインダーが鳴っても何も表示されないことがありました。設定 &gt; リマインダーチェック がそれを警告し、修正 で該当する設定を開けます。</string>
+    <string name="wn_pasttime_title">毎日のリマインダーを早い時刻に変更</string>
+    <string name="wn_pasttime_desc">繰り返しのリマインダーを開いて 時刻 をタップすると、今日すでに過ぎた時刻も選べます。未来の時刻を求めず、次の回(たとえば明日)から始まります。</string>
 </resources>

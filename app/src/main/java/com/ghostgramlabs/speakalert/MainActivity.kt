@@ -415,43 +415,19 @@ class MainActivity : ComponentActivity() {
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
-                                    // For people coming from 2.0.45 (in production): 2.0.46's four
-                                    // user-requested changes, then 2.0.47 and 2.0.48.
+                                    // For people coming from 2.0.48 (in production): 2.0.49's two
+                                    // changes, then 2.0.50.
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_nthday_title),
-                                        description = stringResource(R.string.wn_nthday_desc)
+                                        title = stringResource(R.string.wn_call_title),
+                                        description = stringResource(R.string.wn_call_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_gap_title),
-                                        description = stringResource(R.string.wn_gap_desc)
+                                        title = stringResource(R.string.wn_notifcat_title),
+                                        description = stringResource(R.string.wn_notifcat_desc)
                                     )
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_notif_title),
-                                        description = stringResource(R.string.wn_notif_desc)
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_colors_title),
-                                        description = stringResource(R.string.wn_colors_desc)
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_snooze_title),
-                                        description = stringResource(R.string.wn_snooze_desc)
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_voice_title),
-                                        description = stringResource(R.string.wn_voice_desc)
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_week_title),
-                                        description = stringResource(R.string.wn_week_desc)
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_reset_title),
-                                        description = stringResource(R.string.wn_reset_desc)
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_newlang_title),
-                                        description = stringResource(R.string.wn_newlang_desc)
+                                        title = stringResource(R.string.wn_pasttime_title),
+                                        description = stringResource(R.string.wn_pasttime_desc)
                                     )
                                 }
                                 Button(

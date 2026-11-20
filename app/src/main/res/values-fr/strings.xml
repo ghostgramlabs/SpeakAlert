@@ -938,4 +938,10 @@
     <string name="wn_voice_desc">Paramètres &gt; Quand un rappel sonne &gt; Langue parlée vérifie désormais si votre téléphone peut vraiment parler cette langue et vous aide à télécharger une voix si besoin. Si la voix habituelle échoue, les rappels essaient une autre voix de la même langue.</string>
     <string name="wn_reset_title">Réinitialiser les paramètres en une fois</string>
     <string name="wn_reset_desc">Paramètres &gt; Sauvegarde et restauration &gt; Rétablir les paramètres par défaut remet chaque paramètre comme à l’installation de l’app. Vos rappels restent intacts.</string>
+    <string name="wn_call_title">Silence pendant les appels</string>
+    <string name="wn_call_desc">Un rappel en sonnerie seule ne sonne plus pendant un appel. Il affiche toujours sa notification et vibre, comme le faisaient déjà les rappels lus à voix haute.</string>
+    <string name="wn_notifcat_title">La vérification repère les notifications masquées</string>
+    <string name="wn_notifcat_desc">Certains téléphones désactivent d\'eux-mêmes un type de notification : un rappel sonnait sans rien afficher. Paramètres &gt; Vérification des rappels vous prévient désormais, et Corriger ouvre le bon réglage.</string>
+    <string name="wn_pasttime_title">Avancez l\'heure d\'un rappel quotidien</string>
+    <string name="wn_pasttime_desc">Ouvrez un rappel répété et touchez Heure pour choisir une heure déjà passée aujourd\'hui. Il commence maintenant à sa prochaine occurrence, demain par exemple, au lieu de demander une heure future.</string>
 </resources>

@@ -930,4 +930,10 @@
     <string name="wn_voice_desc">Cài đặt &gt; Khi lời nhắc reo &gt; Ngôn ngữ đọc nay kiểm tra xem điện thoại có thực sự đọc được ngôn ngữ đó không và giúp bạn tải giọng nói nếu cần. Nếu giọng thường dùng bị lỗi, lời nhắc sẽ thử giọng khác cùng ngôn ngữ.</string>
     <string name="wn_reset_title">Đặt lại cài đặt trong một bước</string>
     <string name="wn_reset_desc">Cài đặt &gt; Sao lưu và khôi phục &gt; Đặt lại cài đặt mặc định đưa mọi cài đặt về như khi mới cài ứng dụng. Lời nhắc của bạn vẫn giữ nguyên.</string>
+    <string name="wn_call_title">Yên lặng khi đang gọi điện</string>
+    <string name="wn_call_desc">Lời nhắc chỉ chuông không còn reo khi bạn đang gọi điện. Nó vẫn hiện thông báo và rung, giống như lời nhắc bằng giọng nói vẫn làm.</string>
+    <string name="wn_notifcat_title">Kiểm tra lời nhắc phát hiện thông báo bị ẩn</string>
+    <string name="wn_notifcat_desc">Một số điện thoại tự tắt một loại thông báo, nên lời nhắc vẫn reo mà không hiện gì. Giờ đây Cài đặt &gt; Kiểm tra lời nhắc sẽ cảnh báo, và nút Sửa mở đúng mục cài đặt.</string>
+    <string name="wn_pasttime_title">Dời lời nhắc hằng ngày sang giờ sớm hơn</string>
+    <string name="wn_pasttime_desc">Mở một lời nhắc lặp lại và chạm Giờ để chọn giờ đã qua trong hôm nay. Giờ đây nó bắt đầu từ lần kế tiếp, chẳng hạn ngày mai, thay vì yêu cầu một giờ trong tương lai.</string>
 </resources>

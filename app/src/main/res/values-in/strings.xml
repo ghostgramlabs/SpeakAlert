@@ -930,4 +930,10 @@
     <string name="wn_voice_desc">Setelan &gt; Saat pengingat berbunyi &gt; Bahasa ucapan kini memeriksa apakah ponsel Anda benar-benar bisa mengucapkan bahasa itu, dan membantu mengunduh suara jika belum bisa. Jika suara biasa gagal, pengingat mencoba suara lain dalam bahasa yang sama.</string>
     <string name="wn_reset_title">Setel ulang setelan sekaligus</string>
     <string name="wn_reset_desc">Setelan &gt; Cadangkan &amp; pulihkan &gt; Setel ulang setelan ke default mengembalikan semua setelan seperti saat aplikasi dipasang. Pengingat Anda tetap seperti sekarang.</string>
+    <string name="wn_call_title">Tenang saat panggilan telepon</string>
+    <string name="wn_call_desc">Pengingat nada saja tidak lagi berbunyi saat panggilan telepon. Notifikasinya tetap muncul dan ponsel tetap bergetar, seperti pengingat yang diucapkan.</string>
+    <string name="wn_notifcat_title">Cek pengingat menemukan notifikasi tersembunyi</string>
+    <string name="wn_notifcat_desc">Beberapa ponsel mematikan satu jenis notifikasi dengan sendirinya, sehingga pengingat berbunyi tanpa menampilkan apa pun. Setelan &gt; Cek pengingat kini memberi peringatan, dan Perbaiki membuka setelan yang tepat.</string>
+    <string name="wn_pasttime_title">Pindahkan pengingat harian ke jam lebih awal</string>
+    <string name="wn_pasttime_desc">Buka pengingat berulang dan ketuk Waktu untuk memilih jam yang sudah lewat hari ini. Kini pengingat mulai pada giliran berikutnya, misalnya besok, alih-alih meminta waktu di masa depan.</string>
 </resources>
