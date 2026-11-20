@@ -3,6 +3,13 @@
 User-facing changes to SpeakAlert, newest first. Version numbers match the Google Play release
 (`versionName` in `app/build.gradle.kts`).
 
+## Unreleased
+
+- Fixed changing a repeating reminder's time on its details screen to a time already gone by
+  today. It said to pick a time in the future and refused, although the editor accepted the same
+  time. It now starts at the next occurrence (a daily 11:00 set at 11:05 rings tomorrow at 11:00),
+  as in the editor. One-time reminders still need a time in the future.
+
 ## 2.0.49 - 2026-11-19
 
 - The alarm tone no longer rings during a phone call. Spoken reminders already stayed quiet

@@ -571,7 +571,9 @@ fun ReminderDetailsScreen(
                                     context, context.getString(R.string.err_date_future), Toast.LENGTH_SHORT
                                 ).show()
                                 // Today, but the reminder's time of day has already gone by.
-                                picked <= System.currentTimeMillis() -> Toast.makeText(
+                                // A repeating reminder just moves on to its next occurrence.
+                                picked <= System.currentTimeMillis() &&
+                                    item.recurrenceType == RecurrenceType.NONE -> Toast.makeText(
                                     context, context.getString(R.string.err_time_future), Toast.LENGTH_SHORT
                                 ).show()
                                 else -> {
@@ -589,7 +591,9 @@ fun ReminderDetailsScreen(
                     }
                     val applyTime: (Int, Int) -> Unit = { hour, minute ->
                         val picked = detailsMergeTimeWithCurrentDate(item.nextTriggerAt, hour, minute)
-                        if (picked <= System.currentTimeMillis()) {
+                        // A repeating reminder set to a time already gone by today starts at its
+                        // next occurrence, as it does in the editor.
+                        if (picked <= System.currentTimeMillis() && item.recurrenceType == RecurrenceType.NONE) {
                             Toast.makeText(context, context.getString(R.string.err_time_future), Toast.LENGTH_SHORT).show()
                         } else {
                             viewModel.updateTriggerTime(picked)
