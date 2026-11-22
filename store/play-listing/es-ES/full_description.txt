@@ -1,0 +1,59 @@
+SpeakAlert es una app gratuita de recordatorios de voz y una alarma que habla: reproduce tus recordatorios en voz alta, con tu propia voz grabada, con texto a voz (TTS) o con cualquier archivo de audio. A diferencia de las apps con notificaciones silenciosas, SpeakAlert se asegura de que oigas tus recordatorios, aunque el móvil esté en tu bolsillo o al otro lado de la habitación.
+
+Funciona sin conexión, no necesita cuenta y no tiene anuncios: recordatorios que hablan y alarma de voz en una sola app, sencilla y fiable.
+
+🎙️ RECORDATORIOS QUE HABLAN
+• Graba un recordatorio de voz en segundos y escúchalo con tu propia voz a la hora justa
+• Escribe un recordatorio y deja que el texto a voz lo lea en voz alta
+• Usa cualquier música o archivo de audio como sonido del recordatorio
+• Voz multilingüe: un recordatorio en hindi se dice en hindi y uno en español, en español, automáticamente
+
+⏰ PROGRAMACIÓN COMPLETA
+• Recordatorios únicos o repetidos: diarios, semanales, mensuales, anuales o con intervalos propios (cada 30 minutos, cada 2 horas, cada 3 días…)
+• Las repeticiones terminan nunca, en una fecha o tras un número de veces
+• Recordatorios cada hora para beber agua, tomar medicación o corregir la postura
+• Alarmas exactas: suenan en el minuto preciso
+
+✅ TE RECUERDA HASTA QUE ESTÉ HECHO
+• La comprobación de seguimiento pregunta «¿Completaste este recordatorio?» y vuelve a avisar hasta que lo marques como Hecho
+• Mantén el recordatorio fijo en pantalla hasta que toques Hecho o Posponer
+• Alertas a pantalla completa en la pantalla de bloqueo con botones grandes Hecho / Silenciar / Posponer
+• Bandeja de recordatorios perdidos para recuperarlos: nada se pierde en silencio
+
+🔔 ALERTAS FIABLES
+• Modo Solo tono: un tono de alarma fuerte para máxima fiabilidad, con tu propio sonido
+• Avisa incluso con No molestar activado (opcional)
+• Los recordatorios sobreviven a los reinicios: todo se reprograma automáticamente
+• Guía de optimización de batería para Xiaomi, POCO y otros móviles restrictivos
+
+🎧 ESCÚCHALO A TU MANERA
+• Reproducción privada por el auricular del teléfono, auriculares Bluetooth o audífonos: solo tú los oyes
+• Reproducción automática, con repetición opcional hasta que respondas
+• Duración de posposición propia y horas de silencio para noches tranquilas
+
+⌚ COMPATIBLE CON WEAR OS
+• Recibe recordatorios que hablan en tu reloj Wear OS
+• Gestiona los recordatorios desde la muñeca
+
+🧩 WIDGETS Y ORGANIZACIÓN
+• El widget Añadir rápido crea un recordatorio desde la pantalla de inicio
+• Widget desplazable con tus próximos recordatorios y los perdidos
+• Pestañas Hoy / Próximos / Perdidos / Hechos y duplicar con un toque
+
+💾 COPIA DE SEGURIDAD E IDIOMAS
+• Haz copia y restaura todos los recordatorios, grabaciones incluidas, incluso en un móvil nuevo
+• App en 17 idiomas: inglés, español, alemán, francés, indonesio, turco, japonés, hindi, árabe, portugués (Brasil), ruso, vietnamita, bengalí, telugu, tamil, griego y malayalam, con soporte RTL y temas claro y oscuro
+
+🔒 PRIVADA, SIN CONEXIÓN Y GRATIS
+• 100 % sin conexión: sin cuenta y sin internet
+• Todos los recordatorios y grabaciones se quedan en tu dispositivo
+• Sin anuncios. Sin suscripciones. Totalmente gratis.
+
+📌 IDEAL PARA
+• Recordatorios de medicación y pastillas, para ti o para tus padres mayores
+• Tareas diarias, pendientes, reuniones y citas
+• Beber agua, hacer ejercicio, cocinar y tomar descansos
+• Facturas, recados, recogidas y cumpleaños
+• Personas mayores y cualquiera que prefiera oír sus recordatorios en lugar de leer notificaciones silenciosas
+
+La mayoría de las apps de recordatorios usan notificaciones silenciosas. SpeakAlert es un recordatorio de voz que usa sonido y habla para que nunca te pierdas lo importante. Dale voz a tus recordatorios: descarga gratis el recordatorio de voz SpeakAlert hoy.

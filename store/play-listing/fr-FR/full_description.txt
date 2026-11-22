@@ -1,0 +1,59 @@
+SpeakAlert est une application gratuite de rappels vocaux et un réveil qui parle : vos rappels sont lus à voix haute, avec votre propre voix enregistrée, par synthèse vocale (TTS) ou avec n'importe quel fichier audio. Contrairement aux applications aux notifications silencieuses, SpeakAlert fait en sorte que vous entendiez vraiment vos rappels, même avec le téléphone dans la poche ou à l'autre bout de la pièce.
+
+Elle fonctionne hors ligne, sans compte et sans publicité : rappels parlants et réveil vocal dans une seule application simple et fiable.
+
+🎙️ DES RAPPELS QUI PARLENT
+• Enregistrez un rappel vocal en quelques secondes et réécoutez-le avec votre voix au bon moment
+• Tapez un rappel et laissez la synthèse vocale le lire à voix haute
+• Utilisez n'importe quelle musique ou fichier audio comme son de rappel
+• Voix multilingue : un rappel en hindi est lu en hindi, un rappel en espagnol en espagnol, automatiquement
+
+⏰ PROGRAMMATION COMPLÈTE
+• Rappels ponctuels ou récurrents : quotidiens, hebdomadaires, mensuels, annuels ou à intervalle libre (toutes les 30 minutes, toutes les 2 heures, tous les 3 jours…)
+• Les répétitions s'arrêtent jamais, à une date ou après un nombre de fois
+• Rappels toutes les heures pour boire de l'eau, prendre un médicament ou se redresser
+• Alarmes exactes, à la minute près
+
+✅ IL INSISTE JUSQU'À CE QUE CE SOIT FAIT
+• La Relance demande « Avez-vous terminé ce rappel ? » et sonne de nouveau jusqu'à ce que vous appuyiez sur Terminé
+• Le rappel reste affiché jusqu'à ce que vous appuyiez sur Terminé ou Reporter
+• Alertes plein écran sur l'écran de verrouillage avec de grands boutons Terminé / Silence / Reporter
+• Boîte des rappels manqués pour les rattraper : rien ne passe à la trappe en silence
+
+🔔 DES ALERTES FIABLES
+• Mode sonnerie seule : une sonnerie forte pour une fiabilité maximale, avec votre propre son
+• Alerte même en mode Ne pas déranger (en option)
+• Les rappels survivent aux redémarrages : tout est reprogrammé automatiquement
+• Guide d'optimisation de la batterie pour Xiaomi, POCO et autres téléphones restrictifs
+
+🎧 ÉCOUTEZ À VOTRE FAÇON
+• Lecture privée par l'écouteur du téléphone, un casque Bluetooth ou des aides auditives : vous seul l'entendez
+• Lecture automatique, en boucle si vous le souhaitez, jusqu'à votre réponse
+• Durée de report personnalisée et heures calmes pour des nuits paisibles
+
+⌚ MONTRES WEAR OS
+• Recevez des rappels parlants sur votre montre Wear OS
+• Gérez vos rappels depuis votre poignet
+
+🧩 WIDGETS ET ORGANISATION
+• Le widget Ajout rapide crée un rappel depuis l'écran d'accueil
+• Widget défilant avec vos prochains rappels et les rappels manqués
+• Onglets Aujourd'hui / À venir / Manqués / Terminés, duplication en un geste
+
+💾 SAUVEGARDE ET LANGUES
+• Sauvegardez et restaurez tous vos rappels, enregistrements vocaux compris, même sur un nouveau téléphone
+• Application en 17 langues : anglais, espagnol, allemand, français, indonésien, turc, japonais, hindi, arabe, portugais (Brésil), russe, vietnamien, bengali, télougou, tamoul, grec et malayalam, avec prise en charge RTL et thèmes clair et sombre
+
+🔒 PRIVÉE, HORS LIGNE ET GRATUITE
+• 100 % hors ligne : ni compte, ni connexion Internet
+• Rappels et enregistrements restent sur votre appareil
+• Sans publicité. Sans abonnement. Entièrement gratuite.
+
+📌 IDÉALE POUR
+• Le rappel vocal de vos médicaments, pour vous ou vos parents âgés
+• Tâches du quotidien, pense-bêtes, réunions et rendez-vous
+• Boire de l'eau, le sport, la cuisine et les pauses
+• Factures, courses, sorties d'école et anniversaires
+• Les seniors et tous ceux qui préfèrent entendre leurs rappels plutôt que lire des notifications silencieuses
+
+La plupart des applications de rappels se contentent de notifications silencieuses. SpeakAlert, l'appli de rappel vocal, utilise le son et la voix pour que vous ne manquiez jamais l'essentiel. Donnez une voix à vos rappels : téléchargez SpeakAlert gratuitement.

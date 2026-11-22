@@ -224,6 +224,6 @@ write the trace to a log file in Downloads. Debug builds also expose extra optio
 | Path | Contents |
 | --- | --- |
 | `docs/` | The product website, published by GitHub Pages at ghostgramlabs.com/SpeakAlert |
-| `store/` | Play Store listing text, screenshots, icons and promo material |
+| `store/` | Play Store listing text, screenshots, icons and promo material. `store/play-listing/<Play language code>/` holds the title, short and full description for each of the 17 store languages, with target search terms in `keywords.json` |
 | `tools/icon/` | `make_icon.py`, which generates every launcher, store and website icon |
-| `tools/store/` | Scripts that compose store screenshots and the promo video from raw captures |
+| `tools/store/` | Scripts that compose store screenshots and the promo video from raw captures. `play_listing.py` checks the store listings (length limits, keywords), compares them with Google Play, and uploads them through the Google Play Developer API (a dry run unless `--commit` is passed) |

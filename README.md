@@ -123,7 +123,7 @@ app/src/main/java/com/ghostgramlabs/speakalert/
 └── util/         Shared helpers
 
 docs/             Website served at ghostgramlabs.com/SpeakAlert (GitHub Pages)
-store/            Play Store listing, screenshots and icons
+store/            Play Store listing (store/play-listing/, one folder per language), screenshots and icons
 tools/            Python scripts that generate the icon, screenshots and promo video
 ```
 

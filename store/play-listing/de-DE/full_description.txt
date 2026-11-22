@@ -1,0 +1,59 @@
+SpeakAlert ist eine kostenlose Sprach-Erinnerungs-App und ein sprechender Wecker: Erinnerungen werden laut abgespielt – mit deiner eigenen aufgenommenen Stimme, per Sprachausgabe (TTS) oder mit einer beliebigen Audiodatei. Anders als Apps mit stummen Benachrichtigungen sorgt SpeakAlert dafür, dass du deine Erinnerungen wirklich hörst – auch wenn das Handy in der Tasche oder am anderen Ende des Raums liegt.
+
+Komplett offline, ohne Konto und ohne Werbung – sprechende Erinnerungen und Sprachwecker in einer einfachen, zuverlässigen App.
+
+🎙️ ERINNERUNGEN, DIE SPRECHEN
+• Sprach-Erinnerung in Sekunden aufnehmen und zur richtigen Zeit mit deiner eigenen Stimme hören
+• Erinnerung eintippen und per Sprachausgabe vorlesen lassen
+• Beliebige Musik- oder Audiodatei als Erinnerungston nutzen
+• Mehrsprachig: Eine Erinnerung auf Hindi wird auf Hindi gesprochen, eine spanische auf Spanisch – automatisch
+
+⏰ FLEXIBLE PLANUNG
+• Einmalig oder wiederkehrend: täglich, wöchentlich, monatlich, jährlich oder eigene Abstände (alle 30 Minuten, alle 2 Stunden, alle 3 Tage …)
+• Wiederholungen enden nie, an einem Datum oder nach einer festen Anzahl
+• Stündliche Erinnerungen für Wasser, Medikamente oder Haltungspausen
+• Exakte Alarme – auf die Minute genau
+
+✅ ERINNERT, BIS ES ERLEDIGT IST
+• Die Nachfrage „Hast du diese Erinnerung erledigt?“ meldet sich erneut, bis du Erledigt tippst
+• Erinnerung bleibt auf dem Bildschirm, bis du Erledigt oder Schlummern tippst
+• Vollbild-Alarm auf dem Sperrbildschirm mit großen Tasten Erledigt / Stumm / Schlummern
+• Verpasste Erinnerungen werden gesammelt und lassen sich nachholen – nichts geht still verloren
+
+🔔 ZUVERLÄSSIGE ALARME
+• Nur-Ton-Modus: ein lauter Alarmton für maximale Zuverlässigkeit, auch mit eigenem Ton
+• Alarm auch bei „Bitte nicht stören“ (optional)
+• Erinnerungen überstehen Neustarts – alles wird automatisch neu geplant
+• Anleitung zur Akkuoptimierung für Xiaomi, POCO und andere strenge Handys
+
+🎧 SO, WIE DU ES HÖREN WILLST
+• Private Wiedergabe über Hörmuschel, Bluetooth-Kopfhörer oder Hörgeräte – nur du hörst sie
+• Automatische Wiedergabe, optional in Schleife, bis du reagierst
+• Eigene Schlummerdauer und Ruhezeiten für ruhige Nächte
+
+⌚ WEAR OS SMARTWATCH
+• Sprechende Erinnerungen auf deiner Wear-OS-Uhr
+• Erinnerungen direkt am Handgelenk erledigen
+
+🧩 WIDGETS & ÜBERSICHT
+• Widget „Schnell hinzufügen“ legt eine Erinnerung direkt vom Startbildschirm an
+• Scrollbares Widget mit anstehenden und verpassten Erinnerungen
+• Tabs Heute / Anstehend / Verpasst / Erledigt, Duplizieren mit einem Tipp
+
+💾 BACKUP & SPRACHEN
+• Alle Erinnerungen sichern und wiederherstellen – samt Sprachaufnahmen, auch auf ein neues Handy
+• App in 17 Sprachen: Englisch, Spanisch, Deutsch, Französisch, Indonesisch, Türkisch, Japanisch, Hindi, Arabisch, Portugiesisch (Brasilien), Russisch, Vietnamesisch, Bengalisch, Telugu, Tamil, Griechisch und Malayalam, mit RTL-Unterstützung sowie hellem und dunklem Design
+
+🔒 PRIVAT, OFFLINE & KOSTENLOS
+• 100 % offline – kein Konto, kein Internet nötig
+• Alle Erinnerungen und Aufnahmen bleiben auf deinem Gerät
+• Keine Werbung. Keine Abos. Komplett kostenlos.
+
+📌 IDEAL FÜR
+• Medikamenten- und Tabletten-Erinnerungen – für dich oder ältere Eltern
+• Alltagsaufgaben, To-dos, Meetings und Termine
+• Wasser trinken, Sport, Kochen und Pausen
+• Rechnungen, Besorgungen, Abholungen und Geburtstage
+• Senioren und alle, die Erinnerungen lieber hören als stumme Benachrichtigungen lesen
+
+Die meisten Erinnerungs-Apps setzen auf stumme Benachrichtigungen. Die Sprach-Erinnerung SpeakAlert nutzt Ton und Sprache, damit du nichts Wichtiges verpasst. Gib deinen Erinnerungen eine Stimme – lade SpeakAlert jetzt kostenlos herunter.

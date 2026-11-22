@@ -1,5 +1,10 @@
 # SpeakAlert — Google Play Store Listing (ASO-optimized, v2.0.32 feature set)
 
+> The title and descriptions below are superseded. The listing for all 17 store languages now lives in
+> `store/play-listing/<language>/` (title.txt, short_description.txt, full_description.txt) and is
+> checked and uploaded with `python -X utf8 tools/store/play_listing.py check | diff | push`.
+> The release-notes history further down is still kept here.
+
 ## App title (max 30 chars)
 
 ```
