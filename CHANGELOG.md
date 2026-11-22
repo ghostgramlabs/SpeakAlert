@@ -3,7 +3,15 @@
 User-facing changes to SpeakAlert, newest first. Version numbers match the Google Play release
 (`versionName` in `app/build.gradle.kts`).
 
-## 2.0.51 - 2026-11-22
+## 2.0.52 - 2026-11-22
+
+- SpeakAlert can be installed on tablets, desktops and TVs without a microphone: the microphone is
+  now marked optional, because typed and audio-file reminders work without one.
+
+(2.0.51, build 72, was uploaded to Play but replaced by this build before release; its changes
+below ship in 2.0.52.)
+
+## 2.0.51 - 2026-11-22 (not released)
 
 - Settings > Help & about links to the privacy policy and terms of use, which open on
   ghostgramlabs.com, as Google Play's User Data policy asks. What's new says so in all 17
