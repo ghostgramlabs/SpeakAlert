@@ -28,4 +28,6 @@ SpeakAlert is an offline-first Android voice reminder app and voice alarm.
 - No ads and no subscriptions
 
 ## Support
-- 207371342+ghostgramlabs@users.noreply.github.com
+- ghostgramlabs@gmail.com
+- Privacy policy: https://ghostgramlabs.com/SpeakAlert/privacy.html
+- Terms of use: https://ghostgramlabs.com/SpeakAlert/terms.html
