@@ -927,4 +927,8 @@
     <string name="wn_notifcat_desc">कुछ फ़ोन अपने आप एक तरह की सूचनाएं बंद कर देते हैं, जिससे रिमाइंडर बजता था पर कुछ दिखता नहीं था। अब सेटिंग्स &gt; रिमाइंडर जांच ऐसा होने पर चेतावनी देती है, और ठीक करें सही सेटिंग खोलता है।</string>
     <string name="wn_pasttime_title">रोज़ाना रिमाइंडर को पहले के समय पर ले जाएं</string>
     <string name="wn_pasttime_desc">कोई दोहराने वाला रिमाइंडर खोलें और समय पर टैप करके आज बीत चुका समय चुनें। अब यह अपनी अगली बारी से शुरू होगा, जैसे कल, भविष्य का समय नहीं मांगेगा।</string>
+    <string name="set_privacy_policy">गोपनीयता नीति</string>
+    <string name="set_terms_of_use">उपयोग की शर्तें</string>
+    <string name="wn_legal_title">ऐप में गोपनीयता नीति और शर्तें</string>
+    <string name="wn_legal_desc">सेटिंग्स &gt; सहायता और जानकारी में अब SpeakAlert की गोपनीयता नीति और उपयोग की शर्तें खुलती हैं। और कुछ नहीं बदला, SpeakAlert अब भी आपकी कोई जानकारी इकट्ठा नहीं करता।</string>
 </resources>

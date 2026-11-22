@@ -944,4 +944,8 @@
     <string name="wn_notifcat_desc">Certains téléphones désactivent d\'eux-mêmes un type de notification : un rappel sonnait sans rien afficher. Paramètres &gt; Vérification des rappels vous prévient désormais, et Corriger ouvre le bon réglage.</string>
     <string name="wn_pasttime_title">Avancez l\'heure d\'un rappel quotidien</string>
     <string name="wn_pasttime_desc">Ouvrez un rappel répété et touchez Heure pour choisir une heure déjà passée aujourd\'hui. Il commence maintenant à sa prochaine occurrence, demain par exemple, au lieu de demander une heure future.</string>
+    <string name="set_privacy_policy">Politique de confidentialité</string>
+    <string name="set_terms_of_use">Conditions d\'utilisation</string>
+    <string name="wn_legal_title">Confidentialité et conditions dans l\'app</string>
+    <string name="wn_legal_desc">Paramètres &gt; Aide et à propos ouvre maintenant la politique de confidentialité et les conditions d\'utilisation de SpeakAlert. Rien d\'autre ne change : SpeakAlert ne collecte toujours aucune donnée vous concernant.</string>
 </resources>

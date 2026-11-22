@@ -415,19 +415,11 @@ class MainActivity : ComponentActivity() {
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
-                                    // For people coming from 2.0.48 (in production): 2.0.49's two
-                                    // changes, then 2.0.50.
+                                    // For people coming from 2.0.50 (in production): the in-app
+                                    // privacy policy and terms links are 2.0.51's only change.
                                     WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_call_title),
-                                        description = stringResource(R.string.wn_call_desc)
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_notifcat_title),
-                                        description = stringResource(R.string.wn_notifcat_desc)
-                                    )
-                                    WhatsNewFeatureCard(
-                                        title = stringResource(R.string.wn_pasttime_title),
-                                        description = stringResource(R.string.wn_pasttime_desc)
+                                        title = stringResource(R.string.wn_legal_title),
+                                        description = stringResource(R.string.wn_legal_desc)
                                     )
                                 }
                                 Button(

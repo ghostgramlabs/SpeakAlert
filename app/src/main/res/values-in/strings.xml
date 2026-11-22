@@ -936,4 +936,8 @@
     <string name="wn_notifcat_desc">Beberapa ponsel mematikan satu jenis notifikasi dengan sendirinya, sehingga pengingat berbunyi tanpa menampilkan apa pun. Setelan &gt; Cek pengingat kini memberi peringatan, dan Perbaiki membuka setelan yang tepat.</string>
     <string name="wn_pasttime_title">Pindahkan pengingat harian ke jam lebih awal</string>
     <string name="wn_pasttime_desc">Buka pengingat berulang dan ketuk Waktu untuk memilih jam yang sudah lewat hari ini. Kini pengingat mulai pada giliran berikutnya, misalnya besok, alih-alih meminta waktu di masa depan.</string>
+    <string name="set_privacy_policy">Kebijakan privasi</string>
+    <string name="set_terms_of_use">Ketentuan penggunaan</string>
+    <string name="wn_legal_title">Kebijakan privasi dan ketentuan di aplikasi</string>
+    <string name="wn_legal_desc">Setelan &gt; Bantuan &amp; tentang kini membuka kebijakan privasi dan ketentuan penggunaan SpeakAlert. Tidak ada yang lain berubah, dan SpeakAlert tetap tidak mengumpulkan data apa pun tentang Anda.</string>
 </resources>

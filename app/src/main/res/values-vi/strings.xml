@@ -936,4 +936,8 @@
     <string name="wn_notifcat_desc">Một số điện thoại tự tắt một loại thông báo, nên lời nhắc vẫn reo mà không hiện gì. Giờ đây Cài đặt &gt; Kiểm tra lời nhắc sẽ cảnh báo, và nút Sửa mở đúng mục cài đặt.</string>
     <string name="wn_pasttime_title">Dời lời nhắc hằng ngày sang giờ sớm hơn</string>
     <string name="wn_pasttime_desc">Mở một lời nhắc lặp lại và chạm Giờ để chọn giờ đã qua trong hôm nay. Giờ đây nó bắt đầu từ lần kế tiếp, chẳng hạn ngày mai, thay vì yêu cầu một giờ trong tương lai.</string>
+    <string name="set_privacy_policy">Chính sách quyền riêng tư</string>
+    <string name="set_terms_of_use">Điều khoản sử dụng</string>
+    <string name="wn_legal_title">Chính sách quyền riêng tư và điều khoản trong ứng dụng</string>
+    <string name="wn_legal_desc">Cài đặt &gt; Trợ giúp và giới thiệu giờ mở chính sách quyền riêng tư và điều khoản sử dụng của SpeakAlert. Không có gì khác thay đổi, và SpeakAlert vẫn không thu thập dữ liệu nào về bạn.</string>
 </resources>

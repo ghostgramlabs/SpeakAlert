@@ -954,4 +954,8 @@
     <string name="wn_notifcat_desc">بعض الهواتف توقف نوعًا واحدًا من الإشعارات من تلقاء نفسها، فيرنّ التذكير دون أن يظهر شيء. يحذّرك الآن قسم الإعدادات &gt; فحص التذكيرات عند حدوث ذلك، ويفتح زر إصلاح الإعداد المناسب.</string>
     <string name="wn_pasttime_title">نقل تذكير يومي إلى وقت أبكر</string>
     <string name="wn_pasttime_desc">افتح تذكيرًا متكررًا واضغط على الوقت لاختيار وقت مضى اليوم. سيبدأ الآن في موعده التالي، مثل الغد، بدلًا من أن يطلب وقتًا في المستقبل.</string>
+    <string name="set_privacy_policy">سياسة الخصوصية</string>
+    <string name="set_terms_of_use">شروط الاستخدام</string>
+    <string name="wn_legal_title">سياسة الخصوصية والشروط داخل التطبيق</string>
+    <string name="wn_legal_desc">أصبح قسم الإعدادات &gt; المساعدة وحول التطبيق يفتح سياسة الخصوصية وشروط الاستخدام الخاصة بـ SpeakAlert. لم يتغير شيء آخر، وما زال SpeakAlert لا يجمع أي بيانات عنك.</string>
 </resources>

@@ -1454,6 +1454,22 @@ fun SettingsScreen(
                     )
                 }
 
+                Divider()
+
+                // Google Play's User Data policy wants the privacy policy reachable inside the app.
+                LegalLinkRow(
+                    icon = Icons.Default.PrivacyTip,
+                    title = stringResource(R.string.set_privacy_policy),
+                    url = PRIVACY_POLICY_URL,
+                    context = context
+                )
+                LegalLinkRow(
+                    icon = Icons.Default.Description,
+                    title = stringResource(R.string.set_terms_of_use),
+                    url = TERMS_OF_USE_URL,
+                    context = context
+                )
+
                 // The "Rate SpeakAlert" row is deliberately absent. Rating is now only ever
                 // offered by the automatic prompt, which waits for a week of delivered reminders
                 // and steps aside when one was just missed - so the people it reaches have
@@ -1849,6 +1865,54 @@ private fun settingsSectionIcon(icon: String): ImageVector {
         "Help" -> Icons.Default.Help
         "Dev" -> Icons.Default.Build
         else -> Icons.Default.Settings
+    }
+}
+
+private const val PRIVACY_POLICY_URL = "https://ghostgramlabs.com/SpeakAlert/privacy.html"
+private const val TERMS_OF_USE_URL = "https://ghostgramlabs.com/SpeakAlert/terms.html"
+
+/** A Help & About row that opens one of the published legal pages in the browser. */
+@Composable
+private fun LegalLinkRow(
+    icon: ImageVector,
+    title: String,
+    url: String,
+    context: android.content.Context
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url))
+                    .addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+                try {
+                    context.startActivity(intent)
+                } catch (_: android.content.ActivityNotFoundException) {
+                    // No browser: show the address so it can still be opened elsewhere.
+                    Toast.makeText(context, url, Toast.LENGTH_LONG).show()
+                }
+            }
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(24.dp)
+        )
+        Spacer(Modifier.width(16.dp))
+        Text(
+            title,
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.Medium,
+            modifier = Modifier.weight(1f)
+        )
+        Icon(
+            Icons.Default.OpenInNew,
+            contentDescription = null,
+            modifier = Modifier.mirrorInRtl()
+        )
     }
 }
 

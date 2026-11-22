@@ -950,4 +950,8 @@
     <string name="wn_notifcat_desc">Alguns celulares desativam sozinhos um tipo de notificação, então o lembrete tocava sem mostrar nada. Configurações &gt; Verificação de lembretes agora avisa quando isso acontece, e Corrigir abre o ajuste certo.</string>
     <string name="wn_pasttime_title">Mude um lembrete diário para mais cedo</string>
     <string name="wn_pasttime_desc">Abra um lembrete que se repete e toque em Horário para escolher um horário que já passou hoje. Agora ele começa na próxima vez, como amanhã, em vez de pedir um horário no futuro.</string>
+    <string name="set_privacy_policy">Política de privacidade</string>
+    <string name="set_terms_of_use">Termos de uso</string>
+    <string name="wn_legal_title">Política de privacidade e termos no app</string>
+    <string name="wn_legal_desc">Configurações &gt; Ajuda e sobre agora abre a política de privacidade e os termos de uso do SpeakAlert. Nada mais mudou, e o SpeakAlert continua sem coletar nenhum dado sobre você.</string>
 </resources>

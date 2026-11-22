@@ -943,4 +943,8 @@
     <string name="wn_notifcat_desc">Manche Telefone schalten eine Art von Benachrichtigung von selbst aus, sodass eine Erinnerung klingelte, aber nichts anzeigte. Einstellungen &gt; Erinnerungs-Check warnt jetzt davor, und Beheben öffnet die richtige Einstellung.</string>
     <string name="wn_pasttime_title">Tägliche Erinnerung auf eine frühere Uhrzeit legen</string>
     <string name="wn_pasttime_desc">Öffne eine wiederkehrende Erinnerung und tippe auf Uhrzeit, um eine Zeit zu wählen, die heute schon vorbei ist. Sie beginnt jetzt beim nächsten Mal, etwa morgen, statt eine Zeit in der Zukunft zu verlangen.</string>
+    <string name="set_privacy_policy">Datenschutzerklärung</string>
+    <string name="set_terms_of_use">Nutzungsbedingungen</string>
+    <string name="wn_legal_title">Datenschutz und Nutzungsbedingungen in der App</string>
+    <string name="wn_legal_desc">Einstellungen &gt; Hilfe &amp; Info öffnet jetzt die Datenschutzerklärung und die Nutzungsbedingungen von SpeakAlert. Sonst ändert sich nichts, und SpeakAlert sammelt weiterhin keine Daten über dich.</string>
 </resources>

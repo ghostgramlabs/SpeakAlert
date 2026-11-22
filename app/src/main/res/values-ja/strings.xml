@@ -936,4 +936,8 @@
     <string name="wn_notifcat_desc">一部のスマートフォンでは通知の種類が勝手にオフになり、リマインダーが鳴っても何も表示されないことがありました。設定 &gt; リマインダーチェック がそれを警告し、修正 で該当する設定を開けます。</string>
     <string name="wn_pasttime_title">毎日のリマインダーを早い時刻に変更</string>
     <string name="wn_pasttime_desc">繰り返しのリマインダーを開いて 時刻 をタップすると、今日すでに過ぎた時刻も選べます。未来の時刻を求めず、次の回(たとえば明日)から始まります。</string>
+    <string name="set_privacy_policy">プライバシーポリシー</string>
+    <string name="set_terms_of_use">利用規約</string>
+    <string name="wn_legal_title">プライバシーポリシーと利用規約をアプリ内に</string>
+    <string name="wn_legal_desc">設定 &gt; ヘルプとアプリ情報 から SpeakAlert のプライバシーポリシーと利用規約を開けるようになりました。ほかの変更はなく、SpeakAlert は引き続きあなたの情報を一切収集しません。</string>
 </resources>

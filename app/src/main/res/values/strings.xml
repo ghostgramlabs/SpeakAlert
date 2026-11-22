@@ -946,4 +946,8 @@
     <string name="wn_notifcat_desc">Some phones switch off one kind of notification on their own, so a reminder rang but showed nothing. Settings &gt; Reminder check now warns when that happens, and Fix opens the right setting.</string>
     <string name="wn_pasttime_title">Move a daily reminder to an earlier time</string>
     <string name="wn_pasttime_desc">Open a repeating reminder and tap Time to pick a time that has already passed today. It now starts at its next turn, such as tomorrow, instead of asking for a time in the future.</string>
+    <string name="set_privacy_policy">Privacy policy</string>
+    <string name="set_terms_of_use">Terms of use</string>
+    <string name="wn_legal_title">Privacy policy and terms in the app</string>
+    <string name="wn_legal_desc">Settings &gt; Help &amp; about now opens SpeakAlert\'s privacy policy and terms of use. Nothing else changed, and SpeakAlert still collects nothing about you.</string>
 </resources>

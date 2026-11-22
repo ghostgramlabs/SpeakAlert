@@ -3,6 +3,12 @@
 User-facing changes to SpeakAlert, newest first. Version numbers match the Google Play release
 (`versionName` in `app/build.gradle.kts`).
 
+## 2.0.51 - 2026-11-22
+
+- Settings > Help & about links to the privacy policy and terms of use, which open on
+  ghostgramlabs.com, as Google Play's User Data policy asks. What's new says so in all 17
+  languages; nothing else changed.
+
 ## 2.0.50 - 2026-11-20
 
 - What's new now covers what changed since 2.0.48, the production release: no alarm tone during

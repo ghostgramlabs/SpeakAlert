@@ -933,4 +933,8 @@
     <string name="wn_notifcat_desc">Algunos teléfonos desactivan por su cuenta un tipo de notificación, así que un recordatorio sonaba sin mostrar nada. Ajustes &gt; Comprobación de recordatorios ahora avisa cuando ocurre, y Corregir abre el ajuste adecuado.</string>
     <string name="wn_pasttime_title">Pasa un recordatorio diario a una hora anterior</string>
     <string name="wn_pasttime_desc">Abre un recordatorio que se repite y toca Hora para elegir una hora que ya pasó hoy. Ahora empieza en su siguiente turno, por ejemplo mañana, en lugar de pedir una hora futura.</string>
+    <string name="set_privacy_policy">Política de privacidad</string>
+    <string name="set_terms_of_use">Condiciones de uso</string>
+    <string name="wn_legal_title">Política de privacidad y condiciones en la app</string>
+    <string name="wn_legal_desc">Ajustes &gt; Ayuda y acerca de ahora abre la política de privacidad y las condiciones de uso de SpeakAlert. Nada más cambia, y SpeakAlert sigue sin recopilar ningún dato tuyo.</string>
 </resources>

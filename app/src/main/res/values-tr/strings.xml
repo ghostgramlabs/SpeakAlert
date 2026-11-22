@@ -943,4 +943,8 @@
     <string name="wn_notifcat_desc">Bazı telefonlar bir bildirim türünü kendiliğinden kapatır; hatırlatıcı çalar ama hiçbir şey göstermezdi. Ayarlar &gt; Hatırlatıcı kontrolü artık bu durumda uyarır ve Düzelt doğru ayarı açar.</string>
     <string name="wn_pasttime_title">Günlük hatırlatıcıyı daha erken bir saate alın</string>
     <string name="wn_pasttime_desc">Tekrarlanan bir hatırlatıcıyı açın ve bugün geçmiş bir saati seçmek için Saat\'e dokunun. Artık gelecekte bir saat istemek yerine bir sonraki seferde, örneğin yarın, başlar.</string>
+    <string name="set_privacy_policy">Gizlilik politikası</string>
+    <string name="set_terms_of_use">Kullanım koşulları</string>
+    <string name="wn_legal_title">Gizlilik politikası ve koşullar uygulamada</string>
+    <string name="wn_legal_desc">Ayarlar &gt; Yardım ve hakkında artık SpeakAlert\'in gizlilik politikasını ve kullanım koşullarını açıyor. Başka bir şey değişmedi; SpeakAlert hâlâ hakkınızda hiçbir veri toplamıyor.</string>
 </resources>
