@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quick_title">Hızlı başlangıç</string>
+    <string name="quick_progress">Adım %1$d / %2$d</string>
+    <string name="quick_back">Geri</string>
+    <string name="quick_next">İleri</string>
+    <string name="quick_finish">Uygulamayı kullanmaya başla</string>
+    <string name="quick_later">Kapat — bunu Yardım bölümünde yeniden bulabilirsiniz</string>
+    <string name="quick_create_title">İlk hatırlatıcınızı oluşturun</string>
+    <string name="quick_create_body">Hatırlatıcı eklemek için + düğmesine dokunun. Sesinizi kaydedin, bir ses dosyası seçin veya sesli okunacak bir mesaj yazın. Mikrofon erişimi yalnızca kayıt için gerekir.\n\nİleri bir tarih ve saat seçin. Yinelenen bir hatırlatıcı için ne sıklıkla yineleneceğini seçin. Kaydınızı dinleyin, ardından Kaydet düğmesine dokunun.\n\nBugün sekmesi bugünkü hatırlatıcıları gösterir. Yaklaşan sekmesi daha sonraki tarihleri gösterir.</string>
+    <string name="quick_ready_title">Duyabildiğinizden emin olun</string>
+    <string name="quick_ready_body">Sorulduğunda bildirimlere izin verin. Android’in hatırlatıcıları güvenilir biçimde ulaştırabilmesi için Ayarlar bölümünde tam zamanında alarm çalma iznini ve arka plan pil ayarlarını kontrol edin.\n\nSesli uyarılar için otomatik oynatmayı açık, yalnızca ton modunu kapalı tutun. Yazılı mesajlar için metin seslendirmenin de açık olması gerekir. Alarm sesini yükseltin; özel dinleme kulaklık veya ahize kullanır.\n\nSessiz saatler ve kilit ekranında oynatma ayarları, konuşmayı ne zaman duyacağınızı değiştirebilir. Bunları Ayarlar bölümünde gözden geçirebilirsiniz.</string>
+    <string name="quick_actions_title">Tamam mı, Ertele mi, Sustur mu?</string>
+    <string name="quick_actions_body">Ertele geçerli uyarıyı geciktirir; yinelenen zamanlama sonrasında devam eder. Sustur sesi durdurur ama hatırlatıcıyı beklemede bırakır.\n\nBir uyarıda Tamam, o tekrarı tamamlar ve takip kontrollerini durdurur. Yinelenen hatırlatıcılar bir sonraki zamanlarında devam eder.\n\nYaklaşan sekmesinde yinelenen bir tekrarı tamamlandı olarak işaretlemek, o gelecekteki tekrarı atlar. Zamanlamanın tamamını duraklatmaz. Tek seferlik bir hatırlatıcı Tamamlanan sekmesine taşınır; oradan yeniden planlayabilirsiniz.</string>
+    <string name="quick_try_title">Güvenmeden önce bir kez deneyin</string>
+    <string name="quick_try_body">İki dakika sonrasına bir hatırlatıcı oluşturun. Telefonunuzu kilitleyin ve bildirimi ve sesi bekleyin. Ardından Ertele ve Tamam seçeneklerini deneyin.\n\nBildirim sessiz görünürse Oynat veya Tekrar oynat seçeneğini deneyin. Oynatma ayarlarını, ses düzeyini ve bağlı kulaklıkları kontrol edin. Kaçırılan sekmesi normal şekilde ulaştırılamayan hatırlatıcıları gösterir; geç gelen bir hatırlatıcı için Oynat düğmesine dokunmanız gerekebilir.\n\nBu adımları istediğiniz zaman yeniden açmak için ana ekrandaki Yardım veya Ayarlar bölümündeki Uygulama rehberi seçeneğini kullanın.</string>
+    <string name="quick_settings_title">Ayarları kendinize göre düzenleyin</string>
+    <string name="quick_review_settings">Ayarları Gözden Geçir</string>
+    <string name="quick_settings_body">Ayarlar bölümünü gözden geçirmek için bir dakikanızı ayırın. Varsayılanları koruyup sonra değiştirebilirsiniz.\n\nEn üstteki Hatırlatıcı kontrolü, hatırlatıcıların zamanında çalıp çalamayacağını gösterir. İşaretlediği her şeyi düzeltin.\n\nDil ve görünüm; uygulama dilini, temayı ve saat biçimini ayarlar.\n\nHatırlatıcı çaldığında: ses veya ton, ses düzeyi, konuşma dili ve özel dinlemeyi seçin, ardından bir test hatırlatıcısı çalın.\n\nErteleme ve takip; erteleme süresini, takip kontrollerini ve sessiz saatleri ayarlar. Hatırlatıcı formu gördüğünüz giriş alanlarını belirler, Yedekleme ise hatırlatıcılarınızı ve kayıtlarınızı saklar.</string>
+</resources>

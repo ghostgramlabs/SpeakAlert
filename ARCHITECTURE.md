@@ -32,7 +32,7 @@ All paths are under `app/src/main/java/com/ghostgramlabs/speakalert/`.
 
 | Package | Responsibility |
 | --- | --- |
-| `alarm/` | Scheduling and firing reminders: `AlarmScheduler`, `ReminderAlarmReceiver`, follow-up alarms, notification actions, boot handling, notification channels, tone-only player |
+| `alarm/` | Scheduling and firing reminders: `AlarmScheduler`, `ReminderAlarmReceiver`, follow-up alarms, notification actions, boot handling, notification channels and the `AlertChannelHealth` check of them (shown in Settings > Reminder check), tone-only player (silent during a phone call, via `util/PhoneCallState`) |
 | `audio/` | Recording (`AudioRecorder`), clean-up and enhancement of recordings (`VoiceProcessor`, `AudioEnhancer`), in-app preview playback |
 | `data/` | Room database and DAOs, entities, repositories, `SettingsRepository` (DataStore), backup/restore |
 | `domain/` | Recurrence model and maths (`RecurrenceUtils`): next occurrence, end rules, summaries |
@@ -53,7 +53,10 @@ The database (`AppDatabase`) has two tables.
   `nextTriggerAt`.
 - Recurrence: `recurrenceType` (`NONE`, `DAILY`, `WEEKLY`, `MONTHLY`, `YEARLY`, `CUSTOM`) plus
   `recurrenceJson`, a serialised `RecurrenceModel` with the interval, weekdays, end rule and
-  missed policy
+  missed policy. Monthly rules use days of the month, the last day, or a weekday by position
+  (`DAY_OF_WEEK`: first to fourth or last, such as the last Thursday). New fields are added with
+  defaults, so stored JSON needs no database migration. The localized "Last Thursday" phrase
+  reads ordinals per grammatical gender from each locale's `weekday_gender` array.
 - State: `isCompleted`, `completedAt`, `lastFiredAt`
 - Follow-up check: `followUpCheckMinutes`, `pendingFollowUpAt`, `followUpFireCount`
 
@@ -65,7 +68,20 @@ back to a destructive rebuild when no migration path exists, which would wipe us
 so always add the migration.
 
 Settings (playback, quiet hours, snooze length, language, theme and so on) live in DataStore
-and are read through `SettingsRepository`.
+and are read through `SettingsRepository`. Colors for Home's card buttons are stored as
+`CardButtonColor` keys and provided to the UI through `LocalCardActionColors`, resolved to the
+light or dark shade in `MainActivity`. "Allow snooze" is the exception: it lives in
+SharedPreferences (`SnoozePreferences`), like Extra-reliable reminders, because the notifications
+and the lock-screen alert that hide Snooze are built synchronously. "Week starts on"
+(`WeekStartPreferences`) is stored the same way; a chosen day makes `shouldUseSystemDatePicker`
+pick the platform date dialog, the only one whose first weekday can be set.
+
+"Reset settings to defaults" (Settings, Backup & restore) calls
+`SettingsRepository.resetToDefaults()`, which removes the keys in `USER_SETTING_KEYS` so every
+flow falls back to its declared default, then resets the SharedPreferences settings above and,
+if Extra-reliable reminders was on, reschedules reminders without it. App bookkeeping (first-run
+prompts, release notes, rating pacing, boot guard), an active pause, the app language and
+reminders are kept. Add any new user-facing DataStore key to `USER_SETTING_KEYS`.
 
 ## Life of a reminder
 
@@ -121,17 +137,40 @@ holds most of the delivery rules. In order, it:
 6. Schedules the next follow-up check if one is configured.
 
 Notification buttons (Done, Snooze, Play, Stop) are handled by `ReminderActionReceiver`.
+When the user deals with a reminder in the app instead, `ReminderAlertNotifications` clears its
+alert: on Done or delete (`onResolved`), on opening it or Home coming to the front (`onSeen`,
+`onAppOpened`; skipped while it is still sounding or with "Keep notification until done"), and on
+saving an edit (`onRescheduled`). Cancelling from code never fires the delete intent, so none of
+these marks anything Done.
 
 ### 3. Playback
 
 [ReminderPlaybackService](app/src/main/java/com/ghostgramlabs/speakalert/service/ReminderPlaybackService.kt)
 is a `mediaPlayback` foreground service. It plays the recording with ExoPlayer or speaks the
-text with TTS, optionally looping until a timeout, and requests transient audio focus. By default
+text with TTS, optionally looping until a timeout, and requests transient audio focus. Between
+loop repeats, [LoopGap](app/src/main/java/com/ghostgramlabs/speakalert/service/LoopGap.kt) waits
+the "Pause between repeats" setting (0 = back-to-back); a new request, replay or stop cancels the
+pending repeat, and audio focus is held through the pause. Tone-only alerts ignore it. By default
 it uses the alarm stream. With private playback on, it uses the media stream, or the earpiece
 (voice-call stream) when the proximity sensor says the phone is at the user's ear.
 
 All `TextToSpeech` calls run on a dedicated single thread. The engine can block for seconds,
 and calling it on the main thread caused ANRs.
+
+The voice is picked per reminder from `TtsLanguageSupport.candidateLocales` (text language,
+device language, English, ordered by the "Spoken language" setting). An engine can report a
+language as available and select a default voice whose data was never downloaded (Google's
+engine does this for Japanese), then fail at synthesis. A failed utterance is therefore retried
+with another voice of the same language from `TtsLanguageSupport.nextVoice` (up to three
+offline voices, then one network voice), then with the next candidate language, then the
+engine's own default. The engine's "not installed" voice flag only orders that list; it is not
+reliable enough to exclude a voice. If nothing can speak, `ToneAlertPlayer` sounds the alarm
+tone for a minute so the reminder is still heard; private playback skips the tone.
+
+`TtsVoiceCheck` answers the same question ahead of time for Settings (`SpokenVoiceCheck`): it
+synthesises one word to a file, silently, with the default voice and then the alternatives,
+and reports working / alternative voice / not working / no engine. Its download button sends
+`ACTION_INSTALL_TTS_DATA` to the engine, falling back to the system text-to-speech settings.
 
 ### 4. Reboot and clock changes
 
@@ -156,7 +195,7 @@ backups must still import.
 ## Localisation
 
 User-facing text belongs in `res/values/strings.xml`, with translations in `res/values-<code>/`
-(currently ar, bn, el, es, hi, ml, pt-rBR, ru, ta, te, vi). Arabic is right-to-left; use
+(currently ar, bn, de, el, es, fr, in (Indonesian), hi, ja, ml, pt-rBR, ru, ta, te, tr, vi). Arabic is right-to-left; use
 `RtlMirror` and start/end rather than left/right. The in-app language picker uses
 `AppCompatDelegate.setApplicationLocales`.
 
@@ -185,6 +224,6 @@ write the trace to a log file in Downloads. Debug builds also expose extra optio
 | Path | Contents |
 | --- | --- |
 | `docs/` | The product website, published by GitHub Pages at ghostgramlabs.com/SpeakAlert |
-| `store/` | Play Store listing text, screenshots, icons and promo material |
+| `store/` | Play Store listing text, screenshots, icons and promo material. `store/play-listing/<Play language code>/` holds the title, short and full description for each of the 17 store languages, with target search terms in `keywords.json` |
 | `tools/icon/` | `make_icon.py`, which generates every launcher, store and website icon |
-| `tools/store/` | Scripts that compose store screenshots and the promo video from raw captures |
+| `tools/store/` | Scripts that compose store screenshots and the promo video from raw captures. `play_listing.py` checks the store listings (length limits, keywords), compares them with Google Play, and uploads them through the Google Play Developer API (a dry run unless `--commit` is passed). `localize_screenshots.py` redraws the heading of the live English Play screenshots (`store/screenshots-play/en-US`) in every store language from `store/screenshot-captions.json` and uploads them |

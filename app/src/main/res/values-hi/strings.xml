@@ -362,6 +362,9 @@
     <string name="set_private_bt">निजी प्लेबैक चालू। ब्लूटूथ रूटिंग के लिए आस-पास के डिवाइस की अनुमति चाहिए।</string>
     <string name="set_tone_only">टोन-ओनली मोड</string>
     <string name="set_tone_only_desc">रिकॉर्डिंग या बोलने के बजाय अलार्म टोन बजाता है। बंद होने का समय: %1$s। स्नूज़: %2$d मिनट।</string>
+    <string name="set_tone_only_desc_no_snooze">रिकॉर्डिंग या बोलने के बजाय अलार्म टोन बजाता है। बंद होने का समय: %1$s।</string>
+    <string name="set_snooze_enabled">स्नूज़ की अनुमति दें</string>
+    <string name="set_snooze_enabled_desc">रिमाइंडर अलर्ट और नोटिफ़िकेशन में स्नूज़ दिखाता है। बंद करें ताकि रिमाइंडर से आगे बढ़ने का एक ही तरीका हो: हो गया।</string>
     <string name="set_toast_tone_on">टोन-ओनली मोड चालू</string>
     <string name="set_toast_tone_off">टोन-ओनली मोड बंद</string>
     <string name="set_infinite">असीमित</string>
@@ -454,6 +457,13 @@
     <string name="set_volume">वॉल्यूम</string>
     <string name="set_cd_volume">ऐप वॉल्यूम: %1$d%%</string>
     <string name="set_loop_inline_desc">इस समय के बाद टोन या बार-बार चलने वाला ऑडियो रुक जाता है। फ़ॉलो-अप रिमाइंडर बाद में आने वाले अलग अलर्ट हैं।</string>
+    <string name="set_loop_gap">दोहराव के बीच विराम</string>
+    <string name="set_loop_gap_desc">लूप वाला रिमाइंडर दोबारा चलने से पहले की चुप्पी। ऊपर दिया रोकने का समय अब भी लूप खत्म करता है। टोन बिना विराम के बजते हैं।</string>
+    <string name="set_loop_gap_none">कोई नहीं</string>
+    <string name="set_seconds_short">%1$dसे</string>
+    <string name="set_seconds">सेकंड</string>
+    <string name="set_max_allowed_seconds">अधिकतम अनुमत: %1$d सेकंड</string>
+    <string name="set_desc_max_seconds">%1$s (अधिकतम %2$dसे)</string>
     <string name="set_default_snooze">डिफ़ॉल्ट स्नूज़</string>
     <string name="set_snooze_inline_desc">“स्नूज़” दबाने के कितनी देर बाद फिर याद दिलाया जाए</string>
     <string name="set_default_followup">डिफ़ॉल्ट फ़ॉलो-अप जांच</string>
@@ -523,15 +533,15 @@
     <string name="help_s10_content">- त्वरित रिमाइंडर विजेट सीधे रिमाइंडर जोड़ें खोलता है।\n- आगामी विजेट आगामी रिमाइंडर और छूटे रिमाइंडर दिखाता है।\n- Wear OS समर्थन फ़ोन नोटिफ़िकेशन और वॉच सिंक सक्षम होने पर निर्भर करता है।</string>
     <string name="help_s11_content">- रीस्टार्ट के बाद भविष्य के रिमाइंडर स्वतः पुनर्निर्धारित होते हैं।\n- बीते हुए रिमाइंडर बूट पर अप्रत्याशित रूप से बजने के बजाय छूटे रिमाइंडर प्रवाह से गुज़रते हैं।</string>
     <string name="help_s13_title">फ़ॉलो-अप जांच</string>
-    <string name="help_s13_content">- फ़ॉलो-अप जांच रिमाइंडर बजने के कुछ मिनट बाद पूछती है \"क्या आपने … पूरा किया?\"\n- डिफ़ॉल्ट रूप से यह तब तक दोहराई जाती है जब तक आप रिमाइंडर को पूर्ण चिह्नित नहीं करते। यदि आप चाहते हैं कि यह अपने आप रुक जाए, तो सेटिंग्स &gt; विश्वसनीयता में दोहराव सीमा सेट करें।\n- हो गया और स्नूज़ वर्तमान चक्र समाप्त करते हैं; शांत समय भी फ़ॉलो-अप रोक देता है।\n- फ़ोन रीस्टार्ट के बाद भी फ़ॉलो-अप जांच जारी रहती है, जब तक पूर्ण न हो या सीमा न पहुँचे।</string>
+    <string name="help_s13_content">- फ़ॉलो-अप जांच रिमाइंडर बजने के कुछ मिनट बाद पूछती है \"क्या आपने … पूरा किया?\"\n- डिफ़ॉल्ट रूप से यह तब तक दोहराई जाती है जब तक आप रिमाइंडर को पूर्ण चिह्नित नहीं करते। यदि आप चाहते हैं कि यह अपने आप रुक जाए, तो सेटिंग्स &gt; स्नूज़ और फ़ॉलो-अप में दोहराव सीमा सेट करें।\n- हो गया और स्नूज़ वर्तमान चक्र समाप्त करते हैं; शांत समय भी फ़ॉलो-अप रोक देता है।\n- फ़ोन रीस्टार्ट के बाद भी फ़ॉलो-अप जांच जारी रहती है, जब तक पूर्ण न हो या सीमा न पहुँचे।</string>
     <string name="help_s14_title">बैकअप और आयात</string>
     <string name="help_s14_content">- सेटिंग्स में रिमाइंडर का बैकअप लें आपके सभी आगामी रिमाइंडर, वॉइस रिकॉर्डिंग सहित, आपकी चुनी हुई एक फ़ाइल में सहेजता है।\n- रिमाइंडर आयात करें उन्हें इस या किसी दूसरे डिवाइस पर पुनर्स्थापित करता है।\n- आयात में हूबहू डुप्लिकेट और समाप्त हो चुके एक-बार वाले रिमाइंडर छोड़ दिए जाते हैं; दोहराने वाले रिमाइंडर अगली बारी से जारी रहते हैं।\n- आयात किए गए रिमाइंडर तुरंत शेड्यूल हो जाते हैं।</string>
     <string name="help_s12_title">पूर्ण होने तक रिमाइंडर स्क्रीन पर रखें</string>
-    <string name="help_s12_content">- नोटिफ़िकेशन को पिन करने के लिए सेटिंग्स &gt; विश्वसनीयता &gt; पूर्ण होने तक रिमाइंडर स्क्रीन पर रखें चालू करें ताकि यह गलती से स्वाइप न हो।\n- चालू रहते हुए, स्वाइप केवल ध्वनि शांत करता है और रिमाइंडर लंबित छोड़ देता है — यह तब तक रहता है जब तक आप हो गया या स्नूज़ टैप न करें।\n- हो गया चिह्नित करना नोटिफ़िकेशन, फ़ुल-स्क्रीन अलर्ट, या रिमाइंडर कार्ड से हमेशा काम करता है, और किसी भी फ़ॉलो-अप रिअलर्ट को रोकता है।\n- इसे फ़ॉलो-अप जांच के साथ जोड़ें ताकि रिमाइंडर पूर्ण होने तक टाइमर पर भी फिर सूचित करे।</string>
+    <string name="help_s12_content">- नोटिफ़िकेशन को पिन करने के लिए सेटिंग्स &gt; जब रिमाइंडर बजता है &gt; पूर्ण होने तक रिमाइंडर स्क्रीन पर रखें चालू करें ताकि यह गलती से स्वाइप न हो।\n- चालू रहते हुए, स्वाइप केवल ध्वनि शांत करता है और रिमाइंडर लंबित छोड़ देता है — यह तब तक रहता है जब तक आप हो गया या स्नूज़ टैप न करें।\n- हो गया चिह्नित करना नोटिफ़िकेशन, फ़ुल-स्क्रीन अलर्ट, या रिमाइंडर कार्ड से हमेशा काम करता है, और किसी भी फ़ॉलो-अप रिअलर्ट को रोकता है।\n- इसे फ़ॉलो-अप जांच के साथ जोड़ें ताकि रिमाइंडर पूर्ण होने तक टाइमर पर भी फिर सूचित करे।</string>
 
     <string name="action_continue">जारी रखें</string>
     <string name="wn_title">%1$s में नया</string>
-    <string name="wn_intro">यह अपडेट यह पक्का करने में मदद करता है कि हर रिमाइंडर समय पर बजे।</string>
+    <string name="wn_intro">आपके पिछले अपडेट के बाद क्या नया है। इनमें से कई सुझाव ऐप इस्तेमाल करने वालों से आए हैं।</string>
     <string name="wn_check_title">देखें कि रिमाइंडर को क्या रोक सकता है</string>
     <string name="wn_check_desc">सेटिंग्स में सबसे ऊपर “रिमाइंडर जांच” वह सब दिखाता है जिससे रिमाइंडर देर से या बिना आवाज़ के आ सकते हैं, जैसे सूचनाएं, बैटरी या कम अलार्म वॉल्यूम, और हर एक को ठीक करने का बटन देता है।</string>
     <string name="wn_reliable_title">अतिरिक्त भरोसेमंद रिमाइंडर</string>
@@ -542,6 +552,14 @@
     <string name="wn_cards_desc">हर रिमाइंडर कार्ड पर बदलने, पूरा करने और हटाने के बटन हैं। हटाने से पहले पूछा जाता है और इसे वापस भी लिया जा सकता है।</string>
     <string name="wn_sound_title">आवाज़ सही समय पर रुकती है</string>
     <string name="wn_sound_desc">रिमाइंडर को पूरा करने, हटाने या उसका समय बदलने पर उसकी आवाज़ तुरंत रुक जाती है। टोन अलार्म में शांत करें बटन फिर से है।</string>
+    <string name="wn_nthday_title">आखिरी गुरुवार को दोहराएं</string>
+    <string name="wn_nthday_desc">मासिक रिमाइंडर अब महीने में सप्ताह के किसी दिन की जगह के हिसाब से सेट हो सकते हैं, जैसे पहला सोमवार या आखिरी गुरुवार। दोहराएं &gt; मासिक &gt; सप्ताह का दिन चुनें।</string>
+    <string name="wn_gap_title">दोहराव के बीच विराम</string>
+    <string name="wn_gap_desc">लूप वाला रिमाइंडर दोबारा चलने से पहले रुक सकता है: “मीटिंग”, 10 सेकंड शांति, फिर “मीटिंग”, रुकने के समय तक। इसे सेटिंग्स &gt; जब रिमाइंडर बजता है &gt; दोहराव के बीच विराम में सेट करें।</string>
+    <string name="wn_colors_title">हो गया और हटाएं के लिए आपके रंग</string>
+    <string name="wn_colors_desc">रिमाइंडर कार्ड के हो गया और हटाएं बटन को सेटिंग्स &gt; भाषा और दिखावट &gt; रिमाइंडर कार्ड के बटन में अपने रंग दें।</string>
+    <string name="wn_notif_title">ऐप खोलने पर नोटिफ़िकेशन हट जाता है</string>
+    <string name="wn_notif_desc">रिमाइंडर बजने के बाद ऐप खोलने या उसमें बदलाव सेव करने पर उसका नोटिफ़िकेशन हट जाता है। “पूरा होने तक नोटिफ़िकेशन रखें” चालू हो तो ऐप खोलने पर वह बना रहता है।</string>
     <string name="wn_edit_title">तारीख और समय वहीं बदलें</string>
     <string name="wn_edit_desc">कोई रिमाइंडर खोलें और तारीख या समय पर टैप करके उसे सीधे बदलें। पहले एडिटर खोलने की ज़रूरत नहीं।</string>
     <string name="wn_clear_title">नोटिफ़िकेशन अपने आप हट जाते हैं</string>
@@ -609,11 +627,55 @@
     <string name="wn_reliability_desc">रिमाइंडर प्लेबैक अब सुरक्षित रूप से और तुरंत फ़ोरग्राउंड में शुरू होता है, जिससे कुछ Android 12 और Android 16 डिवाइस पर देखा गया स्टार्टअप टाइमआउट नहीं होता।</string>
     <string name="settings_24_hour_time">24-घंटे का समय प्रारूप</string>
     <string name="settings_24_hour_time_desc">सभी समय 5:30 PM के बजाय 17:30 के रूप में दिखाएँ।</string>
+    <string name="set_week_start">सप्ताह की शुरुआत</string>
+    <string name="set_week_start_desc">तारीख चुनने वाले कैलेंडर में सप्ताह का पहला दिन। कोई दिन चुनने पर आपके फ़ोन का अपना तारीख पिकर इस्तेमाल होता है।</string>
 
     <!-- रिमाइंडर कार्ड और क्रियाएँ -->
     <string name="card_recur_onetime">एक बार का रिमाइंडर</string>
     <string name="card_recur_daily">रोज़ दोहराता है</string>
     <string name="card_recur_last_day">हर महीने का आखिरी दिन</string>
+    <string name="rs_day_of_week">सप्ताह का दिन</string>
+    <string name="rs_which_one">महीने में कौन-सा</string>
+    <string name="rs_weekday">दिन</string>
+    <string name="rec_nth_weekday">%1$s %2$s</string>
+    <string name="card_recur_nth_weekday">हर महीने का %1$s</string>
+    <string-array name="rs_ordinal_labels">
+        <item>पहला</item>
+        <item>दूसरा</item>
+        <item>तीसरा</item>
+        <item>चौथा</item>
+        <item>आखिरी</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>पहला</item>
+        <item>दूसरा</item>
+        <item>तीसरा</item>
+        <item>चौथा</item>
+        <item>आखिरी</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>पहला</item>
+        <item>दूसरा</item>
+        <item>तीसरा</item>
+        <item>चौथा</item>
+        <item>आखिरी</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>पहला</item>
+        <item>दूसरा</item>
+        <item>तीसरा</item>
+        <item>चौथा</item>
+        <item>आखिरी</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+    </string-array>
     <string name="card_recur_yearly">हर वर्ष दोहराता है</string>
     <string name="card_chip_recurring">आवर्ती</string>
     <string name="card_days_of_month">महीने के दिन</string>
@@ -790,7 +852,20 @@
     <string name="set_section_check">रिमाइंडर जांच</string>
     <string name="set_section_ringing">जब रिमाइंडर बजता है</string>
     <string name="set_sum_check">अनुमतियां, बैटरी और अलार्म वॉल्यूम</string>
-    <string name="set_sum_lang">ऐप की भाषा, थीम, समय का प्रारूप</string>
+    <string name="set_sum_lang">ऐप की भाषा, थीम, समय का प्रारूप, बटन के रंग</string>
+    <string name="set_card_colors">रिमाइंडर कार्ड के बटन</string>
+    <string name="set_card_colors_desc">होम पर हो गया और हटाएं बटन के रंग चुनें।</string>
+    <string name="set_card_done_color">हो गया बटन</string>
+    <string name="set_card_delete_color">हटाएं / दोहराव रोकें बटन</string>
+    <string name="color_default">ऐप का डिफ़ॉल्ट</string>
+    <string name="color_red">लाल</string>
+    <string name="color_orange">नारंगी</string>
+    <string name="color_green">हरा</string>
+    <string name="color_teal">टील</string>
+    <string name="color_blue">नीला</string>
+    <string name="color_purple">बैंगनी</string>
+    <string name="color_pink">गुलाबी</string>
+    <string name="color_gray">स्लेटी</string>
     <string name="set_sum_ringing">आवाज़ या टोन, वॉल्यूम, पढ़कर सुनाने की भाषा, परीक्षण रिमाइंडर</string>
     <string name="set_sum_timing">स्नूज़ की अवधि, फ़ॉलो-अप जांच, शांत समय</string>
     <string name="set_sum_form">रिमाइंडर जोड़ते समय कौन से विकल्प दिखें</string>
@@ -808,6 +883,12 @@
     <string name="check_volume_bad">अलार्म वॉल्यूम कम है (%1$d%%), इसलिए रिमाइंडर सुनने में मुश्किल हो सकती है</string>
     <string name="check_raise">बढ़ाएं</string>
     <string name="check_fullscreen_bad">लॉक स्क्रीन अलर्ट के लिए अनुमति चाहिए</string>
+    <string name="check_alert_off">रिमाइंडर अलर्ट बंद हैं</string>
+    <string name="check_alert_off_how">रिमाइंडर अब भी बजते हैं, पर कुछ दिखाते नहीं। “%1$s” सूचना श्रेणी चालू करें।</string>
+    <string name="check_alert_popup">रिमाइंडर का टेक्स्ट शायद स्क्रीन पर पॉप-अप न हो</string>
+    <string name="check_alert_popup_how">“%1$s” श्रेणी के लिए पॉप-अप (बैनर) सूचनाओं की अनुमति दें। कुछ फ़ोन इन्हें फ़्लोटिंग सूचनाएं कहते हैं।</string>
+    <string name="check_alert_lock">लॉक स्क्रीन पर रिमाइंडर का टेक्स्ट छिपा है</string>
+    <string name="check_alert_lock_how">“%1$s” श्रेणी को लॉक स्क्रीन पर दिखाने की अनुमति दें।</string>
     <string name="check_dnd_bad">परेशान न करें मोड में अलर्ट पाने के लिए उसकी अनुमति दें</string>
     <string name="check_mic_ok">वॉइस रिमाइंडर के लिए माइक्रोफ़ोन की अनुमति है</string>
     <string name="check_mic_bad">माइक्रोफ़ोन बंद है, इसलिए वॉइस रिमाइंडर रिकॉर्ड नहीं हो सकते</string>
@@ -816,4 +897,38 @@
     <string name="set_recommendations">सुझाव और वैकल्पिक सुविधाएँ</string>
     <string name="set_playback_mode">रिमाइंडर की आवाज़</string>
     <string name="set_voice_audio_mode">रिकॉर्डिंग, ऑडियो फ़ाइलें और बोला गया टेक्स्ट</string>
+    <string name="set_voice_check_checking">%1$s की आवाज़ जाँची जा रही है…</string>
+    <string name="set_voice_check_ok">%1$s की आवाज़ काम कर रही है।</string>
+    <string name="set_voice_check_alternative">%1$s की डिफ़ॉल्ट आवाज़ काम नहीं कर रही है, लेकिन इस भाषा की दूसरी आवाज़ उपलब्ध है। नीचे दिए बटन से आवाज़ों की सेटिंग बदल सकते हैं।</string>
+    <string name="set_voice_check_missing">%1$s की आवाज़ नहीं चल सकी। अपना कनेक्शन जाँचें या इस भाषा की आवाज़ डाउनलोड करें, फिर दोबारा कोशिश करें।</string>
+    <string name="set_voice_check_no_engine">टेक्स्ट पढ़कर सुनाने की सुविधा उपलब्ध नहीं है। फ़ोन की टेक्स्ट-टू-स्पीच सेटिंग जाँचें, फिर दोबारा कोशिश करें।</string>
+    <string name="set_voice_download">आवाज़ें डाउनलोड करें</string>
+    <string name="set_voice_check_again">फिर से जाँचें</string>
+    <string name="set_voice_settings_unavailable">फ़ोन की टेक्स्ट-टू-स्पीच सेटिंग नहीं खुल सकीं।</string>
+    <string name="set_reset_defaults">सेटिंग्स डिफ़ॉल्ट पर रीसेट करें</string>
+    <string name="set_reset_defaults_desc">हर सेटिंग को ऐप इंस्टॉल होने के समय जैसा कर दें। रिमाइंडर नहीं बदलेंगे।</string>
+    <string name="set_reset_defaults_title">सभी सेटिंग्स रीसेट करें?</string>
+    <string name="set_reset_defaults_body">हर सेटिंग अपने डिफ़ॉल्ट पर लौट जाएगी। आपके रिमाइंडर, रिकॉर्डिंग, ऐप की भाषा और फ़ोन की अनुमतियाँ जैसी हैं वैसी रहेंगी।</string>
+    <string name="set_reset_defaults_confirm">रीसेट करें</string>
+    <string name="set_reset_defaults_done">सेटिंग्स डिफ़ॉल्ट पर रीसेट हो गईं</string>
+    <string name="wn_newlang_title">पाँच नई भाषाएँ</string>
+    <string name="wn_newlang_desc">ऐप अब 17 भाषाओं में है; नई भाषाएँ हैं Deutsch, Français, Bahasa Indonesia, Türkçe और 日本語। तारीखें भी हर भाषा के अपने क्रम में दिखती हैं। सेटिंग्स &gt; भाषा और दिखावट में चुनें।</string>
+    <string name="wn_snooze_title">“स्नूज़” बंद करें</string>
+    <string name="wn_snooze_desc">अगर स्नूज़ से काम टालना आसान हो जाता है, तो सेटिंग्स &gt; स्नूज़ और फ़ॉलो-अप &gt; स्नूज़ की अनुमति दें बंद करें। तब रिमाइंडर से आगे बढ़ने का एकमात्र तरीका “हो गया” होगा।</string>
+    <string name="wn_week_title">हफ़्ते का पहला दिन चुनें</string>
+    <string name="wn_week_desc">सेटिंग्स &gt; भाषा और दिखावट &gt; सप्ताह की शुरुआत में तारीख चुनने वाले के पहले कॉलम के लिए सोमवार, रविवार या शनिवार चुनें।</string>
+    <string name="wn_voice_title">जाँचें कि रिमाइंडर बोले जा सकते हैं</string>
+    <string name="wn_voice_desc">सेटिंग्स &gt; जब रिमाइंडर बजता है &gt; पढ़कर सुनाने की भाषा अब जाँचता है कि आपका फ़ोन वह भाषा सच में बोल सकता है या नहीं, और ज़रूरत हो तो आवाज़ डाउनलोड करने में मदद करता है। सामान्य आवाज़ काम न करे तो रिमाइंडर उसी भाषा की दूसरी आवाज़ आज़माता है।</string>
+    <string name="wn_reset_title">एक बार में सेटिंग्स रीसेट करें</string>
+    <string name="wn_reset_desc">सेटिंग्स &gt; बैकअप और पुनर्स्थापना &gt; सेटिंग्स डिफ़ॉल्ट पर रीसेट करें हर सेटिंग को ऐप इंस्टॉल होने के समय जैसा कर देता है। आपके रिमाइंडर वैसे ही रहते हैं।</string>
+    <string name="wn_call_title">फ़ोन कॉल के दौरान शांत</string>
+    <string name="wn_call_desc">टोन-ओनली रिमाइंडर अब फ़ोन कॉल के दौरान नहीं बजता। यह फिर भी अपनी सूचना दिखाता है और वाइब्रेट करता है, जैसे बोले जाने वाले रिमाइंडर पहले से करते थे।</string>
+    <string name="wn_notifcat_title">रिमाइंडर जांच छिपी सूचनाएं ढूंढती है</string>
+    <string name="wn_notifcat_desc">कुछ फ़ोन अपने आप एक तरह की सूचनाएं बंद कर देते हैं, जिससे रिमाइंडर बजता था पर कुछ दिखता नहीं था। अब सेटिंग्स &gt; रिमाइंडर जांच ऐसा होने पर चेतावनी देती है, और ठीक करें सही सेटिंग खोलता है।</string>
+    <string name="wn_pasttime_title">रोज़ाना रिमाइंडर को पहले के समय पर ले जाएं</string>
+    <string name="wn_pasttime_desc">कोई दोहराने वाला रिमाइंडर खोलें और समय पर टैप करके आज बीत चुका समय चुनें। अब यह अपनी अगली बारी से शुरू होगा, जैसे कल, भविष्य का समय नहीं मांगेगा।</string>
+    <string name="set_privacy_policy">गोपनीयता नीति</string>
+    <string name="set_terms_of_use">उपयोग की शर्तें</string>
+    <string name="wn_legal_title">ऐप में गोपनीयता नीति और शर्तें</string>
+    <string name="wn_legal_desc">सेटिंग्स &gt; सहायता और जानकारी में अब SpeakAlert की गोपनीयता नीति और उपयोग की शर्तें खुलती हैं। और कुछ नहीं बदला, SpeakAlert अब भी आपकी कोई जानकारी इकट्ठा नहीं करता।</string>
 </resources>

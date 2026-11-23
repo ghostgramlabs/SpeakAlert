@@ -1,0 +1,943 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_tagline">オフライン音声リマインダー</string>
+    <string name="widget_quick_caption">「リマインダーを追加」をすぐに開く</string>
+    <string name="widget_quick_description">ホーム画面からリマインダーの入力画面を直接開きます</string>
+    <string name="widget_upcoming_description">次に予定されているリマインダーを表示します</string>
+
+    <!-- Settings -->
+    <string name="settings_language">アプリの言語</string>
+    <string name="settings_language_system">デバイスの言語に従う</string>
+    <string name="settings_language_description">「デバイスの言語に従う」では、アプリが対応していればスマートフォンの言語を使い、対応していなければ英語になります。\nリマインダーを読み上げる音声は、リマインダーが鳴るとき &gt; 読み上げ言語 で別に設定します。</string>
+
+    <!-- Notification actions -->
+    <string name="notif_action_done">完了</string>
+    <string name="notif_action_silence">消音</string>
+    <string name="notif_action_snooze">スヌーズ</string>
+    <string name="notif_action_play">再生</string>
+    <string name="notif_action_speak">読み上げ</string>
+    <string name="notif_default_title">音声リマインダー</string>
+    <string name="notif_default_text">タップしてリマインダーを再生</string>
+    <string name="notif_action_replay">もう一度</string>
+    <string name="notif_action_stop">停止</string>
+    <string name="notif_playback_processing">処理中…</string>
+    <string name="notif_playback_speaking">読み上げ中:「%1$s」</string>
+    <string name="notif_reminder_missing">このリマインダーが見つかりませんでした。</string>
+    <string name="notif_missed_title">見逃し: %1$s</string>
+    <string name="notif_missed_scheduled_tap">予定: %1$s - タップして開く</string>
+    <string name="notif_missed_scheduled_audio_unavailable">予定: %1$s。選択した音声ファイルは利用できません。</string>
+    <string name="notif_missed_scheduled">予定: %1$s</string>
+    <string name="fallback_reminder_title">リマインダー</string>
+    <string name="toast_audio_unavailable">選択した音声ファイルは利用できません。</string>
+    <string name="tts_voice_hint">%1$sの音声がインストールされていません。読み上げリマインダーを聞くには、スマートフォンのテキスト読み上げ設定で追加してください。</string>
+    <string name="tts_voice_hint_this_language">この言語</string>
+
+    <!-- Alert payload (notification / spoken follow-up text) -->
+    <string name="alert_followup_fallback_title">再確認</string>
+    <string name="alert_followup_question">%1$sは完了しましたか？</string>
+    <string name="alert_followup_this_reminder">このリマインダー</string>
+    <string name="alert_audio_unavailable_full">選択した音声ファイルは利用できません。タップして別のファイルを選んでください。</string>
+    <string name="alert_tap_to_view">タップして表示</string>
+
+    <!-- Section titles -->
+    <string name="set_section_timing">スヌーズと再確認</string>
+    <string name="set_section_backup">バックアップと復元</string>
+    <string name="set_section_about">ヘルプとアプリ情報</string>
+
+    <!-- Backup & restore -->
+    <string name="set_backup_export">リマインダーをバックアップ</string>
+    <string name="set_backup_export_desc">今後のリマインダーを録音も含めてファイルに保存します</string>
+    <string name="set_backup_import">リマインダーをインポート</string>
+    <string name="set_backup_import_desc">バックアップファイルからリマインダーを復元します</string>
+    <string name="backup_export_none">バックアップする今後のリマインダーがありません。</string>
+    <string name="backup_export_success">%1$d件のリマインダーをバックアップしました。</string>
+    <string name="backup_export_failed">バックアップに失敗しました。</string>
+    <string name="backup_import_success">%1$d件のリマインダーをインポートしました。</string>
+    <string name="backup_import_skipped">%1$d件のリマインダーをインポートしました(重複%2$d件、期限切れ%3$d件をスキップ)。</string>
+    <string name="backup_import_failed">インポートに失敗しました。SpeakAlertのバックアップファイルを選んでください。</string>
+
+    <!-- Notification channels (visible in system Settings) -->
+    <string name="channel_reminders_name">%1$s リマインダー</string>
+    <string name="channel_reminders_desc">%1$sのリマインダーの通知</string>
+    <string name="channel_tone_only_name">%1$s アラーム音のみのアラート</string>
+    <string name="channel_tone_only_desc">バイブレーションのみの通知です。アラーム音は%1$sが再生します</string>
+    <string name="channel_dnd_bypass_name">%1$s リマインダー(サイレントモードを無視)</string>
+    <string name="channel_dnd_bypass_desc">Androidのアクセスを許可すると、サイレントモード中でも鳴らせるリマインダーアラーム</string>
+    <string name="channel_tone_only_bypass_name">%1$s アラーム音のみのアラート(サイレントモードを無視)</string>
+    <string name="channel_tone_only_bypass_desc">Androidのアクセスを許可すると、サイレントモード中でも鳴らせるアラーム音のみのリマインダー</string>
+    <string name="pua_sub_reschedule">このリマインダーの日時を変更します</string>
+    <string name="pua_sub_play_now">日時を変えずに今すぐ聞きます</string>
+    <string name="pua_sub_keep_done">完了のままにします</string>
+    <string name="channel_playback_name">リマインダーの再生</string>
+    <string name="channel_playback_desc">リマインダーの再生中に操作ボタンを表示します</string>
+    <string name="channel_silent_name">%1$s 全画面アラート</string>
+    <string name="channel_silent_desc">リマインダーをすでに読み上げている間の、%1$sの全画面リマインダー</string>
+    <string name="channel_silent_bypass_name">%1$s 全画面アラート(サイレントモードを無視)</string>
+    <string name="channel_silent_bypass_desc">Androidのアクセスを許可すると、サイレントモード中でも表示できる全画面リマインダー</string>
+
+    <!-- Alarm alert screen -->
+    <string name="alert_mark_done">完了にする</string>
+    <string name="alert_silence">消音</string>
+    <string name="alert_silence_now">今すぐ消音</string>
+    <string name="alert_snoozed_at">スヌーズ中 • %1$s</string>
+    <string name="alert_play_again">もう一度再生</string>
+    <string name="alert_snooze_minutes">スヌーズ %1$d分</string>
+    <string name="alert_followup_reminder">再確認リマインダー</string>
+    <string name="alert_reminder_on_screen">リマインダーを表示中</string>
+    <string name="alert_followup_on_this">このリマインダーの再確認</string>
+    <string name="alert_did_you_complete">このリマインダーは完了しましたか？</string>
+    <string name="alert_reminder_active">リマインダーが有効です</string>
+    <string name="alert_voice_reminder">音声リマインダー</string>
+    <string name="alert_text_reminder">テキストリマインダー</string>
+    <string name="alert_followup_check">再確認</string>
+    <string name="alert_generic">アラート</string>
+    <string name="alert_playing_now">再生中</string>
+    <string name="alert_needs_response">応答が必要</string>
+    <string name="alert_awaiting_action">操作待ち</string>
+    <string name="alert_scheduled_for">予定日時</string>
+    <string name="alert_status">アラートの状態</string>
+    <string name="alert_audio_playing">音声を再生中です。止めるには「消音」を使います。</string>
+    <string name="alert_waiting_done_snooze">「完了」または「スヌーズ」を待っています。</string>
+    <string name="alert_followup_label">再確認</string>
+    <string name="alert_hint_with_play">リマインダーを表示したまま、音声を止めるか、もう一度再生してから操作してください。</string>
+    <string name="alert_hint_no_play">リマインダーを表示したままにするか、準備ができたら「完了」か「スヌーズ」を選んでください。</string>
+    <string name="alert_dock_hint">「消音」は音声を止めます。「完了」か「スヌーズ」でロック画面のアラートが閉じます。</string>
+    <plurals name="alert_followup_repeats">
+        <item quantity="other">完了するまで%1$d分ごとに繰り返します。</item>
+    </plurals>
+
+    <!-- Home -->
+    <string name="home_greeting_morning">おはようございます</string>
+    <string name="home_greeting_afternoon">こんにちは</string>
+    <string name="home_greeting_evening">こんばんは</string>
+    <string name="home_all_caught_up">すべて完了しています！</string>
+    <plurals name="home_active_reminders">
+        <item quantity="other">有効なリマインダーが%1$d件あります</item>
+    </plurals>
+    <string name="home_filter_upcoming">今後</string>
+    <string name="home_filter_today">今日</string>
+    <string name="home_filter_missed">見逃し</string>
+    <string name="home_filter_done">完了</string>
+    <string name="home_cd_settings">設定</string>
+    <string name="home_cd_help">ヘルプと使い方</string>
+    <string name="home_cd_add">リマインダーを追加</string>
+    <string name="home_cd_missed">見逃したリマインダー</string>
+    <string name="home_dismiss_all">すべて閉じる</string>
+    <string name="home_empty_all_caught_up">すべて完了しています！</string>
+    <string name="home_empty_no_missed">見逃したリマインダーはありません</string>
+    <string name="home_empty_nothing_done">完了したものはまだありません</string>
+    <string name="home_empty_no_upcoming">今後のリマインダーはありません</string>
+    <string name="home_empty_no_reminders">リマインダーはまだありません</string>
+    <string name="home_empty_done_sub">完了したリマインダーがここに表示されます。</string>
+    <string name="home_empty_upcoming_sub">明日以降のリマインダーがここに表示されます。</string>
+    <string name="home_empty_default_sub">音声またはテキストでリマインダーを作成しましょう。</string>
+
+    <!-- Common actions -->
+    <string name="action_cancel">キャンセル</string>
+    <string name="action_close">閉じる</string>
+    <string name="action_play_now">今すぐ再生</string>
+    <string name="action_stop">停止</string>
+    <string name="action_dismiss">閉じる</string>
+    <string name="action_apply">適用</string>
+    <string name="action_undo">元に戻す</string>
+    <string name="action_open">開く</string>
+    <string name="common_reminder">リマインダー</string>
+    <string name="time_picker_title">時刻を選択</string>
+    <string name="err_date_future">日付は今日以降にしてください</string>
+    <string name="err_time_future">これから先の時刻を選んでください</string>
+
+    <!-- Home dialogs -->
+    <string name="home_stop_recurring_title">繰り返しリマインダーを停止しますか？</string>
+    <string name="home_stop_recurring_msg">このリマインダーと今後のすべての回が削除されます。この操作は元に戻せません。</string>
+    <string name="home_stop_recurring_action">繰り返しを停止</string>
+    <string name="home_stop_recurring_sub">このリマインダーと今後のすべての回を削除します</string>
+    <string name="home_keep_reminder">リマインダーを残す</string>
+    <string name="home_mark_occurrence_title">この回を完了にしますか？</string>
+    <string name="home_mark_occurrence_msg">今日の回だけを完了にします。リマインダーは次の予定時刻に引き続き繰り返されます。</string>
+    <string name="home_mark_occurrence_action">この回を完了にする</string>
+    <string name="home_mark_occurrence_sub">今後の回は予定のまま残します</string>
+    <string name="home_mark_done_title">完了にしますか？</string>
+    <string name="home_mark_done_msg">リマインダーを「完了」タブに移動します。</string>
+    <string name="home_move_to_done">「完了」に移動</string>
+    <string name="home_move_to_done_sub">このリマインダーを完了履歴に残します</string>
+    <string name="home_created_at">作成時刻 %1$s</string>
+    <string name="home_snackbar_deleted">リマインダーを削除しました</string>
+    <string name="home_snackbar_duplicated">リマインダーを複製しました</string>
+    <string name="home_badge_missed">見逃し</string>
+
+    <!-- Add / Edit reminder -->
+    <string name="ae_saved">リマインダーを保存しました！</string>
+    <string name="ae_cannot_past">過去の日時にはリマインダーを設定できません</string>
+    <string name="ae_record_too_short">短すぎました。話している間は押し続けてください</string>
+    <string name="ae_record_failed">録音を開始できませんでした。別のアプリがマイクを使用している可能性があります。</string>
+    <string name="ae_record_silent">何も聞こえませんでした。SpeakAlertのマイクへのアクセスを確認してください。</string>
+    <string name="ae_unsaved_title">リマインダーを保存しますか？</string>
+    <string name="ae_unsaved_msg">リマインダーに未保存の変更があります。</string>
+    <string name="action_save">保存</string>
+    <string name="ae_keep_editing">編集を続ける</string>
+    <string name="action_discard">破棄</string>
+    <string name="action_remove">削除</string>
+    <string name="action_change">変更</string>
+    <string name="ae_title_edit">リマインダーを編集</string>
+    <string name="ae_title_new">新しいリマインダー</string>
+    <string name="action_back">戻る</string>
+    <string name="ae_header_edit">リマインダーを編集</string>
+    <string name="ae_header_create">リマインダーを作成</string>
+    <string name="ae_section_content">リマインダーの内容</string>
+    <string name="ae_content_desc">音声メモを録音するか、音声ファイルを追加するか、リマインダーのメッセージを入力します。</string>
+    <string name="ae_tap_to_record">タップして音声リマインダーを録音</string>
+    <string name="ae_or_choose_audio">または音声ファイルを選ぶ</string>
+    <string name="ae_selected_audio">選択した音声ファイル</string>
+    <string name="ae_cd_stop_preview">音声のプレビューを停止</string>
+    <string name="ae_cd_play_preview">音声のプレビューを再生</string>
+    <string name="ae_cd_audio_progress">音声プレビューの進行状況</string>
+    <string name="ae_choose_audio_file">音声ファイルを選択</string>
+    <string name="ae_or_type">またはリマインダーのメッセージを入力</string>
+    <string name="ae_msg_label">リマインダーのメッセージ</string>
+    <string name="ae_msg_placeholder">例: 朝食後に薬を飲む</string>
+    <string name="ae_label_placeholder">例: 朝の薬</string>
+    <string name="ae_msg_help">アプリと通知に表示されます。音声や音声ファイルを選んでいない場合のみ読み上げます。</string>
+    <string name="ae_char_count">%1$d/%2$d</string>
+    <string name="ae_need_content">音声メモ、音声ファイル、またはリマインダーのメッセージを追加してください。</string>
+    <string name="ae_section_label">短い名前(任意)</string>
+    <string name="ae_label_desc">リマインダーを見つけやすくする、任意の短い名前です。</string>
+    <string name="ae_label_hint">一覧と詳細に短い名前として表示されます</string>
+    <string name="ae_section_schedule">スケジュール</string>
+    <string name="ae_when_fire">このリマインダーをいつ鳴らしますか？</string>
+    <string name="ae_datetime_at">%1$s %2$s</string>
+    <string name="ae_date">日付</string>
+    <string name="ae_time">時刻</string>
+    <string name="ae_time_future">これから先の時刻にしてください</string>
+    <string name="ae_repeat_never">なし</string>
+    <string name="ae_repeat">繰り返し</string>
+    <string name="state_on">オン</string>
+    <string name="state_off">オフ</string>
+    <string name="state_active">有効</string>
+    <string name="ae_loop">ループ再生</string>
+    <string name="ae_loop_desc">リマインダーを閉じるまで再生し続けます。</string>
+    <string name="ae_followup">再確認</string>
+    <string name="ae_followup_desc">リマインダーが完了になっていない場合、しばらくしてからもう一度確認します。</string>
+    <string name="ae_cd_saving">リマインダーを保存中</string>
+    <string name="ae_save_reminder">リマインダーを保存</string>
+    <plurals name="ae_followup_active">
+        <item quantity="other">有効: 完了にするまで%1$d分ごとに確認します。</item>
+    </plurals>
+
+    <!-- Recurrence type names (shared) -->
+    <string name="rec_every">%1$d%2$sごと</string>
+    <string name="rec_ends_never">終了: なし</string>
+    <string name="rec_if_off_fire">電源オフの場合: 電源が入ったら通知</string>
+    <string name="rec_if_off_skip">電源オフの場合: 正確な時刻にのみ通知</string>
+    <string name="date_today">今日</string>
+    <string name="date_tomorrow">明日</string>
+    <string name="date_yesterday">昨日</string>
+    <plurals name="rec_ends_times">
+        <item quantity="other">%1$d回で終了</item>
+    </plurals>
+    <string name="rec_onetime">1回のみ</string>
+    <string name="rec_daily">毎日</string>
+    <string name="rec_weekly">毎週</string>
+    <string name="rec_monthly">毎月</string>
+    <string name="rec_yearly">毎年</string>
+    <string name="rec_custom">カスタム</string>
+    <string name="day_mon">月</string>
+    <string name="day_tue">火</string>
+    <string name="day_wed">水</string>
+    <string name="day_thu">木</string>
+    <string name="day_fri">金</string>
+    <string name="day_sat">土</string>
+    <string name="day_sun">日</string>
+
+    <!-- Reminder details -->
+    <string name="det_title">リマインダーの詳細</string>
+    <string name="action_edit">編集</string>
+    <string name="action_delete">削除</string>
+    <string name="action_confirm">確認</string>
+    <string name="det_audio_file">音声ファイル</string>
+    <string name="det_voice_note">音声メモ</string>
+    <string name="det_loop_enabled">ループ有効</string>
+    <string name="det_followup_pill">再確認 %1$d分</string>
+    <string name="det_cd_stop_audio">音声を停止</string>
+    <string name="det_cd_play_audio">音声を再生</string>
+    <string name="det_ready_preview">プレビューできます</string>
+    <string name="det_ready_play">再生できます</string>
+    <string name="det_voice_recording">音声録音</string>
+    <string name="det_tap_preview">再生をタップして、録音したリマインダーを確認します。</string>
+    <string name="det_cd_audio_progress">リマインダー音声の進行状況</string>
+    <string name="det_double_tap_edit">ダブルタップして編集</string>
+    <string name="det_ends_by">終了: %1$s</string>
+    <string name="det_end_rule">終了条件</string>
+    <string name="det_missed_handling">見逃したリマインダーの扱い</string>
+    <string name="det_missed_fire">デバイスの電源が入ったら通知</string>
+    <string name="det_missed_skip">次の正確な時刻にのみ通知</string>
+    <string name="det_mark_undone">未完了に戻す</string>
+    <string name="det_mark_done">完了にする</string>
+    <string name="det_scheduled_for">予定日時: %1$s</string>
+    <string name="det_delete_title">リマインダーを削除しますか？</string>
+    <string name="det_delete_recurring">今後のすべての回が停止されます。この操作は元に戻せません。</string>
+    <string name="det_delete_onetime">この操作は元に戻せません。</string>
+    <string name="det_reschedule_title">リマインダーの日時を変更しますか？</string>
+    <string name="det_reschedule_to">%1$s に変更しますか？</string>
+    <plurals name="det_ends_after">
+        <item quantity="other">%1$d回で終了</item>
+    </plurals>
+
+    <!-- Recurrence selection sheet -->
+    <string name="rs_subtitle">このリマインダーの繰り返し方を選びます。</string>
+    <string name="rs_none">繰り返さない</string>
+    <string name="rs_monthly_settings">毎月の設定</string>
+    <string name="rs_monthly_subtitle">日にちや終了条件を選びます。</string>
+    <string name="rs_repeat_on">繰り返す日</string>
+    <string name="rs_days_of_month">日付で指定</string>
+    <string name="rs_last_day">月末</string>
+    <string name="rs_select_days_toggle">日にちを選択(タップで切り替え)</string>
+    <string name="rs_selected">選択中: %1$s</string>
+    <string name="rs_weekly_settings">毎週の設定</string>
+    <string name="rs_weekly_subtitle">繰り返す曜日を選びます。</string>
+    <string name="rs_select_days">曜日を選択</string>
+    <string name="rs_custom_interval">カスタム間隔</string>
+    <string name="rs_custom_subtitle">リマインダーを繰り返す間隔を設定します。</string>
+    <string name="rs_repeat_every">繰り返す間隔</string>
+    <string name="rs_number">数値</string>
+    <string name="rs_unit">単位</string>
+    <string name="rs_repeats_every">%1$d%2$sごとに繰り返します。</string>
+    <string name="rs_interval_min">間隔は1以上にしてください</string>
+    <string name="rs_ends">終了</string>
+    <string name="rs_forever">ずっと</string>
+    <string name="rs_until_date">日時まで</string>
+    <string name="rs_after_count">回数で指定</string>
+    <string name="rs_must_be_after">%1$s 以降にしてください</string>
+    <string name="rs_date_label">日付: %1$s</string>
+    <string name="rs_time_label">時刻: %1$s</string>
+    <string name="rs_num_occurrences">回数</string>
+    <string name="rs_allowed_range">指定できる範囲: 1〜999</string>
+    <string name="rs_end_before_error">終了時刻はリマインダーの時刻より前にできません</string>
+    <string name="rs_select_end_time">終了時刻を選択</string>
+    <plurals name="unit_minutes"><item quantity="other">分</item></plurals>
+    <plurals name="unit_hours"><item quantity="other">時間</item></plurals>
+    <plurals name="unit_days"><item quantity="other">日</item></plurals>
+    <plurals name="unit_weeks"><item quantity="other">週間</item></plurals>
+    <plurals name="unit_months"><item quantity="other">か月</item></plurals>
+    <plurals name="unit_years"><item quantity="other">年</item></plurals>
+
+    <!-- Settings -->
+    <string name="set_appearance">言語と外観</string>
+    <string name="set_reminder_form">リマインダーの入力画面</string>
+    <string name="set_reminder_form_desc">各セクションは個別に選べます。入力セクションをすべて非表示にした場合は、リマインダーを作成する前にどれか1つをオンに戻してください。</string>
+    <string name="ae_no_content_sections">リマインダーの入力セクションが1つも有効になっていません。設定 &gt; リマインダーの入力画面 で、音声録音、音声ファイルを選択、テキストリマインダーのいずれかをオンにしてください。</string>
+    <string name="set_show_voice_recording">音声録音</string>
+    <string name="set_show_voice_recording_desc">マイク録音のセクションを表示します。</string>
+    <string name="set_experimental_voice_enhancement">試験的な音声補正</string>
+    <string name="set_experimental_voice_enhancement_desc">オフでは元のままの録音になります。オンでは新しい録音保護機能、無音の録音を検出した際の通知、音声のクリーンアップが有効になります。</string>
+    <string name="set_experimental_voice_enhancement_note">試験的な機能です。結果と処理時間はデバイスによって異なります。録音が歪んで聞こえる場合や保存に時間がかかる場合はオフにしてください。</string>
+    <string name="set_show_audio_file">音声ファイルを選択</string>
+    <string name="set_show_audio_file_desc">既存の音声ファイルを選ぶオプションを表示します。</string>
+    <string name="set_show_typed_reminder">テキストリマインダー</string>
+    <string name="set_show_typed_reminder_desc">リマインダーのメッセージ欄を表示します。</string>
+    <string name="set_show_short_label">短い名前</string>
+    <string name="set_show_short_label_desc">任意の短い名前の欄を表示します。</string>
+    <string name="set_app_theme">アプリのテーマ</string>
+    <string name="theme_system">システム</string>
+    <string name="theme_light">ライト</string>
+    <string name="theme_dark">ダーク</string>
+    <string name="set_toast_theme_light">ライトモードに設定しました</string>
+    <string name="set_toast_theme_dark">ダークモードに設定しました</string>
+    <string name="set_toast_theme_system">システムのテーマに従います</string>
+    <string name="set_playback">再生</string>
+    <string name="set_autoplay">自動再生</string>
+    <string name="set_autoplay_desc">リマインダーが鳴るときに、録音、音声ファイル、有効にした読み上げテキストを再生します。オフの場合は「再生」をタップして聞きます。</string>
+    <string name="set_disabled_tone">アラーム音のみモードがオンの間は無効です</string>
+    <string name="set_toast_autoplay_on">自動再生オン</string>
+    <string name="set_toast_autoplay_off">自動再生オフ</string>
+    <string name="set_unlock_only">ロック解除中のみ</string>
+    <string name="set_unlock_only_desc">ロック画面での再生を防ぎます</string>
+    <string name="set_toast_lock_off">ロック画面での再生オフ</string>
+    <string name="set_toast_lock_on">ロック画面での再生オン</string>
+    <string name="set_speak_text">テキストリマインダーを自動で読み上げる</string>
+    <string name="set_speak_text_desc">音声メモや音声ファイルのない、テキストのみのリマインダーが対象です</string>
+    <string name="set_toast_speak_on">テキストの自動読み上げオン</string>
+    <string name="set_toast_speak_off">テキストの自動読み上げオフ</string>
+    <string name="set_spoken_language">読み上げ言語</string>
+    <string name="set_spoken_language_desc">リマインダーの読み上げに使う音声です。自動検出ではリマインダー自体の言語に合わせます。選んだ言語の音声が、スマートフォンのテキスト読み上げ設定にインストールされている必要があります。</string>
+    <string name="tts_auto">自動検出</string>
+    <string name="tts_device">デバイス</string>
+    <string name="tts_english">英語</string>
+    <string name="set_toast_tts_device">読み上げ言語: デバイスの言語</string>
+    <string name="set_toast_tts_english">読み上げ言語: 英語</string>
+    <string name="set_toast_tts_auto">読み上げ言語: 自動検出</string>
+    <string name="set_private">プライベート再生</string>
+    <string name="set_private_desc">接続中の補聴器、Bluetooth機器、有線ヘッドホンを優先して使います。何も接続されていない場合は、スピーカーではなく通話用の受話口から再生します。</string>
+    <string name="set_toast_private_on">プライベート再生オン</string>
+    <string name="set_toast_private_off">プライベート再生オフ</string>
+    <string name="set_private_bt">プライベート再生オン。Bluetoothへの出力には「付近のデバイス」の権限が必要です。</string>
+    <string name="set_tone_only">アラーム音のみモード</string>
+    <string name="set_tone_only_desc">録音や読み上げの代わりにアラーム音を鳴らします。停止までの時間: %1$s。スヌーズ: %2$d分。</string>
+    <string name="set_tone_only_desc_no_snooze">録音や読み上げの代わりにアラーム音を鳴らします。停止までの時間: %1$s。</string>
+    <string name="set_snooze_enabled">スヌーズを許可</string>
+    <string name="set_snooze_enabled_desc">リマインダーのアラートと通知に「スヌーズ」を表示します。オフにすると、リマインダーを終える方法は「完了」だけになります。</string>
+    <string name="set_toast_tone_on">アラーム音のみモード オン</string>
+    <string name="set_toast_tone_off">アラーム音のみモード オフ</string>
+    <string name="set_infinite">無制限</string>
+    <string name="set_minutes_short">%1$d分</string>
+    <string name="set_select_tone">アラーム音を選択</string>
+    <string name="file_picker_unavailable">このデバイスにはファイルを開けるアプリがありません。ファイル管理アプリをインストールして、もう一度お試しください。</string>
+    <string name="tone_picker_unavailable">このデバイスにはアラーム音を選べるアプリがありません。</string>
+    <string name="set_toast_default_tone">デフォルトのアラーム音を使用します</string>
+    <string name="set_toast_tone_updated">アラーム音を更新しました</string>
+    <string name="set_fullscreen">ロック画面の全画面アラート</string>
+    <string name="set_fullscreen_desc_granted">リマインダーが鳴るときに、ロック画面の上に操作ボタンを表示します</string>
+    <string name="set_fullscreen_desc_denied">ロック画面の上に表示するには、Androidの全画面アラートへのアクセスが必要です</string>
+    <string name="set_allow_fullscreen">システム設定で全画面アラートを許可</string>
+    <string name="set_toast_fs_on">ロック画面の全画面アラート オン</string>
+    <string name="set_toast_fs_off">ロック画面の全画面アラート オフ</string>
+    <string name="set_fs_off_title">全画面へのアクセスがまだオフです</string>
+    <string name="set_fs_off_msg">Android 14以降では、全画面のリマインダーアラートに別のシステム権限が必要です。</string>
+    <string name="set_open_perm">権限の設定を開く</string>
+    <string name="set_fs_note">通知の「再生」または「読み上げ」は引き続きタップできます。</string>
+    <string name="set_tone_volume_note">アラーム音のみモードでは、音量はデバイスのアラーム/通知の音量で決まります。</string>
+    <string name="set_loop_duration">連続再生を停止するまでの時間</string>
+    <string name="set_loop_duration_desc">この時間が過ぎるとアラーム音やループ音声を停止します。再確認は、その後に届く別のアラートです。</string>
+    <string name="set_toast_loop">ループ時間: %1$d分</string>
+    <string name="set_toast_loop_infinite">ループ時間: 無制限</string>
+    <string name="set_custom">カスタム</string>
+    <string name="set_custom_snooze">カスタムスヌーズ</string>
+    <string name="set_snooze_desc">リマインダーを遅らせる時間を設定します</string>
+    <string name="set_toast_snooze">スヌーズ: %1$d分</string>
+    <string name="set_toast_followup_off">デフォルトの再確認オフ</string>
+    <string name="set_toast_followup">デフォルトの再確認: %1$d分</string>
+    <string name="set_quiet">静かな時間帯</string>
+    <string name="set_quiet_desc">設定した時間帯はリマインダーを鳴らしません</string>
+    <string name="set_toast_quiet_on">静かな時間帯オン</string>
+    <string name="set_toast_quiet_off">静かな時間帯オフ</string>
+    <string name="set_start">開始</string>
+    <string name="set_end">終了</string>
+    <string name="set_toast_quiet_start">静かな時間帯の開始: %1$s</string>
+    <string name="set_toast_quiet_end">静かな時間帯の終了: %1$s</string>
+    <string name="set_toast_test">10秒後にテストリマインダーが鳴ります</string>
+    <string name="set_test_reminder">テストリマインダー</string>
+    <string name="set_cd_granted">権限を許可済み</string>
+    <string name="set_cd_action_required">対応が必要</string>
+    <string name="set_notifications">通知</string>
+    <string name="set_exact_alarms">正確なアラーム</string>
+    <string name="set_microphone">マイク</string>
+    <string name="set_dnd">サイレントモード中も通知する</string>
+    <string name="set_dnd_desc_off">スマートフォンのサウンドモードに従います。サイレントモードやルーティンによってリマインダーが鳴らないことがあります。</string>
+    <string name="set_dnd_desc_active">有効: リマインダーはアラーム優先の音で鳴り、サイレントモードを無視します。</string>
+    <string name="set_dnd_unavailable">このデバイスではAndroidのサイレントモードへのアクセス設定を利用できません。</string>
+    <string name="set_grant_dnd">Androidのサイレントモードへのアクセスを許可</string>
+    <string name="set_dnd_note">スマートフォンのサイレントモード自体は変更しません。重要なリマインダーをサイレントモード中でも鳴らすための権限を、%1$sがリクエストできるようにするだけです。</string>
+    <string name="set_battery_guide">まだリマインダーが遅れますか？お使いの機種での手順</string>
+    <string name="set_battery_desc">機種によっては、電池の最適化によってリマインダーが遅れたり止まったりすることがあります。</string>
+    <string name="set_wear">Wear OS</string>
+    <string name="set_wear_checking">Wear OSの接続を確認中…</string>
+    <string name="set_wear_connected">Wear OSウォッチに接続済み</string>
+    <string name="set_wear_supported">%1$sのウォッチ向けリマインダーはWear OSウォッチのみに対応しています。</string>
+    <string name="set_wear_notif_off">スマートフォンのアプリ通知がオフです。リマインダーをウォッチに同期するにはオンにしてください。</string>
+    <string name="set_open_notif">通知の設定を開く</string>
+    <string name="set_open_channel">リマインダーのチャンネルを開く</string>
+    <string name="set_wear_enabled">スマートフォンの通知は有効です。ウォッチにリマインダーが届かない場合は、Wear OSのコンパニオンアプリで通知の同期を有効にしてください。</string>
+    <string name="set_refresh">状態を更新</string>
+    <string name="set_app_guide">アプリガイド</string>
+    <string name="set_toast_no_email">メールアプリがありません。ghostgramlabs@gmail.com 宛てにメールを送るか、表示されているアドレスをコピーしてください。</string>
+    <string name="set_contact_support">機能のリクエストとサポート</string>
+    <string name="set_contact_support_desc">アイデアやお困りのことがあれば、メールでお知らせください。</string>
+    <string name="support_email_subject">%1$s — 機能のリクエストまたはサポート</string>
+    <string name="feature_request_email_subject">%1$s — 機能のリクエスト</string>
+    <string name="suggest_feature">機能を提案</string>
+    <string name="set_toast_no_rating">このデバイスでは評価ページを開けません。</string>
+    <string name="set_rate">%1$sを評価</string>
+    <string name="set_developer">開発者</string>
+    <string name="set_debug_logging">デバッグログ</string>
+    <string name="set_debug_desc">詳細なログを記録します</string>
+    <string name="set_send_logs">ログを送信</string>
+    <string name="set_fix">修正</string>
+    <string name="set_cd_collapse">折りたたむ</string>
+    <string name="set_cd_expand">展開する</string>
+    <string name="set_tone_sound">アラーム音のみモードの音</string>
+    <string name="set_tone_sound_hint">音を選ぶにはアラーム音のみモードを有効にしてください。それまではSpeakAlertがデフォルトのアラーム音を使います。</string>
+    <string name="set_choose_tone">アラーム音を選ぶ</string>
+    <string name="set_use_default">デフォルトを使う</string>
+    <string name="set_default_alarm_tone">デフォルトのアラーム音</string>
+    <string name="set_tone_unavailable">選択したアラーム音は利用できないため、デフォルトのアラーム音を使用します</string>
+    <string name="set_select_label_time">%1$s: 時刻を選択</string>
+    <string name="set_minutes">分</string>
+    <string name="set_max_allowed">上限: %1$d分</string>
+    <string name="set_desc_max">%1$s(最大%2$d分)</string>
+    <string name="set_label_time">%1$s: %2$s</string>
+    <string name="set_volume">音量</string>
+    <string name="set_cd_volume">アプリの音量: %1$d%%</string>
+    <string name="set_loop_inline_desc">この時間が過ぎるとアラーム音やループ音声を停止します。再確認は、その後に届く別のアラートです。</string>
+    <string name="set_loop_gap">繰り返しの間の休止</string>
+    <string name="set_loop_gap_desc">ループするリマインダーがもう一度再生されるまでの無音時間です。上の停止時間になるとループは終了します。アラーム音は休止なしで鳴ります。</string>
+    <string name="set_loop_gap_none">なし</string>
+    <string name="set_seconds_short">%1$d秒</string>
+    <string name="set_seconds">秒</string>
+    <string name="set_max_allowed_seconds">上限: %1$d秒</string>
+    <string name="set_desc_max_seconds">%1$s(最大%2$d秒)</string>
+    <string name="set_default_snooze">デフォルトのスヌーズ</string>
+    <string name="set_snooze_inline_desc">「スヌーズ」をタップしたときにリマインダーを遅らせる時間</string>
+    <string name="set_default_followup">デフォルトの再確認</string>
+    <string name="set_followup_off_desc">オフ — 新しいリマインダーは再確認なしで作成されます。リマインダーごとに設定することはできます。</string>
+    <string name="set_followup_on_desc">新しいリマインダーには%1$d分の再確認が付き、完了にしていなければもう一度通知します。既存のリマインダーは変わりません。</string>
+    <string name="set_followup_repeat">再確認の繰り返し上限</string>
+    <string name="set_followup_repeat_desc">デフォルト(∞)では、リマインダーを完了にするまで再確認が通知を続けます。指定した回数で自動的に止めたい場合は上限を選んでください。静かな時間帯でも再確認は止まります。</string>
+    <string name="set_toast_followup_repeat_until_done">完了にするまで再確認を繰り返します</string>
+    <string name="set_toast_followup_repeat">再確認の繰り返し上限: %1$d×</string>
+    <string name="set_reliability">確実性</string>
+    <string name="set_persist">完了まで通知を残す</string>
+    <string name="set_persist_desc">リマインダーの通知は固定され、「完了」か「スヌーズ」をタップするまで消えません。再確認と組み合わせると効果的です。</string>
+    <string name="set_toast_persist_on">完了までリマインダーを残します</string>
+    <string name="set_toast_persist_off">リマインダーをスワイプで消せます</string>
+    <string name="set_all_granted">すべての権限を許可済み</string>
+    <string name="set_some_needed">必要な権限があります</string>
+    <string name="set_dnd_desc_needed">オンですが、機能させるにはAndroidのサイレントモードへのアクセスが必要です。</string>
+    <string name="set_toast_dnd_on">サイレントモード中の通知オン</string>
+    <string name="set_toast_dnd_off">サイレントモード中の通知オフ</string>
+    <string name="set_battery_desc_ok">%1$sはすでにバックグラウンドでの実行を許可されています。</string>
+    <string name="set_wear_watches">%1$d台のWear OSウォッチに接続済み</string>
+    <string name="set_wear_none">接続中のWear OSウォッチはありません</string>
+    <string name="set_wear_channel_muted">%1$sのリマインダーチャンネルがミュートされています。ウォッチにリマインダーを送るには有効にしてください。</string>
+    <string name="set_rate_desc">Google Playで感想をお聞かせください。</string>
+    <string name="set_tone_sound_active">%1$s。利用できなくなった場合、SpeakAlertはデフォルトのアラーム音を使います。</string>
+
+    <!-- More apps from the developer -->
+    <string name="set_more_apps_title">GhostgramLabsのその他のアプリ</string>
+    <string name="set_more_apps_desc">%1$sの開発元による無料アプリ</string>
+    <string name="set_app_free_tag">Google Playで無料</string>
+    <string name="app_pettibox_name">PettiBox: ブックマーク管理</string>
+    <string name="app_pettibox_desc">無料 • リンク、メモ、ファイル、スクリーンショットを非公開で「あとで見る」保存。オフライン検索対応</string>
+    <string name="app_directserve_name">DirectServe: ファイル転送</string>
+    <string name="app_directserve_desc">無料 • どのデバイスやテレビにもファイルを共有・ストリーミング。クラウドもケーブルも不要</string>
+    <string name="set_toast_no_store">このデバイスではGoogle Playを開けません。</string>
+
+    <!-- In-app rating prompt -->
+    <string name="rate_prompt_title">%1$sは無料です。あなたの応援が力になります。</string>
+    <string name="rate_prompt_message">レビューは、より多くの人が%1$sを見つける助けになり、改善を続ける励みになります。少しだけお時間をいただき、Google Playで感想をお聞かせください。</string>
+    <string name="rate_prompt_positive">今すぐ評価</string>
+    <string name="rate_prompt_later">あとで</string>
+    <string name="rate_prompt_never">いいえ</string>
+
+    <!-- Help guide -->
+    <string name="help_intro">%1$sでのリマインダーの作成、再生、繰り返し、復元について、大切なことをまとめました。</string>
+    <string name="help_s1_title">リマインダーが鳴ったとき</string>
+    <string name="help_s1_content">ロック画面でも通知でも、すべてのアラートにわかりやすいボタンが表示されます:\n- 完了: タスクを完了にします。繰り返しリマインダーでは今回の分だけを完了にし、今後の繰り返しは残ります。\n- 消音: アラーム音を止めますが、リマインダーは画面に残るので、あとで判断できます。\n- スヌーズ: 少し時間をおいてもう一度通知します(全画面アラートでは5分または10分)。\n- 再生 / 読み上げ: 何も再生されていないときに表示され、音声やテキストのリマインダーをもう一度聞けます。\nヒント: タスクを完了にできるのは「完了」だけです。「消音」は音を止めるだけです。</string>
+    <string name="help_s2_title">リマインダーの作成</string>
+    <string name="help_s2_content">- まずは声で: マイクをタップして、話した内容をすばやく録音します。\n- 音声ファイル: デバイスにある音声ファイルを選びます。\n- リマインダーのメッセージ: アプリと通知に表示されます。\n- 音声メモと音声ファイルは、テキストの読み上げより優先されます。\n- テキストリマインダーは、テキストのみの場合で、テキストの自動読み上げが有効なときにだけ自動で読み上げられます。\n- 短い名前: 一覧で見つけやすくするための任意の名前です。\n- スケジュール: 日付、時刻、繰り返し、再確認を選んで保存します。</string>
+    <string name="help_s3_title">再生とプレビュー</string>
+    <string name="help_s3_content">- 「リマインダーを追加」では、保存する前に録音した音声や選んだ音声ファイルを確認できます。\n- リマインダーの詳細では、音声メモや音声ファイルの再生、停止、位置の移動ができます。\n- テキストのみのリマインダーも、アプリや通知から手動で読み上げられます。\n- アラーム音のみモードでは、読み上げの代わりにリマインダーのアラーム音を使います。\n- アラーム音のみモードの音は設定で選べます。その音が利用できなくなった場合、%1$sはデフォルトのアラーム音を使います。</string>
+    <string name="help_s4_title">ホームとクイック操作</string>
+    <string name="help_s4_content">- 今日、今後、見逃し、完了の各タブで、リマインダーを状態ごとに分けて表示します。\n- カードをタップすると、リマインダーの詳細がすべて開きます。\n- コピーボタンで既存のリマインダーを複製できます。\n- カードの操作には、リマインダーの再生、完了、そして編集・完了にする・繰り返しを停止・削除ができる3点メニューがあります。</string>
+    <string name="help_s18_title">リマインダーの一時停止とホームのお知らせ</string>
+    <string name="help_s18_content">- ホーム画面の一時停止ボタンをタップすると、すべてのリマインダーを1時間、4時間、今日の残り、または選んだ時刻まで保留できます。\n- 一時停止には必ず終了時刻があります。ホームに表示され、「再開」で早めに終えられます。\n- 一時停止中のリマインダーは鳴りませんが、「見逃し」タブには表示されます。\n- 一時停止は「サイレントモード中も通知する」よりも優先されます。今はリマインダーをまったく受け取りたくないという意味だからです。\n- このスマートフォンが%1$sをバックグラウンドで停止できる設定になっている場合はホームで警告し、静かな時間帯が有効な間はその時間帯を表示します。</string>
+    <string name="help_s5_title">繰り返しリマインダー</string>
+    <string name="help_s5_content">- 繰り返しの種類: 毎日、毎週、毎月、毎年、カスタム。\n- 選んだ日付と時刻が最初の回になります。\n- 繰り返しは、ずっと続ける、指定した日時で終える、指定した回数で終える、のいずれかにできます。\n- 繰り返しリマインダーで完了にすると、現在の回だけが完了になります。</string>
+    <string name="help_s6_title">通知と全画面アラート</string>
+    <string name="help_s6_content">- リマインダーの通知には3つのクイックボタンが表示されます: 完了、スヌーズ、そして消音(再生中)または再生/読み上げ(もう一度聞くとき)。\n- 「完了」はリマインダーを完了にします。「消音」は音を止めるだけで、リマインダーは残るのであとで対応できます。\n- 通知をスワイプで消した場合も、現在の回が完了になります。\n- 設定で有効にすると、ロック画面に全画面アラートが表示され、同じ操作(完了、消音、スヌーズ、もう一度再生)ができます。</string>
+    <string name="help_s7_title">見逃したリマインダーと復元</string>
+    <string name="help_s7_content">- 見逃したリマインダーは、確認するまで「見逃し」タブに残ります。\n- アプリを開いたときに、最新の見逃したリマインダーをすぐ再生できるシートが表示されることがあります。\n- 過去のリマインダーは、操作シートから復元、日時の変更、再生ができます。</string>
+    <string name="help_s8_title">再生の設定</string>
+    <string name="help_s8_content">- 自動再生は、リマインダーが鳴るときに音声メモや音声ファイルの再生を始めます。\n- 「テキストリマインダーを自動で読み上げる」は、テキストのみのリマインダーの読み上げだけを制御します。\n- 読み上げ言語は読み上げに使う音声を決めます。自動検出ではリマインダー自体の言語に合わせ(ヒンディー語のリマインダーはヒンディー語で読み上げます)、デバイスの言語または英語に固定することもできます。選んだ言語の音声が、スマートフォンのテキスト読み上げ設定にインストールされている必要があります。\n- テキストの自動読み上げがオフでも、手動での再生はできます。\n- プライベート再生は、接続中の補聴器、Bluetooth機器、有線ヘッドホンを優先します。何も接続されていない場合は、スピーカーではなく通話用の受話口を使います。\n- ループ再生は、停止するかループの制限時間に達するまで音声を繰り返します。\n- 再確認は、リマインダーが完了になるまでもう一度確認します。\n- 静かな時間帯は、選んだ時間帯のリマインダーの再生を止めます。</string>
+    <string name="help_s9_title">アラーム音のみモードと確実性</string>
+    <string name="help_s9_content">- アラーム音のみモードでは、音声や読み上げの代わりに、はっきりしたアラーム音を使います。\n- このモード用の音を自分で選ぶことも、デフォルトのアラーム音のままにすることもできます。\n- 「サイレントモード中も通知する」を使うと、サイレントモードが有効な間も%1$sが重要なリマインダーを鳴らそうとします。\n- 「サイレントモード中も通知する」がオフの場合、サイレントモードでブロックされたリマインダーは再生されず「見逃し」に入ります。\n- この設定はスマートフォンのサイレントモードをオンにもオフにもしません。機能させるにはAndroidのサイレントモードへのアクセスが必要です。\n- 有効にすると、リマインダーはアラーム優先の音声を使います。システムのモードがアラーム音を消音している場合、一部のルーティンではアラームがブロックされることがあります。\n- 選んだ音があとで見つからなくなった場合、%1$sは自動的にデフォルトのアラーム音を使います。\n- スマートフォンが読み上げを遅らせる、抑制する、止めるといった場合は、アラーム音のみモードを使ってください。\n- 設定 &gt; リマインダーチェック には、バックグラウンド制限が厳しい機種向けの電池設定の手順があります。\n- リマインダーを確実に受け取るため、通知、正確なアラーム、電池の設定は有効のままにしてください。</string>
+    <string name="help_s10_title">ウィジェットとWear OS</string>
+    <string name="help_s10_content">- クイックリマインダーウィジェットは「リマインダーを追加」を直接開きます。\n- 今後のリマインダーウィジェットは、今後のリマインダーと見逃したリマインダーを表示します。\n- Wear OSへの対応には、スマートフォンの通知とウォッチとの同期が有効になっている必要があります。</string>
+    <string name="help_s11_title">デバイスの再起動後</string>
+    <string name="help_s11_content">- 今後のリマインダーは、再起動後に自動で再スケジュールされます。\n- 時刻を過ぎたリマインダーは、起動時に突然鳴るのではなく、見逃したリマインダーとして扱われます。</string>
+    <string name="help_s13_title">再確認</string>
+    <string name="help_s13_content">- 再確認は、リマインダーが鳴ってから数分後に「…は完了しましたか？」と確認します。\n- デフォルトでは、リマインダーを完了にするまで繰り返します。自動的に止めたい場合は、設定 &gt; スヌーズと再確認 で繰り返しの上限を設定できます。\n- 「完了」と「スヌーズ」は現在の再確認を終了します。静かな時間帯でも再確認は止まります。\n- 再確認は、完了になるか上限に達するまで、デバイスの再起動後も続きます。</string>
+    <string name="help_s14_title">バックアップとインポート</string>
+    <string name="help_s14_content">- 設定の「リマインダーをバックアップ」は、今後のすべてのリマインダーを音声録音も含めて、選んだ1つのファイルに保存します。\n- 「リマインダーをインポート」は、このデバイスや別のデバイスにそれらを復元します。\n- インポートでは、完全に重複するものと期限切れの1回のみのリマインダーをスキップします。繰り返しリマインダーは次の回から続きます。\n- インポートしたリマインダーはすぐにスケジュールされます。</string>
+    <string name="help_s12_title">完了までリマインダーを画面に残す</string>
+    <string name="help_s12_content">- 設定 &gt; リマインダーが鳴るとき &gt; 完了まで通知を残す をオンにすると、リマインダーの通知が固定され、誤ってスワイプで消すことがなくなります。\n- オンの間は、スワイプしても音が止まるだけでリマインダーは保留のまま残り、「完了」か「スヌーズ」をタップするまで消えません。\n- 完了にする操作は、通知、全画面アラート、リマインダーカードのどこからでも常に行え、再確認の通知も止まります。\n- 再確認と組み合わせると、完了するまで一定の間隔でもう一度通知されます。</string>
+
+    <!-- What's new sheet -->
+    <string name="action_continue">続ける</string>
+    <string name="wn_title">%1$s の新機能</string>
+    <string name="wn_intro">前回のアップデート以降の新機能です。多くはアプリを使っている方からのご提案です。</string>
+    <string name="wn_check_title">リマインダーを妨げる原因を確認</string>
+    <string name="wn_check_desc">設定の一番上にある「リマインダーチェック」は、通知、電池、小さいアラーム音量など、リマインダーが遅れたり鳴らなかったりする原因を表示し、それぞれを修正するボタンも用意しています。</string>
+    <string name="wn_reliable_title">高信頼リマインダー</string>
+    <string name="wn_reliable_desc">スマートフォンが電池節約のためにリマインダーを遅らせる場合は、設定 &gt; リマインダーチェック で「高信頼リマインダー」をオンにしてください。リマインダーがアラームと同じように設定され、時刻どおりに鳴ります。</string>
+    <string name="wn_settings_title">見つけやすくなった設定</string>
+    <string name="wn_settings_desc">各セクションに内容の説明が付き、アプリの言語は上のほうの「言語と外観」にあります。</string>
+    <string name="wn_cards_title">すべてのカードに編集・完了・削除</string>
+    <string name="wn_cards_desc">各リマインダーカードに編集、完了、削除のボタンが付きました。削除は確認があり、元に戻すこともできます。</string>
+    <string name="wn_sound_title">止まるべきときに音が止まる</string>
+    <string name="wn_sound_desc">リマインダーを完了にする、削除する、時刻を変更すると、音がすぐに止まります。アラーム音のアラートに「消音」ボタンが戻りました。</string>
+    <string name="wn_nthday_title">最終木曜日に繰り返す</string>
+    <string name="wn_nthday_desc">毎月のリマインダーを、第1月曜日や最終木曜日のように、月の中での順番で決まる曜日に設定できます。繰り返し &gt; 毎月 &gt; 曜日で指定 を選んでください。</string>
+    <string name="wn_gap_title">繰り返しの間の休止</string>
+    <string name="wn_gap_desc">ループするリマインダーは、もう一度再生する前に間を置けます:「会議」、10秒の無音、もう一度「会議」、これを停止時間まで続けます。設定 &gt; リマインダーが鳴るとき &gt; 繰り返しの間の休止 で設定します。</string>
+    <string name="wn_colors_title">完了と削除を好きな色に</string>
+    <string name="wn_colors_desc">設定 &gt; 言語と外観 &gt; リマインダーカードのボタン で、リマインダーカードの完了ボタンと削除ボタンに好きな色を付けられます。</string>
+    <string name="wn_notif_title">アプリを開くと通知が消える</string>
+    <string name="wn_notif_desc">リマインダーが鳴ったあと、アプリを開くかリマインダーの変更を保存すると、その通知が消えます。「完了まで通知を残す」がオンの場合、アプリを開いても通知は残ります。</string>
+    <string name="wn_edit_title">日付と時刻をその場で変更</string>
+    <string name="wn_edit_desc">リマインダーを開いて日付か時刻をタップすると、直接変更できます。先に編集画面を開く必要はありません。</string>
+    <string name="wn_clear_title">通知が自動で片づく</string>
+    <string name="wn_clear_desc">アプリでリマインダーを開く、再生する、完了にする、削除すると、その通知が通知パネルから消えます。「完了まで通知を残す」がオンの場合は、完了にするまで残ります。</string>
+    <string name="wn_save_title">音声リマインダーをすぐに保存</string>
+    <string name="wn_save_desc">試験的な音声補正がオンでも、保存はクリーンアップを待たなくなりました。処理はバックグラウンドで完了し、その間リマインダーには「音声 · 補正中…」と表示されます。</string>
+    <string name="wn_fullscreen_title">ロック画面のアラートが動作するようになりました</string>
+    <string name="wn_fullscreen_desc">これまでは、設定にかかわらず、リマインダーが鳴っても全画面アラートが表示されませんでした。今後は画面を点灯してリマインダーを表示します。アラート画面も作り直し、文字が大きく、操作がわかりやすくなりました。</string>
+    <string name="wn_pause_title">リマインダーを一時停止</string>
+    <string name="wn_pause_desc">これから会議ですか？ホーム画面から、1時間、今日の残り、または選んだ時刻まで一時停止できます。一時停止には必ず終わりがあり、一時停止中のリマインダーも「見逃し」タブに表示されます。</string>
+    <string name="wn_notices_title">リマインダーが鳴らなかった理由をホームで表示</string>
+    <string name="wn_notices_desc">このスマートフォンが%1$sをバックグラウンドで停止できる設定になっている場合や、静かな時間帯がオンの場合、リマインダーが黙って届かなくなるのではなく、ホームでそのことをお知らせします。</string>
+    <string name="wn_lang_title">あなたの言語に対応</string>
+    <string name="wn_lang_desc">アプリ全体が、英語、スペイン語、ヒンディー語、アラビア語、ポルトガル語(ブラジル)、ロシア語、ベトナム語、ベンガル語、テルグ語、タミル語、ギリシャ語、マラヤーラム語で利用でき、右から左への表示にも対応しています。設定 &gt; 言語と外観 &gt; 言語 で選んでください。</string>
+    <string name="wn_missed_title">見逃したリマインダーの日時を変更</string>
+    <string name="wn_missed_desc">「見逃し」タブでリマインダーの鉛筆アイコンをタップすると、新しい日付や時刻を設定できます。リマインダーは今後の一覧に戻ります。</string>
+    <string name="wn_quiet_title">終わったら音が止まる</string>
+    <string name="wn_quiet_desc">リマインダーの通知をスワイプで消すと音が止まるようになり、編集中や時刻の変更中にリマインダーが鳴り始めることもなくなりました。</string>
+    <string name="wn_buttons_title">わかりやすくなったアラームのボタン</string>
+    <string name="wn_buttons_desc">リマインダーのアラートと通知に、完了、消音、スヌーズが表示されるようになりました。「完了」はタスクを完了にし、「消音」は音を止めるだけでリマインダーは残ります。</string>
+    <string name="wn_spoken_title">正しい音声でリマインダーを読み上げ</string>
+    <string name="wn_spoken_desc">読み上げリマインダーは、自動的にその言語で読み上げられます。アプリが英語でも、ヒンディー語のリマインダーはヒンディー語で読み上げます。設定 &gt; リマインダーが鳴るとき &gt; 読み上げ言語 で調整できます。</string>
+    <string name="wn_persist_title">完了までリマインダーを残す</string>
+    <string name="wn_persist_desc">設定 &gt; 確実性 &gt; 完了まで通知を残す をオンにすると、リマインダーが固定され、「完了」か「スヌーズ」を選ぶまで消えません。</string>
+    <string name="wn_backup_title">リマインダーのバックアップと移行</string>
+    <string name="wn_backup_desc">今後のすべてのリマインダーを録音も含めてファイルに保存し、新しいスマートフォンでもいつでも復元できます。設定にあります。</string>
+    <string name="wn_followup_title">再確認を自分好みに</string>
+    <string name="wn_followup_desc">再確認は、これまでどおりリマインダーを完了にするまで通知を続けます。新機能: 自動的に止めたい場合は、設定 &gt; 確実性 で繰り返しの上限を設定できます。</string>
+
+    <!-- Startup dialogs -->
+    <string name="action_allow">許可</string>
+    <string name="action_later">あとで</string>
+    <string name="action_open_settings">設定を開く</string>
+    <string name="batt_prompt_title">%1$sのバックグラウンド実行を許可</string>
+    <string name="batt_prompt_message">一部のスマートフォン、特にXiaomiやPOCOの機種は、電池節約のためにバックグラウンドのアプリを停止します。そのためリマインダーが鳴らないことがあります。リマインダーをより確実にするため、%1$sが電池の最適化を無視できるようにしてください。</string>
+    <string name="batt_toast_unavailable">このデバイスでは電池の設定を利用できません。</string>
+    <string name="home_batt_banner_title">リマインダーが届かない可能性があります</string>
+    <string name="home_batt_banner_body">このスマートフォンは%1$sをバックグラウンドで停止できる設定です。タップして電池の使用を「制限なし」にしてください。</string>
+    <string name="home_quiet_banner">静かな時間帯 %1$s – %2$s。リマインダーは「見逃し」に入ります。</string>
+    <string name="home_pause_banner">%1$s までリマインダーを一時停止中</string>
+    <string name="home_pause_resume">再開</string>
+    <string name="home_pause_title">リマインダーを一時停止</string>
+    <string name="home_pause_body">一時停止が終わるまでリマインダーは鳴りません。その間も「見逃し」タブには入ります。</string>
+    <string name="home_pause_1h">1時間</string>
+    <string name="home_pause_4h">4時間</string>
+    <string name="home_pause_today">今日の残り</string>
+    <string name="home_pause_pick">終了時刻を選ぶ…</string>
+    <string name="home_pause_cd">リマインダーを一時停止</string>
+    <string name="home_pause_also_quiet">静かな時間帯もオンです(%1$s – %2$s)。</string>
+    <string name="fsr_title">全画面アラートをもう一度許可</string>
+    <string name="fsr_message">%1$sではロック画面のリマインダーアラートがオンのままですが、Androidの全画面へのアクセスがオフになっています。再インストールや復元のあとに起こることがあります。</string>
+    <!-- Version 2.0.34 help and startup highlights -->
+    <string name="help_s15_title">リマインダーの入力画面をカスタマイズ</string>
+    <string name="help_s15_content">- 設定 &gt; リマインダーの入力画面 を開くと、音声録音、音声ファイルを選択、テキストリマインダー、短い名前の表示・非表示を切り替えられます。\n- スイッチはそれぞれ独立しています。3つの入力方法をすべて非表示にすると、「リマインダーを追加」でどの設定をオンに戻せばよいかをお知らせします。\n- 編集時には、そのリマインダーにすでに内容がある場合、非表示のセクションが自動的に表示されます。</string>
+    <string name="help_s16_title">音声録音のモードを選ぶ</string>
+    <string name="help_s16_content">- 設定 &gt; リマインダーの入力画面 &gt; 試験的な音声補正 を開きます。\n- オフ(デフォルト)では、後処理をしない元のままのMIC/AAC録音になります。\n- オンでは、新しい録音保護機能、無音の録音を検出した際の通知、背景ノイズのクリーンアップ、音声レベルの正規化が有効になります。結果と処理時間はデバイスによって異なります。\n- 無音の録音も、引き続きプレビューと保存ができます。</string>
+    <string name="help_s17_title">より確実になったリマインダーの再生</string>
+    <string name="help_s17_content">- リマインダーの再生は、新しいAndroidバージョンやバックグラウンドの起動が遅い機種でも、必要なAndroidのフォアグラウンド通知をすぐに開始するようになりました。\n- これにより、音や音声が始まる前にシステムのタイムアウトでリマインダーが止まることを防ぎます。\n- 確実に動作させるため、通知の権限、正確なアラーム、推奨の電池設定は有効のままにしてください。</string>
+    <string name="wn_form_title">入力画面を自分好みに</string>
+    <string name="wn_form_desc">設定 &gt; リマインダーの入力画面 で、音声録音、音声ファイルを選択、テキストリマインダー、短い名前の表示・非表示を個別に切り替えられます。</string>
+    <string name="wn_recording_title">任意で使える試験的な音声補正</string>
+    <string name="wn_recording_desc">新しい設定で選べます: 元のままの録音(デフォルト)を使うか、新しい録音保護機能、無音の録音を検出した際の通知、背景ノイズのクリーンアップを有効にするか。クリーンアップは、部屋の音まで大きくせずに、小さな録音を聞きやすい音量に上げます。無音の録音は常に残ります。</string>
+    <string name="wn_reliability_title">新しいAndroidスマートフォンでより確実に</string>
+    <string name="wn_reliability_desc">リマインダーの再生がフォアグラウンドで安全かつすぐに始まるようになり、一部のAndroid 12とAndroid 16のデバイスで起きていた起動時のタイムアウトを防ぎます。</string>
+    <string name="settings_24_hour_time">24時間表示を使う</string>
+    <string name="settings_24_hour_time_desc">すべての時刻を 5:30 PM ではなく 17:30 のように表示します。</string>
+    <string name="set_week_start">週の始まり</string>
+    <string name="set_week_start_desc">日付選択での週の最初の曜日です。曜日を選ぶと、スマートフォン標準の日付選択が使われます。</string>
+
+    <!-- Reminder card and actions sheet -->
+    <string name="card_recur_onetime">1回のみのリマインダー</string>
+    <string name="card_recur_daily">毎日繰り返す</string>
+    <string name="card_recur_last_day">毎月の月末</string>
+    <string name="rs_day_of_week">曜日で指定</string>
+    <string name="rs_which_one">月内での順番</string>
+    <string name="rs_weekday">曜日</string>
+    <string name="rec_nth_weekday">%1$s%2$s</string>
+    <string name="card_recur_nth_weekday">毎月%1$s</string>
+    <string-array name="rs_ordinal_labels">
+        <item>第1</item>
+        <item>第2</item>
+        <item>第3</item>
+        <item>第4</item>
+        <item>最終</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>第1</item>
+        <item>第2</item>
+        <item>第3</item>
+        <item>第4</item>
+        <item>最終</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>第1</item>
+        <item>第2</item>
+        <item>第3</item>
+        <item>第4</item>
+        <item>最終</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>第1</item>
+        <item>第2</item>
+        <item>第3</item>
+        <item>第4</item>
+        <item>最終</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+    </string-array>
+    <string name="card_recur_yearly">毎年繰り返す</string>
+    <string name="card_chip_recurring">繰り返し</string>
+    <string name="card_days_of_month">毎月の日にち</string>
+    <string name="card_cd_duplicate">リマインダーを複製</string>
+    <string name="card_cd_more">その他のオプション</string>
+    <string name="card_cd_looping">ループ再生</string>
+    <string name="card_cd_followup">%1$d分後に再確認</string>
+    <string name="card_cd_ends_after">%1$d%2$sで終了</string>
+    <string name="sheet_reminder_actions">リマインダーの操作</string>
+    <string name="sheet_stop_playback">再生を停止</string>
+
+    <!-- Custom follow-up dialog -->
+    <string name="fu_custom_title">カスタム再確認</string>
+    <string name="fu_custom_desc">リマインダーが完了になっていない場合、この分数が過ぎたらもう一度確認します。</string>
+    <string name="fu_allowed_range">指定できる範囲: 1〜%1$d分</string>
+
+    <!-- Voice recorder -->
+    <string name="vr_playing_audio">音声を再生中</string>
+    <string name="vr_voice_recorded">音声を録音しました</string>
+    <string name="vr_text_optional">テキストは任意です</string>
+    <string name="vr_tap_to_stop">タップして停止</string>
+    <string name="vr_cd_level">リアルタイムの音量レベル表示</string>
+    <string name="vr_cd_stop">録音を停止</string>
+    <string name="vr_cd_double_tap_stop">ダブルタップして録音を停止</string>
+    <string name="vr_cd_preview_progress">音声プレビューの進行状況</string>
+    <string name="vr_cd_start">音声録音を開始</string>
+    <string name="vr_cd_restart">録音をやり直す</string>
+
+    <!-- Date and time picker -->
+    <string name="dtp_title">日付と時刻を選ぶ</string>
+    <string name="dtp_subtitle">クイックオプションを使うか、正確な日付と時刻を選びます。</string>
+    <string name="dtp_quick_date">日付のクイック選択</string>
+    <string name="dtp_quick_time">時刻のクイック選択</string>
+    <string name="dtp_pick_date">日付を指定</string>
+    <string name="dtp_pick_time">時刻を指定</string>
+    <string name="dtp_next_week">来週</string>
+    <string name="dtp_plus_10">+10分</string>
+    <string name="dtp_plus_30">+30分</string>
+    <string name="dtp_plus_60">+1時間</string>
+    <string name="dtp_err_future">これから先の時刻にしてください</string>
+    <string name="dtp_err_date_future">日付は今日以降にしてください</string>
+
+    <!-- Recurring completion dialog -->
+    <string name="rcd_title">これは繰り返しリマインダーです</string>
+    <string name="rcd_desc">この回だけを完了にするか、繰り返しのスケジュールを編集するか、完全に停止するかを選びます。</string>
+    <string name="rcd_mark_occurrence">この回を完了にする</string>
+    <string name="rcd_edit_schedule">スケジュールを編集</string>
+    <string name="rcd_stop_recurring">繰り返しを停止</string>
+
+    <!-- Restore reminder dialog -->
+    <string name="rrd_title">リマインダーを復元</string>
+    <string name="rrd_desc">このリマインダーは以前に完了しています。復元の方法を選んでください。</string>
+    <string name="rrd_reschedule">リマインダーの日時を変更</string>
+    <string name="rrd_move_missed">「見逃し」に移動</string>
+    <string name="rrd_play">リマインダーを再生</string>
+    <string name="rrd_keep_done">完了のままにする</string>
+
+    <!-- Missed reminder sheets -->
+    <string name="pua_title">リマインダーを見逃しました</string>
+    <string name="pua_scheduled_for">予定日時: %1$s</string>
+    <string name="pua_set_new_time">新しい時刻を設定</string>
+    <string name="pua_just_play">リマインダーを再生するだけ</string>
+    <string name="mrr_desc">最新の見逃したリマインダーを今すぐ再生するか、すべて「見逃し」タブに残してあとで確認します。</string>
+    <plurals name="mrr_title">
+        <item quantity="other">%1$d件のリマインダーを見逃しました</item>
+    </plurals>
+    <string name="mrr_play_latest">最新の見逃したリマインダーを再生</string>
+    <string name="mrr_keep">「見逃し」タブに残す</string>
+
+    <!-- Battery optimization guide -->
+    <string name="bog_title">電池の最適化ガイド</string>
+    <string name="bog_header">リマインダーを確実に受け取る</string>
+    <string name="bog_header_sub">一部のスマートフォンは、%1$sを電池の制限から除外しない限り、バックグラウンドのアラームを一時停止または停止します。</string>
+    <string name="bog_intro">一部のデバイスは、電池節約のためにバックグラウンドのアラームを停止します。そのためリマインダーが鳴らないことがあります。</string>
+    <string name="bog_menu_vary">メニュー名は、MIUI、HyperOS、EMUI、Androidのバージョン、機種によって異なる場合があります。</string>
+    <string name="bog_allow_app">%1$sを許可</string>
+    <string name="bog_back_settings">設定に戻る</string>
+    <string name="bog_brand_xiaomi">Xiaomi / POCO / Redmi (MIUI / HyperOS)</string>
+    <string name="bog_brand_huawei">Huawei (EMUI)</string>
+    <string name="bog_step">手順 %1$d</string>
+    <string name="bog_optional">任意</string>
+    <string name="bog_open_settings">設定を開く</string>
+    <string name="bog_find_app">%1$sを探す</string>
+    <string name="bog_xiaomi_battery">「バッテリー」をタップ</string>
+    <string name="bog_xiaomi_optimization">「バッテリーの最適化」をタップ</string>
+    <string name="bog_xiaomi_no_restrictions">「制限なし」を選択</string>
+    <string name="bog_xiaomi_opt">最近使ったアプリの画面でアプリをロックします。</string>
+    <string name="bog_huawei_apps">「アプリ」または「アプリ起動」を開く</string>
+    <string name="bog_huawei_manage_off">「自動的に管理」をオフにする</string>
+    <string name="bog_huawei_allow">自動起動、他のアプリによる起動、バックグラウンドで実行を許可する</string>
+    <string name="bog_huawei_opt">電池の最適化も確認し、%1$sを「許可しない」に設定します。</string>
+    <string name="bog_status_enabled">%1$sの電池の最適化がまだ有効です。</string>
+    <string name="bog_status_exempt">%1$sはすでに電池の最適化なしで実行できます。</string>
+    <string name="bog_no_battery_settings">このデバイスでは電池の設定を利用できません。</string>
+    <string name="bog_why_title">なぜ大切なのか</string>
+    <string name="bog_why_body">Xiaomi、POCO、Redmi、Huawei、Infinix、Tecnoなどのスマートフォンは、バックグラウンドのアプリを積極的に停止することがあります。メーカーの系列とソフトウェアのバージョンを目安にしてください。正確な手順は機種によって異なる場合があります。</string>
+
+    <!-- Reminder card accessibility description -->
+    <string name="a11y_card_reminder">リマインダー: %1$s</string>
+    <string name="a11y_card_at">%1$s</string>
+    <string name="a11y_card_has_audio_file">音声ファイルあり</string>
+    <string name="a11y_card_has_voice">音声メモあり</string>
+    <string name="a11y_card_recurring">繰り返し %1$s</string>
+    <string name="a11y_card_completed">完了済み</string>
+    <string name="a11y_card_playing">再生中</string>
+    <string name="a11y_card_open_hint">ダブルタップして詳細を開きます。</string>
+
+    <!-- Accessibility states -->
+    <string name="state_completed">完了済み</string>
+    <string name="state_playing">再生中</string>
+    <string name="a11y_percent">%1$dパーセント</string>
+    <string name="a11y_destructive">削除を伴う操作</string>
+    <string name="a11y_recording_in_progress">録音中</string>
+    <string name="a11y_playing_preview">音声プレビューを再生中</string>
+    <string name="a11y_voice_recorded">音声メモを録音済み</string>
+    <string name="a11y_no_voice_recorded">音声メモは未録音</string>
+    <plurals name="card_occurrences">
+        <item quantity="other">%1$d回</item>
+    </plurals>
+
+    <!-- Test reminder -->
+    <string name="set_test_reminder_title">テストリマインダー</string>
+    <string name="set_test_reminder_text">これは再生を確認するためのテストリマインダーです。作成の10秒後に鳴ります。</string>
+    <string name="widget_quick_subtitle">クイック追加</string>
+    <string name="widget_upcoming_subtitle">今後のリマインダーと見逃したリマインダー</string>
+    <string name="widget_upcoming_empty">今後のリマインダーも見逃したリマインダーもありません</string>
+    <string name="card_type_audio_file">音声ファイル</string>
+    <string name="card_type_voice_improving">音声 · 補正中…</string>
+    <string name="card_type_voice">音声</string>
+    <string name="card_type_text">テキスト</string>
+    <string name="card_voice_recording">音声録音</string>
+    <string name="card_custom_audio_file">カスタム音声ファイル</string>
+    <string name="card_text_note">テキストメモ</string>
+    <string name="sheet_mark_this_done">完了にする</string>
+    <string name="sheet_delete_reminder">リマインダーを削除</string>
+    <string name="vr_recording_ellipsis">録音中…</string>
+    <string name="vr_play_recording">録音を再生</string>
+    <string name="rcd_sub_keep_next">次の回は予定のまま残します</string>
+    <string name="rcd_sub_change_rules">繰り返しのルールや時刻を変更します</string>
+    <string name="rcd_sub_delete_future">このリマインダーと今後の回を削除します</string>
+    <string name="rrd_sub_pick_new">新しい日付と時刻を選びます</string>
+    <string name="rrd_sub_keep_missed">あとで確認できるよう「見逃し」タブに残します</string>
+    <string name="rrd_sub_hear_now">復元せずに今すぐ聞きます</string>
+    <string name="rrd_sub_leave_done">リマインダーを完了のままにします</string>
+    <string name="mrr_sub_start_now">すぐに再生を始めます</string>
+    <string name="set_tab_form">入力</string>
+    <string name="set_tab_play">再生</string>
+    <string name="set_tab_time">時間</string>
+    <string name="set_tab_safe">確実性</string>
+    <string name="set_tab_backup">バックアップ</string>
+    <string name="set_tab_wear">ウォッチ</string>
+    <string name="set_tab_help">ヘルプ</string>
+    <string name="battery_guidance_title">リマインダーが遅れたり届かなかったりする可能性があります</string>
+    <string name="battery_guidance_body">お使いのスマートフォンは電池節約のために%1$sのバックグラウンド動作を制限しているため、アプリを閉じているとリマインダーが遅れて鳴ることがあります。「バックグラウンドでの使用を許可」をタップし、「許可」を選んでください。あとで 設定 &gt; リマインダーチェック から変更できます。</string>
+    <string name="battery_review_settings">バックグラウンドでの使用を許可</string>
+    <string name="battery_keep_current">いいえ</string>
+    <string name="battery_status_restricted">バックグラウンドでの電池使用: 制限あり。リマインダーを時刻どおりに受け取るには「制限なし」をおすすめします。</string>
+    <string name="battery_status_allowed">バックグラウンドでの電池使用: 制限なし。</string>
+    <string name="card_done_occurrence">今回は完了</string>
+    <string name="home_delete_confirm_body">削除の直後であれば元に戻せます。</string>
+    <string name="battery_banner_body">スマートフォンのバッテリーセーバーが%1$sの動作を妨げる可能性があります。</string>
+    <string name="home_empty_nothing_today">今日の予定はありません</string>
+    <string name="home_empty_today_sub">次のリマインダーは「%1$s」にあります。</string>
+    <string name="set_alarm_clock">高信頼リマインダー</string>
+    <string name="set_alarm_clock_desc">電池節約のためにアプリを遅らせる機種でも、リマインダーが時刻どおりに鳴りやすくなります。オンの間、機種によっては時計アイコンや「アラーム設定済み」のメッセージが表示されます。</string>
+    <string name="bog_brand_transsion">Infinix / Tecno / itel (XOS / HiOS)</string>
+    <string name="bog_transsion_autostart">アプリ &gt; 自動起動(または Phone Master &gt; 自動起動)を開き、%1$sをオンにします</string>
+    <string name="bog_transsion_battery">アプリ &gt; %1$s &gt; バッテリー を開き、「制限なし」を選びます</string>
+    <string name="set_alarm_clock_status_next">次のリマインダーで有効: %1$s</string>
+    <string name="set_alarm_clock_status_none">次のリマインダーから使われます。</string>
+    <string name="home_extra_reliable_on">高信頼リマインダー オン</string>
+    <string name="set_section_check">リマインダーチェック</string>
+    <string name="set_section_ringing">リマインダーが鳴るとき</string>
+    <string name="set_sum_check">権限、電池、アラーム音量</string>
+    <string name="set_sum_lang">アプリの言語、テーマ、時刻の形式、ボタンの色</string>
+    <string name="set_card_colors">リマインダーカードのボタン</string>
+    <string name="set_card_colors_desc">ホームの完了ボタンと削除ボタンの色を選びます。</string>
+    <string name="set_card_done_color">完了ボタン</string>
+    <string name="set_card_delete_color">削除 / 繰り返しを停止ボタン</string>
+    <string name="color_default">アプリのデフォルト</string>
+    <string name="color_red">赤</string>
+    <string name="color_orange">オレンジ</string>
+    <string name="color_green">緑</string>
+    <string name="color_teal">青緑</string>
+    <string name="color_blue">青</string>
+    <string name="color_purple">紫</string>
+    <string name="color_pink">ピンク</string>
+    <string name="color_gray">グレー</string>
+    <string name="set_sum_ringing">音声かアラーム音、音量、読み上げ言語、テストリマインダー</string>
+    <string name="set_sum_timing">スヌーズの長さ、再確認、静かな時間帯</string>
+    <string name="set_sum_form">リマインダー追加時に表示する項目</string>
+    <string name="set_sum_wear">ウォッチでのリマインダー</string>
+    <string name="set_sum_backup">リマインダーと録音の保存・復元</string>
+    <string name="set_sum_about">アプリガイド、サポート、その他のアプリ</string>
+    <string name="check_all_good">必要な権限は有効になっています。</string>
+    <string name="check_issues">リマインダーを表示してスケジュールするには、下の不足している権限を有効にしてください。</string>
+    <string name="check_notif_ok">通知はオンです</string>
+    <string name="check_notif_bad">通知がオフです</string>
+    <string name="check_exact_ok">リマインダーを分単位で正確に鳴らせます</string>
+    <string name="check_exact_bad">リマインダーが正確な時刻に鳴らない可能性があります</string>
+    <string name="check_battery_ok">スマートフォンはリマインダーのバックグラウンド動作を許可しています</string>
+    <string name="check_battery_bad">バッテリーセーバーがリマインダーを妨げる可能性があります</string>
+    <string name="check_volume_bad">アラーム音量が小さい(%1$d%%)ため、リマインダーが聞こえにくい可能性があります</string>
+    <string name="check_raise">上げる</string>
+    <string name="check_fullscreen_bad">ロック画面のアラートには権限が必要です</string>
+    <string name="check_alert_off">リマインダーの通知がオフになっています</string>
+    <string name="check_alert_off_how">リマインダーは鳴りますが、何も表示されません。通知カテゴリ「%1$s」をオンにしてください。</string>
+    <string name="check_alert_popup">リマインダーの内容が画面にポップアップ表示されない可能性があります</string>
+    <string name="check_alert_popup_how">カテゴリ「%1$s」のポップアップ通知（バナー）を許可してください。機種によってはフローティング通知と呼ばれます。</string>
+    <string name="check_alert_lock">リマインダーの内容がロック画面で非表示になっています</string>
+    <string name="check_alert_lock_how">カテゴリ「%1$s」をロック画面に表示するよう許可してください。</string>
+    <string name="check_dnd_bad">サイレントモード中も通知するには、サイレントモードへのアクセスを許可してください</string>
+    <string name="check_mic_ok">音声リマインダー用のマイクは許可済みです</string>
+    <string name="check_mic_bad">マイクがオフのため、音声リマインダーを録音できません</string>
+    <string name="check_volume_how">「上げる」をタップするか、スマートフォンのサウンド設定を開いてアラームの音量を上げてください。</string>
+    <string name="set_required_permissions">必要な権限</string>
+    <string name="set_recommendations">おすすめと任意の機能</string>
+    <string name="set_playback_mode">リマインダーの音</string>
+    <string name="set_voice_audio_mode">音声、音声ファイル、読み上げテキスト</string>
+    <string name="set_voice_check_checking">%1$sの音声を確認しています…</string>
+    <string name="set_voice_check_ok">%1$sの音声は正常に動作しています。</string>
+    <string name="set_voice_check_alternative">%1$sの標準音声は使えませんでしたが、同じ言語の別の音声は利用できます。下のボタンから音声を管理できます。</string>
+    <string name="set_voice_check_missing">%1$sの音声を再生できませんでした。接続を確認するか、この言語の音声をダウンロードして、もう一度お試しください。</string>
+    <string name="set_voice_check_no_engine">テキストの読み上げを利用できません。スマートフォンの読み上げ設定を確認して、もう一度お試しください。</string>
+    <string name="set_voice_download">音声をダウンロード</string>
+    <string name="set_voice_check_again">もう一度確認</string>
+    <string name="set_voice_settings_unavailable">スマートフォンのテキスト読み上げ設定を開けませんでした。</string>
+    <string name="set_reset_defaults">設定を初期状態に戻す</string>
+    <string name="set_reset_defaults_desc">すべての設定をインストール直後の状態に戻します。リマインダーは変更されません。</string>
+    <string name="set_reset_defaults_title">すべての設定をリセットしますか？</string>
+    <string name="set_reset_defaults_body">すべての設定が初期値に戻ります。リマインダー、録音、アプリの言語、スマートフォンの権限はそのまま残ります。</string>
+    <string name="set_reset_defaults_confirm">リセット</string>
+    <string name="set_reset_defaults_done">設定を初期状態に戻しました</string>
+    <string name="wn_newlang_title">5つの新しい言語</string>
+    <string name="wn_newlang_desc">アプリが17言語に対応しました。新たにDeutsch、Français、Bahasa Indonesia、Türkçe、日本語が加わりました。日付も各言語の順序で表示されます。設定 &gt; 言語と外観 で選べます。</string>
+    <string name="wn_snooze_title">「スヌーズ」をオフにする</string>
+    <string name="wn_snooze_desc">スヌーズでつい先延ばしにしてしまう場合は、設定 &gt; スヌーズと再確認 &gt; スヌーズを許可 をオフにしてください。リマインダーを止めるには「完了」だけになります。</string>
+    <string name="wn_week_title">週の始まりの曜日を選ぶ</string>
+    <string name="wn_week_desc">設定 &gt; 言語と外観 &gt; 週の始まり で、日付選択の最初の列を月曜日・日曜日・土曜日から選べます。</string>
+    <string name="wn_voice_title">リマインダーを読み上げられるか確認</string>
+    <string name="wn_voice_desc">設定 &gt; リマインダーが鳴るとき &gt; 読み上げ言語 で、スマートフォンがその言語を実際に話せるかを確認し、必要なら音声のダウンロードを手伝います。いつもの音声が使えないときは、同じ言語の別の音声を試します。</string>
+    <string name="wn_reset_title">設定をまとめてリセット</string>
+    <string name="wn_reset_desc">設定 &gt; バックアップと復元 &gt; 設定を初期状態に戻す で、すべての設定をインストール直後の状態に戻せます。リマインダーはそのまま残ります。</string>
+    <string name="wn_call_title">通話中は鳴らしません</string>
+    <string name="wn_call_desc">アラーム音のみのリマインダーは、通話中に鳴らなくなりました。読み上げのリマインダーと同じく、通知は表示され、バイブレーションもします。</string>
+    <string name="wn_notifcat_title">リマインダーチェックが隠れた通知を見つけます</string>
+    <string name="wn_notifcat_desc">一部のスマートフォンでは通知の種類が勝手にオフになり、リマインダーが鳴っても何も表示されないことがありました。設定 &gt; リマインダーチェック がそれを警告し、修正 で該当する設定を開けます。</string>
+    <string name="wn_pasttime_title">毎日のリマインダーを早い時刻に変更</string>
+    <string name="wn_pasttime_desc">繰り返しのリマインダーを開いて 時刻 をタップすると、今日すでに過ぎた時刻も選べます。未来の時刻を求めず、次の回(たとえば明日)から始まります。</string>
+    <string name="set_privacy_policy">プライバシーポリシー</string>
+    <string name="set_terms_of_use">利用規約</string>
+    <string name="wn_legal_title">プライバシーポリシーと利用規約をアプリ内に</string>
+    <string name="wn_legal_desc">設定 &gt; ヘルプとアプリ情報 から SpeakAlert のプライバシーポリシーと利用規約を開けるようになりました。ほかの変更はなく、SpeakAlert は引き続きあなたの情報を一切収集しません。</string>
+</resources>

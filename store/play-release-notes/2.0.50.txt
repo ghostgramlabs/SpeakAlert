@@ -1,0 +1,85 @@
+<en-US>
+• No alarm tone during phone calls
+• Reminder check warns when reminder notifications are off
+• Repeating reminders accept a time already passed today: they start at the next one
+</en-US>
+<ar>
+• لا يرنّ صوت المنبّه أثناء المكالمات
+• فحص التذكيرات ينبّهك إذا كانت إشعارات التذكير متوقفة
+• تقبل التذكيرات المتكررة وقتًا مضى اليوم وتبدأ من موعدها التالي
+</ar>
+<bn-BD>
+• ফোন কলের সময় অ্যালার্ম টোন বাজে না
+• রিমাইন্ডার বিজ্ঞপ্তি বন্ধ থাকলে রিমাইন্ডার পরীক্ষা সতর্ক করে
+• পুনরাবৃত্ত রিমাইন্ডারে আজ পেরিয়ে যাওয়া সময় বাছা যায়, পরের বার থেকে শুরু হয়
+</bn-BD>
+<de-DE>
+• Kein Alarmton während Telefonaten
+• Erinnerungs-Check warnt, wenn Erinnerungsbenachrichtigungen aus sind
+• Wiederkehrende Erinnerungen nehmen eine heute schon vergangene Uhrzeit an und starten beim nächsten Mal
+</de-DE>
+<el-GR>
+• Χωρίς ήχο ξυπνητηριού στις κλήσεις
+• Ο Έλεγχος υπενθυμίσεων προειδοποιεί αν οι ειδοποιήσεις είναι ανενεργές
+• Οι επαναλαμβανόμενες υπενθυμίσεις δέχονται ώρα που πέρασε σήμερα και ξεκινούν την επόμενη φορά
+</el-GR>
+<es-ES>
+• Sin tono de alarma durante las llamadas
+• Comprobación de recordatorios avisa si sus notificaciones están desactivadas
+• Los recordatorios que se repiten aceptan una hora ya pasada hoy y empiezan en el siguiente
+</es-ES>
+<fr-FR>
+• Pas de sonnerie pendant les appels
+• Vérification des rappels signale les notifications de rappel désactivées
+• Les rappels répétés acceptent une heure déjà passée aujourd'hui et démarrent à la prochaine
+</fr-FR>
+<hi-IN>
+• फ़ोन कॉल के दौरान अलार्म टोन नहीं बजती
+• रिमाइंडर सूचनाएं बंद हों तो रिमाइंडर जांच चेतावनी देती है
+• दोहराने वाले रिमाइंडर आज बीत चुका समय भी लेते हैं और अगली बार से शुरू होते हैं
+</hi-IN>
+<id>
+• Nada alarm tidak berbunyi saat telepon
+• Cek pengingat memberi tahu jika notifikasi pengingat nonaktif
+• Pengingat berulang menerima jam yang sudah lewat hari ini dan mulai pada giliran berikutnya
+</id>
+<ja-JP>
+• 通話中はアラーム音が鳴りません
+• 通知がオフのときはリマインダーチェックで警告
+• 繰り返しのリマインダーで今日過ぎた時刻を選ぶと、次の回から始まります
+</ja-JP>
+<ml-IN>
+• ഫോൺ കോളിനിടെ അലാറം ടോൺ മുഴങ്ങില്ല
+• അറിയിപ്പുകൾ ഓഫാണെങ്കിൽ ഓർമ്മപ്പെടുത്തൽ പരിശോധന മുന്നറിയിപ്പ് നൽകും
+• ആവർത്തിക്കുന്ന ഓർമ്മപ്പെടുത്തലുകൾ ഇന്ന് കഴിഞ്ഞ സമയം സ്വീകരിച്ച് അടുത്ത തവണ മുതൽ തുടങ്ങും
+</ml-IN>
+<pt-BR>
+• Sem toque de alarme durante ligações
+• Verificação de lembretes avisa se as notificações estiverem desativadas
+• Lembretes que se repetem aceitam um horário que já passou hoje e começam na próxima vez
+</pt-BR>
+<ru-RU>
+• Сигнал не звучит во время звонка
+• Проверка напоминаний предупреждает, если уведомления выключены
+• Повторяющиеся напоминания принимают уже прошедшее сегодня время и начинаются со следующего раза
+</ru-RU>
+<ta-IN>
+• அழைப்பின்போது அலாரம் ஒலி ஒலிக்காது
+• அறிவிப்புகள் முடக்கப்பட்டிருந்தால் நினைவூட்டல் சரிபார்ப்பு எச்சரிக்கும்
+• மீண்டும் வரும் நினைவூட்டல்கள் இன்று கடந்த நேரத்தை ஏற்று அடுத்த முறை தொடங்கும்
+</ta-IN>
+<te-IN>
+• ఫోన్ కాల్ సమయంలో అలారం టోన్ మోగదు
+• నోటిఫికేషన్లు ఆఫ్‌లో ఉంటే రిమైండర్ తనిఖీ హెచ్చరిస్తుంది
+• పునరావృత రిమైండర్‌లు ఈ రోజు గడిచిన సమయాన్ని తీసుకుని తదుపరి సారి నుండి మొదలవుతాయి
+</te-IN>
+<tr-TR>
+• Telefon görüşmesinde alarm sesi çalmaz
+• Hatırlatıcı kontrolü, bildirimler kapalıysa uyarır
+• Tekrarlanan hatırlatıcılar bugün geçmiş bir saati kabul eder ve bir sonrakinde başlar
+</tr-TR>
+<vi>
+• Không reo âm báo khi đang gọi điện
+• Kiểm tra lời nhắc cảnh báo khi thông báo nhắc nhở bị tắt
+• Lời nhắc lặp lại nhận giờ đã qua trong hôm nay và bắt đầu từ lần kế tiếp
+</vi>

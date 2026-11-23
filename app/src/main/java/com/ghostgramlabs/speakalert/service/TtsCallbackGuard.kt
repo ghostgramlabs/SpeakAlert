@@ -10,6 +10,7 @@ internal class TtsCallbackGuard(
     private val onError: () -> Unit
 ) {
     private var sequence = 0L
+    @Volatile
     private var activeId: String? = null
 
     fun begin(): String = "REMINDER_TTS_${++sequence}".also { activeId = it }

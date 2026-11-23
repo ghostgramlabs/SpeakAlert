@@ -1,0 +1,59 @@
+SpeakAlert, hatırlatıcıları sesli çalan ücretsiz bir sesli hatırlatıcı ve konuşan alarm uygulamasıdır: kendi kaydettiğiniz sesle, metin okuma (TTS) ile ya da herhangi bir ses dosyasıyla. Sessiz bildirim gönderen uygulamaların aksine SpeakAlert, telefonunuz cebinizde ya da odanın öbür ucunda olsa bile hatırlatıcılarınızı gerçekten duymanızı sağlar.
+
+Tamamen çevrimdışı çalışır, hesap gerektirmez ve reklam içermez: konuşan hatırlatıcı ve sesli alarm tek bir basit, güvenilir uygulamada.
+
+🎙️ KONUŞAN HATIRLATICILAR
+• Saniyeler içinde sesli hatırlatıcı kaydedin, doğru zamanda kendi sesinizle dinleyin
+• Hatırlatıcıyı yazın, metin okuma sesli okusun
+• Herhangi bir müziği veya ses dosyasını hatırlatıcı sesi olarak kullanın
+• Çok dilli konuşma: Hintçe bir hatırlatıcı Hintçe, İspanyolca bir hatırlatıcı İspanyolca okunur, otomatik olarak
+
+⏰ GÜÇLÜ PLANLAMA
+• Tek seferlik veya tekrarlanan hatırlatıcılar: günlük, haftalık, aylık, yıllık veya özel aralıklar (30 dakikada bir, 2 saatte bir, 3 günde bir…)
+• Tekrarlar hiç bitmesin, bir tarihte ya da belirli sayıda sonra bitsin
+• Su, ilaç veya duruş molaları için saatlik hatırlatıcılar
+• Tam zamanlı alarm: tam dakikasında çalar
+
+✅ BİTENE KADAR HATIRLATIR
+• Takip kontrolü "Bu hatırlatıcıyı tamamladınız mı?" diye sorar ve Tamam'a dokunana kadar tekrar uyarır
+• Hatırlatıcı, Tamam veya Ertele'ye dokunana kadar ekranda kalır
+• Kilit ekranında büyük Tamam / Sustur / Ertele düğmeli tam ekran uyarılar
+• Kaçırılan hatırlatıcılar kutusu ve kurtarma: hiçbir şey sessizce kaybolmaz
+
+🔔 GÜVENİLİR UYARILAR
+• Yalnızca ton modu: en yüksek güvenilirlik için yüksek sesli alarm tonu, kendi sesinizle
+• Rahatsız Etmeyin açıkken bile uyarır (isteğe bağlı)
+• Hatırlatıcılar yeniden başlatmadan etkilenmez: her şey otomatik olarak yeniden planlanır
+• Xiaomi, POCO ve diğer kısıtlayıcı telefonlar için pil optimizasyonu rehberi
+
+🎧 İSTEDİĞİNİZ GİBİ DİNLEYİN
+• Ahize, Bluetooth kulaklık veya işitme cihazıyla gizli çalma: hatırlatıcıları yalnızca siz duyarsınız
+• Otomatik çalma, yanıt verene kadar isteğe bağlı tekrar
+• Özel erteleme süresi ve huzurlu geceler için sessiz saatler
+
+⌚ WEAR OS AKILLI SAAT DESTEĞİ
+• Konuşan hatırlatıcıları Wear OS saatinizde alın
+• Hatırlatıcıları doğrudan bileğinizden yönetin
+
+🧩 WIDGET'LAR VE DÜZEN
+• Hızlı ekle widget'ı ana ekrandan doğrudan hatırlatıcı ekler
+• Kaydırılabilir widget yaklaşan ve kaçırılan hatırlatıcıları gösterir
+• Bugün / Yaklaşan / Kaçırılan / Tamamlanan sekmeleri, tek dokunuşla kopyalama
+
+💾 YEDEKLEME VE DİLLER
+• Ses kayıtları dahil tüm hatırlatıcıları yedekleyin ve geri yükleyin, yeni bir telefona bile
+• 17 dilde uygulama: İngilizce, İspanyolca, Almanca, Fransızca, Endonezce, Türkçe, Japonca, Hintçe, Arapça, Portekizce (Brezilya), Rusça, Vietnamca, Bengalce, Telugu dili, Tamilce, Yunanca ve Malayalam dili; RTL desteği, açık ve koyu tema
+
+🔒 GİZLİ, ÇEVRİMDIŞI VE ÜCRETSİZ
+• %100 çevrimdışı: hesap yok, internet gerekmez
+• Tüm hatırlatıcılar ve kayıtlar cihazınızda kalır
+• Reklam yok. Abonelik yok. Tamamen ücretsiz.
+
+📌 KİMLER İÇİN İDEAL
+• İlaç ve hap hatırlatıcıları, sizin veya yaşlı anne babanız için
+• Günlük işler, yapılacaklar, toplantılar ve randevular
+• Su içme, spor, yemek pişirme ve mola hatırlatıcıları
+• Faturalar, ayak işleri, çocuk alma ve doğum günleri
+• Yaşlılar ve sessiz bildirim okumak yerine hatırlatıcılarını duymayı tercih eden herkes
+
+Çoğu hatırlatıcı uygulaması sessiz bildirimlere dayanır. Sesli hatırlatıcı SpeakAlert ise ses ve konuşma kullanır, böylece önemli hiçbir şeyi kaçırmazsınız. Hatırlatıcılarınıza ses verin: SpeakAlert'i bugün ücretsiz indirin.

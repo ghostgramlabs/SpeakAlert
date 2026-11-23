@@ -1,0 +1,10 @@
+<resources>
+    <string name="unnamed_title_setting">名前のないリマインダーのタイトル</string>
+    <string name="unnamed_title_description">リマインダーの一覧と詳細に表示する代わりのタイトルを選びます。短い名前と入力したメッセージは常に表示されます。タイトルなしでも日付と時刻は表示されます。</string>
+    <string name="unnamed_creation_time">作成時刻</string>
+    <string name="unnamed_reminder_type">リマインダーの種類</string>
+    <string name="unnamed_no_title">タイトルなし</string>
+    <string name="unnamed_voice_reminder">音声リマインダー</string>
+    <string name="unnamed_audio_reminder">音声ファイルのリマインダー</string>
+    <string name="unnamed_generic_reminder">リマインダー</string>
+</resources>

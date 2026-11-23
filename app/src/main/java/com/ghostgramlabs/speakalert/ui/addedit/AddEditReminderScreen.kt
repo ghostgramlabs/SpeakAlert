@@ -62,6 +62,7 @@ import com.ghostgramlabs.speakalert.ui.components.SectionCard
 import com.ghostgramlabs.speakalert.ui.components.SystemDatePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.SystemTimePickerDialog
 import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDateTimePickers
+import com.ghostgramlabs.speakalert.ui.components.shouldUseSystemDatePicker
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.sanitizeUnitFloat
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -174,7 +175,7 @@ fun AddEditReminderScreen(
     }
     var showDatePickerDialog by remember { mutableStateOf(false) }
     var showTimePickerDialog by remember { mutableStateOf(false) }
-    val dateFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { java.text.SimpleDateFormat("EEE, MMM d, yyyy", java.util.Locale.getDefault()) }
+    val dateFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { java.text.SimpleDateFormat(com.ghostgramlabs.speakalert.util.DateUtils.datePattern(com.ghostgramlabs.speakalert.util.DateUtils.DateParts.WEEKDAY_MONTH_DAY_YEAR), java.util.Locale.getDefault()) }
     val timeFormatter = remember(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern) { java.text.SimpleDateFormat(com.ghostgramlabs.speakalert.util.TimeFormat.timePattern, java.util.Locale.getDefault()) }
 
     if (showUnsavedDialog) {
@@ -817,7 +818,7 @@ fun AddEditReminderScreen(
                     }
                     showDatePickerDialog = false
                 }
-                if (shouldUseSystemDateTimePickers()) {
+                if (shouldUseSystemDatePicker(LocalContext.current)) {
                     SystemDatePickerDialog(
                         initialSelectedDateMillisUtc = addEditDatePickerSelectionMillis(uiState.triggerTime),
                         onDismiss = { showDatePickerDialog = false },

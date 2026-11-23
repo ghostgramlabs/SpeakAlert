@@ -12,6 +12,17 @@ local.properties
 *.jks
 *.keystore
 google-services.json
+keystore.properties
+*.p12
+*.pem
+*.key
+.env
+.env.*
+# Google Cloud credentials: use service account impersonation, never key files
+application_default_credentials.json
+*service-account*.json
+*credentials*.json
+client_secret*.json
 
 # IDEs and editors
 .idea/

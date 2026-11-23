@@ -437,6 +437,20 @@ class HomeViewModel(
         }
     }
 
+    /**
+     * Home came to the front: alerts the user has now seen in the list go. One that fired in the
+     * last few seconds is left alone, since its sound may not have started yet.
+     */
+    fun onAppOpened() {
+        viewModelScope.launch {
+            val recent = System.currentTimeMillis() - 10_000L
+            val ids = repository.getAllRemindersStream().first()
+                .filter { (it.lastFiredAt ?: 0L) < recent }
+                .map { it.id }
+            alertNotifications.onAppOpened(ids)
+        }
+    }
+
     fun playReminder(context: Context, reminder: ReminderEntity) {
         viewModelScope.launch {
             val title = reminder.title ?: "Voice reminder"

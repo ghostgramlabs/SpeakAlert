@@ -1,0 +1,59 @@
+SpeakAlert adalah aplikasi pengingat suara gratis sekaligus alarm yang bisa bicara: pengingat diputar dengan keras, dengan suara rekaman Anda sendiri, teks-ke-suara (TTS), atau file audio apa pun. Tidak seperti aplikasi pengingat dengan notifikasi senyap, SpeakAlert memastikan Anda benar-benar mendengar pengingat, bahkan saat ponsel ada di saku atau di seberang ruangan.
+
+Bekerja sepenuhnya offline, tanpa akun, dan tanpa iklan: pengingat bersuara dan alarm suara dalam satu aplikasi yang sederhana dan andal.
+
+🎙️ PENGINGAT YANG BERBICARA
+• Rekam pengingat suara dalam hitungan detik dan dengarkan dengan suara Anda sendiri tepat waktu
+• Ketik pengingat dan biarkan teks-ke-suara membacakannya
+• Gunakan musik atau file audio apa pun sebagai suara pengingat
+• Suara multibahasa: pengingat berbahasa Hindi diucapkan dalam bahasa Hindi, berbahasa Spanyol dalam bahasa Spanyol, otomatis
+
+⏰ JADWAL LENGKAP
+• Pengingat sekali atau berulang: harian, mingguan, bulanan, tahunan, atau interval sendiri (tiap 30 menit, tiap 2 jam, tiap 3 hari…)
+• Pengulangan berakhir tidak pernah, pada tanggal tertentu, atau setelah sejumlah kali
+• Pengingat tiap jam untuk minum air, minum obat, atau memperbaiki postur
+• Alarm tepat waktu, pas di menitnya
+
+✅ MENGINGATKAN SAMPAI SELESAI
+• Cek lanjutan bertanya "Apakah pengingat ini sudah selesai?" dan terus mengingatkan sampai Anda menandainya Selesai
+• Pengingat tetap tampil di layar sampai Anda mengetuk Selesai atau Tunda
+• Peringatan layar penuh di layar kunci dengan tombol besar Selesai / Senyapkan / Tunda
+• Kotak pengingat terlewat untuk memulihkannya: tidak ada yang hilang diam-diam
+
+🔔 PERINGATAN ANDAL
+• Mode nada saja: nada alarm keras untuk keandalan maksimal, dengan suara pilihan Anda
+• Tetap berbunyi saat Jangan Ganggu aktif (opsional)
+• Pengingat tetap ada setelah ponsel dimulai ulang: semuanya dijadwalkan ulang otomatis
+• Panduan optimasi baterai untuk Xiaomi, POCO, dan ponsel ketat lainnya
+
+🎧 DENGARKAN SESUAI KEINGINAN
+• Putar secara pribadi lewat speaker telepon, headphone Bluetooth, atau alat bantu dengar: hanya Anda yang mendengar
+• Putar otomatis, bisa diulang sampai Anda merespons
+• Durasi tunda sendiri dan jam tenang untuk malam yang damai
+
+⌚ DUKUNGAN JAM WEAR OS
+• Terima pengingat bersuara di jam Wear OS Anda
+• Tangani pengingat langsung dari pergelangan tangan
+
+🧩 WIDGET & PENGATURAN
+• Widget Tambah cepat membuat pengingat langsung dari layar utama
+• Widget yang bisa digulir menampilkan pengingat mendatang dan yang terlewat
+• Tab Hari ini / Mendatang / Terlewat / Selesai, duplikat sekali ketuk
+
+💾 CADANGAN & BAHASA
+• Cadangkan dan pulihkan semua pengingat, termasuk rekaman suara, bahkan ke ponsel baru
+• Aplikasi dalam 17 bahasa: Inggris, Spanyol, Jerman, Prancis, Indonesia, Turki, Jepang, Hindi, Arab, Portugis (Brasil), Rusia, Vietnam, Bengali, Telugu, Tamil, Yunani, dan Malayalam, dengan dukungan RTL serta tema terang dan gelap
+
+🔒 PRIBADI, OFFLINE & GRATIS
+• 100% offline: tanpa akun, tanpa internet
+• Semua pengingat dan rekaman tetap di perangkat Anda
+• Tanpa iklan. Tanpa langganan. Sepenuhnya gratis.
+
+📌 COCOK UNTUK
+• Pengingat obat, untuk Anda atau orang tua lanjut usia
+• Tugas harian, daftar tugas, rapat, dan janji temu
+• Minum air, olahraga, memasak, dan istirahat
+• Tagihan, belanja, jemputan, dan ulang tahun
+• Lansia dan siapa pun yang lebih suka mendengar pengingat daripada membaca notifikasi senyap
+
+Sebagian besar aplikasi pengingat hanya mengandalkan notifikasi senyap. Pengingat suara SpeakAlert memakai bunyi dan ucapan agar Anda tidak pernah melewatkan hal penting. Beri suara pada pengingat Anda: unduh SpeakAlert gratis sekarang.

@@ -382,6 +382,9 @@
     <string name="set_private_bt">Reprodução privada ativada. O roteamento por Bluetooth precisa da permissão de dispositivos por perto.</string>
     <string name="set_tone_only">Modo só toque</string>
     <string name="set_tone_only_desc">Toca um alarme em vez de gravações ou fala. Para após: %1$s. Adiar: %2$d min.</string>
+    <string name="set_tone_only_desc_no_snooze">Toca um alarme em vez de gravações ou fala. Para após: %1$s.</string>
+    <string name="set_snooze_enabled">Permitir adiar</string>
+    <string name="set_snooze_enabled_desc">Mostra Adiar nos alertas e notificações de lembretes. Desative para que a única forma de passar por um lembrete seja Concluído.</string>
     <string name="set_toast_tone_on">Modo só toque ativado</string>
     <string name="set_toast_tone_off">Modo só toque desativado</string>
     <string name="set_infinite">Infinito</string>
@@ -474,6 +477,13 @@
     <string name="set_volume">Volume</string>
     <string name="set_cd_volume">Volume do app: %1$d%%</string>
     <string name="set_loop_inline_desc">Interrompe o toque ou o áudio em repetição após esse tempo. Lembretes de acompanhamento são alertas separados enviados depois.</string>
+    <string name="set_loop_gap">Pausa entre repetições</string>
+    <string name="set_loop_gap_desc">Silêncio antes que um lembrete em repetição toque de novo. O tempo de parada acima continua encerrando a repetição. Os toques soam sem pausa.</string>
+    <string name="set_loop_gap_none">Nenhuma</string>
+    <string name="set_seconds_short">%1$d s</string>
+    <string name="set_seconds">Segundos</string>
+    <string name="set_max_allowed_seconds">Máximo permitido: %1$d s</string>
+    <string name="set_desc_max_seconds">%1$s (máx. %2$d s)</string>
     <string name="set_default_snooze">Adiamento padrão</string>
     <string name="set_snooze_inline_desc">Quanto tempo esperar para avisar de novo depois de tocar em “Adiar”</string>
     <string name="set_default_followup">Verificação de acompanhamento padrão</string>
@@ -544,16 +554,16 @@
     <string name="help_s11_title">Depois de reiniciar o aparelho</string>
     <string name="help_s11_content">- Os lembretes futuros são reagendados automaticamente após reiniciar.\n- Lembretes que já passaram do horário seguem o fluxo de lembretes perdidos em vez de tocar inesperadamente na inicialização.</string>
     <string name="help_s13_title">Verificações de acompanhamento</string>
-    <string name="help_s13_content">- Uma verificação de acompanhamento pergunta \"Você concluiu …?\" alguns minutos depois que um lembrete toca.\n- Por padrão, ela continua se repetindo até você marcar o lembrete como concluído. Você pode definir um limite de repetições em Configurações &gt; Confiabilidade se quiser que ela pare sozinha.\n- Concluído e Adiar encerram o ciclo de acompanhamento atual; o Horário de silêncio também interrompe os acompanhamentos.\n- As verificações de acompanhamento continuam após reiniciar o aparelho até serem concluídas ou o limite ser atingido.</string>
+    <string name="help_s13_content">- Uma verificação de acompanhamento pergunta \"Você concluiu …?\" alguns minutos depois que um lembrete toca.\n- Por padrão, ela continua se repetindo até você marcar o lembrete como concluído. Você pode definir um limite de repetições em Configurações &gt; Adiamento e acompanhamento se quiser que ela pare sozinha.\n- Concluído e Adiar encerram o ciclo de acompanhamento atual; o Horário de silêncio também interrompe os acompanhamentos.\n- As verificações de acompanhamento continuam após reiniciar o aparelho até serem concluídas ou o limite ser atingido.</string>
     <string name="help_s14_title">Backup e importação</string>
     <string name="help_s14_content">- Fazer backup dos lembretes, em Configurações, salva todos os próximos lembretes, incluindo gravações de voz, em um único arquivo que você escolhe.\n- Importar lembretes os restaura neste ou em outro aparelho.\n- A importação ignora duplicatas exatas e lembretes únicos expirados; lembretes recorrentes continuam a partir da próxima ocorrência.\n- Os lembretes importados são agendados imediatamente.</string>
     <string name="help_s12_title">Manter lembretes na tela até concluir</string>
-    <string name="help_s12_content">- Ative Configurações &gt; Confiabilidade &gt; Manter o lembrete na tela até concluir para fixar a notificação do lembrete e evitar que ela seja deslizada para fora por engano.\n- Com isso ativado, deslizar só silencia o som e mantém o lembrete pendente — ele fica até você tocar em Concluído ou Adiar.\n- Marcar como Concluído sempre funciona pela notificação, pelo alerta em tela cheia ou pelo cartão do lembrete, e interrompe qualquer novo alerta de acompanhamento.\n- Combine com uma verificação de acompanhamento para que o lembrete também alerte de novo periodicamente até ser concluído.</string>
+    <string name="help_s12_content">- Ative Configurações &gt; Quando um lembrete toca &gt; Manter o lembrete na tela até concluir para fixar a notificação do lembrete e evitar que ela seja deslizada para fora por engano.\n- Com isso ativado, deslizar só silencia o som e mantém o lembrete pendente — ele fica até você tocar em Concluído ou Adiar.\n- Marcar como Concluído sempre funciona pela notificação, pelo alerta em tela cheia ou pelo cartão do lembrete, e interrompe qualquer novo alerta de acompanhamento.\n- Combine com uma verificação de acompanhamento para que o lembrete também alerte de novo periodicamente até ser concluído.</string>
 
     <!-- What's new sheet -->
     <string name="action_continue">Continuar</string>
     <string name="wn_title">Novidades do %1$s</string>
-    <string name="wn_intro">Esta atualização ajuda a garantir que cada lembrete toque na hora.</string>
+    <string name="wn_intro">Novidades desde a sua última atualização. Muitas foram sugeridas por quem usa o app.</string>
     <string name="wn_check_title">Veja o que pode impedir um lembrete</string>
     <string name="wn_check_desc">A “Verificação de lembretes”, no topo das Configurações, mostra tudo o que pode atrasar ou silenciar os lembretes, como notificações, bateria ou volume de alarme baixo, com um botão para corrigir cada item.</string>
     <string name="wn_reliable_title">Lembretes extraconfiáveis</string>
@@ -564,6 +574,14 @@
     <string name="wn_cards_desc">Cada cartão de lembrete tem botões para editar, concluir e excluir. Excluir pede confirmação e pode ser desfeito.</string>
     <string name="wn_sound_title">O som para quando deve</string>
     <string name="wn_sound_desc">Concluir, excluir ou mudar o horário de um lembrete para o som na hora. Os alarmes de toque voltaram a ter o botão Silenciar.</string>
+    <string name="wn_nthday_title">Repetir na última quinta-feira</string>
+    <string name="wn_nthday_desc">Lembretes mensais podem cair em um dia da semana pela posição no mês, como a primeira segunda-feira ou a última quinta-feira. Escolha Repetir &gt; Mensalmente &gt; Dia da semana.</string>
+    <string name="wn_gap_title">Uma pausa entre repetições</string>
+    <string name="wn_gap_desc">Um lembrete em repetição pode esperar antes de tocar de novo: “Reunião”, 10 segundos de silêncio, “Reunião” de novo, até o horário de parada. Ajuste em Configurações &gt; Quando um lembrete toca &gt; Pausa entre repetições.</string>
+    <string name="wn_colors_title">Suas cores para Concluído e Excluir</string>
+    <string name="wn_colors_desc">Dê suas próprias cores aos botões Concluído e Excluir dos cartões em Configurações &gt; Idioma e aparência &gt; Botões dos cartões.</string>
+    <string name="wn_notif_title">Notificações somem ao abrir o app</string>
+    <string name="wn_notif_desc">Depois que um lembrete toca, abrir o app ou salvar uma alteração nele remove a notificação. Com “Manter notificação até concluir” ativado, abrir o app a mantém.</string>
     <string name="wn_edit_title">Mude a data e o horário no próprio lembrete</string>
     <string name="wn_edit_desc">Abra um lembrete e toque em Data ou Horário para alterar diretamente. Não é preciso abrir o editor antes.</string>
     <string name="wn_clear_title">As notificações se organizam sozinhas</string>
@@ -630,11 +648,55 @@
     <string name="wn_reliability_desc">A reprodução de lembretes agora começa com segurança e imediatamente em primeiro plano, evitando os tempos limite de inicialização vistos em alguns aparelhos com Android 12 e Android 16.</string>
     <string name="settings_24_hour_time">Usar formato de 24 horas</string>
     <string name="settings_24_hour_time_desc">Mostrar todos os horários como 17:30 em vez de 5:30 PM.</string>
+    <string name="set_week_start">A semana começa em</string>
+    <string name="set_week_start_desc">O primeiro dia da semana no seletor de data. Ao escolher um dia, é usado o seletor de data do seu celular.</string>
 
     <!-- Reminder card and actions sheet -->
     <string name="card_recur_onetime">Lembrete único</string>
     <string name="card_recur_daily">Repete diariamente</string>
     <string name="card_recur_last_day">Último dia de cada mês</string>
+    <string name="rs_day_of_week">Dia da semana</string>
+    <string name="rs_which_one">Qual do mês</string>
+    <string name="rs_weekday">Dia</string>
+    <string name="rec_nth_weekday">%1$s %2$s</string>
+    <string name="card_recur_nth_weekday">%1$s de cada mês</string>
+    <string-array name="rs_ordinal_labels">
+        <item>Primeiro</item>
+        <item>Segundo</item>
+        <item>Terceiro</item>
+        <item>Quarto</item>
+        <item>Último</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>Primeiro</item>
+        <item>Segundo</item>
+        <item>Terceiro</item>
+        <item>Quarto</item>
+        <item>Último</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>Primeira</item>
+        <item>Segunda</item>
+        <item>Terceira</item>
+        <item>Quarta</item>
+        <item>Última</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>Primeiro</item>
+        <item>Segundo</item>
+        <item>Terceiro</item>
+        <item>Quarto</item>
+        <item>Último</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>f</item>
+        <item>f</item>
+        <item>f</item>
+        <item>f</item>
+        <item>f</item>
+        <item>m</item>
+        <item>m</item>
+    </string-array>
     <string name="card_recur_yearly">Repete anualmente</string>
     <string name="card_chip_recurring">Recorrente</string>
     <string name="card_days_of_month">Dias do mês</string>
@@ -813,7 +875,20 @@
     <string name="set_section_check">Verificação de lembretes</string>
     <string name="set_section_ringing">Quando um lembrete toca</string>
     <string name="set_sum_check">Permissões, bateria e volume do alarme</string>
-    <string name="set_sum_lang">Idioma do app, tema, formato de hora</string>
+    <string name="set_sum_lang">Idioma do app, tema, formato de hora, cores dos botões</string>
+    <string name="set_card_colors">Botões dos cartões</string>
+    <string name="set_card_colors_desc">Escolha as cores dos botões Concluído e Excluir na tela inicial.</string>
+    <string name="set_card_done_color">Botão Concluído</string>
+    <string name="set_card_delete_color">Botão Excluir / Parar recorrência</string>
+    <string name="color_default">Padrão do app</string>
+    <string name="color_red">Vermelho</string>
+    <string name="color_orange">Laranja</string>
+    <string name="color_green">Verde</string>
+    <string name="color_teal">Verde-azulado</string>
+    <string name="color_blue">Azul</string>
+    <string name="color_purple">Roxo</string>
+    <string name="color_pink">Rosa</string>
+    <string name="color_gray">Cinza</string>
     <string name="set_sum_ringing">Voz ou toque, volume, idioma falado, lembrete de teste</string>
     <string name="set_sum_timing">Tempo de adiamento, acompanhamento, horário de silêncio</string>
     <string name="set_sum_form">Quais opções aparecem ao criar um lembrete</string>
@@ -831,6 +906,12 @@
     <string name="check_volume_bad">O volume do alarme está baixo (%1$d%%), então os lembretes podem ficar difíceis de ouvir</string>
     <string name="check_raise">Aumentar</string>
     <string name="check_fullscreen_bad">Os alertas na tela de bloqueio precisam de permissão</string>
+    <string name="check_alert_off">Os alertas de lembrete estão desativados</string>
+    <string name="check_alert_off_how">Os lembretes ainda tocam, mas não mostram nada. Ative a categoria de notificação “%1$s”.</string>
+    <string name="check_alert_popup">O texto do lembrete pode não aparecer na tela</string>
+    <string name="check_alert_popup_how">Permita notificações pop-up (banners) para a categoria “%1$s”. Alguns celulares chamam de notificações flutuantes.</string>
+    <string name="check_alert_lock">O texto do lembrete está oculto na tela de bloqueio</string>
+    <string name="check_alert_lock_how">Permita que a categoria “%1$s” apareça na tela de bloqueio.</string>
     <string name="check_dnd_bad">Permita o acesso ao Não perturbe para receber alertas nesse modo</string>
     <string name="check_mic_ok">Microfone permitido para lembretes de voz</string>
     <string name="check_mic_bad">Microfone desativado, então não dá para gravar lembretes de voz</string>
@@ -839,4 +920,38 @@
     <string name="set_recommendations">Recomendações e recursos opcionais</string>
     <string name="set_playback_mode">Som do lembrete</string>
     <string name="set_voice_audio_mode">Voz, arquivos de áudio e texto falado</string>
+    <string name="set_voice_check_checking">Verificando a voz para %1$s…</string>
+    <string name="set_voice_check_ok">A voz para %1$s está funcionando.</string>
+    <string name="set_voice_check_alternative">A voz padrão para %1$s não funcionou, mas outra voz nesse idioma está disponível. Você pode gerenciar as vozes abaixo.</string>
+    <string name="set_voice_check_missing">Não foi possível reproduzir a voz para %1$s. Verifique sua conexão ou baixe uma voz nesse idioma e tente novamente.</string>
+    <string name="set_voice_check_no_engine">A conversão de texto em fala está indisponível. Verifique as configurações de texto em fala do celular e tente novamente.</string>
+    <string name="set_voice_download">Baixar vozes</string>
+    <string name="set_voice_check_again">Verificar novamente</string>
+    <string name="set_voice_settings_unavailable">Não foi possível abrir as configurações de conversão de texto em voz do telefone.</string>
+    <string name="set_reset_defaults">Restaurar configurações padrão</string>
+    <string name="set_reset_defaults_desc">Volta cada configuração ao estado da instalação do app. Os lembretes não são alterados.</string>
+    <string name="set_reset_defaults_title">Restaurar todas as configurações?</string>
+    <string name="set_reset_defaults_body">Cada configuração volta ao padrão. Seus lembretes, gravações, idioma do app e permissões do celular continuam como estão.</string>
+    <string name="set_reset_defaults_confirm">Restaurar</string>
+    <string name="set_reset_defaults_done">Configurações restauradas ao padrão</string>
+    <string name="wn_newlang_title">Cinco novos idiomas</string>
+    <string name="wn_newlang_desc">O app agora está disponível em 17 idiomas, incluindo Deutsch, Français, Bahasa Indonesia, Türkçe e 日本語. As datas também seguem a ordem de cada idioma. Escolha em Configurações &gt; Idioma e aparência.</string>
+    <string name="wn_snooze_title">Desative “Adiar”</string>
+    <string name="wn_snooze_desc">Se adiar facilita deixar as coisas para depois, desative Configurações &gt; Adiamento e acompanhamento &gt; Permitir adiar. Assim, “Concluído” passa a ser a única forma de encerrar um lembrete.</string>
+    <string name="wn_week_title">Escolha o primeiro dia da semana</string>
+    <string name="wn_week_desc">Escolha segunda, domingo ou sábado como primeira coluna do seletor de data em Configurações &gt; Idioma e aparência &gt; A semana começa em.</string>
+    <string name="wn_voice_title">Confira se os lembretes podem ser falados</string>
+    <string name="wn_voice_desc">Configurações &gt; Quando um lembrete toca &gt; Idioma falado agora testa se o celular consegue mesmo falar esse idioma e ajuda a baixar uma voz se precisar. Se a voz de sempre falhar, os lembretes tentam outra voz do mesmo idioma.</string>
+    <string name="wn_reset_title">Restaure as configurações de uma vez</string>
+    <string name="wn_reset_desc">Configurações &gt; Backup e restauração &gt; Restaurar configurações padrão volta cada configuração ao estado da instalação do app. Seus lembretes continuam como estão.</string>
+    <string name="wn_call_title">Silêncio durante as ligações</string>
+    <string name="wn_call_desc">Um lembrete só com toque não toca mais durante uma ligação. Ele continua mostrando a notificação e vibrando, como os lembretes falados já faziam.</string>
+    <string name="wn_notifcat_title">A verificação encontra notificações ocultas</string>
+    <string name="wn_notifcat_desc">Alguns celulares desativam sozinhos um tipo de notificação, então o lembrete tocava sem mostrar nada. Configurações &gt; Verificação de lembretes agora avisa quando isso acontece, e Corrigir abre o ajuste certo.</string>
+    <string name="wn_pasttime_title">Mude um lembrete diário para mais cedo</string>
+    <string name="wn_pasttime_desc">Abra um lembrete que se repete e toque em Horário para escolher um horário que já passou hoje. Agora ele começa na próxima vez, como amanhã, em vez de pedir um horário no futuro.</string>
+    <string name="set_privacy_policy">Política de privacidade</string>
+    <string name="set_terms_of_use">Termos de uso</string>
+    <string name="wn_legal_title">Política de privacidade e termos no app</string>
+    <string name="wn_legal_desc">Configurações &gt; Ajuda e sobre agora abre a política de privacidade e os termos de uso do SpeakAlert. Nada mais mudou, e o SpeakAlert continua sem coletar nenhum dado sobre você.</string>
 </resources>

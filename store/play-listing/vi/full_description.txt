@@ -1,0 +1,59 @@
+SpeakAlert là ứng dụng nhắc nhở bằng giọng nói miễn phí và báo thức biết nói: phát lời nhắc thành tiếng bằng chính giọng bạn đã ghi âm, bằng chuyển văn bản thành giọng nói (TTS) hoặc bằng bất kỳ tệp âm thanh nào. Khác với các ứng dụng chỉ có thông báo im lặng, SpeakAlert giúp bạn thực sự nghe thấy lời nhắc, kể cả khi điện thoại ở trong túi hay ở góc phòng.
+
+Hoạt động hoàn toàn ngoại tuyến, không cần tài khoản, không quảng cáo: lời nhắc biết nói và báo thức giọng nói trong một ứng dụng đơn giản, đáng tin cậy.
+
+🎙️ LỜI NHẮC BIẾT NÓI
+• Ghi âm lời nhắc trong vài giây và nghe lại bằng chính giọng bạn đúng lúc
+• Gõ lời nhắc và để giọng đọc tự động đọc to
+• Dùng bất kỳ bản nhạc hay tệp âm thanh nào làm âm báo nhắc
+• Đọc đa ngôn ngữ: lời nhắc tiếng Hindi được đọc bằng tiếng Hindi, tiếng Tây Ban Nha bằng tiếng Tây Ban Nha, tự động
+
+⏰ LÊN LỊCH LINH HOẠT
+• Lời nhắc một lần hoặc lặp lại: hằng ngày, hằng tuần, hằng tháng, hằng năm hoặc khoảng tùy chọn (mỗi 30 phút, mỗi 2 giờ, mỗi 3 ngày…)
+• Kết thúc lặp lại: không bao giờ, vào một ngày hoặc sau số lần đã đặt
+• Nhắc mỗi giờ để uống nước, uống thuốc hay chỉnh tư thế
+• Báo thức chính xác đến từng phút
+
+✅ NHẮC ĐẾN KHI XONG
+• Kiểm tra nhắc lại hỏi "Bạn đã hoàn thành lời nhắc này chưa?" và tiếp tục báo đến khi bạn chọn Xong
+• Giữ lời nhắc trên màn hình đến khi bạn chạm Xong hoặc Báo lại
+• Cảnh báo toàn màn hình trên màn hình khóa với nút lớn Xong / Tắt tiếng / Báo lại
+• Hộp lời nhắc bỏ lỡ và khôi phục: không gì bị trôi qua trong im lặng
+
+🔔 CẢNH BÁO ĐÁNG TIN CẬY
+• Chế độ chỉ chuông: chuông báo thức to cho độ tin cậy tối đa, dùng âm thanh của riêng bạn
+• Báo cả khi bật Không làm phiền (tùy chọn)
+• Lời nhắc vẫn còn sau khi khởi động lại: mọi thứ tự lên lịch lại
+• Hướng dẫn tối ưu pin cho Xiaomi, POCO và các điện thoại hạn chế khác
+
+🎧 NGHE THEO CÁCH CỦA BẠN
+• Phát riêng tư qua loa thoại, tai nghe Bluetooth hoặc máy trợ thính: chỉ bạn nghe thấy
+• Tự động phát, có thể lặp lại đến khi bạn phản hồi
+• Tùy chỉnh thời gian báo lại và giờ yên lặng cho đêm yên giấc
+
+⌚ HỖ TRỢ ĐỒNG HỒ WEAR OS
+• Nhận lời nhắc biết nói trên đồng hồ Wear OS
+• Xử lý lời nhắc ngay trên cổ tay
+
+🧩 TIỆN ÍCH & SẮP XẾP
+• Tiện ích Thêm nhanh tạo lời nhắc ngay từ màn hình chính
+• Tiện ích cuộn hiển thị lời nhắc sắp tới và bị bỏ lỡ
+• Các tab Hôm nay / Sắp tới / Bỏ lỡ / Đã xong, nhân bản bằng một chạm
+
+💾 SAO LƯU & NGÔN NGỮ
+• Sao lưu và khôi phục mọi lời nhắc, kể cả bản ghi âm, sang cả điện thoại mới
+• Ứng dụng có 17 ngôn ngữ: tiếng Anh, Tây Ban Nha, Đức, Pháp, Indonesia, Thổ Nhĩ Kỳ, Nhật, Hindi, Ả Rập, Bồ Đào Nha (Brazil), Nga, Việt, Bengal, Telugu, Tamil, Hy Lạp và Malayalam, hỗ trợ RTL, giao diện sáng và tối
+
+🔒 RIÊNG TƯ, NGOẠI TUYẾN & MIỄN PHÍ
+• 100% ngoại tuyến: không tài khoản, không cần internet
+• Mọi lời nhắc và bản ghi âm đều ở trên thiết bị của bạn
+• Không quảng cáo. Không thuê bao. Hoàn toàn miễn phí.
+
+📌 PHÙ HỢP CHO
+• Nhắc uống thuốc, cho bạn hoặc cha mẹ lớn tuổi
+• Nhắc việc hằng ngày, việc cần làm, cuộc họp và lịch hẹn
+• Uống nước, tập thể dục, nấu ăn và nghỉ giải lao
+• Hóa đơn, việc vặt, đưa đón và sinh nhật
+• Người cao tuổi và bất kỳ ai thích nghe lời nhắc hơn là đọc thông báo im lặng
+
+Hầu hết ứng dụng nhắc nhở chỉ dựa vào thông báo im lặng. SpeakAlert dùng âm thanh và giọng nói để bạn không bỏ lỡ điều quan trọng. Hãy cho lời nhắc của bạn một giọng nói: tải ứng dụng nhắc nhở SpeakAlert miễn phí ngay hôm nay.

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quick_title">Démarrage rapide</string>
+    <string name="quick_progress">Étape %1$d sur %2$d</string>
+    <string name="quick_back">Retour</string>
+    <string name="quick_next">Suivant</string>
+    <string name="quick_finish">Commencer</string>
+    <string name="quick_later">Fermer : à retrouver dans l’Aide</string>
+    <string name="quick_create_title">Créez votre premier rappel</string>
+    <string name="quick_create_body">Touchez + pour ajouter un rappel. Enregistrez votre voix, choisissez un fichier audio ou saisissez un message qui sera lu à voix haute. L’accès au micro n’est nécessaire que pour enregistrer.\n\nChoisissez une date et une heure à venir. Pour un rappel récurrent, choisissez sa fréquence. Écoutez votre enregistrement, puis touchez Enregistrer.\n\nAujourd’hui affiche les rappels du jour. À venir affiche les dates ultérieures.</string>
+    <string name="quick_ready_title">Assurez-vous de l’entendre</string>
+    <string name="quick_ready_body">Autorisez les notifications quand on vous le demande. Dans les Paramètres, vérifiez l’accès aux alarmes exactes et les réglages de batterie en arrière-plan pour qu’Android puisse délivrer les rappels de façon fiable.\n\nPour les alertes vocales, gardez la lecture automatique activée et le mode sonnerie seule désactivé. Les messages saisis nécessitent aussi la lecture du texte. Montez le volume d’alarme ; l’écoute privée utilise un casque ou l’écouteur du téléphone.\n\nLes heures calmes et les réglages de lecture sur l’écran de verrouillage peuvent changer le moment où vous entendez la voix. Vous pouvez les revoir dans les Paramètres.</string>
+    <string name="quick_actions_title">Terminé, Reporter ou Silence ?</string>
+    <string name="quick_actions_body">Reporter retarde l’alerte en cours ; une répétition programmée continue ensuite. Silence arrête le son mais laisse le rappel en attente.\n\nTerminé sur une alerte clôt cette occurrence et arrête ses relances. Les rappels récurrents continuent à leur prochaine heure.\n\nDans À venir, marquer une occurrence récurrente comme terminée saute cette occurrence future. Cela ne met pas toute la répétition en pause. Un rappel ponctuel passe dans Terminés, où vous pouvez le reprogrammer.</string>
+    <string name="quick_try_title">Essayez-en un avant de vous y fier</string>
+    <string name="quick_try_body">Créez un rappel pour dans deux minutes. Verrouillez votre téléphone et attendez la notification et la voix. Essayez ensuite Reporter et Terminé.\n\nSi une notification apparaît sans voix, essayez Lire ou Réécouter. Vérifiez les réglages de lecture, le volume et les écouteurs connectés. Manqués affiche les rappels qui n’ont pas pu être délivrés normalement ; pour un rappel en retard, il faudra peut-être toucher Lire.\n\nUtilisez l’Aide de l’écran d’accueil ou le Guide de l’application dans les Paramètres pour rouvrir ces étapes à tout moment.</string>
+    <string name="quick_settings_title">Adaptez les Paramètres à vos besoins</string>
+    <string name="quick_review_settings">Voir les Paramètres</string>
+    <string name="quick_settings_body">Prenez un moment pour parcourir les Paramètres. Vous pouvez garder les réglages par défaut et les changer plus tard.\n\nVérification des rappels, en haut, indique si les rappels peuvent sonner à l’heure. Corrigez tout ce qu’elle signale.\n\nLangue et apparence règle la langue de l’application, le thème et le format de l’heure.\n\nQuand un rappel sonne : choisissez la voix ou la sonnerie, le volume, la langue parlée et l’écoute privée, puis lancez un rappel de test.\n\nReport et relance règle la durée du report, les relances et les heures calmes. Formulaire de rappel choisit les champs que vous voyez, et Sauvegarde enregistre vos rappels et enregistrements.</string>
+</resources>

@@ -378,6 +378,9 @@
     <string name="set_private_bt">Private playback on. Bluetooth routing needs nearby devices permission.</string>
     <string name="set_tone_only">Tone-only mode</string>
     <string name="set_tone_only_desc">Play an alarm tone instead of recordings or speech. Stops after: %1$s. Snooze: %2$dm.</string>
+    <string name="set_tone_only_desc_no_snooze">Play an alarm tone instead of recordings or speech. Stops after: %1$s.</string>
+    <string name="set_snooze_enabled">Allow snooze</string>
+    <string name="set_snooze_enabled_desc">Show Snooze on reminder alerts and notifications. Turn it off so the only way past a reminder is Done.</string>
     <string name="set_toast_tone_on">Tone-only mode on</string>
     <string name="set_toast_tone_off">Tone-only mode off</string>
     <string name="set_infinite">Infinite</string>
@@ -471,6 +474,13 @@
     <string name="set_volume">Volume</string>
     <string name="set_cd_volume">App Volume: %1$d%%</string>
     <string name="set_loop_inline_desc">Stops the tone or looping audio after this time. Follow-up reminders are separate alerts later.</string>
+    <string name="set_loop_gap">Pause between repeats</string>
+    <string name="set_loop_gap_desc">Silence before a looping reminder plays again. The stop time above still ends the loop. Tones ring without pausing.</string>
+    <string name="set_loop_gap_none">None</string>
+    <string name="set_seconds_short">%1$ds</string>
+    <string name="set_seconds">Seconds</string>
+    <string name="set_max_allowed_seconds">Max allowed: %1$d sec</string>
+    <string name="set_desc_max_seconds">%1$s (Max %2$ds)</string>
     <string name="set_default_snooze">Default snooze</string>
     <string name="set_snooze_inline_desc">How long the reminder is delayed when you tap Snooze</string>
     <string name="set_default_followup">Default follow-up check</string>
@@ -541,16 +551,16 @@
     <string name="help_s11_title">After device restart</string>
     <string name="help_s11_content">- Future reminders are rescheduled automatically after restart.\n- Past-due reminders go through the missed reminder flow instead of firing unexpectedly on boot.</string>
     <string name="help_s13_title">Follow-up checks</string>
-    <string name="help_s13_content">- A follow-up check asks \"Did you complete …?\" a few minutes after a reminder fires.\n- By default it keeps repeating until you mark the reminder done. You can set a repeat limit in Settings &gt; Reliability if you want it to stop on its own.\n- Done and Snooze end the current follow-up cycle; Quiet Time also stops follow-ups.\n- Follow-up checks continue after a device restart until done or the limit is reached.</string>
+    <string name="help_s13_content">- A follow-up check asks \"Did you complete …?\" a few minutes after a reminder fires.\n- By default it keeps repeating until you mark the reminder done. You can set a repeat limit in Settings &gt; Snooze &amp; follow-up if you want it to stop on its own.\n- Done and Snooze end the current follow-up cycle; Quiet Time also stops follow-ups.\n- Follow-up checks continue after a device restart until done or the limit is reached.</string>
     <string name="help_s14_title">Backup and import</string>
     <string name="help_s14_content">- Back up reminders in Settings saves all upcoming reminders, including voice recordings, to a single file you choose.\n- Import reminders restores them on this or another device.\n- Imports skip exact duplicates and expired one-time reminders; recurring reminders continue from their next occurrence.\n- Imported reminders are scheduled immediately.</string>
     <string name="help_s12_title">Keep reminders on screen until done</string>
-    <string name="help_s12_content">- Turn on Settings &gt; Reliability &gt; Keep reminder on screen until done to pin the reminder notification so it isn\'t swiped away by accident.\n- While it is on, a swipe only silences the sound and leaves the reminder pending — it stays until you tap Done or Snooze.\n- Marking Done always works from the notification, the full-screen alert, or the reminder card, and it stops any follow-up re-alerts.\n- Pair it with a follow-up check so the reminder also re-alerts on a timer until it is completed.</string>
+    <string name="help_s12_content">- Turn on Settings &gt; When a reminder rings &gt; Keep reminder on screen until done to pin the reminder notification so it isn\'t swiped away by accident.\n- While it is on, a swipe only silences the sound and leaves the reminder pending — it stays until you tap Done or Snooze.\n- Marking Done always works from the notification, the full-screen alert, or the reminder card, and it stops any follow-up re-alerts.\n- Pair it with a follow-up check so the reminder also re-alerts on a timer until it is completed.</string>
 
     <!-- What's new sheet -->
     <string name="action_continue">Continue</string>
     <string name="wn_title">What\'s new in %1$s</string>
-    <string name="wn_intro">This update helps make sure every reminder rings on time.</string>
+    <string name="wn_intro">New since your last update. Many of these were suggested by people who use the app.</string>
     <string name="wn_check_title">See what could stop a reminder</string>
     <string name="wn_check_desc">Reminder check, at the top of Settings, shows anything that could make reminders late or silent, such as notifications, battery or a low alarm volume, with a button to fix each one.</string>
     <string name="wn_reliable_title">Extra-reliable reminders</string>
@@ -561,6 +571,14 @@
     <string name="wn_cards_desc">Each reminder card has Edit, Done and Delete buttons. Deleting asks first and can be undone.</string>
     <string name="wn_sound_title">Sound stops when it should</string>
     <string name="wn_sound_desc">Marking a reminder done, deleting it or changing its time stops its sound right away. Tone alarms have a Silence button again.</string>
+    <string name="wn_nthday_title">Repeat on the last Thursday</string>
+    <string name="wn_nthday_desc">Monthly reminders can fall on a weekday by its place in the month, such as the first Monday or the last Thursday. Choose Repeat &gt; Monthly &gt; Day of week.</string>
+    <string name="wn_gap_title">A pause between repeats</string>
+    <string name="wn_gap_desc">A looping reminder can wait before it plays again: “Meeting”, 10 seconds of quiet, “Meeting” again, until its stop time. Set it in Settings &gt; When a reminder rings &gt; Pause between repeats.</string>
+    <string name="wn_colors_title">Your colors for Done and Delete</string>
+    <string name="wn_colors_desc">Give the Done and Delete buttons on reminder cards your own colors in Settings &gt; Language &amp; appearance &gt; Reminder card buttons.</string>
+    <string name="wn_notif_title">Notifications clear when you open the app</string>
+    <string name="wn_notif_desc">After a reminder rings, opening the app or saving a change to the reminder clears its notification. With “Keep notification until done” on, opening the app leaves it.</string>
     <string name="wn_edit_title">Change the date and time in place</string>
     <string name="wn_edit_desc">Open a reminder and tap Date or Time to change it directly. No need to open the editor first.</string>
     <string name="wn_clear_title">Notifications tidy themselves up</string>
@@ -627,11 +645,55 @@
     <string name="wn_reliability_desc">Reminder playback now starts safely and immediately in the foreground, preventing startup timeouts seen on some Android 12 and Android 16 devices.</string>
     <string name="settings_24_hour_time">Use 24-hour time</string>
     <string name="settings_24_hour_time_desc">Show every time as 17:30 instead of 5:30 PM.</string>
+    <string name="set_week_start">Week starts on</string>
+    <string name="set_week_start_desc">The first day of the week in the date picker. A chosen day uses the phone\'s own date picker.</string>
 
     <!-- Reminder card and actions sheet -->
     <string name="card_recur_onetime">One-time reminder</string>
     <string name="card_recur_daily">Repeats daily</string>
     <string name="card_recur_last_day">Last day of each month</string>
+    <string name="rs_day_of_week">Day of week</string>
+    <string name="rs_which_one">Which one in the month</string>
+    <string name="rs_weekday">Weekday</string>
+    <string name="rec_nth_weekday">%1$s %2$s</string>
+    <string name="card_recur_nth_weekday">%1$s of each month</string>
+    <string-array name="rs_ordinal_labels">
+        <item>First</item>
+        <item>Second</item>
+        <item>Third</item>
+        <item>Fourth</item>
+        <item>Last</item>
+    </string-array>
+    <string-array name="rec_ordinal_m">
+        <item>First</item>
+        <item>Second</item>
+        <item>Third</item>
+        <item>Fourth</item>
+        <item>Last</item>
+    </string-array>
+    <string-array name="rec_ordinal_f">
+        <item>First</item>
+        <item>Second</item>
+        <item>Third</item>
+        <item>Fourth</item>
+        <item>Last</item>
+    </string-array>
+    <string-array name="rec_ordinal_n">
+        <item>First</item>
+        <item>Second</item>
+        <item>Third</item>
+        <item>Fourth</item>
+        <item>Last</item>
+    </string-array>
+    <string-array name="weekday_gender">
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+    </string-array>
     <string name="card_recur_yearly">Repeats yearly</string>
     <string name="card_chip_recurring">Recurring</string>
     <string name="card_days_of_month">Days of month</string>
@@ -808,7 +870,20 @@
     <string name="set_section_check">Reminder check</string>
     <string name="set_section_ringing">When a reminder rings</string>
     <string name="set_sum_check">Permissions, battery and alarm volume</string>
-    <string name="set_sum_lang">App language, theme, time format</string>
+    <string name="set_sum_lang">App language, theme, time format, button colors</string>
+    <string name="set_card_colors">Reminder card buttons</string>
+    <string name="set_card_colors_desc">Choose colors for the Done and Delete buttons on Home.</string>
+    <string name="set_card_done_color">Done button</string>
+    <string name="set_card_delete_color">Delete / Stop recurring button</string>
+    <string name="color_default">App default</string>
+    <string name="color_red">Red</string>
+    <string name="color_orange">Orange</string>
+    <string name="color_green">Green</string>
+    <string name="color_teal">Teal</string>
+    <string name="color_blue">Blue</string>
+    <string name="color_purple">Purple</string>
+    <string name="color_pink">Pink</string>
+    <string name="color_gray">Gray</string>
     <string name="set_sum_ringing">Voice or tone, volume, spoken language, test reminder</string>
     <string name="set_sum_timing">Snooze length, follow-up checks, quiet hours</string>
     <string name="set_sum_form">Which options show when you add a reminder</string>
@@ -826,6 +901,12 @@
     <string name="check_volume_bad">Alarm volume is low (%1$d%%), so reminders may be hard to hear</string>
     <string name="check_raise">Raise</string>
     <string name="check_fullscreen_bad">Lock-screen alerts need permission</string>
+    <string name="check_alert_off">Reminder alerts are switched off</string>
+    <string name="check_alert_off_how">Reminders still ring but show nothing. Turn on the “%1$s” notification category.</string>
+    <string name="check_alert_popup">Reminder text may not pop up on screen</string>
+    <string name="check_alert_popup_how">Allow pop-up (banner) notifications for the “%1$s” category. Some phones call them floating notifications.</string>
+    <string name="check_alert_lock">Reminder text is hidden on the lock screen</string>
+    <string name="check_alert_lock_how">Allow the “%1$s” category to show on the lock screen.</string>
     <string name="check_dnd_bad">Allow DND access to alert during Do Not Disturb</string>
     <string name="check_mic_ok">Microphone allowed for voice reminders</string>
     <string name="check_mic_bad">Microphone off, so voice reminders can\'t be recorded</string>
@@ -834,4 +915,39 @@
     <string name="set_recommendations">Recommendations &amp; optional features</string>
     <string name="set_playback_mode">Reminder sound</string>
     <string name="set_voice_audio_mode">Voice, audio files &amp; spoken text</string>
+    <!-- Spoken language voice check (Settings) -->
+    <string name="set_voice_check_checking">Checking the voice for %1$s…</string>
+    <string name="set_voice_check_ok">The voice for %1$s is working.</string>
+    <string name="set_voice_check_alternative">The default voice for %1$s did not work, but another voice in this language is available. You can manage voices below.</string>
+    <string name="set_voice_check_missing">Could not play a voice for %1$s. Check your connection or download a voice for this language, then try again.</string>
+    <string name="set_voice_check_no_engine">Text-to-speech is unavailable. Check your phone’s text-to-speech settings, then try again.</string>
+    <string name="set_voice_download">Download voices</string>
+    <string name="set_voice_check_again">Check again</string>
+    <string name="set_voice_settings_unavailable">Couldn\'t open the phone\'s text-to-speech settings.</string>
+    <string name="set_reset_defaults">Reset settings to defaults</string>
+    <string name="set_reset_defaults_desc">Put every setting back to how it was when the app was installed. Reminders are not changed.</string>
+    <string name="set_reset_defaults_title">Reset all settings?</string>
+    <string name="set_reset_defaults_body">Every setting goes back to its default. Your reminders, recordings, app language and phone permissions stay as they are.</string>
+    <string name="set_reset_defaults_confirm">Reset</string>
+    <string name="set_reset_defaults_done">Settings reset to defaults</string>
+    <string name="wn_newlang_title">Five new languages</string>
+    <string name="wn_newlang_desc">The app is now in 17 languages, adding Deutsch, Français, Bahasa Indonesia, Türkçe and 日本語. Dates follow each language\'s own order too. Choose one in Settings &gt; Language &amp; appearance.</string>
+    <string name="wn_snooze_title">Turn off Snooze</string>
+    <string name="wn_snooze_desc">If snoozing makes it too easy to put things off, turn off Settings &gt; Snooze &amp; follow-up &gt; Allow snooze. Then Done is the only way past a reminder.</string>
+    <string name="wn_week_title">Choose the first day of the week</string>
+    <string name="wn_week_desc">Make Monday, Sunday or Saturday the first column of the date picker in Settings &gt; Language &amp; appearance &gt; Week starts on.</string>
+    <string name="wn_voice_title">Check that reminders can be spoken</string>
+    <string name="wn_voice_desc">Settings &gt; When a reminder rings &gt; Spoken language now tests whether your phone can really speak that language, and helps you download a voice if it can\'t. If the usual voice fails, reminders try another voice in the same language.</string>
+    <string name="wn_reset_title">Reset settings in one step</string>
+    <string name="wn_reset_desc">Settings &gt; Backup &amp; restore &gt; Reset settings to defaults puts every setting back to how it was when the app was installed. Your reminders stay as they are.</string>
+    <string name="wn_call_title">Quiet during phone calls</string>
+    <string name="wn_call_desc">A tone-only reminder no longer rings over a phone call. It still shows its notification and vibrates, as spoken reminders already did.</string>
+    <string name="wn_notifcat_title">Reminder check finds hidden notifications</string>
+    <string name="wn_notifcat_desc">Some phones switch off one kind of notification on their own, so a reminder rang but showed nothing. Settings &gt; Reminder check now warns when that happens, and Fix opens the right setting.</string>
+    <string name="wn_pasttime_title">Move a daily reminder to an earlier time</string>
+    <string name="wn_pasttime_desc">Open a repeating reminder and tap Time to pick a time that has already passed today. It now starts at its next turn, such as tomorrow, instead of asking for a time in the future.</string>
+    <string name="set_privacy_policy">Privacy policy</string>
+    <string name="set_terms_of_use">Terms of use</string>
+    <string name="wn_legal_title">Privacy policy and terms in the app</string>
+    <string name="wn_legal_desc">Settings &gt; Help &amp; about now opens SpeakAlert\'s privacy policy and terms of use. Nothing else changed, and SpeakAlert still collects nothing about you.</string>
 </resources>

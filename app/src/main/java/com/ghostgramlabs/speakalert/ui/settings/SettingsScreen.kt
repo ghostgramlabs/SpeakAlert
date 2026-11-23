@@ -49,6 +49,9 @@ import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.semantics.selected
+import com.ghostgramlabs.speakalert.ui.theme.CardButtonColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -58,6 +61,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.core.app.NotificationManagerCompat
 import com.ghostgramlabs.speakalert.alarm.NotificationHelper
+import com.ghostgramlabs.speakalert.data.repository.SettingsRepository
 import com.ghostgramlabs.speakalert.util.APP_DISPLAY_NAME
 import com.ghostgramlabs.speakalert.util.BatteryOptimizationSupport
 import com.ghostgramlabs.speakalert.util.FullScreenIntentSupport
@@ -90,6 +94,8 @@ fun SettingsScreen(
     var isCheckingWearStatus by remember { mutableStateOf(true) }
     var wearRefreshTick by remember { mutableIntStateOf(0) }
     var appNotificationStatus by remember { mutableStateOf(readAppNotificationStatus(context)) }
+    // Bumped by "Reset settings to defaults" so switches backed by SharedPreferences re-read.
+    var settingsResetCount by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(context, wearRefreshTick) {
         isCheckingWearStatus = true
@@ -122,7 +128,8 @@ fun SettingsScreen(
     val defaultSnoozeDuration by viewModel.defaultSnoozeDuration.collectAsState()
     val defaultFollowUpMinutes by viewModel.defaultFollowUpMinutes.collectAsState()
     val loopTimeoutMinutes by viewModel.loopTimeoutMinutes.collectAsState()
-    
+    val loopGapSeconds by viewModel.loopGapSeconds.collectAsState()
+
     // Quiet Time state
     val quietTimeEnabled by viewModel.quietTimeEnabled.collectAsState()
     val startHour by viewModel.quietTimeStartHour.collectAsState()
@@ -145,7 +152,14 @@ fun SettingsScreen(
     val showTypedReminderSection by viewModel.showTypedReminderSection.collectAsState()
     val showShortLabelSection by viewModel.showShortLabelSection.collectAsState()
     val toneAutoStopLabel = if (loopTimeoutMinutes == 0) stringResource(R.string.set_infinite) else stringResource(R.string.set_minutes_short, loopTimeoutMinutes)
-    val toneOnlySubtitle = stringResource(R.string.set_tone_only_desc, toneAutoStopLabel, defaultSnoozeDuration)
+    var snoozeEnabled by remember(settingsResetCount) {
+        mutableStateOf(com.ghostgramlabs.speakalert.util.SnoozePreferences.snoozeEnabled(context))
+    }
+    val toneOnlySubtitle = if (snoozeEnabled) {
+        stringResource(R.string.set_tone_only_desc, toneAutoStopLabel, defaultSnoozeDuration)
+    } else {
+        stringResource(R.string.set_tone_only_desc_no_snooze, toneAutoStopLabel)
+    }
     val tonePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -210,11 +224,42 @@ fun SettingsScreen(
             val hasMicPerm = androidx.core.content.ContextCompat.checkSelfPermission(
                 context, Manifest.permission.RECORD_AUDIO
             ) == android.content.pm.PackageManager.PERMISSION_GRANTED
-            val hasNotifPerm = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Before Android 13 there is no permission, but the app's notifications can still be
+            // switched off; re-read whenever the screen resumes from the system settings.
+            val appNotificationsOn = remember(wearRefreshTick) {
+                NotificationManagerCompat.from(context).areNotificationsEnabled()
+            }
+            val hasNotifPerm = appNotificationsOn && if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 androidx.core.content.ContextCompat.checkSelfPermission(
                     context, Manifest.permission.POST_NOTIFICATIONS
                 ) == android.content.pm.PackageManager.PERMISSION_GRANTED
             } else true
+            // The categories alerts are posted to can be switched off one by one. A reminder
+            // then rings but shows nothing, which reads as "the app has no banner".
+            val alertChannelIssue = remember(
+                wearRefreshTick, toneOnlyMode, dndBypassEnabled, dndPolicyAccessGranted, fullScreenAlertEnabled
+            ) {
+                com.ghostgramlabs.speakalert.alarm.AlertChannelHealth.check(
+                    context,
+                    toneOnlyMode = toneOnlyMode,
+                    dndBypassEnabled = dndBypassEnabled,
+                    fullScreenAlertEnabled = fullScreenAlertEnabled
+                )
+            }
+            val openAlertChannel: (String) -> Unit = { channelId ->
+                runCatching {
+                    context.startActivity(Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
+                        putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                        putExtra(Settings.EXTRA_CHANNEL_ID, channelId)
+                    })
+                }.onFailure {
+                    context.startActivity(Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                        putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                    })
+                }
+            }
+            val alertsBlocked = hasNotifPerm &&
+                alertChannelIssue?.problem == com.ghostgramlabs.speakalert.alarm.AlertChannelProblem.BLOCKED
             val canScheduleAlarms = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 context.getSystemService(AlarmManager::class.java).canScheduleExactAlarms()
             } else true
@@ -235,7 +280,7 @@ fun SettingsScreen(
             val alarmVolumeLow = (toneOnlyMode || !privatePlaybackEnabled) && alarmVolumePercent < 50
             val fullScreenNeedsAccess = fullScreenAlertEnabled && !fullScreenAccessGranted
             val dndNeedsAccess = dndBypassEnabled && !dndPolicyAccessGranted
-            val reminderCheckOk = hasNotifPerm && canScheduleAlarms
+            val reminderCheckOk = hasNotifPerm && canScheduleAlarms && !alertsBlocked
             val noBatterySettings = stringResource(R.string.bog_no_battery_settings)
 
             CollapsibleSettingsSection(
@@ -266,6 +311,16 @@ fun SettingsScreen(
                         })
                     }
                 )
+                if (alertsBlocked && alertChannelIssue != null) {
+                    CheckRow(
+                        ok = false,
+                        required = true,
+                        text = stringResource(R.string.check_alert_off),
+                        detail = stringResource(R.string.check_alert_off_how, alertChannelIssue.channelName),
+                        actionLabel = stringResource(R.string.set_fix),
+                        onAction = { openAlertChannel(alertChannelIssue.channelId) }
+                    )
+                }
                 CheckRow(
                     ok = canScheduleAlarms,
                     required = true,
@@ -292,6 +347,20 @@ fun SettingsScreen(
                         }
                     }
                 )
+                // Shows nothing when fine: most phones never change these.
+                if (hasNotifPerm && alertChannelIssue != null && !alertsBlocked) {
+                    val popup = alertChannelIssue.problem == com.ghostgramlabs.speakalert.alarm.AlertChannelProblem.NO_POPUP
+                    CheckRow(
+                        ok = false,
+                        text = stringResource(if (popup) R.string.check_alert_popup else R.string.check_alert_lock),
+                        detail = stringResource(
+                            if (popup) R.string.check_alert_popup_how else R.string.check_alert_lock_how,
+                            alertChannelIssue.channelName
+                        ),
+                        actionLabel = stringResource(R.string.set_fix),
+                        onAction = { openAlertChannel(alertChannelIssue.channelId) }
+                    )
+                }
                 // Only when it is a problem: "loud enough (85%)" raised more questions than it
                 // answered, and the summary line already says when everything is fine.
                 if (alarmVolumeLow) {
@@ -349,7 +418,7 @@ fun SettingsScreen(
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
-                var alarmClockDelivery by remember {
+                var alarmClockDelivery by remember(settingsResetCount) {
                     mutableStateOf(com.ghostgramlabs.speakalert.util.AlarmDeliveryPreferences.useAlarmClock(context))
                 }
                 val nextReminderAt by viewModel.nextReminderAt.collectAsState()
@@ -450,12 +519,48 @@ fun SettingsScreen(
                 }
 
                 Spacer(Modifier.height(16.dp))
+                CardButtonColorsSetting(viewModel)
+
+                Spacer(Modifier.height(16.dp))
                 SwitchRow(
                     text = stringResource(R.string.settings_24_hour_time),
                     description = stringResource(R.string.settings_24_hour_time_desc),
                     checked = use24HourTime,
                     onCheckedChange = viewModel::setUse24HourTime
                 )
+
+                // Week starts on: the first weekday column in date pickers.
+                Spacer(Modifier.height(16.dp))
+                var weekStart by remember(settingsResetCount) {
+                    mutableStateOf(com.ghostgramlabs.speakalert.util.WeekStartPreferences.firstDayOfWeek(context))
+                }
+                Text(stringResource(R.string.set_week_start), style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    stringResource(R.string.set_week_start_desc),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Row(
+                    modifier = Modifier.padding(top = 4.dp).fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    listOf(
+                        0 to R.string.theme_system,
+                        java.util.Calendar.MONDAY to R.string.day_mon,
+                        java.util.Calendar.SUNDAY to R.string.day_sun,
+                        java.util.Calendar.SATURDAY to R.string.day_sat
+                    ).forEach { (day, label) ->
+                        SnoozeOptionChip(
+                            text = stringResource(label),
+                            isSelected = weekStart == day,
+                            onClick = {
+                                weekStart = day
+                                com.ghostgramlabs.speakalert.util.WeekStartPreferences.setFirstDayOfWeek(context, day)
+                            },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
                 Spacer(Modifier.height(16.dp))
                 UnnamedReminderTitleSetting()
             }
@@ -552,6 +657,7 @@ fun SettingsScreen(
                         )
                     }
                 }
+                SpokenVoiceCheck(ttsLanguageMode = ttsLanguageMode, modifier = Modifier.padding(top = 8.dp))
 
                 SwitchRow(
                     text = stringResource(R.string.set_private),
@@ -764,6 +870,59 @@ fun SettingsScreen(
                     }
                 }
 
+                // Pause between loop repeats
+                Text(stringResource(R.string.set_loop_gap), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 8.dp))
+                Text(
+                    stringResource(R.string.set_loop_gap_desc),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                val gapPresets = listOf(5, 10, 30)
+                val isCustomGap = loopGapSeconds != 0 && loopGapSeconds !in gapPresets
+                Row(
+                    modifier = Modifier.padding(top = 4.dp).fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    SnoozeOptionChip(
+                        text = stringResource(R.string.set_loop_gap_none),
+                        isSelected = loopGapSeconds == 0,
+                        onClick = { viewModel.setLoopGapSeconds(0) },
+                        modifier = Modifier.weight(1f)
+                    )
+                    gapPresets.forEach { secs ->
+                        SnoozeOptionChip(
+                            text = stringResource(R.string.set_seconds_short, secs),
+                            isSelected = loopGapSeconds == secs,
+                            onClick = { viewModel.setLoopGapSeconds(secs) },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+                Row(modifier = Modifier.padding(top = 8.dp).fillMaxWidth()) {
+                    var showCustomGapDialog by remember { mutableStateOf(false) }
+                    SnoozeOptionChip(
+                        text = if (isCustomGap) stringResource(R.string.set_seconds_short, loopGapSeconds) else stringResource(R.string.set_custom),
+                        isSelected = isCustomGap,
+                        onClick = { showCustomGapDialog = true },
+                        modifier = Modifier.widthIn(min = 96.dp)
+                    )
+
+                    if (showCustomGapDialog) {
+                        CustomDurationDialog(
+                            title = stringResource(R.string.set_loop_gap),
+                            initialValue = if (isCustomGap) loopGapSeconds else 15,
+                            maxMinutes = SettingsRepository.MAX_LOOP_GAP_SECONDS,
+                            description = stringResource(R.string.set_loop_gap_desc),
+                            inSeconds = true,
+                            onDismiss = { showCustomGapDialog = false },
+                            onSave = {
+                                viewModel.setLoopGapSeconds(it)
+                                showCustomGapDialog = false
+                            }
+                        )
+                    }
+                }
+
                 Spacer(modifier = Modifier.height(8.dp))
                 val persistUntilDone by viewModel.persistUntilDone.collectAsState()
                 SwitchRow(
@@ -847,7 +1006,20 @@ fun SettingsScreen(
                 summary = stringResource(R.string.set_sum_timing),
                 initiallyExpanded = false
             ) {
+                // Allow snooze: off removes Snooze from every alert, so only Done moves past one.
+                SwitchRow(
+                    text = stringResource(R.string.set_snooze_enabled),
+                    description = stringResource(R.string.set_snooze_enabled_desc),
+                    checked = snoozeEnabled,
+                    onCheckedChange = {
+                        snoozeEnabled = it
+                        com.ghostgramlabs.speakalert.util.SnoozePreferences.setSnoozeEnabled(context, it)
+                    }
+                )
+
                 // Snooze Duration
+                if (snoozeEnabled) {
+                Spacer(modifier = Modifier.height(12.dp))
                 Text(stringResource(R.string.set_default_snooze), style = MaterialTheme.typography.bodyMedium)
                 Text(
                     stringResource(R.string.set_snooze_inline_desc),
@@ -892,6 +1064,7 @@ fun SettingsScreen(
                             }
                         )
                     }
+                }
                 }
 
                 Divider(modifier = Modifier.padding(vertical = 12.dp))
@@ -1281,6 +1454,22 @@ fun SettingsScreen(
                     )
                 }
 
+                Divider()
+
+                // Google Play's User Data policy wants the privacy policy reachable inside the app.
+                LegalLinkRow(
+                    icon = Icons.Default.PrivacyTip,
+                    title = stringResource(R.string.set_privacy_policy),
+                    url = PRIVACY_POLICY_URL,
+                    context = context
+                )
+                LegalLinkRow(
+                    icon = Icons.Default.Description,
+                    title = stringResource(R.string.set_terms_of_use),
+                    url = TERMS_OF_USE_URL,
+                    context = context
+                )
+
                 // The "Rate SpeakAlert" row is deliberately absent. Rating is now only ever
                 // offered by the automatic prompt, which waits for a week of delivered reminders
                 // and steps aside when one was just missed - so the people it reaches have
@@ -1414,6 +1603,57 @@ fun SettingsScreen(
                         Icons.Default.ChevronRight,
                         contentDescription = null,
                         modifier = Modifier.mirrorInRtl()
+                    )
+                }
+                Divider()
+                var showResetDialog by remember { mutableStateOf(false) }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { showResetDialog = true }
+                        .padding(vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.RestartAlt,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(Modifier.width(16.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            stringResource(R.string.set_reset_defaults),
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.Medium
+                        )
+                        Text(
+                            stringResource(R.string.set_reset_defaults_desc),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+                if (showResetDialog) {
+                    val resetDone = stringResource(R.string.set_reset_defaults_done)
+                    AlertDialog(
+                        onDismissRequest = { showResetDialog = false },
+                        title = { Text(stringResource(R.string.set_reset_defaults_title)) },
+                        text = { Text(stringResource(R.string.set_reset_defaults_body)) },
+                        confirmButton = {
+                            TextButton(onClick = {
+                                showResetDialog = false
+                                viewModel.resetToDefaults(context) {
+                                    settingsResetCount++
+                                    android.widget.Toast.makeText(context, resetDone, android.widget.Toast.LENGTH_SHORT).show()
+                                }
+                            }) { Text(stringResource(R.string.set_reset_defaults_confirm)) }
+                        },
+                        dismissButton = {
+                            TextButton(onClick = { showResetDialog = false }) {
+                                Text(stringResource(R.string.action_cancel))
+                            }
+                        }
                     )
                 }
             }
@@ -1625,6 +1865,54 @@ private fun settingsSectionIcon(icon: String): ImageVector {
         "Help" -> Icons.Default.Help
         "Dev" -> Icons.Default.Build
         else -> Icons.Default.Settings
+    }
+}
+
+private const val PRIVACY_POLICY_URL = "https://ghostgramlabs.com/SpeakAlert/privacy.html"
+private const val TERMS_OF_USE_URL = "https://ghostgramlabs.com/SpeakAlert/terms.html"
+
+/** A Help & About row that opens one of the published legal pages in the browser. */
+@Composable
+private fun LegalLinkRow(
+    icon: ImageVector,
+    title: String,
+    url: String,
+    context: android.content.Context
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url))
+                    .addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+                try {
+                    context.startActivity(intent)
+                } catch (_: android.content.ActivityNotFoundException) {
+                    // No browser: show the address so it can still be opened elsewhere.
+                    Toast.makeText(context, url, Toast.LENGTH_LONG).show()
+                }
+            }
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(24.dp)
+        )
+        Spacer(Modifier.width(16.dp))
+        Text(
+            title,
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.Medium,
+            modifier = Modifier.weight(1f)
+        )
+        Icon(
+            Icons.Default.OpenInNew,
+            contentDescription = null,
+            modifier = Modifier.mirrorInRtl()
+        )
     }
 }
 
@@ -1921,6 +2209,145 @@ private fun TimePickerButton(
     }
 }
 
+/** Colors for the Done and Delete buttons on Home's reminder cards, with a live preview. */
+@Composable
+private fun CardButtonColorsSetting(viewModel: SettingsViewModel) {
+    val doneKey by viewModel.cardDoneColor.collectAsState()
+    val deleteKey by viewModel.cardDeleteColor.collectAsState()
+    val darkTheme = MaterialTheme.colorScheme.surface.luminance() < 0.5f
+    val defaultDone = MaterialTheme.colorScheme.primary
+    val defaultDelete = MaterialTheme.colorScheme.onSurfaceVariant
+    val doneColor = CardButtonColor.fromKey(doneKey)?.shade(darkTheme) ?: defaultDone
+    val deleteColor = CardButtonColor.fromKey(deleteKey)?.shade(darkTheme) ?: defaultDelete
+
+    Text(stringResource(R.string.set_card_colors), style = MaterialTheme.typography.bodyMedium)
+    Text(
+        stringResource(R.string.set_card_colors_desc),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = Modifier.padding(top = 4.dp)
+    )
+    // Preview, so the choice can be judged against the card it lands on
+    Surface(
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.surface,
+        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        modifier = Modifier.padding(top = 10.dp).fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                stringResource(R.string.action_edit),
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.labelLarge,
+                modifier = Modifier.padding(12.dp)
+            )
+            Text(
+                stringResource(R.string.notif_action_done),
+                color = doneColor,
+                style = MaterialTheme.typography.labelLarge,
+                modifier = Modifier.padding(12.dp)
+            )
+            Text(
+                stringResource(R.string.action_delete),
+                color = deleteColor,
+                style = MaterialTheme.typography.labelLarge,
+                modifier = Modifier.padding(12.dp)
+            )
+        }
+    }
+    CardColorRow(
+        label = stringResource(R.string.set_card_done_color),
+        selectedKey = doneKey,
+        defaultColor = defaultDone,
+        darkTheme = darkTheme,
+        onSelect = viewModel::setCardDoneColor
+    )
+    CardColorRow(
+        label = stringResource(R.string.set_card_delete_color),
+        selectedKey = deleteKey,
+        defaultColor = defaultDelete,
+        darkTheme = darkTheme,
+        onSelect = viewModel::setCardDeleteColor
+    )
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun CardColorRow(
+    label: String,
+    selectedKey: String?,
+    defaultColor: Color,
+    darkTheme: Boolean,
+    onSelect: (String?) -> Unit
+) {
+    val selected = CardButtonColor.fromKey(selectedKey)
+    Text(
+        label,
+        style = MaterialTheme.typography.labelLarge,
+        modifier = Modifier.padding(top = 14.dp, bottom = 8.dp)
+    )
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        ColorSwatch(
+            color = defaultColor,
+            name = stringResource(R.string.color_default),
+            selected = selected == null,
+            onClick = { onSelect(null) }
+        )
+        CardButtonColor.values().forEach { choice ->
+            ColorSwatch(
+                color = choice.shade(darkTheme),
+                name = stringResource(choice.label),
+                selected = selected == choice,
+                onClick = { onSelect(choice.key) }
+            )
+        }
+    }
+    Text(
+        stringResource(selected?.label ?: R.string.color_default),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = Modifier.padding(top = 6.dp)
+    )
+}
+
+@Composable
+private fun ColorSwatch(color: Color, name: String, selected: Boolean, onClick: () -> Unit) {
+    Surface(
+        onClick = onClick,
+        shape = CircleShape,
+        color = color,
+        border = androidx.compose.foundation.BorderStroke(
+            if (selected) 3.dp else 1.dp,
+            if (selected) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.outlineVariant
+        ),
+        modifier = Modifier
+            .size(40.dp)
+            .semantics {
+                contentDescription = name
+                this.selected = selected
+                role = Role.RadioButton
+            }
+    ) {
+        if (selected) {
+            Box(contentAlignment = Alignment.Center) {
+                Icon(
+                    Icons.Default.Check,
+                    contentDescription = null,
+                    tint = if (color.luminance() > 0.5f) Color.Black else Color.White,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+        }
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CustomDurationDialog(
@@ -1929,7 +2356,9 @@ private fun CustomDurationDialog(
     maxMinutes: Int,
     description: String,
     onDismiss: () -> Unit,
-    onSave: (Int) -> Unit
+    onSave: (Int) -> Unit,
+    // maxMinutes and the saved value are seconds when true
+    inSeconds: Boolean = false
 ) {
     var value by remember { mutableStateOf(initialValue.toString()) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -1955,7 +2384,7 @@ private fun CustomDurationDialog(
                 fontWeight = FontWeight.SemiBold
             )
             Text(
-                text = stringResource(R.string.set_desc_max, description, maxMinutes),
+                text = stringResource(if (inSeconds) R.string.set_desc_max_seconds else R.string.set_desc_max, description, maxMinutes),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -1967,8 +2396,8 @@ private fun CustomDurationDialog(
                         value = normalized
                     }
                 },
-                label = { Text(stringResource(R.string.set_minutes)) },
-                supportingText = { Text(stringResource(R.string.set_max_allowed, maxMinutes)) },
+                label = { Text(stringResource(if (inSeconds) R.string.set_seconds else R.string.set_minutes)) },
+                supportingText = { Text(stringResource(if (inSeconds) R.string.set_max_allowed_seconds else R.string.set_max_allowed, maxMinutes)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()

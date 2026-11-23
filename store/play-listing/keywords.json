@@ -1,0 +1,20 @@
+{
+  "_comment": "Search terms per listing. The first is the primary phrase: it must be in the title or short description and appear 3-10 times in the full description (more reads as keyword stuffing). The rest only need to appear at least once. Checked by tools/store/play_listing.py check.",
+  "en-US": ["voice reminder", "talking alarm", "reminder", "medication", "text-to-speech"],
+  "de-DE": ["Sprach-Erinnerung", "Erinnerung", "Wecker", "Sprachausgabe", "Medikamente", "Stimme"],
+  "es-ES": ["recordatorio de voz", "recordatorio", "alarma", "medicación", "texto a voz"],
+  "fr-FR": ["rappel vocal", "rappel", "réveil", "médicament", "synthèse vocale"],
+  "pt-BR": ["lembrete de voz", "lembrete", "alarme", "remédio", "texto para fala"],
+  "id": ["pengingat suara", "pengingat", "alarm", "obat", "teks-ke-suara"],
+  "tr-TR": ["sesli hatırlatıcı", "hatırlatıcı", "alarm", "ilaç", "metin okuma"],
+  "ja-JP": ["音声リマインダー", "リマインダー", "アラーム", "服薬", "読み上げ"],
+  "ru-RU": ["голосовые напоминания", "напомина", "будильник", "лекарств", "синтез речи"],
+  "vi": ["nhắc nhở", "nhắc", "báo thức", "thuốc", "giọng nói"],
+  "el-GR": ["φωνητικ", "υπενθύμισ", "ξυπνητήρι", "φάρμακ", "ομιλία"],
+  "ar": ["تذكير صوتي", "تذكير", "منبّه", "دواء", "تحويل النص إلى كلام"],
+  "hi-IN": ["वॉयस रिमाइंडर", "रिमाइंडर", "अलार्म", "दवा", "टेक्स्ट-टू-स्पीच"],
+  "bn-BD": ["ভয়েস রিমাইন্ডার", "রিমাইন্ডার", "অ্যালার্ম", "ওষুধ", "টেক্সট-টু-স্পিচ"],
+  "te-IN": ["వాయిస్ రిమైండర్", "రిమైండర్", "అలారం", "మందు", "టెక్స్ట్-టు-స్పీచ్"],
+  "ta-IN": ["குரல் நினைவூட்டல்", "நினைவூட்டல்", "அலாரம்", "மருந்து", "உரையிலிருந்து பேச்சு"],
+  "ml-IN": ["വോയ്‌സ് റിമൈൻഡർ", "റിമൈൻഡർ", "അലാറം", "മരുന്ന്", "ടെക്സ്റ്റ്-ടു-സ്പീച്ച്"]
+}

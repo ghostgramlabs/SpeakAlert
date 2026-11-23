@@ -3,6 +3,129 @@
 User-facing changes to SpeakAlert, newest first. Version numbers match the Google Play release
 (`versionName` in `app/build.gradle.kts`).
 
+## 2.0.52 - 2026-11-22
+
+- SpeakAlert can be installed on tablets, desktops and TVs without a microphone: the microphone is
+  now marked optional, because typed and audio-file reminders work without one.
+
+(2.0.51, build 72, was uploaded to Play but replaced by this build before release; its changes
+below ship in 2.0.52.)
+
+## 2.0.51 - 2026-11-22 (not released)
+
+- Settings > Help & about links to the privacy policy and terms of use, which open on
+  ghostgramlabs.com, as Google Play's User Data policy asks. What's new says so in all 17
+  languages; nothing else changed.
+
+## 2.0.50 - 2026-11-20
+
+- What's new now covers what changed since 2.0.48, the production release: no alarm tone during
+  phone calls, Reminder check finding hidden notification categories, and the fix below, in all
+  17 languages with each one's own Settings names.
+- Fixed changing a repeating reminder's time on its details screen to a time already gone by
+  today. It said to pick a time in the future and refused, although the editor accepted the same
+  time. It now starts at the next occurrence (a daily 11:00 set at 11:05 rings tomorrow at 11:00),
+  as in the editor. One-time reminders still need a time in the future.
+
+## 2.0.49 - 2026-11-19
+
+- The alarm tone no longer rings during a phone call. Spoken reminders already stayed quiet
+  during a call; a tone-only reminder now does the same and only posts its notification, which
+  still vibrates. This applies to every way the tone can start (on time, catching up after a
+  missed alarm, after a restart).
+- Reminder check now looks at the notification categories reminders are actually posted to.
+  Android, and phones such as Realme, OPPO and Xiaomi, can switch one category off on its own;
+  the reminder then still rang but showed nothing, with no banner and nothing on the lock
+  screen, while the check said notifications were on. It now warns when the category in use is
+  switched off (under Required), will not pop up on screen, or is hidden on the lock screen,
+  names the category, and Fix opens that category's settings. Before Android 13 it also notices
+  when all of the app's notifications are off. In all 17 languages.
+
+## 2.0.48 - 2026-11-14
+
+- What's new now covers everything since 2.0.45, the production release: the four 2.0.46
+  items plus Allow snooze, the voice check, Week starts on, Reset settings to defaults and the
+  five new languages, in all 17 languages with each one's own Settings names.
+- New "Reset settings to defaults" in Settings, Backup & restore. After a confirmation it puts
+  every setting back to how it was when the app was installed. Reminders, recordings, the app
+  language and phone permissions are kept, and so is a pause that is running.
+- Fixed a reminder draft being lost when the app was recreated (for example after a theme or
+  display change) while the editor had been opened from the quick-add widget or a notification:
+  the launch was replayed and replaced the restored editor.
+- Improved translated voice-check messages and corrected outdated help paths. Fixed French
+  plural validation and polished Japanese and Turkish wording.
+- Unsaved reminder edits and the exit warning now survive activity recreation. Editing a
+  reminder preserves its original creation time.
+- Japanese reminders containing both kanji and kana now select a Japanese voice even when
+  kanji outnumber kana. Voice checks ignore late callbacks and isolate temporary audio files;
+  each new reminder playback starts with a fresh voice retry history.
+
+- New voice check in Settings, When a reminder rings, under Spoken language. It tests whether
+  the phone can really speak the language reminders are read in and says so: working, using
+  another voice because the default one failed, or not available. When there is a
+  problem, "Download voices" opens the speech engine's voice download screen and "Check again"
+  re-tests; the check also re-runs when you come back to the app.
+
+- Fixed a spoken reminder going silent when the speech engine's default voice for a language
+  had no voice data, seen with Japanese on Google's engine: it reported Japanese as available,
+  picked a voice that was never downloaded, and failed. The app now tries the language's other
+  voices (offline first, then an online one), so the reminder is still read in that language.
+  Only if none works does it move on to the next language. If synthesis still fails after the
+  retries, the alarm tone sounds for up to a minute, except in private listening mode, which
+  stays quiet. Engine initialization failures do not use this tone fallback.
+
+## 2.0.47 - 2026-11-13
+
+- Five new app languages, for 17 in all: German (Deutsch), French (Français), Indonesian
+  (Bahasa Indonesia), Turkish (Türkçe) and Japanese (日本語). Choose one in Settings, Language &
+  appearance, or let the app follow the phone's language. German uses the informal "du"; French
+  uses "vous", Indonesian "Anda", Turkish the polite "siz" form and Japanese the polite
+  です/ます style.
+- Dates now follow each language's own order instead of the American one everywhere: German
+  shows "Fr., 13. Nov. 2026" and Spanish "vie, 13 nov 2026", where both used to put the month
+  first. English is unchanged. The word joining a date and a time ("at") is now translated too;
+  it was English in every language on the reminder card, the details screen and the repeat
+  sheet.
+- A repeat's end date on the reminder card shows the full year ("Nov 13, 2026") instead of a
+  two-digit one ("Nov 13 '26").
+- New "Week starts on" choice in Settings, Language & appearance: System, Mon, Sun or Sat. A
+  chosen day sets the first column of the date picker. Material's date picker cannot be told
+  its first weekday, so with a day chosen the app shows the phone's own date picker instead;
+  "System" keeps the Material picker and the region's week start.
+- The phone's own date picker, used for a chosen week start and for languages with their own
+  digits, now uses the app's color in light and dark theme instead of the platform teal.
+- Fixed the date picker opening on the wrong day in the evening in time zones west of UTC (and
+  early morning east of it) on the reminder details screen, Home's reschedule, and the combined
+  date and time dialog. On details and Home it also refused today's date at those hours.
+- New "Allow snooze" switch in Settings, Snooze & follow-up, on by default. Turned off, reminder
+  notifications, the speaking notification and the lock-screen alert no longer offer Snooze, so
+  Done is the only way past a reminder, and the snooze length setting is hidden. Asked for by a
+  user who kept snoozing instead of doing the task.
+
+## 2.0.46 - 2026-10-31
+
+- The "What's new" sheet lists the four changes below that users asked for.
+- Fixed a crash on some phones (seen on an Oppo with Android 10) when a reminder stopped while
+  the phone's speech engine was still starting up. The engine now connects only for spoken
+  reminders, is never shut down mid-connect, and a spoken reminder whose engine never starts
+  gives up after 20 seconds instead of waiting silently.
+- Choose your own colors for the Done and Delete (Stop recurring) buttons on Home's reminder
+  cards: Settings, Language & appearance, Reminder card buttons. Eight colors plus the app
+  default, each with a readable shade in dark theme, and a preview as you pick.
+- A reminder's notification now clears when you open the app after it rings, and when you edit
+  and save the reminder. Before, it only cleared when you tapped the notification itself. One that
+  is still sounding stays, so its Silence and Stop buttons remain. With "Keep notification until
+  done" on, opening the app leaves it as before; saving an edit still clears it, since the edit
+  replaces the time it was about.
+- Monthly repeats can now fall on a weekday by its place in the month: the first, second, third,
+  fourth or last Monday to Sunday, such as "Last Thursday of each month". Choose Repeat, then
+  Monthly, then "Day of week". It starts from the reminder's own date (Saturday the 31st offers
+  the last Saturday), and the reminder card shows the rule.
+- New "Pause between repeats" setting, under "Stop continuous playback after". A looping
+  reminder can now wait 5, 10 or 30 seconds, or a custom time up to 10 minutes, before it plays
+  again, so a short message like "Meeting" becomes a periodic nudge instead of nonstop speech.
+  The stop time still ends the loop. The default stays back-to-back; tones are not affected.
+
 ## 2.0.45 - 2026-10-24
 
 - The "What's new" sheet describes what changed since 2.0.40, the last production release:

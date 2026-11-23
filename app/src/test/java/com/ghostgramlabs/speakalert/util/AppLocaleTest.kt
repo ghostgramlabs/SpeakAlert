@@ -28,7 +28,18 @@ class AppLocaleTest {
         assertEquals("es", AppLocale.matchSupported("es-US"))
         assertEquals("en", AppLocale.matchSupported("en-GB"))
         assertEquals("ar", AppLocale.matchSupported("ar-EG"))
+        assertEquals("de", AppLocale.matchSupported("de-AT"))
+        assertEquals("fr", AppLocale.matchSupported("fr-CA"))
+        assertEquals("id", AppLocale.matchSupported("id-ID"))
+        assertEquals("tr", AppLocale.matchSupported("tr-TR"))
+        assertEquals("ja", AppLocale.matchSupported("ja-JP"))
         assertEquals("ml", AppLocale.matchSupported("ml-IN"))
+    }
+
+    @Test
+    fun `legacy Indonesian code selects the Indonesian chip`() {
+        assertEquals("id", AppLocale.matchSupported("in"))
+        assertEquals("id", AppLocale.matchSupported("in-ID"))
     }
 
     @Test
@@ -43,7 +54,8 @@ class AppLocaleTest {
     fun `every picker language has translated resources`() {
         AppLocale.supported.map { it.first }.filter { it.isNotEmpty() && it != "en" }.forEach { tag ->
             val parts = tag.split('-')
-            val dir = if (parts.size == 2) "values-${parts[0]}-r${parts[1]}" else "values-$tag"
+            // Android resource folders still use the legacy code "in" for Indonesian.
+            val dir = if (parts.size == 2) "values-${parts[0]}-r${parts[1]}" else if (tag == "id") "values-in" else "values-$tag"
             assertTrue("missing $dir", File("src/main/res/$dir/strings.xml").isFile)
         }
     }

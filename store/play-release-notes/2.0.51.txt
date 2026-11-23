@@ -1,0 +1,51 @@
+<en-US>
+• Privacy policy and terms in the app
+</en-US>
+<ar>
+• سياسة الخصوصية والشروط داخل التطبيق
+</ar>
+<bn-BD>
+• অ্যাপে গোপনীয়তা নীতি ও শর্তাবলি
+</bn-BD>
+<de-DE>
+• Datenschutz und Nutzungsbedingungen in der App
+</de-DE>
+<el-GR>
+• Πολιτική απορρήτου και όροι μέσα στην εφαρμογή
+</el-GR>
+<es-ES>
+• Política de privacidad y condiciones en la app
+</es-ES>
+<fr-FR>
+• Confidentialité et conditions dans l'app
+</fr-FR>
+<hi-IN>
+• ऐप में गोपनीयता नीति और शर्तें
+</hi-IN>
+<id>
+• Kebijakan privasi dan ketentuan di aplikasi
+</id>
+<ja-JP>
+• プライバシーポリシーと利用規約をアプリ内に
+</ja-JP>
+<ml-IN>
+• ആപ്പിൽ സ്വകാര്യതാ നയവും നിബന്ധനകളും
+</ml-IN>
+<pt-BR>
+• Política de privacidade e termos no app
+</pt-BR>
+<ru-RU>
+• Политика конфиденциальности и условия в приложении
+</ru-RU>
+<ta-IN>
+• ஆப்பில் தனியுரிமைக் கொள்கையும் விதிமுறைகளும்
+</ta-IN>
+<te-IN>
+• యాప్‌లో గోప్యతా విధానం, నిబంధనలు
+</te-IN>
+<tr-TR>
+• Gizlilik politikası ve koşullar uygulamada
+</tr-TR>
+<vi>
+• Chính sách quyền riêng tư và điều khoản trong ứng dụng
+</vi>

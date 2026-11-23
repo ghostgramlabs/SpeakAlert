@@ -7,6 +7,14 @@ import org.junit.Test
 class ReminderAutoplayPolicyTest {
 
     @Test
+    fun `alarm tone does not ring during a phone call`() {
+        assertFalse(shouldStartAlarmTone(toneOnlyMode = true, notificationShown = true, inCall = true))
+        assertTrue(shouldStartAlarmTone(toneOnlyMode = true, notificationShown = true, inCall = false))
+        assertFalse(shouldStartAlarmTone(toneOnlyMode = false, notificationShown = true, inCall = false))
+        assertFalse(shouldStartAlarmTone(toneOnlyMode = true, notificationShown = false, inCall = false))
+    }
+
+    @Test
     fun `text only reminder requires automatic spoken text setting`() {
         val result = shouldAutoPlayReminder(
             autoPlayEnabled = true,

@@ -341,11 +341,9 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 val screenOff = !powerManager.isInteractive
                 
                 val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-                val telecomInCall = isTelecomInCall(context)
-                // Avoid false positives from MODE_IN_COMMUNICATION on some devices.
-                val inCall = telecomInCall || audioManager.mode == AudioManager.MODE_IN_CALL
+                val inCall = com.ghostgramlabs.speakalert.util.PhoneCallState.isInCall(context)
 
-                FileLogger.log("ALARM: State - locked=$isLocked, inCall=$inCall, telecomInCall=$telecomInCall, audioMode=${audioManager.mode}, hasAudioConfigured=$hasAudioConfigured, hasAudio=$hasAudio, hasText=$hasText")
+                FileLogger.log("ALARM: State - locked=$isLocked, inCall=$inCall, audioMode=${audioManager.mode},hasAudioConfigured=$hasAudioConfigured, hasAudio=$hasAudio, hasText=$hasText")
                 val useLockScreenFullScreen = fullScreenAlertEnabled && (isLocked || screenOff)
                 // Everything here has to hold for the alert to take over the screen, and when it
                 // does not the notification quietly degrades to a normal one. Record which part
@@ -483,7 +481,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                             dndBypassEnabled = dndBypassEnabled,
                             silentAlert = false,
                             // No autoplay here; only a tone-only alarm makes sound, otherwise keep Play.
-                            playingSound = toneOnlyMode,
+                            // During a call the tone stays off, so offer Play/Silence accordingly.
+                            playingSound = toneOnlyMode && !inCall,
                             persistUntilDone = persistUntilDone
                         )
                     }
@@ -491,7 +490,10 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                     shown
                 }
 
-                if (toneOnlyMode && notificationShown) {
+                if (toneOnlyMode && notificationShown && inCall) {
+                    FileLogger.log("ALARM: Tone skipped - phone call in progress; notification only")
+                }
+                if (shouldStartAlarmTone(toneOnlyMode, notificationShown, inCall)) {
                     ToneAlertPlayer.start(context, loopTimeoutMinutes, toneOnlyAlertToneUri, dndBypass = dndBypassEnabled, reminderId = reminder.id)
                 }
 
@@ -664,20 +666,6 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
             .getString(R.string.fallback_reminder_title)
     }
 
-    @SuppressLint("MissingPermission")
-    private fun isTelecomInCall(context: Context): Boolean {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            return false
-        }
-        return try {
-            val telecomManager = context.getSystemService(Context.TELECOM_SERVICE) as? TelecomManager
-            telecomManager?.isInCall == true
-        } catch (_: SecurityException) {
-            false
-        } catch (_: Exception) {
-            false
-        }
-    }
 
     private fun isTimeInWindow(now: Long, startHour: Int, startMinute: Int, endHour: Int, endMinute: Int): Boolean {
         val cal = java.util.Calendar.getInstance()

@@ -1,0 +1,59 @@
+SpeakAlert é um app gratuito de lembretes por voz e um alarme que fala: toca seus lembretes em voz alta, com a sua própria voz gravada, com texto para fala (TTS) ou com qualquer arquivo de áudio. Diferente dos apps com notificações silenciosas, o SpeakAlert garante que você realmente ouça seus lembretes, mesmo com o celular no bolso ou do outro lado da sala.
+
+Funciona totalmente offline, não precisa de conta e não tem anúncios: lembretes falados e alarme por voz em um só app, simples e confiável.
+
+🎙️ LEMBRETES QUE FALAM
+• Grave um lembrete de voz em segundos e ouça na sua própria voz na hora certa
+• Digite um lembrete e deixe o texto para fala ler em voz alta
+• Use qualquer música ou arquivo de áudio como som do lembrete
+• Fala multilíngue: um lembrete em hindi é falado em hindi, um em espanhol em espanhol, automaticamente
+
+⏰ AGENDAMENTO COMPLETO
+• Lembretes únicos ou repetidos: diários, semanais, mensais, anuais ou em intervalos próprios (a cada 30 minutos, a cada 2 horas, a cada 3 dias…)
+• As repetições terminam nunca, em uma data ou após um número de vezes
+• Lembretes de hora em hora para beber água, tomar remédio ou corrigir a postura
+• Alarmes exatos, no minuto certo
+
+✅ LEMBRA ATÉ VOCÊ CONCLUIR
+• A Verificação de acompanhamento pergunta "Você concluiu este lembrete?" e volta a avisar até você marcar Concluído
+• Mantenha o lembrete fixo na tela até tocar em Concluído ou Adiar
+• Alertas em tela cheia na tela de bloqueio com botões grandes Concluído / Silenciar / Adiar
+• Caixa de lembretes perdidos para recuperá-los: nada some em silêncio
+
+🔔 ALERTAS CONFIÁVEIS
+• Modo só toque: um toque de alarme alto para máxima confiabilidade, com o seu próprio som
+• Alerta mesmo no modo Não perturbe (opcional)
+• Os lembretes sobrevivem a reinicializações: tudo é reagendado automaticamente
+• Guia de otimização de bateria para Xiaomi, POCO e outros celulares restritivos
+
+🎧 OUÇA DO SEU JEITO
+• Reprodução privada pelo alto-falante de chamada, fones Bluetooth ou aparelhos auditivos: só você ouve
+• Reprodução automática, com repetição opcional até você responder
+• Duração de adiamento personalizada e horário de silêncio para noites tranquilas
+
+⌚ SUPORTE A WEAR OS
+• Receba lembretes falados no seu relógio Wear OS
+• Resolva lembretes direto no pulso
+
+🧩 WIDGETS E ORGANIZAÇÃO
+• O widget Adição rápida cria um lembrete direto da tela inicial
+• Widget rolável com os próximos lembretes e os perdidos
+• Abas Hoje / Próximos / Perdidos / Concluídos e duplicar com um toque
+
+💾 BACKUP E IDIOMAS
+• Faça backup e restaure todos os lembretes, gravações incluídas, até em um celular novo
+• App em 17 idiomas: inglês, espanhol, alemão, francês, indonésio, turco, japonês, hindi, árabe, português (Brasil), russo, vietnamita, bengali, télugo, tâmil, grego e malaiala, com suporte a RTL e temas claro e escuro
+
+🔒 PRIVADO, OFFLINE E GRATUITO
+• 100% offline: sem conta e sem internet
+• Todos os lembretes e gravações ficam no seu aparelho
+• Sem anúncios. Sem assinaturas. Totalmente grátis.
+
+📌 PERFEITO PARA
+• Lembretes de remédios, para você ou para pais idosos
+• Tarefas do dia, pendências, reuniões e consultas
+• Beber água, treinar, cozinhar e fazer pausas
+• Contas, compras, buscar alguém e aniversários
+• Idosos e quem prefere ouvir lembretes em vez de ler notificações silenciosas
+
+A maioria dos apps de lembretes depende de notificações silenciosas. O SpeakAlert é um lembrete de voz que usa som e fala para você nunca perder o que importa. Dê voz aos seus lembretes: baixe grátis o lembrete de voz SpeakAlert hoje.

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quick_title">Mulai cepat</string>
+    <string name="quick_progress">Langkah %1$d dari %2$d</string>
+    <string name="quick_back">Kembali</string>
+    <string name="quick_next">Berikutnya</string>
+    <string name="quick_finish">Mulai gunakan aplikasi</string>
+    <string name="quick_later">Tutup — temukan lagi di Bantuan</string>
+    <string name="quick_create_title">Buat pengingat pertama Anda</string>
+    <string name="quick_create_body">Ketuk + untuk menambah pengingat. Rekam suara Anda, pilih file audio, atau ketik pesan untuk dibacakan. Akses mikrofon hanya diperlukan untuk merekam.\n\nPilih tanggal dan waktu yang akan datang. Untuk pengingat berulang, pilih seberapa sering pengulangannya. Dengarkan rekaman Anda, lalu ketuk Simpan.\n\nHari ini menampilkan pengingat untuk hari ini. Mendatang menampilkan tanggal berikutnya.</string>
+    <string name="quick_ready_title">Pastikan Anda dapat mendengarnya</string>
+    <string name="quick_ready_body">Izinkan notifikasi saat diminta. Di Setelan, periksa akses alarm tepat waktu dan setelan baterai latar belakang agar Android dapat menyampaikan pengingat dengan andal.\n\nUntuk peringatan suara, biarkan putar otomatis aktif dan mode nada saja nonaktif. Pesan ketikan juga memerlukan pembacaan teks aktif. Naikkan volume alarm; pemutaran pribadi memakai headset atau speaker telinga.\n\nJam tenang dan setelan pemutaran layar kunci dapat mengubah kapan Anda mendengar ucapan. Anda dapat meninjaunya di Setelan.</string>
+    <string name="quick_actions_title">Selesai, Tunda, atau Senyapkan?</string>
+    <string name="quick_actions_body">Tunda menunda peringatan saat ini; jadwal berulang tetap berlanjut setelahnya. Senyapkan menghentikan suara tetapi pengingat tetap tertunda.\n\nSelesai pada peringatan menandai pengingat kali ini selesai dan menghentikan cek lanjutannya. Pengingat berulang berlanjut pada waktu berikutnya.\n\nDi Mendatang, menandai pengingat berulang sebagai Selesai akan melewati jadwal tersebut. Seluruh jadwal tidak ikut dijeda. Pengingat sekali pindah ke Selesai, tempat Anda dapat menjadwalkannya ulang.</string>
+    <string name="quick_try_title">Coba dulu sebelum mengandalkannya</string>
+    <string name="quick_try_body">Buat pengingat dua menit dari sekarang. Kunci ponsel Anda dan tunggu notifikasi serta suaranya. Lalu coba Tunda dan Selesai.\n\nJika notifikasi muncul tanpa suara, coba Putar atau Putar ulang. Periksa setelan pemutaran, volume, dan headphone yang terhubung. Terlewat menampilkan pengingat yang tidak dapat disampaikan secara normal; pengingat yang terlambat mungkin perlu Anda putar dengan mengetuk Putar.\n\nGunakan Bantuan di layar beranda atau Panduan aplikasi di Setelan untuk membuka langkah-langkah ini kapan saja.</string>
+    <string name="quick_settings_title">Sesuaikan Setelan untuk Anda</string>
+    <string name="quick_review_settings">Tinjau Setelan</string>
+    <string name="quick_settings_body">Luangkan waktu sejenak untuk meninjau Setelan. Anda dapat memakai default dan mengubahnya nanti.\n\nCek pengingat, di bagian atas, menunjukkan apakah pengingat dapat berbunyi tepat waktu. Perbaiki apa pun yang ditandainya.\n\nBahasa &amp; tampilan mengatur bahasa aplikasi, tema, dan format waktu.\n\nSaat pengingat berbunyi: pilih suara atau nada, volume, bahasa ucapan, dan pemutaran pribadi, lalu putar pengingat uji.\n\nTunda &amp; cek lanjutan mengatur lama tunda, cek lanjutan, dan jam tenang. Formulir pengingat memilih input yang Anda lihat, dan Cadangan menyimpan pengingat serta rekaman Anda.</string>
+</resources>

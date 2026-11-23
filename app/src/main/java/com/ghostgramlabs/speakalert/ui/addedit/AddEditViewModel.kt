@@ -90,7 +90,9 @@ class AddEditViewModel(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
     // Outlives the editor. Null in tests, where the view model's own scope is enough.
     private val backgroundScope: kotlinx.coroutines.CoroutineScope? = null,
-    private val missedRepository: com.ghostgramlabs.speakalert.data.repository.MissedReminderRepository? = null
+    private val missedRepository: com.ghostgramlabs.speakalert.data.repository.MissedReminderRepository? = null,
+    private val alertNotifications: com.ghostgramlabs.speakalert.alarm.ReminderAlertNotifications =
+        com.ghostgramlabs.speakalert.alarm.ReminderAlertNotifications.None
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AddEditUiState())
@@ -114,6 +116,9 @@ class AddEditViewModel(
     private var currentRecordingUsesExperimentalBehavior = false
     private val detachedTempFiles = java.util.Collections.synchronizedSet(mutableSetOf<File>())
     private var savedDraft: ReminderDraft? = null
+    // The navigation-scoped ViewModel survives activity recreation; do not reload over its draft.
+    private var initializedReminderId: Long? = null
+    private var originalCreatedAt: Long? = null
     
     companion object {
         const val MAX_RECORDING_SECONDS = 5 * 60 // 5 minutes
@@ -168,6 +173,8 @@ class AddEditViewModel(
      * Should be called only when reminderId == -1L. Has no effect on existing reminders.
      */
     fun applyDefaultsForNewReminder() {
+        if (initializedReminderId != null) return
+        initializedReminderId = -1L
         viewModelScope.launch {
             val defaultFollowUp = settingsRepository.defaultFollowUpMinutes.first()
             // Only apply if state hasn't already been loaded into edit mode
@@ -178,9 +185,12 @@ class AddEditViewModel(
     }
 
     fun loadReminder(id: Long) {
+        if (initializedReminderId == id) return
+        initializedReminderId = id
         viewModelScope.launch {
             val reminder = repository.getReminder(id)
             if (reminder != null) {
+                originalCreatedAt = reminder.createdAt
                 val isCustomAudio = ReminderAudioSource.isContentUri(reminder.audioPath)
                 setSavedDraft(_uiState.value.copy(
                     initialReminderId = reminder.id,
@@ -639,6 +649,7 @@ class AddEditViewModel(
 
                 val reminder = ReminderEntity(
                     id = if (state.initialReminderId != -1L) state.initialReminderId else 0L,
+                    createdAt = originalCreatedAt ?: System.currentTimeMillis(),
                     title = smartLabel,
                     reminderText = if (state.reminderText.isBlank()) null else state.reminderText,
                     audioPath = finalAudioPath,
@@ -672,6 +683,8 @@ class AddEditViewModel(
                 // Saving gives the reminder a fresh schedule, so any missed occurrence it had is
                 // settled; left behind, it would keep a one-time reminder hidden under Missed.
                 missedRepository?.deleteMissedReminderByReminderId(id)
+                // Likewise its alert notification, which still offered Done for the old time.
+                if (state.initialReminderId != -1L) alertNotifications.onRescheduled(id)
 
                 if (enhancementPending && sourceAudioFile != null) {
                     finalAudioPath?.let { enhanceSavedRecording(File(it)) }
