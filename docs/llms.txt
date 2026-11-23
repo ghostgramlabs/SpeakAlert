@@ -31,3 +31,22 @@ SpeakAlert is an offline-first Android voice reminder app and voice alarm.
 - ghostgramlabs@gmail.com
 - Privacy policy: https://ghostgramlabs.com/SpeakAlert/privacy.html
 - Terms of use: https://ghostgramlabs.com/SpeakAlert/terms.html
+
+## In other languages
+GhostGram Labs is not a company; SpeakAlert is a free side project by one independent developer and earns nothing.
+- [SpeakAlert — العربية](https://ghostgramlabs.com/SpeakAlert/ar/)
+- [SpeakAlert — বাংলা](https://ghostgramlabs.com/SpeakAlert/bn/)
+- [SpeakAlert — Deutsch](https://ghostgramlabs.com/SpeakAlert/de/)
+- [SpeakAlert — Ελληνικά](https://ghostgramlabs.com/SpeakAlert/el/)
+- [SpeakAlert — Español](https://ghostgramlabs.com/SpeakAlert/es/)
+- [SpeakAlert — Français](https://ghostgramlabs.com/SpeakAlert/fr/)
+- [SpeakAlert — हिन्दी](https://ghostgramlabs.com/SpeakAlert/hi/)
+- [SpeakAlert — Bahasa Indonesia](https://ghostgramlabs.com/SpeakAlert/id/)
+- [SpeakAlert — 日本語](https://ghostgramlabs.com/SpeakAlert/ja/)
+- [SpeakAlert — മലയാളം](https://ghostgramlabs.com/SpeakAlert/ml/)
+- [SpeakAlert — Português (Brasil)](https://ghostgramlabs.com/SpeakAlert/pt-br/)
+- [SpeakAlert — Русский](https://ghostgramlabs.com/SpeakAlert/ru/)
+- [SpeakAlert — தமிழ்](https://ghostgramlabs.com/SpeakAlert/ta/)
+- [SpeakAlert — తెలుగు](https://ghostgramlabs.com/SpeakAlert/te/)
+- [SpeakAlert — Türkçe](https://ghostgramlabs.com/SpeakAlert/tr/)
+- [SpeakAlert — Tiếng Việt](https://ghostgramlabs.com/SpeakAlert/vi/)
