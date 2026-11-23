@@ -20,4 +20,20 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
+  <url><loc>https://ghostgramlabs.com/SpeakAlert/ar/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ghostgramlabs.com/SpeakAlert/bn/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ghostgramlabs.com/SpeakAlert/de/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ghostgramlabs.com/SpeakAlert/el/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ghostgramlabs.com/SpeakAlert/es/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ghostgramlabs.com/SpeakAlert/fr/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ghostgramlabs.com/SpeakAlert/hi/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ghostgramlabs.com/SpeakAlert/id/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ghostgramlabs.com/SpeakAlert/ja/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ghostgramlabs.com/SpeakAlert/ml/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ghostgramlabs.com/SpeakAlert/pt-br/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ghostgramlabs.com/SpeakAlert/ru/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ghostgramlabs.com/SpeakAlert/ta/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ghostgramlabs.com/SpeakAlert/te/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ghostgramlabs.com/SpeakAlert/tr/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ghostgramlabs.com/SpeakAlert/vi/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>
